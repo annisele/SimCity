@@ -1,5 +1,5 @@
 package simcity.buildings.house;
 
-public class HouseInhabitantRole {
+public class HouseInhabitantRole implements simcity.interfaces.house.HouseInhabitant {
 
 }

@@ -1,5 +1,5 @@
 package simcity.interfaces;
 
-public class Person {
+public interface Person {
 
 }

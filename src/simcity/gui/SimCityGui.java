@@ -5,7 +5,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-
 public class SimCityGui extends JFrame implements ActionListener {
 	
 	// Panel on the right

@@ -5,23 +5,20 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
-import java.util.ArrayList;
 
 /***************************
  * Control Panel - Entire right side panel. Used to control program.
  *  On bottom half of control panel, will contain tabs to switch between
  *  panel to control people or buildings, panel to control log, and panel
  *  to control general settings.
+ *  
+ *  NOTES - need to find shorter tab names or it looks bad
  * @author rebeccahao
  * 
  */
 public class ControlPanel extends JPanel implements ActionListener {
 	
 	private SimCityGui simCityGui;
-	
-	
-
 	
 	//pause and clock elements
 	private JPanel pauseAndTime = new JPanel();

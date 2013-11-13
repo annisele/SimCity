@@ -2,22 +2,18 @@ package simcity.gui;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.Rectangle2D;
 import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
-
 import javax.swing.*;
-
 import simcity.buildings.Building;
-
 
 public class AnimationPanel extends JPanel {
 	
 	private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
 	 
 	AnimationPanel() {
-		this.setBackground(Color.LIGHT_GRAY);
+		this.setBackground(Color.MAGENTA);
 		addMouseListener(new MouseListener() {
 			
 			@Override
@@ -27,7 +23,7 @@ public class AnimationPanel extends JPanel {
 			
 			@Override
 			public void mousePressed(MouseEvent e) {
-				changeColor();
+
 			}
 			
 			@Override
@@ -60,10 +56,6 @@ public class AnimationPanel extends JPanel {
 		});
 	}
 	
-	private void changeColor() {
-		setBackground(Color.BLUE);
-	}
-	
 	public void paintComponent(Graphics g) {
 		for(Gui gui : guis) {
             if (gui.isPresent()) {
@@ -76,6 +68,10 @@ public class AnimationPanel extends JPanel {
                 gui.draw((Graphics2D)g);
             }
         }
+	}
+	
+	public void addGui(Gui gui) {
+		guis.add(gui);
 	}
 	
 	/*public void addGui(gui) {

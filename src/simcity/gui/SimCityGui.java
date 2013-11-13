@@ -2,6 +2,8 @@ package simcity.gui;
 
 import javax.swing.*;
 
+import simcity.gui.transportation.PedestrianGui;
+
 import java.awt.*;
 import java.awt.event.*;
 
@@ -18,8 +20,11 @@ public class SimCityGui extends JFrame implements ActionListener {
 	private JPanel menuPanel = new JPanel();
 	
 	// Panels for each view and console
-	private JPanel viewWorldPanel = new WorldAnimationPanel();
-	private JPanel viewDetailPanel = new AnimationPanel();
+//	private JPanel viewWorldPanel = new WorldAnimationPanel();
+//	private JPanel viewDetailPanel = new MarketAnimationPanel(); //new AnimationPanel();
+	
+	private AnimationPanel viewWorldPanel = new WorldAnimationPanel();
+	private AnimationPanel viewDetailPanel = new MarketAnimationPanel();
 	private JTextArea consoleWorld = new JTextArea();
 	private JTextArea consoleDetail = new JTextArea();
 	private JSplitPane splitPaneWorld;
@@ -29,16 +34,17 @@ public class SimCityGui extends JFrame implements ActionListener {
 	private JPanel fullPane = new JPanel();
 	GridLayout twoGridLayout = new GridLayout(0,2);
 	
-	// This is just to see the size of the right panel
-	private ControlPanel controlPanel = new ControlPanel(this); // will be replaced with a panel
+	private ControlPanel controlPanel = new ControlPanel(this);
 
+	
+	//TEST
+	private PedestrianGui testPed = new PedestrianGui();
 	
 	public SimCityGui() {
 
-		// testing code for the right panel
 		menuPanel.setPreferredSize(new Dimension(250, 700));
 		controlPanel.setPreferredSize(new Dimension(250, 700));
-		menuPanel.add(controlPanel); // testing only
+		menuPanel.add(controlPanel);
 		
 		// Setup the two views and consoles
 		consoleWorld.setEnabled(false);
@@ -59,6 +65,7 @@ public class SimCityGui extends JFrame implements ActionListener {
         add(menuPanel, BorderLayout.EAST);
         add(fullPane, BorderLayout.CENTER);
         
+        viewWorldPanel.addGui(testPed);
 	}
 	public void updateInfoPanel(Object person) {
 	

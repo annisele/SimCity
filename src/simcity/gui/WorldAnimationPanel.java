@@ -11,16 +11,21 @@ import java.util.ArrayList;
 
 public class WorldAnimationPanel extends AnimationPanel implements ActionListener {
 
-	
-    private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
-
-	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
 		
 	}
 	
+	public void paintComponent(Graphics g) {
+		Graphics2D g2 = (Graphics2D)g;
+        //Clear the screen by painting a rectangle the size of the frame
+		
+        g2.setColor(Color.BLACK);
+        g2.fillRect(100, 100,200, 200);
+        
+		super.paintComponent(g);
+	}
 	
 
 	

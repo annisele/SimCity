@@ -4,21 +4,41 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 
+import simcity.buildings.transportation.PedestrianRole;
 import simcity.gui.Gui;
 
 public class PedestrianGui implements Gui{
 
+	private PedestrianRole role;
+	private int x = 0;
+	private int y = 0;
+	private int xDest = 100;
+	private int yDest = 100;
+	
 	@Override
 	public void updatePosition() {
-		// TODO Auto-generated method stub
-		
+		if(xDest > x) {
+			x++;
+		}
+		else {
+			x--;
+		}
+		if(yDest > y) {
+			y++;
+		}
+		else {
+			y--;
+		}
+		if(x == xDest && y == yDest) {
+			xDest = (int) (Math.random() * 400);
+			yDest = (int) (Math.random() * 400);
+		}
 	}
 
 	@Override
 	public void draw(Graphics2D g) {
 		g.setColor(Color.MAGENTA);
-		g.fillRect(60, 100, 20, 20);
-		
+		g.fillRect(x, y, 20, 20);
 	}
 
 	@Override

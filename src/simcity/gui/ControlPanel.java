@@ -85,6 +85,7 @@ public class ControlPanel extends JPanel implements ActionListener {
 	//tab4 - global events
 	private JPanel tab4 = new JPanel();
 	private JButton earthquake = new JButton("Earthquake");
+	private JButton fire = new JButton("Fire (In Selected Building)");
 	
 	
 	public ControlPanel(SimCityGui gui) {
@@ -201,7 +202,9 @@ public class ControlPanel extends JPanel implements ActionListener {
 		//tab4
 		tab4.setLayout(new GridLayout(15, 1));
 		earthquake.addActionListener(this);
+		fire.addActionListener(this);
 		tab4.add(earthquake);
+		tab4.add(fire);
 		
 		
 		
@@ -285,6 +288,10 @@ public class ControlPanel extends JPanel implements ActionListener {
 		}
 		//earthquake button in events tab
 		else if(e.getSource() == earthquake) {
+			
+		}
+		//fire button in events tab
+		else if(e.getSource() == fire) {
 			
 		}
 	}

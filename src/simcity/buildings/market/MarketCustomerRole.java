@@ -1,5 +1,5 @@
 package simcity.buildings.market;
 
-public class MarketCustomerRole {
+public class MarketCustomerRole implements simcity.interfaces.market.MarketCustomer {
 
 }

@@ -1,6 +1,7 @@
 package simcity.gui;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -49,7 +50,6 @@ public class ControlPanel extends JPanel implements ActionListener {
 	private JLabel worldConsoleLabel = new JLabel("<html><u><b>World Console</b></u></html>");
 	private JLabel zoomConsoleLabel = new JLabel("<html><u><b>Zoom Console</b></u></html>");
 	private JPanel topPanel = new JPanel();
-	private JPanel middlePanel = new JPanel();
 		//tab2: errors elements
 	private JLabel errorsLabel = new JLabel("<html><b>Errors:</b></html>");
 	private JRadioButton outsideErrors = new JRadioButton("Outside");
@@ -89,6 +89,7 @@ public class ControlPanel extends JPanel implements ActionListener {
 		configDropdown = new JComboBox(configStrings);
 		configPanel.setLayout(new FlowLayout());
 		configPanel.add(configDropdown);
+		load.addActionListener(this);
 		configPanel.add(load);
 		configPanel.setPreferredSize(new Dimension(this.getWidth(), 100));
 		add(configPanel);
@@ -113,7 +114,7 @@ public class ControlPanel extends JPanel implements ActionListener {
 		tab1.add(globalSpeedLabel);
 		tab1.add(globalSpeed);
 		
-		//tab2 (Log) world section
+		//Log tab world section
 		tab2.setLayout(new FlowLayout());
 		topPanel.setLayout(new GridLayout(3, 1));
 		worldConsoleLabel.setAlignmentX(CENTER_ALIGNMENT);
@@ -123,7 +124,8 @@ public class ControlPanel extends JPanel implements ActionListener {
 		topPanel.add(new JLabel());
 		topPanel.add(errorsLabel);
 		tab2.add(topPanel);
-		//tab2 log world errors section
+		
+		//log tab world errors section
 		allErrors.setSelected(false);
 		allErrors.addActionListener(this);
 		outsideErrors.setSelected(true);
@@ -134,38 +136,49 @@ public class ControlPanel extends JPanel implements ActionListener {
 		errorButtonsPanel.add(allErrors);
 		errorButtonsPanel.add(noErrors);
 		tab2.add(errorButtonsPanel);
-		//tab2 log world communications section
+		
+		//log tab world communications section
 		commPanel.setLayout(new GridLayout(4, 1));
 		commPanel.add(commLabel);
 		pedestrian.setSelected(true);
+		pedestrian.addActionListener(this);
 		busPass.setSelected(true);
+		busPass.addActionListener(this);
 		carPass.setSelected(true);
+		carPass.addActionListener(this);
 		commPanel.add(pedestrian);
 		commPanel.add(busPass);
 		commPanel.add(carPass);
 		tab2.add(commPanel);
-		//role switching
+		
+		//log tab role switching
 		roleSwitchCB.setSelected(true);
+		roleSwitchCB.addActionListener(this);
 		roleSwitchPanel.add(roleSwitch);
 		roleSwitchPanel.add(roleSwitchCB);
 		tab2.add(roleSwitchPanel);
 		
-		//tab2 (Log) zoom section
+		//log tab zoom section
 		zoomPanel.setLayout(new GridLayout(5, 1));
 		zoomConsoleLabel.setAlignmentX(CENTER_ALIGNMENT); //someone help me center this!!
 		zoomConsoleLabel.setFont(new Font("Arial", Font.BOLD, 16));
 		zoomPanel.add(zoomConsoleLabel);
-			//tab2 zoom errors
+		
+		//log tab zoom errors
 		errorsCB.setSelected(true);
+		errorsCB.addActionListener(this);
 		zoomErrorsPanel.add(errors2Label);
 		zoomErrorsPanel.add(errorsCB);
 		zoomPanel.add(zoomErrorsPanel);
-			//tab2 (Log) zoom communication section
+		
+		//log tab zoom communication section
 		commCB.setSelected(true);
+		commCB.addActionListener(this);
 		comm2Panel.add(comm2Label);
 		comm2Panel.add(commCB);
 		zoomPanel.add(comm2Panel);
-			//tab2 role switching
+		
+		//log tab zoom console role switching
 		roleSwitch2CB.setSelected(true);
 		roleSwitch2Panel.add(roleSwitch2);
 		roleSwitch2Panel.add(roleSwitch2CB);
@@ -186,8 +199,12 @@ public class ControlPanel extends JPanel implements ActionListener {
 
 	
 	public void actionPerformed(ActionEvent e) {
+		//when load button is pressed
+		if(e.getSource() == load) {
+			
+		}
 		//when pause button is pressed
-		if(e.getSource() == pauseB) {
+		else if(e.getSource() == pauseB) {
 			if(pauseB.getText().equals("Pause")) {
 				pauseB.setText("Resume");
 			}
@@ -195,7 +212,7 @@ public class ControlPanel extends JPanel implements ActionListener {
 				pauseB.setText("Pause");
 			}
 		}
-		//when errors radio buttons are pressed
+		//when errors radio buttons are pressed in world console
 		else if(e.getSource() == outsideErrors) {
 			if(!outsideErrors.isSelected()) {
 				outsideErrors.setSelected(true);
@@ -216,6 +233,32 @@ public class ControlPanel extends JPanel implements ActionListener {
 			}
 			allErrors.setSelected(false);
 			outsideErrors.setSelected(false);
+		}
+		//world console communication check boxes
+		else if(e.getSource() == pedestrian) {
+			
+		}
+		else if(e.getSource() == busPass) {
+			
+		}
+		else if(e.getSource() == carPass) {
+			
+		}
+		//world role switch check box
+		else if(e.getSource() == roleSwitchCB) {
+			
+		}
+		//zoom role switch check box
+		else if(e.getSource() == roleSwitch2CB) {
+			
+		}
+		//zoom errors check box
+		else if(e.getSource() == errorsCB) {
+			
+		}
+		//zoom communication check box
+		else if(e.getSource() == commCB) {
+			
 		}
 	}
 }

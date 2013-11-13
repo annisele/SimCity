@@ -1,4 +1,4 @@
-package simcity.interfaces.restaurant;
+package simcity.interfaces.restaurant.one;
 
 public interface RestaurantOneCustomer {
 

@@ -79,6 +79,17 @@ public class ControlPanel extends JPanel implements ActionListener {
 	private JPanel roleSwitch2Panel = new JPanel();
 	private JLabel roleSwitch2 = new JLabel("<html><b>Role Switches:</b></html>");
 	private JCheckBox roleSwitch2CB = new JCheckBox();
+	
+	//tab3 - controls the building or person selected
+	private JPanel tab3 = new JPanel();
+	private JLabel nameLabel = new JLabel("Name: Ralph's");
+	private JLabel typeLabel = new JLabel("Type: Market");
+	
+	//tab4 - global events
+	private JPanel tab4 = new JPanel();
+	private JButton earthquake = new JButton("Earthquake");
+	
+	
 	public ControlPanel(SimCityGui gui) {
 		simCityGui = gui;
 		setLayout(new BoxLayout((Container) this, BoxLayout.Y_AXIS));
@@ -106,7 +117,7 @@ public class ControlPanel extends JPanel implements ActionListener {
 		pauseAndTime.setPreferredSize(new Dimension(this.getWidth(), 100));
 		add(pauseAndTime);
 		
-		tabPane.setPreferredSize(new Dimension(300, 1000));
+		tabPane.setPreferredSize(new Dimension(300, 650));
 		
 		//tab1 (Settings)
 		tab1.setLayout(new FlowLayout());
@@ -183,12 +194,27 @@ public class ControlPanel extends JPanel implements ActionListener {
 		roleSwitch2Panel.add(roleSwitch2);
 		roleSwitch2Panel.add(roleSwitch2CB);
 		zoomPanel.add(roleSwitch2Panel);
-		
-		
 		tab2.add(zoomPanel);
 		
+		//tab3
+		tab3.setLayout(new GridLayout(15, 1));
+		tab3.add(nameLabel);
+		tab3.add(typeLabel);
+		
+		//tab4
+		tab4.setLayout(new GridLayout(15, 1));
+		earthquake.addActionListener(this);
+		tab4.add(earthquake);
+		
+		
+		
+		tabPane.addTab("C", tab3);
 		tabPane.addTab("Settings", tab1);
 		tabPane.addTab("Log", tab2);
+		tabPane.addTab("Events", tab4);
+		
+		
+		
 		add(tabPane);
 		
 		bottomSpace.setPreferredSize(new Dimension(this.getWidth(), 50));
@@ -258,6 +284,10 @@ public class ControlPanel extends JPanel implements ActionListener {
 		}
 		//zoom communication check box
 		else if(e.getSource() == commCB) {
+			
+		}
+		//earthquake button in events tab
+		else if(e.getSource() == earthquake) {
 			
 		}
 	}

@@ -18,8 +18,12 @@ import java.util.ArrayList;
  * 
  */
 public class ControlPanel extends JPanel implements ActionListener {
-	private JPanel view = new JPanel();
-	private JButton pause = new JButton("Pause");
+	private JPanel pauseAndTime = new JPanel();
+	private JPanel configPanel = new JPanel();
+	private JButton pauseB = new JButton("Pause");
+	private JTextField clock = new JTextField();
+	private String time;
+	private String ampm;
 	private JButton start = new JButton("Start");
 	private List<JButton> list = new ArrayList<JButton>();
 	public JScrollPane pane =
@@ -27,11 +31,30 @@ public class ControlPanel extends JPanel implements ActionListener {
 	private boolean startIt = false;
 	private boolean pauseIt = false;
 	private SimCityGui simCityGui;
+	private JComboBox configDropdown;
+	private String[] configStrings = new String[2];
 	
 	public ControlPanel(SimCityGui gui) {
 		simCityGui = gui;
 		setLayout(new BoxLayout((Container) this, BoxLayout.Y_AXIS));
 		
+		//config panel
+		configStrings[0] = "One building, one person";
+		configStrings[1] = "One building, two people";
+		configDropdown = new JComboBox(configStrings);
+		configPanel.setLayout(new FlowLayout());
+		configPanel.add(configDropdown);
+		
+		//pause and time panel
+		pauseB.addActionListener(this);
+		time = "10:10";
+		ampm = " AM";
+		clock.setText(time + ampm);
+		clock.setEnabled(false);
+		pauseAndTime.setLayout(new FlowLayout());
+		pauseAndTime.add(clock);
+		pauseAndTime.add(pauseB);
+		add(pauseAndTime);
 		
 	}
 	
@@ -39,7 +62,14 @@ public class ControlPanel extends JPanel implements ActionListener {
 	
 	
 	public void actionPerformed(ActionEvent e) {
-		
+		if(e.getSource() == pauseB) {
+			if(pauseB.getText().equals("Pause")) {
+				pauseB.setText("Resume");
+			}
+			else {
+				pauseB.setText("Pause");
+			}
+		}
 	}
 	public void start() {
 		

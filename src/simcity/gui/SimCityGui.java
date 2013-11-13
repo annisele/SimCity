@@ -41,6 +41,8 @@ public class SimCityGui extends JFrame implements ActionListener {
 		menuPanel.add(controlPanel); // testing only
 		
 		// Setup the two views and consoles
+		consoleWorld.setEnabled(false);
+		consoleDetail.setEnabled(false);
 		splitPaneWorld = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
                 viewWorldPanel, consoleWorld);
 		splitPaneWorld.setResizeWeight(0.7);

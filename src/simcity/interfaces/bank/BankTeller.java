@@ -1,5 +1,5 @@
 package simcity.interfaces.bank;
 
-public class BankTeller {
+public interface BankTeller {
 
 }

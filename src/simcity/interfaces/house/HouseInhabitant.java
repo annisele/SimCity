@@ -1,5 +1,5 @@
 package simcity.interfaces.house;
 
-public class HouseInhabitant {
+public interface HouseInhabitant {
 
 }

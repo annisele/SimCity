@@ -1,5 +1,5 @@
 package simcity.interfaces.transportation;
 
-public class BusPassenger {
+public interface BusPassenger {
 
 }

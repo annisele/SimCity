@@ -5,6 +5,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+/****************************
+ * SimCityGui - The entire window which contains a world panel, detail panel
+ *  to display what the user is zoomed in on, consoles for both, and a 
+ *  control panel.
+ * @author rebeccahao
+ *
+ */
 public class SimCityGui extends JFrame implements ActionListener {
 	
 	// Panel on the right
@@ -12,7 +19,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 	
 	// Panels for each view and console
 	private JPanel viewWorldPanel = new JPanel();
-	private JPanel viewDetailPanel = new JPanel();
+	private JPanel viewDetailPanel = new AnimationPanel();
 	private JTextArea consoleWorld = new JTextArea();
 	private JTextArea consoleDetail = new JTextArea();
 	private JSplitPane splitPaneWorld;
@@ -23,15 +30,15 @@ public class SimCityGui extends JFrame implements ActionListener {
 	GridLayout twoGridLayout = new GridLayout(0,2);
 	
 	// This is just to see the size of the right panel
-	private JButton buttonEast = new JButton("EAST"); // will be replaced with a panel
+	private ControlPanel controlPanel = new ControlPanel(this); // will be replaced with a panel
 
 	
 	public SimCityGui() {
 
 		// testing code for the right panel
 		menuPanel.setPreferredSize(new Dimension(250, 700));
-		buttonEast.setPreferredSize(new Dimension(250, 700));
-		menuPanel.add(buttonEast); // testing only
+		controlPanel.setPreferredSize(new Dimension(250, 700));
+		menuPanel.add(controlPanel); // testing only
 		
 		// Setup the two views and consoles
 		splitPaneWorld = new JSplitPane(JSplitPane.VERTICAL_SPLIT,

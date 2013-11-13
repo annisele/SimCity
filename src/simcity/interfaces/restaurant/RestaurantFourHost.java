@@ -1,5 +1,5 @@
 package simcity.interfaces.restaurant;
 
-public interface RestaurantOneCustomer {
+public interface RestaurantFourHost {
 
 }

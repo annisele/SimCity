@@ -1,4 +1,4 @@
-package simcity;
+package simcity.gui;
 
 import javax.swing.*;
 
@@ -60,8 +60,6 @@ public class SimCity extends JFrame implements ActionListener {
 	}
 	  
 	public static void main(String[] args) {
-	  // TODO Auto-generated method stub
-	  System.out.println("Hi");
 	  SimCity gui = new SimCity();
       gui.setTitle("SimCity Team 14");
       gui.setVisible(true);

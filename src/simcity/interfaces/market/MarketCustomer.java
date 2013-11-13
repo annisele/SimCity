@@ -1,5 +1,5 @@
 package simcity.interfaces.market;
 
-public class MarketCustomer {
+public interface MarketCustomer {
 
 }

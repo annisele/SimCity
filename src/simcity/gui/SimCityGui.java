@@ -6,7 +6,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 
-public class SimCity extends JFrame implements ActionListener {
+public class SimCityGui extends JFrame implements ActionListener {
 	
 	// Panel on the right
 	private JPanel menuPanel = new JPanel();
@@ -27,7 +27,7 @@ public class SimCity extends JFrame implements ActionListener {
 	private JButton buttonEast = new JButton("EAST"); // will be replaced with a panel
 
 	
-	public SimCity() {
+	public SimCityGui() {
 
 		// testing code for the right panel
 		menuPanel.setPreferredSize(new Dimension(250, 700));
@@ -60,7 +60,7 @@ public class SimCity extends JFrame implements ActionListener {
 	}
 	  
 	public static void main(String[] args) {
-	  SimCity gui = new SimCity();
+	  SimCityGui gui = new SimCityGui();
       gui.setTitle("SimCity Team 14");
       gui.setVisible(true);
       gui.setResizable(true);

@@ -20,10 +20,19 @@ import java.util.ArrayList;
 public class ControlPanel extends JPanel implements ActionListener {
 	private JPanel pauseAndTime = new JPanel();
 	private JPanel configPanel = new JPanel();
+	private JTabbedPane tabPane = new JTabbedPane();
+	private JPanel bottomSpace = new JPanel();
 	private JButton pauseB = new JButton("Pause");
 	private JTextField clock = new JTextField();
 	private String time;
 	private String ampm;
+	private JPanel tab1 = new JPanel();
+	private JPanel tab2 = new JPanel();
+	
+	//tab1 elements
+	private JSlider globalSpeed = new JSlider();
+	private JLabel globalSpeedLabel = new JLabel("Global Speed");
+	
 	private JButton start = new JButton("Start");
 	private List<JButton> list = new ArrayList<JButton>();
 	public JScrollPane pane =
@@ -44,6 +53,8 @@ public class ControlPanel extends JPanel implements ActionListener {
 		configDropdown = new JComboBox(configStrings);
 		configPanel.setLayout(new FlowLayout());
 		configPanel.add(configDropdown);
+		configPanel.setPreferredSize(new Dimension(this.getWidth(), 100));
+		add(configPanel);
 		
 		//pause and time panel
 		pauseB.addActionListener(this);
@@ -54,8 +65,25 @@ public class ControlPanel extends JPanel implements ActionListener {
 		pauseAndTime.setLayout(new FlowLayout());
 		pauseAndTime.add(clock);
 		pauseAndTime.add(pauseB);
+		pauseAndTime.setPreferredSize(new Dimension(this.getWidth(), 100));
 		add(pauseAndTime);
 		
+		tabPane.setPreferredSize(new Dimension(300, 1000));
+		
+		tab1.setLayout(new FlowLayout());
+		globalSpeedLabel.setAlignmentX(CENTER_ALIGNMENT);
+		tab1.add(globalSpeedLabel);
+		tab1.add(globalSpeed);
+		
+		tab2.setLayout(new FlowLayout());
+		
+		
+		tabPane.addTab("Settings", tab1);
+		tabPane.addTab("Log", tab2);
+		add(tabPane);
+		
+		bottomSpace.setPreferredSize(new Dimension(this.getWidth(), 50));
+		add(bottomSpace);
 	}
 	
 	

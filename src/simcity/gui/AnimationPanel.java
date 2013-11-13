@@ -2,11 +2,14 @@ package simcity.gui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.Rectangle2D;
 import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
 
 import javax.swing.*;
+
+import simcity.buildings.Building;
 
 
 public class AnimationPanel extends JPanel {
@@ -38,9 +41,22 @@ public class AnimationPanel extends JPanel {
 			}
 			
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				
-			}
+			public void mouseClicked(MouseEvent me) {
+               // super.mouseClicked(me);
+                for (Gui g : guis) {
+                    if (g.contains(me.getPoint())) {//check if mouse is clicked within shape
+
+                        //we can either just print out the object class name
+                        System.out.println("Clicked a "+g.getClass().getName());
+
+                        //or check the shape class we are dealing with using instance of with nested if
+                        if (g instanceof Building) {
+                            System.out.println("Clicked a building");
+                        }
+
+                    }
+                }
+            }
 		});
 	}
 	

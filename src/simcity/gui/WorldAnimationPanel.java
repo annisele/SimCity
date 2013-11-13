@@ -25,6 +25,8 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
         g2.fillRect(100, 100,200, 200);
         
 		super.paintComponent(g);
+		
+		//super.guis.add(bob);
 	}
 	
 

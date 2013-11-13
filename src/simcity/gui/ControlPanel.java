@@ -26,12 +26,28 @@ public class ControlPanel extends JPanel implements ActionListener {
 	private JTextField clock = new JTextField();
 	private String time;
 	private String ampm;
-	private JPanel tab1 = new JPanel();
-	private JPanel tab2 = new JPanel();
 	
-	//tab1 elements
+	
+	//tab1 (Settings) elements
+	private JPanel tab1 = new JPanel();
 	private JSlider globalSpeed = new JSlider();
 	private JLabel globalSpeedLabel = new JLabel("Global Speed");
+
+
+	
+
+	
+	//tab2 (Log) elements
+	private JPanel tab2 = new JPanel();
+	private JLabel worldConsoleLabel = new JLabel("<html><u><b>World Console</b></u></html>");
+	private JLabel zoomConsoleLabel = new JLabel("Zoom Console");
+	private JPanel topPanel = new JPanel();
+	private JLabel errorsLabel = new JLabel("Errors: ");
+	private JRadioButton outsideErrors = new JRadioButton("Outside");
+	private JRadioButton allErrors = new JRadioButton("All");
+	private JRadioButton noErrors = new JRadioButton("None");
+	private JPanel errorButtonsPanel = new JPanel();
+	
 	
 	private JButton start = new JButton("Start");
 	private List<JButton> list = new ArrayList<JButton>();
@@ -70,13 +86,37 @@ public class ControlPanel extends JPanel implements ActionListener {
 		
 		tabPane.setPreferredSize(new Dimension(300, 1000));
 		
+		//tab1 (Settings)
 		tab1.setLayout(new FlowLayout());
 		globalSpeedLabel.setAlignmentX(CENTER_ALIGNMENT);
 		tab1.add(globalSpeedLabel);
 		tab1.add(globalSpeed);
 		
+		//tab2 (Log) world section
 		tab2.setLayout(new FlowLayout());
+		topPanel.setLayout(new GridLayout(2, 1));
+		worldConsoleLabel.setAlignmentX(CENTER_ALIGNMENT);
+		//tab2.add(worldConsoleLabel);
+		errorsLabel.setAlignmentX(CENTER_ALIGNMENT);
+		topPanel.add(worldConsoleLabel);
+		topPanel.add(errorsLabel);
+		tab2.add(topPanel);
+		//tab2.add(errorsLabel);
+		allErrors.setSelected(false);
+		allErrors.addActionListener(this);
+		outsideErrors.setSelected(true);
+		outsideErrors.addActionListener(this);
+		noErrors.setSelected(false);
+		noErrors.addActionListener(this);
+		errorButtonsPanel.add(outsideErrors);
+		errorButtonsPanel.add(allErrors);
+		errorButtonsPanel.add(noErrors);
+		tab2.add(errorButtonsPanel);
 		
+		
+		//tab2 (Log) zoom section
+		zoomConsoleLabel.setAlignmentX(CENTER_ALIGNMENT);
+
 		
 		tabPane.addTab("Settings", tab1);
 		tabPane.addTab("Log", tab2);
@@ -90,6 +130,7 @@ public class ControlPanel extends JPanel implements ActionListener {
 
 	
 	public void actionPerformed(ActionEvent e) {
+		//when pause button is pressed
 		if(e.getSource() == pauseB) {
 			if(pauseB.getText().equals("Pause")) {
 				pauseB.setText("Resume");
@@ -97,6 +138,28 @@ public class ControlPanel extends JPanel implements ActionListener {
 			else {
 				pauseB.setText("Pause");
 			}
+		}
+		//when errors radio buttons are pressed
+		else if(e.getSource() == outsideErrors) {
+			if(!outsideErrors.isSelected()) {
+				outsideErrors.setSelected(true);
+			}
+			allErrors.setSelected(false);
+			noErrors.setSelected(false);
+		}
+		else if(e.getSource() == allErrors) {
+			if(!allErrors.isSelected()) {
+				allErrors.setSelected(true);
+			}
+			outsideErrors.setSelected(false);
+			noErrors.setSelected(false);
+		}
+		else if(e.getSource() == noErrors) {
+			if(!noErrors.isSelected()) {
+				noErrors.setSelected(true);
+			}
+			allErrors.setSelected(false);
+			outsideErrors.setSelected(false);
 		}
 	}
 	public void start() {

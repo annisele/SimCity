@@ -5,7 +5,10 @@ import java.util.*;
 public class BankHostRole implements simcity.interfaces.bank.BankHost {
 	private class Window {
 		public int windowNum;
-		public boolean occupied;
+		private boolean occupied = false;
+		public boolean isOccupied() {
+			return occupied;
+		}
 		public int getWindowNumber() {
 			return windowNum;
 		}
@@ -29,9 +32,18 @@ public class BankHostRole implements simcity.interfaces.bank.BankHost {
 	}
 	//scheduler
 	protected boolean pickAndExecuteAnAction() {
-		
+		if (!bc.isEmpty()) {
+			for (Window window : windows) {
+				if (!window.isOccupied()) {
+					tellCustomerToGoToWindow(bc.get(0), window);
+				}
+			}
+		}
 		
 		return false;
 	}
-
+	//actions
+	private void tellCustomerToGoToWindow(BankCustomerRole bc, Window window) {
+		
+	}
 }

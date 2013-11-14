@@ -44,7 +44,6 @@ public class PedestrianGui implements Gui{
 
 	@Override
 	public boolean isPresent() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 

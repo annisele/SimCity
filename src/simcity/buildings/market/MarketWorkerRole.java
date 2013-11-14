@@ -8,7 +8,7 @@ import simcity.interfaces.market.MarketCashier;
 public class MarketWorkerRole extends Role implements simcity.interfaces.market.MarketWorker {
 	private MarketSystem system;
 	private List<WorkerOrder> orders = Collections.synchronizedList(new ArrayList<WorkerOrder>());
-	MarketCashier cashier;
+	private MarketCashier cashier;
 
 	public void msgFindOrder(int orderNum, Map<String, Integer> itemsList) {                                            
 		orders.add(new WorkerOrder(orderNum, itemsList));

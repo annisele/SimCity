@@ -10,7 +10,7 @@ import simcity.Role;
 
 public class MarketTruckAgent extends Agent implements simcity.interfaces.market.MarketTruck {
 
-	List<TruckOrder> orders = Collections.synchronizedList(new ArrayList<TruckOrder>());
+	private List<TruckOrder> orders = Collections.synchronizedList(new ArrayList<TruckOrder>());
 
 	public MarketTruckAgent() {
 

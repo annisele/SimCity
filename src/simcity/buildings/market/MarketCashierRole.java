@@ -3,18 +3,16 @@ package simcity.buildings.market;
 import java.util.*;
 
 import simcity.Role;
-import simcity.interfaces.market.MarketCashier;
-import simcity.interfaces.market.MarketCustomer;
 import simcity.interfaces.market.MarketWorker;
 
-public class MarketCashierRole implements simcity.interfaces.market.MarketCashier {
+public class MarketCashierRole extends Role implements simcity.interfaces.market.MarketCashier {
 
 	private List<MarketOrder> orders = Collections.synchronizedList(new ArrayList<MarketOrder>());
 	private MarketSystem market;
 	private enum MarketOrderState {requested, waitingForPayment, paid, filling, found};
-	Map<String, Double> prices = Collections.synchronizedMap(new HashMap<String, Double>());
-	List<MarketWorker> workers = Collections.synchronizedList(new ArrayList<MarketWorker>());
-	List<MarketTruckAgent> trucks = Collections.synchronizedList(new ArrayList<MarketTruckAgent>());
+	private Map<String, Double> prices = Collections.synchronizedMap(new HashMap<String, Double>());
+	private List<MarketWorker> workers = Collections.synchronizedList(new ArrayList<MarketWorker>());
+	private List<MarketTruckAgent> trucks = Collections.synchronizedList(new ArrayList<MarketTruckAgent>());
 
 
 	public void msgHereIsAnOrder(MarketCustomerRole mc1, MarketCustomerRole mc2, Map<String, Integer> items) {

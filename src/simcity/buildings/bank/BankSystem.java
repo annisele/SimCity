@@ -2,7 +2,6 @@ package simcity.buildings.bank;
 
 import java.util.*;
 
-
 import simcity.interfaces.bank.BankCustomer;
 
 public class BankSystem {
@@ -70,6 +69,11 @@ public class BankSystem {
 	}
 
 	// utility functions
+	public List getBankAccounts() {
+		return accounts;
+	}
+	
+	
 	public double getLoanableFunds() {
 		return loanableFunds;
 	}

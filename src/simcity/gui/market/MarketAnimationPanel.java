@@ -5,8 +5,11 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.*;
 
 import simcity.gui.AnimationPanel;
+import simcity.gui.BuildingGui;
+import simcity.gui.Gui;
 import simcity.gui.SimCityGui;
 
 
@@ -17,6 +20,7 @@ import simcity.gui.SimCityGui;
  */
 public class MarketAnimationPanel extends AnimationPanel implements ActionListener  {
 
+	private List<Gui> guis = new ArrayList<Gui>();
 	
 	public MarketAnimationPanel(SimCityGui sc) {
 		super(sc);
@@ -24,19 +28,38 @@ public class MarketAnimationPanel extends AnimationPanel implements ActionListen
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		
+
 	}
-	
+
 	public void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D)g;
-       
+
 		//Clear the screen by painting a rectangle the size of the frame
 		g2.setColor(Color.LIGHT_GRAY);
-	    g2.fillRect(0, 0, this.getWidth(), this.getHeight());
-	  
+		g2.fillRect(0, 0, this.getWidth(), this.getHeight());
+
+
+
+
+		for(Gui gui : guis) {
+			if (gui.isPresent()) {
+				gui.updatePosition();
+			}
+		}
+		for(Gui gui : guis) {
+			if (gui.isPresent()) {
+				gui.draw((Graphics2D)g);
+			}
+		}
+
+
 		super.paintComponent(g);
-		
+
 		//super.guis.add(bob);
+	}
+	
+	public void addGui(Gui g) {
+		guis.add(g);
 	}
 
 }

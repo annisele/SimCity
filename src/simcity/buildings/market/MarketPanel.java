@@ -1,10 +1,12 @@
 package simcity.buildings.market;
 
 import java.util.*;
+
 import javax.swing.JPanel;
 
 import simcity.gui.SimCityGui;
 import simcity.gui.market.MarketAnimationPanel;
+import simcity.gui.market.MarketCashierGui;
 import simcity.gui.market.MarketControlPanel;
 import simcity.interfaces.market.MarketCashier;
 import simcity.interfaces.market.MarketCustomer;
@@ -41,7 +43,11 @@ public class MarketPanel extends JPanel {
 	//sets the cashier
 	public void setCashier(MarketCashier c) {
 		cashier = c;
+		MarketCashierGui cGui = new MarketCashierGui();
+		animationPanel.addGui(cGui);
 	}
+	
+	
 	
 	
 	

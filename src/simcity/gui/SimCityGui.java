@@ -2,6 +2,7 @@ package simcity.gui;
 
 import javax.swing.*;
 
+import simcity.gui.market.MarketAnimationPanel;
 import simcity.gui.transportation.PedestrianGui;
 
 import java.awt.*;
@@ -42,8 +43,8 @@ public class SimCityGui extends JFrame implements ActionListener {
 	
 	public SimCityGui() {
 
-		menuPanel.setPreferredSize(new Dimension(250, 700));
-		controlPanel.setPreferredSize(new Dimension(250, 700));
+		menuPanel.setPreferredSize(new Dimension(300, 700));
+		controlPanel.setPreferredSize(new Dimension(300, 700));
 		menuPanel.add(controlPanel);
 		
 		// Setup the two views and consoles

@@ -208,7 +208,7 @@ public class ControlPanel extends JPanel implements ActionListener {
 		
 		
 		
-		tabPane.addTab("C", tab3);
+		tabPane.addTab("Control", tab3);
 		tabPane.addTab("Settings", tab1);
 		tabPane.addTab("Log", tab2);
 		tabPane.addTab("Events", tab4);

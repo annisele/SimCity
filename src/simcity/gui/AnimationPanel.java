@@ -13,7 +13,7 @@ public class AnimationPanel extends JPanel {
 	private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
 	private List<BuildingGui> buildingGuis = Collections.synchronizedList(new ArrayList<BuildingGui>());
 	 
-	AnimationPanel() {
+	protected AnimationPanel() {
 		
 		addMouseListener(new MouseListener() {
 			

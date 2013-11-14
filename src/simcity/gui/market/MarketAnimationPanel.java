@@ -1,4 +1,4 @@
-package simcity.gui;
+package simcity.gui.market;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -6,10 +6,16 @@ import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import simcity.gui.AnimationPanel;
+
 
 //TEST - this is just a test to put into zoom panel
 
 public class MarketAnimationPanel extends AnimationPanel implements ActionListener  {
+
+	public MarketAnimationPanel() {
+		super();
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {

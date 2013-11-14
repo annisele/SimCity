@@ -12,8 +12,8 @@ public class BankTellerRole implements simcity.interfaces.bank.BankTeller {
 	private List<MyCustomer> customers = Collections.synchronizedList(new ArrayList<MyCustomer>());		// list of customers
 	BankSystem bank;	// bank system that contains account info for people
 
-	public enum transactionType {none, openAccount, depositMoney, withdrawMoney, loanMoney};
-	public enum transactionState {none, processing};
+	public enum transactionType {none, openAccount, depositMoney, withdrawMoney, loanMoney};	// type of transaction from customer
+	public enum transactionState {none, processing};											// transaction state
 
 	// constructor
 
@@ -40,6 +40,27 @@ public class BankTellerRole implements simcity.interfaces.bank.BankTeller {
 	}
 
 	// scheduler
+
+	protected boolean pickAndExecuteAnAction() {
+		synchronized(customers) {
+			if (!customers.isEmpty()) {
+				if (customers.get(0).getTransactionState() == transactionState.none) {
+					if (customers.get(0).getTransactionType() == transactionType.openAccount) {
+
+					}
+					else if (customers.get(0).getTransactionType() == transactionType.depositMoney) {
+
+					}
+					else if (customers.get(0).getTransactionType() == transactionType.withdrawMoney) {
+
+					}
+					else if (customers.get(0).getTransactionType() == transactionType.loanMoney) {
+
+					}
+				}
+			}
+		}
+	}
 
 	// actions
 

@@ -11,9 +11,10 @@ import simcity.buildings.Building;
 public class AnimationPanel extends JPanel {
 	
 	private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
+	private List<BuildingGui> buildingGuis = Collections.synchronizedList(new ArrayList<BuildingGui>());
 	 
 	AnimationPanel() {
-		this.setBackground(Color.MAGENTA);
+		
 		addMouseListener(new MouseListener() {
 			
 			@Override
@@ -51,6 +52,17 @@ public class AnimationPanel extends JPanel {
                         }
                     }
                 }
+                for (BuildingGui g : buildingGuis) {
+                    if (g.contains(me.getPoint())) {//check if mouse is clicked within shape
+
+                        //we can either just print out the object class name
+                        System.out.println("Clicked a "+"building");
+
+                        //or check the shape class we are dealing with using instance of with nested if
+
+                    }
+
+               }
             }
 		});
 	}
@@ -62,11 +74,13 @@ public class AnimationPanel extends JPanel {
                 gui.updatePosition();
             }
         }
-
         for(Gui gui : guis) {
             if (gui.isPresent()) {
                 gui.draw((Graphics2D)g);
             }
+        }
+        for(BuildingGui buildingGui : buildingGuis) {
+                buildingGui.draw((Graphics2D)g);
         }
 	}
 	

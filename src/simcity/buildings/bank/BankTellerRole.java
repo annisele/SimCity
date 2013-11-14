@@ -1,8 +1,6 @@
 package simcity.buildings.bank;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import simcity.interfaces.bank.BankCustomer;
 

@@ -2,6 +2,8 @@ package simcity.buildings.market;
 
 import java.util.*;
 
+import simcity.interfaces.market.MarketCashier;
+
 /************************
  * Market System - Holds the inventory of the market.
  * @author rebeccahao
@@ -10,9 +12,14 @@ import java.util.*;
 public class MarketSystem {
 
 	Map<String, Integer> inventory = Collections.synchronizedMap(new HashMap<String, Integer>());
+	private MarketCashier cashier;
 	
 	public MarketSystem() {
 		
+	}
+	
+	public MarketCashier getCashier() {
+		return cashier;
 	}
 	
 	public void setInventory(Map<String, Integer> map) {

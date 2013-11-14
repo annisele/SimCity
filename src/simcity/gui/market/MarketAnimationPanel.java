@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 import java.util.*;
 
 import simcity.gui.AnimationPanel;
-import simcity.gui.BuildingGui;
 import simcity.gui.Gui;
 import simcity.gui.SimCityGui;
 

@@ -14,6 +14,7 @@ public class PedestrianGui implements Gui{
 	private int y = 0;
 	private int xDest = 100;
 	private int yDest = 100;
+	private final int SIZE = 20;
 	
 	@Override
 	public void updatePosition() {
@@ -38,7 +39,7 @@ public class PedestrianGui implements Gui{
 	@Override
 	public void draw(Graphics2D g) {
 		g.setColor(Color.MAGENTA);
-		g.fillRect(x, y, 20, 20);
+		g.fillRect(x, y, SIZE, SIZE);
 	}
 
 	@Override
@@ -49,8 +50,8 @@ public class PedestrianGui implements Gui{
 
 	@Override
 	public boolean contains(Point point) {
-		if(point.getX() >= 60 && point.getX() <= 80) {
-			if(point.y >= 100 && point.y <= 120) {
+		if(point.getX() >= x && point.getX() <= x + SIZE) {
+			if(point.y >= y && point.y <= y + SIZE) {
 				return true;
 			}
 		}

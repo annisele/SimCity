@@ -49,7 +49,6 @@ public class AnimationPanel extends JPanel {
                         if (g instanceof Building) {
                             System.out.println("Clicked a building");
                         }
-
                     }
                 }
             }

@@ -10,11 +10,13 @@ import simcity.buildings.Building;
 
 public class AnimationPanel extends JPanel {
 	
+	SimCityGui simCityGui;
 	private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
 	private List<BuildingGui> buildingGuis = Collections.synchronizedList(new ArrayList<BuildingGui>());
 	 
-	protected AnimationPanel() {
+	protected AnimationPanel(SimCityGui sc) {
 		
+		simCityGui = sc;
 		addMouseListener(new MouseListener() {
 			
 			@Override

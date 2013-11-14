@@ -5,11 +5,11 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Collections;
 import java.util.*;
 
 import simcity.buildings.market.*;
 import simcity.gui.AnimationPanel;
+import simcity.gui.SimCityGui;
 import simcity.interfaces.market.*;
 
 
@@ -24,8 +24,8 @@ public class MarketAnimationPanel extends AnimationPanel implements ActionListen
 	private List<MarketWorker> workers = Collections.synchronizedList(new ArrayList<MarketWorker>());
 
 	
-	public MarketAnimationPanel() {
-		super();
+	public MarketAnimationPanel(SimCityGui sc) {
+		super(sc);
 	}
 
 	@Override

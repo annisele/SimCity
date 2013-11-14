@@ -11,6 +11,9 @@ import java.util.ArrayList;
 
 public class WorldAnimationPanel extends AnimationPanel implements ActionListener {
 
+	public WorldAnimationPanel(SimCityGui sc) {
+		super(sc);
+	}
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		

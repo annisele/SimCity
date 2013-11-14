@@ -69,6 +69,9 @@ public class AnimationPanel extends JPanel {
 	
 	//what makes it so that this will be called over and over? it's not right now
 	public void paintComponent(Graphics g) {
+		
+		
+		
 		for(Gui gui : guis) {
             if (gui.isPresent()) {
                 gui.updatePosition();

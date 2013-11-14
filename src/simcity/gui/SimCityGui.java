@@ -78,10 +78,11 @@ public class SimCityGui extends JFrame implements ActionListener {
 	public static void main(String[] args) {
 	  SimCityGui gui = new SimCityGui();
       gui.setTitle("SimCity Team 14");
-      gui.setVisible(true);
+      
       gui.setResizable(true);
       gui.setSize(1250, 700);
       gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      gui.setVisible(true);
 	}
   
 	  

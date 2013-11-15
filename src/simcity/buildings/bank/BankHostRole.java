@@ -1,7 +1,9 @@
 package simcity.buildings.bank;
 
 import java.util.*;
-public class BankHostRole implements simcity.interfaces.bank.BankHost {
+
+import simcity.Role;
+public class BankHostRole extends Role implements simcity.interfaces.bank.BankHost {
 	private class Window {
 		public BankCustomerRole occupiedBy;
 		public int windowNum;

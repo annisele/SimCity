@@ -40,10 +40,10 @@ public class BankSystem {
 	
 	public void updateSystemAccount(BankAccount account) {
 		customerAccounts.remove(account.getAccountNumber());
-		balanceAccounts.remove(account.getAccountNumber());
-		owedAccounts.remove(account.getAccountNumber());
 		customerAccounts.put(account.getAccountNumber(), account.getBankCustomer());
+		balanceAccounts.remove(account.getAccountNumber());
 		balanceAccounts.put(account.getAccountNumber(), account.getAccountBalance());
+		owedAccounts.remove(account.getAccountNumber());
 		owedAccounts.put(account.getAccountNumber(), account.getAmountOwed());
 	}
 

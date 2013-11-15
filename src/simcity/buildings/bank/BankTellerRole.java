@@ -5,7 +5,7 @@ import java.util.*;
 import simcity.interfaces.bank.BankCustomer;
 import simcity.buildings.bank.BankSystem.BankAccount;
 
-public class BankTellerRole implements simcity.interfaces.bank.BankTeller {
+public class BankTellerRole extends Role implements simcity.interfaces.bank.BankTeller {
 
 	// data
 	private List<MyCustomer> customers = Collections.synchronizedList(new ArrayList<MyCustomer>());		// list of customers
@@ -15,6 +15,9 @@ public class BankTellerRole implements simcity.interfaces.bank.BankTeller {
 	public enum transactionState {none, processing};											// transaction state
 
 	// constructor
+	public BankTellerRole(BankSystem bank) {
+		setBankSystem(bank);
+	}
 
 	// messages
 
@@ -85,7 +88,21 @@ public class BankTellerRole implements simcity.interfaces.bank.BankTeller {
 					}
 					else if (customers.get(0).getTransactionType() == transactionType.loanMoney) {
 						customers.get(0).setTransactionState(transactionState.processing);
-						return true;
+						synchronized(bank.getBankAccounts()) {
+							for (BankAccount account : bank.getBankAccounts()) {
+								if (account.getAccountNumber() == customers.get(0).getBankCustomer().getAccountNumber()) {
+									if (account.getAccountBalance() > 0.5 * customers.get(0).getAmountToProcess()) {	// RULE FOR LOAN: Loan is at max twice 
+										account.setAmountOwed(account.getAmountOwed() + customers.get(0).getAmountToProcess());
+										CanGrantLoan(customers.get(0), account);
+										return true;
+									}
+									else {
+										CannotGrantLoan(customers.get(0), account);
+										return true;
+									}
+								}
+							}
+						}
 					}
 				}
 			}
@@ -110,6 +127,19 @@ public class BankTellerRole implements simcity.interfaces.bank.BankTeller {
 	private void WithdrawMoney(MyCustomer customer, BankAccount account) {
 		account.getBankCustomer().msgHereIsMoney(account.getBankCustomer(), account.getAccountNumber(), account.getAccountBalance(),
 			customer.getAmountToProcess());
+		customers.remove(customer);
+	}
+
+	private void CanGrantLoan(MyCustomer customer, BankAccount account) {
+		account.getBankCustomer().msgHereIsYourLoan(account.getBankCustomer(), account.getAccountNumber(), account.getAmountOwed(),
+			customer.getAmountToProcess());
+		customers.remove(customer);
+	}
+
+	private void CannotGrantLoan(MyCustomer customer, BankAccount account) {
+		account.getBankCustomer().msgCannotGrantLoan(account.getBankCustomer(), account.getAccountNumber(), account.getAmountOwed(),
+			customer.getAmountToProcess());
+		customers.remove(customer);
 	}
 
 	// animation DoXYZ

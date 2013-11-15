@@ -9,4 +9,12 @@ public class System {
 	protected AnimationPanel animationPanel;
 	protected JPanel controlPanel;
 	
+	public AnimationPanel getAnimationPanel() {
+		return animationPanel;
+	}
+	
+	public JPanel getControlPanel() {
+		return controlPanel;
+	}
+	
 }

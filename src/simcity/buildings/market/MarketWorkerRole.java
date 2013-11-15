@@ -6,7 +6,7 @@ import simcity.Role;
 import simcity.interfaces.market.MarketCashier;
 
 public class MarketWorkerRole extends Role implements simcity.interfaces.market.MarketWorker {
-	private MarketSystem system;
+	private MarketComputer system;
 	private List<WorkerOrder> orders = Collections.synchronizedList(new ArrayList<WorkerOrder>());
 	private MarketCashier cashier;
 

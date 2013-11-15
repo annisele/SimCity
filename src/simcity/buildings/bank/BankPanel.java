@@ -20,7 +20,7 @@ public class BankPanel extends JPanel {
 	private SimCityGui simCityGui;
 	public BankControlPanel controlPanel;
 	public BankAnimationPanel animationPanel;
-	private BankSystem system = new BankSystem();;
+	private BankComputer system = new BankComputer();;
 	private List<BankCustomer> customers = Collections.synchronizedList(new ArrayList<BankCustomer>());
 	private List<BankHost> trucks = Collections.synchronizedList(new ArrayList<BankHost>());
 	private List<BankTeller> workers = Collections.synchronizedList(new ArrayList<BankTeller>());

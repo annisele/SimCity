@@ -24,7 +24,7 @@ public class MarketPanel {
 	private SimCityGui simCityGui;
 	public MarketControlPanel controlPanel;
 	public MarketAnimationPanel animationPanel;
-	private MarketSystem system = new MarketSystem();
+	private MarketComputer system = new MarketComputer();
 	private MarketCashier cashier;
 	private List<MarketCustomer> customers = Collections.synchronizedList(new ArrayList<MarketCustomer>());
 	private List<MarketTruck> trucks = Collections.synchronizedList(new ArrayList<MarketTruck>());

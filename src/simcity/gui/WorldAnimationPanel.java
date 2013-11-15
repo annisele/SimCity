@@ -14,6 +14,7 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
 	public WorldAnimationPanel() {//SimCityGui sc) {
 		super();
 	}
+	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		

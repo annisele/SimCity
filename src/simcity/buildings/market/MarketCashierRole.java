@@ -7,7 +7,7 @@ import simcity.interfaces.market.MarketWorker;
 
 public class MarketCashierRole extends Role implements simcity.interfaces.market.MarketCashier {
 	private List<MarketOrder> orders = Collections.synchronizedList(new ArrayList<MarketOrder>());
-	private MarketSystem market;
+	private MarketComputer market;
 	private enum MarketOrderState {requested, waitingForPayment, paid, filling, found};
 	private Map<String, Double> prices = Collections.synchronizedMap(new HashMap<String, Double>());
 	private List<MarketWorker> workers = Collections.synchronizedList(new ArrayList<MarketWorker>());

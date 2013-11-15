@@ -1,7 +1,7 @@
 package simcity;
 
-import simcity.buildings.Building;
 import simcity.gui.AnimationPanel;
+import simcity.gui.BuildingGui;
 import simcity.gui.transportation.PedestrianGui;
 
 public class Config {
@@ -14,8 +14,8 @@ public class Config {
 	
 	public void onePerson() {
 		PedestrianGui testPed = new PedestrianGui();
-        world.addBuilding(new Building("Market1", 30, 10));
-        world.addBuilding(new Building("Bank1", 110, 10));
+        world.addBuilding(new BuildingGui("Market1", 30, 10));
+        world.addBuilding(new BuildingGui("Bank1", 110, 10));
         world.addGui(testPed);
 	}
 	

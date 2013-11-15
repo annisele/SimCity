@@ -12,8 +12,10 @@ public class AnimationPanel extends JPanel {
 	
 	SimCityGui simCityGui;
 	private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
-	private List<BuildingGui> buildingGuis = Collections.synchronizedList(new ArrayList<BuildingGui>());
-	 
+	//private List<BuildingGui> buildingGuis = Collections.synchronizedList(new ArrayList<BuildingGui>());
+	private List<Building> buildingGuis = Collections.synchronizedList(new ArrayList<Building>());
+ 
+	
 	protected AnimationPanel(){//SimCityGui sc) {
 		
 		//simCityGui = sc;
@@ -54,11 +56,12 @@ public class AnimationPanel extends JPanel {
                         }
                     }
                 }
-                for (BuildingGui g : buildingGuis) {
+               // for (BuildingGui g : buildingGuis) {
+                for(Building g : buildingGuis) {
                     if (g.contains(me.getPoint())) {//check if mouse is clicked within shape
 
                         //we can either just print out the object class name
-                        System.out.println("Clicked a "+"building");
+                        System.out.println("Clicked a "+"building: " + g.getName());
 
                         //or check the shape class we are dealing with using instance of with nested if
 
@@ -84,13 +87,19 @@ public class AnimationPanel extends JPanel {
                 gui.draw((Graphics2D)g);
             }
         }
-        for(BuildingGui buildingGui : buildingGuis) {
-                buildingGui.draw((Graphics2D)g);
+      //  for(BuildingGui buildingGui : buildingGuis) {
+        for(Building b : buildingGuis) {
+              //  buildingGui.draw((Graphics2D)g);
+        	b.draw((Graphics2D)g);
         }
 	}
 	
 	public void addGui(Gui gui) {
 		guis.add(gui);
+	}
+	
+	public void addBuilding(Building b) {
+		buildingGuis.add(b);
 	}
 	
 	/*public void addGui(gui) {

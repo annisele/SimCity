@@ -2,6 +2,8 @@ package simcity.buildings.transportation;
 
 import java.util.List;
 
+import simcity.Location;
+
 
 //Make Changes to bus stop counter
 //

@@ -1,9 +1,6 @@
 package simcity;
 
 import java.util.*;
-import java.util.List;
-
-//import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 
 import simcity.interfaces.Person;
 import simcity.buildings.transportation.*;

@@ -1,19 +1,26 @@
 package simcity;
 
-import javax.swing.*;
-import java.awt.*;
+import simcity.buildings.Building;
+import simcity.gui.AnimationPanel;
+import simcity.gui.transportation.PedestrianGui;
 
 public class Config {
-	Config() {
+	
+	private AnimationPanel world;
+	
+	public Config(AnimationPanel w) {
+		world = w;
+	}
+	
+	public void onePerson() {
+		PedestrianGui testPed = new PedestrianGui();
+        world.addBuilding(new Building("Market1", 30, 10));
+        world.addBuilding(new Building("Bank1", 110, 10));
+        world.addGui(testPed);
+	}
+	
+	public void twoPeople() {
 		
-	}
-	
-	public static void onePerson() {
-		System.out.println("one person selection");
-	}
-	
-	public static void twoPeople() {
-		System.out.println("two people selection");
 
 	}
 }

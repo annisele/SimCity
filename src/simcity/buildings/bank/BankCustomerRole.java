@@ -1,9 +1,20 @@
+/*******************
+ * BankCustomerRole 
+ * @author levonne key
+ *
+ */
 package simcity.buildings.bank;
 
 import java.awt.Window;
 import java.util.*;
-public class BankCustomerRole implements simcity.interfaces.bank.BankCustomer {
+
+import simcity.Role;
+public class BankCustomerRole extends Role implements simcity.interfaces.bank.BankCustomer {
 	private BankHostRole bh;
+	private BankTellerRole bt;
+	public class Window {
+		public int windowNumber;
+	}
 	private String name;
 	double amountToProcess;
 	int accountNumber;
@@ -103,10 +114,9 @@ public class BankCustomerRole implements simcity.interfaces.bank.BankCustomer {
 			        LoanMoney();
 			    }
 			    return true;
-		  }
-
+		 }
 		 if (customerState == BankCustomerState.goingToWindow && event == Event.transactionProcessed) {
-			    InformBankHostOfDeparture();
+			    InformBankHostOfDeparture(window);
 			    return true;
 		  }
 		
@@ -117,26 +127,30 @@ public class BankCustomerRole implements simcity.interfaces.bank.BankCustomer {
 	 //actions
 	    private void InformBankHostOfArrival() {
 		    bh.msgEnteringBank(this);
+		    System.out.println("Bank customer is here");
 		}
 
 		private void OpenAccount() {
-		    window.getBankTeller().msgWantToOpenAccountBalance(this, amountToProcess);
-		    bankSystem.window.getBankTeller();
+		    bt.msgWantToOpenAccount(this, amountToProcess);
+		    System.out.println("Bank customer wants to open account");
 		}
 
 		private void DepositMoney() {
-		    window.getBankTeller().msgWantToDeposit(this, amountToProcess);
+		    bt.msgWantToDeposit(this, amountToProcess);
+		    System.out.println("Bank customer wants to deposit money");
 		}
 
 		private void WithdrawMoney() {
-		    window.getBankTeller().msgWantToWithdraw(this, amountToProcess);
+		    bt.msgWantToWithdraw(this, amountToProcess);
+		    System.out.println("Bank customer wants to withdraw money");
 		}
 
 		private void LoanMoney() {
-		    window.getBankTeller().msgWantALoan(this, amountToProcess);
+		    bt.msgWantALoan(this, amountToProcess);
+		    System.out.println("Bank customer wants to get loan");
 		}
 
-		private void InformBankHostOfDeparture() {
-		    bh.msgLeavingBank(windowNumber);
+		private void InformBankHostOfDeparture(Window w) {
+		    bh.msgLeavingBank(w.windowNumber);
 		}	 
 }

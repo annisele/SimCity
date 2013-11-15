@@ -2,6 +2,7 @@ package simcity.gui;
 
 import javax.swing.*;
 
+import simcity.Config;
 import simcity.buildings.Building;
 import simcity.buildings.market.MarketPanel;
 import simcity.gui.market.MarketAnimationPanel;
@@ -37,18 +38,18 @@ public class SimCityGui extends JFrame implements ActionListener {
 	private JSplitPane splitPaneWorld;
 	private JSplitPane splitPaneDetail;
 	
+	private Config config;
+	
 	// Panel for everything
 	private JPanel fullPane = new JPanel();
 	GridLayout twoGridLayout = new GridLayout(0,2);
 	
-	private ControlPanel controlPanel = new ControlPanel(this);
-
-	
-	//TEST
-	private PedestrianGui testPed = new PedestrianGui();
+	private ControlPanel controlPanel;
 	
 	public SimCityGui() {
+        config = new Config(viewWorldPanel);
 
+		controlPanel  = new ControlPanel(this, config);
 		menuPanel.setPreferredSize(new Dimension(300, 700));
 		controlPanel.setPreferredSize(new Dimension(300, 700));
 		menuPanel.add(controlPanel);
@@ -71,10 +72,8 @@ public class SimCityGui extends JFrame implements ActionListener {
 		setLayout(new BorderLayout());
         add(menuPanel, BorderLayout.EAST);
         add(fullPane, BorderLayout.CENTER);
-        viewWorldPanel.addBuilding(new Building("Market1", 30, 10));
-        viewWorldPanel.addBuilding(new Building("Bank1", 110, 10));
-        viewWorldPanel.addGui(testPed);
-        
+
+       
         
 	}
 	public void updateInfoPanel(Object person) {
@@ -83,6 +82,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 	
 	}
+	
 	  
 	public static void main(String[] args) {
 	  SimCityGui gui = new SimCityGui();

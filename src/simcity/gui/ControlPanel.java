@@ -305,4 +305,9 @@ public class ControlPanel extends JPanel implements ActionListener {
 			
 		}
 	}
+	
+	public void updateSelected(BuildingGui b) {
+		nameLabel.setText(b.getName());
+		typeLabel.setText("building");
+	}
 }

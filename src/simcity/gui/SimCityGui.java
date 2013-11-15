@@ -3,7 +3,6 @@ package simcity.gui;
 import javax.swing.*;
 
 import simcity.Config;
-import simcity.buildings.Building;
 import simcity.buildings.market.MarketPanel;
 import simcity.gui.market.MarketAnimationPanel;
 import simcity.gui.transportation.PedestrianGui;
@@ -76,8 +75,8 @@ public class SimCityGui extends JFrame implements ActionListener {
        
         
 	}
-	public void updateInfoPanel(Object person) {
-		
+	public ControlPanel getControlPanel() {
+		return controlPanel;
 	}
 	public void actionPerformed(ActionEvent e) {
 	

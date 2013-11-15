@@ -15,8 +15,6 @@ public class BankSystem {
 	Map<Integer,BankCustomerRole> customerAccounts = new HashMap<Integer,BankCustomerRole>(MAX_ACCOUNTS);
 	Map<Integer,Double> balanceAccounts = new HashMap<Integer,Double>(MAX_ACCOUNTS);
 	Map<Integer,Double> owedAccounts = new HashMap<Integer,Double>(MAX_ACCOUNTS);
-	
-	//private List<BankAccount> accounts = Collections.synchronizedList(new ArrayList<BankAccount>());
 
 	// constructor
 	BankSystem() {
@@ -40,6 +38,15 @@ public class BankSystem {
 		return account;
 	}
 	
+	public void updateSystemAccount(BankAccount account) {
+		customerAccounts.remove(account.getAccountNumber());
+		balanceAccounts.remove(account.getAccountNumber());
+		owedAccounts.remove(account.getAccountNumber());
+		customerAccounts.put(account.getAccountNumber(), account.getBankCustomer());
+		balanceAccounts.put(account.getAccountNumber(), account.getAccountBalance());
+		owedAccounts.put(account.getAccountNumber(), account.getAmountOwed());
+	}
+
 	// utility classes
 	public class BankAccount {
 		int accountNumber;

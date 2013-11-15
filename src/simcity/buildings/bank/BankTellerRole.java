@@ -5,7 +5,7 @@ import java.util.*;
 import simcity.interfaces.bank.BankCustomer;
 import simcity.buildings.bank.BankSystem.BankAccount;
 
-public class BankTellerRole extends Role implements simcity.interfaces.bank.BankTeller {
+public class BankTellerRole implements simcity.interfaces.bank.BankTeller {
 
 	// data
 	private List<MyCustomer> customers = Collections.synchronizedList(new ArrayList<MyCustomer>());		// list of customers
@@ -67,32 +67,25 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 
 					else if (customers.get(0).getTransactionType() == transactionType.withdrawMoney) {
 						customers.get(0).setTransactionState(transactionState.processing);
-						synchronized(bank.getBankAccounts()) {
-							for (BankAccount account : bank.getBankAccounts()) {
-								if (account.getAccountNumber() == customers.get(0).getBankCustomer().getAccountNumber()) {
-									account.setAccountBalance(account.getAccountBalance() - customers.get(0).getAmountToProcess());
-									WithdrawMoney(customers.get(0), account);
-									return true;
-								}
-							}
-						}
+						BankAccount account = bank.accountLookup(customers.get(0).getAccountNumber());
+						account.setAccountBalance(account.getAccountBalance() - customers.get(0).getAmountToProcess());
+						bank.updateSystemAccount(account);
+						WithdrawMoney(customers.get(0), account);
+						return true;
 					}
-					else if (customers.get(0).getTransactionType() == transactionType.loanMoney) {
+
+					else if (customers.get(0).getTransactionType() == transactionType.withdrawMoney) {
 						customers.get(0).setTransactionState(transactionState.processing);
-						synchronized(bank.getBankAccounts()) {
-							for (BankAccount account : bank.getBankAccounts()) {
-								if (account.getAccountNumber() == customers.get(0).getBankCustomer().getAccountNumber()) {
-									if (account.getAccountBalance() > 0.5 * customers.get(0).getAmountToProcess()) {	// RULE FOR LOAN: Loan is at max twice 
-										account.setAmountOwed(account.getAmountOwed() + customers.get(0).getAmountToProcess());
-										CanGrantLoan(customers.get(0), account);
-										return true;
-									}
-									else {
-										CannotGrantLoan(customers.get(0), account);
-										return true;
-									}
-								}
-							}
+						BankAccount account = bank.accountLookup(customers.get(0).getAccountNumber());
+						if (account.getAccountNumber() > 0.5 * customers.get(0).getAmountToProcess()) {	// RULE FOR LOAN: Loan is at max twice of account
+							account.setAmountOwed(account.getAmountOwed() + customers.get(0).getAmountToProcess());
+							bank.updateSystemAccount(account);
+							CanGrantLoan(customers.get(0), account);
+							return true;
+						}
+						else {
+							CannotGrantLoan(customers.get(0), account);
+							return true;
 						}
 					}
 				}

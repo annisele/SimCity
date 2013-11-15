@@ -2,6 +2,8 @@ package simcity.gui;
 
 import javax.swing.*;
 
+import simcity.Config;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -93,8 +95,8 @@ public class ControlPanel extends JPanel implements ActionListener {
 		setLayout(new BoxLayout((Container) this, BoxLayout.Y_AXIS));
 		
 		//config panel
-		configStrings[0] = "One building, one person";
-		configStrings[1] = "One building, two people";
+		configStrings[0] = "One person";
+		configStrings[1] = "Two people";
 		configDropdown = new JComboBox(configStrings);
 		configPanel.setLayout(new FlowLayout());
 		configPanel.add(configDropdown);
@@ -227,7 +229,13 @@ public class ControlPanel extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		//when load button is pressed
 		if(e.getSource() == load) {
-			
+			String selection = (String)configDropdown.getSelectedItem();
+			if(selection.equals(configStrings[0])) {
+				Config.onePerson();
+			}
+			else if(selection.equals(configStrings[1])) {
+				Config.twoPeople();
+			}
 		}
 		//when pause button is pressed
 		else if(e.getSource() == pauseB) {

@@ -21,8 +21,8 @@ public class SimCityGui extends JFrame implements ActionListener {
 	private JPanel menuPanel = new JPanel();
 	
 	// Panels for each view and console
-//	private JPanel viewWorldPanel = new WorldAnimationPanel();
-//	private JPanel viewDetailPanel = new MarketAnimationPanel(); //new AnimationPanel();
+	//	private JPanel viewWorldPanel = new WorldAnimationPanel();
+	//	private JPanel viewDetailPanel = new MarketAnimationPanel(); //new AnimationPanel();
 	
 	private AnimationPanel viewWorldPanel = new WorldAnimationPanel(this);
 	private AnimationPanel viewDetailPanel = new MarketAnimationPanel(this);
@@ -69,7 +69,7 @@ public class SimCityGui extends JFrame implements ActionListener {
         viewWorldPanel.addGui(testPed);
 	}
 	public void updateInfoPanel(Object person) {
-	
+		
 	}
 	public void actionPerformed(ActionEvent e) {
 	

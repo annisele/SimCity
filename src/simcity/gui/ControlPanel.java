@@ -229,6 +229,7 @@ public class ControlPanel extends JPanel implements ActionListener {
 
 	
 	public void actionPerformed(ActionEvent e) {
+		//NEED TO RESET WORLD WHEN LOAD IS PRESSED
 		//when load button is pressed
 		if(e.getSource() == load) {
 			String selection = (String)configDropdown.getSelectedItem();

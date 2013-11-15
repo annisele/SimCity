@@ -5,7 +5,9 @@ import java.awt.event.*;
 import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
+
 import javax.swing.*;
+
 import simcity.buildings.Building;
 
 public class AnimationPanel extends JPanel {
@@ -14,7 +16,8 @@ public class AnimationPanel extends JPanel {
 	private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
 	//private List<BuildingGui> buildingGuis = Collections.synchronizedList(new ArrayList<BuildingGui>());
 	private List<Building> buildingGuis = Collections.synchronizedList(new ArrayList<Building>());
- 
+	private int px; //x where mouse was pressed
+	private int py;
 	
 	protected AnimationPanel(){//SimCityGui sc) {
 		
@@ -28,7 +31,8 @@ public class AnimationPanel extends JPanel {
 			
 			@Override
 			public void mousePressed(MouseEvent e) {
-
+				px = e.getXOnScreen();
+				py = e.getYOnScreen();
 			}
 			
 			@Override
@@ -69,6 +73,20 @@ public class AnimationPanel extends JPanel {
 
                }
             }
+		});
+		
+		addMouseMotionListener(new MouseMotionListener() {
+
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				//added this to try to set up dragging world map
+			}
+
+			@Override
+			public void mouseMoved(MouseEvent e) {
+				
+			}
+			
 		});
 	}
 	

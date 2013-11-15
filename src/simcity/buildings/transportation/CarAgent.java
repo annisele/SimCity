@@ -1,7 +1,9 @@
 package simcity.buildings.transportation;
 
-public class CarAgent implements simcity.interfaces.transportation.Car {
-	/* CarPassengerRole passenger;
+import agent.Agent;
+
+public class CarAgent extends Agent implements simcity.interfaces.transportation.Car {
+ CarPassengerRole passenger;
 	Location destination;
 	//CarState state = enum{ waiting, driving }
 	public enum Carstate { waiting, driving }
@@ -21,16 +23,23 @@ public class CarAgent implements simcity.interfaces.transportation.Car {
 	if ((state == Carstate.waiting) && (destination != null)) {
 			state = Carstate.driving;
 			Drive();
+			return true;
+		}
+	return false;
 	}
 	
 	private void Drive() {
 
 		// Animation - call to cargui
-		DoGoTo(location.getX(), location.getY());
-
-		passenger.msgWeHaveArrived(location.getX(), location.getY());
+		DoGoTo(destination.xLoc, destination.yLoc);
+		//UNCOMMENT LINE OF CODE BELOW ONCE MOST ERRORS BE FIXED. ARRR
+	//	passenger.msgWeHaveArrived(destination.xLoc, destination.yLoc);
 		destination = null;
 
-	} */
+	} 
+	
+	private void DoGoTo(int x, int y) {
+		
+	}
 }
 

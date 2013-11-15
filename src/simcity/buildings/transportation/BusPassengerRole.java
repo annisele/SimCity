@@ -1,7 +1,9 @@
 package simcity.buildings.transportation;
 
-	public class BusPassengerRole implements simcity.interfaces.transportation.BusPassenger {
-		/*
+import agent.Agent;
+
+	public class BusPassengerRole extends Agent implements simcity.interfaces.transportation.BusPassenger {
+		
 		BusAgent bus;
 		Location destination;
 		Location startingLocation;
@@ -13,37 +15,45 @@ package simcity.buildings.transportation;
 		public enum PassengerEvent {atBusStop, busArriving, busStopping};
 		PassengerState state;
 		PassengerEvent event;
-	}
+	
 
 	public void msgBusTo(Location l) { // from PersonAgent
 		destination = l;
 		event = PassengerEvent.atBusStop;
+		stateChanged();
 	}
 	
 	public void msgBusArriving() { //from BusAgent
 		event = PassengerEvent.busArriving;
+		stateChanged();
 	}
 	
 	public void msgWeHaveArrived(int x, int y) { // from BusAgent
 		event = PassengerEvent.busStopping;
 		xLoc = x;
 		yLoc = y;
+		stateChanged();
 	} 
 	
 	protected boolean pickAndExecuteAnAction() {
 	if ((state == PassengerState.offBus) && (event == PassengerEvent.atBusStop)) {
 			state = PassengerState.waitingForBus;
 			CallBus();
+			return true;
 	}
 	if ((state == PassengerState.waitingForBus) && (event == PassengerEvent.busArriving)) {
 			state = PassengerState.onBus;
 			GetIn();
+			return true;
 	}
 		if ((state == PassengerState.onBus) && (event == PassengerEvent.busStopping)) {
 			state = PassengerState.offBus;
 			GetOut();
+			return true;
 		}
+		return false;
 	}
+	
 	
 	private void CallBus() {
 		bus.msgWantBus(this, startingLocation);
@@ -60,9 +70,21 @@ package simcity.buildings.transportation;
 
 		// Animation
 		DoRedrawAt(xLoc, yLoc);
-
-		Enabled = false;
+		//WHAT DOES ENABLED EVEN MEAN??? ASK CB or something
+	//	Enabled = false;
 	}
-	*/
+	
+	private void DoRedrawAt(int x, int y) {
+		//Animation
+	}
+	
+	private void DoDisableGui() {
+		
+		//Animation
+	}
+	
+	
+	
+	
 	
 }

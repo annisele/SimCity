@@ -1,5 +1,6 @@
 package simcity.buildings.transportation;
 
+import simcity.Location;
 import agent.Agent;
 
 public class CarAgent extends Agent implements simcity.interfaces.transportation.Car {

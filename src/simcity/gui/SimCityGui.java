@@ -2,6 +2,7 @@ package simcity.gui;
 
 import javax.swing.*;
 
+import simcity.buildings.Building;
 import simcity.buildings.market.MarketPanel;
 import simcity.gui.market.MarketAnimationPanel;
 import simcity.gui.transportation.PedestrianGui;
@@ -70,7 +71,8 @@ public class SimCityGui extends JFrame implements ActionListener {
 		setLayout(new BorderLayout());
         add(menuPanel, BorderLayout.EAST);
         add(fullPane, BorderLayout.CENTER);
-        
+        viewWorldPanel.addBuilding(new Building("Market1", 30, 10));
+        viewWorldPanel.addBuilding(new Building("Bank1", 110, 10));
         viewWorldPanel.addGui(testPed);
         
         

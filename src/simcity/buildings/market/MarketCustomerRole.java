@@ -37,7 +37,8 @@ public class MarketCustomerRole extends Role implements simcity.interfaces.marke
 			}
 		}
 	}
-
+	
+	
 	public boolean pickAndExectuteAnAction() {
 		synchronized (invoices) {
 			for(Invoice i : invoices) {
@@ -95,6 +96,21 @@ public class MarketCustomerRole extends Role implements simcity.interfaces.marke
 			orderNumber = num;
 		}
 	}
+
+	
+
+
+
+	
+
+
+
+
+
+
+
+	
+
 
 
 }

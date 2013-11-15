@@ -22,22 +22,22 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 	// messages
 
 	public void msgWantToOpenAccount(BankCustomerRole bc, double amountToProcess) {
-    	customers.add(new MyCustomer(bc, amountToProcess, transactionType.openAccount));
+    	customers.add(new MyCustomer(bc, bc.getAccountNumber(), amountToProcess, transactionType.openAccount));
     	//stateChanged();
 	}
 
 	public void msgWantToDeposit(BankCustomerRole bc, double amountToProcess) {
-    	customers.add(new MyCustomer(bc, amountToProcess, transactionType.depositMoney));
+    	customers.add(new MyCustomer(bc, bc.getAccountNumber(), amountToProcess, transactionType.depositMoney));
     	// stateChanged();
 	}
 
 	public void msgWantToWithdraw(BankCustomerRole bc, double amountToProcess) {
-    	customers.add(new MyCustomer(bc, amountToProcess, transactionType.withdrawMoney));
+    	customers.add(new MyCustomer(bc, bc.getAccountNumber(), amountToProcess, transactionType.withdrawMoney));
     	// stateChanged();
 	}
 
 	public void msgWantALoan(BankCustomerRole bc, double amountToProcess) {
-    	customers.add(new MyCustomer(bc, amountToProcess, transactionType.loanMoney));
+    	customers.add(new MyCustomer(bc, bc.getAccountNumber(), amountToProcess, transactionType.loanMoney));
     	// stateChanged();
 	}
 
@@ -50,30 +50,21 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 
 					if (customers.get(0).getTransactionType() == transactionType.openAccount) {
 						customers.get(0).setTransactionState(transactionState.processing);
-						bank.addAccount(customers.get(0).getBankCustomer(), customers.get(0).getAmountToProcess());
-						synchronized(bank.getBankAccounts()) {
-							for (BankAccount account : bank.getBankAccounts()) {
-								if (account.getBankCustomer() == customers.get(0).getBankCustomer() && account.getAccountBalance() == 
-									customers.get(0).getAmountToProcess()) {
-									AddAccount(customers.get(0), account);
-									return true;
-								}
-							}
-						}
+						int tempAccountNumber = bank.addAccountAndReturnNumber(customers.get(0).getBankCustomer(), customers.get(0).getAmountToProcess());
+						BankAccount account = bank.accountLookup(tempAccountNumber);
+						AddAccount(customers.get(0), account);
+						return true;
 					}
 
 					else if (customers.get(0).getTransactionType() == transactionType.depositMoney) {
 						customers.get(0).setTransactionState(transactionState.processing);
-						synchronized(bank.getBankAccounts()) {
-							for (BankAccount account : bank.getBankAccounts()) {
-								if (account.getAccountNumber() == customers.get(0).getBankCustomer().getAccountNumber()) {
-									account.setAccountBalance(account.getAccountBalance() + customers.get(0).getAmountToProcess());
-									DepositMoney(customers.get(0), account);
-									return true;
-								}
-							}
-						}
+						BankAccount account = bank.accountLookup(customers.get(0).getAccountNumber());
+						account.setAccountBalance(account.getAccountBalance() + customers.get(0).getAmountToProcess());
+						bank.updateSystemAccount(account);
+						DepositMoney(customers.get(0), account);
+						return true;
 					}
+
 					else if (customers.get(0).getTransactionType() == transactionType.withdrawMoney) {
 						customers.get(0).setTransactionState(transactionState.processing);
 						synchronized(bank.getBankAccounts()) {
@@ -146,26 +137,36 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 
 	// utility classes
 	public class MyCustomer {
-		BankCustomer bc;
+		BankCustomerRole bc;
+		int accountNumber;
 		double amountToProcess;
 		transactionType tt;
 		transactionState ts;
 
-		MyCustomer(BankCustomer bc, double amountToProcess, transactionType tt) {
+		MyCustomer(BankCustomerRole bc, int accountNumber, double amountToProcess, transactionType tt) {
 			this.bc = bc;
+			this.accountNumber = accountNumber;
 			this.amountToProcess = amountToProcess;
 			this.tt = tt;
 			this.ts = transactionState.none;
 		}
 
-		public BankCustomer getBankCustomer() {
+		public BankCustomerRole getBankCustomer() {
 			return bc;
 		}
 
-		public void setBankCustomer(BankCustomer bc) {
+		public void setBankCustomer(BankCustomerRole bc) {
 			this.bc = bc;
 		}
 
+		public int getAccountNumber() {
+			return accountNumber;
+		}
+		
+		public void setAccountNumber(int accountNumber) {
+			this.accountNumber = accountNumber;
+		}
+		
 		public double getAmountToProcess() {
 			return amountToProcess;
 		}

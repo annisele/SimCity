@@ -24,6 +24,12 @@ public class BankCustomerRole implements simcity.interfaces.bank.BankCustomer {
 	public String getCustomerName() {
 		return name;
 	}     
+	
+	// utilities
+	public int getAccountNumber() {
+		return accountNumber;
+	}
+	
 	//messages 
 	
 	//bank host sends this message to tell bank customer to go to bank window
@@ -66,7 +72,7 @@ public class BankCustomerRole implements simcity.interfaces.bank.BankCustomer {
 			//stateChanged(); 
 	 }
 	//bank teller sends this message to customer when the loan is not approved
-	 public void msgCannotGrantLoan(int accountNumber, double accountBalance, double loanAmount) {
+	 public void msgCannotGrantLoan(BankCustomerRole bc, int accountNumber, double accountBalance, double loanAmount) {
 		 System.out.println("Your loan is not approved");
     	 event = Event.transactionProcessed;
 	     //stateChanged(); 

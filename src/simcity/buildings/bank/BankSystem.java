@@ -7,8 +7,16 @@ import simcity.interfaces.bank.BankCustomer;
 public class BankSystem {
 
 	// variables
+	public static final int MAX_ACCOUNTS = 100;
+	int numAccounts = 0;
+	
 	double loanableFunds;
-	private List<BankAccount> accounts = Collections.synchronizedList(new ArrayList<BankAccount>());
+	
+	Map<Integer,BankCustomerRole> customerAccounts = new HashMap<Integer,BankCustomerRole>(MAX_ACCOUNTS);
+	Map<Integer,Double> balanceAccounts = new HashMap<Integer,Double>(MAX_ACCOUNTS);
+	Map<Integer,Double> owedAccounts = new HashMap<Integer,Double>(MAX_ACCOUNTS);
+	
+	//private List<BankAccount> accounts = Collections.synchronizedList(new ArrayList<BankAccount>());
 
 	// constructor
 	BankSystem() {
@@ -16,10 +24,22 @@ public class BankSystem {
 	}
 
 	// functions
-	public void addAccount(BankCustomerRole bc, double amountToProcess) {
-		accounts.add(bc, amountToProcess, accounts.size()+1);
+	public int addAccountAndReturnNumber(BankCustomerRole bc, double amountToProcess) {
+		numAccounts++;
+		customerAccounts.put(numAccounts, bc);
+		balanceAccounts.put(numAccounts, amountToProcess);
+		owedAccounts.put(numAccounts, 0.0);
+		return numAccounts;
 	}
-
+	
+	public BankAccount accountLookup(int accountNumber) {
+		BankCustomerRole bc = customerAccounts.get(accountNumber);
+		double accountBalance = balanceAccounts.get(accountNumber);
+		double amountOwed = owedAccounts.get(accountNumber);
+		BankAccount account = new BankAccount(bc, accountBalance, accountNumber, amountOwed);
+		return account;
+	}
+	
 	// utility classes
 	public class BankAccount {
 		int accountNumber;
@@ -27,11 +47,11 @@ public class BankSystem {
 		double accountBalance;
 		double amountOwed;
 
-		BankAccount(BankCustomerRole bc, double amountToProcess, int accountNumber) {
+		BankAccount(BankCustomerRole bc, double amountToProcess, int accountNumber, double amountOwed) {
 			setBankCustomer(bc);
 			setAccountBalance(amountToProcess);
 			setAccountNumber(accountNumber);
-			setAmountOwed(0);
+			setAmountOwed(amountOwed);
 		}
 
 		public int getAccountNumber() {
@@ -69,11 +89,6 @@ public class BankSystem {
 	}
 
 	// utility functions
-	public List getBankAccounts() {
-		return accounts;
-	}
-	
-	
 	public double getLoanableFunds() {
 		return loanableFunds;
 	}

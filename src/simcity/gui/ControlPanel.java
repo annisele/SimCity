@@ -21,6 +21,7 @@ import java.awt.event.ActionListener;
 public class ControlPanel extends JPanel implements ActionListener {
 	
 	private SimCityGui simCityGui;
+	private Config config;
 	
 	//pause and clock elements
 	private JPanel pauseAndTime = new JPanel();
@@ -90,8 +91,9 @@ public class ControlPanel extends JPanel implements ActionListener {
 	private JButton fire = new JButton("Fire (In Selected Building)");
 	
 	
-	public ControlPanel(SimCityGui gui) {
+	public ControlPanel(SimCityGui gui, Config c) {
 		simCityGui = gui;
+		config = c;
 		setLayout(new BoxLayout((Container) this, BoxLayout.Y_AXIS));
 		
 		//config panel
@@ -227,14 +229,15 @@ public class ControlPanel extends JPanel implements ActionListener {
 
 	
 	public void actionPerformed(ActionEvent e) {
+		//NEED TO RESET WORLD WHEN LOAD IS PRESSED
 		//when load button is pressed
 		if(e.getSource() == load) {
 			String selection = (String)configDropdown.getSelectedItem();
 			if(selection.equals(configStrings[0])) {
-				Config.onePerson();
+				config.onePerson();
 			}
 			else if(selection.equals(configStrings[1])) {
-				Config.twoPeople();
+				config.twoPeople();
 			}
 		}
 		//when pause button is pressed

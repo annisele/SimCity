@@ -5,15 +5,20 @@ import java.awt.event.*;
 import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
+
 import javax.swing.*;
+
 import simcity.buildings.Building;
 
 public class AnimationPanel extends JPanel {
 	
 	SimCityGui simCityGui;
 	private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
-	private List<BuildingGui> buildingGuis = Collections.synchronizedList(new ArrayList<BuildingGui>());
-	 
+	//private List<BuildingGui> buildingGuis = Collections.synchronizedList(new ArrayList<BuildingGui>());
+	private List<Building> buildingGuis = Collections.synchronizedList(new ArrayList<Building>());
+	private int px; //x where mouse was pressed
+	private int py;
+	
 	protected AnimationPanel(){//SimCityGui sc) {
 		
 		//simCityGui = sc;
@@ -26,7 +31,8 @@ public class AnimationPanel extends JPanel {
 			
 			@Override
 			public void mousePressed(MouseEvent e) {
-
+				px = e.getXOnScreen();
+				py = e.getYOnScreen();
 			}
 			
 			@Override
@@ -54,11 +60,12 @@ public class AnimationPanel extends JPanel {
                         }
                     }
                 }
-                for (BuildingGui g : buildingGuis) {
+               // for (BuildingGui g : buildingGuis) {
+                for(Building g : buildingGuis) {
                     if (g.contains(me.getPoint())) {//check if mouse is clicked within shape
 
                         //we can either just print out the object class name
-                        System.out.println("Clicked a "+"building");
+                        System.out.println("Clicked a "+"building: " + g.getName());
 
                         //or check the shape class we are dealing with using instance of with nested if
 
@@ -66,6 +73,20 @@ public class AnimationPanel extends JPanel {
 
                }
             }
+		});
+		
+		addMouseMotionListener(new MouseMotionListener() {
+
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				//added this to try to set up dragging world map
+			}
+
+			@Override
+			public void mouseMoved(MouseEvent e) {
+				
+			}
+			
 		});
 	}
 	
@@ -84,13 +105,19 @@ public class AnimationPanel extends JPanel {
                 gui.draw((Graphics2D)g);
             }
         }
-        for(BuildingGui buildingGui : buildingGuis) {
-                buildingGui.draw((Graphics2D)g);
+      //  for(BuildingGui buildingGui : buildingGuis) {
+        for(Building b : buildingGuis) {
+              //  buildingGui.draw((Graphics2D)g);
+        	b.draw((Graphics2D)g);
         }
 	}
 	
 	public void addGui(Gui gui) {
 		guis.add(gui);
+	}
+	
+	public void addBuilding(Building b) {
+		buildingGuis.add(b);
 	}
 	
 	/*public void addGui(gui) {

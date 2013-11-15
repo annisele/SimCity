@@ -90,7 +90,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
      }
 	
 	 //scheduler
-	 protected boolean pickAndExecuteAnAction() {
+	 public boolean pickAndExecuteAnAction() {
 		 if (customerState == BankCustomerState.none){
 			    if (event == Event.arrivedAtBank){
 			    InformBankHostOfArrival();
@@ -152,5 +152,6 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 
 		private void InformBankHostOfDeparture(Window w) {
 		    bh.msgLeavingBank(w.windowNumber);
-		}	 
+		}
+		 
 }

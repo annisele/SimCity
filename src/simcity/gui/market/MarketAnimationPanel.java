@@ -7,22 +7,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
 
-import simcity.buildings.market.*;
 import simcity.gui.AnimationPanel;
+import simcity.gui.Gui;
 import simcity.gui.SimCityGui;
-import simcity.interfaces.market.*;
 
 
-//TEST - this is just a test to put into zoom panel
-
+/****************
+ * Market Animation Panel - Controls market GUI.
+ * @author rebeccahao
+ *
+ */
 public class MarketAnimationPanel extends AnimationPanel implements ActionListener  {
 
-	private MarketSystem system;
-	private MarketCashier cashier;
-	private List<MarketCustomer> customers = Collections.synchronizedList(new ArrayList<MarketCustomer>());
-	private List<MarketTruck> trucks = Collections.synchronizedList(new ArrayList<MarketTruck>());
-	private List<MarketWorker> workers = Collections.synchronizedList(new ArrayList<MarketWorker>());
-
+	private List<Gui> guis = new ArrayList<Gui>();
 	
 	public MarketAnimationPanel(SimCityGui sc) {
 		super(sc);
@@ -30,23 +27,38 @@ public class MarketAnimationPanel extends AnimationPanel implements ActionListen
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		
+
 	}
-	
+
 	public void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D)g;
-        //Clear the screen by painting a rectangle the size of the frame
-		
+
+		//Clear the screen by painting a rectangle the size of the frame
 		g2.setColor(Color.LIGHT_GRAY);
-	    g2.fillRect(0, 0, this.getWidth(), this.getHeight());
-	    g2.setColor(Color.DARK_GRAY);
-	    for(int i = 0; i < 8; i++) {
-	    	g2.fillRect(50 + (50*i), 100, 20, 200);
-	    }
-	    
+		g2.fillRect(0, 0, this.getWidth(), this.getHeight());
+
+
+
+
+		for(Gui gui : guis) {
+			if (gui.isPresent()) {
+				gui.updatePosition();
+			}
+		}
+		for(Gui gui : guis) {
+			if (gui.isPresent()) {
+				gui.draw((Graphics2D)g);
+			}
+		}
+
+
 		super.paintComponent(g);
-		
+
 		//super.guis.add(bob);
+	}
+	
+	public void addGui(Gui g) {
+		guis.add(g);
 	}
 
 }

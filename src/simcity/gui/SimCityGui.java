@@ -67,6 +67,8 @@ public class SimCityGui extends JFrame implements ActionListener {
         add(fullPane, BorderLayout.CENTER);
         
         viewWorldPanel.addGui(testPed);
+        
+        
 	}
 	public void updateInfoPanel(Object person) {
 		

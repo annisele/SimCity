@@ -2,18 +2,27 @@ package simcity.buildings.market;
 
 import java.util.*;
 
+import simcity.interfaces.market.MarketCashier;
+
+/************************
+ * Market System - Holds the inventory of the market.
+ * @author rebeccahao
+ *
+ */
 public class MarketSystem {
 
-	Map<String, Integer> inventory = Collections.synchronizedMap(new HashMap<String, Integer>());
+	private Map<String, Integer> inventory = Collections.synchronizedMap(new HashMap<String, Integer>());
+	private MarketCashier cashier;
 	
 	public MarketSystem() {
-		//going to populate inventory in constructor for now so we don't have to worry about it
-		inventory.put("chicken", 20);
-		inventory.put("cheese", 30);
-		inventory.put("pasta", 40);
+		
 	}
 	
-	public void populateInventory(Map<String, Integer> map) {
+	public MarketCashier getCashier() {
+		return cashier;
+	}
+	
+	public void setInventory(Map<String, Integer> map) {
 		inventory = map;
 	}
 
@@ -31,7 +40,6 @@ public class MarketSystem {
 					//.get(key) returns the value, or amount of the key item
 					if(inventory.get(key) >= orders.get(key)) {
 						toReturn.put(key, orders.get(key)); //if there is enough in inventory, puts the 
-						//ordered amount on a toReturn map
 
 						//removes map item and puts a new map item with same key/name, 
 						//and the decreased amount/value (essentially removes items from inventory)

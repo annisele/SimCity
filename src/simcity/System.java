@@ -6,7 +6,7 @@ import simcity.gui.AnimationPanel;
 
 public class System {
 
-	AnimationPanel animationPanel;
-	JPanel controlPanel;
+	protected AnimationPanel animationPanel;
+	protected JPanel controlPanel;
 	
 }

@@ -8,6 +8,7 @@ import simcity.buildings.bank.BankComputer.BankAccount;
 public class BankTellerRole implements simcity.interfaces.bank.BankTeller {
 
 	// data
+	private String name;
 	private List<MyCustomer> customers = Collections.synchronizedList(new ArrayList<MyCustomer>());		// list of customers
 	BankComputer bank;	// bank system that contains account info for people
 
@@ -188,6 +189,14 @@ public class BankTellerRole implements simcity.interfaces.bank.BankTeller {
 
 	// utility functions
 
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
 	public BankComputer getBankSystem() {
 		return bank;
 	}

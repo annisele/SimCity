@@ -1,22 +1,25 @@
 package simcity.buildings.bank;
 
+import java.awt.Window;
 import java.util.*;
 public class BankCustomerRole implements simcity.interfaces.bank.BankCustomer {
 	private BankHostRole bh;
-	private BankTellerRole bt;
 	private String name;
+	double amountToProcess;
+	int accountNumber;
+	double cashOnHand;
+	private BankSystem bankSystem;
 	Timer timer = new Timer();
-	public enum AgentState{DoingNothing, WaitingInBank, AtWindow, TellerProcessingTransaction, RequestLoan};
-	private AgentState state = AgentState.DoingNothing;//The start state
-	public enum AgentEvent{haveBankTransaction, beingHelpedAtWindow, getAccountInfo, withdrawMoney, depositMoney, requestLoan, requestOpenAccount, loanApproved, loanUnapproved, doneTransaction};
-    AgentEvent event;   
-	//hack to establish connection to BankHostRole 
+	public enum TransactionState{none, openAccount, depositMoney, withdrawMoney, loanMoney};
+	private TransactionState transactionState = TransactionState.none;
+	public enum Event{none, arrivedAtBank, directedToWindow, transactionProcessed};
+    Event event;  
+  
+    public enum BankCustomerState{none, waitingAtBank, goingToWindow};
+    BankCustomerState customerState;
+	private Window window;
 	public void setBankHost(BankHostRole bh) {
 		this.bh = bh;
-	}
-	//hack to establish connection to BankTellerRole 
-	public void setBankTeller(BankTellerRole bt) {
-		this.bt = bt;
 	}
 	public String getCustomerName() {
 		return name;
@@ -24,122 +27,110 @@ public class BankCustomerRole implements simcity.interfaces.bank.BankCustomer {
 	//messages 
 	
 	//bank host sends this message to tell bank customer to go to bank window
-	public void msgGoToWindow(int windowNumber, BankTellerRole bt) {
-		this.bt = bt;
-		event = AgentEvent.beingHelpedAtWindow;
-		System.out.println("Please go to that window");
-		//stateChanged();
+	public void msgArrivedAtBank() { // from gui
+		event = Event.arrivedAtBank;
+	}
+	public void msgGoToWindow(Window window) {
+		setWindow(window);
+		event = Event.directedToWindow;
+	}
+	private void setWindow(Window window) {
+		this.window = window;
 	}
 	// bank teller sends this message to customer after opening an account
-	public void msgHereIsAccountInfo(int accountNumber, double accountBalance) {
+	public void msgHereIsAccountInfo(BankCustomerRole bc, int accountNumber, double accountBalance) {
 		System.out.println("Here is your new account information");
-		event = AgentEvent.getAccountInfo;
+		cashOnHand = cashOnHand - accountBalance;
+		event = Event.transactionProcessed;
 		//stateChanged();
 	}
 	//bank teller sends this message to customer after withdrawing money
-	public void msgHerIsMoney(int accountNumber, double accountBalance, double withdrawAmount) {
+	public void msgHereIsMoney(BankCustomerRole bc, int accountNumber, double accountBalance, double amountProcessed) {
 		System.out.println("Here is the money that you withdraw");
-		event = AgentEvent.withdrawMoney;
+		cashOnHand = cashOnHand + amountProcessed;
+		event = Event.transactionProcessed;
 		//stateChanged(); 
 	}
 	//bank teller sends this message to customer after depositing money
-	public void msgMoneyIsDeposited(int accountNumber, double accountBalance, double depositAmount) {
+	public void msgMoneyIsDeposited(BankCustomerRole bc, int accountNumber, double accountBalance, double amountProcessed) {
 		System.out.println("Here is the money that you withdraw");
-		event = AgentEvent.depositMoney;
+		cashOnHand = cashOnHand - amountProcessed;
+		event = Event.transactionProcessed;
 		//stateChanged();
     }
 	//bank teller sends this message to customer when the loan is approved
-	 public void msgHereIsYourLoan(int accountNumber, double accountBalance, double loanAmount) {
+	 public void msgHereIsYourLoan(BankCustomerRole bc, int accountNumber, double accountBalance, double amountProcessed) {
 		    System.out.println("Your loan has been approved");
-		    event = AgentEvent.loanApproved;
+		    cashOnHand = cashOnHand + amountProcessed;
+		    event = Event.transactionProcessed;
 			//stateChanged(); 
 	 }
 	//bank teller sends this message to customer when the loan is not approved
 	 public void msgCannotGrantLoan(int accountNumber, double accountBalance, double loanAmount) {
 		 System.out.println("Your loan is not approved");
-    	 event = AgentEvent.loanUnapproved;
+    	 event = Event.transactionProcessed;
 	     //stateChanged(); 
      }
-	 //bank teller sends this message to customer when the transaction is completed
-	 public void msgDoneTransaction() {
-		    System.out.println("Your transaction is completed");
-			event = AgentEvent.doneTransaction;
-			//stateChanged(); 
-	 }
+	
 	 //scheduler
 	 protected boolean pickAndExecuteAnAction() {
-		 if (state == AgentState.DoingNothing){
-			    if (event == AgentEvent.haveBankTransaction){
-				goingToBank();
-				state = AgentState.WaitingInBank;
+		 if (customerState == BankCustomerState.none){
+			    if (event == Event.arrivedAtBank){
+			    InformBankHostOfArrival();
+			    customerState = BankCustomerState.waitingAtBank;
 				return true;
 			    }
 			    
-			}
-			if (state == AgentState.WaitingInBank) {
-			    if (event == AgentEvent.beingHelpedAtWindow) {
-				makeTransactionChoice();
-				state = AgentState.AtWindow;
-				return true;
+		 }
+		 if (customerState == BankCustomerState.waitingAtBank && event == Event.directedToWindow) {
+			 customerState = BankCustomerState.goingToWindow;
+			    if (transactionState == transactionState.openAccount) {
+			        OpenAccount();
 			    }
-			}
-			if (state == AgentState.AtWindow) {
-			   
-				if (event == AgentEvent.withdrawMoney)	{
-					withdrawMoney();
-					state = AgentState.TellerProcessingTransaction;
-				return true;
+			    else if (transactionState == transactionState.depositMoney) {
+			        DepositMoney();
 			    }
-				}
-			if (state == AgentState.AtWindow) {
-				if (event == AgentEvent.depositMoney) {
-					depositMoney();	
-					state = AgentState.TellerProcessingTransaction;
-				return true;
+			    else if (transactionState == transactionState.withdrawMoney) {
+			        WithdrawMoney();
 			    }
-			}
-			if (state == AgentState.AtWindow) {
-				if (event == AgentEvent.requestOpenAccount){
-					openAccount();
-					state = AgentState.TellerProcessingTransaction;
-				return true;
+			    else if (transactionState == transactionState.loanMoney) {
+			        LoanMoney();
 			    }
-			}
-			if (state == AgentState.AtWindow) {
-				if (event == AgentEvent.requestLoan)	{
-				requestLoan();
-				state = AgentState.TellerProcessingTransaction;
-				return true;
-			    }
-			}
-				
-			if (state == AgentState.RequestLoan) {
-			    if (event == AgentEvent.loanApproved)	{
-				obtainLoan();
-				}
-				else if (event == AgentEvent.loanUnapproved) {
-				doesNotObtainLoan();
-				}	
-				state = AgentState.TellerProcessingTransaction;
-				return true;
-			    
-			}
+			    return true;
+		  }
 
-			if (state == AgentState.TellerProcessingTransaction) {
-			    if (event == AgentEvent.doneTransaction)	{
-				leaveBank();
-				state = AgentState.DoingNothing;
-				return true;
-			    }
-			}
-			System.out.println("No scheduler rule fired, should not happen in FSM, event="+event+" state="+state);
+		 if (customerState == BankCustomerState.goingToWindow && event == Event.transactionProcessed) {
+			    InformBankHostOfDeparture();
+			    return true;
+		  }
+		
+			System.out.println("No scheduler rule fired, should not happen in FSM, event="+event+" state="+ customerState);
 
 		 return false;
 	 }
 	 //actions
-	 private void goingToBank() {
-			//DoGoingToBank();//animation
-			bh.msgEnteringBank(this);
-	 }    
+	    private void InformBankHostOfArrival() {
+		    bh.msgEnteringBank(this);
+		}
 
+		private void OpenAccount() {
+		    window.getBankTeller().msgWantToOpenAccountBalance(this, amountToProcess);
+		    bankSystem.window.getBankTeller();
+		}
+
+		private void DepositMoney() {
+		    window.getBankTeller().msgWantToDeposit(this, amountToProcess);
+		}
+
+		private void WithdrawMoney() {
+		    window.getBankTeller().msgWantToWithdraw(this, amountToProcess);
+		}
+
+		private void LoanMoney() {
+		    window.getBankTeller().msgWantALoan(this, amountToProcess);
+		}
+
+		private void InformBankHostOfDeparture() {
+		    bh.msgLeavingBank(windowNumber);
+		}	 
 }

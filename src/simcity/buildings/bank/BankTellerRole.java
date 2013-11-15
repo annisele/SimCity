@@ -3,19 +3,20 @@ package simcity.buildings.bank;
 import java.util.*;
 
 import simcity.interfaces.bank.BankCustomer;
-import simcity.buildings.bank.BankSystem.BankAccount;
+import simcity.buildings.bank.BankComputer.BankAccount;
 
 public class BankTellerRole implements simcity.interfaces.bank.BankTeller {
 
 	// data
+	private String name;
 	private List<MyCustomer> customers = Collections.synchronizedList(new ArrayList<MyCustomer>());		// list of customers
-	BankSystem bank;	// bank system that contains account info for people
+	BankComputer bank;	// bank system that contains account info for people
 
 	public enum transactionType {none, openAccount, depositMoney, withdrawMoney, loanMoney};	// type of transaction from customer
 	public enum transactionState {none, processing};											// transaction state
 
 	// constructor
-	public BankTellerRole(BankSystem bank) {
+	public BankTellerRole(BankComputer bank) {
 		setBankSystem(bank);
 	}
 
@@ -188,11 +189,19 @@ public class BankTellerRole implements simcity.interfaces.bank.BankTeller {
 
 	// utility functions
 
-	public BankSystem getBankSystem() {
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public BankComputer getBankSystem() {
 		return bank;
 	}
 
-	public void setBankSystem(BankSystem bank) {
+	public void setBankSystem(BankComputer bank) {
 		this.bank = bank;
 	}
 

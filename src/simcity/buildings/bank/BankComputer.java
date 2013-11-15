@@ -4,7 +4,7 @@ import java.util.*;
 
 import simcity.interfaces.bank.BankCustomer;
 
-public class BankSystem {
+public class BankComputer {
 
 	// variables
 	public static final int MAX_ACCOUNTS = 100;
@@ -17,7 +17,7 @@ public class BankSystem {
 	Map<Integer,Double> owedAccounts = new HashMap<Integer,Double>(MAX_ACCOUNTS);
 
 	// constructor
-	BankSystem() {
+	BankComputer() {
 		setLoanableFunds(500);
 	}
 

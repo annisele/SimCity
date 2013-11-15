@@ -19,7 +19,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	double amountToProcess;
 	int accountNumber;
 	double cashOnHand;
-	private BankSystem bankSystem;
+	private BankComputer bankSystem;
 	Timer timer = new Timer();
 	public enum TransactionState{none, openAccount, depositMoney, withdrawMoney, loanMoney};
 	private TransactionState transactionState = TransactionState.none;

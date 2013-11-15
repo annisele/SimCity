@@ -23,10 +23,12 @@ public class BankHostRole extends Role implements simcity.interfaces.bank.BankHo
 		
 		public void setUnoccupied() {
 			occupiedBy = null;
+			occupied = false;
 		}
 		
 		public void setOccupant(BankCustomerRole cust) {
 			occupiedBy = cust;
+			occupied = true;
 		}
 		
 		BankCustomerRole getOccupant() {
@@ -41,10 +43,7 @@ public class BankHostRole extends Role implements simcity.interfaces.bank.BankHo
 	}
 	
 	// data
-	String name;
-	public String getName() {
-		return name;
-	}
+	private String name;
 	Timer timer = new Timer();
 	public List<BankWindow> windows = Collections.synchronizedList(new ArrayList<BankWindow>());
 	public List<BankCustomerRole> bc = Collections.synchronizedList(new ArrayList<BankCustomerRole>());
@@ -58,6 +57,7 @@ public class BankHostRole extends Role implements simcity.interfaces.bank.BankHo
 	public void msgEnteringBank(BankCustomerRole bc) {
 		System.out.println("Bank customer is entering the bank");
 	}
+	
 	public void msgLeavingBank(int windowNumber) {
 		System.out.println("Bank customer is leaving the bank");
 		for (BankWindow window : windows) {
@@ -67,6 +67,7 @@ public class BankHostRole extends Role implements simcity.interfaces.bank.BankHo
 			}
 		}
 	}
+	
 	//scheduler
 	protected boolean pickAndExecuteAnAction() {
 		if (!bc.isEmpty()) {
@@ -79,9 +80,19 @@ public class BankHostRole extends Role implements simcity.interfaces.bank.BankHo
 		
 		return false;
 	}
+	
 	//actions
 	private void tellCustomerToGoToWindow(BankCustomerRole bc, BankWindow window) {
 		
 		
+	}
+	
+	// utility functions
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
 	}
 }

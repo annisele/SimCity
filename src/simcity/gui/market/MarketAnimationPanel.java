@@ -21,8 +21,8 @@ public class MarketAnimationPanel extends AnimationPanel implements ActionListen
 
 	private List<Gui> guis = new ArrayList<Gui>();
 	
-	public MarketAnimationPanel(SimCityGui sc) {
-		super(sc);
+	public MarketAnimationPanel() {
+		super();
 	}
 
 	@Override

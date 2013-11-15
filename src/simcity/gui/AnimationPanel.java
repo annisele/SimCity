@@ -14,9 +14,9 @@ public class AnimationPanel extends JPanel {
 	private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
 	private List<BuildingGui> buildingGuis = Collections.synchronizedList(new ArrayList<BuildingGui>());
 	 
-	protected AnimationPanel(SimCityGui sc) {
+	protected AnimationPanel(){//SimCityGui sc) {
 		
-		simCityGui = sc;
+		//simCityGui = sc;
 		addMouseListener(new MouseListener() {
 			
 			@Override

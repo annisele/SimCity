@@ -1,7 +1,7 @@
 package simcity.buildings.transportation;
 
 public class CarPassengerRole implements simcity.interfaces.transportation.CarPassenger {
-/*	Location destination;
+	/*Location destination;
 	int xLoc;
 	int yLoc;
 	public enum PassengerState {stopped, driving};
@@ -10,24 +10,29 @@ public class CarPassengerRole implements simcity.interfaces.transportation.CarPa
 	PassengerEvent event;
 	CarAgent car;
 	
-	public void msgDriveTo(location l) { //from PersonAgent
+	public void msgDriveTo(Location l) { //from PersonAgent
 		destination = l;
 		event = PassengerEvent.starting;
+		stateChanged();
 	}
 	public void msgWeHaveArrived(int x, int y) { //from CarAgent
 		event = PassengerEvent.stopping;
 		xLoc = x;
 		yLoc = y;
+		stateChanged();
 	}
 	protected boolean pickAndExecuteAnAction() {
 	if ((state == PassengerState.stopped) && (event == PassengerEvent.starting)) {
 			state = PassengerState.driving;
 			GetIn();
+			return true;
 	}
 		if ((state == PassengerState.driving) && (event == PassengerEvent.stopping)) {
 			state = PassengerState.stopped;
 			GetOut();
+			return true;
 }
+		return false;
 	}
 	
 	public void GetIn() {
@@ -39,6 +44,22 @@ public class CarPassengerRole implements simcity.interfaces.transportation.CarPa
 	public void GetOut() {
 	car.msgGettingOff(this);
 	// Animation
-	DoRedrawAt(xLoc, yLoc); */
+	DoRedrawAt(xLoc, yLoc); 
+	}
+	
+	public void DoDisableGui() {
+		
+	}
+	
+	public void DoRedrawAt(int x, int y) {
+		
+	}
+	
+	
+	
+	*/
+	
+	
+	
 }
 

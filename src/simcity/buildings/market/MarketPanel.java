@@ -4,6 +4,7 @@ import java.util.*;
 
 import javax.swing.JPanel;
 
+import simcity.gui.AnimationPanel;
 import simcity.gui.SimCityGui;
 import simcity.gui.market.MarketAnimationPanel;
 import simcity.gui.market.MarketCashierGui;
@@ -31,8 +32,9 @@ public class MarketPanel extends JPanel {
 
 	public MarketPanel(SimCityGui scg) {
 		super();
+		simCityGui = scg;
 		controlPanel = new MarketControlPanel();
-		animationPanel = new MarketAnimationPanel(scg);
+		animationPanel = new MarketAnimationPanel();
 	}
 	
 	//replaces existing inventory with passed in one
@@ -45,6 +47,10 @@ public class MarketPanel extends JPanel {
 		cashier = c;
 		MarketCashierGui cGui = new MarketCashierGui();
 		animationPanel.addGui(cGui);
+	}
+	
+	public AnimationPanel getAnimationPanel() {
+		return animationPanel;
 	}
 	
 	

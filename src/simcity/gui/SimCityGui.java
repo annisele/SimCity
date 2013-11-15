@@ -2,6 +2,7 @@ package simcity.gui;
 
 import javax.swing.*;
 
+import simcity.buildings.market.MarketPanel;
 import simcity.gui.market.MarketAnimationPanel;
 import simcity.gui.transportation.PedestrianGui;
 
@@ -21,11 +22,15 @@ public class SimCityGui extends JFrame implements ActionListener {
 	private JPanel menuPanel = new JPanel();
 	
 	// Panels for each view and console
-//	private JPanel viewWorldPanel = new WorldAnimationPanel();
-//	private JPanel viewDetailPanel = new MarketAnimationPanel(); //new AnimationPanel();
+	//	private JPanel viewWorldPanel = new WorldAnimationPanel();
+	//	private JPanel viewDetailPanel = new MarketAnimationPanel(); //new AnimationPanel();
 	
-	private AnimationPanel viewWorldPanel = new WorldAnimationPanel(this);
-	private AnimationPanel viewDetailPanel = new MarketAnimationPanel(this);
+	// This isn't really a panel
+	private WorldPanel wp = new WorldPanel(this);
+	private MarketPanel mp = new MarketPanel(this);
+	// But this is really a panel
+	private AnimationPanel viewWorldPanel = wp.getAnimationPanel();
+	private AnimationPanel viewDetailPanel = mp.getAnimationPanel();
 	private JTextArea consoleWorld = new JTextArea();
 	private JTextArea consoleDetail = new JTextArea();
 	private JSplitPane splitPaneWorld;
@@ -71,7 +76,7 @@ public class SimCityGui extends JFrame implements ActionListener {
         
 	}
 	public void updateInfoPanel(Object person) {
-	
+		
 	}
 	public void actionPerformed(ActionEvent e) {
 	

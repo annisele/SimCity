@@ -16,18 +16,18 @@ public class BankSystem {
 	}
 
 	// functions
-	public void addAccount(BankCustomer bc, double amountToProcess) {
+	public void addAccount(BankCustomerRole bc, double amountToProcess) {
 		accounts.add(bc, amountToProcess, accounts.size()+1);
 	}
 
 	// utility classes
 	public class BankAccount {
 		int accountNumber;
-		BankCustomer bc;
+		BankCustomerRole bc;
 		double accountBalance;
 		double amountOwed;
 
-		BankAccount(BankCustomer bc, double amountToProcess, int accountNumber) {
+		BankAccount(BankCustomerRole bc, double amountToProcess, int accountNumber) {
 			setBankCustomer(bc);
 			setAccountBalance(amountToProcess);
 			setAccountNumber(accountNumber);
@@ -42,11 +42,11 @@ public class BankSystem {
 			this.accountNumber = accountNumber;
 		}
 
-		public BankCustomer getBankCustomer() {
+		public BankCustomerRole getBankCustomer() {
 			return bc;
 		}
 
-		public void setBankCustomer(BankCustomer bc) {
+		public void setBankCustomer(BankCustomerRole bc) {
 			this.bc = bc;
 		}
 

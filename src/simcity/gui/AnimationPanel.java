@@ -7,6 +7,11 @@ import java.util.List;
 import java.util.ArrayList;
 
 import javax.swing.*;
+<<<<<<< HEAD
+=======
+
+import simcity.buildings.Building;
+>>>>>>> a457fc62ca056e5f793dc872c7ddfa79626c68ae
 
 public class AnimationPanel extends JPanel {
 	
@@ -15,7 +20,7 @@ public class AnimationPanel extends JPanel {
 	
 	private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
 	//private List<BuildingGui> buildingGuis = Collections.synchronizedList(new ArrayList<BuildingGui>());
-	private List<BuildingGui> buildingGuis = Collections.synchronizedList(new ArrayList<BuildingGui>());
+<<<<<<< HEAD
 	
 	// 
 	// have a timer that calls repaint() on every panel
@@ -27,6 +32,11 @@ public class AnimationPanel extends JPanel {
 	// class would call AnimationPanel.setControlPanel() and give the animationpanel a controlpanel.
 	// Then the animationPanel would call controlPanel.update() passing a building or person
 	//
+=======
+	private List<Building> buildingGuis = Collections.synchronizedList(new ArrayList<Building>());
+	private int px; //x where mouse was pressed
+	private int py;
+>>>>>>> a457fc62ca056e5f793dc872c7ddfa79626c68ae
 	
 	protected AnimationPanel(){//SimCityGui sc) {
 		
@@ -40,7 +50,8 @@ public class AnimationPanel extends JPanel {
 			
 			@Override
 			public void mousePressed(MouseEvent e) {
-
+				px = e.getXOnScreen();
+				py = e.getYOnScreen();
 			}
 			
 			@Override
@@ -79,6 +90,20 @@ public class AnimationPanel extends JPanel {
 
                }
             }
+		});
+		
+		addMouseMotionListener(new MouseMotionListener() {
+
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				//added this to try to set up dragging world map
+			}
+
+			@Override
+			public void mouseMoved(MouseEvent e) {
+				
+			}
+			
 		});
 	}
 	

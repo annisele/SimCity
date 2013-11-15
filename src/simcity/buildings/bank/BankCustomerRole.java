@@ -35,6 +35,12 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	public String getCustomerName() {
 		return name;
 	}     
+	
+	// utilities
+	public int getAccountNumber() {
+		return accountNumber;
+	}
+	
 	//messages 
 	
 	//bank host sends this message to tell bank customer to go to bank window

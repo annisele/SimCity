@@ -18,22 +18,22 @@ public class BankTellerRole implements simcity.interfaces.bank.BankTeller {
 
 	// messages
 
-	public void msgWantToOpenAccount(BankCustomer bc, double amountToProcess) {
+	public void msgWantToOpenAccount(BankCustomerRole bc, double amountToProcess) {
     	customers.add(new MyCustomer(bc, amountToProcess, transactionType.openAccount));
     	//stateChanged();
 	}
 
-	public void msgWantToDeposit(BankCustomer bc, double amountToProcess) {
+	public void msgWantToDeposit(BankCustomerRole bc, double amountToProcess) {
     	customers.add(new MyCustomer(bc, amountToProcess, transactionType.depositMoney));
     	// stateChanged();
 	}
 
-	public void msgWantToWithdraw(BankCustomer bc, double amountToProcess) {
+	public void msgWantToWithdraw(BankCustomerRole bc, double amountToProcess) {
     	customers.add(new MyCustomer(bc, amountToProcess, transactionType.withdrawMoney));
     	// stateChanged();
 	}
 
-	public void msgWantALoan(BankCustomer bc, double amountToProcess) {
+	public void msgWantALoan(BankCustomerRole bc, double amountToProcess) {
     	customers.add(new MyCustomer(bc, amountToProcess, transactionType.loanMoney));
     	// stateChanged();
 	}

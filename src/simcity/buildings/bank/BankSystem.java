@@ -1,6 +1,7 @@
 package simcity.buildings.bank;
 
 import java.util.*;
+import simcity.gui.*;
 import simcity.buildings.bank.BankHostRole;
 import simcity.buildings.bank.BankHostRole.BankWindow;
 
@@ -12,7 +13,7 @@ public class BankSystem {
 
 	private static final int NUM_BANKWINDOWS = 3;
 	
-	BankSystem() {
+	public BankSystem(SimCityGui simcity) {
 		for (int i=1; i<=NUM_BANKWINDOWS; i++) {
 			windows.add(new BankWindow(i));
 		}

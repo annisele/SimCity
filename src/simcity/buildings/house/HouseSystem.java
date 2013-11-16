@@ -1,5 +1,19 @@
 package simcity.buildings.house;
 
-public class HouseSystem extends simcity.System {
+import simcity.gui.SimCityGui;
+import simcity.gui.market.MarketAnimationPanel;
+import simcity.gui.market.MarketControlPanel;
 
+public class HouseSystem extends simcity.System {
+	
+	private SimCityGui simCityGui;
+	
+	public HouseSystem(SimCityGui scg) {
+		//super();
+		simCityGui = scg;
+		controlPanel = new MarketControlPanel();
+		animationPanel = new MarketAnimationPanel();
+	}
+	
+	
 }

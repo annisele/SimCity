@@ -45,10 +45,5 @@ public class MarketSystem extends simcity.System {
 		animationPanel.addGui(cGui);
 	}
 	
-	public AnimationPanel getAnimationPanel() {
-		return animationPanel;
-	}
-	
-	
 	
 }

@@ -32,10 +32,17 @@ public class SystemManager {
 	List<TransportationSystem> transportations = new ArrayList<TransportationSystem>();
 	
 	List<BuildingGui> buildings = new ArrayList<BuildingGui>();
+	List<PersonAgent> people = new ArrayList<PersonAgent>();
 	
 	public SystemManager(SimCityGui g) {
 		simcity = g;
 		world = new WorldSystem(simcity);//simcity.getWorld();
+	}
+	
+	public void addPerson(String name, double money) {
+		PersonAgent person = new PersonAgent(name, money);
+		people.add(person);
+		world.getAnimationPanel().addGui(person.getGui());
 	}
 	
 	public void addMarket(String name, int xLoc, int yLoc) {

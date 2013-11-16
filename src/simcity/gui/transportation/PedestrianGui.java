@@ -12,9 +12,13 @@ public class PedestrianGui implements Gui{
 	private PedestrianRole role;
 	private int x = 0;
 	private int y = 0;
-	private int xDest = 100;
-	private int yDest = 100;
+	private int xDest = 0;
+	private int yDest = 0;
 	private final int SIZE = 20;
+	
+	public PedestrianGui() {
+		
+	}
 	
 	@Override
 	public void updatePosition() {
@@ -57,4 +61,9 @@ public class PedestrianGui implements Gui{
 		return false;
 	}
 
+	public void DoGoToLocation(int x, int y) {
+		xDest = x;
+		yDest = y;
+	}
+	
 }

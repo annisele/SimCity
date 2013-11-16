@@ -15,6 +15,7 @@ public class Config {
 	public void oneMarket() {
 		systems.addMarket("Market", 100, 100);
 		systems.addRestaurantOne("RestaurantOne", 300, 100);
+		systems.addPerson("Jesus", 100);
 		
 //		PedestrianGui testPed = new PedestrianGui();
 //        world.addBuilding(new BuildingGui("Market1", 30, 10));

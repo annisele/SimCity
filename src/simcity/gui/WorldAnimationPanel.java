@@ -52,6 +52,10 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
 		//super.guis.add(bob);
 	}
 	
+	public void addGui(Gui g) {
+		guis.add(g);
+	}
+	
 	public void addBuilding(BuildingGui g) {
 		buildingGuis.add(g);
 	}

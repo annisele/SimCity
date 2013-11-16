@@ -6,10 +6,7 @@ public abstract class Role  {
 	public PersonAgent person;
 	
 	 public void stateChanged() { person.stateChanged(); }
-	 
+	 public void setPerson(PersonAgent p) { person = p; }
 	public abstract boolean pickAndExecuteAnAction();
-	public boolean active() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	public boolean active;
 }

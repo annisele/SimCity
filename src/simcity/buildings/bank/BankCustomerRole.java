@@ -12,9 +12,7 @@ import simcity.Role;
 public class BankCustomerRole extends Role implements simcity.interfaces.bank.BankCustomer {
 	private BankHostRole bh;
 	private BankTellerRole bt;
-	public class Window {
-		public int windowNumber;
-	}
+	
 	private String name;
 	double amountToProcess;
 	int accountNumber;

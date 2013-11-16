@@ -1,5 +1,5 @@
 package simcity.buildings.restaurant.two;
 
-public class RestaurantTwoSystem {
+public class RestaurantTwoSystem extends simcity.System {
 
 }

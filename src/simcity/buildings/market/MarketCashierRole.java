@@ -25,7 +25,7 @@ public class MarketCashierRole extends Role implements simcity.interfaces.market
 		}
 	}
 
-
+	
 	public void msgHereIsAnOrder(MarketCustomerRole mc1, MarketCustomerRole mc2, Map<String, Integer> items) {
 		orders.add(new MarketOrder(orders.size(), mc1, mc2, items, MarketOrderState.requested));
 
@@ -50,7 +50,7 @@ public class MarketCashierRole extends Role implements simcity.interfaces.market
 			}
 		}
 	}
-public boolean pickAndExectuteAnAction() {
+public boolean pickAndExecuteAnAction() {
 		synchronized (orders) {
 			for(MarketOrder o : orders) {
 				if(o.state == MarketOrderState.requested) {

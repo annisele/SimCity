@@ -50,7 +50,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 		systemManager = new SystemManager(this);
         config = new Config(systemManager);
                 
-        
+        viewDetailPanel = new EmptyAnimationPanel();
         viewWorldPanel = systemManager.getWorld().getAnimationPanel();
         //
         // I'm thinking we don't need to initialize this DetailPane.  Maybe we'll initialize it to some default thing

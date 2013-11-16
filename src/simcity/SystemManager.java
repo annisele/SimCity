@@ -35,7 +35,7 @@ public class SystemManager {
 	
 	public SystemManager(SimCityGui g) {
 		simcity = g;
-		world = simcity.getWorld();
+		world = new WorldSystem(simcity);//simcity.getWorld();
 	}
 	
 	public void addMarket(String name, int xLoc, int yLoc) {
@@ -52,8 +52,11 @@ public class SystemManager {
 		houses.add(new HouseSystem(simcity));
 	}
 	
-	public void addRestaurantOne() {
+	public void addRestaurantOne(String name, int xLoc, int yLoc) {
 		restaurantOnes.add(new RestaurantOneSystem(simcity));
+		BuildingGui building = new BuildingGui(name, xLoc, yLoc);
+		world.getAnimationPanel().addBuilding(building);
+		
 	}
 	
 	public void addRestaurantTwo() {

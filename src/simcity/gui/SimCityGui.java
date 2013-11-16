@@ -29,15 +29,10 @@ public class SimCityGui extends JFrame implements ActionListener {
 	//	private JPanel viewWorldPanel = new WorldAnimationPanel();
 	//	private JPanel viewDetailPanel = new MarketAnimationPanel(); //new AnimationPanel();
 	
-	// Systems for each element
-	private WorldSystem wp = new WorldSystem(this);
-	private MarketSystem mp = new MarketSystem(this);
-	private RestaurantOneSystem rs = new RestaurantOneSystem(this);
-	
 	// But this is really a panel
-	private AnimationPanel viewWorldPanel = wp.getAnimationPanel();
+	private AnimationPanel viewWorldPanel;// = wp.getAnimationPanel();
 	//private AnimationPanel viewDetailPanel = mp.getAnimationPanel();
-	private AnimationPanel viewDetailPanel = rs.getAnimationPanel();
+	private AnimationPanel viewDetailPanel;// = rs.getAnimationPanel();
 	private JTextArea consoleWorld = new JTextArea();
 	private JTextArea consoleDetail = new JTextArea();
 	private JSplitPane splitPaneWorld;
@@ -55,6 +50,10 @@ public class SimCityGui extends JFrame implements ActionListener {
 	public SimCityGui() {
 		systemManager = new SystemManager(this);
         config = new Config(systemManager);
+                
+        
+        viewWorldPanel = systemManager.getWorld().getAnimationPanel();
+        //viewDetailPanel = systemManager.getRestaurantOne(0).getAnimationPanel();
         
 		controlPanel  = new ControlPanel(this, config);
 		menuPanel.setPreferredSize(new Dimension(300, 700));
@@ -101,9 +100,9 @@ public class SimCityGui extends JFrame implements ActionListener {
       gui.setVisible(true);
 	}
   
-	public WorldSystem getWorld() {
+	/*public WorldSystem getWorld() {
 		return wp;
-	}
+	}*/
 	
 	  
 }

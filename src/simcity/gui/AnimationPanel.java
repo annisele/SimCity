@@ -44,7 +44,6 @@ public class AnimationPanel extends JPanel {
 			public void mousePressed(MouseEvent e) {
 				px = e.getXOnScreen();
 				py = e.getYOnScreen();
-				System.out.print("There are "+buildingGuis.size());
 			}
 			
 			@Override
@@ -130,7 +129,6 @@ public class AnimationPanel extends JPanel {
 	
 	public void addBuilding(BuildingGui b) {
 		buildingGuis.add(b);
-		System.out.println("A building is added.  There are "+buildingGuis.size());
 	}
 	
 	public void setControlPanel(ControlPanel cp) {

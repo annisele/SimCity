@@ -12,7 +12,9 @@ import simcity.buildings.restaurant.six.RestaurantSixSystem;
 import simcity.buildings.restaurant.three.RestaurantThreeSystem;
 import simcity.buildings.restaurant.two.RestaurantTwoSystem;
 import simcity.buildings.transportation.TransportationSystem;
+import simcity.gui.Gui;
 import simcity.gui.SimCityGui;
+import simcity.gui.BuildingGui;
 
 public class SystemManager {
 	
@@ -29,13 +31,33 @@ public class SystemManager {
 	List<RestaurantSixSystem> restaurantSixes = new ArrayList<RestaurantSixSystem>();
 	List<TransportationSystem> transportations = new ArrayList<TransportationSystem>();
 	
+	List<BuildingGui> buildings = new ArrayList<BuildingGui>();
+	
 	public SystemManager(SimCityGui g) {
 		simcity = g;
-		world = new WorldSystem(simcity);
+		world = new WorldSystem(simcity);//simcity.getWorld();
 	}
 	
-	public void addMarket() {
+	public void clear() {
+		world.getAnimationPanel().clear();
+		
+		markets.clear();
+		banks.clear();
+		houses.clear();
+		restaurantOnes.clear();
+		restaurantTwos.clear();
+		restaurantThrees.clear();
+		restaurantFours.clear();
+		restaurantFives.clear();
+		restaurantSixes.clear();
+		transportations.clear();
+		
+	}
+	
+	public void addMarket(String name, int xLoc, int yLoc) {
 		markets.add(new MarketSystem(simcity));
+		BuildingGui building = new BuildingGui(name, xLoc, yLoc);
+		world.getAnimationPanel().addBuilding(building);
 	}
 	
 	public void addBank() {
@@ -46,8 +68,11 @@ public class SystemManager {
 		houses.add(new HouseSystem(simcity));
 	}
 	
-	public void addRestaurantOne() {
+	public void addRestaurantOne(String name, int xLoc, int yLoc) {
 		restaurantOnes.add(new RestaurantOneSystem(simcity));
+		BuildingGui building = new BuildingGui(name, xLoc, yLoc);
+		world.getAnimationPanel().addBuilding(building);
+		
 	}
 	
 	public void addRestaurantTwo() {
@@ -70,6 +95,44 @@ public class SystemManager {
 		restaurantSixes.add(new RestaurantSixSystem(simcity));
 	}
 	
+	public MarketSystem getMarket(int i) {
+		return markets.get(i);
+	}
 	
+	public BankSystem getBank(int i) {
+		return banks.get(i);
+	}
+	
+	public HouseSystem getHouse(int i) {
+		return houses.get(i);
+	}
+	
+	public RestaurantOneSystem getRestaurantOne(int i) {
+		return restaurantOnes.get(i);
+	}
+	
+	public RestaurantTwoSystem getRestaurantTwo(int i) {
+		return restaurantTwos.get(i);
+	}
+	
+	public RestaurantThreeSystem getRestaurantThree(int i) {
+		return restaurantThrees.get(i);
+	}
+	
+	public RestaurantFourSystem getRestaurantFour(int i) {
+		return restaurantFours.get(i);
+	}
+	
+	public RestaurantFiveSystem getRestaurantFive(int i) {
+		return restaurantFives.get(i);
+	}
+	
+	public RestaurantSixSystem getRestaurantSix(int i) {
+		return restaurantSixes.get(i);
+	}
+	
+	public WorldSystem getWorld() {
+		return world;
+	}
 	
 }

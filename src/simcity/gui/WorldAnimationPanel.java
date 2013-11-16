@@ -21,20 +21,37 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
 	}
 	
 	public void paintComponent(Graphics g) {
+		//System.out.println("We're in paint component");
 		Graphics2D g2 = (Graphics2D)g;
-        //Clear the screen by painting a rectangle the size of the frame
+
+		//super.paintComponent(g);
 		
+        //Clear the screen by painting a rectangle the size of the frame
 		g2.setColor(Color.LIGHT_GRAY);
 	    g2.fillRect(0, 0, this.getWidth(), this.getHeight());
-	    g2.setColor(Color.BLACK);
-        g2.fillRect(100, 100, 200, 200);
         
-		super.paintComponent(g);
+        for(Gui gui : guis) {
+            if (gui.isPresent()) {
+                gui.updatePosition();
+            }
+        }
+        for(Gui gui : guis) {
+            if (gui.isPresent()) {
+                gui.draw((Graphics2D)g);
+            }
+        }
+        
+        for(BuildingGui b : buildingGuis) {
+        	b.draw((Graphics2D)g);
+        }
+        
+        repaint();
 		
 		//super.guis.add(bob);
 	}
 	
+	public void addBuilding(BuildingGui g) {
+		buildingGuis.add(g);
+	}
 
-	
-	
 }

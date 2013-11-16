@@ -29,15 +29,15 @@ public class SimCityGui extends JFrame implements ActionListener {
 	//	private JPanel viewWorldPanel = new WorldAnimationPanel();
 	//	private JPanel viewDetailPanel = new MarketAnimationPanel(); //new AnimationPanel();
 	
-	// Systems for each element
-	private WorldSystem wp = new WorldSystem(this);
-	private MarketSystem mp = new MarketSystem(this);
-	private RestaurantOneSystem rs = new RestaurantOneSystem(this);
-	
 	// But this is really a panel
+<<<<<<< HEAD
 	private AnimationPanel viewWorldPanel = wp.getAnimationPanel();
-	private AnimationPanel viewDetailPanel = mp.getAnimationPanel();
-	//private AnimationPanel viewDetailPanel = rs.getAnimationPanel();
+	//private AnimationPanel viewDetailPanel = mp.getAnimationPanel();
+	private AnimationPanel viewDetailPanel = rs.getAnimationPanel();
+=======
+	private AnimationPanel viewWorldPanel;
+	private AnimationPanel viewDetailPanel;
+>>>>>>> 0c8e10db14f1bf53c27d3f9d603698b5fa467e53
 	private JTextArea consoleWorld = new JTextArea();
 	private JTextArea consoleDetail = new JTextArea();
 	private JSplitPane splitPaneWorld;
@@ -55,7 +55,15 @@ public class SimCityGui extends JFrame implements ActionListener {
 	public SimCityGui() {
 		systemManager = new SystemManager(this);
         config = new Config(systemManager);
-
+                
+        
+        viewWorldPanel = systemManager.getWorld().getAnimationPanel();
+        //
+        // I'm thinking we don't need to initialize this DetailPane.  Maybe we'll initialize it to some default thing
+        // When someone clicks on a building (after loading them), this DetailPane will show that building
+        //
+        //viewDetailPanel = systemManager.getRestaurantOne(0).getAnimationPanel();
+        
 		controlPanel  = new ControlPanel(this, config);
 		menuPanel.setPreferredSize(new Dimension(300, 700));
 		controlPanel.setPreferredSize(new Dimension(300, 700));
@@ -101,5 +109,9 @@ public class SimCityGui extends JFrame implements ActionListener {
       gui.setVisible(true);
 	}
   
+	/*public WorldSystem getWorld() {
+		return wp;
+	}*/
+	
 	  
 }

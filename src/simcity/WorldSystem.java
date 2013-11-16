@@ -5,10 +5,9 @@ import simcity.gui.SimCityGui;
 import simcity.gui.WorldAnimationPanel;
 
 public class WorldSystem extends System {
-	private SimCityGui simCityGui;
 	
 	public WorldSystem(SimCityGui sc) {
-		simCityGui = sc;
+		super(sc);
 		animationPanel = new WorldAnimationPanel();
 	}
 	

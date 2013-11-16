@@ -17,7 +17,6 @@ import simcity.interfaces.market.MarketWorker;
 
 public class MarketSystem extends simcity.System {
 	
-	private SimCityGui simCityGui;
 //	public MarketControlPanel controlPanel;
 //	public MarketAnimationPanel animationPanel;
 	private MarketComputer computer = new MarketComputer();
@@ -27,8 +26,7 @@ public class MarketSystem extends simcity.System {
 	private List<MarketWorker> workers = Collections.synchronizedList(new ArrayList<MarketWorker>());
 
 	public MarketSystem(SimCityGui scg) {
-		//super();
-		simCityGui = scg;
+		super(scg);
 		controlPanel = new MarketControlPanel();
 		animationPanel = new MarketAnimationPanel();
 	}

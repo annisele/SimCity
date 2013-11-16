@@ -4,8 +4,8 @@ import simcity.gui.SimCityGui;
 
 public class RestaurantThreeSystem extends simcity.System {
 
-	public RestaurantThreeSystem(SimCityGui simcity) {
-		// TODO Auto-generated constructor stub
+	public RestaurantThreeSystem(SimCityGui scg) {
+		super(scg);
 	}
 
 }

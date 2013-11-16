@@ -1,5 +1,10 @@
 package simcity.buildings.transportation;
 
-public class TransportationSystem extends simcity.System {
+import simcity.gui.SimCityGui;
 
+public class TransportationSystem extends simcity.SimSystem {
+
+	TransportationSystem(SimCityGui scg) {
+		super(scg);
+	}
 }

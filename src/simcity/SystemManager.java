@@ -70,6 +70,41 @@ public class SystemManager {
 		restaurantSixes.add(new RestaurantSixSystem(simcity));
 	}
 	
+	public MarketSystem getMarket(int i) {
+		return markets.get(i);
+	}
+	
+	public BankSystem getBank(int i) {
+		return banks.get(i);
+	}
+	
+	public HouseSystem getHouse(int i) {
+		return houses.get(i);
+	}
+	
+	public RestaurantOneSystem getRestaurantOne(int i) {
+		return restaurantOnes.get(i);
+	}
+	
+	public RestaurantTwoSystem getRestaurantTwo(int i) {
+		return restaurantTwos.get(i);
+	}
+	
+	public RestaurantThreeSystem getRestaurantThree(int i) {
+		return restaurantThrees.get(i);
+	}
+	
+	public RestaurantFourSystem getRestaurantFour(int i) {
+		return restaurantFours.get(i);
+	}
+	
+	public RestaurantFiveSystem getRestaurantFive(int i) {
+		return restaurantFives.get(i);
+	}
+	
+	public RestaurantSixSystem getRestaurantSix(int i) {
+		return restaurantSixes.get(i);
+	}
 	
 	
 }

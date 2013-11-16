@@ -14,6 +14,7 @@ public class Config {
 	
 	public void oneMarket() {
 		systems.addMarket();
+		systems.getMarket().printSomething();
 		
 //		PedestrianGui testPed = new PedestrianGui();
 //        world.addBuilding(new BuildingGui("Market1", 30, 10));

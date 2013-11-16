@@ -31,6 +31,10 @@ public class MarketSystem extends simcity.System {
 		animationPanel = new MarketAnimationPanel();
 	}
 	
+	public void printSomething() {
+		System.out.println("Something!");
+	}
+	
 	//replaces existing inventory with passed in one
 	public void setInventory(Map<String, Integer> inv) {
 		computer.setInventory(inv);

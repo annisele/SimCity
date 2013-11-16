@@ -11,7 +11,7 @@ public class BankSystem extends simcity.System{
 	private BankHostRole bh;
 	private List<BankWindow> windows = Collections.synchronizedList(new ArrayList<BankWindow>());
 	private BankWindow windowLookup;
-
+	
 	private static final int NUM_BANKWINDOWS = 3;
 	
 	public BankSystem(SimCityGui scg) {

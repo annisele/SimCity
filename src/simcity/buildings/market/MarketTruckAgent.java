@@ -21,7 +21,7 @@ public class MarketTruckAgent extends Agent implements simcity.interfaces.market
 	}
 
 	@Override
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		synchronized(orders) {
 			if(!orders.isEmpty()) {
 				DeliverOrder(orders.get(0));

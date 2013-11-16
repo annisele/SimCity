@@ -1,6 +1,7 @@
 package simcity.buildings.house;
 
 import simcity.gui.SimCityGui;
+
 import simcity.gui.market.MarketAnimationPanel;
 import simcity.gui.market.MarketControlPanel;
 

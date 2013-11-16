@@ -135,6 +135,12 @@ public class AnimationPanel extends JPanel {
 		controlPanel = cp;
 	}
 	
+	public void clear() {
+		guis.clear();
+		buildingGuis.clear();
+		
+	}
+	
 	/*public void addGui(gui) {
         guis.add(gui);
     }

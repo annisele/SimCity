@@ -39,6 +39,21 @@ public class SystemManager {
 		world = new WorldSystem(simcity);//simcity.getWorld();
 	}
 	
+	public void clear() {
+		world.getAnimationPanel().clear();
+		
+		markets.clear();
+		banks.clear();
+		houses.clear();
+		restaurantOnes.clear();
+		restaurantTwos.clear();
+		restaurantThrees.clear();
+		restaurantFours.clear();
+		restaurantFives.clear();
+		restaurantSixes.clear();
+		transportations.clear();
+	}
+	
 	public void addPerson(String name, double money) {
 		PersonAgent person = new PersonAgent(name, money);
 		people.add(person);

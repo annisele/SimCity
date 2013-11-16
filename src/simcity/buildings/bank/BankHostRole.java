@@ -7,12 +7,12 @@ import simcity.Role;
 public class BankHostRole extends Role implements simcity.interfaces.bank.BankHost {
 	
 	// utility class: BankWindow
-	private class BankWindow {
+	public class BankWindow {
 		
 		public BankCustomerRole occupiedBy;
 		public BankTellerRole bankTeller;
 		public int windowNum;
-		public boolean occupied = false;
+		public boolean occupied;
 		
 		public boolean isOccupied() {
 			return occupied;
@@ -36,7 +36,7 @@ public class BankHostRole extends Role implements simcity.interfaces.bank.BankHo
 			return occupiedBy;
 		}
 		
-		public BankWindow(int windowNum) {
+		public BankWindow(int windowNum) {				// constructor
 			this.windowNum = windowNum;
 			this.occupied = false;
 		}

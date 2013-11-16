@@ -29,16 +29,9 @@ public class SimCityGui extends JFrame implements ActionListener {
 	//	private JPanel viewWorldPanel = new WorldAnimationPanel();
 	//	private JPanel viewDetailPanel = new MarketAnimationPanel(); //new AnimationPanel();
 	
-	//Systems for each element
-	private WorldSystem wp = new WorldSystem(this);
-	private MarketSystem mp = new MarketSystem(this);
-	private RestaurantOneSystem rs = new RestaurantOneSystem(this);
-	
 	// But this is really a panel
-	private AnimationPanel viewWorldPanel = wp.getAnimationPanel();
-	//private AnimationPanel viewDetailPanel = mp.getAnimationPanel();
-	private AnimationPanel viewDetailPanel = rs.getAnimationPanel();
-
+	private AnimationPanel viewWorldPanel;
+	private AnimationPanel viewDetailPanel;
 	private JTextArea consoleWorld = new JTextArea();
 	private JTextArea consoleDetail = new JTextArea();
 	private JSplitPane splitPaneWorld;

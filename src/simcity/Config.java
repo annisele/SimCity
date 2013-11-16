@@ -14,6 +14,7 @@ public class Config {
 	
 	public void oneMarket() {
 		systems.clear();
+		
 		systems.addMarket("Market", 100, 100);
 		systems.addRestaurantOne("RestaurantOne", 300, 100);
 		

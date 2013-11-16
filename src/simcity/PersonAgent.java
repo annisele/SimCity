@@ -27,6 +27,7 @@ public class PersonAgent extends Agent implements Person {
         public Event(Location l, Role r) {        
                 this.location = l;
                 this.role = r;
+                
 	}
 	}
 	

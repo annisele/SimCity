@@ -6,7 +6,15 @@ import simcity.gui.AnimationPanel;
 
 public class System {
 
-	AnimationPanel animationPanel;
-	JPanel controlPanel;
+	protected AnimationPanel animationPanel;
+	protected JPanel controlPanel;
+	
+	public AnimationPanel getAnimationPanel() {
+		return animationPanel;
+	}
+	
+	public JPanel getControlPanel() {
+		return controlPanel;
+	}
 	
 }

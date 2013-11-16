@@ -39,7 +39,7 @@ public class MarketCustomerRole extends Role implements simcity.interfaces.marke
 	}
 	
 	
-	public boolean pickAndExectuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		synchronized (invoices) {
 			for(Invoice i : invoices) {
 				if(i.state == InvoiceState.expected) {

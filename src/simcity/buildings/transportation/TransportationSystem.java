@@ -1,5 +1,5 @@
 package simcity.buildings.transportation;
 
-public class TransportationSystem {
+public class TransportationSystem extends simcity.System {
 
 }

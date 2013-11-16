@@ -30,9 +30,8 @@ public class SimCityGui extends JFrame implements ActionListener {
 	//	private JPanel viewDetailPanel = new MarketAnimationPanel(); //new AnimationPanel();
 	
 	// But this is really a panel
-	private AnimationPanel viewWorldPanel;// = wp.getAnimationPanel();
-	//private AnimationPanel viewDetailPanel = mp.getAnimationPanel();
-	private AnimationPanel viewDetailPanel;// = rs.getAnimationPanel();
+	private AnimationPanel viewWorldPanel;
+	private AnimationPanel viewDetailPanel;
 	private JTextArea consoleWorld = new JTextArea();
 	private JTextArea consoleDetail = new JTextArea();
 	private JSplitPane splitPaneWorld;
@@ -53,6 +52,10 @@ public class SimCityGui extends JFrame implements ActionListener {
                 
         
         viewWorldPanel = systemManager.getWorld().getAnimationPanel();
+        //
+        // I'm thinking we don't need to initialize this DetailPane.  Maybe we'll initialize it to some default thing
+        // When someone clicks on a building (after loading them), this DetailPane will show that building
+        //
         //viewDetailPanel = systemManager.getRestaurantOne(0).getAnimationPanel();
         
 		controlPanel  = new ControlPanel(this, config);

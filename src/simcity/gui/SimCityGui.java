@@ -55,7 +55,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 	public SimCityGui() {
 		systemManager = new SystemManager(this);
         config = new Config(systemManager);
-
+        
 		controlPanel  = new ControlPanel(this, config);
 		menuPanel.setPreferredSize(new Dimension(300, 700));
 		controlPanel.setPreferredSize(new Dimension(300, 700));

@@ -13,6 +13,7 @@ import simcity.buildings.restaurant.three.RestaurantThreeSystem;
 import simcity.buildings.restaurant.two.RestaurantTwoSystem;
 import simcity.buildings.transportation.TransportationSystem;
 import simcity.gui.SimCityGui;
+import simcity.gui.BuildingGui;
 
 public class SystemManager {
 	
@@ -29,13 +30,17 @@ public class SystemManager {
 	List<RestaurantSixSystem> restaurantSixes = new ArrayList<RestaurantSixSystem>();
 	List<TransportationSystem> transportations = new ArrayList<TransportationSystem>();
 	
+	List<BuildingGui> buildings = new ArrayList<BuildingGui>();
+	
 	public SystemManager(SimCityGui g) {
 		simcity = g;
 		world = new WorldSystem(simcity);
 	}
 	
-	public void addMarket() {
+	public void addMarket(String name, int xLoc, int yLoc) {
 		markets.add(new MarketSystem(simcity));
+		buildings.add(new BuildingGui(name, xLoc, yLoc));
+		world.getAnimationPanel().addBuilding(buildings.get(0));
 	}
 	
 	public void addBank() {

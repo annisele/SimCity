@@ -115,6 +115,7 @@ public class AnimationPanel extends JPanel {
         }
       //  for(BuildingGui buildingGui : buildingGuis) {
         for(BuildingGui b : buildingGuis) {
+        	System.out.println("Hi");
               //  buildingGui.draw((Graphics2D)g);
         	b.draw((Graphics2D)g);
         }

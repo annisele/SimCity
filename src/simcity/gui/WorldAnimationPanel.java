@@ -11,6 +11,8 @@ import java.util.ArrayList;
 
 public class WorldAnimationPanel extends AnimationPanel implements ActionListener {
 
+	private List<BuildingGui> buildingGuis = Collections.synchronizedList(new ArrayList<BuildingGui>());
+	
 	public WorldAnimationPanel() {//SimCityGui sc) {
 		super();
 	}
@@ -29,7 +31,12 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
 	    g2.setColor(Color.BLACK);
         g2.fillRect(100, 100, 200, 200);
         
-		super.paintComponent(g);
+        for(BuildingGui b : buildingGuis) {
+        	System.out.println("Hi");
+              //  buildingGui.draw((Graphics2D)g);
+        	b.draw((Graphics2D)g2);
+        }
+        repaint();
 		
 		//super.guis.add(bob);
 	}

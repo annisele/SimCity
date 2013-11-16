@@ -13,8 +13,7 @@ public class Config {
 	}
 	
 	public void oneMarket() {
-		systems.addMarket();
-		systems.getMarket().printSomething();
+		systems.addMarket("Market", 100, 100);
 		
 //		PedestrianGui testPed = new PedestrianGui();
 //        world.addBuilding(new BuildingGui("Market1", 30, 10));

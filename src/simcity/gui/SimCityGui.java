@@ -3,6 +3,7 @@ package simcity.gui;
 import javax.swing.*;
 
 import simcity.Config;
+import simcity.SystemManager;
 import simcity.WorldSystem;
 import simcity.buildings.market.MarketSystem;
 import simcity.gui.market.MarketAnimationPanel;
@@ -39,6 +40,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 	private JSplitPane splitPaneDetail;
 	
 	private Config config;
+	private SystemManager systemManager;
 	
 	// Panel for everything
 	private JPanel fullPane = new JPanel();
@@ -47,7 +49,8 @@ public class SimCityGui extends JFrame implements ActionListener {
 	private ControlPanel controlPanel;
 	
 	public SimCityGui() {
-        config = new Config(viewWorldPanel);
+		systemManager = new SystemManager(this);
+        config = new Config(systemManager);
 
 		controlPanel  = new ControlPanel(this, config);
 		menuPanel.setPreferredSize(new Dimension(300, 700));

@@ -7,7 +7,7 @@ import simcity.Role;
 public class BankHostRole extends Role implements simcity.interfaces.bank.BankHost {
 	
 	// utility class: BankWindow
-	public class BankWindow {
+	public static class BankWindow {
 		
 		public BankCustomerRole occupiedBy;
 		public BankTellerRole bankTeller;

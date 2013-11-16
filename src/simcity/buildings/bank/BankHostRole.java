@@ -7,11 +7,12 @@ import simcity.Role;
 public class BankHostRole extends Role implements simcity.interfaces.bank.BankHost {
 	
 	// utility class: BankWindow
-	private class BankWindow {
+	public static class BankWindow {
 		
 		public BankCustomerRole occupiedBy;
+		public BankTellerRole bankTeller;
 		public int windowNum;
-		public boolean occupied = false;
+		public boolean occupied;
 		
 		public boolean isOccupied() {
 			return occupied;
@@ -31,13 +32,21 @@ public class BankHostRole extends Role implements simcity.interfaces.bank.BankHo
 			occupied = true;
 		}
 		
-		BankCustomerRole getOccupant() {
+		public BankCustomerRole getOccupant() {
 			return occupiedBy;
 		}
 		
-		public BankWindow(int windowNum) {
+		public BankWindow(int windowNum) {				// constructor
 			this.windowNum = windowNum;
 			this.occupied = false;
+		}
+		
+		public BankTellerRole getBankTeller() {
+			return bankTeller;
+		}
+		
+		public void setBankTeller(BankTellerRole bankTeller) {
+			this.bankTeller = bankTeller;
 		}
 		
 	}
@@ -46,7 +55,7 @@ public class BankHostRole extends Role implements simcity.interfaces.bank.BankHo
 	private String name;
 	Timer timer = new Timer();
 	public List<BankWindow> windows = Collections.synchronizedList(new ArrayList<BankWindow>());
-	public List<BankCustomerRole> bc = Collections.synchronizedList(new ArrayList<BankCustomerRole>());
+	public List<BankCustomerRole> customers = Collections.synchronizedList(new ArrayList<BankCustomerRole>());
 	
 	public BankHostRole(String name) {
 		super();
@@ -56,6 +65,8 @@ public class BankHostRole extends Role implements simcity.interfaces.bank.BankHo
 	//messages
 	public void msgEnteringBank(BankCustomerRole bc) {
 		System.out.println("Bank customer is entering the bank");
+		customers.add(bc);
+		//stateChanged();
 	}
 	
 	public void msgLeavingBank(int windowNumber) {
@@ -63,17 +74,18 @@ public class BankHostRole extends Role implements simcity.interfaces.bank.BankHo
 		for (BankWindow window : windows) {
 			if (windowNumber == window.getWindowNumber()) {
 				window.setUnoccupied();
-				
+				//stateChanged()
 			}
 		}
 	}
 	
 	//scheduler
 	protected boolean pickAndExecuteAnAction() {
-		if (!bc.isEmpty()) {
+		if (!customers.isEmpty()) {
 			for (BankWindow window : windows) {
 				if (!window.isOccupied()) {
-					tellCustomerToGoToWindow(bc.get(0), window);
+					tellCustomerToGoToWindow(customers.get(0), window);
+					return true;
 				}
 			}
 		}
@@ -83,8 +95,9 @@ public class BankHostRole extends Role implements simcity.interfaces.bank.BankHo
 	
 	//actions
 	private void tellCustomerToGoToWindow(BankCustomerRole bc, BankWindow window) {
-		
-		
+		bc.msgGoToWindow(window.getWindowNumber(), window.getBankTeller());
+		window.setOccupant(bc);
+		customers.remove(bc);
 	}
 	
 	// utility functions

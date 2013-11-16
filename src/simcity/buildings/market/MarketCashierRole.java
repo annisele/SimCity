@@ -51,6 +51,7 @@ public class MarketCashierRole extends Role implements simcity.interfaces.market
 		}
 	}
 public boolean pickAndExecuteAnAction() {
+
 		synchronized (orders) {
 			for(MarketOrder o : orders) {
 				if(o.state == MarketOrderState.requested) {
@@ -80,38 +81,38 @@ public boolean pickAndExecuteAnAction() {
 
 	//errors - copied straight from design docs
 	private void SendBill(MarketOrder o) {
-//		for(int i = 0; i < o.items.size(); i++) {
-//			//payment += amount * price of item for each item in map
-//			o.payment += o.items.get(i) * prices.get(o.items.getKey(i));
-//		}
-//		if(o.payRole instanceof MarketCustomer) {
-//			((MarketCustomerRole)o.payRole).msgPleasePay(this, o.payment, o.orderNumber);
-//		}
-//		else {
-//			//deal with different types of restaurant cooks
-//		}
-//		o.state = MarketOrderState.waitingForPayment;
+		//		for(int i = 0; i < o.items.size(); i++) {
+		//			//payment += amount * price of item for each item in map
+		//			o.payment += o.items.get(i) * prices.get(o.items.getKey(i));
+		//		}
+		//		if(o.payRole instanceof MarketCustomer) {
+		//			((MarketCustomerRole)o.payRole).msgPleasePay(this, o.payment, o.orderNumber);
+		//		}
+		//		else {
+		//			//deal with different types of restaurant cooks
+		//		}
+		//		o.state = MarketOrderState.waitingForPayment;
 	}
 
 	//errors - copied straight from design docs
 	private void FillOrder(MarketOrder o) {
-//		market.addMoney(o.payment);
-//		//.getNext() is a stub for load balancing
-//		workers.getNext().msgFindOrder(o.orderNumber, o.itemsToBuy);
-//		o.s = filling;
+		//		market.addMoney(o.payment);
+		//		//.getNext() is a stub for load balancing
+		//		workers.getNext().msgFindOrder(o.orderNumber, o.itemsToBuy);
+		//		o.s = filling;
 	}
 
 	//errors - copied straight from design docs
 	private void DeliverOrder(MarketOrder o) {
-//		//.getNext() is a stub for load balancing
-//		if(o.deliverRole instanceof MarketCustomerRole) {
-//			o.deliverRole.msgDeliveringOrder(o.itemsToBuy);
-//		}
-//		else {
-//			o.deliverRole.msgOrderWillBeDelivered(o.itemsToBuy);
-//			trucks.getNext().msgPleaseDeliverOrder(o.deliverRole, o.itemsToBuy);
-//		}
-//		orders.remove(o);
+		//		//.getNext() is a stub for load balancing
+		//		if(o.deliverRole instanceof MarketCustomerRole) {
+		//			o.deliverRole.msgDeliveringOrder(o.itemsToBuy);
+		//		}
+		//		else {
+		//			o.deliverRole.msgOrderWillBeDelivered(o.itemsToBuy);
+		//			trucks.getNext().msgPleaseDeliverOrder(o.deliverRole, o.itemsToBuy);
+		//		}
+		//		orders.remove(o);
 	}
 
 

@@ -6,20 +6,22 @@ import simcity.gui.transportation.PedestrianGui;
 
 public class Config {
 	
-	private AnimationPanel world;
+	private SystemManager systems;
 	
-	public Config(AnimationPanel w) {
-		world = w;
+	public Config(SystemManager s) {
+		systems = s;
 	}
 	
-	public void onePerson() {
-		PedestrianGui testPed = new PedestrianGui();
-        world.addBuilding(new BuildingGui("Market1", 30, 10));
-        world.addBuilding(new BuildingGui("Bank1", 110, 10));
-        world.addGui(testPed);
+	public void oneMarket() {
+		systems.addMarket();
+		
+//		PedestrianGui testPed = new PedestrianGui();
+//        world.addBuilding(new BuildingGui("Market1", 30, 10));
+//        world.addBuilding(new BuildingGui("Bank1", 110, 10));
+//        world.addGui(testPed);
 	}
 	
-	public void twoPeople() {
+	public void oneBank() {
 		
 
 	}

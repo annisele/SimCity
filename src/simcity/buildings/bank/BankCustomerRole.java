@@ -10,23 +10,29 @@ import java.util.*;
 
 import simcity.Role;
 public class BankCustomerRole extends Role implements simcity.interfaces.bank.BankCustomer {
-	private BankHostRole bh;
-	private BankTellerRole bt;
 	
 	private String name;
-	double amountToProcess;
+	private BankHostRole bh;
+	
+	private BankTellerRole bt;
+	int windowNumber;
+	
 	int accountNumber;
+	double amountToProcess;
 	double cashOnHand;
-	private BankComputer bankSystem;
+	
 	Timer timer = new Timer();
+	
 	public enum TransactionState{none, openAccount, depositMoney, withdrawMoney, loanMoney};
 	private TransactionState transactionState = TransactionState.none;
+	
 	public enum Event{none, arrivedAtBank, directedToWindow, transactionProcessed};
-    Event event;  
+    private Event event;  
   
     public enum BankCustomerState{none, waitingAtBank, goingToWindow};
-    BankCustomerState customerState;
-	private Window window;
+    private BankCustomerState customerState;
+    
+    // utility functions
 	public void setBankHost(BankHostRole bh) {
 		this.bh = bh;
 	}
@@ -34,7 +40,6 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 		return name;
 	}     
 	
-	// utilities
 	public int getAccountNumber() {
 		return accountNumber;
 	}
@@ -44,14 +49,15 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	//bank host sends this message to tell bank customer to go to bank window
 	public void msgArrivedAtBank() { // from gui
 		event = Event.arrivedAtBank;
+		//stateChanged();
 	}
-	public void msgGoToWindow(Window window) {
-		setWindow(window);
+	public void msgGoToWindow(int windowNumber, BankTellerRole bt) {
+		this.windowNumber = windowNumber;
+		this.bt = bt;
 		event = Event.directedToWindow;
+		//stateChanged();
 	}
-	private void setWindow(Window window) {
-		this.window = window;
-	}
+
 	// bank teller sends this message to customer after opening an account
 	public void msgHereIsAccountInfo(BankCustomerRole bc, int accountNumber, double accountBalance) {
 		System.out.println("Here is your new account information");
@@ -88,7 +94,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
      }
 	
 	 //scheduler
-	 protected boolean pickAndExecuteAnAction() {
+	 public boolean pickAndExecuteAnAction() {
 		 if (customerState == BankCustomerState.none){
 			    if (event == Event.arrivedAtBank){
 			    InformBankHostOfArrival();
@@ -114,7 +120,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 			    return true;
 		 }
 		 if (customerState == BankCustomerState.goingToWindow && event == Event.transactionProcessed) {
-			    InformBankHostOfDeparture(window);
+			    InformBankHostOfDeparture();
 			    return true;
 		  }
 		
@@ -148,7 +154,8 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 		    System.out.println("Bank customer wants to get loan");
 		}
 
-		private void InformBankHostOfDeparture(Window w) {
-		    bh.msgLeavingBank(w.windowNumber);
+		private void InformBankHostOfDeparture() {
+		    bh.msgLeavingBank(windowNumber);
 		}	 
+
 }

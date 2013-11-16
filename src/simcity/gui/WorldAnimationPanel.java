@@ -21,6 +21,8 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
 	}
 	
 	public void paintComponent(Graphics g) {
+		//System.out.println("We're in paint component");
+		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D)g;
         //Clear the screen by painting a rectangle the size of the frame
 		
@@ -29,7 +31,7 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
 	    g2.setColor(Color.BLACK);
         g2.fillRect(100, 100, 200, 200);
         
-		super.paintComponent(g);
+		//super.paintComponent(g);
 		
 		//super.guis.add(bob);
 	}

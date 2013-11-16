@@ -14,7 +14,8 @@ public class Config {
 	
 	public void oneMarket() {
 		systems.addMarket();
-		systems.getMarket().printSomething();
+		systems.getWorld().getAnimationPanel().addBuilding(new BuildingGui("Market1", 100, 100));
+		//System.out.println("Just added a market1");
 		
 //		PedestrianGui testPed = new PedestrianGui();
 //        world.addBuilding(new BuildingGui("Market1", 30, 10));

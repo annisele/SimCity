@@ -5,7 +5,7 @@ import simcity.gui.*;
 import simcity.buildings.bank.BankHostRole;
 import simcity.buildings.bank.BankHostRole.BankWindow;
 
-public class BankSystem extends simcity.System{
+public class BankSystem extends simcity.SimSystem{
 
 
 	private BankHostRole bh;

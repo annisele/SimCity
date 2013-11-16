@@ -106,5 +106,8 @@ public class SystemManager {
 		return restaurantSixes.get(i);
 	}
 	
+	public WorldSystem getWorld() {
+		return world;
+	}
 	
 }

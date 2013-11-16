@@ -44,6 +44,7 @@ public class AnimationPanel extends JPanel {
 			public void mousePressed(MouseEvent e) {
 				px = e.getXOnScreen();
 				py = e.getYOnScreen();
+				System.out.print("There are "+buildingGuis.size());
 			}
 			
 			@Override
@@ -101,7 +102,6 @@ public class AnimationPanel extends JPanel {
 	
 	//what makes it so that this will be called over and over? it's not right now
 	public void paintComponent(Graphics g) {
-		
 		// compute dt, then send dt to every gui for updatePosition
 		for(Gui gui : guis) {
             if (gui.isPresent()) {
@@ -114,8 +114,10 @@ public class AnimationPanel extends JPanel {
             }
         }
       //  for(BuildingGui buildingGui : buildingGuis) {
+        //System.out.println("There are "+buildingGuis.size()+" buildings");
         for(BuildingGui b : buildingGuis) {
               //  buildingGui.draw((Graphics2D)g);
+        	System.out.println("We're drawing a building");
         	b.draw((Graphics2D)g);
         }
         repaint();
@@ -126,7 +128,9 @@ public class AnimationPanel extends JPanel {
 	}
 	
 	public void addBuilding(BuildingGui b) {
+		
 		buildingGuis.add(b);
+		System.out.println("A building is added.  There are "+buildingGuis.size());
 	}
 	
 	public void setControlPanel(ControlPanel cp) {

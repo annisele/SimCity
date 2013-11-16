@@ -15,7 +15,7 @@ import simcity.interfaces.market.MarketCustomer;
 import simcity.interfaces.market.MarketTruck;
 import simcity.interfaces.market.MarketWorker;
 
-public class MarketSystem extends simcity.System {
+public class MarketSystem extends simcity.SimSystem {
 	
 //	public MarketControlPanel controlPanel;
 //	public MarketAnimationPanel animationPanel;

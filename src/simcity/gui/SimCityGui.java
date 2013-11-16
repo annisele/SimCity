@@ -92,6 +92,10 @@ public class SimCityGui extends JFrame implements ActionListener {
 	
 	}
 	
+	public void changeZoomPanel(AnimationPanel a) {
+		viewDetailPanel = a;
+	}
+	
 	  
 	public static void main(String[] args) {
 	  SimCityGui gui = new SimCityGui();

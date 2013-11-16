@@ -74,8 +74,15 @@ public class AnimationPanel extends JPanel {
                     if (g.contains(me.getPoint())) {//check if mouse is clicked within shape
 
                         //we can either just print out the object class name
-                        System.out.println("Clicked a "+"building: " + g.getName());
-
+                        //System.out.println("Clicked a "+"building: " + g.getName());
+                    	System.out.println("Clicked a building");
+//                    	if (g.getAnimationPanel() == null) {
+//                    		System.out.println("No animation panel");
+//                    	}
+//                    	else {
+//                    		System.out.println("an");
+//                    	}
+                    	simCityGui.changeZoomPanel(g.getAnimationPanel());
                         //controlPanel.updateSelected(g);
                         
                     }

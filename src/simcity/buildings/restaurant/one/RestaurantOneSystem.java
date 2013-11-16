@@ -1,11 +1,14 @@
 package simcity.buildings.restaurant.one;
 
+import simcity.SimSystem;
 import simcity.gui.SimCityGui;
+
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
 
 import javax.swing.JPanel;
+
 import java.awt.*;
 
 import simcity.gui.SimCityGui;
@@ -19,7 +22,7 @@ import simcity.interfaces.restaurant.one.*;
 	import simcity.gui.SimCityGui;
 	import simcity.gui.restaurant.RestaurantAnimationPanel; */
 
-public class RestaurantOneSystem extends JPanel {
+public class RestaurantOneSystem extends SimSystem {
 
 	private SimCityGui scg;
 	// public RestaurantControlPanel controlPanel;
@@ -31,7 +34,7 @@ public class RestaurantOneSystem extends JPanel {
 	private RestaurantOneCashier cashier;
 
 	public RestaurantOneSystem(SimCityGui scgui) {
-		super();
+		super(scgui);
 		scg = scgui;
 		// controlPanel = new RestaurantControlPanel();
 		animationPanel = new RestaurantAnimationPanel();

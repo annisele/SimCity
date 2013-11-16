@@ -33,7 +33,7 @@ public class ControlPanel extends JPanel implements ActionListener {
 	//config panel elements
 	private JPanel configPanel = new JPanel();
 	private JComboBox configDropdown;
-	private String[] configStrings = new String[2];
+	private String[] configStrings = new String[3];
 	private JButton load = new JButton("Load");
 
 	//tab elements

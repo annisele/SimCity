@@ -26,6 +26,7 @@ public class AnimationPanel extends JPanel {
 	// class would call AnimationPanel.setControlPanel() and give the animationpanel a controlpanel.
 	// Then the animationPanel would call controlPanel.update() passing a building or person
 	//
+
 	private int px; //x where mouse was pressed
 	private int py;
 	
@@ -69,7 +70,7 @@ public class AnimationPanel extends JPanel {
 
                     }
                 }
-               // for (BuildingGui g : buildingGuis) {
+                // for (BuildingGui g : buildingGuis) {
                 for(BuildingGui g : buildingGuis) {
                     if (g.contains(me.getPoint())) {//check if mouse is clicked within shape
 
@@ -99,8 +100,8 @@ public class AnimationPanel extends JPanel {
 		});
 	}
 	
-	//what makes it so that this will be called over and over? it's not right now
 	public void paintComponent(Graphics g) {
+		//System.out.println(" There are "+buildingGuis.size());
 		// compute dt, then send dt to every gui for updatePosition
 		for(Gui gui : guis) {
             if (gui.isPresent()) {
@@ -119,6 +120,7 @@ public class AnimationPanel extends JPanel {
         	System.out.println("We're drawing a building");
         	b.draw((Graphics2D)g);
         }
+
         repaint();
 	}
 	

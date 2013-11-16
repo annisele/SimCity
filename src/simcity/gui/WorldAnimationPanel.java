@@ -11,8 +11,6 @@ import java.util.ArrayList;
 
 public class WorldAnimationPanel extends AnimationPanel implements ActionListener {
 
-	protected List<BuildingGui> buildingGuis = Collections.synchronizedList(new ArrayList<BuildingGui>());
-	
 	public WorldAnimationPanel() {//SimCityGui sc) {
 		super();
 	}
@@ -24,10 +22,11 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
 	
 	public void paintComponent(Graphics g) {
 		//System.out.println("We're in paint component");
-		//super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D)g;
-        //Clear the screen by painting a rectangle the size of the frame
+
+		//super.paintComponent(g);
 		
+        //Clear the screen by painting a rectangle the size of the frame
 		g2.setColor(Color.LIGHT_GRAY);
 	    g2.fillRect(0, 0, this.getWidth(), this.getHeight());
 	    g2.setColor(Color.BLACK);

@@ -40,8 +40,8 @@ public class SystemManager {
 	
 	public void addMarket(String name, int xLoc, int yLoc) {
 		markets.add(new MarketSystem(simcity));
-		buildings.add(new BuildingGui(name, xLoc, yLoc));
-		world.getAnimationPanel().addBuilding(buildings.get(0));
+		BuildingGui building = new BuildingGui(name, xLoc, yLoc);
+		world.getAnimationPanel().addBuilding(building);
 	}
 	
 	public void addBank() {

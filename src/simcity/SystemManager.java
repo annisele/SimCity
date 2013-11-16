@@ -38,6 +38,22 @@ public class SystemManager {
 		world = new WorldSystem(simcity);//simcity.getWorld();
 	}
 	
+	public void clear() {
+		world.getAnimationPanel().clear();
+		
+		markets.clear();
+		banks.clear();
+		houses.clear();
+		restaurantOnes.clear();
+		restaurantTwos.clear();
+		restaurantThrees.clear();
+		restaurantFours.clear();
+		restaurantFives.clear();
+		restaurantSixes.clear();
+		transportations.clear();
+		
+	}
+	
 	public void addMarket(String name, int xLoc, int yLoc) {
 		markets.add(new MarketSystem(simcity));
 		BuildingGui building = new BuildingGui(name, xLoc, yLoc);

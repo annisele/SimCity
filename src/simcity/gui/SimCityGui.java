@@ -101,5 +101,9 @@ public class SimCityGui extends JFrame implements ActionListener {
       gui.setVisible(true);
 	}
   
+	public WorldSystem getWorld() {
+		return wp;
+	}
+	
 	  
 }

@@ -13,8 +13,8 @@ public class AnimationPanel extends JPanel {
 	SimCityGui simCityGui;
 	ControlPanel controlPanel;
 	
-	private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
-	//private List<BuildingGui> buildingGuis = Collections.synchronizedList(new ArrayList<BuildingGui>());
+	protected List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
+	protected List<BuildingGui> buildingGuis = Collections.synchronizedList(new ArrayList<BuildingGui>());
 	
 	// 
 	// have a timer that calls repaint() on every panel
@@ -26,7 +26,6 @@ public class AnimationPanel extends JPanel {
 	// class would call AnimationPanel.setControlPanel() and give the animationpanel a controlpanel.
 	// Then the animationPanel would call controlPanel.update() passing a building or person
 	//
-	private List<BuildingGui> buildingGuis = Collections.synchronizedList(new ArrayList<BuildingGui>());
 	private int px; //x where mouse was pressed
 	private int py;
 	
@@ -44,6 +43,7 @@ public class AnimationPanel extends JPanel {
 			public void mousePressed(MouseEvent e) {
 				px = e.getXOnScreen();
 				py = e.getYOnScreen();
+				System.out.print("There are "+buildingGuis.size());
 			}
 			
 			@Override
@@ -101,7 +101,6 @@ public class AnimationPanel extends JPanel {
 	
 	//what makes it so that this will be called over and over? it's not right now
 	public void paintComponent(Graphics g) {
-		
 		// compute dt, then send dt to every gui for updatePosition
 		for(Gui gui : guis) {
             if (gui.isPresent()) {
@@ -114,9 +113,10 @@ public class AnimationPanel extends JPanel {
             }
         }
       //  for(BuildingGui buildingGui : buildingGuis) {
+        //System.out.println("There are "+buildingGuis.size()+" buildings");
         for(BuildingGui b : buildingGuis) {
-        	System.out.println("Hi");
               //  buildingGui.draw((Graphics2D)g);
+        	System.out.println("We're drawing a building");
         	b.draw((Graphics2D)g);
         }
         repaint();
@@ -128,6 +128,7 @@ public class AnimationPanel extends JPanel {
 	
 	public void addBuilding(BuildingGui b) {
 		buildingGuis.add(b);
+		System.out.println("A building is added.  There are "+buildingGuis.size());
 	}
 	
 	public void setControlPanel(ControlPanel cp) {

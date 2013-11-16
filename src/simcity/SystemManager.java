@@ -12,6 +12,7 @@ import simcity.buildings.restaurant.six.RestaurantSixSystem;
 import simcity.buildings.restaurant.three.RestaurantThreeSystem;
 import simcity.buildings.restaurant.two.RestaurantTwoSystem;
 import simcity.buildings.transportation.TransportationSystem;
+import simcity.gui.Gui;
 import simcity.gui.SimCityGui;
 import simcity.gui.BuildingGui;
 
@@ -34,7 +35,7 @@ public class SystemManager {
 	
 	public SystemManager(SimCityGui g) {
 		simcity = g;
-		world = new WorldSystem(simcity);
+		world = simcity.getWorld();
 	}
 	
 	public void addMarket(String name, int xLoc, int yLoc) {
@@ -111,5 +112,8 @@ public class SystemManager {
 		return restaurantSixes.get(i);
 	}
 	
+	public WorldSystem getWorld() {
+		return world;
+	}
 	
 }

@@ -5,7 +5,7 @@ import simcity.gui.SimCityGui;
 import simcity.gui.market.MarketAnimationPanel;
 import simcity.gui.market.MarketControlPanel;
 
-public class HouseSystem extends simcity.System {
+public class HouseSystem extends simcity.SimSystem {
 	
 	
 	public HouseSystem(SimCityGui scg) {

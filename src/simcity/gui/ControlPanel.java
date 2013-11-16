@@ -99,6 +99,7 @@ public class ControlPanel extends JPanel implements ActionListener {
 		//config panel
 		configStrings[0] = "One market";
 		configStrings[1] = "One bank";
+		configStrings[2] = "One restaurant";
 		configDropdown = new JComboBox(configStrings);
 		configPanel.setLayout(new FlowLayout());
 		configPanel.add(configDropdown);

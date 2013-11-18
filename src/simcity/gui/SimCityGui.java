@@ -52,6 +52,7 @@ public class SimCityGui extends JFrame implements ActionListener {
                 
         viewDetailPanel = new EmptyAnimationPanel();
         viewWorldPanel = systemManager.getWorld().getAnimationPanel();
+        //systemManager.getWorld().setAnimationPanel();
         //
         // I'm thinking we don't need to initialize this DetailPane.  Maybe we'll initialize it to some default thing
         // When someone clicks on a building (after loading them), this DetailPane will show that building
@@ -93,7 +94,13 @@ public class SimCityGui extends JFrame implements ActionListener {
 	}
 	
 	public void changeZoomPanel(AnimationPanel a) {
-		viewDetailPanel = a;
+		if (a == null) {
+			System.out.println("You clicked on something that made us want to change the ZoomPanel, but the supplied panel is null!");
+		} else {
+			
+			viewDetailPanel = a;
+			System.out.println("Changing the detail panel to "+a.getClass().getName());
+		}
 	}
 	
 	  

@@ -15,8 +15,17 @@ public class SimSystem {
 		simCityGui = scg;
 	}
 	
+	public void setAnimationPanel(AnimationPanel a) {
+		animationPanel = a;
+	}
+	
 	public AnimationPanel getAnimationPanel() {
-		return animationPanel;
+		if (animationPanel == null) {
+			System.out.println("Sorry, this SimSystem does not have an animationPanel!");
+			return null;
+		} else {
+			return animationPanel;
+		}
 	}
 	
 	public JPanel getControlPanel() {

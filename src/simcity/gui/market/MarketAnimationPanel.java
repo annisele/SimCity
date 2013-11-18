@@ -37,21 +37,6 @@ public class MarketAnimationPanel extends AnimationPanel implements ActionListen
 		g2.setColor(Color.LIGHT_GRAY);
 		g2.fillRect(0, 0, this.getWidth(), this.getHeight());
 
-
-
-
-		for(Gui gui : guis) {
-			if (gui.isPresent()) {
-				gui.updatePosition();
-			}
-		}
-		for(Gui gui : guis) {
-			if (gui.isPresent()) {
-				gui.draw((Graphics2D)g);
-			}
-		}
-
-
 		super.paintComponent(g);
 
 		//super.guis.add(bob);

@@ -82,7 +82,11 @@ public class AnimationPanel extends JPanel {
 //                    	else {
 //                    		System.out.println("an");
 //                    	}
-                    	simCityGui.changeZoomPanel(g.getAnimationPanel());
+                    	if (g.getAnimationPanel() == null)
+                    		System.out.println("The buildingGui's animationPanel is null!");
+                    	else if (simCityGui != null) {
+                    		simCityGui.changeZoomPanel(g.getAnimationPanel());
+                    	}
                         //controlPanel.updateSelected(g);
                         
                     }
@@ -119,13 +123,6 @@ public class AnimationPanel extends JPanel {
                 gui.draw((Graphics2D)g);
             }
         }
-      //  for(BuildingGui buildingGui : buildingGuis) {
-        //System.out.println("There are "+buildingGuis.size()+" buildings");
-        for(BuildingGui b : buildingGuis) {
-              //  buildingGui.draw((Graphics2D)g);
-        	System.out.println("We're drawing a building");
-        	b.draw((Graphics2D)g);
-        }
 
         repaint();
 	}
@@ -140,6 +137,10 @@ public class AnimationPanel extends JPanel {
 	
 	public void setControlPanel(ControlPanel cp) {
 		controlPanel = cp;
+	}
+	
+	public void setSimCityGui(SimCityGui scg) {
+		simCityGui = scg;
 	}
 	
 	public void clear() {

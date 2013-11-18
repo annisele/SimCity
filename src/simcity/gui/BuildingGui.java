@@ -24,8 +24,11 @@ public class BuildingGui {
 	}
 	
 	public AnimationPanel getAnimationPanel() {
-		System.out.println("Trying to get animation panel");
-		return system.getAnimationPanel();
+		if (system.getAnimationPanel() != null) {
+			return system.getAnimationPanel();
+		} else {
+			return null;
+		}
 	}
 	
     public void draw(Graphics2D g) {

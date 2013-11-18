@@ -1,4 +1,4 @@
-package simcity.gui.restaurant;
+package simcity.gui.restaurantone;
 import javax.swing.*;
 
 import simcity.gui.AnimationPanel;
@@ -14,14 +14,14 @@ import java.util.ArrayList;
 //import restaurant.gui.WaiterGui;
 //import restaurant.gui.WaiterGui.Coordinates;
 
-public class RestaurantAnimationPanel extends AnimationPanel implements ActionListener {
+public class RestaurantOneAnimationPanel extends AnimationPanel implements ActionListener {
 
    
    
 
     private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
 
-    public RestaurantAnimationPanel() {
+    public RestaurantOneAnimationPanel() {
             setBackground(Color.RED);
             //setSize(WINDOWX, WINDOWY);
         setVisible(true);

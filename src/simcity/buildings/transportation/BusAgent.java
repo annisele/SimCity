@@ -73,14 +73,14 @@ private void Drive() {
 	busStopCounter ++;
 
 	// Animation
-	DoGoTo(busStops.get(busStopCounter).xLoc, busStops.get(busStopCounter).yLoc);
+	DoGoTo(busStops.get(busStopCounter).getX(), busStops.get(busStopCounter).getY());
 }
 
 private void Stop() {
 	for (MyPassenger p : passengers) {
 		if (FullyLoaded() == true && p.destination == busStops.get(busStopCounter)) {
-			p.role.msgWeHaveArrived(busStops.get(busStopCounter).xLoc,
-                              busStops.get(busStopCounter).yLoc);
+			p.role.msgWeHaveArrived(busStops.get(busStopCounter).getX(),
+                              busStops.get(busStopCounter).getY());
 		}
 		else if (p.loaded == false && p.startLocation == busStops.get(busStopCounter)) {
 			p.role.msgBusArriving();

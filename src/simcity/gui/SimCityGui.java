@@ -12,6 +12,10 @@ import simcity.gui.transportation.PedestrianGui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.List;
 
 /****************************
  * SimCityGui - The entire window which contains a world panel, detail panel
@@ -31,11 +35,13 @@ public class SimCityGui extends JFrame implements ActionListener {
 	
 	// But this is really a panel
 	private AnimationPanel viewWorldPanel;
-	private AnimationPanel viewDetailPanel;
+	//private AnimationPanel viewDetailPanel;
+	private JPanel viewDetailPanel;
 	private JTextArea consoleWorld = new JTextArea();
 	private JTextArea consoleDetail = new JTextArea();
 	private JSplitPane splitPaneWorld;
 	private JSplitPane splitPaneDetail;
+	
 	
 	private Config config;
 	private SystemManager systemManager;
@@ -50,7 +56,8 @@ public class SimCityGui extends JFrame implements ActionListener {
 		systemManager = new SystemManager(this);
         config = new Config(systemManager);
                 
-        viewDetailPanel = new EmptyAnimationPanel();
+       // viewDetailPanel = new EmptyAnimationPanel();
+        viewDetailPanel = new JPanel(new CardLayout());
         viewWorldPanel = systemManager.getWorld().getAnimationPanel();
         //systemManager.getWorld().setAnimationPanel();
         //
@@ -86,6 +93,17 @@ public class SimCityGui extends JFrame implements ActionListener {
        
         
 	}
+	public void setCards(Map<String, JPanel> panels) {
+		Iterator it = panels.entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry<String, JPanel> item = (Map.Entry<String, JPanel>)it.next();
+			String name = item.getKey();
+			JPanel tempCard = item.getValue();
+		    viewDetailPanel.add(tempCard, name);
+		    
+		}
+	}
+	
 	public ControlPanel getControlPanel() {
 		return controlPanel;
 	}
@@ -97,7 +115,11 @@ public class SimCityGui extends JFrame implements ActionListener {
 		if (a == null) {
 			System.out.println("You clicked on something that made us want to change the DetailPane, but the supplied panel is null!");
 		} else {
-			viewDetailPanel = a;
+			//viewDetailPanel = a;
+			//CardLayout c = (CardLayout)(((Container) cards).getLayout());
+		  //  c.show((Container) cards, a.getName());
+			CardLayout c = (CardLayout) viewDetailPanel.getLayout();
+			c.show(viewDetailPanel, a.getName());
 			System.out.println("Changing the detail panel to "+a.getClass().getName());
 		}
 	}

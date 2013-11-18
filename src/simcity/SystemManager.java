@@ -2,6 +2,8 @@ package simcity;
 
 import java.util.*;
 
+import javax.swing.JPanel;
+
 import simcity.buildings.bank.BankSystem;
 import simcity.buildings.house.HouseSystem;
 import simcity.buildings.market.MarketSystem;
@@ -141,6 +143,14 @@ public class SystemManager {
 	
 	public WorldSystem getWorld() {
 		return world;
+	}
+	
+	public Map<String, JPanel> getCards() {
+		Map<String, JPanel> marketPanels = new HashMap<String, JPanel>();
+		for(MarketSystem m : markets) {
+			marketPanels.put(m.getName(), m.getAnimationPanel());
+		}
+		return marketPanels;
 	}
 	
 }

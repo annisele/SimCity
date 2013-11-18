@@ -85,7 +85,7 @@ public class AnimationPanel extends JPanel {
                     	if (g.getAnimationPanel() == null)
                     		System.out.println("The buildingGui's animationPanel is null!");
                     	else if (simCityGui != null) {
-                    		simCityGui.changeZoomPanel(g.getAnimationPanel());
+                    		simCityGui.changeDetailPane(g.getAnimationPanel());
                     	}
                         //controlPanel.updateSelected(g);
                         

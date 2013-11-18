@@ -93,11 +93,10 @@ public class SimCityGui extends JFrame implements ActionListener {
 	
 	}
 	
-	public void changeZoomPanel(AnimationPanel a) {
+	public void changeDetailPane(AnimationPanel a) {
 		if (a == null) {
-			System.out.println("You clicked on something that made us want to change the ZoomPanel, but the supplied panel is null!");
+			System.out.println("You clicked on something that made us want to change the DetailPane, but the supplied panel is null!");
 		} else {
-			
 			viewDetailPanel = a;
 			System.out.println("Changing the detail panel to "+a.getClass().getName());
 		}

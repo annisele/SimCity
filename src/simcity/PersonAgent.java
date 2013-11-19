@@ -59,8 +59,8 @@ public class PersonAgent extends Agent implements Person {
         //myRoles.add ALL USEFUL ROLES with useful perimeters
         //all roles are set to false
         //set person to this
-
-        RestaurantOneCustomerRole rcr= new RestaurantOneCustomerRole("sally",this);
+        currentTime=1;
+        RestaurantOneCustomerRole rcr= new RestaurantOneCustomerRole("RestaurantOneCustomerRole",this);
         rcr.setPerson(this);
        
       //MarketCustomerRole rcr= new RestaurantCustomerOneRole;

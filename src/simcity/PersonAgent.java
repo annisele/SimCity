@@ -18,16 +18,16 @@ import agent.Agent;
 public class PersonAgent extends Agent implements Person {
 
 	private List<Role> myRoles;
-	
+
 	TreeMap<Integer, Event> Schedule=new TreeMap<Integer, Event>();
 	//SortedMap Schedule = Collections.synchronizedSortedMap(new TreeMap());
-  
+
 	private List <myRestaurant> Restaurants= new ArrayList<myRestaurant>();
 	private class myRestaurant{
 		String name;
 		Location location;
 		myRestaurant(){
-			
+
 		}
 	}
 	public String name;
@@ -35,47 +35,47 @@ public class PersonAgent extends Agent implements Person {
 	public double money;
 	private int currentTime, hungerLevel;
 
-    //RestaurantOneCustomerRole rcr= new RestaurantOneCustomerRole();
+	//RestaurantOneCustomerRole rcr= new RestaurantOneCustomerRole();
 	enum Priority{ Now, Next, Later};
 	private Event currentEvent;
 	private PedestrianGui gui;
-	
+
 	public class Event {
 		Location location;
 		Role role;
 		Priority priority;
-		
-        public Event(Location l, Role r) {        
-                this.location = l;
-                this.priority=Priority.Later;
-                this.role = r;
-                
+
+		public Event(Location l, Role r) {        
+			this.location = l;
+			this.priority=Priority.Later;
+			this.role = r;
+
+		}
 	}
-	}
-	
+
 	public PersonAgent(String n, double m){
-        super();
-        this.name = n;
-        //this.roleMapping = new HashMap<String, Map<SimEvent.EventType,Role> >();
-        this.myRoles=new ArrayList<Role>();
-        //myRoles.add ALL USEFUL ROLES with useful perimeters
-        //all roles are set to false
-        //set person to this
+		super();
+		this.name = n;
+		//this.roleMapping = new HashMap<String, Map<SimEvent.EventType,Role> >();
+		this.myRoles=new ArrayList<Role>();
+		//myRoles.add ALL USEFUL ROLES with useful perimeters
+		//all roles are set to false
+		//set person to this
 
-        currentTime=1;
-       // RestaurantOneCustomerRole rcr= new RestaurantOneCustomerRole("RestaurantOneCustomerRole",this);
-        //rcr.setPerson(this);
+		currentTime=1;
+		// RestaurantOneCustomerRole rcr= new RestaurantOneCustomerRole("RestaurantOneCustomerRole",this);
+		//rcr.setPerson(this);
 
-       
-        //myRoles.add(rcr);
-        this.money = m;
 
-        InstantiatePerson();
-    }
+		//myRoles.add(rcr);
+		this.money = m;
+
+		InstantiatePerson();
+	}
 
 	public void msgExitMarket(Map<String, Integer> tempItems) {
 		// TODO Auto-generated method stub
-		
+
 	}
 	public void msgUpdateTime() {
 		currentTime ++; 
@@ -90,44 +90,44 @@ public class PersonAgent extends Agent implements Person {
 	public boolean pickAndExecuteAnAction() {
 		// TODO Auto-generated method stub
 		if (hungerLevel > 10){
-		if (currentEvent.priority==Priority.Later){
-			EatFoodNow();
-		}
-		else if (currentEvent.priority==Priority.Now){
-			EatFoodLater();
-		}
-		}
-		if(inAction==true){
-		for(Role role : myRoles){
-			if (role.active==true){
-				
-				role.pickAndExecuteAnAction();
-				return true;
+			if (currentEvent.priority==Priority.Later){
+				EatFoodNow();
+			}
+			else if (currentEvent.priority==Priority.Now){
+				EatFoodLater();
 			}
 		}
-		return false;
+		if(inAction==true){
+			for(Role role : myRoles){
+				if (role.active==true){
+
+					role.pickAndExecuteAnAction();
+					return true;
+				}
+			}
+			return false;
 		}
 		else{
-		Entry<Integer,Event> ent = Schedule.firstEntry();
-		if (currentTime >= ent. getKey()) {
-			DoEvent(((Entry<Integer, Event>) ent).getValue());
-			currentEvent=((Entry<Integer, Event>) ent).getValue();
-			return true;
-		}
+			Entry<Integer,Event> ent = Schedule.firstEntry();
+			if (currentTime >= ent. getKey()) {
+				DoEvent(((Entry<Integer, Event>) ent).getValue());
+				currentEvent=((Entry<Integer, Event>) ent).getValue();
+				return true;
+			}
 
-		return false;
-	}
+			return false;
+		}
 	}
 	public void EatFoodNow(){
 		int i=1;
 		if(i==0){
 			//decide on a restaurant!
 			Event e = new Event(Restaurants.get(i).location, myRoles.get(0));
-		Schedule.put(currentTime, null);
+			Schedule.put(currentTime, null);
 		}
 		if(i==0){
 			Schedule.put(currentTime, null);
-			}
+		}
 		//saskdjhaskdhkashd NOOOO
 	}
 	public void EatFoodLater(){
@@ -138,14 +138,14 @@ public class PersonAgent extends Agent implements Person {
 		inAction=true;
 		//message the universe map. 
 		//e.location == universemapKEY, then message host/manager 
-	
+
 		for( int i=0;  i<myRoles.size();i++){
-		if (e.role ==myRoles.get(i)){
-			myRoles.get(i).active=true;
-			stateChanged();
-			
+			if (e.role ==myRoles.get(i)){
+				myRoles.get(i).active=true;
+				stateChanged();
+
+			}
 		}
-	}
 	}
 	public List<Role> getRoles() {
 		return myRoles;
@@ -154,11 +154,11 @@ public class PersonAgent extends Agent implements Person {
 	public void setRoles(List<Role> roles) {
 		this.myRoles = roles;
 	}
-	
+
 	public Gui getGui() {
 		return myRoles.get(0).getGui();
 	}
-	
+
 	private void InstantiatePerson() {
 		PedestrianGui pedestrianGui = new PedestrianGui();
 		PedestrianRole pedestrianRole = new PedestrianRole(this, pedestrianGui);
@@ -166,10 +166,10 @@ public class PersonAgent extends Agent implements Person {
 		RestaurantOneCustomerGui restaurantOneCustomerGui = new RestaurantOneCustomerGui();
 		RestaurantOneCustomerRole restaurantOneCustomer = new RestaurantOneCustomerRole(this, restaurantOneCustomerGui);
 		myRoles.add(restaurantOneCustomer);
-			pedestrianRole.setPerson(this);
-			Location l= new Location(25,25);
-			Event e = new Event(l,myRoles.get(1));
-			Schedule.put(1, e);
+		pedestrianRole.setPerson(this);
+		Location l= new Location(25,25);
+		Event e = new Event(l,myRoles.get(1));
+		Schedule.put(1, e);
 	}
-	
+
 }

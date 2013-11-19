@@ -235,7 +235,7 @@ public class ControlPanel extends JPanel implements ActionListener {
 		if(e.getSource() == load) {
 			String selection = (String)configDropdown.getSelectedItem();
 			if(selection.equals(configStrings[0])) {
-				config.oneMarket();
+				config.threeBuildings();
 			}
 			else if(selection.equals(configStrings[1])) {
 				config.oneBank();

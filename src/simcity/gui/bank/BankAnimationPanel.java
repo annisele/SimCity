@@ -24,8 +24,8 @@ public class BankAnimationPanel extends AnimationPanel implements ActionListener
 	public BankAnimationPanel() {
 		setBackground(Color.YELLOW);
 		setVisible(true);	 
-        Timer timer = new Timer(3, this );
-        timer.start();
+        //Timer timer = new Timer(3, this );
+        //timer.start();
 	}
 	public void actionPerformed(ActionEvent e) {
 		repaint();
@@ -34,7 +34,7 @@ public class BankAnimationPanel extends AnimationPanel implements ActionListener
 		Graphics2D g2 = (Graphics2D)g;
 		Color windowColor = new Color (250, 250, 250);
 		//Clear the screen by painting a rectangle the size of the frame
-		g2.setColor(getBackground());
+		/*g2.setColor(getBackground());
         g2.setColor(getBackground());
         g2.fillRect(0, 0, 600, 600);
         g2.setColor(windowColor);
@@ -51,19 +51,11 @@ public class BankAnimationPanel extends AnimationPanel implements ActionListener
 		Color BankHostColor = new Color (177, 212, 43);
 			g2.setColor(BankHostColor);
 			g2.fillRect(200, 100, 50, 50);
-		synchronized(guis) {
-		for(Gui gui : guis) {
-			if (gui.isPresent()) {
-				gui.updatePosition();
-			}
-		}
-		}
-		synchronized(guis) {
-		for(Gui gui : guis) {
-			if (gui.isPresent()) {
-				gui.draw(g2);
-			}
-		}
-		}
+		*/
+		g2.setColor(Color.YELLOW);
+		g2.fillRect(0, 0, this.getWidth(), this.getHeight());
+		super.paintComponent(g);
+		
+		
 	}
 }

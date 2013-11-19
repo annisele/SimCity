@@ -8,6 +8,7 @@ import simcity.WorldSystem;
 import simcity.buildings.market.MarketSystem;
 import simcity.buildings.restaurant.one.RestaurantOneSystem;
 import simcity.gui.market.MarketAnimationPanel;
+import simcity.gui.restaurantone.RestaurantOneAnimationPanel;
 import simcity.gui.transportation.PedestrianGui;
 
 import java.awt.*;
@@ -111,6 +112,10 @@ public class SimCityGui extends JFrame implements ActionListener {
 	
 	}
 	
+	public void clearDetailPane() {
+		viewDetailPanel.removeAll();
+	}
+	
 	public void changeDetailPane(AnimationPanel a) {
 		if (a == null) {
 			System.out.println("You clicked on something that made us want to change the DetailPane, but the supplied panel is null!");
@@ -118,9 +123,16 @@ public class SimCityGui extends JFrame implements ActionListener {
 			//viewDetailPanel = a;
 			//CardLayout c = (CardLayout)(((Container) cards).getLayout());
 		  //  c.show((Container) cards, a.getName());
+			//viewDetailPanel = new JPanel(new CardLayout());
 			
-			CardLayout c = (CardLayout) viewDetailPanel.getLayout();
-			c.show(viewDetailPanel, a.getName());			
+			// This works, but is hack-ish
+			viewDetailPanel.removeAll();
+			viewDetailPanel.updateUI();
+			viewDetailPanel.add(a, a.getName());
+
+
+			//CardLayout c = (CardLayout) viewDetailPanel.getLayout();
+			//c.show(viewDetailPanel, a.getName());			
 			System.out.println("Changing the detail panel to "+a.getClass().getName());
 		}
 	}

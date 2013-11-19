@@ -10,6 +10,8 @@ public abstract class Role  {
 	public void stateChanged() { person.stateChanged(); }
 	public void setPerson(PersonAgent p) { person = p; }
 	public abstract boolean pickAndExecuteAnAction();
-	public boolean active;
+
+	public boolean active=false;
+
 	public Gui getGui() { return gui; }
 }

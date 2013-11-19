@@ -22,6 +22,7 @@ public class Config {
 		systems.addBank("Bank", 100, 300);
 
 		systems.addPerson("Jesus", 100);
+		
 		systems.clearDetailPane();
 		//systems.setCards();
 		
@@ -33,6 +34,7 @@ public class Config {
 	
 	public void oneBank() {
 		systems.clear();
+		systems.clearDetailPane();
 		
 
 	}

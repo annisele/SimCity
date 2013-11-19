@@ -114,6 +114,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 	
 	public void clearDetailPane() {
 		viewDetailPanel.removeAll();
+		viewDetailPanel.updateUI();
 	}
 	
 	public void changeDetailPane(AnimationPanel a) {
@@ -128,8 +129,8 @@ public class SimCityGui extends JFrame implements ActionListener {
 			// This works, but is hack-ish
 			viewDetailPanel.removeAll();
 			viewDetailPanel.updateUI();
-			viewDetailPanel.add(a, a.getName());
-
+			//viewDetailPanel.add(a, a.getName());
+			viewDetailPanel.add(a, "name");
 
 			//CardLayout c = (CardLayout) viewDetailPanel.getLayout();
 			//c.show(viewDetailPanel, a.getName());			

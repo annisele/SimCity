@@ -63,14 +63,10 @@ public class PersonAgent extends Agent implements Person {
         //set person to this
 
         currentTime=1;
-        RestaurantOneCustomerRole rcr= new RestaurantOneCustomerRole("RestaurantOneCustomerRole",this);
-        rcr.setPerson(this);
-
-
-        //RestaurantOneCustomerRole rcr= new RestaurantOneCustomerRole("sally",this);
+       // RestaurantOneCustomerRole rcr= new RestaurantOneCustomerRole("RestaurantOneCustomerRole",this);
         //rcr.setPerson(this);
+
        
-      //MarketCustomerRole rcr= new RestaurantCustomerOneRole;
         //myRoles.add(rcr);
         this.money = m;
 

@@ -20,11 +20,11 @@ public class PersonAgent extends Agent implements Person {
 	TreeMap<Integer, Event> Schedule=new TreeMap<Integer, Event>();
 	//SortedMap Schedule = Collections.synchronizedSortedMap(new TreeMap());
   
-	private List <myRestaurants> Restaurants= new ArrayList<myRestaurants>();
-	private class myRestaurants{
+	private List <myRestaurant> Restaurants= new ArrayList<myRestaurant>();
+	private class myRestaurant{
 		String name;
 		Location location;
-		myRestaurants(){
+		myRestaurant(){
 			
 		}
 	}
@@ -62,6 +62,7 @@ public class PersonAgent extends Agent implements Person {
 
         RestaurantOneCustomerRole rcr= new RestaurantOneCustomerRole("sally",this);
         rcr.setPerson(this);
+       
       //MarketCustomerRole rcr= new RestaurantCustomerOneRole;
         myRoles.add(rcr);
         this.money = m;
@@ -156,9 +157,13 @@ public class PersonAgent extends Agent implements Person {
 	}
 	
 	private void InstantiatePerson() {
-		PedestrianGui pedestrianGui = new PedestrianGui();
-		PedestrianRole pedestrianRole = new PedestrianRole(this, pedestrianGui);
-		myRoles.add(pedestrianRole);
+		 PedestrianGui pedestrianGui = new PedestrianGui();
+			PedestrianRole pedestrianRole = new PedestrianRole(this, pedestrianGui);
+			pedestrianRole.setPerson(this);
+			myRoles.add(pedestrianRole);
+			Location l= new Location(25,25);
+			Event e = new Event(l,myRoles.get(1));
+			Schedule.put(1, e);
 	}
 	
 }

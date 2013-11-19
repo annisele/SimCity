@@ -3,8 +3,10 @@ package simcity;
 import java.util.*;
 
 import simcity.gui.Gui;
+import simcity.gui.restaurantone.RestaurantOneCustomerGui;
 import simcity.gui.transportation.PedestrianGui;
 import simcity.interfaces.Person;
+import simcity.buildings.restaurant.one.RestaurantOneCustomerRole;
 import simcity.buildings.transportation.*;
 import simcity.buildings.restaurant.one.*;
 import simcity.Role;
@@ -59,12 +61,17 @@ public class PersonAgent extends Agent implements Person {
         //myRoles.add ALL USEFUL ROLES with useful perimeters
         //all roles are set to false
         //set person to this
+
         currentTime=1;
         RestaurantOneCustomerRole rcr= new RestaurantOneCustomerRole("RestaurantOneCustomerRole",this);
         rcr.setPerson(this);
+
+
+        //RestaurantOneCustomerRole rcr= new RestaurantOneCustomerRole("sally",this);
+        //rcr.setPerson(this);
        
       //MarketCustomerRole rcr= new RestaurantCustomerOneRole;
-        myRoles.add(rcr);
+        //myRoles.add(rcr);
         this.money = m;
 
         InstantiatePerson();
@@ -157,10 +164,13 @@ public class PersonAgent extends Agent implements Person {
 	}
 	
 	private void InstantiatePerson() {
-		 PedestrianGui pedestrianGui = new PedestrianGui();
-			PedestrianRole pedestrianRole = new PedestrianRole(this, pedestrianGui);
+		PedestrianGui pedestrianGui = new PedestrianGui();
+		PedestrianRole pedestrianRole = new PedestrianRole(this, pedestrianGui);
+		myRoles.add(pedestrianRole);
+		RestaurantOneCustomerGui restaurantOneCustomerGui = new RestaurantOneCustomerGui();
+		RestaurantOneCustomerRole restaurantOneCustomer = new RestaurantOneCustomerRole(this, restaurantOneCustomerGui);
+		myRoles.add(restaurantOneCustomer);
 			pedestrianRole.setPerson(this);
-			myRoles.add(pedestrianRole);
 			Location l= new Location(25,25);
 			Event e = new Event(l,myRoles.get(1));
 			Schedule.put(1, e);

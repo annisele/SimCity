@@ -2,17 +2,23 @@ package simcity.buildings.restaurant.one;
 
 import simcity.PersonAgent;
 import simcity.Role;
+import simcity.gui.restaurantone.RestaurantOneCustomerGui;
 import simcity.interfaces.restaurant.one.RestaurantOneHost;
 
 public class RestaurantOneCustomerRole extends Role implements simcity.interfaces.restaurant.one.RestaurantOneCustomer {
+
+	// Data
 	private String name;
-	private RestaurantOneHostRole Host;
 	private PersonAgent person;
-	public RestaurantOneCustomerRole(String n, PersonAgent p){
-		this.name= n;
-		this.person=p;
+	private RestaurantOneCustomerGui gui;
+	private RestaurantOneHost Host;
+	
+	// Constructor
+	public RestaurantOneCustomerRole(PersonAgent person, RestaurantOneCustomerGui gui) {
+		this.person = person;
+		this.gui = gui;
 	}
-	@Override
+
 	public boolean pickAndExecuteAnAction() {
 		// TODO Auto-generated method stub
 		return false;

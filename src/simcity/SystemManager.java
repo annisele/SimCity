@@ -60,6 +60,7 @@ public class SystemManager {
 		PersonAgent person = new PersonAgent(name, money);
 		people.add(person);
 		world.getAnimationPanel().addGui(person.getGui());
+		//restaurantOnes.get(0).getAnimationPanel().addGui(person.getRestaurantOneCustomer().getGui());
 	}
 	
 	public void addMarket(String name, int xLoc, int yLoc) {
@@ -69,8 +70,11 @@ public class SystemManager {
 		world.getAnimationPanel().addBuilding(building);
 	}
 	
-	public void addBank() {
-		banks.add(new BankSystem(simcity));
+	public void addBank(String name, int xLoc, int yLoc) {
+		BankSystem temp = new BankSystem(simcity);
+		banks.add(temp);
+		BuildingGui building = new BuildingGui(temp, xLoc, yLoc);
+		world.getAnimationPanel().addBuilding(building);
 	}
 	
 	public void addHouse() {

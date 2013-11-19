@@ -1,7 +1,6 @@
 package simcity.gui.bank;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
@@ -37,11 +36,11 @@ public class BankAnimationPanel extends AnimationPanel implements ActionListener
 		//Clear the screen by painting a rectangle the size of the frame
 		g2.setColor(getBackground());
         g2.setColor(getBackground());
-        g2.fillRect(0, 0, 700, 700);
+        g2.fillRect(0, 0, 600, 600);
         g2.setColor(windowColor);
-        g2.fillRect(100, 300, 40, 40);
-        g2.fillRect(200, 300, 40, 40);
-        g2.fillRect(300, 300, 40, 40);
+        g2.fillRect(100, 350, 40, 40);
+        g2.fillRect(200, 350, 40, 40);
+        g2.fillRect(300, 350, 40, 40);
         //bankteller gui
         Color black = new Color(0,0,0);
         g2.setColor(black);
@@ -50,21 +49,21 @@ public class BankAnimationPanel extends AnimationPanel implements ActionListener
 			g2.setColor(BanktellerColor);
 			g2.fillRect(300, 100, 25, 25);
 		Color BankHostColor = new Color (177, 212, 43);
-
+			g2.setColor(BankHostColor);
+			g2.fillRect(200, 100, 50, 50);
+		synchronized(guis) {
 		for(Gui gui : guis) {
 			if (gui.isPresent()) {
 				gui.updatePosition();
 			}
 		}
+		}
+		synchronized(guis) {
 		for(Gui gui : guis) {
 			if (gui.isPresent()) {
-				gui.draw((Graphics2D)g);
+				gui.draw(g2);
 			}
 		}
-		super.paintComponent(g);
-	}
-	
-	public void addGui(Gui g) {
-		guis.add(g);
+		}
 	}
 }

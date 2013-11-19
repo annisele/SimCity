@@ -3,8 +3,10 @@ package simcity;
 import java.util.*;
 
 import simcity.gui.Gui;
+import simcity.gui.restaurantone.RestaurantOneCustomerGui;
 import simcity.gui.transportation.PedestrianGui;
 import simcity.interfaces.Person;
+import simcity.buildings.restaurant.one.RestaurantOneCustomerRole;
 import simcity.buildings.transportation.*;
 
 import java.util.Map.Entry;
@@ -129,6 +131,9 @@ public class PersonAgent extends Agent implements Person {
 		PedestrianGui pedestrianGui = new PedestrianGui();
 		PedestrianRole pedestrianRole = new PedestrianRole(this, pedestrianGui);
 		myRoles.add(pedestrianRole);
+		RestaurantOneCustomerGui restaurantOneCustomerGui = new RestaurantOneCustomerGui();
+		RestaurantOneCustomerRole restaurantOneCustomer = new RestaurantOneCustomerRole(this, restaurantOneCustomerGui);
+		myRoles.add(restaurantOneCustomer);
 	}
 	
 }

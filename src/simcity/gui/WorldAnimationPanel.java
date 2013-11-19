@@ -1,13 +1,10 @@
 package simcity.gui;
 
 import javax.swing.*;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Collections;
-import java.util.List;
-import java.util.ArrayList;
+
 
 public class WorldAnimationPanel extends AnimationPanel implements ActionListener {
 
@@ -32,14 +29,15 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
 		g2.setColor(Color.LIGHT_GRAY);
 	    g2.fillRect(0, 0, this.getWidth(), this.getHeight());
 	    
-        
+        //here is the building gui
+	    g2.setColor(Color.BLUE);
         for(BuildingGui b : buildingGuis) {
         	b.draw((Graphics2D)g);
         }
         
         super.paintComponent(g);
 		
-		//super.guis.add(bob);
+       
 	}
 	
 	public void addGui(Gui g) {

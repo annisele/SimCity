@@ -9,8 +9,8 @@ public class RestaurantOneCustomerRole extends Role implements simcity.interface
 
 	// Data
 	private String name;
-	private PersonAgent person;
-	private RestaurantOneCustomerGui gui;
+	//private PersonAgent person;
+//	private RestaurantOneCustomerGui gui;
 	private RestaurantOneHost Host;
 	
 	// Constructor
@@ -23,7 +23,6 @@ public class RestaurantOneCustomerRole extends Role implements simcity.interface
 		// TODO Auto-generated method stub
 		return false;
 	}
-
 	
 	
 }

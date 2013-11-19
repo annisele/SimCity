@@ -23,6 +23,7 @@ public class PersonAgent extends Agent implements Person {
 	//SortedMap Schedule = Collections.synchronizedSortedMap(new TreeMap());
 
 	private List <myRestaurant> Restaurants= new ArrayList<myRestaurant>();
+	
 	private class myRestaurant{
 		String name;
 		Location location;
@@ -30,6 +31,7 @@ public class PersonAgent extends Agent implements Person {
 
 		}
 	}
+	
 	public String name;
 	private boolean inAction;
 	public double money;
@@ -38,8 +40,12 @@ public class PersonAgent extends Agent implements Person {
 	//RestaurantOneCustomerRole rcr= new RestaurantOneCustomerRole();
 	enum Priority{ Now, Next, Later};
 	private Event currentEvent;
+<<<<<<< HEAD
+	
+=======
 	private PedestrianGui gui;
 
+>>>>>>> d5291bae0ff7d295742bb86d3c32d0a929e49821
 	public class Event {
 		Location location;
 		Role role;
@@ -153,10 +159,6 @@ public class PersonAgent extends Agent implements Person {
 
 	public void setRoles(List<Role> roles) {
 		this.myRoles = roles;
-	}
-
-	public Gui getGui() {
-		return myRoles.get(0).getGui();
 	}
 
 	private void InstantiatePerson() {

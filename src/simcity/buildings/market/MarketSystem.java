@@ -33,9 +33,6 @@ public class MarketSystem extends simcity.SimSystem {
 		System.out.println("Something!");
 	}
 	
-	public String getName() {
-		return "Market 1";
-	}
 	
 	//replaces existing inventory with passed in one
 	public void setInventory(Map<String, Integer> inv) {

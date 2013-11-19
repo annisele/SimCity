@@ -34,7 +34,7 @@ public class MarketAnimationPanel extends AnimationPanel implements ActionListen
 		Graphics2D g2 = (Graphics2D)g;
 
 		//Clear the screen by painting a rectangle the size of the frame
-		g2.setColor(Color.LIGHT_GRAY);
+		g2.setColor(Color.CYAN);
 		g2.fillRect(0, 0, this.getWidth(), this.getHeight());
 
 		g2.setColor(Color.CYAN);

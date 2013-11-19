@@ -100,8 +100,8 @@ public class SimCityGui extends JFrame implements ActionListener {
 			String name = item.getKey();
 			JPanel tempCard = item.getValue();
 		    viewDetailPanel.add(tempCard, name);
-		    
 		}
+		System.out.println("We have "+panels.entrySet().size()+" cards");
 	}
 	
 	public ControlPanel getControlPanel() {
@@ -118,8 +118,9 @@ public class SimCityGui extends JFrame implements ActionListener {
 			//viewDetailPanel = a;
 			//CardLayout c = (CardLayout)(((Container) cards).getLayout());
 		  //  c.show((Container) cards, a.getName());
+			
 			CardLayout c = (CardLayout) viewDetailPanel.getLayout();
-			c.show(viewDetailPanel, a.getName());
+			c.show(viewDetailPanel, a.getName());			
 			System.out.println("Changing the detail panel to "+a.getClass().getName());
 		}
 	}

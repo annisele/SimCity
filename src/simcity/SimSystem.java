@@ -10,6 +10,7 @@ public class SimSystem {
 	protected AnimationPanel animationPanel;
 	protected JPanel controlPanel;
 	protected SimCityGui simCityGui;
+	protected String name;
 	
 	public SimSystem(SimCityGui scg) {
 		simCityGui = scg;
@@ -19,6 +20,10 @@ public class SimSystem {
 		animationPanel = a;
 	}
 	
+	public void setName(String n) {
+		name = n;
+	}
+	
 	public AnimationPanel getAnimationPanel() {
 		if (animationPanel == null) {
 			System.out.println("Sorry, this SimSystem does not have an animationPanel!");
@@ -26,6 +31,10 @@ public class SimSystem {
 		} else {
 			return animationPanel;
 		}
+	}
+	
+	public String getName() {
+		return name;
 	}
 	
 	public JPanel getControlPanel() {

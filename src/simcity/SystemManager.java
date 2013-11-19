@@ -64,6 +64,7 @@ public class SystemManager {
 	
 	public void addMarket(String name, int xLoc, int yLoc) {
 		MarketSystem temp = new MarketSystem(simcity);
+		temp.setName(name);
 		markets.add(temp);
 		BuildingGui building = new BuildingGui(temp, xLoc, yLoc);
 		world.getAnimationPanel().addBuilding(building);
@@ -79,6 +80,7 @@ public class SystemManager {
 	
 	public void addRestaurantOne(String name, int xLoc, int yLoc) {
 		RestaurantOneSystem temp = new RestaurantOneSystem(simcity);
+		temp.setName(name);
 		restaurantOnes.add(temp);
 		BuildingGui building = new BuildingGui(temp, xLoc, yLoc);
 		world.getAnimationPanel().addBuilding(building);
@@ -145,12 +147,29 @@ public class SystemManager {
 		return world;
 	}
 	
+	public void setCards() {
+		Map<String, JPanel> panels = new HashMap<String, JPanel>();
+		for(RestaurantOneSystem r : restaurantOnes) {
+			panels.put(r.getName(), r.getAnimationPanel());
+		}
+		for(MarketSystem m : markets) {
+			panels.put(m.getName(), m.getAnimationPanel());
+		}
+		
+		simcity.setCards(panels);
+	}
+	
 	public Map<String, JPanel> getCards() {
 		Map<String, JPanel> marketPanels = new HashMap<String, JPanel>();
+		
+		for(RestaurantOneSystem r : restaurantOnes) {
+			marketPanels.put(r.getName(), r.getAnimationPanel());
+		}
 		for(MarketSystem m : markets) {
 			marketPanels.put(m.getName(), m.getAnimationPanel());
 		}
 		return marketPanels;
 	}
+	
 	
 }

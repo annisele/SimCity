@@ -1,9 +1,55 @@
 package simcity.buildings.transportation;
 
-public class PedestrianRole implements simcity.interfaces.transportation.Pedestrian {
-/*	Location destination;
+import java.util.*;
+
+import simcity.Location;
+import simcity.PersonAgent;
+import simcity.Role;
+import simcity.gui.transportation.PedestrianGui;
+
+public class PedestrianRole extends Role implements simcity.interfaces.transportation.Pedestrian {
+
+	// Data
 	PersonAgent person;
+	PedestrianGui gui;
+	private List<Location> destinationList = Collections.synchronizedList(new ArrayList<Location>());
 	
+	// Constructor
+	public PedestrianRole(PersonAgent person, PedestrianGui gui) {
+		this.person = person;
+		this.gui = gui;
+		destinationList.add(new Location(150,150));
+	}
+	
+	// Scheduler
+	public boolean pickAndExecuteAnAction() {
+		if(!destinationList.isEmpty()) {
+			GoToDestination(destinationList.get(0));
+		}
+		
+		return false;
+	}
+	
+	// Actions
+	private void GoToDestination(Location destination) {
+		DoGoToLocation(destination.getX(), destination.getY());
+	}
+	
+	// Animation DoXYZ
+	private void DoGoToLocation(int x, int y) {
+		gui.DoGoToLocation(x, y);
+	}
+	
+	// Utility functions
+	public void addDestination(Location destination) {
+		destinationList.add(destination);
+	}
+	
+	public PedestrianGui getGui() {
+		return gui;
+	}
+	
+	/*
 	public void msgWalkTo(Location l) {
 		destination = l;
 	}
@@ -22,6 +68,6 @@ public class PedestrianRole implements simcity.interfaces.transportation.Pedestr
 	
 	private void DoGoTo(Location loc)  {
 	//pedestrianGui.DoWalkTo...
-	}
-*/
+	}*/
+
 }

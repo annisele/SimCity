@@ -3,23 +3,32 @@ package simcity.gui;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import simcity.Location;
+import simcity.SimSystem;
 
 public class BuildingGui {
 	private Location location;
 	private static final int SIZE_X = 60;
 	private static final int SIZE_Y = 60;
-	private String name;
+	private SimSystem system;
 	
 	//System system;
-	public BuildingGui(String n, int xLoc, int yLoc) {
-		name = n;
+	public BuildingGui(SimSystem s, int xLoc, int yLoc) {
+		system = s;
 		location = new Location(xLoc, yLoc);
+		
 	}
 	
-	public String getName() {
-		return name;
+	public AnimationPanel getAnimationPanel() {
+		if (system.getAnimationPanel() != null) {
+			return system.getAnimationPanel();
+		} else {
+			return null;
+		}
 	}
 	
     public void draw(Graphics2D g) {

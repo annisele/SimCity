@@ -80,7 +80,7 @@ public class BankHostRole extends Role implements simcity.interfaces.bank.BankHo
 	}
 	
 	//scheduler
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		if (!customers.isEmpty()) {
 			for (BankWindow window : windows) {
 				if (!window.isOccupied()) {

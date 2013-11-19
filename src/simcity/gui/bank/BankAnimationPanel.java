@@ -1,55 +1,69 @@
 package simcity.gui.bank;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import simcity.gui.AnimationPanel;
 import simcity.gui.Gui;
-import simcity.gui.SimCityGui;
+
+import javax.swing.*;
 
 /****************
  * Bank Animation Panel - 
  * @author levonne key
  */
 public class BankAnimationPanel extends AnimationPanel implements ActionListener {
-	private List<Gui> guis = new ArrayList<Gui>();
+	private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
 
-    private final int WINDOWX = 500;
-    private final int WINDOWY = 450;
-    private Dimension bufferSize;
 	public BankAnimationPanel() {
-		super();
-		setSize (WINDOWX, WINDOWY);
-		setVisible(true);
+		setBackground(Color.YELLOW);
+		setVisible(true);	 
+        Timer timer = new Timer(3, this );
+        timer.start();
 	}
 	public void actionPerformed(ActionEvent e) {
 		repaint();
 	}	
 	public void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D)g;
-
+		Color windowColor = new Color (250, 250, 250);
 		//Clear the screen by painting a rectangle the size of the frame
-		g2.setColor(Color.ORANGE);
-		g2.fillRect(0, 0, this.getWidth(), this.getHeight());
-
+		g2.setColor(getBackground());
+        g2.setColor(getBackground());
+        g2.fillRect(0, 0, 600, 600);
+        g2.setColor(windowColor);
+        g2.fillRect(100, 350, 40, 40);
+        g2.fillRect(200, 350, 40, 40);
+        g2.fillRect(300, 350, 40, 40);
+        //bankteller gui
+        Color black = new Color(0,0,0);
+        g2.setColor(black);
+        g2.drawString("Bank Waiting Area", 100, 50);
+		Color BanktellerColor = new Color (45, 45, 45);
+			g2.setColor(BanktellerColor);
+			g2.fillRect(300, 100, 25, 25);
+		Color BankHostColor = new Color (177, 212, 43);
+			g2.setColor(BankHostColor);
+			g2.fillRect(200, 100, 50, 50);
+		synchronized(guis) {
 		for(Gui gui : guis) {
 			if (gui.isPresent()) {
 				gui.updatePosition();
 			}
 		}
+		}
+		synchronized(guis) {
 		for(Gui gui : guis) {
 			if (gui.isPresent()) {
-				gui.draw((Graphics2D)g);
+				gui.draw(g2);
 			}
 		}
-		super.paintComponent(g);
-	}
-	
-	public void addGui(Gui g) {
-		guis.add(g);
+		}
 	}
 }

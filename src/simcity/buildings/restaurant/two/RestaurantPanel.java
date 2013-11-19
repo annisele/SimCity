@@ -1,4 +1,4 @@
-package simcity.buildings.restaurant.one;
+package simcity.buildings.restaurant.two;
 
 import javax.swing.JPanel;
 

@@ -15,10 +15,8 @@ import simcity.interfaces.market.MarketCustomer;
 import simcity.interfaces.market.MarketTruck;
 import simcity.interfaces.market.MarketWorker;
 
-public class MarketSystem extends simcity.System {
+public class MarketSystem extends simcity.SimSystem {
 	
-//	public MarketControlPanel controlPanel;
-//	public MarketAnimationPanel animationPanel;
 	private MarketComputer computer = new MarketComputer();
 	private MarketCashier cashier;
 	private List<MarketCustomer> customers = Collections.synchronizedList(new ArrayList<MarketCustomer>());
@@ -29,6 +27,14 @@ public class MarketSystem extends simcity.System {
 		super(scg);
 		controlPanel = new MarketControlPanel();
 		animationPanel = new MarketAnimationPanel();
+	}
+	
+	public void printSomething() {
+		System.out.println("Something!");
+	}
+	
+	public String getName() {
+		return "Market 1";
 	}
 	
 	//replaces existing inventory with passed in one

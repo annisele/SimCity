@@ -2,6 +2,8 @@ package simcity;
 
 import java.util.*;
 
+import simcity.gui.Gui;
+import simcity.gui.transportation.PedestrianGui;
 import simcity.interfaces.Person;
 import simcity.buildings.transportation.*;
 import simcity.buildings.restaurant.one.*;
@@ -34,6 +36,8 @@ public class PersonAgent extends Agent implements Person {
     //RestaurantOneCustomerRole rcr= new RestaurantOneCustomerRole();
 	enum Priority{ Now, Next, Later};
 	private Event currentEvent;
+	private PedestrianGui gui;
+	
 	public class Event {
 		Location location;
 		Role role;
@@ -47,7 +51,7 @@ public class PersonAgent extends Agent implements Person {
 	}
 	}
 	
-	public PersonAgent(String n,double m){
+	public PersonAgent(String n, double m){
         super();
         this.name = n;
         //this.roleMapping = new HashMap<String, Map<SimEvent.EventType,Role> >();
@@ -61,8 +65,8 @@ public class PersonAgent extends Agent implements Person {
       //MarketCustomerRole rcr= new RestaurantCustomerOneRole;
         myRoles.add(rcr);
         this.money = m;
-        
-        
+
+        InstantiatePerson();
     }
 
 	public void msgExitMarket(Map<String, Integer> tempItems) {
@@ -146,5 +150,15 @@ public class PersonAgent extends Agent implements Person {
 	public void setRoles(List<Role> roles) {
 		this.myRoles = roles;
 	}
-
+	
+	public Gui getGui() {
+		return myRoles.get(0).getGui();
+	}
+	
+	private void InstantiatePerson() {
+		PedestrianGui pedestrianGui = new PedestrianGui();
+		PedestrianRole pedestrianRole = new PedestrianRole(this, pedestrianGui);
+		myRoles.add(pedestrianRole);
+	}
+	
 }

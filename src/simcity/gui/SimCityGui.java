@@ -12,6 +12,10 @@ import simcity.gui.transportation.PedestrianGui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.List;
 
 /****************************
  * SimCityGui - The entire window which contains a world panel, detail panel
@@ -29,19 +33,15 @@ public class SimCityGui extends JFrame implements ActionListener {
 	//	private JPanel viewWorldPanel = new WorldAnimationPanel();
 	//	private JPanel viewDetailPanel = new MarketAnimationPanel(); //new AnimationPanel();
 	
-	// Systems for each element
-	private WorldSystem wp = new WorldSystem(this);
-	private MarketSystem mp = new MarketSystem(this);
-	private RestaurantOneSystem rs = new RestaurantOneSystem(this);
-	
 	// But this is really a panel
-	private AnimationPanel viewWorldPanel = wp.getAnimationPanel();
-	private AnimationPanel viewDetailPanel = mp.getAnimationPanel();
-	//private AnimationPanel viewDetailPanel = rs.getAnimationPanel();
+	private AnimationPanel viewWorldPanel;
+	//private AnimationPanel viewDetailPanel;
+	private JPanel viewDetailPanel;
 	private JTextArea consoleWorld = new JTextArea();
 	private JTextArea consoleDetail = new JTextArea();
 	private JSplitPane splitPaneWorld;
 	private JSplitPane splitPaneDetail;
+	
 	
 	private Config config;
 	private SystemManager systemManager;
@@ -55,7 +55,17 @@ public class SimCityGui extends JFrame implements ActionListener {
 	public SimCityGui() {
 		systemManager = new SystemManager(this);
         config = new Config(systemManager);
-
+                
+       // viewDetailPanel = new EmptyAnimationPanel();
+        viewDetailPanel = new JPanel(new CardLayout());
+        viewWorldPanel = systemManager.getWorld().getAnimationPanel();
+        //systemManager.getWorld().setAnimationPanel();
+        //
+        // I'm thinking we don't need to initialize this DetailPane.  Maybe we'll initialize it to some default thing
+        // When someone clicks on a building (after loading them), this DetailPane will show that building
+        //
+        //viewDetailPanel = systemManager.getRestaurantOne(0).getAnimationPanel();
+        
 		controlPanel  = new ControlPanel(this, config);
 		menuPanel.setPreferredSize(new Dimension(300, 700));
 		controlPanel.setPreferredSize(new Dimension(300, 700));
@@ -83,11 +93,35 @@ public class SimCityGui extends JFrame implements ActionListener {
        
         
 	}
+	public void setCards(Map<String, JPanel> panels) {
+		Iterator it = panels.entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry<String, JPanel> item = (Map.Entry<String, JPanel>)it.next();
+			String name = item.getKey();
+			JPanel tempCard = item.getValue();
+		    viewDetailPanel.add(tempCard, name);
+		    
+		}
+	}
+	
 	public ControlPanel getControlPanel() {
 		return controlPanel;
 	}
 	public void actionPerformed(ActionEvent e) {
 	
+	}
+	
+	public void changeDetailPane(AnimationPanel a) {
+		if (a == null) {
+			System.out.println("You clicked on something that made us want to change the DetailPane, but the supplied panel is null!");
+		} else {
+			//viewDetailPanel = a;
+			//CardLayout c = (CardLayout)(((Container) cards).getLayout());
+		  //  c.show((Container) cards, a.getName());
+			CardLayout c = (CardLayout) viewDetailPanel.getLayout();
+			c.show(viewDetailPanel, a.getName());
+			System.out.println("Changing the detail panel to "+a.getClass().getName());
+		}
 	}
 	
 	  
@@ -101,5 +135,9 @@ public class SimCityGui extends JFrame implements ActionListener {
       gui.setVisible(true);
 	}
   
+	/*public WorldSystem getWorld() {
+		return wp;
+	}*/
+	
 	  
 }

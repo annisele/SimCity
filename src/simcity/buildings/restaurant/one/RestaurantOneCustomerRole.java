@@ -18,4 +18,6 @@ public class RestaurantOneCustomerRole extends Role implements simcity.interface
 		return false;
 	}
 
+	
+	
 }

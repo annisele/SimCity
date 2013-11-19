@@ -1,4 +1,4 @@
-package simcity.gui.restaurant;
+package simcity.gui.restaurantone;
 
 public class RestaurantOneCustomerGui {
 

@@ -3,7 +3,7 @@ package simcity.buildings.transportation;
 import simcity.Location;
 import agent.Agent;
 
-public class CarAgent extends Agent implements simcity.interfaces.transportation.Car {
+public class CarAgent extends Role implements simcity.interfaces.transportation.Car {
  CarPassengerRole passenger;
 	Location destination;
 	//CarState state = enum{ waiting, driving }
@@ -32,7 +32,7 @@ public class CarAgent extends Agent implements simcity.interfaces.transportation
 	private void Drive() {
 
 		// Animation - call to cargui
-		DoGoTo(destination.xLoc, destination.yLoc);
+		DoGoTo(destination.getX(), destination.getY());
 		//UNCOMMENT LINE OF CODE BELOW ONCE MOST ERRORS BE FIXED. ARRR
 	//	passenger.msgWeHaveArrived(destination.xLoc, destination.yLoc);
 		destination = null;

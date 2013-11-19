@@ -1,9 +1,10 @@
 package simcity.buildings.transportation;
 
 import simcity.Location;
+import simcity.Role;
 import agent.Agent;
 
-	public class BusPassengerRole extends Agent implements simcity.interfaces.transportation.BusPassenger {
+	public class BusPassengerRole extends Role implements simcity.interfaces.transportation.BusPassenger {
 		
 		BusAgent bus;
 		Location destination;

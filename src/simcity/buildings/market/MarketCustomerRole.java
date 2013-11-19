@@ -10,7 +10,8 @@ public class MarketCustomerRole extends Role implements simcity.interfaces.marke
 	private List<Invoice> invoices = Collections.synchronizedList(new ArrayList<Invoice>());
 	private enum InvoiceState {expected, billed, paid, delivered};
 	private MarketComputer market;
-
+	
+	
 	public void msgEnterMarket(Map<String, Integer> itemsToBuy, MarketComputer m) {
 		invoices.add(new Invoice(InvoiceState.expected, itemsToBuy, invoices.size()));
 		market = m;

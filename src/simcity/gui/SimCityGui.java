@@ -114,6 +114,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 	
 	public void clearDetailPane() {
 		viewDetailPanel.removeAll();
+		viewDetailPanel.updateUI();
 	}
 	
 	public void changeDetailPane(AnimationPanel a) {

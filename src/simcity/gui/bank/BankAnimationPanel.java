@@ -8,8 +8,10 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import simcity.gui.AnimationPanel;
 import simcity.gui.Gui;
+
 import javax.swing.*;
 
 /****************
@@ -21,7 +23,10 @@ public class BankAnimationPanel extends AnimationPanel implements ActionListener
 
 	public BankAnimationPanel() {
 		setBackground(Color.YELLOW);
-		setVisible(true);	 
+		setVisible(true);	
+
+    	Timer timer = new Timer(2, this );
+    	timer.start();
 	}
 	public void actionPerformed(ActionEvent e) {
 		repaint();
@@ -32,7 +37,6 @@ public class BankAnimationPanel extends AnimationPanel implements ActionListener
 		Color windowColor = new Color (220,220,220);
 		//Clear the screen by painting a rectangle the size of the frame
 		g2.setColor(getBackground());
-        g2.setColor(getBackground());
         g2.fillRect(0, 0, 700, 700);
         g2.setColor(windowColor);
         g2.fillRect(100, 350, 50, 20);
@@ -41,8 +45,14 @@ public class BankAnimationPanel extends AnimationPanel implements ActionListener
 
 		Color BankHostColor = new Color (50, 50, 50);
 			g2.setColor(BankHostColor);
-			g2.fillRect(100, 100, 25, 25);
-		
+			g2.fillRect(30, 55, 25, 25);
+
+		//Here is the waiting area
+        g2.setColor(Color.BLUE);		       
+        for (int i = 0; i < 18; i++){
+        	g2.fillRect(30+(i*25),10 ,20 ,20 );
+        }
+		        	
 		
 			 synchronized(guis) {
 			        for(Gui gui : guis) {

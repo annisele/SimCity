@@ -4,6 +4,8 @@ import java.util.*;
 
 import simcity.interfaces.Person;
 import simcity.buildings.transportation.*;
+import simcity.buildings.restaurant.one.*;
+import simcity.Role;
 
 import java.util.Map.Entry;
 
@@ -14,13 +16,22 @@ public class PersonAgent extends Agent implements Person {
 	private List<Role> myRoles;
 	
 	TreeMap<Integer, Event> Schedule=new TreeMap<Integer, Event>();
-	//SortedMap Schedul = Collections.synchronizedSortedMap(new TreeMap());
+	//SortedMap Schedule = Collections.synchronizedSortedMap(new TreeMap());
   
-
+	private List <myRestaurants> Restaurants= new ArrayList<myRestaurants>();
+	private class myRestaurants{
+		String name;
+		Location location;
+		myRestaurants(){
+			
+		}
+	}
 	public String name;
 	private boolean inAction;
 	public double money;
 	private int currentTime, hungerLevel;
+
+    //RestaurantOneCustomerRole rcr= new RestaurantOneCustomerRole();
 	enum Priority{ Now, Next, Later};
 	private Event currentEvent;
 	public class Event {
@@ -44,7 +55,13 @@ public class PersonAgent extends Agent implements Person {
         //myRoles.add ALL USEFUL ROLES with useful perimeters
         //all roles are set to false
         //set person to this
+
+        RestaurantOneCustomerRole rcr= new RestaurantOneCustomerRole("sally",this);
+        rcr.setPerson(this);
+      //MarketCustomerRole rcr= new RestaurantCustomerOneRole;
+        myRoles.add(rcr);
         this.money = m;
+        
         
     }
 
@@ -66,10 +83,10 @@ public class PersonAgent extends Agent implements Person {
 		// TODO Auto-generated method stub
 		if (hungerLevel > 10){
 		if (currentEvent.priority==Priority.Later){
-			EatFood();
+			EatFoodNow();
 		}
 		else if (currentEvent.priority==Priority.Now){
-			EatFood();
+			EatFoodLater();
 		}
 		}
 		if(inAction==true){
@@ -93,7 +110,20 @@ public class PersonAgent extends Agent implements Person {
 		return false;
 	}
 	}
-	public void EatFood(){
+	public void EatFoodNow(){
+		int i=1;
+		if(i==0){
+			//decide on a restaurant!
+			Event e = new Event(Restaurants.get(i).location, myRoles.get(0));
+		Schedule.put(currentTime, null);
+		}
+		if(i==0){
+			Schedule.put(currentTime, null);
+			}
+		//saskdjhaskdhkashd NOOOO
+	}
+	public void EatFoodLater(){
+		Schedule.put(currentTime+10, null);
 		//saskdjhaskdhkashd NOOOO
 	}
 	public void DoEvent(Event e){

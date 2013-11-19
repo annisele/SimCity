@@ -11,7 +11,9 @@ public class Config {
 	public Config(SystemManager s) {
 		systems = s;
 	}
-	
+	public void persons(){
+		
+	}
 	public void oneMarket() {
 		systems.addMarket();
 		

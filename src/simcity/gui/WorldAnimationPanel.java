@@ -13,17 +13,19 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
 
 	public WorldAnimationPanel() {//SimCityGui sc) {
 		super();
+		Timer timer = new Timer(8, this );
+    	timer.start();
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		
+		repaint();
 	}
 	
 	public void paintComponent(Graphics g) {
-		//System.out.println("We're in paint component");
+		
 		Graphics2D g2 = (Graphics2D)g;
-
+		g2.setColor(getBackground());
 		//super.paintComponent(g);
 		
         //Clear the screen by painting a rectangle the size of the frame

@@ -65,6 +65,7 @@ public class SystemManager {
 	
 	public void addMarket(String name, int xLoc, int yLoc) {
 		MarketSystem temp = new MarketSystem(simcity);
+		
 		temp.setName(name);
 		markets.add(temp);
 		BuildingGui building = new BuildingGui(temp, xLoc, yLoc);

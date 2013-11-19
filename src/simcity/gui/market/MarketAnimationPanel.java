@@ -20,7 +20,6 @@ import simcity.gui.SimCityGui;
 public class MarketAnimationPanel extends AnimationPanel implements ActionListener  {
 
 	private final int NUM_SHELVES = 6;
-	private final int NUM_CASHIERS = 4;
 	private final int WALL_WIDTH = 5;
 	
 	private List<Gui> guis = new ArrayList<Gui>();
@@ -41,20 +40,21 @@ public class MarketAnimationPanel extends AnimationPanel implements ActionListen
 		g2.setColor(Color.LIGHT_GRAY);
 		g2.fillRect(0, 0, this.getWidth(), this.getHeight());
 
+		//walls
 		g2.setColor(Color.GRAY);
 		g2.fillRect(100 , 0, this.getWidth(), WALL_WIDTH); //top wall
 		g2.fillRect(0 , 40, WALL_WIDTH, this.getHeight()); //left wall
 		g2.fillRect(this.getWidth() - WALL_WIDTH , 0, WALL_WIDTH, this.getHeight()); //right wall
 		g2.fillRect(0 , this.getHeight() - WALL_WIDTH, this.getWidth(), WALL_WIDTH); //bottom wall
 
+		//cash register
 		g2.setColor(Color.DARK_GRAY);
-		for(int i = 0; i < NUM_CASHIERS; i++) {
-			g2.fillRect(60 + (100 * i), 50, 30, 75);
-		}
+		g2.fillRect(250, 50, 75, 30);
 		
+		//shelves
 		g2.setColor(new Color(100, 65, 45));
 		for(int i = 0; i < NUM_SHELVES; i++) {
-			g2.fillRect((i * 70) + 40, 175, 30, 250);
+			g2.fillRect((i * 70) + 40, 150, 30, 250);
 		}
 
 		super.paintComponent(g);

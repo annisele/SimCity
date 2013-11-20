@@ -160,14 +160,13 @@ public class PersonAgent extends Agent implements Person {
 	}
 	
 	private void InstantiatePerson() {
-		PedestrianGui pedestrianGui = new PedestrianGui();
-		PedestrianRole pedestrianRole = new PedestrianRole(this, pedestrianGui);
+		PedestrianRole pedestrianRole = new PedestrianRole(this);
 		myRoles.add(pedestrianRole);
 		RestaurantOneCustomerGui restaurantOneCustomerGui = new RestaurantOneCustomerGui();
 		RestaurantOneCustomerRole restaurantOneCustomer = new RestaurantOneCustomerRole(this, restaurantOneCustomerGui);
 		myRoles.add(restaurantOneCustomer);
 			pedestrianRole.setPerson(this);
-			Location l= new Location(25,25);
+			Location l= new Location(150,150);
 			Event e = new Event(l,myRoles.get(1));
 			Schedule.put(1, e);
 	}

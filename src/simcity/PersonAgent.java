@@ -3,9 +3,11 @@ package simcity;
 import java.util.*;
 
 import simcity.gui.Gui;
+import simcity.gui.bank.BankCustomerGui;
 import simcity.gui.restaurantone.RestaurantOneCustomerGui;
 import simcity.gui.transportation.PedestrianGui;
 import simcity.interfaces.Person;
+import simcity.buildings.bank.BankCustomerRole;
 import simcity.buildings.restaurant.one.RestaurantOneCustomerRole;
 import simcity.buildings.transportation.*;
 import simcity.buildings.restaurant.one.*;
@@ -161,13 +163,18 @@ public class PersonAgent extends Agent implements Person {
 		myRoles.add(pedestrianRole);
 		RestaurantOneCustomerGui restaurantOneCustomerGui = new RestaurantOneCustomerGui();
 		RestaurantOneCustomerRole restaurantOneCustomer = new RestaurantOneCustomerRole(this, restaurantOneCustomerGui);
+		BankCustomerGui bankCustomerGui = new BankCustomerGui();
+		BankCustomerRole bankCustomer = new BankCustomerRole(this, bankCustomerGui);
 		myRoles.add(restaurantOneCustomer);
 			pedestrianRole.setPerson(this);
 			Location l= new Location(150,150);
 			Event e = new Event(l,myRoles.get(1));
 			getSchedule().put(1, e);
-
-	
+		myRoles.add(bankCustomer);
+			pedestrianRole.setPerson(this);
+			Location l1 = new Location(12, 12);
+			Event e1 = new Event(l,myRoles.get(2));
+			getSchedule().put(2, e);
 	}
 
 	public TreeMap<Integer, Event> getSchedule() {

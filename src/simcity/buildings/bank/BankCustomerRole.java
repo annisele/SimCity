@@ -8,7 +8,11 @@ package simcity.buildings.bank;
 import java.awt.Window;
 import java.util.*;
 
+import simcity.PersonAgent;
 import simcity.Role;
+import simcity.gui.Gui;
+import simcity.gui.bank.BankCustomerGui;
+import simcity.interfaces.bank.*;
 public class BankCustomerRole extends Role implements simcity.interfaces.bank.BankCustomer {
 	
 	private String name;
@@ -20,7 +24,11 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	int accountNumber;
 	double amountToProcess;
 	double cashOnHand;
-	
+	// Constructor
+		public BankCustomerRole(PersonAgent person, BankCustomerGui gui) {
+			this.person = person;
+			this.gui = gui;
+		}
 	Timer timer = new Timer();
 	
 	public enum TransactionState{none, openAccount, depositMoney, withdrawMoney, loanMoney};
@@ -49,13 +57,13 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	//bank host sends this message to tell bank customer to go to bank window
 	public void msgArrivedAtBank() { // from gui
 		event = Event.arrivedAtBank;
-		//stateChanged();
+		stateChanged();
 	}
 	public void msgGoToWindow(int windowNumber, BankTellerRole bt) {
 		this.windowNumber = windowNumber;
 		this.bt = bt;
 		event = Event.directedToWindow;
-		//stateChanged();
+		stateChanged();
 	}
 
 	// bank teller sends this message to customer after opening an account
@@ -63,34 +71,34 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 		System.out.println("Here is your new account information");
 		cashOnHand = cashOnHand - accountBalance;
 		event = Event.transactionProcessed;
-		//stateChanged();
+		stateChanged();
 	}
 	//bank teller sends this message to customer after withdrawing money
 	public void msgHereIsMoney(BankCustomerRole bc, int accountNumber, double accountBalance, double amountProcessed) {
 		System.out.println("Here is the money that you withdraw");
 		cashOnHand = cashOnHand + amountProcessed;
 		event = Event.transactionProcessed;
-		//stateChanged(); 
+		stateChanged(); 
 	}
 	//bank teller sends this message to customer after depositing money
 	public void msgMoneyIsDeposited(BankCustomerRole bc, int accountNumber, double accountBalance, double amountProcessed) {
 		System.out.println("Here is the money that you withdraw");
 		cashOnHand = cashOnHand - amountProcessed;
 		event = Event.transactionProcessed;
-		//stateChanged();
+		stateChanged();
     }
 	//bank teller sends this message to customer when the loan is approved
 	 public void msgHereIsYourLoan(BankCustomerRole bc, int accountNumber, double accountBalance, double amountProcessed) {
 		    System.out.println("Your loan has been approved");
 		    cashOnHand = cashOnHand + amountProcessed;
 		    event = Event.transactionProcessed;
-			//stateChanged(); 
+			stateChanged(); 
 	 }
 	//bank teller sends this message to customer when the loan is not approved
 	 public void msgCannotGrantLoan(BankCustomerRole bc, int accountNumber, double accountBalance, double loanAmount) {
 		 System.out.println("Your loan is not approved");
     	 event = Event.transactionProcessed;
-	     //stateChanged(); 
+	     stateChanged(); 
      }
 	
 	 //scheduler

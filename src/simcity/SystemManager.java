@@ -62,7 +62,7 @@ public class SystemManager {
 		//hacks
 		world.getAnimationPanel().addGui(person.getRoles().get(0).getGui());
 		restaurantOnes.get(0).getAnimationPanel().addGui(person.getRoles().get(1).getGui());
-		//restaurantOnes.get(0).getAnimationPanel().addGui(person.getRestaurantOneCustomer().getGui());
+		banks.get(0).getAnimationPanel().addGui(person.getRoles().get(2).getGui());
 	}
 	
 	public void addMarket(String name, int xLoc, int yLoc) {
@@ -163,6 +163,9 @@ public class SystemManager {
 		for(MarketSystem m : markets) {
 			panels.put(m.getName(), m.getAnimationPanel());
 		}
+		for(BankSystem b : banks) {
+			panels.put(b.getName(), b.getAnimationPanel());
+		}
 		
 		simcity.setCards(panels);
 	}
@@ -175,6 +178,9 @@ public class SystemManager {
 		}
 		for(MarketSystem m : markets) {
 			marketPanels.put(m.getName(), m.getAnimationPanel());
+		}
+		for(BankSystem b : banks) {
+			marketPanels.put(b.getName(), b.getAnimationPanel());
 		}
 		return marketPanels;
 	}

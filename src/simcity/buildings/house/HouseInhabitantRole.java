@@ -1,5 +1,5 @@
 package simcity.buildings.house;
-
+import java.util.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
@@ -9,8 +9,8 @@ import simcity.Role;
 
 public class HouseInhabitantRole extends Role implements simcity.interfaces.house.HouseInhabitant {
 	private Map <String , Integer > foodStock= new HashMap<String,Integer>();
-	Timer sleeptimer;
-	Timer cooktimer;
+	Timer sleeptimer= new Timer();
+	Timer cooktimer= new Timer();
 	PersonAgent person;
 	enum HouseInhabitantState {hungry, readytosleep, sleeping, bored} 
 	HouseInhabitantState state;
@@ -44,14 +44,29 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 
 	private void Cook() {
 		if (person.money < 100)
-			cooktimer.start(person.msgFinishedEating(), 8000); //or whatever time is fine
+		     cooktimer.schedule(new TimerTask(){
+                 Object cookie = 1;
+                 
+                 public void run() {
+                         
+                         Do("cooking");
+                         
+                         stateChanged();
+                 }
+         }, 3000); //or whatever time is fine
 		else LeaveForRestaurant();
 
 	}
 
+	private void LeaveForRestaurant() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 	private void Sleep() {
-		if () {
-			int sleepTime = 8 hours;
+		if (person.isDone()==true) {
+			int sleepTime = 8;
 		} else {
 			int sleepTime = timeIneedtodosomething - timeToEatFood - timeNow;
 		}

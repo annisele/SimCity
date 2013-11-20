@@ -166,6 +166,11 @@ public class PersonAgent extends Agent implements Person {
 			Location l= new Location(150,150);
 			Event e = new Event(l,myRoles.get(1));
 			getSchedule().put(1, e);
+			
+			restaurantOneCustomer.setPerson(this);
+			Location l2= new Location(250,250);
+			Event e2 = new Event(l2,myRoles.get(2));
+			getSchedule().put(1, e2);
 
 	
 	}

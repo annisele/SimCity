@@ -50,7 +50,7 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
                  public void run() {
                          
                          Do("cooking");
-                         
+                         // add gui events to "got to the kitcen and make food" 
                          stateChanged();
                  }
          }, 3000); //or whatever time is fine
@@ -65,14 +65,14 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 
 
 	private void Sleep() {
+		int sleepTime;
 		if (person.isDone()==true) {
-			int sleepTime = 8;
-		} else {
-			int sleepTime = timeIneedtodosomething - timeToEatFood - timeNow;
-		}
-		sleeptimer.start(msgWakeUp(), sleepTime);
+			sleepTime = 8;
+		} 
+		sleeptimer.schedule{new TimerTask{{WakeUp(), sleepTime);
 		//personGui.msgGoToBed();
 
 	}
+	private void WakeUp()
 
 }

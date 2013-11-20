@@ -60,8 +60,9 @@ public class SystemManager {
 		PersonAgent person = new PersonAgent(name, money);
 		people.add(person);
 		//hacks
+		person.startThread();
 		world.getAnimationPanel().addGui(person.getRoles().get(0).getGui());
-		restaurantOnes.get(0).getAnimationPanel().addGui(person.getRoles().get(1).getGui());
+		//restaurantOnes.get(0).getAnimationPanel().addGui(person.getRoles().get(1).getGui());
 		//restaurantOnes.get(0).getAnimationPanel().addGui(person.getRestaurantOneCustomer().getGui());
 	}
 	

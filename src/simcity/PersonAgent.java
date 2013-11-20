@@ -35,6 +35,7 @@ public class PersonAgent extends Agent implements Person {
 	public String name;
 	private boolean inAction, done;
 	public double money;
+	static long time, startTime=System.currentTimeMillis();
 	private int currentTime, hungerLevel;
 
 	//RestaurantOneCustomerRole rcr= new RestaurantOneCustomerRole();
@@ -64,9 +65,10 @@ public class PersonAgent extends Agent implements Person {
 		//set person to this
 		this.setDone(false);
 		currentTime=1;
+		this.inAction=false;
 		// RestaurantOneCustomerRole rcr= new RestaurantOneCustomerRole("RestaurantOneCustomerRole",this);
 		//rcr.setPerson(this);
-
+		gettime();
 
 		//myRoles.add(rcr);
 		this.money = m;
@@ -77,6 +79,11 @@ public class PersonAgent extends Agent implements Person {
 	public void msgExitMarket(Map<String, Integer> tempItems) {
 		// TODO Auto-generated method stub
 
+	}
+	public void msgExitRole(){
+		Do("change role");
+		inAction=false;
+		stateChanged();
 	}
 	public void msgUpdateTime() {
 		currentTime ++; 
@@ -89,6 +96,7 @@ public class PersonAgent extends Agent implements Person {
 
 	@Override
 	public boolean pickAndExecuteAnAction() {
+		//Do("heree "+ inAction);
 		// TODO Auto-generated method stub
 		if (hungerLevel > 10){
 			if (currentEvent.priority==Priority.Later){
@@ -101,7 +109,7 @@ public class PersonAgent extends Agent implements Person {
 		if(inAction==true){
 			for(Role role : myRoles){
 				if (role.active==true){
-
+					//Do("action");
 					role.pickAndExecuteAnAction();
 					return true;
 				}
@@ -109,10 +117,14 @@ public class PersonAgent extends Agent implements Person {
 			return false;
 		}
 		else{
+			Do("here");
 			Entry<Integer,Event> ent = getSchedule().firstEntry();
-			if (currentTime >= ent. getKey()) {
+			if (gettime() >= ent. getKey()) {
+				Do("CHANGE");
+				//gettime();
 				DoEvent(((Entry<Integer, Event>) ent).getValue());
 				currentEvent=((Entry<Integer, Event>) ent).getValue();
+				
 				return true;
 			}
 
@@ -136,7 +148,8 @@ public class PersonAgent extends Agent implements Person {
 		//saskdjhaskdhkashd NOOOO
 	}
 	public void DoEvent(Event e){
-		inAction=true;
+		if(currentTime==1){
+		inAction=true;}
 		//message the universe map. 
 		//e.location == universemapKEY, then message host/manager 
 
@@ -155,6 +168,12 @@ public class PersonAgent extends Agent implements Person {
 	public void setRoles(List<Role> roles) {
 		this.myRoles = roles;
 	}
+	public long gettime(){
+		time= (System.currentTimeMillis()- startTime)/1000;
+		
+		Do("HAKHSDKJSAHD "+time);
+		return time;
+	}
 
 	private void InstantiatePerson() {
 		PedestrianRole pedestrianRole = new PedestrianRole(this);
@@ -163,15 +182,18 @@ public class PersonAgent extends Agent implements Person {
 		RestaurantOneCustomerRole restaurantOneCustomer = new RestaurantOneCustomerRole(this, restaurantOneCustomerGui);
 		myRoles.add(restaurantOneCustomer);
 			pedestrianRole.setPerson(this);
-			Location l= new Location(150,150);
-			Event e = new Event(l,myRoles.get(1));
+			Location l= new Location(250,250);
+			Event e = new Event(l,myRoles.get(0));
+			Do(".. "+myRoles.get(0));
 			getSchedule().put(1, e);
-			
+		
+			gettime();
 			restaurantOneCustomer.setPerson(this);
 			Location l2= new Location(250,250);
-			Event e2 = new Event(l2,myRoles.get(2));
-			getSchedule().put(1, e2);
-
+			Event e2 = new Event(l2,myRoles.get(1));
+			getSchedule().put(5, e2);
+			Do(".. "+getSchedule());
+			gettime();
 	
 	}
 

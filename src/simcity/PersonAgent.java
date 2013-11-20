@@ -40,12 +40,7 @@ public class PersonAgent extends Agent implements Person {
 	//RestaurantOneCustomerRole rcr= new RestaurantOneCustomerRole();
 	enum Priority{ Now, Next, Later};
 	private Event currentEvent;
-<<<<<<< HEAD
-	
-=======
-	private PedestrianGui gui;
 
->>>>>>> d5291bae0ff7d295742bb86d3c32d0a929e49821
 	public class Event {
 		Location location;
 		Role role;
@@ -162,16 +157,17 @@ public class PersonAgent extends Agent implements Person {
 	}
 
 	private void InstantiatePerson() {
-		PedestrianGui pedestrianGui = new PedestrianGui();
-		PedestrianRole pedestrianRole = new PedestrianRole(this, pedestrianGui);
+		PedestrianRole pedestrianRole = new PedestrianRole(this);
 		myRoles.add(pedestrianRole);
 		RestaurantOneCustomerGui restaurantOneCustomerGui = new RestaurantOneCustomerGui();
 		RestaurantOneCustomerRole restaurantOneCustomer = new RestaurantOneCustomerRole(this, restaurantOneCustomerGui);
 		myRoles.add(restaurantOneCustomer);
-		pedestrianRole.setPerson(this);
-		Location l= new Location(25,25);
-		Event e = new Event(l,myRoles.get(1));
-		Schedule.put(1, e);
+			pedestrianRole.setPerson(this);
+			Location l= new Location(150,150);
+			Event e = new Event(l,myRoles.get(1));
+			Schedule.put(1, e);
+
+	
 	}
 
 }

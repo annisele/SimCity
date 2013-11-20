@@ -73,6 +73,7 @@ public class SystemManager {
 	
 	public void addBank(String name, int xLoc, int yLoc) {
 		BankSystem temp = new BankSystem(simcity);
+		temp.setName(name);
 		banks.add(temp);
 		BuildingGui building = new BuildingGui(temp, xLoc, yLoc);
 		world.getAnimationPanel().addBuilding(building);

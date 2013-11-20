@@ -1,6 +1,7 @@
 package simcity.buildings.restaurant.one;
 
 import simcity.Role;
+import simcity.interfaces.restaurant.one.RestaurantOneCustomer;
 
 public class RestaurantOneCashierRole extends Role implements simcity.interfaces.restaurant.one.RestaurantOneCashier {
 
@@ -8,6 +9,13 @@ public class RestaurantOneCashierRole extends Role implements simcity.interfaces
 	public boolean pickAndExecuteAnAction() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	public void msgHereIsorder(String choice, int tnumber,
+			RestaurantOneCustomer cagent,
+			RestaurantOneWaiterRole restaurantOneWaiterRole) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

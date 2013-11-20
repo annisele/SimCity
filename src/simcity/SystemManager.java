@@ -56,6 +56,16 @@ public class SystemManager {
 		transportations.clear();
 	}
 	
+	public void getContact(SimSystem s) {
+		if(s instanceof MarketSystem) {
+			for(MarketSystem m : markets) {
+				if(m == s) {
+					
+				}
+			}
+		}
+	}
+	
 	public void addPerson(String name, double money) {
 		PersonAgent person = new PersonAgent(name, money);
 		people.add(person);
@@ -82,8 +92,12 @@ public class SystemManager {
 		world.getAnimationPanel().addBuilding(building);
 	}
 	
-	public void addHouse() {
+	public void addHouse(String name, int xLoc, int yLoc) {
+		HouseSystem temp = new HouseSystem(simcity);
+		temp.setName(name);
 		houses.add(new HouseSystem(simcity));
+		BuildingGui building = new BuildingGui(temp, xLoc, yLoc);
+		world.getAnimationPanel().addBuilding(building);
 	}
 	
 	public void addRestaurantOne(String name, int xLoc, int yLoc) {

@@ -82,8 +82,12 @@ public class SystemManager {
 		world.getAnimationPanel().addBuilding(building);
 	}
 	
-	public void addHouse() {
+	public void addHouse(String name, int xLoc, int yLoc) {
+		HouseSystem temp = new HouseSystem(simcity);
+		temp.setName(name);
 		houses.add(new HouseSystem(simcity));
+		BuildingGui building = new BuildingGui(temp, xLoc, yLoc);
+		world.getAnimationPanel().addBuilding(building);
 	}
 	
 	public void addRestaurantOne(String name, int xLoc, int yLoc) {

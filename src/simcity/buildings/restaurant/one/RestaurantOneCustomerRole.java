@@ -26,9 +26,40 @@ public class RestaurantOneCustomerRole extends Role implements simcity.interface
 		return false;
 	}
 
-	public String getName() {
+	@Override
+	public void msgWhatWouldYouLike() {
 		// TODO Auto-generated method stub
-		return null;
+		
+	}
+
+	@Override
+	public void msgFollowMe(RestaurantOneMenu restaurantOneMenu) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setWaiter(RestaurantOneWaiterRole restaurantOneWaiterRole) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgFoodOutofStock() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgHereIsYourFood() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgHereisYourCheck(RestaurantOneCheck c) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

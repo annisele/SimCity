@@ -21,11 +21,8 @@ public class BankSystem extends simcity.SimSystem{
 	
 	public BankSystem(SimCityGui scg) {
 		super(scg);
-		
 		super.setAnimationPanel(new BankAnimationPanel());
 		super.setControlPanel(new BankControlPanel());
-		// once a control panel is created, we need to uncomment this!!!
-		//controlPanel = new BankControlPanel();
 		
 		for (int i=1; i<=NUM_BANKWINDOWS; i++) {
 			windows.add(new BankWindow(i));

@@ -69,5 +69,10 @@ public class BankAnimationPanel extends AnimationPanel implements ActionListener
 		            }
 		        }
 		        }
+		   repaint();
+	}
+
+	public void addGui(Gui g) {
+		guis.add(g);
 	}
 }

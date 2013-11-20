@@ -56,14 +56,29 @@ public class SystemManager {
 		transportations.clear();
 	}
 	
+	public void getContact(SimSystem s) {
+		if(s instanceof MarketSystem) {
+			for(MarketSystem m : markets) {
+				if(m == s) {
+					
+				}
+			}
+		}
+	}
+	
 	public void addPerson(String name, double money) {
 		PersonAgent person = new PersonAgent(name, money);
 		people.add(person);
 		//hacks
 		person.startThread();
 		world.getAnimationPanel().addGui(person.getRoles().get(0).getGui());
+
 		//restaurantOnes.get(0).getAnimationPanel().addGui(person.getRoles().get(1).getGui());
 		//restaurantOnes.get(0).getAnimationPanel().addGui(person.getRestaurantOneCustomer().getGui());
+
+		restaurantOnes.get(0).getAnimationPanel().addGui(person.getRoles().get(1).getGui());
+		banks.get(0).getAnimationPanel().addGui(person.getRoles().get(2).getGui());
+
 	}
 	
 	public void addMarket(String name, int xLoc, int yLoc) {
@@ -83,8 +98,12 @@ public class SystemManager {
 		world.getAnimationPanel().addBuilding(building);
 	}
 	
-	public void addHouse() {
+	public void addHouse(String name, int xLoc, int yLoc) {
+		HouseSystem temp = new HouseSystem(simcity);
+		temp.setName(name);
 		houses.add(new HouseSystem(simcity));
+		BuildingGui building = new BuildingGui(temp, xLoc, yLoc);
+		world.getAnimationPanel().addBuilding(building);
 	}
 	
 	public void addRestaurantOne(String name, int xLoc, int yLoc) {
@@ -164,6 +183,9 @@ public class SystemManager {
 		for(MarketSystem m : markets) {
 			panels.put(m.getName(), m.getAnimationPanel());
 		}
+		for(BankSystem b : banks) {
+			panels.put(b.getName(), b.getAnimationPanel());
+		}
 		
 		simcity.setCards(panels);
 	}
@@ -176,6 +198,9 @@ public class SystemManager {
 		}
 		for(MarketSystem m : markets) {
 			marketPanels.put(m.getName(), m.getAnimationPanel());
+		}
+		for(BankSystem b : banks) {
+			marketPanels.put(b.getName(), b.getAnimationPanel());
 		}
 		return marketPanels;
 	}

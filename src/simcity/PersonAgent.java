@@ -167,11 +167,7 @@ public class PersonAgent extends Agent implements Person {
 			Event e = new Event(l,myRoles.get(1));
 			Schedule.put(1, e);
 
-		pedestrianRole.setPerson(this);
-		Location l= new Location(25,25);
-		Event e = new Event(l,myRoles.get(1));
-		Schedule.put(1, e);
-
+	
 	}
 
 }

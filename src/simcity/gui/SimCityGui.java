@@ -108,6 +108,12 @@ public class SimCityGui extends JFrame implements ActionListener {
 	public ControlPanel getControlPanel() {
 		return controlPanel;
 	}
+	
+	public void setControlPanel(JPanel cp) {
+		controlPanel.setSelectedPanel(cp);
+		//System.out.println("Changing the control panel");
+	}
+	
 	public void actionPerformed(ActionEvent e) {
 	
 	}
@@ -129,12 +135,11 @@ public class SimCityGui extends JFrame implements ActionListener {
 			// This works, but is hack-ish
 			viewDetailPanel.removeAll();
 			viewDetailPanel.updateUI();
-			//viewDetailPanel.add(a, a.getName());
 			viewDetailPanel.add(a, "name");
 
 			//CardLayout c = (CardLayout) viewDetailPanel.getLayout();
 			//c.show(viewDetailPanel, a.getName());			
-			System.out.println("Changing the detail panel to "+a.getClass().getName());
+			//System.out.println("Changing the detail panel to "+a.getClass().getName());
 		}
 	}
 	

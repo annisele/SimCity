@@ -3,6 +3,7 @@ package simcity;
 import javax.swing.JPanel;
 
 import simcity.gui.AnimationPanel;
+import simcity.gui.ControlPanel;
 import simcity.gui.SimCityGui;
 
 public class SimSystem {
@@ -20,6 +21,10 @@ public class SimSystem {
 		animationPanel = a;
 	}
 	
+	public void setControlPanel(JPanel cp) {
+		controlPanel = cp;
+	}
+	
 	public void setName(String n) {
 		name = n;
 	}
@@ -33,12 +38,12 @@ public class SimSystem {
 		}
 	}
 	
-	public String getName() {
-		return name;
-	}
-	
 	public JPanel getControlPanel() {
 		return controlPanel;
 	}
 	
+	public String getName() {
+		return name;
+	}
+
 }

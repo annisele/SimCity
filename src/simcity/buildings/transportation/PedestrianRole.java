@@ -15,14 +15,17 @@ public class PedestrianRole extends Role implements simcity.interfaces.transport
 	private List<Location> destinationList = Collections.synchronizedList(new ArrayList<Location>());
 	
 	// Constructor
-	public PedestrianRole(PersonAgent person, PedestrianGui gui) {
+	public PedestrianRole(PersonAgent person) {
 		this.person = person;
-		this.gui = gui;
+		this.gui =  new PedestrianGui();
 		destinationList.add(new Location(150,150));
 	}
 	
 	// Scheduler
 	public boolean pickAndExecuteAnAction() {
+		if(person.gettime()>10){
+			person.msgExitRole();
+		}
 		if(!destinationList.isEmpty()) {
 			GoToDestination(destinationList.get(0));
 		}

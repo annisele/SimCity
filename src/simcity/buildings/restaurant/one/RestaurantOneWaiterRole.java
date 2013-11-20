@@ -1,7 +1,9 @@
 package simcity.buildings.restaurant.one;
 
+import java.util.concurrent.Semaphore;
+
 public class RestaurantOneWaiterRole  implements simcity.interfaces.restaurant.one.RestaurantOneWaiter{
-	/*  private String name;
+	  private String name;
       public Semaphore DeliverFood = new Semaphore(0, true);
       public Semaphore takeOrder = new Semaphore(0, true);
       public Semaphore atCook = new Semaphore(0, true);

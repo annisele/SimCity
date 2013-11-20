@@ -39,7 +39,6 @@ public class MarketSystem extends simcity.SimSystem {
 		cashier = c;
 		MarketCashierGui cGui = new MarketCashierGui();
 		animationPanel.addGui(cGui);
-		computer.setCashier(cashier);
 	}
 	
 	

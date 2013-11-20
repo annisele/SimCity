@@ -85,6 +85,13 @@ public class PersonAgent extends Agent implements Person {
 	public void msgExitRole(){
 		Do("change role");
 		inAction=false;
+		for(Role role : myRoles){
+			if (role.active==true){
+				//Do("action");
+				role.active=false;
+			}
+		}
+		Schedule.remove(1);
 		stateChanged();
 	}
 	public void msgUpdateTime() {
@@ -119,7 +126,7 @@ public class PersonAgent extends Agent implements Person {
 			return false;
 		}
 		else{
-			Do("here");
+			//Do("here"+ getSchedule().firstEntry().getValue().role);
 			Entry<Integer,Event> ent = getSchedule().firstEntry();
 			if (gettime() >= ent. getKey()) {
 				Do("CHANGE");
@@ -184,7 +191,7 @@ public class PersonAgent extends Agent implements Person {
 		RestaurantOneCustomerRole restaurantOneCustomer = new RestaurantOneCustomerRole(this, restaurantOneCustomerGui);
 		BankCustomerGui bankCustomerGui = new BankCustomerGui();
 		BankCustomerRole bankCustomer = new BankCustomerRole(this, bankCustomerGui);
-		myRoles.add(restaurantOneCustomer);
+		
 			pedestrianRole.setPerson(this);
 			Location l= new Location(250,250);
 			Event e = new Event(l,myRoles.get(0));
@@ -194,16 +201,17 @@ public class PersonAgent extends Agent implements Person {
 
 			gettime();
 
-		myRoles.add(bankCustomer);
-			pedestrianRole.setPerson(this);
-			Location l1 = new Location(12, 12);
-			Event e1 = new Event(l,myRoles.get(2));
-			getSchedule().put(2, e);
-			
-			restaurantOneCustomer.setPerson(this);
+		myRoles.add(restaurantOneCustomer);
+		restaurantOneCustomer.setPerson(this);	
+		Location l1 = new Location(12, 12);
+			Event e1 = new Event(l1,myRoles.get(1));
+			getSchedule().put(7, e1);
+
+			myRoles.add(bankCustomer);
+			bankCustomer.setPerson(this);
 			Location l2= new Location(250,250);
-			Event e2 = new Event(l2,myRoles.get(1));
-			getSchedule().put(5, e2);
+			Event e2 = new Event(l2,myRoles.get(2));
+			getSchedule().put(15, e2);
 			Do(".. "+getSchedule());
 			gettime();
 	

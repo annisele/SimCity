@@ -20,6 +20,7 @@ public class RestaurantOneCustomerRole extends Role implements simcity.interface
 	}
 
 	public boolean pickAndExecuteAnAction() {
+		Do("ok");
 		// TODO Auto-generated method stub
 		return false;
 	}

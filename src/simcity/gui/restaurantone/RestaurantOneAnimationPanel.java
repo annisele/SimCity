@@ -17,7 +17,9 @@ import java.util.ArrayList;
 public class RestaurantOneAnimationPanel extends AnimationPanel implements ActionListener {
 
 	private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
-
+	ImageIcon ii = new ImageIcon(this.getClass().getResource("TableCartoon.png"));
+	Image image = ii.getImage();
+	
 	public RestaurantOneAnimationPanel() {
 		setBackground(Color.RED);
 		//setSize(WINDOWX, WINDOWY);
@@ -85,8 +87,10 @@ public class RestaurantOneAnimationPanel extends AnimationPanel implements Actio
 				}
 			}
 		}
+		
 		repaint();
 		//super.paintComponent(g);
+		g2.drawImage(image,100, 100, null);
 	}
 
 	public void addGui(Gui g) {

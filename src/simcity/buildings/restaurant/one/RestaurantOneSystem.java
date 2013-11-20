@@ -2,6 +2,7 @@ package simcity.buildings.restaurant.one;
 
 import simcity.SimSystem;
 import simcity.gui.SimCityGui;
+import simcity.gui.restaurantone.*;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -24,9 +25,7 @@ import simcity.interfaces.restaurant.one.*;
 
 public class RestaurantOneSystem extends SimSystem {
 
-	private SimCityGui scg;
 	// public RestaurantControlPanel controlPanel;
-	private RestaurantOneAnimationPanel animationPanel;
 	private List<RestaurantOneCustomer> customers = new ArrayList<RestaurantOneCustomer>();
 	private List<RestaurantOneWaiter> waiters = new ArrayList<RestaurantOneWaiter>();
 	private RestaurantOneHost host;
@@ -35,14 +34,9 @@ public class RestaurantOneSystem extends SimSystem {
 
 	public RestaurantOneSystem(SimCityGui scgui) {
 		super(scgui);
-		scg = scgui;
 		// controlPanel = new RestaurantControlPanel();
-		animationPanel = new RestaurantOneAnimationPanel();
-	}
-
-
-	public RestaurantOneAnimationPanel getAnimationPanel() {
-		return animationPanel;
+		super.setAnimationPanel(new RestaurantOneAnimationPanel());
+		super.setControlPanel(new RestaurantOneControlPanel());
 	}
 
 }

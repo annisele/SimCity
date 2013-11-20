@@ -19,7 +19,7 @@ public class PersonAgent extends Agent implements Person {
 
 	private List<Role> myRoles;
 
-	TreeMap<Integer, Event> Schedule=new TreeMap<Integer, Event>();
+	private TreeMap<Integer, Event> Schedule=new TreeMap<Integer, Event>();
 	//SortedMap Schedule = Collections.synchronizedSortedMap(new TreeMap());
 
 	private List <myRestaurant> Restaurants= new ArrayList<myRestaurant>();
@@ -33,7 +33,7 @@ public class PersonAgent extends Agent implements Person {
 	}
 	
 	public String name;
-	private boolean inAction;
+	private boolean inAction, done;
 	public double money;
 	private int currentTime, hungerLevel;
 
@@ -62,7 +62,7 @@ public class PersonAgent extends Agent implements Person {
 		//myRoles.add ALL USEFUL ROLES with useful perimeters
 		//all roles are set to false
 		//set person to this
-
+		this.setDone(false);
 		currentTime=1;
 		// RestaurantOneCustomerRole rcr= new RestaurantOneCustomerRole("RestaurantOneCustomerRole",this);
 		//rcr.setPerson(this);
@@ -83,7 +83,7 @@ public class PersonAgent extends Agent implements Person {
 		hungerLevel ++;
 	}
 	public void msgScheduleEvent(int time, Location l, Role r) {
-		Schedule.put(time, new Event(l, r));
+		getSchedule().put(time, new Event(l, r));
 	}
 
 
@@ -109,7 +109,7 @@ public class PersonAgent extends Agent implements Person {
 			return false;
 		}
 		else{
-			Entry<Integer,Event> ent = Schedule.firstEntry();
+			Entry<Integer,Event> ent = getSchedule().firstEntry();
 			if (currentTime >= ent. getKey()) {
 				DoEvent(((Entry<Integer, Event>) ent).getValue());
 				currentEvent=((Entry<Integer, Event>) ent).getValue();
@@ -124,15 +124,15 @@ public class PersonAgent extends Agent implements Person {
 		if(i==0){
 			//decide on a restaurant!
 			Event e = new Event(Restaurants.get(i).location, myRoles.get(0));
-			Schedule.put(currentTime, null);
+			getSchedule().put(currentTime, null);
 		}
 		if(i==0){
-			Schedule.put(currentTime, null);
+			getSchedule().put(currentTime, null);
 		}
 		//saskdjhaskdhkashd NOOOO
 	}
 	public void EatFoodLater(){
-		Schedule.put(currentTime+10, null);
+		getSchedule().put(currentTime+10, null);
 		//saskdjhaskdhkashd NOOOO
 	}
 	public void DoEvent(Event e){
@@ -157,16 +157,33 @@ public class PersonAgent extends Agent implements Person {
 	}
 
 	private void InstantiatePerson() {
-		PedestrianGui pedestrianGui = new PedestrianGui();
-		PedestrianRole pedestrianRole = new PedestrianRole(this, pedestrianGui);
+		PedestrianRole pedestrianRole = new PedestrianRole(this);
 		myRoles.add(pedestrianRole);
 		RestaurantOneCustomerGui restaurantOneCustomerGui = new RestaurantOneCustomerGui();
 		RestaurantOneCustomerRole restaurantOneCustomer = new RestaurantOneCustomerRole(this, restaurantOneCustomerGui);
 		myRoles.add(restaurantOneCustomer);
-		pedestrianRole.setPerson(this);
-		Location l= new Location(25,25);
-		Event e = new Event(l,myRoles.get(1));
-		Schedule.put(1, e);
+			pedestrianRole.setPerson(this);
+			Location l= new Location(150,150);
+			Event e = new Event(l,myRoles.get(1));
+			getSchedule().put(1, e);
+
+	
+	}
+
+	public TreeMap<Integer, Event> getSchedule() {
+		return Schedule;
+	}
+
+	public void setSchedule(TreeMap<Integer, Event> schedule) {
+		Schedule = schedule;
+	}
+
+	public boolean isDone() {
+		return done;
+	}
+
+	public void setDone(boolean done) {
+		this.done = done;
 	}
 
 }

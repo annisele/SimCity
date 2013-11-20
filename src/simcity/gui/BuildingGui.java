@@ -15,20 +15,14 @@ public class BuildingGui {
 	private static final int SIZE_X = 60;
 	private static final int SIZE_Y = 60;
 	private SimSystem system;
+	//private ControlPanel controlPanel;
 	
 	//System system;
 	public BuildingGui(SimSystem s, int xLoc, int yLoc) {
 		system = s;
+		//controlPanel = s.getControlPanel();
 		location = new Location(xLoc, yLoc);
 		
-	}
-	
-	public AnimationPanel getAnimationPanel() {
-		if (system.getAnimationPanel() != null) {
-			return system.getAnimationPanel();
-		} else {
-			return null;
-		}
 	}
 	
     public void draw(Graphics2D g) {
@@ -46,5 +40,12 @@ public class BuildingGui {
     	
     	return false;
     }
+    
+    public SimSystem getSystem() {
+    	return system;
+    }
 	
+   /* public ControlPanel getControlPanel() {
+    	return controlPanel;
+    }*/
 }

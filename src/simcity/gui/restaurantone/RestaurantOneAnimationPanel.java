@@ -17,9 +17,14 @@ import java.util.ArrayList;
 public class RestaurantOneAnimationPanel extends AnimationPanel implements ActionListener {
 
 	private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
-
+	ImageIcon ii = new ImageIcon(this.getClass().getResource("TableCartoon.png"));
+	Image tableimage = ii.getImage();
+	ImageIcon cookicon = new ImageIcon(this.getClass().getResource("CookCarton.jpg"));
+	Image cookimage = cookicon.getImage();
+	
+	
 	public RestaurantOneAnimationPanel() {
-		setBackground(Color.RED);
+		setBackground(Color.LIGHT_GRAY);
 		//setSize(WINDOWX, WINDOWY);
 		setVisible(true);
 
@@ -42,16 +47,14 @@ public class RestaurantOneAnimationPanel extends AnimationPanel implements Actio
 		g2.setColor(getBackground());
 		g2.fillRect(0, 0, 700, 700);
 		g2.setColor(tableColor);
-		g2.fillRect(100, 300, 40, 40);
-		g2.fillRect(200, 300, 40, 40);
-		g2.fillRect(300, 300, 40, 40);
 		Color black = new Color(0,0,0);
 		g2.setColor(black);
 		g2.drawString("Waiting Area", 100, 50);
 		//this.g = g;
 		Color CookColor = new Color (50, 50, 50);
-		g2.setColor(CookColor);
-		g2.fillRect(300, 100, 25, 25);
+		//g2.setColor(CookColor);
+		//g2.fillRect(300, 100, 25, 25);
+		g2.drawImage(cookimage,300, 100, null);
 		Color GrillColor = new Color (177, 212, 43);
 		g2.setColor(GrillColor);
 		/*  g2.fillRect(xGrill, yGrill, 40, 40);
@@ -85,8 +88,12 @@ public class RestaurantOneAnimationPanel extends AnimationPanel implements Actio
 				}
 			}
 		}
+		
 		repaint();
 		//super.paintComponent(g);
+		g2.drawImage(tableimage,100, 300, null);
+		g2.drawImage(tableimage,200, 300, null);
+		g2.drawImage(tableimage,300, 300, null);
 	}
 
 	public void addGui(Gui g) {

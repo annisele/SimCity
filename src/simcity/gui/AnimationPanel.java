@@ -11,7 +11,7 @@ import javax.swing.*;
 public class AnimationPanel extends JPanel {
 	
 	SimCityGui simCityGui;
-	ControlPanel controlPanel;
+	JPanel controlPanel;
 	
 	protected List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
 	protected List<BuildingGui> buildingGuis = Collections.synchronizedList(new ArrayList<BuildingGui>());
@@ -73,21 +73,20 @@ public class AnimationPanel extends JPanel {
                 for(BuildingGui g : buildingGuis) {
                     if (g.contains(me.getPoint())) {//check if mouse is clicked within shape
 
-                        //we can either just print out the object class name
-                        //System.out.println("Clicked a "+"building: " + g.getName());
-                    	System.out.println("Clicked a building");
-//                    	if (g.getAnimationPanel() == null) {
-//                    		System.out.println("No animation panel");
-//                    	}
-//                    	else {
-//                    		System.out.println("an");
-//                    	}
-                    	if (g.getAnimationPanel() == null)
-                    		System.out.println("The buildingGui's animationPanel is null!");
-                    	else if (simCityGui != null) {
-                    		simCityGui.changeDetailPane(g.getAnimationPanel());
+                    	//if (controlPanel == null)
+                    		//System.out.println("The buildingGui's animationPanel is null!");
+                    	if (simCityGui != null) {
+                    		simCityGui.changeDetailPane(g.getSystem().getAnimationPanel());
+                    		
+                    		if (g.getSystem().getControlPanel() == null) {
+                        		System.out.println("We don't have a controlPanel for this building!");
+                        	} else {
+                        		simCityGui.setControlPanel(g.getSystem().getControlPanel());
+                        		//g.getControlPanel().updateSelected(g);
+                        	}
                     	}
-                        //controlPanel.updateSelected(g);
+                 
+                    	
                         
                     }
 
@@ -135,12 +134,17 @@ public class AnimationPanel extends JPanel {
 		buildingGuis.add(b);
 	}
 	
-	public void setControlPanel(ControlPanel cp) {
+	public void setControlPanel(JPanel cp) {
 		controlPanel = cp;
+	}
+	
+	public JPanel getControlPanel() {
+		return controlPanel;
 	}
 	
 	public void setSimCityGui(SimCityGui scg) {
 		simCityGui = scg;
+
 	}
 	
 	public void clear() {
@@ -148,6 +152,8 @@ public class AnimationPanel extends JPanel {
 		buildingGuis.clear();
 		
 	}
+	
+	
 	
 	/*public void addGui(gui) {
         guis.add(gui);

@@ -12,7 +12,7 @@ public class WorldSystem extends SimSystem {
 	
 	public WorldSystem(SimCityGui sc) {
 		super(sc);
-		animationPanel = new WorldAnimationPanel();
+		super.setAnimationPanel(new WorldAnimationPanel());
 		animationPanel.setSimCityGui(sc);
 	}
 	

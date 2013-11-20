@@ -1,11 +1,10 @@
 package simcity.buildings.bank;
 
 import java.util.*;
-
-import simcity.interfaces.bank.BankCustomer;
+import simcity.Role;
 import simcity.buildings.bank.BankComputer.BankAccount;
 
-public class BankTellerRole implements simcity.interfaces.bank.BankTeller {
+public class BankTellerRole extends Role implements simcity.interfaces.bank.BankTeller {
 
 	// data
 	private String name;
@@ -24,27 +23,27 @@ public class BankTellerRole implements simcity.interfaces.bank.BankTeller {
 
 	public void msgWantToOpenAccount(BankCustomerRole bc, double amountToProcess) {
     	customers.add(new MyCustomer(bc, bc.getAccountNumber(), amountToProcess, transactionType.openAccount));
-    	//stateChanged();
+    	stateChanged();
 	}
 
 	public void msgWantToDeposit(BankCustomerRole bc, double amountToProcess) {
     	customers.add(new MyCustomer(bc, bc.getAccountNumber(), amountToProcess, transactionType.depositMoney));
-    	// stateChanged();
+    	stateChanged();
 	}
 
 	public void msgWantToWithdraw(BankCustomerRole bc, double amountToProcess) {
     	customers.add(new MyCustomer(bc, bc.getAccountNumber(), amountToProcess, transactionType.withdrawMoney));
-    	// stateChanged();
+    	stateChanged();
 	}
 
 	public void msgWantALoan(BankCustomerRole bc, double amountToProcess) {
     	customers.add(new MyCustomer(bc, bc.getAccountNumber(), amountToProcess, transactionType.loanMoney));
-    	// stateChanged();
+    	stateChanged();
 	}
 
 	// scheduler
 
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		synchronized(customers) {
 			if (!customers.isEmpty()) {
 				if (customers.get(0).getTransactionState() == transactionState.none) {

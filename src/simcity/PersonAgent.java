@@ -129,7 +129,7 @@ public class PersonAgent extends Agent implements Person {
 			//Do("here"+ getSchedule().firstEntry().getValue().role);
 			Entry<Integer,Event> ent = getSchedule().firstEntry();
 			if (gettime() >= ent. getKey()) {
-				Do("CHANGE");
+				
 				//gettime();
 				DoEvent(((Entry<Integer, Event>) ent).getValue());
 				currentEvent=((Entry<Integer, Event>) ent).getValue();
@@ -180,7 +180,7 @@ public class PersonAgent extends Agent implements Person {
 	public long gettime(){
 		time= (System.currentTimeMillis()- startTime)/1000;
 		
-		Do("HAKHSDKJSAHD "+time);
+		Do("time: "+time);
 		return time;
 	}
 
@@ -195,7 +195,7 @@ public class PersonAgent extends Agent implements Person {
 			pedestrianRole.setPerson(this);
 			Location l= new Location(250,250);
 			Event e = new Event(l,myRoles.get(0));
-			Do(".. "+myRoles.get(0));
+		
 			getSchedule().put(1, e);
 		
 
@@ -212,7 +212,7 @@ public class PersonAgent extends Agent implements Person {
 			Location l2= new Location(250,250);
 			Event e2 = new Event(l2,myRoles.get(2));
 			getSchedule().put(15, e2);
-			Do(".. "+getSchedule());
+			
 			gettime();
 	
 	}

@@ -4,12 +4,12 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 
-import simcity.buildings.restaurant.one.RestaurantOneCustomerRole;
+import simcity.buildings.bank.BankCustomerRole;
 import simcity.gui.Gui;
 
 public class BankCustomerGui implements Gui{
 
-	private RestaurantOneCustomerRole role;
+	private BankCustomerRole role = null;
 	private int x = 0;
 	private int y = 0;
 	private int xDest = 0;
@@ -19,8 +19,6 @@ public class BankCustomerGui implements Gui{
 	public BankCustomerGui() {
 		
 	}
-	
-	@Override
 	public void updatePosition() {
 		if(xDest > x) {
 			x++;
@@ -39,19 +37,15 @@ public class BankCustomerGui implements Gui{
 			yDest = (int) (Math.random() * 200);
 		}
 	}
-
-	@Override
 	public void draw(Graphics2D g) {
 		g.setColor(Color.MAGENTA);
 		g.fillRect(x, y, SIZE, SIZE);
 	}
 
-	@Override
 	public boolean isPresent() {
 		return true;
 	}
 
-	@Override
 	public boolean contains(Point point) {
 		if(point.getX() >= x && point.getX() <= x + SIZE) {
 			if(point.y >= y && point.y <= y + SIZE) {

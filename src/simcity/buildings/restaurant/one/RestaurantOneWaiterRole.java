@@ -8,6 +8,7 @@ import java.util.concurrent.Semaphore;
 
 import simcity.Role;
 import simcity.buildings.restaurant.one.RestaurantOneCheck.CheckState;
+import simcity.gui.Gui;
 import simcity.gui.restaurantone.RestaurantOneWaiterGui;
 import simcity.interfaces.restaurant.one.RestaurantOneCustomer;
 
@@ -17,7 +18,6 @@ public class RestaurantOneWaiterRole extends Role implements simcity.interfaces.
       public Semaphore takeOrder = new Semaphore(0, true);
       public Semaphore atCook = new Semaphore(0, true);
       
-
       boolean FreeCustomers = false;
       boolean Asked = false;
       public boolean OnBreak = false;
@@ -382,7 +382,7 @@ public class RestaurantOneWaiterRole extends Role implements simcity.interfaces.
       private void seatCustomer(MyCustomer c) {
 
               DoSeatCustomer(c.cagent, c.tnumber);
-              c.cagent.msgFollowMe(new Menu());
+              c.cagent.msgFollowMe(new RestaurantOneMenu());
               c.cagent.setWaiter(this);
               atTable.drainPermits();
               try {
@@ -426,7 +426,7 @@ public class RestaurantOneWaiterRole extends Role implements simcity.interfaces.
       
 
       private void GetOrder(MyCustomer c){
-              print("Taking the order of " + c.cagent + " at " + c.tnumber);
+              //print("Taking the order of " + c.cagent + " at " + c.tnumber);
               waiterGui.DoGoToTable(c.tnumber); 
               atTable.drainPermits();
               
@@ -500,7 +500,7 @@ public class RestaurantOneWaiterRole extends Role implements simcity.interfaces.
                                               
                                               mc.cagent.msgHereIsYourFood();
                                               FreeOrders.remove(0);
-                                              print("Gave the food to the seated customer");
+                                             // print("Gave the food to the seated customer");
                                               mc.s = CustomerState.eating;
                                               waiterGui.DoLeaveCustomer();
 
@@ -524,21 +524,21 @@ public class RestaurantOneWaiterRole extends Role implements simcity.interfaces.
               cook.msgHereIsAnOrder(this, c.choice, c.tnumber);
       }
 
-      private void DoSeatCustomer(CustomerAgent customer, int tableNumber) {
+      private void DoSeatCustomer(RestaurantOneCustomerRole customer, int tableNumber) {
               //Notice how we print "customer" directly. It's toString method will do it.
               //Same with "table"
               waiterGui.DoBringToTable(customer.getGui(), tableNumber); 
-              print("Seating customer " + customer.getName());
+              //print("Seating customer " + customer.getName());
       }
 
       private void prepareCheck(MyCustomer customer) {
-              print("Preparing bill for Customer");
+            //  print("Preparing bill for Customer");
               customer.s = CustomerState.FINISHED;
               waiterGui.DoClearTable(customer.tnumber);
               cashagent.msgHereIsorder(customer.choice, customer.tnumber, customer.cagent, this); 
       }
 
-      private void DoDeliverCheck(Check c) {
+      private void DoDeliverCheck(RestaurantOneCheck c) {
               waiterGui.DoGoToTable(c.tablenum); 
               atTable.drainPermits();
               try {
@@ -561,15 +561,15 @@ public class RestaurantOneWaiterRole extends Role implements simcity.interfaces.
       }
 
 
-      public void setGui(WaiterGui gui) {
+      public void setGui(RestaurantOneWaiterGui gui) {
               waiterGui = gui;
       }
 
-      public WaiterGui getGui() {
+      public RestaurantOneWaiterGui getGui() {
               return waiterGui;
       }
 
 
 
 } 
-}
+

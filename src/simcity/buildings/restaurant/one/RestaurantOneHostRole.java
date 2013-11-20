@@ -30,5 +30,10 @@ public class RestaurantOneHostRole extends Role implements simcity.interfaces.re
 		// TODO Auto-generated method stub
 		
 	}
+	public void msgCustomerSeated() {
+		// TODO Auto-generated method stub
+		
+	}
+	
 
 }

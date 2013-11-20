@@ -6,7 +6,7 @@ import simcity.PersonAgent;
 import simcity.Role;
 import simcity.gui.restaurantfour.RestaurantFourCustomerGui;
 
-////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
  * Restaurant Four Customer Role
@@ -14,7 +14,7 @@ import simcity.gui.restaurantfour.RestaurantFourCustomerGui;
 
 public class RestaurantFourCustomerRole extends Role {
 	
-	// Data ///////////////////////////////////////////////////////////////////////////////////////
+	// Data ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// From PersonAgent
 	private PersonAgent person;
 	private String name;
@@ -24,7 +24,7 @@ public class RestaurantFourCustomerRole extends Role {
 	private double maxPrice;
 	
 	private int tableNumber;
-	private String food;
+	private String choice;
 	private double payment;
 	
 	private RestaurantFourCustomerGui gui;
@@ -32,12 +32,12 @@ public class RestaurantFourCustomerRole extends Role {
 	Timer timer = new Timer();
 	Random generator = new Random();
 
-	// agent correspondents
+	// Agent correspondents
 	private RestaurantFourHostRole host;
 	private RestaurantFourWaiterRole waiter;
 	private RestaurantFourCashierRole cashier;
 
-	// states and events
+	// States and events
 	public enum AgentState {
 		doingNothing,
 		hungryAtRestaurant,
@@ -53,7 +53,8 @@ public class RestaurantFourCustomerRole extends Role {
 		paying,
 		leaving
 	};
-	private AgentState state = AgentState.doingNothing;		// initialize to start state
+
+	private AgentState state = AgentState.doingNothing;
 
 	public enum AgentEvent {
 		none,
@@ -74,17 +75,16 @@ public class RestaurantFourCustomerRole extends Role {
 		left,
 		cantPay
 	};
-	AgentEvent event = AgentEvent.none;						// initialize to start event
 
-	/**
-	 * Constructor for CustomerAgent class
-	 *
-	 * @param name name of the customer
-	 * @param gui  reference to the customergui so the customer can send it messages
-	 */
+	AgentEvent event = AgentEvent.none;
 	
-	// constructors ////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Constructors ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
+	public RestaurantFourCustomerRole() {
+
+	}
+
+	/*
 	public CustomerAgent(String name){
 		super();
 		this.name = name;
@@ -100,110 +100,102 @@ public class RestaurantFourCustomerRole extends Role {
 		}
 		setCash(stats.getStartCash());
 	}
+	*/
 
-	// messages //////////////////////////////////////////////////////////////////////////
+	// Messages ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 
-	public void gotHungry() {			// initially called from animation
-		print("I am hungry.");
+	public void msgGotHungry() {								// called by something... when customer enters restaurant
 		event = AgentEvent.gotHungry;
 		stateChanged();
 	}
 	
-	public void msgFollowMe(double minPrice, double maxPrice) {
-		this.minPrice = minPrice + getUnpaidBalance();
-		this.maxPrice = maxPrice + getUnpaidBalance();
-		print("Sitting down.");
+	public void msgFollowMe(double unpaidBalance, Menu m) {		// called by waiter when asked to sit
 		event = AgentEvent.followHost;
 		stateChanged();
 	}
 
-	public void msgArrivedAtSeatGui() { //from animation
-		print("Arrived at seat.");
+	public void msgArrivedAtSeatGui() { 						// called by gui when arrived at seat
 		event = AgentEvent.gotSeated;
 		stateChanged();
 	}
 
-	public void msgIHaveThoughtOfOrder() {
-		print(waiter.getName() + "! I am ready to order.");
+	public void msgIHaveThoughtOfOrder() {						// called by customer self when finish thinking of order
 		event = AgentEvent.thoughtOfOrder;
 		stateChanged();
 	}
 	
-	public void msgWhatDoYouWant() {
-		print("Here is my order.");
+	public void msgWhatDoYouWant() {							// called by waiter when waiter arrives to take order
 		event = AgentEvent.ordered;
 		stateChanged();
 	}
 	
-	public void msgThinkAgain() {
-		if (cash >= minPrice && cash < maxPrice) {
-			print("Not available? Too bad that's the only one I can afford.");
-			event = AgentEvent.cantPay;
-			stateChanged();
+		/*
+		public void msgThinkAgain() {							// NON-NORM called by waiter in the case that order is not available
+			if (cash >= minPrice && cash < maxPrice) {
+				print("Not available? Too bad that's the only one I can afford.");
+				event = AgentEvent.cantPay;
+				stateChanged();
+			}
+			else {
+				print("Not available? I'll choose another one.");
+				event = AgentEvent.rethinking;
+				stateChanged();
+			}
 		}
-		else {
-			print("Not available? I'll choose another one.");
-			event = AgentEvent.rethinking;
-			stateChanged();
-		}
-	}
-	
-	public void msgHereIsYourFood(int choice) {
-		print("Got my food");
+		*/
+
+	public void msgHereIsYourFood(int choice) {					// called by waiter when food is being delivered
 		event = AgentEvent.gotFood;
 		stateChanged();
 	}
 
-	public void msgDoneEating() {
-		print("Finished eating");
+	public void msgDoneEating() {								// called by customer self when finished eating
 		event = AgentEvent.doneEating;
 		stateChanged();
 	}
 	
-	public void msgHereIsYourBill(double price) {
+	public void msgHereIsYourBill(double price) {				// called by waiter when bill arrives
 		this.payment = price;
 		event = AgentEvent.gotCheck;
 		stateChanged();
 	}
 	
-	public void msgGotToCashierGui() { // from animation
+	public void msgGotToCashierGui() {							// called by gui when arrived in front of cashier
 		event = AgentEvent.gotToCashier;
 		stateChanged();
 	}
 	
-	public void msgYouAreGoodToGo() {
-		print("Bye, thanks for everything!");
+	public void msgYouAreGoodToGo() {							// called by cashier when finish settling bill
 		event = AgentEvent.paid;
 		stateChanged();
 	}
 	
-	public void msgLeftRestaurantGui() {
-		//from animation
+	public void msgLeftRestaurantGui() {						// called by gui when finished leaving
 		event = AgentEvent.left;
 		stateChanged();
 	}
 
-	public void msgRestaurantFull() {
-		event = AgentEvent.restaurantFull;
-		stateChanged();
-	}
+		/*
+		public void msgRestaurantFull() {						// NON-NORM: called by host when restaurant is full
+			event = AgentEvent.restaurantFull;
+			stateChanged();
+		}
+		
+		public void msgWillWait() {								// NON-NORM: called by ... when customer chooses to wait
+			event = AgentEvent.willWait;
+			stateChanged();
+		}
+		
+		public void msgCantPayLeaving() {						// NON-NORM: called by ... when customer cannot pay for anything
+			event = AgentEvent.cantPay;
+			stateChanged();
+		}
+		*/
+
+	// Scheduler ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public void msgWillWait() {
-		event = AgentEvent.willWait;
-		stateChanged();
-	}
-	
-	public void msgCantPayLeaving() {
-		event = AgentEvent.cantPay;
-		stateChanged();
-	}
-	
-	/**
-	 * Scheduler.  Determine what action is called for, and do it.
-	 */
-	
-	protected boolean pickAndExecuteAnAction() {
-		//	CustomerAgent is a finite state machine
+	public boolean pickAndExecuteAnAction() {
 
 		if (state == AgentState.doingNothing && event == AgentEvent.gotHungry) {
 			state = AgentState.hungryAtRestaurant;
@@ -211,6 +203,7 @@ public class RestaurantFourCustomerRole extends Role {
 			return true;
 		}
 	
+		/* NON-NORM
 		if (state == AgentState.hungryAtRestaurant && event == AgentEvent.restaurantFull) {
 			state = AgentState.choiceToLeave;
 			leaveOrNot();
@@ -221,30 +214,35 @@ public class RestaurantFourCustomerRole extends Role {
 			state = AgentState.waitingAtRestaurant;
 			return true;
 		}
-		
+		*/
+
 		if (state == AgentState.hungryAtRestaurant && event == AgentEvent.followHost) {
 			state = AgentState.beingSeated;
 			sitDown();
 			return true;
 		}
 		
+		/* NON-NORM
 		if (state == AgentState.waitingAtRestaurant && event == AgentEvent.followHost ){
 			state = AgentState.beingSeated;
 			sitDown();
 			return true;
 		}
-		
+		*/
+
 		if (state == AgentState.beingSeated && event == AgentEvent.gotSeated){
 			state = AgentState.seated;
 			thinkOrder();
 			return true;
 		}
 		
+		/* NON-NORM
 		if (state == AgentState.seated && event == AgentEvent.cantPay) {
 			state = AgentState.leaving;
 			cantPayLeaving();
 			return true;
 		}
+		*/
 		
 		if (state == AgentState.seated && event == AgentEvent.thoughtOfOrder) {
 			state = AgentState.waitingForWaiter;
@@ -258,6 +256,7 @@ public class RestaurantFourCustomerRole extends Role {
 			return true;
 		}
 		
+		/*
 		if (state == AgentState.waitingForFood && event == AgentEvent.rethinking) {
 			state = AgentState.seated;
 			thinkOrder();
@@ -269,6 +268,7 @@ public class RestaurantFourCustomerRole extends Role {
 			cantPayLeaving();
 			return true;
 		}
+		*/
 		
 		if (state == AgentState.waitingForFood && event == AgentEvent.gotFood) {
 			state = AgentState.eating;
@@ -306,22 +306,24 @@ public class RestaurantFourCustomerRole extends Role {
 			return true;
 		}
 		
+		/* NON-NORM
 		if (state == AgentState.choiceToLeave && event == AgentEvent.left){
 			state = AgentState.doingNothing;
 			return true;
 		}
+		*/
 		
 		return false;
 	}
 
-	// actions //////////////////////////////////////////////////////////////////////////////
+	// Actions //////////////////////////////////////////////////////////////////////////////
 
-	private void goToRestaurant() {
-		Do("Going to restaurant.");
-		customerGui.DoGoToRestaurant();
-		host.msgIWantFood(this); // send our instance, so he can respond to us
+	private void goToRestaurant() {							// go to host
+		gui.DoGoToFrontArea();
+		host.msgIWantFood(this);
 	}
 	
+	/* NON-NORM
 	private void leaveOrNot() {
 		int i = generator.nextInt(2);
 		if (i == 0) {
@@ -335,12 +337,17 @@ public class RestaurantFourCustomerRole extends Role {
 			customerGui.DoExitRestaurant();
 		}
 	}
+	*/
 	
-	private void sitDown() {
-		Do("Going to table.");
-		customerGui.DoGoToSeat(tableNumber);
+	private void sitDown() {								// sit down at table
+		gui.DoGoToTable(tableNumber);
 	}
 
+	private void thinkOrder() {								// think of order based on cash restrictions (supposedly)
+		timeThinkOrder();
+	}
+
+	/* NON-NORM VERSION
 	private void thinkOrder() {
 		if (cash < minPrice) {
 			int i = generator.nextInt(2);
@@ -357,27 +364,44 @@ public class RestaurantFourCustomerRole extends Role {
 			timeThinkOrder();
 		}
 	}
+	*/
 	
-	private void timeThinkOrder() {
+	private void timeThinkOrder() {							// think of order
 		Do("Thinking of order.");
 		timer.schedule(new TimerTask() {
 			public void run() {
+				int a = generator.nextInt(4);
+				if (a == 0) {
+					choice = "Steak";
+				}
+				else if (a == 1) {
+					choice = "Chicken";
+				}
+				else if (a == 2) {
+					choice = "Salad";
+				}
+				else if (a == 3) {
+					choice = "Pizza";
+				}
 				msgIHaveThoughtOfOrder();
 			}
 		},
 		stats.getTimeThink());
 	}
 
+	/* NON-NORM
 	private void cantPayLeaving() {
 		Do("Leaving.");
 		waiter.msgCantPayLeaving(this);
 		customerGui.DoExitRestaurant();
 	}
-	
+	*/
+
 	private void readyToOrder() {
 		waiter.msgReadyToOrder(this.getTableNumber());
 	}
 	
+	/* NON-NORM VERSION
 	private void myOrder() {
 		if (cash < minPrice) {
 			choice = generator.nextInt(4);		// makes the random choice
@@ -428,8 +452,13 @@ public class RestaurantFourCustomerRole extends Role {
 		waiter.msgHereIsMyOrder(this, this.choice);
 		Do("I want " + food);
 	}
+	*/
 
-	private void eatFood() {
+	private void myOrder() {							// give choice to waiter
+		waiter.msgHereIsMyOrder(this, this.choice);
+	}
+
+	private void eatFood() {							// eat food
 		Do("Eating " + food);
 		//This next complicated line creates and starts a timer thread.
 		//We schedule a deadline of getHungerLevel()*1000 milliseconds.
@@ -447,15 +476,20 @@ public class RestaurantFourCustomerRole extends Role {
 		stats.getHungerLevel());//getHungerLevel() * 1000);//how long to wait before running task
 	}
 
-	private void requestBill() {
-		Do("Waiter! Check please!");
+	private void requestBill() {						// ask for bill from waiter
 		waiter.msgRequestBill(this);
 	}
 	
-	private void walkToCashier() {
-		customerGui.DoGoToCashier();
+	private void walkToCashier() {						// go to cashier
+		gui.DoGoToCashier();
 	}
 	
+	private void payBill() {							// give payment to cashier
+		decreaseCash(payment);
+		cashier.msgHereIsPayment(this, this.payment);
+	}
+
+	/* NON-NORM
 	private void payBill() {
 		if (cash < minPrice) {
 			addUnpaidBalance(payment);
@@ -470,11 +504,11 @@ public class RestaurantFourCustomerRole extends Role {
 			cashier.msgHereIsPayment(this, this.payment);
 		}
 	}
+	*/
 	
-	private void leaveTable() {
-		Do("Leaving.");
+	private void leaveTable() {							// leave
 		waiter.msgDoneEating(this);
-		customerGui.DoExitRestaurant();
+		gui.DoExitRestaurant();
 	}
 
 	// utilities ////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -498,36 +532,36 @@ public class RestaurantFourCustomerRole extends Role {
 	}
 	
 	
-	public int getChoice() {
+	public String getChoice() {
 		return choice;
 	}
 	
 	
-	public void setChoice(int choice) {
+	public void setChoice(String choice) {
 		this.choice = choice;
 	}
 	
 	
-	public void setGui(CustomerGui g) {
-		customerGui = g;
+	public void setGui(RestaurantFourCustomerGui g) {
+		gui = g;
 	}
 	
 
-	public CustomerGui getGui() {
-		return customerGui;
+	public RestaurantFourCustomerGui getGui() {
+		return gui;
 	}
 	
 	
-	public void setHost(Host host) {
+	public void setHost(RestaurantFourHostRole host) {
 		this.host = host;
 	}
 	
 
-	public void setWaiter(Waiter waiter) {
+	public void setWaiter(RestaurantFourWaiterRole waiter) {
 		this.waiter = waiter;
 	}
 	
-	public void setCashier(Cashier cashier) {
+	public void setCashier(RestaurantFourCashierRole cashier) {
 		this.cashier = cashier;
 	}
 	
@@ -551,6 +585,7 @@ public class RestaurantFourCustomerRole extends Role {
 		this.cash = this.cash - cash;
 	}
 	
+	/*
 	public double getUnpaidBalance() {
 		return unpaidBalance;
 	}
@@ -566,6 +601,6 @@ public class RestaurantFourCustomerRole extends Role {
 	public void decreaseUnpaidBalance(double price) {
 		this.unpaidBalance = this.unpaidBalance - price;
 	}
-	
+	*/
 }
 

@@ -1,8 +1,17 @@
 package simcity.buildings.restaurant.one;
 
+import java.util.ConcurrentModificationException;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.concurrent.Semaphore;
 
-public class RestaurantOneWaiterRole  implements simcity.interfaces.restaurant.one.RestaurantOneWaiter{
+import simcity.Role;
+import simcity.buildings.restaurant.one.RestaurantOneCheck.CheckState;
+import simcity.gui.restaurantone.RestaurantOneWaiterGui;
+import simcity.interfaces.restaurant.one.RestaurantOneCustomer;
+
+public class RestaurantOneWaiterRole extends Role implements simcity.interfaces.restaurant.one.RestaurantOneWaiter{
 	  private String name;
       public Semaphore DeliverFood = new Semaphore(0, true);
       public Semaphore takeOrder = new Semaphore(0, true);
@@ -14,19 +23,19 @@ public class RestaurantOneWaiterRole  implements simcity.interfaces.restaurant.o
       public boolean OnBreak = false;
       public Semaphore offDuty = new Semaphore(0,true);
       boolean pendingActions = true;
-      private CashierAgent cashagent;
+      private RestaurantOneCashierRole cashagent;
 
       enum CustomerState{waiting, seated, readyToOrder, asked, ordered, orderGiven, FINISHED, OutofStock, doneEating, eating, allFinished};
 
-      private List<Check> checks = new ArrayList<Check>();
+      private List<RestaurantOneCheck> checks = new ArrayList<RestaurantOneCheck>();
       private class MyCustomer {
-              public MyCustomer(CustomerAgent customer, int table, CustomerState state) {
+              public MyCustomer(RestaurantOneCustomer customer, int table, CustomerState state) {
                       cagent = customer;
                       tnumber = table;
                       s = state;
 
               }
-              CustomerAgent cagent;
+              RestaurantOneCustomer cagent;
               int tnumber;
               String choice;
               CustomerState s;
@@ -39,9 +48,9 @@ public class RestaurantOneWaiterRole  implements simcity.interfaces.restaurant.o
       
       
 
-      public WaiterGui waiterGui = null;
-      private CookAgent cook;
-      private HostAgent host;
+      public RestaurantOneWaiterGui waiterGui = null;
+      private RestaurantOneCookRole cook;
+      private RestaurantOneHostRole host;
 
 
       class Order {
@@ -61,20 +70,20 @@ public class RestaurantOneWaiterRole  implements simcity.interfaces.restaurant.o
 
 
 
-      public WaiterAgent(String name) {
+      public RestaurantOneWaiterRole(String name) {
               super();
               this.name = name;
       }
       
-      public void Setcashier(CashierAgent cashier) {
+      public void Setcashier(RestaurantOneCashierRole cashier) {
               cashagent = cashier;
       }
 
-      public void setHost(HostAgent h) {
+      public void setHost(RestaurantOneHostRole h) {
               host = h;
       }
 
-      public void setCook(CookAgent c) {
+      public void setCook(RestaurantOneCookRole c) {
               cook = c;
       }
 
@@ -83,20 +92,20 @@ public class RestaurantOneWaiterRole  implements simcity.interfaces.restaurant.o
       }
 
 
-      public void msgSitAtTable(CustomerAgent cust, int table) {
+      public void msgSitAtTable(RestaurantOneCustomerRole cust, int table) {
               customers.add(new MyCustomer(cust, table, CustomerState.waiting));
-              print("Added a new customer");
+              //print("Added a new customer");
               //WantBreak = true;
               stateChanged();
       }
 
-      public void msgReadyToOrder(CustomerAgent cust) {
+      public void msgReadyToOrder(RestaurantOneCustomerRole cust) {
               
               for (MyCustomer mc : customers)
               {
                       if (cust.equals(mc.cagent)) {
                               mc.s = CustomerState.readyToOrder;
-                              print("Customer is ready to order");
+                           //   print("Customer is ready to order");
                               stateChanged();
                       }
 
@@ -104,8 +113,8 @@ public class RestaurantOneWaiterRole  implements simcity.interfaces.restaurant.o
               }
               
 
-      public void msgGiveChoice(String choice, CustomerAgent c) {
-              print("Customer has made selection");
+      public void msgGiveChoice(String choice, RestaurantOneCustomerRole c) {
+             // print("Customer has made selection");
               orderGiven.release();
               for (MyCustomer mc : customers)
               {
@@ -125,7 +134,7 @@ public class RestaurantOneWaiterRole  implements simcity.interfaces.restaurant.o
               stateChanged();
       }
 
-      public void msgDoneEatingAndLeaving(CustomerAgent c){
+      public void msgDoneEatingAndLeaving(RestaurantOneCustomerRole c){
               for(MyCustomer mc:customers){
                       if(mc.cagent.equals(c)){
                               mc.s = CustomerState.doneEating;
@@ -147,7 +156,7 @@ public class RestaurantOneWaiterRole  implements simcity.interfaces.restaurant.o
               }
       }
 
-      public void msgLeftRestaurant(CustomerAgent c) {
+      public void msgLeftRestaurant(RestaurantOneCustomerRole c) {
               for (MyCustomer mc : customers)
               {
                       if (c.equals(mc.cagent)) {
@@ -179,13 +188,13 @@ public class RestaurantOneWaiterRole  implements simcity.interfaces.restaurant.o
       }
 
       public void msgBreakApproved() { 
-              print ("Break Accepted");
+             // print ("Break Accepted");
               OnBreak = true;
               stateChanged();
       }
 
       public void msgNoBreak() {
-              print ("Break Denied");
+            //  print ("Break Denied");
               OnBreak = false;
               stateChanged();
       }
@@ -195,13 +204,11 @@ public class RestaurantOneWaiterRole  implements simcity.interfaces.restaurant.o
               stateChanged();
       }
 
-      public void msgHereIsComputedCheck(Check c) {
-              print ("Received computed check");
+      public void msgHereIsComputedCheck(RestaurantOneCheck c) {
+             // print ("Received computed check");
               checks.add(c);
               stateChanged();
       }
-
-
 
 
 
@@ -209,8 +216,8 @@ public class RestaurantOneWaiterRole  implements simcity.interfaces.restaurant.o
        * Scheduler.  Determine what action is called for, and do it.
        * @return 
        */
-	/*
-      protected boolean pickAndExecuteAnAction() {
+	
+      public boolean pickAndExecuteAnAction() {
 
               if (!OnBreak) {
                       if(!customers.isEmpty()){
@@ -243,7 +250,7 @@ public class RestaurantOneWaiterRole  implements simcity.interfaces.restaurant.o
                               try{
                               for (MyCustomer mc : customers) {
                                       if (mc.s == CustomerState.readyToOrder) {
-                                              print("In the scheduler");
+                                             // print("In the scheduler");
                                               GetOrder(mc);
                                               return true;
                                       }
@@ -279,7 +286,7 @@ public class RestaurantOneWaiterRole  implements simcity.interfaces.restaurant.o
 
                               
                               try{
-                                      for (Check c : checks) {
+                                      for (RestaurantOneCheck c : checks) {
                                               if (c.state == CheckState.unpaid) {
                                                       DoDeliverCheck(c);
                                                       return true;
@@ -545,7 +552,7 @@ public class RestaurantOneWaiterRole  implements simcity.interfaces.restaurant.o
       }
 
 
-      public void setCashier(CashierAgent cashier){
+      public void setCashier(RestaurantOneCashierRole cashier){
               this.cashagent = cashier;
       }
       
@@ -564,5 +571,5 @@ public class RestaurantOneWaiterRole  implements simcity.interfaces.restaurant.o
 
 
 
-} */
+} 
 }

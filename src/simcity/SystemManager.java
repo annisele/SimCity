@@ -59,12 +59,15 @@ public class SystemManager {
 	public void addPerson(String name, double money) {
 		PersonAgent person = new PersonAgent(name, money);
 		people.add(person);
-		world.getAnimationPanel().addGui(person.getGui());
+		//hacks
+		world.getAnimationPanel().addGui(person.getRoles().get(0).getGui());
+		restaurantOnes.get(0).getAnimationPanel().addGui(person.getRoles().get(1).getGui());
 		//restaurantOnes.get(0).getAnimationPanel().addGui(person.getRestaurantOneCustomer().getGui());
 	}
 	
 	public void addMarket(String name, int xLoc, int yLoc) {
 		MarketSystem temp = new MarketSystem(simcity);
+		
 		temp.setName(name);
 		markets.add(temp);
 		BuildingGui building = new BuildingGui(temp, xLoc, yLoc);

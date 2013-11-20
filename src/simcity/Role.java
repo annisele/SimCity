@@ -1,4 +1,4 @@
-package simcity;
+ package simcity;
 
 import simcity.gui.Gui;
 import agent.Agent;

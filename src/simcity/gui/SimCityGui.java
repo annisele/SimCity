@@ -135,8 +135,8 @@ public class SimCityGui extends JFrame implements ActionListener {
 			// This works, but is hack-ish
 			viewDetailPanel.removeAll();
 			viewDetailPanel.updateUI();
-			viewDetailPanel.add(a, a.getName());
-			
+			viewDetailPanel.add(a, "name");
+
 			//CardLayout c = (CardLayout) viewDetailPanel.getLayout();
 			//c.show(viewDetailPanel, a.getName());			
 			//System.out.println("Changing the detail panel to "+a.getClass().getName());

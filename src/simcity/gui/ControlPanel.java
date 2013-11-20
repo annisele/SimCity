@@ -82,8 +82,6 @@ public class ControlPanel extends JPanel implements ActionListener {
 	
 	//selectTab - controls the building or person selected
 	private JPanel selectTab = new JPanel();
-	private JLabel nameLabel = new JLabel("Name: Ralph's");
-	private JLabel typeLabel = new JLabel("Type: Market");
 	
 	//eventsTab - global events
 	private JPanel eventsTab = new JPanel();
@@ -201,8 +199,6 @@ public class ControlPanel extends JPanel implements ActionListener {
 		
 		//selectTab
 		selectTab.setLayout(new GridLayout(15, 1));
-		selectTab.add(nameLabel);
-		selectTab.add(typeLabel);
 		
 		//eventsTab
 		eventsTab.setLayout(new GridLayout(15, 1));
@@ -311,8 +307,14 @@ public class ControlPanel extends JPanel implements ActionListener {
 		}
 	}
 	
+	public void setSelectedPanel(JPanel panel) {
+		selectTab.removeAll();
+		selectTab.updateUI();
+		selectTab.add(panel);
+	}
+	
 	public void updateSelected(BuildingGui b) {
-		nameLabel.setText(b.getClass().getName());
-		typeLabel.setText("building");
+
+		
 	}
 }

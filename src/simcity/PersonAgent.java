@@ -40,12 +40,7 @@ public class PersonAgent extends Agent implements Person {
 	//RestaurantOneCustomerRole rcr= new RestaurantOneCustomerRole();
 	enum Priority{ Now, Next, Later};
 	private Event currentEvent;
-<<<<<<< HEAD
-	
-=======
-	private PedestrianGui gui;
 
->>>>>>> d5291bae0ff7d295742bb86d3c32d0a929e49821
 	public class Event {
 		Location location;
 		Role role;

@@ -66,7 +66,7 @@ public class BankHostRole extends Role implements simcity.interfaces.bank.BankHo
 	public void msgEnteringBank(BankCustomerRole bc) {
 		System.out.println("Bank customer is entering the bank");
 		customers.add(bc);
-		//stateChanged();
+		stateChanged();
 	}
 	
 	public void msgLeavingBank(int windowNumber) {
@@ -74,7 +74,7 @@ public class BankHostRole extends Role implements simcity.interfaces.bank.BankHo
 		for (BankWindow window : windows) {
 			if (windowNumber == window.getWindowNumber()) {
 				window.setUnoccupied();
-				//stateChanged()
+				stateChanged();
 			}
 		}
 	}

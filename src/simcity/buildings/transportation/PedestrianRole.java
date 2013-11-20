@@ -23,7 +23,7 @@ public class PedestrianRole extends Role implements simcity.interfaces.transport
 	
 	// Scheduler
 	public boolean pickAndExecuteAnAction() {
-		if(person.gettime()>10){
+		if(person.gettime()>6){
 			person.msgExitRole();
 		}
 		if(!destinationList.isEmpty()) {

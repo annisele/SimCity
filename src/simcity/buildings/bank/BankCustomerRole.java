@@ -5,7 +5,6 @@
  */
 package simcity.buildings.bank;
 
-import java.awt.Window;
 import java.util.*;
 
 import simcity.PersonAgent;

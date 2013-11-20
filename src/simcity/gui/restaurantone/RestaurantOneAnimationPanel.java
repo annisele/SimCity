@@ -17,9 +17,9 @@ import java.util.ArrayList;
 public class RestaurantOneAnimationPanel extends AnimationPanel implements ActionListener {
 
 	private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
-	ImageIcon ii = new ImageIcon(this.getClass().getResource("TableCartoon.png"));
+	ImageIcon ii = new ImageIcon("res/restaurant/one/TableCartoon.png");
 	Image tableimage = ii.getImage();
-	ImageIcon cookicon = new ImageIcon(this.getClass().getResource("CookCarton.jpg"));
+	ImageIcon cookicon = new ImageIcon("res/restaurant/one/CookCarton.jpg");
 	Image cookimage = cookicon.getImage();
 	
 	

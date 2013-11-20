@@ -12,14 +12,9 @@ import simcity.interfaces.market.MarketCashier;
 public class MarketComputer {
 
 	private Map<String, Integer> inventory = Collections.synchronizedMap(new HashMap<String, Integer>());
-	private MarketCashier cashier;
 	
 	public MarketComputer() {
 		
-	}
-	
-	public MarketCashier getCashier() {
-		return cashier;
 	}
 	
 	public void setInventory(Map<String, Integer> map) {

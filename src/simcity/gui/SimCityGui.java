@@ -101,8 +101,8 @@ public class SimCityGui extends JFrame implements ActionListener {
 			String name = item.getKey();
 			JPanel tempCard = item.getValue();
 		    viewDetailPanel.add(tempCard, name);
-		    
 		}
+		System.out.println("We have "+panels.entrySet().size()+" cards");
 	}
 	
 	public ControlPanel getControlPanel() {
@@ -112,6 +112,11 @@ public class SimCityGui extends JFrame implements ActionListener {
 	
 	}
 	
+	public void clearDetailPane() {
+		viewDetailPanel.removeAll();
+		viewDetailPanel.updateUI();
+	}
+	
 	public void changeDetailPane(AnimationPanel a) {
 		if (a == null) {
 			System.out.println("You clicked on something that made us want to change the DetailPane, but the supplied panel is null!");
@@ -119,10 +124,16 @@ public class SimCityGui extends JFrame implements ActionListener {
 			//viewDetailPanel = a;
 			//CardLayout c = (CardLayout)(((Container) cards).getLayout());
 		  //  c.show((Container) cards, a.getName());
-			//RestaurantOneAnimationPanel restaurantOne = systemManager.getRestaurantOne(0).getAnimationPanel();
-	        viewDetailPanel.add(a, "Restaurant");
-			CardLayout c = (CardLayout) viewDetailPanel.getLayout();
-			c.show(viewDetailPanel, a.getName());
+			//viewDetailPanel = new JPanel(new CardLayout());
+			
+			// This works, but is hack-ish
+			viewDetailPanel.removeAll();
+			viewDetailPanel.updateUI();
+			//viewDetailPanel.add(a, a.getName());
+			viewDetailPanel.add(a, "name");
+
+			//CardLayout c = (CardLayout) viewDetailPanel.getLayout();
+			//c.show(viewDetailPanel, a.getName());			
 			System.out.println("Changing the detail panel to "+a.getClass().getName());
 		}
 	}

@@ -29,14 +29,6 @@ public class MarketSystem extends simcity.SimSystem {
 		animationPanel = new MarketAnimationPanel();
 	}
 	
-	public void printSomething() {
-		System.out.println("Something!");
-	}
-	
-	public String getName() {
-		return "Market 1";
-	}
-	
 	//replaces existing inventory with passed in one
 	public void setInventory(Map<String, Integer> inv) {
 		computer.setInventory(inv);
@@ -47,6 +39,7 @@ public class MarketSystem extends simcity.SimSystem {
 		cashier = c;
 		MarketCashierGui cGui = new MarketCashierGui();
 		animationPanel.addGui(cGui);
+		computer.setCashier(cashier);
 	}
 	
 	

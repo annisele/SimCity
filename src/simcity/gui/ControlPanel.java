@@ -97,7 +97,7 @@ public class ControlPanel extends JPanel implements ActionListener {
 		setLayout(new BoxLayout((Container) this, BoxLayout.Y_AXIS));
 		
 		//config panel
-		configStrings[0] = "One market";
+		configStrings[0] = "Three Buildings";
 		configStrings[1] = "One bank";
 		configStrings[2] = "One restaurant";
 		configDropdown = new JComboBox(configStrings);
@@ -235,9 +235,12 @@ public class ControlPanel extends JPanel implements ActionListener {
 		if(e.getSource() == load) {
 			String selection = (String)configDropdown.getSelectedItem();
 			if(selection.equals(configStrings[0])) {
-				config.oneMarket();
+				config.threeBuildings();
 			}
 			else if(selection.equals(configStrings[1])) {
+				config.oneBank();
+			}
+			else if(selection.equals(configStrings[2])) {
 				config.oneBank();
 			}
 		}
@@ -309,7 +312,7 @@ public class ControlPanel extends JPanel implements ActionListener {
 	}
 	
 	public void updateSelected(BuildingGui b) {
-		nameLabel.setText(b.getName());
+		nameLabel.setText(b.getClass().getName());
 		typeLabel.setText("building");
 	}
 }

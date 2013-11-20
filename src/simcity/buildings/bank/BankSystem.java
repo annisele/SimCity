@@ -1,7 +1,9 @@
 package simcity.buildings.bank;
 
 import java.util.*;
+
 import simcity.gui.*;
+import simcity.gui.bank.BankAnimationPanel;
 import simcity.buildings.bank.BankHostRole;
 import simcity.buildings.bank.BankHostRole.BankWindow;
 
@@ -16,6 +18,11 @@ public class BankSystem extends simcity.SimSystem{
 	
 	public BankSystem(SimCityGui scg) {
 		super(scg);
+		
+		animationPanel = new BankAnimationPanel();
+		// once a control panel is created, we need to uncomment this!!!
+		//controlPanel = new BankControlPanel();
+		
 		for (int i=1; i<=NUM_BANKWINDOWS; i++) {
 			windows.add(new BankWindow(i));
 		}

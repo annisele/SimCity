@@ -14,13 +14,17 @@ public class Config {
 	public void persons(){
 		
 	}
-	public void oneMarket() {
+	public void threeBuildings() {
 		systems.clear();
 		
 		systems.addMarket("Market", 100, 100);
 		systems.addRestaurantOne("RestaurantOne", 300, 100);
-		//systems.addBank("Bank", 100, 300);
+		systems.addBank("Bank", 100, 300);
+
 		systems.addPerson("Jesus", 100);
+		
+		systems.clearDetailPane();
+		//systems.setCards();
 		
 //		PedestrianGui testPed = new PedestrianGui();
 //        world.addBuilding(new BuildingGui("Market1", 30, 10));
@@ -30,6 +34,7 @@ public class Config {
 	
 	public void oneBank() {
 		systems.clear();
+		systems.clearDetailPane();
 		
 
 	}

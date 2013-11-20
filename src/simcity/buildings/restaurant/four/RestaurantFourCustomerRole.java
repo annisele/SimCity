@@ -14,6 +14,7 @@ import simcity.gui.restaurantfour.RestaurantFourCustomerGui;
 
 public class RestaurantFourCustomerRole extends Role {
 	
+	// Data ///////////////////////////////////////////////////////////////////////////////////////
 	// From PersonAgent
 	private PersonAgent person;
 	private String name;

@@ -65,5 +65,15 @@ public class RestaurantOneCustomerGui implements Gui{
 		xDest = x;
 		yDest = y;
 	}
+
+	public void DoGoToSeat() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void DoExitRestaurant() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

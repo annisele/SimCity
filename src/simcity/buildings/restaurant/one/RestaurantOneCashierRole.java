@@ -17,6 +17,11 @@ public class RestaurantOneCashierRole extends Role implements simcity.interfaces
 		// TODO Auto-generated method stub
 		
 	}
+
+	public void msgCustomerPaying(RestaurantOneCheck check, double d) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 }

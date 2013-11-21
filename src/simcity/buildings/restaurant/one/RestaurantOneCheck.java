@@ -18,19 +18,19 @@ public class RestaurantOneCheck {
         public Double price;
         public int checknumber;
         
-        public RestaurantOneCustomer c;
-        public RestaurantOneWaiter w;
+        public RestaurantOneCustomerRole c;
+        public RestaurantOneWaiterRole w;
         
         public enum CheckState {notCalculated, unpaid, delivered, Paid, incomplete, done};
         public CheckState state;
         
         
-        public RestaurantOneCheck(String custName, RestaurantOneCustomer customer, RestaurantOneWaiter waiter) {
+        public RestaurantOneCheck(String custName, RestaurantOneCustomer customer, RestaurantOneWaiterRole waiter) {
                 // TODO Auto-generated constructor stub
         }
         
 
-        public RestaurantOneCheck(String choice, int tNum, RestaurantOneCustomer customer, RestaurantOneWaiter waiter)
+        public RestaurantOneCheck(String choice, int tNum, RestaurantOneCustomerRole customer, RestaurantOneWaiterRole waiter)
         {        
                 this.w = waiter;
                 this.c = customer;

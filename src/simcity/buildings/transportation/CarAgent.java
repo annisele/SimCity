@@ -1,6 +1,7 @@
 package simcity.buildings.transportation;
 
 import simcity.Location;
+import simcity.Role;
 import agent.Agent;
 
 public class CarAgent extends Role implements simcity.interfaces.transportation.Car {
@@ -20,7 +21,7 @@ public class CarAgent extends Role implements simcity.interfaces.transportation.
 		destination = null;
 	}
 	
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 	if ((state == Carstate.waiting) && (destination != null)) {
 			state = Carstate.driving;
 			Drive();

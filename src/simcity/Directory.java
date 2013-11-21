@@ -7,7 +7,6 @@ public class Directory {
 	private enum EntryType {market, restaurant, bank};
 	private Map<String, Entry> directory = new HashMap<String, Entry>(); //maps names to entries
 	
-	
 	private class Entry {
 		String name;
 		Location location;

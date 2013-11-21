@@ -95,6 +95,7 @@ public class BankHostRole extends Role implements simcity.interfaces.bank.BankHo
 	
 	//actions
 	private void tellCustomerToGoToWindow(BankCustomerRole bc, BankWindow window) {
+		System.out.println("PLease go to the available window");
 		bc.msgGoToWindow(window.getWindowNumber(), window.getBankTeller());
 		window.setOccupant(bc);
 		customers.remove(bc);

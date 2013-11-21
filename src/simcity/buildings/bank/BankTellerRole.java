@@ -1,6 +1,7 @@
 package simcity.buildings.bank;
 
 import java.util.*;
+
 import simcity.Role;
 import simcity.buildings.bank.BankComputer.BankAccount;
 
@@ -22,21 +23,25 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 	// messages
 
 	public void msgWantToOpenAccount(BankCustomerRole bc, double amountToProcess) {
+		System.out.println("I want to open an account");
     	customers.add(new MyCustomer(bc, bc.getAccountNumber(), amountToProcess, transactionType.openAccount));
     	stateChanged();
 	}
 
 	public void msgWantToDeposit(BankCustomerRole bc, double amountToProcess) {
+		System.out.println("I want to deposit money");
     	customers.add(new MyCustomer(bc, bc.getAccountNumber(), amountToProcess, transactionType.depositMoney));
     	stateChanged();
 	}
 
 	public void msgWantToWithdraw(BankCustomerRole bc, double amountToProcess) {
+		System.out.println("I want to withdraw money");
     	customers.add(new MyCustomer(bc, bc.getAccountNumber(), amountToProcess, transactionType.withdrawMoney));
     	stateChanged();
 	}
 
 	public void msgWantALoan(BankCustomerRole bc, double amountToProcess) {
+		System.out.println("I want to get a loan");
     	customers.add(new MyCustomer(bc, bc.getAccountNumber(), amountToProcess, transactionType.loanMoney));
     	stateChanged();
 	}
@@ -98,29 +103,34 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 	// actions
 
 	private void AddAccount(MyCustomer customer, BankAccount account) {
+		System.out.println("I've opened an account for you");
 		account.getBankCustomer().msgHereIsAccountInfo(account.getBankCustomer(), account.getAccountNumber(), account.getAccountBalance());
 		customers.remove(customer);
 	}
 
 	private void DepositMoney(MyCustomer customer, BankAccount account) {
+		System.out.println("I've deposited your money");
 		account.getBankCustomer().msgMoneyIsDeposited(account.getBankCustomer(), account.getAccountNumber(), account.getAccountBalance(), 
 			customer.getAmountToProcess());
 		customers.remove(customer);
 	}
 
 	private void WithdrawMoney(MyCustomer customer, BankAccount account) {
+		System.out.println("I've withdrawn your money");
 		account.getBankCustomer().msgHereIsMoney(account.getBankCustomer(), account.getAccountNumber(), account.getAccountBalance(),
 			customer.getAmountToProcess());
 		customers.remove(customer);
 	}
 
 	private void CanGrantLoan(MyCustomer customer, BankAccount account) {
+		System.out.println("Your loan is approved");
 		account.getBankCustomer().msgHereIsYourLoan(account.getBankCustomer(), account.getAccountNumber(), account.getAmountOwed(),
 			customer.getAmountToProcess());
 		customers.remove(customer);
 	}
 
 	private void CannotGrantLoan(MyCustomer customer, BankAccount account) {
+		System.out.println("Your loan is not approved");
 		account.getBankCustomer().msgCannotGrantLoan(account.getBankCustomer(), account.getAccountNumber(), account.getAmountOwed(),
 			customer.getAmountToProcess());
 		customers.remove(customer);

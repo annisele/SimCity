@@ -55,10 +55,12 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	
 	//bank host sends this message to tell bank customer to go to bank window
 	public void msgArrivedAtBank() { // from gui
+		System.out.println("I'm at bank");
 		event = Event.arrivedAtBank;
 		stateChanged();
 	}
 	public void msgGoToWindow(int windowNumber, BankTellerRole bt) {
+		System.out.println("I'm going to the window to perform bank transaction");
 		this.windowNumber = windowNumber;
 		this.bt = bt;
 		event = Event.directedToWindow;
@@ -81,7 +83,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	}
 	//bank teller sends this message to customer after depositing money
 	public void msgMoneyIsDeposited(BankCustomerRole bc, int accountNumber, double accountBalance, double amountProcessed) {
-		System.out.println("Here is the money that you withdraw");
+		System.out.println("Here is the money that you deposited");
 		cashOnHand = cashOnHand - amountProcessed;
 		event = Event.transactionProcessed;
 		stateChanged();
@@ -163,6 +165,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 
 		private void InformBankHostOfDeparture() {
 		    bh.msgLeavingBank(windowNumber);
+		    System.out.println("Bank host, I'm leaving the bank now");
 		}	 
 
 }

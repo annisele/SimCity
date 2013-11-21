@@ -10,6 +10,7 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 	// data
 	private String name;
 	private List<MyCustomer> customers = Collections.synchronizedList(new ArrayList<MyCustomer>());		// list of customers
+	private List<MyCustomerInDebt> debtCustomers = Collections.synchronizedList(new ArrayList<MyCustomerInDebt>()); // list of bank customers in debt
 	BankComputer bank;	// bank system that contains account info for people
 
 	public enum transactionType {none, openAccount, depositMoney, withdrawMoney, loanMoney};	// type of transaction from customer
@@ -154,6 +155,8 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 			this.ts = transactionState.none;
 		}
 
+	
+		
 		public BankCustomerRole getBankCustomer() {
 			return bc;
 		}
@@ -195,7 +198,19 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 		}
 
 	}
-
+	public class MyCustomerInDebt {
+		BankCustomerRole bc;
+		int accountNumber;
+		double amountOwed;
+		double amountPaid;
+		
+		MyCustomerInDebt (BankCustomerRole bc, int accountNumber, double amountOwed, double amountPaid) {
+			this.bc = bc;
+			this.accountNumber = accountNumber;
+			this.amountOwed = amountOwed;
+			this.amountPaid = amountPaid;
+		}
+	}
 	// utility functions
 
 	public String getName() {

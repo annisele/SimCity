@@ -1,6 +1,7 @@
 package simcity.gui;
 
 import java.awt.*;
+import simcity.Clock;
 import java.awt.event.*;
 import java.util.Collections;
 import java.util.List;
@@ -80,9 +81,12 @@ public class AnimationPanel extends JPanel {
                     		
                     		if (g.getSystem().getControlPanel() == null) {
                         		System.out.println("We don't have a controlPanel for this building!");
+                        		
+                      
                         	} else {
                         		simCityGui.setControlPanel(g.getSystem().getControlPanel());
                         		//g.getControlPanel().updateSelected(g);
+                        		//System.out.println(Clock.getTime());
                         	}
                     	}
                  

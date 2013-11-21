@@ -69,10 +69,22 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 		if (person.isDone()==true) {
 			sleepTime = 8;
 		} 
-		sleeptimer.schedule{new TimerTask{{WakeUp(), sleepTime);
+		sleeptimer.schedule(new TimerTask(){
+            Object cookie = 1;
+            
+            public void run() {
+                    
+                    Do("finished sleeping");
+                    WakeUp();
+                    // add gui events to "got to the kitcen and make food" 
+                    stateChanged();
+            }
+    }, 3000); //or whatever time is fine
 		//personGui.msgGoToBed();
 
 	}
-	private void WakeUp()
+	private void WakeUp(){
+		//gui leaves bed
+	}
 
 }

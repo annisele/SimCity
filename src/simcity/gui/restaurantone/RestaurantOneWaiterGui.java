@@ -1,8 +1,11 @@
 package simcity.gui.restaurantone;
 
+import java.awt.Graphics2D;
+import java.awt.Point;
+
 import simcity.gui.Gui;
 
-public class RestaurantOneWaiterGui {
+public class RestaurantOneWaiterGui implements Gui{
 
 	public void DoLeaveCustomer() {
 		// TODO Auto-generated method stub
@@ -42,6 +45,30 @@ public class RestaurantOneWaiterGui {
 	public void DoClearTable(int tnumber) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void updatePosition() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void draw(Graphics2D g) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean isPresent() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean contains(Point point) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 	

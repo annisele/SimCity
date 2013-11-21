@@ -24,6 +24,11 @@ public class RestaurantOneCustomerRole extends Role implements simcity.interface
 		return false;
 	}
 
+	public String getName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	@Override
 	public void msgWhatWouldYouLike() {
 		// TODO Auto-generated method stub
@@ -59,5 +64,6 @@ public class RestaurantOneCustomerRole extends Role implements simcity.interface
 		// TODO Auto-generated method stub
 		
 	}
-
+	
+	
 }

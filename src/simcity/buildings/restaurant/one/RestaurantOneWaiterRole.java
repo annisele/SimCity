@@ -29,13 +29,13 @@ public class RestaurantOneWaiterRole extends Role implements simcity.interfaces.
 
       private List<RestaurantOneCheck> checks = new ArrayList<RestaurantOneCheck>();
       private class MyCustomer {
-              public MyCustomer(RestaurantOneCustomer customer, int table, CustomerState state) {
+              public MyCustomer(RestaurantOneCustomerRole customer, int table, CustomerState state) {
                       cagent = customer;
                       tnumber = table;
                       s = state;
 
               }
-              RestaurantOneCustomer cagent;
+              RestaurantOneCustomerRole cagent;
               int tnumber;
               String choice;
               CustomerState s;
@@ -524,10 +524,10 @@ public class RestaurantOneWaiterRole extends Role implements simcity.interfaces.
               cook.msgHereIsAnOrder(this, c.choice, c.tnumber);
       }
 
-      private void DoSeatCustomer(RestaurantOneCustomerRole customer, int tableNumber) {
+      private void DoSeatCustomer(RestaurantOneCustomerRole cagent, int tableNumber) {
               //Notice how we print "customer" directly. It's toString method will do it.
               //Same with "table"
-              waiterGui.DoBringToTable(customer.getGui(), tableNumber); 
+              waiterGui.DoBringToTable(cagent.getGui(), tableNumber); 
               //print("Seating customer " + customer.getName());
       }
 

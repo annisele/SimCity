@@ -23,28 +23,8 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 
 	// messages
 
-	public void msgWantToOpenAccount(BankCustomerRole bc, double amountToProcess) {
-		System.out.println("I want to open an account");
-    	customers.add(new MyCustomer(bc, bc.getAccountNumber(), amountToProcess, transactionType.openAccount));
-    	stateChanged();
-	}
-
-	public void msgWantToDeposit(BankCustomerRole bc, double amountToProcess) {
-		System.out.println("I want to deposit money");
-    	customers.add(new MyCustomer(bc, bc.getAccountNumber(), amountToProcess, transactionType.depositMoney));
-    	stateChanged();
-	}
-
-	public void msgWantToWithdraw(BankCustomerRole bc, double amountToProcess) {
-		System.out.println("I want to withdraw money");
-    	customers.add(new MyCustomer(bc, bc.getAccountNumber(), amountToProcess, transactionType.withdrawMoney));
-    	stateChanged();
-	}
-
-	public void msgWantALoan(BankCustomerRole bc, double amountToProcess) {
-		System.out.println("I want to get a loan");
-    	customers.add(new MyCustomer(bc, bc.getAccountNumber(), amountToProcess, transactionType.loanMoney));
-    	stateChanged();
+	public void msgINeedTransaction(BankCustomerRole bc, BankTransaction bt) {
+		customers.add(new MyCustomer(bc, bt));
 	}
 
 	// scheduler
@@ -53,38 +33,43 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 		synchronized(customers) {
 			if (!customers.isEmpty()) {
 				if (customers.get(0).getTransactionState() == transactionState.none) {
-
-					if (customers.get(0).getTransactionType() == transactionType.openAccount) {
+					
+					if (customers.get(0).getBankTransaction().getTransactionType() == transactionType.openAccount) {
 						customers.get(0).setTransactionState(transactionState.processing);
-						int tempAccountNumber = bank.addAccountAndReturnNumber(customers.get(0).getBankCustomer(), customers.get(0).getAmountToProcess());
+						int tempAccountNumber = bank.addAccountAndReturnNumber(customers.get(0).getBankCustomer(), 
+								customers.get(0).getBankTransaction().getAmountToProcess());
 						BankAccount account = bank.accountLookup(tempAccountNumber);
 						AddAccount(customers.get(0), account);
 						return true;
 					}
 
-					else if (customers.get(0).getTransactionType() == transactionType.depositMoney) {
+					else if (customers.get(0).getBankTransaction().getTransactionType() == transactionType.depositMoney) {
 						customers.get(0).setTransactionState(transactionState.processing);
-						BankAccount account = bank.accountLookup(customers.get(0).getAccountNumber());
-						account.setAccountBalance(account.getAccountBalance() + customers.get(0).getAmountToProcess());
+						BankAccount account = bank.accountLookup(customers.get(0).getBankTransaction().getAccountNumber());
+						account.setAccountBalance(account.getAccountBalance() + 
+								customers.get(0).getBankTransaction().getAmountToProcess());
 						bank.updateSystemAccount(account);
 						DepositMoney(customers.get(0), account);
 						return true;
 					}
 
-					else if (customers.get(0).getTransactionType() == transactionType.withdrawMoney) {
+					else if (customers.get(0).getBankTransaction().getTransactionType() == transactionType.withdrawMoney) {
 						customers.get(0).setTransactionState(transactionState.processing);
-						BankAccount account = bank.accountLookup(customers.get(0).getAccountNumber());
-						account.setAccountBalance(account.getAccountBalance() - customers.get(0).getAmountToProcess());
+						BankAccount account = bank.accountLookup(customers.get(0).getBankTransaction().getAccountNumber());
+						account.setAccountBalance(account.getAccountBalance() - 
+								customers.get(0).getBankTransaction().getAmountToProcess());
 						bank.updateSystemAccount(account);
 						WithdrawMoney(customers.get(0), account);
 						return true;
 					}
 
-					else if (customers.get(0).getTransactionType() == transactionType.withdrawMoney) {
+					else if (customers.get(0).getBankTransaction().getTransactionType() == transactionType.withdrawMoney) {
 						customers.get(0).setTransactionState(transactionState.processing);
-						BankAccount account = bank.accountLookup(customers.get(0).getAccountNumber());
-						if (account.getAccountNumber() > 0.5 * customers.get(0).getAmountToProcess()) {	// RULE FOR LOAN: Loan is at max twice of account
-							account.setAmountOwed(account.getAmountOwed() + customers.get(0).getAmountToProcess());
+						BankAccount account = bank.accountLookup(customers.get(0).getBankTransaction().getAccountNumber());
+						if (account.getAccountNumber() > 0.5 * 
+								customers.get(0).getBankTransaction().getAmountToProcess()) {	// RULE FOR LOAN: Loan is at max twice of account
+							account.setAmountOwed(account.getAmountOwed() + 
+									customers.get(0).getBankTransaction().getAmountToProcess());
 							bank.updateSystemAccount(account);
 							CanGrantLoan(customers.get(0), account);
 							return true;
@@ -111,29 +96,29 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 
 	private void DepositMoney(MyCustomer customer, BankAccount account) {
 		System.out.println("I've deposited your money");
-		account.getBankCustomer().msgMoneyIsDeposited(account.getBankCustomer(), account.getAccountNumber(), account.getAccountBalance(), 
-			customer.getAmountToProcess());
+		account.getBankCustomer().msgMoneyIsDeposited(account.getBankCustomer(), account.getAccountNumber(), 
+				account.getAccountBalance(), customer.getBankTransaction().getAmountToProcess());
 		customers.remove(customer);
 	}
 
 	private void WithdrawMoney(MyCustomer customer, BankAccount account) {
 		System.out.println("I've withdrawn your money");
 		account.getBankCustomer().msgHereIsMoney(account.getBankCustomer(), account.getAccountNumber(), account.getAccountBalance(),
-			customer.getAmountToProcess());
+			customer.getBankTransaction().getAmountToProcess());
 		customers.remove(customer);
 	}
 
 	private void CanGrantLoan(MyCustomer customer, BankAccount account) {
 		System.out.println("Your loan is approved");
 		account.getBankCustomer().msgHereIsYourLoan(account.getBankCustomer(), account.getAccountNumber(), account.getAmountOwed(),
-			customer.getAmountToProcess());
+			customer.getBankTransaction().getAmountToProcess());
 		customers.remove(customer);
 	}
 
 	private void CannotGrantLoan(MyCustomer customer, BankAccount account) {
 		System.out.println("Your loan is not approved");
 		account.getBankCustomer().msgCannotGrantLoan(account.getBankCustomer(), account.getAccountNumber(), account.getAmountOwed(),
-			customer.getAmountToProcess());
+			customer.getBankTransaction().getAmountToProcess());
 		customers.remove(customer);
 	}
 
@@ -142,21 +127,15 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 	// utility classes
 	public class MyCustomer {
 		BankCustomerRole bc;
-		int accountNumber;
-		double amountToProcess;
-		transactionType tt;
+		BankTransaction bt;
 		transactionState ts;
 
-		MyCustomer(BankCustomerRole bc, int accountNumber, double amountToProcess, transactionType tt) {
+		MyCustomer(BankCustomerRole bc, BankTransaction bt) {
 			this.bc = bc;
-			this.accountNumber = accountNumber;
-			this.amountToProcess = amountToProcess;
-			this.tt = tt;
+			this.bt = bt;
 			this.ts = transactionState.none;
 		}
 
-	
-		
 		public BankCustomerRole getBankCustomer() {
 			return bc;
 		}
@@ -165,30 +144,14 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 			this.bc = bc;
 		}
 
-		public int getAccountNumber() {
-			return accountNumber;
+		public BankTransaction getBankTransaction() {
+			return bt;
 		}
 		
-		public void setAccountNumber(int accountNumber) {
-			this.accountNumber = accountNumber;
+		public void setBankTransaction(BankTransaction bt) {
+			this.bt = bt;
 		}
 		
-		public double getAmountToProcess() {
-			return amountToProcess;
-		}
-
-		public void setAmountToProcess(double amountToProcess) {
-			this.amountToProcess = amountToProcess;
-		}
-
-		public transactionType getTransactionType() {
-			return tt;
-		}
-
-		public void setTransactionType(transactionType tt) {
-			this.tt = tt;
-		}
-
 		public transactionState getTransactionState() {
 			return ts;
 		}
@@ -198,6 +161,7 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 		}
 
 	}
+	
 	public class MyCustomerInDebt {
 		BankCustomerRole bc;
 		int accountNumber;
@@ -211,6 +175,7 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 			this.amountPaid = amountPaid;
 		}
 	}
+	
 	// utility functions
 
 	public String getName() {

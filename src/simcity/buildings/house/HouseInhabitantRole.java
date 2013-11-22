@@ -11,19 +11,22 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 	PersonAgent person;
 	enum HouseInhabitantState {hungry, readytosleep, sleeping, bored} 
 	HouseInhabitantState state;
-	HouseInhabitantRole(PersonAgent p){
-		this.person=p;
+	
+	
+	public HouseInhabitantRole(PersonAgent p){
+		this.person = p;
 	}
-
 
 	//Messages
 
 	public void msgNeedToEat() { //From PersonAgent
 		state = HouseInhabitantState.hungry;
 	}
+	
 	public void msgGoToBed() {//from universe/simGOD
 		state = HouseInhabitantState.readytosleep;
 	}
+	
 	@Override
 	public boolean pickAndExecuteAnAction() {
 		// TODO Auto-generated method stub

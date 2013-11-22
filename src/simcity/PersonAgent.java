@@ -111,7 +111,7 @@ public class PersonAgent extends Agent implements Person {
 	public void scheduleEvent(EventType t) {
 		Event e;
 		if(t == EventType.GoToMarket) {
-
+			Do("Scheduling event: goToMarket");
 			List<String> markets = Directory.getMarkets();
 			int index = rand.nextInt(markets.size());
 			String buildingName = markets.get(index);
@@ -133,7 +133,11 @@ public class PersonAgent extends Agent implements Person {
 			}
 			((MarketCustomer)eventR).msgBuyStuff(house.getListToBuy(), (MarketSystem)(Directory.getSystem(buildingName)));
 			e = new Event(buildingName, eventR, 120, true, steps, t);
-		}
+			Do("GoToMarket is scheduled");
+		} //else if (t == EventType.) {
+			
+			
+		//}
 	}
 
 	//this assumes after roles are done, they go stand outside the building
@@ -156,11 +160,11 @@ public class PersonAgent extends Agent implements Person {
 	public void enterBuilding() {
 		if(Directory.getSystem(currentEvent.buildingName).msgEnterBuilding(currentEvent.role)) {
 			currentRole = currentEvent.role;
-			System.out.println(this.getName() + ": Entered building. Changing role to " + currentRole.getClass());
+			Do("Entered building. Changing role to " + currentRole.getClass());
 
 		}
 		else {
-			System.out.println(this.getName() + ": Building closed. Cannot enter.");
+			Do("Building closed. Cannot enter.");
 			scheduleEvent(currentEvent.type); //maybe change this?
 		}
 	}
@@ -250,6 +254,11 @@ public class PersonAgent extends Agent implements Person {
 	// Utility functions
 	public String getName() {
 		return name;
+	}
+	
+	//Test event
+	public void goToMarketNow() {
+		this.scheduleEvent(EventType.GoToMarket);
 	}
 	
 	public boolean isIdle() {

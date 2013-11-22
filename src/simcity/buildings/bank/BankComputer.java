@@ -7,10 +7,11 @@ import simcity.interfaces.bank.BankCustomer;
 public class BankComputer {
 
 	// variables
-	public static final int MAX_ACCOUNTS = 100;
+	int MAX_ACCOUNTS = 100;
 	int numAccounts = 0;
-	
 	double loanableFunds;
+	
+	
 	
 	Map<Integer,BankCustomerRole> customerAccounts = new HashMap<Integer,BankCustomerRole>(MAX_ACCOUNTS);
 	Map<Integer,Double> balanceAccounts = new HashMap<Integer,Double>(MAX_ACCOUNTS);
@@ -18,7 +19,7 @@ public class BankComputer {
 
 	// constructor
 	BankComputer() {
-		setLoanableFunds(500);
+		setLoanableFunds(500000);
 	}
 
 	// functions

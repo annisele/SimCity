@@ -1,7 +1,9 @@
 package simcity.buildings.transportation;
+import simcity.Location;
+import simcity.Role;
 
-public class CarPassengerRole implements simcity.interfaces.transportation.CarPassenger {
-	/*Location destination;
+public class CarPassengerRole extends Role implements simcity.interfaces.transportation.CarPassenger {
+	Location destination;
 	int xLoc;
 	int yLoc;
 	public enum PassengerState {stopped, driving};
@@ -21,7 +23,7 @@ public class CarPassengerRole implements simcity.interfaces.transportation.CarPa
 		yLoc = y;
 		stateChanged();
 	}
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 	if ((state == PassengerState.stopped) && (event == PassengerEvent.starting)) {
 			state = PassengerState.driving;
 			GetIn();
@@ -57,7 +59,7 @@ public class CarPassengerRole implements simcity.interfaces.transportation.CarPa
 	
 	
 	
-	*/
+	
 	
 	
 	

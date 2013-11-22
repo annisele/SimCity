@@ -37,7 +37,7 @@ import agent.Agent;
 		stateChanged();
 	} 
 	
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 	if ((state == PassengerState.offBus) && (event == PassengerEvent.atBusStop)) {
 			state = PassengerState.waitingForBus;
 			CallBus();

@@ -38,7 +38,7 @@ public class PersonAgent extends Agent implements Person {
 	private Timer timer = new Timer();
 	public enum EventType {Eat, GoToMarket, DepositMoney, WithdrawMoney, GetALoan, PayRent, Sleep, Work};
 	private IdlePersonGui idleGui;
-	
+
 	public PersonAgent(String n) {
 		name = n;
 		idleGui = new IdlePersonGui(this);
@@ -60,12 +60,12 @@ public class PersonAgent extends Agent implements Person {
 		myRoles.add(r4);
 		//myRoles.add(r5);
 	}
-	
+
 	//hack
 	public IdlePersonGui getIdleGui() {
 		return idleGui;
 	}
-	
+
 	@Override
 	public boolean pickAndExecuteAnAction() {
 
@@ -137,10 +137,12 @@ public class PersonAgent extends Agent implements Person {
 			}
 			((MarketCustomer)eventR).msgBuyStuff(house.getListToBuy(), (MarketSystem)(Directory.getSystem(buildingName)));
 			e = new Event(buildingName, eventR, 120, true, steps, t);
-			Do("GoToMarket is scheduled");
+			Do("GoToMarket is scheduled.");
+			insertEvent(e);
+			stateChanged();
 		} //else if (t == EventType.) {
-			
-			
+
+
 		//}
 	}
 
@@ -219,7 +221,10 @@ public class PersonAgent extends Agent implements Person {
 		//the new event is flexible
 		else {
 			//if there is time at the beginning, insert new event first
-			if(eventList.get(0).startTime - Clock.getTime() > e.duration) {
+			if(eventList.isEmpty()) {
+				eventList.add(0, e);
+			}
+			else if(eventList.get(0).startTime - Clock.getTime() > e.duration) {
 				eventList.add(0, e);
 			}
 			else if(e.type == EventType.Eat) {
@@ -259,18 +264,18 @@ public class PersonAgent extends Agent implements Person {
 	public String getName() {
 		return name;
 	}
-	
+
 	//Test event
 	public void goToMarketNow() {
 		this.scheduleEvent(EventType.GoToMarket);
 	}
-	
+
 	public boolean isIdle() {
 		return (currentRole == null);
 	}
-	
+
 	// Classes
-	
+
 	/***
 	 * Step - Represents the steps that an event must do
 	 * @author rebeccahao
@@ -300,7 +305,7 @@ public class PersonAgent extends Agent implements Person {
 				e.printStackTrace();
 			}
 		}
-		
+
 		public void doMethod() {
 
 			try {
@@ -351,12 +356,38 @@ public class PersonAgent extends Agent implements Person {
 		}
 
 		private boolean overlaps(Event e) {
+			//e starts halfway through this event
+			int end = startTime + duration;
+			int e_end = e.startTime + e.duration;
+			if(startTime <= e.startTime && end >= e.startTime) {
+				return true;
+			}
+			//if e ends halfway into this event
+			else if(startTime >= e.startTime && startTime <= e_end) {
+				return true;
+			}
+			//if e completely surrounds this event
+			else if(e.startTime <= startTime && e_end >= end) {
+				return true;
+			}
+			//if e is completely inside this event
+			else if(startTime <= e.startTime && end >= e_end) {
+				return true;
+			}
+			//if it passes all those tests, the two events are not conflicting
 			return false;
 		}
 
 		private boolean nextStep() {
-
-			return true;
+			if(steps.isEmpty()) {
+				return false;
+			}
+			else {
+				steps.get(0).doMethod();
+				steps.remove(0);
+				return true;
+			}
+			
 
 		}
 	}

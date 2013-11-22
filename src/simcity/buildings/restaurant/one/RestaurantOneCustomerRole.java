@@ -46,16 +46,16 @@ public class RestaurantOneCustomerRole extends Role implements simcity.interface
      /**
       * Constructor for CustomerAgent class
       *
-      * @param name name of the customer
+      * @param personAgent.getName() name of the customer
       * @param gui  reference to the customergui so the customer can send it messages
       */
-     public RestaurantOneCustomerRole(String name){
+     public RestaurantOneCustomerRole(PersonAgent personAgent.getName()){
              super();
-             this.name = name;
-             if (name.equals("Broke")) {
+             this.name = personAgent.getName();
+             if (personAgent.getName().equals("Broke")) {
                      money = 0;
              }
-             else if (name.equals("Enough")) {
+             else if (personAgent.getName().equals("Enough")) {
                      money = 6.00;
              }
              else

@@ -17,9 +17,12 @@ import simcity.buildings.bank.BankCustomerRole;
 import simcity.buildings.house.HouseInhabitantRole;
 import simcity.buildings.market.MarketCustomerRole;
 import simcity.buildings.market.MarketSystem;
+import simcity.buildings.restaurant.five.RestaurantFiveCustomerRole;
+import simcity.buildings.restaurant.four.RestaurantFourCustomerRole;
 import simcity.buildings.restaurant.one.RestaurantOneCustomerRole;
 import simcity.buildings.transportation.*;
 import simcity.buildings.restaurant.one.*;
+import simcity.buildings.restaurant.two.RestaurantTwoCustomerRole;
 import simcity.Role;
 import agent.Agent;
 
@@ -34,11 +37,18 @@ public class PersonAgent extends Agent implements Person {
 	private Timer timer = new Timer();
 	public enum EventType {Eat, GoToMarket, DepositMoney, WithdrawMoney, GetALoan, PayRent, Sleep, Work};
 
-	public PersonAgent() {
+	public PersonAgent(String n) {
+		name = n;
 		PedestrianRole p = new PedestrianRole(this);
 		HouseInhabitantRole h = new HouseInhabitantRole(this);
 		MarketCustomerRole m = new MarketCustomerRole(this);
-		
+		BankCustomerRole b = new BankCustomerRole(this);
+		//RestaurantOneCustomerRole r1 = new RestaurantOneCustomerRole(this);
+		RestaurantTwoCustomerRole r2 = new RestaurantTwoCustomerRole(this);
+		//RestaurantThreeCustomerRole r3 = new RestaurantThreeCustomerRole(this);
+		RestaurantFourCustomerRole r4 = new RestaurantFourCustomerRole(this);
+		RestaurantFiveCustomerRole r5 = new RestaurantFiveCustomerRole(this);
+		//RestaurantSixCustomerRole r6 = new RestaurantSixCustomerRole(this);
 	}
 	
 	@Override
@@ -229,6 +239,8 @@ public class PersonAgent extends Agent implements Person {
 	public String getName() {
 		return name;
 	}
+	
+	// Classes
 	
 	/***
 	 * Step - Represents the steps that an event must do

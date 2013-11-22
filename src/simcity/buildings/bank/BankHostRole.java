@@ -6,51 +6,6 @@ import simcity.Role;
 
 public class BankHostRole extends Role implements simcity.interfaces.bank.BankHost {
 	
-	// utility class: BankWindow
-	public static class BankWindow {
-		
-		public BankCustomerRole occupiedBy;
-		public BankTellerRole bankTeller;
-		public int windowNum;
-		public boolean occupied;
-		
-		public boolean isOccupied() {
-			return occupied;
-		}
-		
-		public int getWindowNumber() {
-			return windowNum;
-		}
-		
-		public void setUnoccupied() {
-			occupiedBy = null;
-			occupied = false;
-		}
-		
-		public void setOccupant(BankCustomerRole cust) {
-			occupiedBy = cust;
-			occupied = true;
-		}
-		
-		public BankCustomerRole getOccupant() {
-			return occupiedBy;
-		}
-		
-		public BankWindow(int windowNum) {				// constructor
-			this.windowNum = windowNum;
-			this.occupied = false;
-		}
-		
-		public BankTellerRole getBankTeller() {
-			return bankTeller;
-		}
-		
-		public void setBankTeller(BankTellerRole bankTeller) {
-			this.bankTeller = bankTeller;
-		}
-		
-	}
-	
 	// data
 	private String name;
 	Timer timer = new Timer();
@@ -109,4 +64,61 @@ public class BankHostRole extends Role implements simcity.interfaces.bank.BankHo
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	// utility class: BankWindow
+		public static class BankWindow {
+			
+			public BankCustomerRole occupiedBy;
+			public BankTellerRole bankTeller;
+			public int windowNum;
+			public boolean occupied;
+			
+			public BankWindow(int windowNum) {	// constructor
+				this.windowNum = windowNum;
+				this.occupied = false;
+			}
+			
+			public boolean isOccupied() {
+				return occupied;
+			}
+			
+			public int getWindowNumber() {
+				return windowNum;
+			}
+			
+			public void setUnoccupied() {
+				occupiedBy = null;
+				occupied = false;
+			}
+			
+			public void setOccupant(BankCustomerRole cust) {
+				occupiedBy = cust;
+				occupied = true;
+			}
+			
+			public BankCustomerRole getOccupant() {
+				return occupiedBy;
+			}
+			
+			public BankTellerRole getBankTeller() {
+				return bankTeller;
+			}
+			
+			public void setBankTeller(BankTellerRole bankTeller) {
+				this.bankTeller = bankTeller;
+			}
+			
+		}
+
+		@Override
+		public void msgExitBuilding() {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void msgEnterBuilding() {
+			// TODO Auto-generated method stub
+			
+		}
 }

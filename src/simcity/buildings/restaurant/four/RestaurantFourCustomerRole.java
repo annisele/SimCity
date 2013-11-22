@@ -80,7 +80,7 @@ public class RestaurantFourCustomerRole extends Role {
 	
 	// Constructors ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public RestaurantFourCustomerRole() {
+	public RestaurantFourCustomerRole(PersonAgent personAgent) {
 
 	}
 

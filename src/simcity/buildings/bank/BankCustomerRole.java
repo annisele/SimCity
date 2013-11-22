@@ -106,11 +106,11 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	 //scheduler
 	 public boolean pickAndExecuteAnAction() {
 		 if (customerState == BankCustomerState.none){
-			    if (event == Event.arrivedAtBank){
+		    if (event == Event.arrivedAtBank){
 			    InformBankHostOfArrival();
 			    customerState = BankCustomerState.waitingAtBank;
 				return true;
-			    }
+		    }
 			    
 		 }
 		 if (customerState == BankCustomerState.waitingAtBank && event == Event.directedToWindow) {
@@ -135,7 +135,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 			    return true;
 		  }
 		
-			System.out.println("No scheduler rule fired, should not happen in FSM, event="+event+" state="+ customerState);
+		System.out.println("No scheduler rule fired, should not happen in FSM, event="+event+" state="+ customerState);
 
 		 return false;
 	 }

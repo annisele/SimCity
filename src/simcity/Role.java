@@ -46,6 +46,9 @@ public abstract class Role  {
 	        System.out.print(sb.toString());
 	}
 	 
+	public String getName() {
+		return person.getName();
+	}
 	 
 	 
 	 

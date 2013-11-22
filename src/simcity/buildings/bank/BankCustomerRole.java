@@ -78,8 +78,8 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	public void msgHereIsMoney(BankCustomerRole bc, int accountNumber, double accountBalance, double amountProcessed) {
 		System.out.println("Here is the money that you withdraw");
 		cashOnHand = cashOnHand + amountProcessed;
-		event = Event.transactionProcessed;
-		stateChanged(); 
+		
+
 	}
 	//bank teller sends this message to customer after depositing money
 	public void msgMoneyIsDeposited(BankCustomerRole bc, int accountNumber, double accountBalance, double amountProcessed) {
@@ -101,6 +101,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
     	 event = Event.transactionProcessed;
 	     stateChanged(); 
      }
+	 //
 	
 	 //scheduler
 	 public boolean pickAndExecuteAnAction() {
@@ -116,6 +117,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 			 customerState = BankCustomerState.goingToWindow;
 			    if (transactionState == transactionState.openAccount) {
 			        OpenAccount();
+			        DepositMoney();
 			    }
 			    else if (transactionState == transactionState.depositMoney) {
 			        DepositMoney();
@@ -146,6 +148,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 		private void OpenAccount() {
 		    bt.msgWantToOpenAccount(this, amountToProcess);
 		    System.out.println("Bank customer wants to open account");
+		    System.out.println("PLease deposit $100 if you want to open account");
 		}
 
 		private void DepositMoney() {

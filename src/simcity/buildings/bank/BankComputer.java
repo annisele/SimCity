@@ -10,7 +10,7 @@ public class BankComputer {
 	int MAX_ACCOUNTS = 100;
 	int numAccounts = 0;
 	double loanableFunds;
-	
+	double cashInBank;
 	
 	
 	Map<Integer,BankCustomerRole> customerAccounts = new HashMap<Integer,BankCustomerRole>(MAX_ACCOUNTS);
@@ -20,6 +20,7 @@ public class BankComputer {
 	// constructor
 	BankComputer() {
 		setLoanableFunds(500000);
+		setCashInBank(500000);
 	}
 
 	// functions
@@ -104,5 +105,10 @@ public class BankComputer {
 	public void setLoanableFunds(double loanableFunds) {
 		this.loanableFunds = loanableFunds;
 	}
-
+	public double getCashInBank() {
+		return cashInBank;
+	}
+	public void setCashInBank(double cashInBank) {
+		this.cashInBank = cashInBank;
+	}
 }

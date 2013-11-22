@@ -71,6 +71,7 @@ public class SystemManager {
 	
 	public void addPerson(String name) {
 		PersonAgent person = new PersonAgent(name);
+		world.getAnimationPanel().addGui(person.getIdleGui());
 		people.add(person);
 		
 		//hacks
@@ -87,12 +88,10 @@ public class SystemManager {
 
 		//restaurantOnes.get(0).getAnimationPanel().addGui(person.getRoles().get(1).getGui());
 		//banks.get(0).getAnimationPanel().addGui(person.getRoles().get(2).getGui());
-
 	}
 	
 	public void addMarket(String name, int xLoc, int yLoc) {
 		MarketSystem temp = new MarketSystem(simcity);
-		
 		temp.setName(name);
 		markets.add(temp);
 		BuildingGui building = new BuildingGui(temp, xLoc, yLoc);

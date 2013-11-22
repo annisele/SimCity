@@ -61,6 +61,11 @@ public class PersonAgent extends Agent implements Person {
 		//myRoles.add(r5);
 	}
 	
+	//hack
+	public IdlePersonGui getIdleGui() {
+		return idleGui;
+	}
+	
 	@Override
 	public boolean pickAndExecuteAnAction() {
 
@@ -75,7 +80,6 @@ public class PersonAgent extends Agent implements Person {
 				currentEvent = null;
 				currentRole = null;
 				idleGui.setLocation(currentRole.getGui().getLocation());
-				
 				eventList.remove(0);
 				return true;
 			}

@@ -1,46 +1,31 @@
-package simcity.gui.transportation;
+package simcity.gui;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 
 import simcity.Location;
-import simcity.buildings.transportation.PedestrianRole;
-import simcity.gui.Gui;
+import simcity.PersonAgent;
 
-public class PedestrianGui implements Gui{
+public class IdlePersonGui implements Gui {
 
-	private PedestrianRole role;
+	private PersonAgent person;
 	private int x = 0;
 	private int y = 0;
-	private int xDest = 0;
-	private int yDest = 0;
 	private final int SIZE = 20;
 	
-	public PedestrianGui() {
-		
+	public IdlePersonGui(PersonAgent p) {
+		person = p;
+	}
+	
+	public void setLocation(Location l) {
+		x = l.getX();
+		y = l.getY();
 	}
 	
 	@Override
 	public void updatePosition() {
-		if(xDest > x) {
-			x++;
-		}
-		else {
-			x--;
-		}
-		if(yDest > y) {
-			y++;
-		}
-		else {
-			y--;
-		}
-		if(x == xDest && y == yDest) {
-			//xDest = (int) (Math.random() * 400);
-			//yDest = (int) (Math.random() * 400);
-			xDest = 200;
-			yDest = 200;
-		}
+
 	}
 
 	@Override
@@ -51,7 +36,7 @@ public class PedestrianGui implements Gui{
 
 	@Override
 	public boolean isPresent() {
-		return true;
+		return person.isIdle();
 	}
 
 	@Override
@@ -64,14 +49,9 @@ public class PedestrianGui implements Gui{
 		return false;
 	}
 
-	public void DoGoToLocation(int x, int y) {
-		xDest = x;
-		yDest = y;
-	}
-
 	@Override
 	public Location getLocation() {
 		return new Location(x, y);
 	}
-	
+
 }

@@ -2,6 +2,8 @@ package simcity.gui;
 
 import java.awt.*;
 
+import simcity.Location;
+
 public interface Gui {
 
     public void updatePosition();
@@ -16,5 +18,6 @@ public interface Gui {
     public void draw(Graphics2D g);
     public boolean isPresent();
     public boolean contains(Point point);
+    public Location getLocation();
 
 }

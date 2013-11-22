@@ -84,6 +84,18 @@ import agent.Agent;
 		
 		//Animation
 	}
+
+	@Override
+	public void msgExitBuilding() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgEnterBuilding() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 	

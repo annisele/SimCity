@@ -36,9 +36,10 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 					
 					if (customers.get(0).getBankTransaction().getTransactionType() == transactionType.openAccount) {
 						customers.get(0).setTransactionState(transactionState.processing);
-						int tempAccountNumber = bank.addAccountAndReturnNumber(customers.get(0).getBankCustomer(), 
+						int tempAccountNumber = bank.addAccountAndReturnNumber(customers.get(0).getBankCustomer(),
+								customers.get(0).getBankTransaction().getPinCode(),
 								customers.get(0).getBankTransaction().getAmountProcessed());
-						BankAccount account = bank.accountLookup(tempAccountNumber);
+						BankAccount account = bank.account(tempAccountNumber);
 						AddAccount(customers.get(0), account);
 						return true;
 					}

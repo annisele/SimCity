@@ -6,6 +6,7 @@ import java.util.*;
 import java.lang.reflect.*;
 
 import simcity.gui.Gui;
+import simcity.gui.IdlePersonGui;
 import simcity.gui.bank.BankCustomerGui;
 import simcity.gui.restaurantone.RestaurantOneCustomerGui;
 import simcity.gui.transportation.PedestrianGui;
@@ -36,9 +37,11 @@ public class PersonAgent extends Agent implements Person {
 	private Event currentEvent = null;
 	private Timer timer = new Timer();
 	public enum EventType {Eat, GoToMarket, DepositMoney, WithdrawMoney, GetALoan, PayRent, Sleep, Work};
-
+	private IdlePersonGui idleGui;
+	
 	public PersonAgent(String n) {
 		name = n;
+		idleGui = new IdlePersonGui(this);
 		PedestrianRole p = new PedestrianRole(this);
 		HouseInhabitantRole h = new HouseInhabitantRole(this);
 		MarketCustomerRole m = new MarketCustomerRole(this);
@@ -49,6 +52,7 @@ public class PersonAgent extends Agent implements Person {
 		RestaurantFourCustomerRole r4 = new RestaurantFourCustomerRole(this);
 		RestaurantFiveCustomerRole r5 = new RestaurantFiveCustomerRole(this);
 		//RestaurantSixCustomerRole r6 = new RestaurantSixCustomerRole(this);
+		myRoles.add(p);
 	}
 	
 	@Override
@@ -63,6 +67,9 @@ public class PersonAgent extends Agent implements Person {
 			//if it returns false because there are no more steps, remove event from the list
 			if(!currentEvent.nextStep()) {
 				currentEvent = null;
+				currentRole = null;
+				idleGui.setLocation(currentRole.getGui().getLocation());
+				
 				eventList.remove(0);
 				return true;
 			}
@@ -247,6 +254,10 @@ public class PersonAgent extends Agent implements Person {
 	//Test event
 	public void goToMarketNow() {
 		this.scheduleEvent(EventType.GoToMarket);
+	}
+	
+	public boolean isIdle() {
+		return (currentRole == null);
 	}
 	
 	// Classes

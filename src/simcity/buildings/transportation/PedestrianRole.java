@@ -50,6 +50,18 @@ public class PedestrianRole extends Role implements simcity.interfaces.transport
 	public PedestrianGui getGui() {
 		return gui;
 	}
+
+	@Override
+	public void msgExitBuilding() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgEnterBuilding() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	/*
 	public void msgWalkTo(Location l) {

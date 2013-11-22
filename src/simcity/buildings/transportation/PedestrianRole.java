@@ -18,7 +18,6 @@ public class PedestrianRole extends Role implements simcity.interfaces.transport
 	public PedestrianRole(PersonAgent person) {
 		this.person = person;
 		this.gui =  new PedestrianGui();
-		destinationList.add(new Location(150,150));
 	}
 	
 	// Scheduler

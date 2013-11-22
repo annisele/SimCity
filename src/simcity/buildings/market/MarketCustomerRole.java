@@ -2,7 +2,10 @@ package simcity.buildings.market;
 
 import java.util.*;
 
+import simcity.PersonAgent;
 import simcity.Role;
+import simcity.gui.market.MarketCustomerGui;
+import simcity.gui.transportation.PedestrianGui;
 import simcity.interfaces.market.MarketCashier;
 
 public class MarketCustomerRole extends Role implements simcity.interfaces.market.MarketCustomer {
@@ -10,6 +13,11 @@ public class MarketCustomerRole extends Role implements simcity.interfaces.marke
 	private List<Invoice> invoices = Collections.synchronizedList(new ArrayList<Invoice>());
 	private enum InvoiceState {expected, billed, paid, delivered};
 	private MarketSystem market;
+	
+	public MarketCustomerRole(PersonAgent p) {
+		person = p;
+		this.gui = new MarketCustomerGui();
+	}
 	
 	@Override
 	public void msgBuyStuff(Map<String, Integer> itemsToBuy, MarketSystem m) {

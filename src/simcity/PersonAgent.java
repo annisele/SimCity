@@ -55,6 +55,11 @@ public class PersonAgent extends Agent implements Person {
 		myRoles.add(p);
 	}
 	
+	//hack
+	public IdlePersonGui getIdleGui() {
+		return idleGui;
+	}
+	
 	@Override
 	public boolean pickAndExecuteAnAction() {
 

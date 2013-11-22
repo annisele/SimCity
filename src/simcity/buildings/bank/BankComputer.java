@@ -11,7 +11,7 @@ public class BankComputer {
 	private int numAccounts = 0;
 	private double loanableFunds;
 	private double cashInBank;
-	private BankAccount account;
+	private BankAccount account = new BankAccount();
 	
 	private Map<Integer,BankCustomerRole> customerAccounts = new HashMap<Integer,BankCustomerRole>(MAX_ACCOUNTS);
 	private Map<Integer,String> customerPasswords = new HashMap<Integer,String>(MAX_ACCOUNTS);
@@ -36,10 +36,16 @@ public class BankComputer {
 	
 	public void accountLookup(int accountNumber, String password) {
 		if (customerPasswords.get(accountNumber) == password) {
-			BankCustomerRole bc = customerAccounts.get(accountNumber);
-			double accountBalance = balanceAccounts.get(accountNumber);
-			double amountOwed = owedAccounts.get(accountNumber);
-			account = new BankAccount(bc, accountBalance, accountNumber, amountOwed);
+			account.setAccountNumber(accountNumber);
+			account.setBankCustomer(customerAccounts.get(accountNumber));
+			account.setAccountBalance(balanceAccounts.get(accountNumber));
+			account.setAmountOwed(owedAccounts.get(accountNumber));
+		}
+		else {
+			account.setAccountNumber(0);
+			account.setBankCustomer(null);
+			account.setAccountBalance(0);
+			account.setAmountOwed(0);
 		}
 	}
 	
@@ -63,6 +69,10 @@ public class BankComputer {
 		double accountBalance;
 		double amountOwed;
 
+		public BankAccount() {
+			
+		}
+		
 		public BankAccount(BankCustomerRole bc, double amountToProcess, int accountNumber, double amountOwed) {
 			setBankCustomer(bc);
 			setAccountBalance(amountToProcess);

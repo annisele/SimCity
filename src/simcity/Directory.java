@@ -3,7 +3,8 @@ package simcity;
 import java.util.*;
 
 public class Directory {
-
+	
+	private static WorldSystem world;
 	public static enum EntryType {Market, Restaurant, Bank};
 	private static Map<String, Entry> directory = new HashMap<String, Entry>(); //maps names to entries
 
@@ -18,6 +19,14 @@ public class Directory {
 			type = t;
 			system = s;
 		}
+	}
+	
+	public void setWorld(WorldSystem w) {
+		world = w;
+	}
+	
+	public static WorldSystem getWorld() {
+		return world;
 	}
 
 	public static Location getLocation(String name) {

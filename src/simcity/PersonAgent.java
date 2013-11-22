@@ -152,6 +152,7 @@ public class PersonAgent extends Agent implements Person {
 		for(Role r : myRoles) {
 			if(r instanceof Pedestrian) {
 				currentRole = r;
+				Directory.getWorld().getAnimationPanel().addGui(currentRole.getGui());
 			}
 		}
 
@@ -166,6 +167,7 @@ public class PersonAgent extends Agent implements Person {
 	public void enterBuilding() {
 		if(Directory.getSystem(currentEvent.buildingName).msgEnterBuilding(currentEvent.role)) {
 			currentRole = currentEvent.role;
+			Directory.getWorld().getAnimationPanel().addGui(currentRole.getGui());
 			Do("Entered building. Changing role to " + currentRole.getClass());
 
 		}

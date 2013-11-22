@@ -106,20 +106,15 @@ public class MarketCustomerRole extends Role implements simcity.interfaces.marke
 		}
 	}
 
-	
+	@Override
+	public void msgExitBuilding() {
+		// TODO Auto-generated method stub
+		
+	}
 
-
-
-	
-
-
-
-
-
-
-
-	
-
-
-
+	@Override
+	public void msgEnterBuilding() {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -5,6 +5,7 @@ import java.util.*;
 
 import javax.swing.JPanel;
 
+import simcity.Directory.EntryType;
 import simcity.buildings.bank.BankSystem;
 import simcity.buildings.house.HouseSystem;
 import simcity.buildings.market.MarketSystem;
@@ -23,6 +24,7 @@ public class SystemManager {
 	
 	SimCityGui simcity;
 	WorldSystem world;
+	Directory dir = new Directory();
 	List<MarketSystem> markets = new ArrayList<MarketSystem>();
 	List<BankSystem> banks = new ArrayList<BankSystem>();
 	List<HouseSystem> houses = new ArrayList<HouseSystem>();
@@ -74,6 +76,11 @@ public class SystemManager {
 		
 		//hacks
 		person.startThread();
+		
+		// Hack because Mark goes to Market
+		if (name == "Mark") {
+			person.goToMarketNow();
+		}
 		//world.getAnimationPanel().addGui(person.getRoles().get(0).getGui());
 
 		//restaurantOnes.get(0).getAnimationPanel().addGui(person.getRoles().get(1).getGui());
@@ -81,16 +88,17 @@ public class SystemManager {
 
 		//restaurantOnes.get(0).getAnimationPanel().addGui(person.getRoles().get(1).getGui());
 		//banks.get(0).getAnimationPanel().addGui(person.getRoles().get(2).getGui());
-
 	}
 	
 	public void addMarket(String name, int xLoc, int yLoc) {
 		MarketSystem temp = new MarketSystem(simcity);
-		
 		temp.setName(name);
 		markets.add(temp);
 		BuildingGui building = new BuildingGui(temp, xLoc, yLoc);
 		world.getAnimationPanel().addBuilding(building);
+		Location loc = new Location(xLoc, yLoc);
+		
+		dir.add(name, EntryType.Market, loc, temp);
 	}
 	
 	public void addBank(String name, int xLoc, int yLoc) {
@@ -99,6 +107,9 @@ public class SystemManager {
 		banks.add(temp);
 		BuildingGui building = new BuildingGui(temp, xLoc, yLoc);
 		world.getAnimationPanel().addBuilding(building);
+		Location loc = new Location(xLoc, yLoc);
+		
+		dir.add(name, EntryType.Bank, loc, temp);
 	}
 	
 	public void addHouse(String name, int xLoc, int yLoc) {
@@ -107,6 +118,9 @@ public class SystemManager {
 		houses.add(new HouseSystem(simcity));
 		BuildingGui building = new BuildingGui(temp, xLoc, yLoc);
 		world.getAnimationPanel().addBuilding(building);
+		//Location loc = new Location(xLoc, yLoc);
+		
+		//dir.add(name, EntryType.House, loc, temp);
 	}
 	
 	public void addRestaurantOne(String name, int xLoc, int yLoc) {
@@ -115,6 +129,9 @@ public class SystemManager {
 		restaurantOnes.add(temp);
 		BuildingGui building = new BuildingGui(temp, xLoc, yLoc);
 		world.getAnimationPanel().addBuilding(building);
+		Location loc = new Location(xLoc, yLoc);
+		
+		dir.add(name, EntryType.Restaurant, loc, temp);
 		
 	}
 	

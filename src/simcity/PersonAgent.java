@@ -53,6 +53,12 @@ public class PersonAgent extends Agent implements Person {
 		RestaurantFiveCustomerRole r5 = new RestaurantFiveCustomerRole(this);
 		//RestaurantSixCustomerRole r6 = new RestaurantSixCustomerRole(this);
 		myRoles.add(p);
+		myRoles.add(h);
+		myRoles.add(m);
+		myRoles.add(b);
+		//myRoles.add(r2);
+		myRoles.add(r4);
+		//myRoles.add(r5);
 	}
 	
 	//hack
@@ -74,7 +80,6 @@ public class PersonAgent extends Agent implements Person {
 				currentEvent = null;
 				currentRole = null;
 				idleGui.setLocation(currentRole.getGui().getLocation());
-				
 				eventList.remove(0);
 				return true;
 			}
@@ -111,7 +116,6 @@ public class PersonAgent extends Agent implements Person {
 	public void scheduleEvent(EventType t) {
 		Event e;
 		if(t == EventType.GoToMarket) {
-			Do("Scheduling event: goToMarket");
 			List<String> markets = Directory.getMarkets();
 			int index = rand.nextInt(markets.size());
 			String buildingName = markets.get(index);
@@ -127,7 +131,7 @@ public class PersonAgent extends Agent implements Person {
 			}
 			HouseInhabitantRole house = null;
 			for(Role r : myRoles) {
-				if(r instanceof HouseInhabitant) {
+				if(r instanceof HouseInhabitantRole) {
 					house = (HouseInhabitantRole) r;
 				}
 			}
@@ -289,7 +293,7 @@ public class PersonAgent extends Agent implements Person {
 			methodName = m;
 
 			try {
-				method = (PersonAgent.class).getDeclaredMethod(m, String.class);
+				method = (PersonAgent.class).getDeclaredMethod(m);
 			} catch (SecurityException e) {
 				e.printStackTrace();
 			} catch (NoSuchMethodException e) {

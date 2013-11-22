@@ -8,6 +8,7 @@ import java.util.Map;
 import simcity.gui.AnimationPanel;
 import simcity.gui.ControlPanel;
 import simcity.gui.SimCityGui;
+import simcity.Directory;
 import simcity.gui.market.MarketAnimationPanel;
 import simcity.gui.market.MarketCashierGui;
 import simcity.gui.market.MarketControlPanel;
@@ -28,6 +29,7 @@ public class MarketSystem extends simcity.SimSystem {
 		super(scg);
 		super.setControlPanel(new MarketControlPanel());
 		super.setAnimationPanel(new MarketAnimationPanel());
+		
 	}
 	
 	//replaces existing inventory with passed in one

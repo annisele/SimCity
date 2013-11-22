@@ -33,10 +33,10 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	public enum TransactionState{none, openAccount, depositMoney, withdrawMoney, loanMoney};
 	private TransactionState transactionState = TransactionState.none;
 	
-	public enum Event{none, arrivedAtBank, directedToWindow, transactionProcessed};
+	public enum Event{none, arrivedAtBank, directedToWindow, transactionProcessed, leavingBank};
     private Event event;  
   
-    public enum BankCustomerState{none, waitingAtBank, goingToWindow};
+    public enum BankCustomerState{none, waitingAtBank, goingToWindow, done};
     private BankCustomerState customerState;
     
     // utility functions
@@ -53,12 +53,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	
 	//messages 
 	
-	//bank host sends this message to tell bank customer to go to bank window
-	public void msgArrivedAtBank() { // from gui
-		System.out.println("I'm at bank");
-		event = Event.arrivedAtBank;
-		stateChanged();
-	}
+	
 	public void msgGoToWindow(int windowNumber, BankTellerRole bt) {
 		System.out.println("I'm going to the window to perform bank transaction");
 		this.windowNumber = windowNumber;
@@ -101,7 +96,18 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
     	 event = Event.transactionProcessed;
 	     stateChanged(); 
      }
-	 //
+	 //role changes into bankcustomer role leaves the bank building
+	 public void msgExitBuilding() {
+		 System.out.println("I'm exiting the bank");
+		 event = Event.leavingBank;
+		 stateChanged();		
+	}
+	 //bankcustomer changes into role enters the bank building
+	public void msgEnterBuilding() {
+		System.out.println("I'm entering the bank");	
+		event = Event.arrivedAtBank;
+		 stateChanged();			
+	}	 
 	
 	 //scheduler
 	 public boolean pickAndExecuteAnAction() {
@@ -117,7 +123,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 			 customerState = BankCustomerState.goingToWindow;
 			    if (transactionState == transactionState.openAccount) {
 			        OpenAccount();
-			        DepositMoney();
+			        
 			    }
 			    else if (transactionState == transactionState.depositMoney) {
 			        DepositMoney();
@@ -131,10 +137,11 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 			    return true;
 		 }
 		 if (customerState == BankCustomerState.goingToWindow && event == Event.transactionProcessed) {
+			 customerState = BankCustomerState.done;
 			    InformBankHostOfDeparture();
 			    return true;
 		  }
-		
+
 		System.out.println("No scheduler rule fired, should not happen in FSM, event="+event+" state="+ customerState);
 
 		 return false;
@@ -142,13 +149,13 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	 //actions
 	    private void InformBankHostOfArrival() {
 		    bh.msgEnteringBank(this);
-		    System.out.println("Bank customer is here");
+		    System.out.println("I'm at bank");
 		}
 
 		private void OpenAccount() {
 		    bt.msgWantToOpenAccount(this, amountToProcess);
-		    System.out.println("Bank customer wants to open account");
-		    System.out.println("PLease deposit $100 if you want to open account");
+		    System.out.println("I want to open account");
+		    
 		}
 
 		private void DepositMoney() {
@@ -169,6 +176,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 		private void InformBankHostOfDeparture() {
 		    bh.msgLeavingBank(windowNumber);
 		    System.out.println("Bank host, I'm leaving the bank now");
-		}	 
+		}
+		
 
 }

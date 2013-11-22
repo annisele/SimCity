@@ -74,7 +74,6 @@ public class PersonAgent extends Agent implements Person {
 				currentEvent = null;
 				currentRole = null;
 				idleGui.setLocation(currentRole.getGui().getLocation());
-				
 				eventList.remove(0);
 				return true;
 			}

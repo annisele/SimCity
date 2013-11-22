@@ -26,6 +26,7 @@ import agent.Agent;
 public class PersonAgent extends Agent implements Person {
 
 	private Random rand = new Random();
+	private String name;
 	private List<Role> myRoles = new ArrayList<Role>();
 	private List<Event> eventList = new ArrayList<Event>();
 	private Role currentRole = null;
@@ -218,6 +219,11 @@ public class PersonAgent extends Agent implements Person {
 			}	
 		}
 
+		// Utility functions
+		public String getName() {
+			return name;
+		}
+		
 		/***
 		 * Step - Represents the steps that an event must do
 		 * @author rebeccahao
@@ -308,6 +314,8 @@ public class PersonAgent extends Agent implements Person {
 
 				return true;
 			}
+			
+			
 		}
 
 }

@@ -70,6 +70,7 @@ public class SystemManager {
 	public void addPerson(String name) {
 		PersonAgent person = new PersonAgent(name);
 		people.add(person);
+		
 		//hacks
 		person.startThread();
 		//world.getAnimationPanel().addGui(person.getRoles().get(0).getGui());

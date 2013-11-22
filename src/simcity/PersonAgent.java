@@ -239,6 +239,8 @@ public class PersonAgent extends Agent implements Person {
 		return name;
 	}
 	
+	// Classes
+	
 	/***
 	 * Step - Represents the steps that an event must do
 	 * @author rebeccahao

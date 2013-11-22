@@ -10,10 +10,12 @@ public class BankHostGui implements Gui {
 	private String name;
 	private BankHostRole role = null;
 	private int xPos = 1, yPos = 1;//default Bank teller position
+	private boolean isPresent = false;
+	
 	public BankHostGui (BankHostRole b) {
 		this.role = b;
 	}
-	private boolean isPresent = false;
+	
 	public void setPresent(boolean p) {
 		isPresent = p;
 	}

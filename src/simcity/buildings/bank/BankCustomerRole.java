@@ -29,10 +29,10 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	public enum TransactionState{none, openAccount, depositMoney, withdrawMoney, loanMoney};
 	private TransactionState transactionState = TransactionState.none;
 
-	public enum Event{none, arrivedAtBank, directedToWindow, transactionProcessed};
+	public enum Event{none, arrivedAtBank, directedToWindow, transactionProcessed, leavingBank};
 	private Event event;  
 
-	public enum BankCustomerState{none, waitingAtBank, goingToWindow};
+	public enum BankCustomerState{none, waitingAtBank, goingToWindow, done};
 	private BankCustomerState customerState;
 
 	// Constructor
@@ -42,6 +42,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	}
 
 	// utility functions
+
 	public void setBankHost(BankHostRole bh) {
 		this.bh = bh;
 	}
@@ -61,6 +62,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 		event = Event.arrivedAtBank;
 		stateChanged();
 	}
+	
 	public void msgGoToWindow(int windowNumber, BankTellerRole bt) {
 		System.out.println("I'm going to the window to perform bank transaction");
 		this.windowNumber = windowNumber;
@@ -97,50 +99,63 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 		event = Event.transactionProcessed;
 		stateChanged(); 
 	}
-	//bank teller sends this message to customer when the loan is not approved
-	public void msgCannotGrantLoan(BankCustomerRole bc, int accountNumber, double accountBalance, double loanAmount) {
-		System.out.println("Your loan is not approved");
-		event = Event.transactionProcessed;
-		stateChanged(); 
+
+	 public void msgCannotGrantLoan(BankCustomerRole bc, int accountNumber, double accountBalance, double loanAmount) {
+		 System.out.println("Your loan is not approved");
+    	 event = Event.transactionProcessed;
+	     stateChanged(); 
+     }
+	 //role changes into bankcustomer role leaves the bank building
+	 public void msgExitBuilding() {
+		 System.out.println("I'm exiting the bank");
+		 event = Event.leavingBank;
+		 stateChanged();		
 	}
-	//
-
-	//scheduler
-	public boolean pickAndExecuteAnAction() {
-		if (customerState == BankCustomerState.none){
-			if (event == Event.arrivedAtBank){
-				InformBankHostOfArrival();
-				customerState = BankCustomerState.waitingAtBank;
+	 //bankcustomer changes into role enters the bank building
+	public void msgEnterBuilding() {
+		System.out.println("I'm entering the bank");	
+		event = Event.arrivedAtBank;
+		 stateChanged();			
+	}	 
+	
+	 //scheduler
+	 public boolean pickAndExecuteAnAction() {
+		 if (customerState == BankCustomerState.none){
+		    if (event == Event.arrivedAtBank){
+			    InformBankHostOfArrival();
+			    customerState = BankCustomerState.waitingAtBank;
 				return true;
-			}
-
-		}
-		if (customerState == BankCustomerState.waitingAtBank && event == Event.directedToWindow) {
-			customerState = BankCustomerState.goingToWindow;
-			if (transactionState == transactionState.openAccount) {
-				OpenAccount();
-				DepositMoney();
-			}
-			else if (transactionState == transactionState.depositMoney) {
-				DepositMoney();
-			}
-			else if (transactionState == transactionState.withdrawMoney) {
-				WithdrawMoney();
-			}
-			else if (transactionState == transactionState.loanMoney) {
-				LoanMoney();
-			}
-			return true;
-		}
-		if (customerState == BankCustomerState.goingToWindow && event == Event.transactionProcessed) {
-			InformBankHostOfDeparture();
-			return true;
-		}
+		    }
+			    
+		 }
+		 if (customerState == BankCustomerState.waitingAtBank && event == Event.directedToWindow) {
+			 customerState = BankCustomerState.goingToWindow;
+			    if (transactionState == transactionState.openAccount) {
+			        OpenAccount();
+			        
+			    }
+			    else if (transactionState == transactionState.depositMoney) {
+			        DepositMoney();
+			    }
+			    else if (transactionState == transactionState.withdrawMoney) {
+			        WithdrawMoney();
+			    }
+			    else if (transactionState == transactionState.loanMoney) {
+			        LoanMoney();
+			    }
+			    return true;
+		 }
+		 if (customerState == BankCustomerState.goingToWindow && event == Event.transactionProcessed) {
+			 customerState = BankCustomerState.done;
+			    InformBankHostOfDeparture();
+			    return true;
+		  }
 
 		System.out.println("No scheduler rule fired, should not happen in FSM, event="+event+" state="+ customerState);
 
-		return false;
-	}
+		 return false;
+	 }
+
 	//actions
 	private void InformBankHostOfArrival() {
 		bh.msgEnteringBank(this);
@@ -173,16 +188,5 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 		System.out.println("Bank host, I'm leaving the bank now");
 	}
 
-	@Override
-	public void msgExitBuilding() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void msgEnterBuilding() {
-		// TODO Auto-generated method stub
-		
-	}	 
 
 }

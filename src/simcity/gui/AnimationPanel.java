@@ -116,6 +116,7 @@ public class AnimationPanel extends JPanel {
 	public void paintComponent(Graphics g) {
 		//System.out.println(" There are "+buildingGuis.size());
 		// compute dt, then send dt to every gui for updatePosition
+		//System.out.println("I have " + guis.size()+" guis");
 		for(Gui gui : guis) {
             if (gui.isPresent()) {
                 gui.updatePosition();

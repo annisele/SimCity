@@ -160,6 +160,7 @@ public class PersonAgent extends Agent implements Person {
 	//later, add bus and car options
 	public void goTo() {
 		Location loc = Directory.getLocation(currentEvent.buildingName);
+		Do("Location is: "+loc.getX()+", "+loc.getY());
 		((PedestrianRole)currentRole).addDestination(loc);
 	}
 

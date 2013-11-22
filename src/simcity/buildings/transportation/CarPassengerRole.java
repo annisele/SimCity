@@ -56,6 +56,16 @@ public class CarPassengerRole extends Role implements simcity.interfaces.transpo
 	public void DoRedrawAt(int x, int y) {
 		
 	}
+	@Override
+	public void msgExitBuilding() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void msgEnterBuilding() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 	

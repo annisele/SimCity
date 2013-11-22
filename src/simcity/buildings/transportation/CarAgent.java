@@ -21,7 +21,7 @@ public class CarAgent extends Role implements simcity.interfaces.transportation.
 		destination = null;
 	}
 	
-	public boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {	
 	if ((state == Carstate.waiting) && (destination != null)) {
 			state = Carstate.driving;
 			Drive();
@@ -41,6 +41,16 @@ public class CarAgent extends Role implements simcity.interfaces.transportation.
 	} 
 	
 	private void DoGoTo(int x, int y) {
+		
+	}
+	@Override
+	public void msgExitBuilding() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void msgEnterBuilding() {
+		// TODO Auto-generated method stub
 		
 	}
 }

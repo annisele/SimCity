@@ -8,37 +8,37 @@ public class Clock {
 		int day;
 		int hour;
 		int min;
-		time(int h,int m){
-			hour=h;
-			min=m;
+		time(int h, int m) {
+			hour = h;
+			min = m;
 		}
 	}
-	time worldTime= new time(0,0);
+	time worldTime= new time(0, 0);
+	
 	public Clock() {
 	}
 	
 	public static long getTime() {
-		currentTime = (System.currentTimeMillis()-startTime)/1000;
+		currentTime = (System.currentTimeMillis() - startTime) / 1000;
 		return currentTime;
 	}
 	
-	
 	public void updateWorldTime(){
-		int hr=0, mn=0, d=0;
-		currentTime = (System.currentTimeMillis()-startTime)/1000;
-		if(currentTime>60){
-			hr=(int)currentTime/60;
-			if (hr>24){
-				d=hr/24;
-				hr=hr%24;
+		int hr = 0, mn = 0, d = 0;
+		currentTime = (System.currentTimeMillis() - startTime) / 1000;
+		if(currentTime > 60){
+			hr = (int)currentTime / 60;
+			if (hr > 24){
+				d = hr / 24;
+				hr = hr % 24;
 			}
-			mn=(int)currentTime%60;
+			mn = (int)currentTime % 60;
 		}
 		else{
-			mn=(int)currentTime;
+			mn = (int)currentTime;
 		}
-		worldTime.day=d;
-		worldTime.hour=hr;
-		worldTime.min=mn;
+		worldTime.day = d;
+		worldTime.hour = hr;
+		worldTime.min = mn;
 	}
 }

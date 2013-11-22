@@ -67,18 +67,18 @@ public class SystemManager {
 		}
 	}
 	
-	public void addPerson(String name, double money) {
-		PersonAgent person = new PersonAgent(name, money);
+	public void addPerson(String name) {
+		PersonAgent person = new PersonAgent(name);
 		people.add(person);
 		//hacks
 		person.startThread();
-		world.getAnimationPanel().addGui(person.getRoles().get(0).getGui());
+		//world.getAnimationPanel().addGui(person.getRoles().get(0).getGui());
 
 		//restaurantOnes.get(0).getAnimationPanel().addGui(person.getRoles().get(1).getGui());
 		//restaurantOnes.get(0).getAnimationPanel().addGui(person.getRestaurantOneCustomer().getGui());
 
-		restaurantOnes.get(0).getAnimationPanel().addGui(person.getRoles().get(1).getGui());
-		banks.get(0).getAnimationPanel().addGui(person.getRoles().get(2).getGui());
+		//restaurantOnes.get(0).getAnimationPanel().addGui(person.getRoles().get(1).getGui());
+		//banks.get(0).getAnimationPanel().addGui(person.getRoles().get(2).getGui());
 
 	}
 	

@@ -37,12 +37,13 @@ public class PersonAgent extends Agent implements Person {
 	private Timer timer = new Timer();
 	public enum EventType {Eat, GoToMarket, DepositMoney, WithdrawMoney, GetALoan, PayRent, Sleep, Work};
 
-	public PersonAgent() {
+	public PersonAgent(String n) {
+		name = n;
 		PedestrianRole p = new PedestrianRole(this);
 		HouseInhabitantRole h = new HouseInhabitantRole(this);
 		MarketCustomerRole m = new MarketCustomerRole(this);
 		BankCustomerRole b = new BankCustomerRole(this);
-		RestaurantOneCustomerRole r1 = new RestaurantOneCustomerRole(this);
+		//RestaurantOneCustomerRole r1 = new RestaurantOneCustomerRole(this);
 		RestaurantTwoCustomerRole r2 = new RestaurantTwoCustomerRole(this);
 		//RestaurantThreeCustomerRole r3 = new RestaurantThreeCustomerRole(this);
 		RestaurantFourCustomerRole r4 = new RestaurantFourCustomerRole(this);

@@ -21,7 +21,7 @@ public class Config {
 		systems.addRestaurantOne("RestaurantOne", 300, 100);
 		systems.addBank("Bank", 100, 300);
 		systems.addHouse("Jesus's House", 300, 300);
-		systems.addPerson("Jesus", 100); // Jesus get back in your house!
+		systems.addPerson("Jesus"); // Jesus get back in your house!
 		
 		systems.clearDetailPane();
 		//systems.setCards();

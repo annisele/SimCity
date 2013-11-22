@@ -1,8 +1,5 @@
 package simcity.buildings.house;
 import java.util.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Timer;
 
 import simcity.PersonAgent;
 import simcity.Role;
@@ -85,6 +82,12 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 	}
 	private void WakeUp(){
 		//gui leaves bed
+	}
+
+
+	public Map<String, Integer> getListToBuy() {
+		//clear list!!!!
+		return null;
 	}
 
 }

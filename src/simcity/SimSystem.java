@@ -46,4 +46,13 @@ public class SimSystem {
 		return name;
 	}
 
+	/***
+	 * msgEnterBuilding - person messages this, should be overwritten in each system class
+	 * @param role - Role that wants to enter
+	 * @return - true if person can enter building, otherwise false
+	 */
+	public boolean msgEnterBuilding(Role role) {
+		return false;
+	}
+
 }

@@ -1,5 +1,7 @@
 package simcity.interfaces.house;
 
-public interface HouseInhabitant {
+import java.util.Map;
 
+public interface HouseInhabitant {
+	abstract Map<String, Integer> getListToBuy();
 }

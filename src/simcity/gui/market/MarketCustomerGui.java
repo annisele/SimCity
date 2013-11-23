@@ -31,7 +31,7 @@ public class MarketCustomerGui extends Gui {
 	public void draw(Graphics2D g) {
 		//g.setColor(Color.CYAN);
 		//g.fillRect(x, y, SIZE, SIZE);
-		g.drawImage(personimage, x,y, null); //COMMENT this out to get old Gui Back- Josh
+		g.drawImage(personimage, x,y, null); 
 
 	}
 	

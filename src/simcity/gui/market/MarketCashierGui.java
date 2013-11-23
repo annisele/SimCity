@@ -2,13 +2,20 @@ package simcity.gui.market;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Point;
+
+import javax.swing.ImageIcon;
 
 import simcity.buildings.market.MarketCashierRole;
 import simcity.buildings.market.MarketCustomerRole;
 import simcity.gui.Gui;
 
 public class MarketCashierGui extends Gui {
+	
+	 ImageIcon ii = new ImageIcon("res/market/cashier.png");
+	    Image img = ii.getImage();
+	    Image cashierimage = img.getScaledInstance(75, 75,  java.awt.Image.SCALE_SMOOTH); 
 
 	public MarketCashierGui(MarketCashierRole m) {
 		role = m;
@@ -16,7 +23,10 @@ public class MarketCashierGui extends Gui {
 
 	@Override
 	public void draw(Graphics2D g) {
-		g.setColor(Color.GREEN);
-		g.fillRect(x, y, 20, 20);
+	//	g.setColor(Color.GREEN);
+	//	g.fillRect(x, y, 20, 20);
+		
+		g.drawImage(cashierimage, x,y, null); //COMMENT this out to get old Gui Back- Josh
+
 	}
 }

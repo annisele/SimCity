@@ -23,7 +23,7 @@ public class PedestrianGui implements Gui{
 	
 	@Override
 	public void updatePosition() {
-		System.out.println("PedGui MADE!!!");
+		//System.out.println("PedGui MADE!!!");
 		if(xDest > x) {
 			x++;
 		}

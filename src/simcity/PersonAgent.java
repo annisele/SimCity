@@ -46,7 +46,9 @@ public class PersonAgent extends Agent implements Person {
 	private Timer timer = new Timer();
 	public enum EventType {Eat, GoToMarket, DepositMoney, WithdrawMoney, GetALoan, PayRent, Sleep, Work};
 	private IdlePersonGui idleGui;
-
+	public double money = 40;
+	
+	
 	public PersonAgent(String n) {
 		name = n;
 		idleGui = new IdlePersonGui(this);
@@ -431,6 +433,11 @@ public class PersonAgent extends Agent implements Person {
 			
 
 		}
+	}
+
+	public void receiveDelivery(Map<String, Integer> tempItems) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

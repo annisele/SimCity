@@ -135,6 +135,10 @@ public class AnimationPanel extends JPanel {
 		guis.add(gui);
 	}
 	
+	public void removeGui(Gui gui) {
+		guis.remove(gui);
+	}
+	
 	public void addBuilding(BuildingGui b) {
 		buildingGuis.add(b);
 	}

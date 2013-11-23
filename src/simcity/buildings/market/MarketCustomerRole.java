@@ -77,6 +77,7 @@ public class MarketCustomerRole extends Role implements simcity.interfaces.marke
 	}
 
 	private void SendOrder(Invoice i) {
+		((MarketCustomerGui)gui).DoGoToCashier();
 		market.getCashier().msgHereIsAnOrder(this, this, i.items);
 	}
 
@@ -88,8 +89,11 @@ public class MarketCustomerRole extends Role implements simcity.interfaces.marke
 
 	private void ReceiveDelivery(Invoice i) {
 		Map<String, Integer> tempItems = i.items;       
-		invoices.remove(i); 
-		this.person.msgExitMarket(tempItems);
+		invoices.remove(i);
+		person.receiveDelivery(tempItems);
+		gui.DoExitBuilding();
+		market.exitBuilding(this);
+		person.isIdle();
 	}
 
 	private class Invoice {

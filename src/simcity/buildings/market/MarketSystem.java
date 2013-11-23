@@ -30,6 +30,9 @@ public class MarketSystem extends simcity.SimSystem {
 		super(scg);
 		super.setControlPanel(new MarketControlPanel());
 		super.setAnimationPanel(new MarketAnimationPanel());
+		
+		//hack
+		
 	}
 	
 	//replaces existing inventory with passed in one

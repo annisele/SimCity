@@ -33,6 +33,9 @@ public class MarketCustomerRole extends Role implements simcity.interfaces.marke
 	}
 
 	public void msgPleasePay(MarketCashierRole c, double payment, int orderNum) {
+		person.Do("Received msgPleasePay");
+		
+		
 		synchronized (invoices) {
 			for(Invoice i : invoices) {
 				if(i.state == InvoiceState.expected && i.payment == payment) {
@@ -45,6 +48,8 @@ public class MarketCustomerRole extends Role implements simcity.interfaces.marke
 	}
 
 	public void msgDeliveringOrder(Map<String, Integer> itemsToDeliver) {
+		person.Do("Received msgDeliveringOrder");
+		
 		synchronized (invoices) {
 			for(Invoice i : invoices) {
 				if(i.state == InvoiceState.paid && i.items == itemsToDeliver) {

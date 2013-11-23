@@ -34,6 +34,10 @@ public class MarketCashierRole extends Role implements simcity.interfaces.market
 	public MarketCashierRole(PersonAgent p) {
 		person = p;
 		this.gui = new MarketCashierGui(this);
+		
+		//hack
+		prices.put("chicken", 5.0);
+		prices.put("steak", 10.0);
 	}
 	
 	@Override
@@ -42,11 +46,15 @@ public class MarketCashierRole extends Role implements simcity.interfaces.market
 	}
 	
 	public void msgHereIsAnOrder(MarketCustomerRole mc1, MarketCustomerRole mc2, Map<String, Integer> items) {
-		//orders.add(new MarketOrder(orders.size(), mc1, mc2, items, MarketOrderState.requested));
-		mc1.msgWait(); //HACK
+		person.Do("Received msgHereIsAnOrder");
+		
+		orders.add(new MarketOrder(orders.size(), mc1, mc2, items, MarketOrderState.requested));
+		//mc1.msgWait(); //HACK
 	}
 
 	public void msgHereIsPayment(double payment, int oNum) {
+		person.Do("Received msgHereIsPayment");
+		
 		synchronized (orders) {
 			for(MarketOrder o : orders) {
 				if(o.orderNumber == oNum) {
@@ -57,6 +65,8 @@ public class MarketCashierRole extends Role implements simcity.interfaces.market
 	}
 
 	public void msgOrderFound(int orderNum) {
+		person.Do("Received msgOrderFound");
+		
 		synchronized (orders) {
 			for(MarketOrder o : orders) {
 				if(o.orderNumber == orderNum) {
@@ -140,6 +150,11 @@ public class MarketCashierRole extends Role implements simcity.interfaces.market
 	@Override
 	public void msgEnterBuilding() {
 		gui.DoGoToLocation(60, 95);
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 
 	}
 

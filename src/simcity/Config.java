@@ -42,13 +42,21 @@ public class Config {
 		systems.clearDetailPane();
 		
 		systems.addMarket("Market", 100, 100);
-		systems.addCashierHack("Mary", "Market");
+		systems.addMarketCashierHack("Mary", "Market");
 		
 		timer.schedule(new TimerTask() {
 			public void run() {
-				systems.addPerson("Mark");
+				systems.addMarketWorkerHack("Bob", "Market");
+				timer.schedule(new TimerTask() {
+					public void run() {
+						systems.addPerson("Mark");
+					}
+				}, 2000);
 			}
 		}, 2000);
+		
+		
+		
 		
 		
 

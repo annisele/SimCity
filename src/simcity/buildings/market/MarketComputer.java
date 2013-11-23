@@ -15,6 +15,9 @@ public class MarketComputer {
 	
 	public MarketComputer() {
 		
+		//hack
+		inventory.put("chicken", 20);
+		inventory.put("steak", 30);
 	}
 	
 	public void setInventory(Map<String, Integer> map) {

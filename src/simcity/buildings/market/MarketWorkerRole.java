@@ -1,16 +1,34 @@
 package simcity.buildings.market;
 
 import java.util.*;
+import java.util.concurrent.Semaphore;
 
+import simcity.PersonAgent;
 import simcity.Role;
+import simcity.gui.market.MarketCashierGui;
+import simcity.gui.market.MarketWorkerGui;
 import simcity.interfaces.market.MarketCashier;
 
 public class MarketWorkerRole extends Role implements simcity.interfaces.market.MarketWorker {
-	private MarketComputer system;
+	private MarketComputer computer;
 	private List<WorkerOrder> orders = Collections.synchronizedList(new ArrayList<WorkerOrder>());
 	private MarketCashier cashier;
-
-	public void msgFindOrder(int orderNum, Map<String, Integer> itemsList) {                                            
+	private Semaphore atDest = new Semaphore(0, true);
+	
+	public MarketWorkerRole(PersonAgent p) {
+		person = p;
+		this.gui = new MarketWorkerGui(this);
+	}
+	
+	@Override
+	public void atDestination() {
+		atDest.release();
+	}
+	
+	public void msgFindOrder(int orderNum, Map<String, Integer> itemsList) {         
+		person.Do("Received msgFindOrder");
+		
+		
 		orders.add(new WorkerOrder(orderNum, itemsList));
 	}
 	
@@ -24,13 +42,42 @@ public class MarketWorkerRole extends Role implements simcity.interfaces.market.
 	}
 	
 	private void FindAndDeliverOrder(WorkerOrder o) {
-		o.itemsToFind = system.fillOrder(o.itemsToFind); //gets full order from system
+		((MarketWorkerGui)gui).DoGoToShelfOne();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		((MarketWorkerGui)gui).DoGoToShelfTwo();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		((MarketWorkerGui)gui).DoGoToDropOffItems();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		o.itemsToFind = computer.fillOrder(o.itemsToFind); //gets full order from system
 		if(o.itemsToFind != null) {
 			((MarketCashierRole)cashier).msgOrderFound(o.orderNumber);
 		}
 		else {
 			//deal with this later, if system can't fill complete or any of order
 		}
+		
+		((MarketWorkerGui)gui).DoGoToHomePosition();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
 		orders.remove(o);
 		
 	}
@@ -44,6 +91,23 @@ public class MarketWorkerRole extends Role implements simcity.interfaces.market.
 			orderNumber = oNum;
 			itemsToFind = items;
 		}
+	}
+
+	@Override
+	public void msgExitBuilding() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgEnterBuilding() {
+		((MarketWorkerGui)gui).DoGoToHomePosition();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 }

@@ -10,6 +10,7 @@ import simcity.buildings.bank.BankSystem;
 import simcity.buildings.house.HouseSystem;
 import simcity.buildings.market.MarketCashierRole;
 import simcity.buildings.market.MarketSystem;
+import simcity.buildings.market.MarketWorkerRole;
 import simcity.buildings.restaurant.five.RestaurantFiveSystem;
 import simcity.buildings.restaurant.four.RestaurantFourSystem;
 import simcity.buildings.restaurant.one.RestaurantOneSystem;
@@ -232,20 +233,22 @@ public class SystemManager {
 		simcity.clearDetailPane();
 	}
 
-	public void addCashierHack(String name, String market) {
+	public void addMarketCashierHack(String name, String market) {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());
 		Role cashier = new MarketCashierRole(person);
 		person.addWork(cashier, market);
 		people.add(person);
-//		for(MarketSystem m : markets) {
-//			if(m.getName().equalsIgnoreCase(market)) {
-//				m.setCashier((MarketCashierRole) cashier);
-//			}
-//		}
-		//hacks
 		person.startThread();
-		
+	}
+	
+	public void addMarketWorkerHack(String name, String market) {
+		PersonAgent person = new PersonAgent(name);
+		world.getAnimationPanel().addGui(person.getIdleGui());
+		Role worker = new MarketWorkerRole(person);
+		person.addWork(worker, market);
+		people.add(person);
+		person.startThread();
 	}
 	
 	

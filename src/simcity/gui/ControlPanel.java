@@ -201,7 +201,7 @@ public class ControlPanel extends JPanel implements ActionListener {
 		selectTab.setLayout(new GridLayout(15, 1));
 		
 		//eventsTab
-		eventsTab.setLayout(new GridLayout(15, 1));
+		eventsTab.setLayout(new GridLayout(15, 1, 50, 500));
 		earthquake.addActionListener(this);
 		fire.addActionListener(this);
 		eventsTab.add(earthquake);

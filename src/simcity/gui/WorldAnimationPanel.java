@@ -32,6 +32,9 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
 	    g2.setColor(Color.BLUE);
         for(BuildingGui b : buildingGuis) {
         	b.draw((Graphics2D)g);
+        	if ((JPanel)b.getSystem().getAnimationPanel() != super.getSimCityGui().getDetailPane()) {
+        		b.getSystem().getAnimationPanel().updateGuis();
+        	}
         }
         
         super.paintComponent(g);

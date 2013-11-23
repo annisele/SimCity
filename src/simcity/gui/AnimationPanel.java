@@ -140,6 +140,16 @@ public class AnimationPanel extends JPanel implements ActionListener{
 
 		//repaint();
 	}
+	
+	public void updateGuis() {
+		synchronized(guis) {
+			for (Gui gui : guis) {
+				if (gui.isPresent()) {
+					gui.updatePosition();
+				}
+			}
+		}
+	}
 
 	public void addGui(Gui gui) {
 		guis.add(gui);
@@ -164,6 +174,10 @@ public class AnimationPanel extends JPanel implements ActionListener{
 	public void setSimCityGui(SimCityGui scg) {
 		simCityGui = scg;
 
+	}
+	
+	public SimCityGui getSimCityGui() {
+		return simCityGui;
 	}
 
 	public void clear() {

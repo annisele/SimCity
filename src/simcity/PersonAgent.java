@@ -27,6 +27,14 @@ import simcity.buildings.restaurant.two.RestaurantTwoCustomerRole;
 import simcity.Role;
 import agent.Agent;
 
+
+/**
+ * ISSUES: It adds GoToMarket event, then does the first step (ExitBuilding),
+ *  so person is now a pedestrian gui. However, it never goes on to the next step
+ *  so it never sets the pedestrian's destination. It only calls event.nextStep once
+ *  for some reason.
+*/
+
 public class PersonAgent extends Agent implements Person {
 
 	private Random rand = new Random();
@@ -152,6 +160,8 @@ public class PersonAgent extends Agent implements Person {
 		for(Role r : myRoles) {
 			if(r instanceof Pedestrian) {
 				currentRole = r;
+				Directory.getWorld().getAnimationPanel().addGui(currentRole.getGui());
+				stateChanged();
 			}
 		}
 	}
@@ -161,18 +171,20 @@ public class PersonAgent extends Agent implements Person {
 		Location loc = Directory.getLocation(currentEvent.buildingName);
 		Do("Location is: "+loc.getX()+", "+loc.getY());
 		((PedestrianRole)currentRole).addDestination(loc);
+		stateChanged();
 	}
 
 	public void enterBuilding() {
 		if(Directory.getSystem(currentEvent.buildingName).msgEnterBuilding(currentEvent.role)) {
 			currentRole = currentEvent.role;
+			Directory.getSystem(currentEvent.buildingName).animationPanel.addGui(currentRole.getGui());
 			Do("Entered building. Changing role to " + currentRole.getClass());
-
 		}
 		else {
 			Do("Building closed. Cannot enter.");
 			scheduleEvent(currentEvent.type); //maybe change this?
 		}
+		stateChanged();
 	}
 
 	/*****

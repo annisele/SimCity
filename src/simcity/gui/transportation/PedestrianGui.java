@@ -37,10 +37,7 @@ public class PedestrianGui implements Gui{
 			y--;
 		}
 		if(x == xDest && y == yDest) {
-			//xDest = (int) (Math.random() * 400);
-			//yDest = (int) (Math.random() * 400);
-			xDest = 200;
-			yDest = 200;
+			
 		}
 	}
 

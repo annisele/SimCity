@@ -42,6 +42,7 @@ public class SystemManager {
 	public SystemManager(SimCityGui g) {
 		simcity = g;
 		world = new WorldSystem(simcity);//simcity.getWorld();
+		dir.setWorld(world);
 	}
 	
 	public void clear() {

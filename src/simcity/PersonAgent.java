@@ -78,33 +78,46 @@ public class PersonAgent extends Agent implements Person {
 	public boolean pickAndExecuteAnAction() {
 
 		if(currentRole != null) {
+			Do("Current role is null.  Picking an action");
 			return currentRole.pickAndExecuteAnAction();
 		}
-		//move to next step in the event
 		else if(currentEvent != null) {
-			//does the next step
-			//if it returns false because there are no more steps, remove event from the list
-			if(!currentEvent.nextStep()) {
-				currentEvent = null;
-				currentRole = null;
-				idleGui.setLocation(currentRole.getGui().getLocation());
-				eventList.remove(0);
-				return true;
-			}
+				//does the next step
+				//if it returns false because there are no more steps, remove event from the list
+				Do("Current event is not null");
+				if(!currentEvent.nextStep()) {
+					Do("Current event.nextStep returned false, so I must be done and idle");
+					currentEvent = null;
+					if (currentRole != null)
+						Do("CurrentRole is not null at this point in the scheduler, but it should be!");
+					//currentRole = null;
+					//idleGui.setLocation(currentRole.getGui().getLocation());
+					eventList.remove(0);
+					return true;
+				}
 		}
+		 // I switched the order of those first to scheduler if statements, and it seems to help
+		 
+		 
+		//move to next step in the event
+		//else
 		//move to the next event if currentEvent is null
 		else {
+			Do("EventList has a size of "+eventList.size());
 			if(eventList.size() > 0) {
 				if(eventList.get(0).startTime <= Clock.getTime()) {
 					currentEvent = eventList.get(0); //set next event to current
+					Do("Just set next event to current");
 					return true;
 				}
 				else if(Directory.getLocation(eventList.get(0).buildingName) == Directory.getLocation(currentEvent.buildingName) && eventList.get(0).flexible) {
 					//set next event to current if at same place and next event is flexible
 					currentEvent = eventList.get(0);
+					Do("Just set next event to current");
 					return true;
 				}
 				else {
+					Do("Calling waitForNextEvent()");
 					waitForNextEvent();
 				}
 			}
@@ -145,7 +158,7 @@ public class PersonAgent extends Agent implements Person {
 			}
 			((MarketCustomer)eventR).msgBuyStuff(house.getListToBuy(), (MarketSystem)(Directory.getSystem(buildingName)));
 			e = new Event(buildingName, eventR, 120, true, steps, t);
-			Do("GoToMarket is scheduled.");
+			Do("GoToMarket is scheduled, which has "+steps.size()+" steps");
 			insertEvent(e);
 			stateChanged();
 		} //else if (t == EventType.) {
@@ -157,19 +170,22 @@ public class PersonAgent extends Agent implements Person {
 	//this assumes after roles are done, they go stand outside the building
 	//so this only needs to prep the person to walk somewhere by changing it to pedestrian
 	public void exitBuilding() {
-		for(Role r : myRoles) {
-			if(r instanceof Pedestrian) {
-				currentRole = r;
-				Directory.getWorld().getAnimationPanel().addGui(currentRole.getGui());
-				stateChanged();
-			}
-		}
+		Do("exitBuilding step is called");
+		stateChanged();
 	}
 
 	//later, add bus and car options
 	public void goTo() {
+		for(Role r : myRoles) {
+			if(r instanceof Pedestrian) {
+				currentRole = r;
+				Directory.getWorld().getAnimationPanel().addGui(currentRole.getGui());
+			}
+		}
+		Do("goTo step is called");
 		Location loc = Directory.getLocation(currentEvent.buildingName);
 		Do("Location is: "+loc.getX()+", "+loc.getY());
+		Do("PedRole is being given a destination!");
 		((PedestrianRole)currentRole).addDestination(loc);
 		stateChanged();
 	}
@@ -184,6 +200,17 @@ public class PersonAgent extends Agent implements Person {
 			Do("Building closed. Cannot enter.");
 			scheduleEvent(currentEvent.type); //maybe change this?
 		}
+		stateChanged();
+	}
+	
+	public void roleFinished() {
+		Do("Role is finished");
+		for (Role r : myRoles) {
+			if (r instanceof Pedestrian) {
+				idleGui.setLocation(r.getGui().getLocation());
+			}
+		}
+		currentRole = null;
 		stateChanged();
 	}
 
@@ -391,11 +418,13 @@ public class PersonAgent extends Agent implements Person {
 		}
 
 		private boolean nextStep() {
+			Do("nextStep is being called, currently "+steps.size()+" steps");
 			if(steps.isEmpty()) {
 				return false;
 			}
 			else {
 				steps.get(0).doMethod();
+				Do("An event's step is being removed");
 				steps.remove(0);
 				return true;
 			}

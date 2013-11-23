@@ -9,6 +9,7 @@ import simcity.gui.AnimationPanel;
 import simcity.gui.ControlPanel;
 import simcity.gui.SimCityGui;
 import simcity.Directory;
+import simcity.Role;
 import simcity.gui.market.MarketAnimationPanel;
 import simcity.gui.market.MarketCashierGui;
 import simcity.gui.market.MarketControlPanel;
@@ -42,6 +43,12 @@ public class MarketSystem extends simcity.SimSystem {
 		cashier = c;
 		MarketCashierGui cGui = new MarketCashierGui();
 		animationPanel.addGui(cGui);
+	}
+	
+	@Override
+	public boolean msgEnterBuilding(Role role) {
+		
+		return true;
 	}
 	
 	

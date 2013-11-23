@@ -6,8 +6,8 @@ import agent.StringUtil;
 
 public abstract class Role  {
 	
-	public PersonAgent person;
-	public Gui gui;
+	protected PersonAgent person;
+	protected Gui gui;
 	
 	public void stateChanged() {  
 		person.stateChanged(); 

@@ -30,7 +30,6 @@ public class MarketSystem extends simcity.SimSystem {
 		super(scg);
 		super.setControlPanel(new MarketControlPanel());
 		super.setAnimationPanel(new MarketAnimationPanel());
-		
 	}
 	
 	//replaces existing inventory with passed in one
@@ -40,15 +39,42 @@ public class MarketSystem extends simcity.SimSystem {
 	
 	//sets the cashier
 	public void setCashier(MarketCashier c) {
+		//MarketCashier c2 = new MarketCashierRole();
 		cashier = c;
 		MarketCashierGui cGui = new MarketCashierGui();
 		animationPanel.addGui(cGui);
 	}
 	
+	public MarketCashier getCashier() {
+		return cashier;
+	}
+	
 	@Override
 	public boolean msgEnterBuilding(Role role) {
-		
+		animationPanel.addGui(role.getGui());
+		if(role instanceof MarketCustomer) {
+			customers.add((MarketCustomer) role);
+		}
+		else if(role instanceof MarketWorker) {
+			workers.add((MarketWorker) role);
+		}
+		else if(role instanceof MarketTruck) {
+			trucks.add((MarketTruck) role);
+		}
 		return true;
+	}
+
+	public void exitBuilding(Role role) {
+		animationPanel.removeGui(role.getGui());
+		if(role instanceof MarketCustomer) {
+			customers.remove((MarketCustomer) role);
+		}
+		else if(role instanceof MarketWorker) {
+			workers.remove((MarketWorker) role);
+		}
+		else if(role instanceof MarketTruck) {
+			trucks.remove((MarketTruck) role);
+		}
 	}
 	
 	

@@ -8,37 +8,10 @@ import simcity.Location;
 import simcity.buildings.transportation.PedestrianRole;
 import simcity.gui.Gui;
 
-public class PedestrianGui implements Gui{
+public class PedestrianGui extends Gui{
 
-	private PedestrianRole role;
-	private int x = 0;
-	private int y = 0;
-	private int xDest = 0;
-	private int yDest = 0;
-	private final int SIZE = 20;
-	
 	public PedestrianGui() {
 		
-	}
-	
-	@Override
-	public void updatePosition() {
-		//System.out.println("PedGui MADE!!!");
-		if(xDest > x) {
-			x++;
-		}
-		else {
-			x--;
-		}
-		if(yDest > y) {
-			y++;
-		}
-		else {
-			y--;
-		}
-		if(x == xDest && y == yDest) {
-			
-		}
 	}
 
 	@Override
@@ -47,30 +20,4 @@ public class PedestrianGui implements Gui{
 		g.fillRect(x, y, SIZE, SIZE);
 	}
 
-	@Override
-	public boolean isPresent() {
-		return true;
-	}
-
-	@Override
-	public boolean contains(Point point) {
-		if(point.getX() >= x && point.getX() <= x + SIZE) {
-			if(point.y >= y && point.y <= y + SIZE) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public void DoGoToLocation(int x, int y) {
-		System.out.println("We goin now! DoGoToLocation from Ped Gui");
-		xDest = x;
-		yDest = y;
-	}
-
-	@Override
-	public Location getLocation() {
-		return new Location(x, y);
-	}
-	
 }

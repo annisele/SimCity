@@ -6,7 +6,7 @@ import java.awt.Point;
 
 import simcity.gui.Gui;
 
-public class MarketCashierGui implements Gui {
+public class MarketCashierGui extends Gui {
 
 	@Override
 	public void updatePosition() {

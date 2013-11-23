@@ -8,7 +8,7 @@ import simcity.Location;
 import simcity.buildings.bank.BankCustomerRole;
 import simcity.gui.Gui;
 
-public class BankCustomerGui implements Gui{
+public class BankCustomerGui extends Gui{
 
 	private BankCustomerRole role = null;
 	private int x = 0;
@@ -20,49 +20,10 @@ public class BankCustomerGui implements Gui{
 	public BankCustomerGui() {
 		
 	}
-	public void updatePosition() {
-		if(xDest > x) {
-			x++;
-		}
-		else {
-			x--;
-		}
-		if(yDest > y) {
-			y++;
-		}
-		else {
-			y--;
-		}
-		if(x == xDest && y == yDest) {
-			xDest = (int) (Math.random() * 200);
-			yDest = (int) (Math.random() * 200);
-		}
-	}
+	
 	public void draw(Graphics2D g) {
-		g.setColor(Color.MAGENTA);
+		g.setColor(Color.GREEN);
 		g.fillRect(x, y, SIZE, SIZE);
-	}
-
-	public boolean isPresent() {
-		return true;
-	}
-
-	public boolean contains(Point point) {
-		if(point.getX() >= x && point.getX() <= x + SIZE) {
-			if(point.y >= y && point.y <= y + SIZE) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public void DoGoToLocation(int x, int y) {
-		xDest = x;
-		yDest = y;
-	}
-	public Location getLocation() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 	
 }

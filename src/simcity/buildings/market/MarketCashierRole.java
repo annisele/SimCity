@@ -2,7 +2,10 @@ package simcity.buildings.market;
 
 import java.util.*;
 
+import simcity.PersonAgent;
 import simcity.Role;
+import simcity.gui.market.MarketCashierGui;
+import simcity.gui.market.MarketCustomerGui;
 import simcity.interfaces.market.MarketCustomer;
 import simcity.interfaces.market.MarketWorker;
 
@@ -26,8 +29,14 @@ public class MarketCashierRole extends Role implements simcity.interfaces.market
 		}
 	}
 
+	public MarketCashierRole(PersonAgent p) {
+		person = p;
+		this.gui = new MarketCashierGui(this);
+	}
+	
 	public void msgHereIsAnOrder(MarketCustomerRole mc1, MarketCustomerRole mc2, Map<String, Integer> items) {
 		//orders.add(new MarketOrder(orders.size(), mc1, mc2, items, MarketOrderState.requested));
+		person.Do("hereIsAnOrder");
 		mc1.msgWait(); //HACK
 	}
 

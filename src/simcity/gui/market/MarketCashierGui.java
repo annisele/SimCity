@@ -4,10 +4,16 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 
+import simcity.buildings.market.MarketCashierRole;
+import simcity.buildings.market.MarketCustomerRole;
 import simcity.gui.Gui;
 
 public class MarketCashierGui extends Gui {
 
+	public MarketCashierGui(MarketCashierRole m) {
+		role = m;
+	}
+	
 	@Override
 	public void updatePosition() {
 		// TODO Auto-generated method stub
@@ -17,7 +23,7 @@ public class MarketCashierGui extends Gui {
 	@Override
 	public void draw(Graphics2D g) {
 		g.setColor(Color.GREEN);
-		g.fillRect(100, 10, 20, 20);
+		g.fillRect(90, 100, 20, 20);
 	}
 
 	@Override

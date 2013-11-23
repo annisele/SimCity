@@ -7,16 +7,15 @@ import simcity.interfaces.bank.BankCustomer;
 public class BankComputer {
 
 	// variables
-	private int MAX_ACCOUNTS = 100;
-	private int numAccounts = 0;
-	private double loanableFunds;
-	private double cashInBank;
-	private BankAccount account = new BankAccount();
+	int MAX_ACCOUNTS = 100;
+	int numAccounts = 0;
+	double loanableFunds;
+	double cashInBank;
 	
-	private Map<Integer,BankCustomerRole> customerAccounts = new HashMap<Integer,BankCustomerRole>(MAX_ACCOUNTS);
-	private Map<Integer,String> customerPasswords = new HashMap<Integer,String>(MAX_ACCOUNTS);
-	private Map<Integer,Double> balanceAccounts = new HashMap<Integer,Double>(MAX_ACCOUNTS);
-	private Map<Integer,Double> owedAccounts = new HashMap<Integer,Double>(MAX_ACCOUNTS);
+	
+	Map<Integer,BankCustomerRole> customerAccounts = new HashMap<Integer,BankCustomerRole>(MAX_ACCOUNTS);
+	Map<Integer,Double> balanceAccounts = new HashMap<Integer,Double>(MAX_ACCOUNTS);
+	Map<Integer,Double> owedAccounts = new HashMap<Integer,Double>(MAX_ACCOUNTS);
 
 	// constructor
 	BankComputer() {
@@ -25,31 +24,19 @@ public class BankComputer {
 	}
 
 	// functions
-	public int addAccountAndReturnNumber(BankCustomerRole bc, String password, double amountToProcess) {
+	public int addAccountAndReturnNumber(BankCustomerRole bc, double amountToProcess) {
 		numAccounts++;
 		customerAccounts.put(numAccounts, bc);
-		customerPasswords.put(numAccounts, password);
 		balanceAccounts.put(numAccounts, amountToProcess);
 		owedAccounts.put(numAccounts, 0.0);
 		return numAccounts;
 	}
 	
-	public void accountLookup(int accountNumber, String password) {
-		if (customerPasswords.get(accountNumber) == password) {
-			account.setAccountNumber(accountNumber);
-			account.setBankCustomer(customerAccounts.get(accountNumber));
-			account.setAccountBalance(balanceAccounts.get(accountNumber));
-			account.setAmountOwed(owedAccounts.get(accountNumber));
-		}
-		else {
-			account.setAccountNumber(0);
-			account.setBankCustomer(null);
-			account.setAccountBalance(0);
-			account.setAmountOwed(0);
-		}
-	}
-	
-	public BankAccount getBankAccount() {
+	public BankAccount accountLookup(int accountNumber) {
+		BankCustomerRole bc = customerAccounts.get(accountNumber);
+		double accountBalance = balanceAccounts.get(accountNumber);
+		double amountOwed = owedAccounts.get(accountNumber);
+		BankAccount account = new BankAccount(bc, accountBalance, accountNumber, amountOwed);
 		return account;
 	}
 	
@@ -69,11 +56,7 @@ public class BankComputer {
 		double accountBalance;
 		double amountOwed;
 
-		public BankAccount() {
-			
-		}
-		
-		public BankAccount(BankCustomerRole bc, double amountToProcess, int accountNumber, double amountOwed) {
+		BankAccount(BankCustomerRole bc, double amountToProcess, int accountNumber, double amountOwed) {
 			setBankCustomer(bc);
 			setAccountBalance(amountToProcess);
 			setAccountNumber(accountNumber);

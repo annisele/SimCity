@@ -61,7 +61,7 @@ public class AnimationPanel extends JPanel {
 			public void mouseClicked(MouseEvent me) {
                // super.mouseClicked(me);
                 for (Gui g : guis) {
-                    if (g.contains(me.getPoint())) {//check if mouse is clicked within shape
+                    if (g.contains(me.getPoint()) && g.isPresent()) {//check if mouse is clicked within shape
 
                         //we can either just print out the object class name
                         System.out.println("Clicked a "+g.getClass().getName());

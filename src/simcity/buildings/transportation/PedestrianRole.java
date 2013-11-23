@@ -1,6 +1,7 @@
 package simcity.buildings.transportation;
 
 import java.util.*;
+import java.util.concurrent.Semaphore;
 
 import simcity.Location;
 import simcity.PersonAgent;
@@ -14,10 +15,25 @@ public class PedestrianRole extends Role implements simcity.interfaces.transport
 	PedestrianGui gui;
 	private List<Location> destinationList = Collections.synchronizedList(new ArrayList<Location>());
 	
+	private Semaphore atDest = new Semaphore(0, true);
+	
 	// Constructor
 	public PedestrianRole(PersonAgent person) {
 		this.person = person;
 		this.gui =  new PedestrianGui();
+	}
+	
+	//Messages
+	@Override
+	public void msgExitBuilding() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgEnterBuilding() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	// Scheduler
@@ -41,9 +57,22 @@ public class PedestrianRole extends Role implements simcity.interfaces.transport
 	// Animation DoXYZ
 	private void DoGoToLocation(int x, int y) {
 		gui.DoGoToLocation(x, y);
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	@Override
+	public void atDestination() {
+		atDest.release();
 	}
 	
 	// Utility functions
+	
+	
 	public void addDestination(Location destination) {
 		destinationList.add(destination);
 	}
@@ -52,17 +81,7 @@ public class PedestrianRole extends Role implements simcity.interfaces.transport
 		return gui;
 	}
 
-	@Override
-	public void msgExitBuilding() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void msgEnterBuilding() {
-		// TODO Auto-generated method stub
-		
-	}
+	
 	
 	/*
 	public void msgWalkTo(Location l) {

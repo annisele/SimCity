@@ -1,7 +1,9 @@
 package simcity.gui;
 
 import java.awt.*;
+
 import simcity.Clock;
+
 import java.awt.event.*;
 import java.util.Collections;
 import java.util.List;
@@ -9,7 +11,7 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
-public class AnimationPanel extends JPanel {
+public class AnimationPanel extends JPanel implements ActionListener{
 	
 	SimCityGui simCityGui;
 	JPanel controlPanel;
@@ -111,6 +113,9 @@ public class AnimationPanel extends JPanel {
 			}
 			
 		});
+		
+		Timer timer = new Timer(12, this );
+    	timer.start();
 	}
 	
 	public void paintComponent(Graphics g) {
@@ -128,7 +133,7 @@ public class AnimationPanel extends JPanel {
             }
         }
 
-        repaint();
+        //repaint();
 	}
 	
 	public void addGui(Gui gui) {
@@ -160,6 +165,11 @@ public class AnimationPanel extends JPanel {
 		guis.clear();
 		buildingGuis.clear();
 		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		repaint();
 	}
 	
 	

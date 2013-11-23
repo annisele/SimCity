@@ -30,7 +30,9 @@ public class BuildingGui {
 	ImageIcon houseicon = new ImageIcon("res/CityGui/Home1.png");
 	Image houseimage = houseicon.getImage();
 	Image finalhouseimage = houseimage.getScaledInstance(60, 60, java.awt.Image.SCALE_SMOOTH);
-
+    ImageIcon bankicon = new ImageIcon("res/CityGui/Bank.png");
+    Image bankimage = bankicon.getImage();
+    Image finalbankimage = bankimage.getScaledInstance(60, 60, java.awt.Image.SCALE_SMOOTH);
 	
 	
 	
@@ -53,6 +55,8 @@ public class BuildingGui {
     	g.drawImage(finalrestaurantimage, location.getX(), location.getY()+8, null);
     	if (system.getName().equals("House of the Lord"))
     	g.drawImage(finalhouseimage, location.getX()+4, location.getY(), null);
+    	if (system.getName().equals("Bank"))
+    	g.drawImage(finalbankimage, location.getX(), location.getY(), null);
     }
     
     //to check if this building was clicked on

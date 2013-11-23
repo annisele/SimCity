@@ -22,14 +22,14 @@ public class BuildingGui {
 	
 	ImageIcon restauranticon = new ImageIcon("res/CityGui/RestaurantOne.png");
 	Image restaurantimage = restauranticon.getImage();
-    Image finalrestaurantimage = restaurantimage.getScaledInstance(57, 57,  java.awt.Image.SCALE_SMOOTH); 
+    Image finalrestaurantimage = restaurantimage.getScaledInstance(65, 65,  java.awt.Image.SCALE_SMOOTH); 
 
 	ImageIcon marketicon = new ImageIcon("res/CityGui/LargeMarket.png");
 	Image marketimage = marketicon.getImage();
-	Image finalmarketimage = marketimage.getScaledInstance(65, 65, java.awt.Image.SCALE_SMOOTH);
+	Image finalmarketimage = marketimage.getScaledInstance(60, 60, java.awt.Image.SCALE_SMOOTH);
 	ImageIcon houseicon = new ImageIcon("res/CityGui/Home1.png");
 	Image houseimage = houseicon.getImage();
-	Image finalhouseimage = houseimage.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH);
+	Image finalhouseimage = houseimage.getScaledInstance(60, 60, java.awt.Image.SCALE_SMOOTH);
 
 	
 	

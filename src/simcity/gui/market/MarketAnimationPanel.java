@@ -42,9 +42,12 @@ public class MarketAnimationPanel extends AnimationPanel implements ActionListen
 
 	public void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D)g;
+		
+		g2.drawImage(marketimage, 0,0, null); //COMMENT this out to get old Gui Back- Josh
+
 
 		//Clear the screen by painting a rectangle the size of the frame
-		g2.setColor(Color.LIGHT_GRAY);
+	/*	g2.setColor(Color.LIGHT_GRAY);
 		g2.fillRect(0, 0, this.getWidth(), this.getHeight());
 
 		//walls
@@ -62,9 +65,8 @@ public class MarketAnimationPanel extends AnimationPanel implements ActionListen
 		g2.setColor(new Color(100, 65, 45));
 		for(int i = 0; i < NUM_SHELVES; i++) {
 			g2.fillRect((i * 70) + 40, 150, 30, 250);
-		}
+		} */
 		
-		g2.drawImage(marketimage, 0,0, null); //COMMENT this out to get old Gui Back- Josh
 
 
 		super.paintComponent(g);

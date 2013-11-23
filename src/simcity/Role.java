@@ -54,6 +54,11 @@ public abstract class Role  {
 		// TODO Auto-generated method stub
 		
 	}
+
+	public void atDestination() {
+		// TODO Auto-generated method stub
+		
+	}
 	 
 	 
 	 

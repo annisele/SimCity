@@ -1,6 +1,7 @@
 package simcity.buildings.market;
 
 import java.util.*;
+import java.util.concurrent.Semaphore;
 
 import simcity.PersonAgent;
 import simcity.Role;
@@ -13,10 +14,16 @@ public class MarketCustomerRole extends Role implements simcity.interfaces.marke
 	private List<Invoice> invoices = Collections.synchronizedList(new ArrayList<Invoice>());
 	private enum InvoiceState {expected, billed, paid, delivered};
 	private MarketSystem market;
+	private Semaphore atDest = new Semaphore(0, true);
 	
 	public MarketCustomerRole(PersonAgent p) {
 		person = p;
 		this.gui = new MarketCustomerGui();
+	}
+	
+	@Override
+	public void atDestination() {
+		atDest.release();
 	}
 	
 	@Override
@@ -49,7 +56,7 @@ public class MarketCustomerRole extends Role implements simcity.interfaces.marke
 	
 	//HACK!!
 	public void msgWait() {
-		System.out.println("Waiting..");
+		//System.out.println("Waiting..");
 	}
 	
 	
@@ -83,16 +90,33 @@ public class MarketCustomerRole extends Role implements simcity.interfaces.marke
 
 	private void SendOrder(Invoice i) {
 		((MarketCustomerGui)gui).DoGoToCashier();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		market.getCashier().msgHereIsAnOrder(this, this, i.items);
 	}
 
 	private void PayCashier(Invoice i) {
+		((MarketCustomerGui)gui).DoGoToCashier();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		this.person.money -= i.payment;
 		i.cashier.msgHereIsPayment(i.payment, i.orderNumber);
 		i.state = InvoiceState.paid;
 	}
 
 	private void ReceiveDelivery(Invoice i) {
+		((MarketCustomerGui)gui).DoGoToCashier();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		Map<String, Integer> tempItems = i.items;       
 		invoices.remove(i);
 		person.receiveDelivery(tempItems);
@@ -116,6 +140,11 @@ public class MarketCustomerRole extends Role implements simcity.interfaces.marke
 	@Override
 	public void msgExitBuilding() {
 		gui.DoExitBuilding();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		market.exitBuilding(this);
 		person.roleFinished();
 		person.isIdle();

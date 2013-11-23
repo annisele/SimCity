@@ -31,7 +31,7 @@ public class Gui {
 			y--;
 		}
 		if(x == xDest && y == yDest) {
-			
+			role.atDestination();
 		}
     }
     

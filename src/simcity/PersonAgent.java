@@ -89,9 +89,9 @@ public class PersonAgent extends Agent implements Person {
 		else if(currentEvent != null) {
 				//does the next step
 				//if it returns false because there are no more steps, remove event from the list
-				Do("Current event is not null");
+				//Do("Current event is not null");
 				if(!currentEvent.nextStep()) {
-					Do("Current event.nextStep returned false, so I must be done and idle");
+					//Do("Current event.nextStep returned false, so I must be done and idle");
 					currentEvent = null;
 					if (currentRole != null)
 						Do("CurrentRole is not null at this point in the scheduler, but it should be!");
@@ -108,21 +108,21 @@ public class PersonAgent extends Agent implements Person {
 		//else
 		//move to the next event if currentEvent is null
 		else {
-			Do("EventList has a size of "+eventList.size());
+			//Do("EventList has a size of "+eventList.size());
 			if(eventList.size() > 0) {
 				if(eventList.get(0).startTime <= Clock.getTime()) {
 					currentEvent = eventList.get(0); //set next event to current
-					Do("Just set next event to current");
+					//Do("Just set next event to current");
 					return true;
 				}
 				else if(Directory.getLocation(eventList.get(0).buildingName) == Directory.getLocation(currentEvent.buildingName) && eventList.get(0).flexible) {
 					//set next event to current if at same place and next event is flexible
 					currentEvent = eventList.get(0);
-					Do("Just set next event to current");
+					//Do("Just set next event to current");
 					return true;
 				}
 				else {
-					Do("Calling waitForNextEvent()");
+					//Do("Calling waitForNextEvent()");
 					waitForNextEvent();
 				}
 			}
@@ -163,7 +163,7 @@ public class PersonAgent extends Agent implements Person {
 			}
 			((MarketCustomer)eventR).msgBuyStuff(house.getListToBuy(), (MarketSystem)(Directory.getSystem(buildingName)));
 			e = new Event(buildingName, eventR, 120, true, steps, t);
-			Do("GoToMarket is scheduled, which has "+steps.size()+" steps");
+			//Do("GoToMarket is scheduled, which has "+steps.size()+" steps");
 			insertEvent(e);
 			stateChanged();
 		}
@@ -174,7 +174,7 @@ public class PersonAgent extends Agent implements Person {
 			steps.add(new Step("enterBuilding", this));
 	
 			e = new Event(workBuilding, workRole, 120, false, steps, t);
-			Do("GoToWork is scheduled, which has "+steps.size()+" steps");
+			//Do("GoToWork is scheduled, which has "+steps.size()+" steps");
 			insertEvent(e);
 			stateChanged();
 
@@ -184,7 +184,7 @@ public class PersonAgent extends Agent implements Person {
 	//this assumes after roles are done, they go stand outside the building
 	//so this only needs to prep the person to walk somewhere by changing it to pedestrian
 	public void exitBuilding() {
-		Do("exitBuilding step is called");
+		//Do("exitBuilding step is called");
 		stateChanged();
 	}
 
@@ -196,10 +196,10 @@ public class PersonAgent extends Agent implements Person {
 				Directory.getWorld().getAnimationPanel().addGui(currentRole.getGui());
 			}
 		}
-		Do("goTo step is called");
+		//Do("goTo step is called");
 		Location loc = Directory.getLocation(currentEvent.buildingName);
-		Do("Location is: "+loc.getX()+", "+loc.getY());
-		Do("PedRole is being given a destination!");
+		//Do("Location is: "+loc.getX()+", "+loc.getY());
+		//Do("PedRole is being given a destination!");
 		((PedestrianRole)currentRole).addDestination(loc);
 		stateChanged();
 	}
@@ -218,7 +218,7 @@ public class PersonAgent extends Agent implements Person {
 	}
 	
 	public void roleFinished() {
-		Do("Role is finished");
+		//Do("Role is finished");
 		//TODO: add more if statements once bus/car agents are in
 		if(currentRole instanceof Pedestrian) {
 			Directory.getWorld().getAnimationPanel().removeGui(currentRole.getGui());
@@ -439,13 +439,13 @@ public class PersonAgent extends Agent implements Person {
 		}
 
 		private boolean nextStep() {
-			Do("nextStep is being called, currently "+steps.size()+" steps");
+			//Do("nextStep is being called, currently "+steps.size()+" steps");
 			if(steps.isEmpty()) {
 				return false;
 			}
 			else {
 				steps.get(0).doMethod();
-				Do("An event's step is being removed");
+				//Do("An event's step is being removed");
 				steps.remove(0);
 				return true;
 			}

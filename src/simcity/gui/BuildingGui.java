@@ -24,7 +24,7 @@ public class BuildingGui {
 	Image restaurantimage = restauranticon.getImage();
     Image finalrestaurantimage = restaurantimage.getScaledInstance(65, 65,  java.awt.Image.SCALE_SMOOTH); 
 
-	ImageIcon marketicon = new ImageIcon("res/citygui/largemarket.png");
+	ImageIcon marketicon = new ImageIcon("res/citygui/squaremarket.png");
 	Image marketimage = marketicon.getImage();
 	Image finalmarketimage = marketimage.getScaledInstance(60, 60, java.awt.Image.SCALE_SMOOTH);
 	ImageIcon houseicon = new ImageIcon("res/citygui/home1.png");

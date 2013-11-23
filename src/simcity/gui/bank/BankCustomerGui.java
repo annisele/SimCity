@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 
+import simcity.Location;
 import simcity.buildings.bank.BankCustomerRole;
 import simcity.gui.Gui;
 
@@ -58,6 +59,10 @@ public class BankCustomerGui implements Gui{
 	public void DoGoToLocation(int x, int y) {
 		xDest = x;
 		yDest = y;
+	}
+	public Location getLocation() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

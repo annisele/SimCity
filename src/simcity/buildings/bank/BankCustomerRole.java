@@ -159,28 +159,28 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	//actions
 	private void InformBankHostOfArrival() {
 		bh.msgEnteringBank(this);
-		System.out.println("Bank customer is here");
+		System.out.println("I've a bank transaction");
 	}
 
 	private void OpenAccount() {
 		bt.msgWantToOpenAccount(this, amountToProcess);
-		System.out.println("Bank customer wants to open account");
-		System.out.println("PLease deposit $100 if you want to open account");
+		System.out.println("I want to open an account and I'm paying depositing $100 to open the account");
+		
 	}
 
 	private void DepositMoney() {
 		bt.msgWantToDeposit(this, amountToProcess);
-		System.out.println("Bank customer wants to deposit money");
+		System.out.println("I want to deposit money");
 	}
 
 	private void WithdrawMoney() {
 		bt.msgWantToWithdraw(this, amountToProcess);
-		System.out.println("Bank customer wants to withdraw money");
+		System.out.println("I want to withdraw money");
 	}
 
 	private void LoanMoney() {
 		bt.msgWantALoan(this, amountToProcess);
-		System.out.println("Bank customer wants to get loan");
+		System.out.println("I want to get loan");
 	}
 
 	private void InformBankHostOfDeparture() {

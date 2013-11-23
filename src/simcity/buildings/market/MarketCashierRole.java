@@ -139,7 +139,7 @@ public class MarketCashierRole extends Role implements simcity.interfaces.market
 
 	@Override
 	public void msgEnterBuilding() {
-		// TODO Auto-generated method stub
+		gui.DoGoToLocation(90, 100);
 
 	}
 

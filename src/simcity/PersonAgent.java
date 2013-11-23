@@ -206,6 +206,7 @@ public class PersonAgent extends Agent implements Person {
 	public void enterBuilding() {
 		if(Directory.getSystem(currentEvent.buildingName).msgEnterBuilding(currentEvent.role)) {
 			currentRole = currentEvent.role;
+			currentRole.msgEnterBuilding();
 			Directory.getSystem(currentEvent.buildingName).animationPanel.addGui(currentRole.getGui());
 			Do("Entered building. Changing role to " + currentRole.getClass());
 		}

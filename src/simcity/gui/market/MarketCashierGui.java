@@ -17,6 +17,6 @@ public class MarketCashierGui extends Gui {
 	@Override
 	public void draw(Graphics2D g) {
 		g.setColor(Color.GREEN);
-		g.fillRect(90, 100, 20, 20);
+		g.fillRect(x, y, 20, 20);
 	}
 }

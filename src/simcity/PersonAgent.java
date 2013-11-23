@@ -154,7 +154,6 @@ public class PersonAgent extends Agent implements Person {
 				currentRole = r;
 			}
 		}
-
 	}
 
 	//later, add bus and car options

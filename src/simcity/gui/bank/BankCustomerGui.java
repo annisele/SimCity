@@ -6,22 +6,22 @@ import java.awt.Point;
 import simcity.Location;
 import simcity.buildings.bank.BankCustomerRole;
 import simcity.gui.Gui;
+import simcity.interfaces.bank.BankCustomer;
 
 public class BankCustomerGui extends Gui{
-
-	private int x = 0;
-	private int y = 0;
-	private int xDest = 0;
-	private int yDest = 0;
-	private final int SIZE = 20;
+	private final int HOST_X = 250;
+	private final int HOST_Y = 420;
 	
-	public BankCustomerGui() {
-		
+	
+	public BankCustomerGui(BankCustomerRole b) {
+		role = b;
 	}
 	
 	public void draw(Graphics2D g) {
 		g.setColor(Color.GREEN);
 		g.fillRect(x, y, SIZE, SIZE);
 	}
-	
+	public void DoGoToHost() {
+		DoGoToLocation(HOST_X, HOST_Y);
+	}
 }

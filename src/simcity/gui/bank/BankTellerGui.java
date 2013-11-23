@@ -1,5 +1,39 @@
 package simcity.gui.bank;
 
-public class BankTellerGui {
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Point;
 
+import simcity.Location;
+import simcity.buildings.bank.BankTellerRole;
+import simcity.gui.Gui;
+import simcity.interfaces.bank.BankTeller;
+
+public class BankTellerGui extends Gui {
+	private final int WINDOW1_X = 300;
+	private final int WINDOW1_Y = 200;
+	
+	private final int WINDOW2_X = 300;
+	private final int WINDOW2_Y = 300;
+	
+	private final int WINDOW3_X = 300;
+	private final int WINDOW3_Y = 400;
+	
+	public BankTellerGui(BankTellerRole b) {
+		role = b;
+	}
+	public void draw(Graphics2D g) {
+		g.setColor(Color.CYAN);
+		g.fillRect(x, y, SIZE, SIZE);
+	}
+	public void DoGoToWindow1() {
+		DoGoToLocation(WINDOW1_X, WINDOW1_Y);
+	}
+	public void DoGoToWindow2() {
+		DoGoToLocation(WINDOW2_X, WINDOW2_Y);
+	}
+	public void DoGoToWindow3() {
+		DoGoToLocation(WINDOW3_X, WINDOW3_Y);
+	}
+	
 }

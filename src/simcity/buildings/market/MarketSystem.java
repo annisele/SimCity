@@ -38,10 +38,10 @@ public class MarketSystem extends simcity.SimSystem {
 	}
 	
 	//sets the cashier
-	public void setCashier(MarketCashier c) {
+	public void setCashier(MarketCashierRole c) {
 		//MarketCashier c2 = new MarketCashierRole();
 		cashier = c;
-		MarketCashierGui cGui = new MarketCashierGui();
+		MarketCashierGui cGui = new MarketCashierGui(c);
 		animationPanel.addGui(cGui);
 	}
 	

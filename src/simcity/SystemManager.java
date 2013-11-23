@@ -235,12 +235,12 @@ public class SystemManager {
 	public void addCashierHack(String name, String market) {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());
-		Role cashier = new MarketCashierRole();
+		Role cashier = new MarketCashierRole(person);
 		person.addWork(cashier, market);
 		people.add(person);
 		for(MarketSystem m : markets) {
 			if(m.getName().equalsIgnoreCase(market)) {
-				m.setCashier((MarketCashier) cashier);
+				m.setCashier((MarketCashierRole) cashier);
 			}
 		}
 		//hacks

@@ -16,9 +16,9 @@ public class Gui {
 	protected int EXIT_X = 235;
 	protected int EXIT_Y = 454;
 
-	
-    public void updatePosition() {
-    	if(xDest > x) {
+
+	public void updatePosition() {
+		if(xDest > x) {
 			x++;
 		}
 		else {
@@ -33,36 +33,36 @@ public class Gui {
 		if(x == xDest && y == yDest) {
 			role.atDestination();
 		}
-    }
-    
-    public void draw(Graphics2D g) {
-    	g.setColor(Color.BLACK);
+	}
+
+	public void draw(Graphics2D g) {
+		g.setColor(Color.BLACK);
 		g.fillRect(x, y, SIZE, SIZE);
-    }
-    public boolean isPresent() {
-    	return true;
-    }
-    
-    public boolean contains(Point point) {
-    	if(point.getX() >= x && point.getX() <= x + SIZE) {
+	}
+	public boolean isPresent() {
+		return true;
+	}
+
+	public boolean contains(Point point) {
+		if(point.getX() >= x && point.getX() <= x + SIZE) {
 			if(point.y >= y && point.y <= y + SIZE) {
 				return true;
 			}
 		}
 		return false;
-    }
-    
-    public void DoGoToLocation(int x, int y) {
+	}
+
+	public void DoGoToLocation(int x, int y) {
 		xDest = x;
 		yDest = y;
 	}
-    
-    public Location getLocation() {
-    	return new Location(x, y);
-    }
-    
-    public void DoExitBuilding() {
-    	DoGoToLocation(EXIT_X, EXIT_Y);
-    }
+
+	public Location getLocation() {
+		return new Location(x, y);
+	}
+
+	public void DoExitBuilding() {
+		DoGoToLocation(EXIT_X, EXIT_Y);
+	}
 
 }

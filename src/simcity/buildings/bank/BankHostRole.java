@@ -5,20 +5,17 @@ import java.util.*;
 import simcity.Role;
 
 public class BankHostRole extends Role implements simcity.interfaces.bank.BankHost {
-	public class BankWindow {
+	
+	// utility class: BankWindow
+	public static class BankWindow {
 		
 		public BankCustomerRole occupiedBy;
 		public BankTellerRole bankTeller;
 		public int windowNum;
 		public boolean occupied;
 		
-		public BankWindow(int windowNum) {	// constructor
-			this.windowNum = windowNum;
-			this.occupied = false;
-		}
-		
 		public boolean isOccupied() {
-			return occupiedBy != null;
+			return occupied;
 		}
 		
 		public int getWindowNumber() {
@@ -39,6 +36,11 @@ public class BankHostRole extends Role implements simcity.interfaces.bank.BankHo
 			return occupiedBy;
 		}
 		
+		public BankWindow(int windowNum) {				// constructor
+			this.windowNum = windowNum;
+			this.occupied = false;
+		}
+		
 		public BankTellerRole getBankTeller() {
 			return bankTeller;
 		}
@@ -48,16 +50,16 @@ public class BankHostRole extends Role implements simcity.interfaces.bank.BankHo
 		}
 		
 	}
+	
 	// data
 	private String name;
 	Timer timer = new Timer();
 	public List<BankWindow> windows = Collections.synchronizedList(new ArrayList<BankWindow>());
 	public List<BankCustomerRole> customers = Collections.synchronizedList(new ArrayList<BankCustomerRole>());
-	int bankWindowOccupiedCounter;
-	public BankHostRole(String name, int bankWindowOccupiedCounter) {
+	
+	public BankHostRole(String name) {
 		super();
 		this.name = name;
-		this.bankWindowOccupiedCounter = bankWindowOccupiedCounter;
 	}
 
 	//messages
@@ -96,7 +98,6 @@ public class BankHostRole extends Role implements simcity.interfaces.bank.BankHo
 		System.out.println("PLease go to the available window");
 		bc.msgGoToWindow(window.getWindowNumber(), window.getBankTeller());
 		window.setOccupant(bc);
-		bankWindowOccupiedCounter++;
 		customers.remove(bc);
 	}
 	
@@ -108,17 +109,16 @@ public class BankHostRole extends Role implements simcity.interfaces.bank.BankHo
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	@Override
+	public void msgExitBuilding() {
+		// TODO Auto-generated method stub
 		
+	}
 
-		@Override
-		public void msgExitBuilding() {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void msgEnterBuilding() {
-			// TODO Auto-generated method stub
-			
-		}
+	@Override
+	public void msgEnterBuilding() {
+		// TODO Auto-generated method stub
+		
+	}
 }

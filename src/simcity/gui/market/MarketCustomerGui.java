@@ -12,7 +12,7 @@ import simcity.interfaces.market.MarketCustomer;
 public class MarketCustomerGui extends Gui {
 	
 	private final int CASHIER_X = 200;
-	private final int CASHIER_Y = 300;
+	private final int CASHIER_Y = 200;
 	
 	
 	public MarketCustomerGui(MarketCustomerRole m) {

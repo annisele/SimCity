@@ -53,23 +53,7 @@ public class BankAnimationPanel extends AnimationPanel implements ActionListener
         	g2.fillRect(30+(i*25),10 ,20 ,20 );
         }
 		        	
-		
-			 synchronized(guis) {
-			        for(Gui gui : guis) {
-			            if (gui.isPresent()) {
-			                gui.updatePosition();
-			            }
-			        }
-			 }
-			  
-		        synchronized(guis){
-		        for(Gui gui : guis) {
-		            if (gui.isPresent()) {
-		                gui.draw(g2);
-		            }
-		        }
-		        }
-		   repaint();
+		super.paintComponent(g);
 	}
 
 	public void addGui(Gui g) {

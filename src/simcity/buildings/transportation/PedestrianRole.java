@@ -22,6 +22,7 @@ public class PedestrianRole extends Role implements simcity.interfaces.transport
 	
 	// Scheduler
 	public boolean pickAndExecuteAnAction() {
+
 		if(!destinationList.isEmpty()) {
 			GoToDestination(destinationList.get(0));
 		}

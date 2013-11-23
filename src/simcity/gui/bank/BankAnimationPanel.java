@@ -3,6 +3,7 @@ package simcity.gui.bank;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -20,40 +21,34 @@ import javax.swing.*;
  */
 public class BankAnimationPanel extends AnimationPanel implements ActionListener {
 	private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
-
+	ImageIcon ii = new ImageIcon("res/Bank/bankgui.png");
+    Image img = ii.getImage();
+    Image homeimage = img.getScaledInstance(470, 454,  java.awt.Image.SCALE_SMOOTH); 
 	public BankAnimationPanel() {
-		setBackground(Color.YELLOW);
-		setVisible(true);	
-
-    	Timer timer = new Timer(2, this );
-    	timer.start();
+		super();
 	}
 	public void actionPerformed(ActionEvent e) {
 		repaint();
 	}	
 	public void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D)g;
-		//bank window gui
-		Color windowColor = new Color (220,220,220);
 		//Clear the screen by painting a rectangle the size of the frame
-		g2.setColor(getBackground());
-        g2.fillRect(0, 0, 700, 700);
-        g2.setColor(windowColor);
-        g2.fillRect(100, 350, 50, 20);
-        g2.fillRect(200, 350, 50, 20);
-        g2.fillRect(300, 350, 50, 20);
+				g2.setColor(Color.LIGHT_GRAY);
+				g2.fillRect(0, 0, this.getWidth(), this.getHeight());
+				g2.drawImage(homeimage, 0,0, null);
+				for(Gui gui : guis) {
+					if (gui.isPresent()) {
+						gui.updatePosition();
+					}
+				}
+				for(Gui gui : guis) {
+					if (gui.isPresent()) {
+						gui.draw((Graphics2D)g);
+					}
+				}
 
-		Color BankHostColor = new Color (50, 50, 50);
-			g2.setColor(BankHostColor);
-			g2.fillRect(30, 55, 25, 25);
 
-		//Here is the waiting area
-        g2.setColor(Color.BLUE);		       
-        for (int i = 0; i < 18; i++){
-        	g2.fillRect(30+(i*25),10 ,20 ,20 );
-        }
-		        	
-		super.paintComponent(g);
+				super.paintComponent(g);
 	}
 
 	public void addGui(Gui g) {

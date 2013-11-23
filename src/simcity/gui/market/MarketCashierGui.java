@@ -13,29 +13,10 @@ public class MarketCashierGui extends Gui {
 	public MarketCashierGui(MarketCashierRole m) {
 		role = m;
 	}
-	
-	@Override
-	public void updatePosition() {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void draw(Graphics2D g) {
 		g.setColor(Color.GREEN);
 		g.fillRect(90, 100, 20, 20);
 	}
-
-	@Override
-	public boolean isPresent() {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-	@Override
-	public boolean contains(Point point) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 }

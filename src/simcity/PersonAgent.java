@@ -34,7 +34,7 @@ import agent.Agent;
  *  so person is now a pedestrian gui. However, it never goes on to the next step
  *  so it never sets the pedestrian's destination. It only calls event.nextStep once
  *  for some reason.
-*/
+ */
 
 public class PersonAgent extends Agent implements Person {
 
@@ -47,11 +47,11 @@ public class PersonAgent extends Agent implements Person {
 	private Timer timer = new Timer();
 	public enum EventType {Eat, GoToMarket, DepositMoney, WithdrawMoney, GetALoan, PayRent, Sleep, Work};
 	private IdlePersonGui idleGui;
-	
+
 	public double money = 40;
 	private String workBuilding;
 	private Role workRole;
-	
+
 	public PersonAgent(String n) {
 		name = n;
 		idleGui = new IdlePersonGui(this);
@@ -87,30 +87,30 @@ public class PersonAgent extends Agent implements Person {
 			return currentRole.pickAndExecuteAnAction();
 		}
 		else if(currentEvent != null) {
-				//does the next step
-				//if it returns false because there are no more steps, remove event from the list
-				//Do("Current event is not null");
-				if(!currentEvent.nextStep()) {
-					//Do("Current event.nextStep returned false, so I must be done and idle");
-					currentEvent = null;
-					if (currentRole != null)
-						Do("CurrentRole is not null at this point in the scheduler, but it should be!");
-					//currentRole = null;
-					//idleGui.setLocation(currentRole.getGui().getLocation());
-					eventList.remove(0);
-					return true;
-				}
+			//does the next step
+			//if it returns false because there are no more steps, remove event from the list
+			//Do("Current event is not null");
+			if(!currentEvent.nextStep()) {
+				//Do("Current event.nextStep returned false, so I must be done and idle");
+				currentEvent = null;
+				if (currentRole != null)
+					Do("CurrentRole is not null at this point in the scheduler, but it should be!");
+				//currentRole = null;
+				//idleGui.setLocation(currentRole.getGui().getLocation());
+				eventList.remove(0);
+				return true;
+			}
 		}
-		 // I switched the order of those first to scheduler if statements, and it seems to help
-		 
-		 
+		// I switched the order of those first to scheduler if statements, and it seems to help
+
+
 		//move to next step in the event
 		//else
 		//move to the next event if currentEvent is null
 		else {
 			//Do("EventList has a size of "+eventList.size());
 			if(eventList.size() > 0) {
-				if(eventList.get(0).startTime <= Clock.getTime()) {
+				if(eventList.get(0).startTime <= Clock.getTime() || currentEvent == null) {
 					currentEvent = eventList.get(0); //set next event to current
 					//Do("Just set next event to current");
 					return true;
@@ -162,7 +162,7 @@ public class PersonAgent extends Agent implements Person {
 				}
 			}
 			((MarketCustomer)eventR).msgBuyStuff(house.getListToBuy(), (MarketSystem)(Directory.getSystem(buildingName)));
-			e = new Event(buildingName, eventR, 120, true, steps, t);
+			e = new Event(buildingName, eventR, 120, -1, true, steps, t);
 			//Do("GoToMarket is scheduled, which has "+steps.size()+" steps");
 			insertEvent(e);
 			stateChanged();
@@ -172,12 +172,11 @@ public class PersonAgent extends Agent implements Person {
 			steps.add(new Step("exitBuilding", this));
 			steps.add(new Step("goTo", this));
 			steps.add(new Step("enterBuilding", this));
-	
-			e = new Event(workBuilding, workRole, 120, false, steps, t);
+
+			e = new Event(workBuilding, workRole, 120, 3, false, steps, t);
 			//Do("GoToWork is scheduled, which has "+steps.size()+" steps");
 			insertEvent(e);
 			stateChanged();
-
 		}
 	}
 
@@ -216,7 +215,7 @@ public class PersonAgent extends Agent implements Person {
 		}
 		stateChanged();
 	}
-	
+
 	public void roleFinished() {
 		//Do("Role is finished");
 		//TODO: add more if statements once bus/car agents are in
@@ -269,13 +268,19 @@ public class PersonAgent extends Agent implements Person {
 			}
 			//if there were no conflicting events, put new event in right place
 			else {
-				for(Event e2 : eventList) {
-					if(e.startTime + e.duration <= e2.startTime) {
-						int ind = eventList.indexOf(e2);
-						eventList.add(ind, e); //insert new event at correct index
-						return;
+				if(eventList.isEmpty()) {
+					eventList.add(0, e);
+				}
+				else {
+					for(Event e2 : eventList) {
+						if(e.startTime + e.duration <= e2.startTime) {
+							int ind = eventList.indexOf(e2);
+							eventList.add(ind, e); //insert new event at correct index
+							return;
+						}
 					}
 				}
+
 			}
 		}
 		//the new event is flexible
@@ -332,6 +337,18 @@ public class PersonAgent extends Agent implements Person {
 
 	public boolean isIdle() {
 		return (currentRole == null);
+	}
+
+	public void receiveDelivery(Map<String, Integer> tempItems) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void addWork(Role r, String building) {
+		myRoles.add(r);
+		workBuilding = building;
+		workRole = r;
+		scheduleEvent(EventType.Work);
 	}
 
 	// Classes
@@ -403,12 +420,14 @@ public class PersonAgent extends Agent implements Person {
 		 *  @param n - Name of the destination building
 		 *  @param r - Role the person takes on after arriving at the location
 		 *  @param d - Duration of time the event should take overall
+		 *  @param st - Start time of the event, if it is flexible. Otherwise, should be ignored.
 		 *  @param f - Flexibility, meaning whether the event's start time can change or not
 		 *  @param s - List of steps that need to be executed to complete the event
 		 */
-		Event(String n, Role r, int d, boolean f, List<Step> s, EventType t) {
+		Event(String n, Role r, int d, int st, boolean f, List<Step> s, EventType t) {
 			buildingName = n;
 			role = r;
+			startTime = st;
 			duration = d;
 			flexible = f;
 			steps = s;
@@ -449,21 +468,9 @@ public class PersonAgent extends Agent implements Person {
 				steps.remove(0);
 				return true;
 			}
-			
+
 
 		}
-	}
-
-	public void receiveDelivery(Map<String, Integer> tempItems) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void addWork(Role r, String building) {
-		myRoles.add(r);
-		workBuilding = building;
-		workRole = r;
-		scheduleEvent(EventType.Work);
 	}
 
 }

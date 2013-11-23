@@ -15,7 +15,7 @@ public class Gui {
 	protected  int SIZE = 20;
 	protected int EXIT_X = 235;
 	protected int EXIT_Y = 454;
-
+	protected boolean atDestNow = false;
 
 	public void updatePosition() {
 		if(xDest > x) {
@@ -31,7 +31,10 @@ public class Gui {
 			y--;
 		}
 		if(x == xDest && y == yDest) {
-			role.atDestination();
+			if(!atDestNow) {
+				role.atDestination();
+				atDestNow = true;
+			}
 		}
 	}
 
@@ -55,6 +58,7 @@ public class Gui {
 	public void DoGoToLocation(int x, int y) {
 		xDest = x;
 		yDest = y;
+		atDestNow = false;
 	}
 
 	public Location getLocation() {

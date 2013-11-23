@@ -9,10 +9,11 @@ import simcity.gui.market.MarketCashierGui;
 import simcity.gui.market.MarketCustomerGui;
 import simcity.interfaces.market.MarketCustomer;
 import simcity.interfaces.market.MarketWorker;
+import sun.tools.tree.SuperExpression;
 
 public class MarketCashierRole extends Role implements simcity.interfaces.market.MarketCashier {
 	private List<MarketOrder> orders = Collections.synchronizedList(new ArrayList<MarketOrder>());
-	private MarketComputer market;
+	private MarketComputer computer;
 	private enum MarketOrderState {requested, waitingForPayment, paid, filling, found};
 	private Map<String, Double> prices = Collections.synchronizedMap(new HashMap<String, Double>());
 	private List<MarketWorker> workers = Collections.synchronizedList(new ArrayList<MarketWorker>());
@@ -27,34 +28,37 @@ public class MarketCashierRole extends Role implements simcity.interfaces.market
 		MarketOrderState state;
 
 		MarketOrder(int oNum, Role rD, Role rP, Map<String, Integer> it, MarketOrderState s) {
-
+			orderNumber = oNum;
+			deliverRole = rD;
+			payRole = rP;
+			items = it;
+			state = s;
 		}
 	}
 
 	public MarketCashierRole(PersonAgent p) {
 		person = p;
 		this.gui = new MarketCashierGui(this);
-		
+
 		//hack
 		prices.put("chicken", 5.0);
 		prices.put("steak", 10.0);
+
+		//hack?
+		computer = new MarketComputer();
 	}
-	
+
 	@Override
 	public void atDestination() {
 		atDest.release();
 	}
-	
+
 	public void msgHereIsAnOrder(MarketCustomerRole mc1, MarketCustomerRole mc2, Map<String, Integer> items) {
-		person.Do("Received msgHereIsAnOrder");
-		
 		orders.add(new MarketOrder(orders.size(), mc1, mc2, items, MarketOrderState.requested));
-		//mc1.msgWait(); //HACK
+		stateChanged();
 	}
 
 	public void msgHereIsPayment(double payment, int oNum) {
-		person.Do("Received msgHereIsPayment");
-		
 		synchronized (orders) {
 			for(MarketOrder o : orders) {
 				if(o.orderNumber == oNum) {
@@ -62,11 +66,10 @@ public class MarketCashierRole extends Role implements simcity.interfaces.market
 				}
 			}
 		}
+		stateChanged();
 	}
 
 	public void msgOrderFound(int orderNum) {
-		person.Do("Received msgOrderFound");
-		
 		synchronized (orders) {
 			for(MarketOrder o : orders) {
 				if(o.orderNumber == orderNum) {
@@ -74,10 +77,10 @@ public class MarketCashierRole extends Role implements simcity.interfaces.market
 				}
 			}
 		}
+		stateChanged();
 	}
 
 	public boolean pickAndExecuteAnAction() {
-
 		synchronized (orders) {
 			for(MarketOrder o : orders) {
 				if(o.state == MarketOrderState.requested) {
@@ -107,10 +110,15 @@ public class MarketCashierRole extends Role implements simcity.interfaces.market
 
 	//errors - copied straight from design docs
 	private void SendBill(MarketOrder o) {
+		person.Do("Sending bill to customer");
+
 		Set<String> keys = prices.keySet();
 		for (String key : keys) {
 			o.payment += o.items.get(key) * prices.get(key);
 		}
+
+		//hack!!
+		o.payment = 0;
 		if(o.payRole instanceof MarketCustomer) {
 			((MarketCustomerRole)o.payRole).msgPleasePay(this, o.payment, o.orderNumber);
 		}
@@ -122,23 +130,50 @@ public class MarketCashierRole extends Role implements simcity.interfaces.market
 
 	//errors - copied straight from design docs
 	private void FillOrder(MarketOrder o) {
-//		market.addMoney(o.payment);
-//		//.getNext() is a stub for load balancing
-//		workers.getNext().msgFindOrder(o.orderNumber, o.itemsToBuy);
-//		o.state = filling;
+		person.Do("Asking a worker to fill order.");
+		computer.addMoney(o.payment);
+		//.getNext() is a stub for load balancing
+		if(workers.isEmpty()) {
+			System.out.println("No workers to collect order.");
+		}
+		else {
+			//hack! shouldn't cast like this
+			((MarketWorkerRole) workers.get(0)).msgFindOrder(o.orderNumber, o.items);
+		}
+
+		o.state = MarketOrderState.filling;
 	}
 
 	//errors - copied straight from design docs
 	private void DeliverOrder(MarketOrder o) {
-		//		//.getNext() is a stub for load balancing
-		//		if(o.deliverRole instanceof MarketCustomerRole) {
-		//			o.deliverRole.msgDeliveringOrder(o.itemsToBuy);
-		//		}
-		//		else {
-		//			o.deliverRole.msgOrderWillBeDelivered(o.itemsToBuy);
-		//			trucks.getNext().msgPleaseDeliverOrder(o.deliverRole, o.itemsToBuy);
-		//		}
-		//		orders.remove(o);
+
+		((MarketCashierGui)gui).DoGoToCounter();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		((MarketCashierGui)gui).DoGoToCashRegister();
+		
+		//for some reason if this is here is never acquires??!?? program gets stuck here
+//		try {
+//			atDest.acquire();
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
+
+		person.Do("Giving items to customer");
+		//.getNext() is a stub for load balancing
+		if(o.deliverRole instanceof MarketCustomerRole) {
+			//hack!! shouldn't cast like this
+			((MarketCustomerRole)o.deliverRole).msgDeliveringOrder(o.items);
+		}
+		else {
+			//o.deliverRole.msgOrderWillBeDelivered(o.items);
+			//trucks.getNext().msgPleaseDeliverOrder(o.deliverRole, o.items);
+		}
+		orders.remove(o);
 	}
 
 	@Override
@@ -147,15 +182,24 @@ public class MarketCashierRole extends Role implements simcity.interfaces.market
 
 	}
 
+	//PROBLEM!!!! Semaphore is never released
+
 	@Override
 	public void msgEnterBuilding() {
-		gui.DoGoToLocation(60, 95);
-		try {
-			atDest.acquire();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		((MarketCashierGui)gui).DoGoToCashRegister();
+		//HACK - this should be here but doens't work with it
+		//		try {
+		//			atDest.acquire();
+		//		} catch (InterruptedException e) {
+		//			e.printStackTrace();
+		//		}
 
+	}
+
+	public void addWorker(MarketWorker w) {
+		workers.add(w);
+		((MarketWorkerRole) w).setCashier(this);
+		((MarketWorkerRole) w).setComputer(computer);
 	}
 
 

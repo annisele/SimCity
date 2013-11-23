@@ -11,11 +11,11 @@ import simcity.gui.Gui;
 
 public class MarketWorkerGui extends Gui {
 
-	private final int SHELF_X = 200;
-	private final int SHELF_ONE_Y = 150;
+	private final int SHELF_X = 240;
+	private final int SHELF_ONE_Y = 130;
 	private final int SHELF_TWO_Y = 350;
-	private final int COUNTER_X = 50;
-	private final int COUNTER_Y = 250;
+	private final int COUNTER_X = 20;
+	private final int COUNTER_Y = 230;
 	private final int HOME_X = -50;
 	private final int HOME_Y = 275;
 	

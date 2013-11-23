@@ -12,7 +12,7 @@ import simcity.interfaces.market.MarketCashier;
 public class MarketCustomerRole extends Role implements simcity.interfaces.market.MarketCustomer {
 
 	private List<Invoice> invoices = Collections.synchronizedList(new ArrayList<Invoice>());
-	private enum InvoiceState {expected, billed, paid, delivered};
+	private enum InvoiceState {notSent, expected, requested, billed, paid, delivered};
 	private MarketSystem market;
 	private Semaphore atDest = new Semaphore(0, true);
 	
@@ -28,8 +28,9 @@ public class MarketCustomerRole extends Role implements simcity.interfaces.marke
 	
 	@Override
 	public void msgBuyStuff(Map<String, Integer> itemsToBuy, MarketSystem m) {
-		invoices.add(new Invoice(InvoiceState.expected, itemsToBuy, invoices.size()));
+		invoices.add(new Invoice(InvoiceState.notSent, itemsToBuy, invoices.size()));
 		market = m;
+		stateChanged();
 	}
 
 	public void msgPleasePay(MarketCashierRole c, double payment, int orderNum) {
@@ -45,6 +46,7 @@ public class MarketCustomerRole extends Role implements simcity.interfaces.marke
 				}
 			}
 		}
+		stateChanged();
 	}
 
 	public void msgDeliveringOrder(Map<String, Integer> itemsToDeliver) {
@@ -57,19 +59,21 @@ public class MarketCustomerRole extends Role implements simcity.interfaces.marke
 				}
 			}
 		}
+		stateChanged();
 	}
 	
 	//HACK!!
 	public void msgWait() {
 		System.out.println("Waiting..");
 		invoices.clear();
+		stateChanged();
 	}
 	
 	
 	public boolean pickAndExecuteAnAction() {
 		synchronized (invoices) {
 			for(Invoice i : invoices) {
-				if(i.state == InvoiceState.expected) {
+				if(i.state == InvoiceState.notSent) {
 					SendOrder(i);
 					return true;
 				}
@@ -96,6 +100,7 @@ public class MarketCustomerRole extends Role implements simcity.interfaces.marke
 
 	private void SendOrder(Invoice i) {
 		market.getCashier().msgHereIsAnOrder(this, this, i.items);
+		i.state = InvoiceState.expected;
 	}
 
 	private void PayCashier(Invoice i) {
@@ -134,11 +139,15 @@ public class MarketCustomerRole extends Role implements simcity.interfaces.marke
 			items = itemsToBuy;
 			state = s;
 			orderNumber = num;
+			
+			//hack!!
+			payment = 0;
 		}
 	}
 
 	@Override
 	public void msgExitBuilding() {
+		person.Do("Leaving market.");
 		gui.DoExitBuilding();
 		try {
 			atDest.acquire();

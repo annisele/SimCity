@@ -81,9 +81,7 @@ public class PersonAgent extends Agent implements Person {
 
 	@Override
 	public boolean pickAndExecuteAnAction() {
-
 		if(currentRole != null) {
-			//Do("Calling role's scheduler: " + currentRole.getClass());
 			return currentRole.pickAndExecuteAnAction();
 		}
 		else if(currentEvent != null) {

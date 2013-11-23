@@ -60,6 +60,7 @@ public class MarketSystem extends simcity.SimSystem {
 		}
 		else if(role instanceof MarketWorker) {
 			workers.add((MarketWorker) role);
+			((MarketCashierRole) cashier).addWorker((MarketWorker) role);
 		}
 		else if(role instanceof MarketTruck) {
 			trucks.add((MarketTruck) role);

@@ -30,6 +30,7 @@ public class MarketWorkerRole extends Role implements simcity.interfaces.market.
 		
 		
 		orders.add(new WorkerOrder(orderNum, itemsList));
+		stateChanged();
 	}
 	
 	public boolean pickAndExecuteAnAction() {
@@ -63,6 +64,8 @@ public class MarketWorkerRole extends Role implements simcity.interfaces.market.
 			e.printStackTrace();
 		}
 		
+		if(computer == null) System.out.println("computer null");
+		if(o == null) System.out.println("order is null");
 		o.itemsToFind = computer.fillOrder(o.itemsToFind); //gets full order from system
 		if(o.itemsToFind != null) {
 			((MarketCashierRole)cashier).msgOrderFound(o.orderNumber);
@@ -102,12 +105,21 @@ public class MarketWorkerRole extends Role implements simcity.interfaces.market.
 	@Override
 	public void msgEnterBuilding() {
 		((MarketWorkerGui)gui).DoGoToHomePosition();
-		try {
-			atDest.acquire();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		//HACK - this should be here but doesn't work with it
+//		try {
+//			atDest.acquire();
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
 		
+	}
+	
+	public void setCashier(MarketCashier c) {
+		cashier = c;
+	}
+	
+	public void setComputer(MarketComputer com) {
+		computer = com;
 	}
 
 }

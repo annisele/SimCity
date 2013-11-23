@@ -25,6 +25,11 @@ public class MarketComputer {
 	}
 
 	public Map<String, Integer> fillOrder(Map<String, Integer> orders) {
+		
+		//hack!!!
+		return orders;
+		
+		/*
 		Iterator it = orders.entrySet().iterator();
 		Map<String, Integer> toReturn = new HashMap<String, Integer>(); //when we implement returning partial orders, use this
 
@@ -53,6 +58,12 @@ public class MarketComputer {
 			}
 			return toReturn; //return the completely filled order
 		}
+		*/
+	}
+
+	public void addMoney(double payment) {
+		// TODO Auto-generated method stub
+		
 	}
 
 

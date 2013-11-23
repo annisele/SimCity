@@ -26,7 +26,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	// Constructor
 		public BankCustomerRole(PersonAgent person) {
 			this.person = person;
-			this.gui = new BankCustomerGui();
+			this.gui = new BankCustomerGui(this);
 		}
 	Timer timer = new Timer();
 	

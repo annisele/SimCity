@@ -12,7 +12,7 @@ import simcity.buildings.bank.BankHostRole.BankWindow;
 
 public class BankSystem extends simcity.SimSystem{
 
-
+	private BankComputer computer= new BankComputer();
 	private BankHostRole bh;
 	private List<BankWindow> windows = Collections.synchronizedList(new ArrayList<BankWindow>());
 	private BankWindow windowLookup;

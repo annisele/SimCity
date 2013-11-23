@@ -195,4 +195,40 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 		this.bank = bank;
 	}
 
+	@Override
+	public void msgWantToOpenAccount(BankCustomerRole bc, double amountToProcess) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgWantToDeposit(BankCustomerRole bc, double amountToProcess) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgWantToWithdraw(BankCustomerRole bc, double amountToProcess) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgWantALoan(BankCustomerRole bc, double amountToProcess) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgExitBuilding() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgEnterBuilding() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

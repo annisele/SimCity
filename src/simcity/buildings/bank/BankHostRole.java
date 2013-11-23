@@ -5,16 +5,59 @@ import java.util.*;
 import simcity.Role;
 
 public class BankHostRole extends Role implements simcity.interfaces.bank.BankHost {
-	
+	public class BankWindow {
+		
+		public BankCustomerRole occupiedBy;
+		public BankTellerRole bankTeller;
+		public int windowNum;
+		public boolean occupied;
+		
+		public BankWindow(int windowNum) {	// constructor
+			this.windowNum = windowNum;
+			this.occupied = false;
+		}
+		
+		public boolean isOccupied() {
+			return occupiedBy != null;
+		}
+		
+		public int getWindowNumber() {
+			return windowNum;
+		}
+		
+		public void setUnoccupied() {
+			occupiedBy = null;
+			occupied = false;
+		}
+		
+		public void setOccupant(BankCustomerRole cust) {
+			occupiedBy = cust;
+			occupied = true;
+		}
+		
+		public BankCustomerRole getOccupant() {
+			return occupiedBy;
+		}
+		
+		public BankTellerRole getBankTeller() {
+			return bankTeller;
+		}
+		
+		public void setBankTeller(BankTellerRole bankTeller) {
+			this.bankTeller = bankTeller;
+		}
+		
+	}
 	// data
 	private String name;
 	Timer timer = new Timer();
 	public List<BankWindow> windows = Collections.synchronizedList(new ArrayList<BankWindow>());
 	public List<BankCustomerRole> customers = Collections.synchronizedList(new ArrayList<BankCustomerRole>());
-	
-	public BankHostRole(String name) {
+	int bankWindowOccupiedCounter;
+	public BankHostRole(String name, int bankWindowOccupiedCounter) {
 		super();
 		this.name = name;
+		this.bankWindowOccupiedCounter = bankWindowOccupiedCounter;
 	}
 
 	//messages
@@ -53,6 +96,7 @@ public class BankHostRole extends Role implements simcity.interfaces.bank.BankHo
 		System.out.println("PLease go to the available window");
 		bc.msgGoToWindow(window.getWindowNumber(), window.getBankTeller());
 		window.setOccupant(bc);
+		bankWindowOccupiedCounter++;
 		customers.remove(bc);
 	}
 	
@@ -64,51 +108,7 @@ public class BankHostRole extends Role implements simcity.interfaces.bank.BankHo
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	// utility class: BankWindow
-		public static class BankWindow {
-			
-			public BankCustomerRole occupiedBy;
-			public BankTellerRole bankTeller;
-			public int windowNum;
-			public boolean occupied;
-			
-			public BankWindow(int windowNum) {	// constructor
-				this.windowNum = windowNum;
-				this.occupied = false;
-			}
-			
-			public boolean isOccupied() {
-				return occupied;
-			}
-			
-			public int getWindowNumber() {
-				return windowNum;
-			}
-			
-			public void setUnoccupied() {
-				occupiedBy = null;
-				occupied = false;
-			}
-			
-			public void setOccupant(BankCustomerRole cust) {
-				occupiedBy = cust;
-				occupied = true;
-			}
-			
-			public BankCustomerRole getOccupant() {
-				return occupiedBy;
-			}
-			
-			public BankTellerRole getBankTeller() {
-				return bankTeller;
-			}
-			
-			public void setBankTeller(BankTellerRole bankTeller) {
-				this.bankTeller = bankTeller;
-			}
-			
-		}
+		
 
 		@Override
 		public void msgExitBuilding() {

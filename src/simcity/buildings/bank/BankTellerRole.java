@@ -1,9 +1,13 @@
 package simcity.buildings.bank;
 
 import java.util.*;
-
+import java.util.concurrent.Semaphore;
+import simcity.PersonAgent;
 import simcity.Role;
 import simcity.buildings.bank.BankComputer.BankAccount;
+import simcity.gui.Gui;
+import simcity.gui.bank.BankTellerGui;
+import simcity.interfaces.bank.*;
 
 public class BankTellerRole extends Role implements simcity.interfaces.bank.BankTeller {
 
@@ -12,15 +16,23 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 	private List<MyCustomer> customers = Collections.synchronizedList(new ArrayList<MyCustomer>());		// list of customers
 	private List<MyCustomerInDebt> debtCustomers = Collections.synchronizedList(new ArrayList<MyCustomerInDebt>()); // list of bank customers in debt
 	BankComputer bank;	// bank system that contains account info for people
-
+	private Semaphore atBank = new Semaphore(0, true);
 	public enum transactionType {none, openAccount, depositMoney, withdrawMoney, loanMoney};	// type of transaction from customer
 	public enum transactionState {none, processing};											// transaction state
 
 	// constructor
+	/*
 	public BankTellerRole(BankComputer bank) {
 		setBankSystem(bank);
 	}
-
+	*/
+	public BankTellerRole(PersonAgent person) {
+		this.person = person;
+		this.gui = new BankTellerGui(this);
+	}
+	public void atBank() {
+    	atBank.release();
+    }
 	// messages
 
 	public void msgWantToOpenAccount(BankCustomerRole bc, double amountToProcess) {
@@ -154,9 +166,7 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 			this.tt = tt;
 			this.ts = transactionState.none;
 		}
-
 	
-		
 		public BankCustomerRole getBankCustomer() {
 			return bc;
 		}

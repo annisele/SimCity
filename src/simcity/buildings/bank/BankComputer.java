@@ -11,8 +11,6 @@ public class BankComputer {
 	int numAccounts = 0;
 	double loanableFunds;
 	double cashInBank;
-	
-	
 	Map<Integer,BankCustomerRole> customerAccounts = new HashMap<Integer,BankCustomerRole>(MAX_ACCOUNTS);
 	Map<Integer,Double> balanceAccounts = new HashMap<Integer,Double>(MAX_ACCOUNTS);
 	Map<Integer,Double> owedAccounts = new HashMap<Integer,Double>(MAX_ACCOUNTS);
@@ -21,8 +19,8 @@ public class BankComputer {
 	BankComputer() {
 		setLoanableFunds(500000);
 		setCashInBank(500000);
+		
 	}
-
 	// functions
 	public int addAccountAndReturnNumber(BankCustomerRole bc, double amountToProcess) {
 		numAccounts++;

@@ -1,8 +1,13 @@
 package simcity.buildings.bank;
 
 import java.util.*;
+import java.util.concurrent.Semaphore;
 
+import simcity.gui.Gui;
+import simcity.PersonAgent;
 import simcity.Role;
+import simcity.gui.bank.BankHostGui;
+import simcity.interfaces.bank.*;
 
 public class BankHostRole extends Role implements simcity.interfaces.bank.BankHost {
 	
@@ -47,8 +52,7 @@ public class BankHostRole extends Role implements simcity.interfaces.bank.BankHo
 		
 		public void setBankTeller(BankTellerRole bankTeller) {
 			this.bankTeller = bankTeller;
-		}
-		
+		}		
 	}
 	
 	// data
@@ -56,12 +60,14 @@ public class BankHostRole extends Role implements simcity.interfaces.bank.BankHo
 	Timer timer = new Timer();
 	public List<BankWindow> windows = Collections.synchronizedList(new ArrayList<BankWindow>());
 	public List<BankCustomerRole> customers = Collections.synchronizedList(new ArrayList<BankCustomerRole>());
-	
-	public BankHostRole(String name) {
-		super();
-		this.name = name;
+	private Semaphore atBank = new Semaphore(0, true);
+	public BankHostRole (PersonAgent person) {
+		this.person = person;
+		this.gui = new BankHostGui(this);
 	}
-
+	public void atBank() {
+    	atBank.release();
+    }
 	//messages
 	public void msgEnteringBank(BankCustomerRole bc) {
 		System.out.println("Bank customer is entering the bank");
@@ -70,6 +76,7 @@ public class BankHostRole extends Role implements simcity.interfaces.bank.BankHo
 	}
 	
 	public void msgLeavingBank(int windowNumber) {
+		synchronized(windows){
 		System.out.println("Bank customer is leaving the bank");
 		for (BankWindow window : windows) {
 			if (windowNumber == window.getWindowNumber()) {
@@ -77,10 +84,12 @@ public class BankHostRole extends Role implements simcity.interfaces.bank.BankHo
 				stateChanged();
 			}
 		}
+		}
 	}
 	
 	//scheduler
 	public boolean pickAndExecuteAnAction() {
+		synchronized(windows){
 		if (!customers.isEmpty()) {
 			for (BankWindow window : windows) {
 				if (!window.isOccupied()) {
@@ -89,13 +98,13 @@ public class BankHostRole extends Role implements simcity.interfaces.bank.BankHo
 				}
 			}
 		}
-		
+		}
 		return false;
 	}
 	
 	//actions
 	private void tellCustomerToGoToWindow(BankCustomerRole bc, BankWindow window) {
-		System.out.println("PLease go to the available window");
+		System.out.println("Please go to the available window");
 		bc.msgGoToWindow(window.getWindowNumber(), window.getBankTeller());
 		window.setOccupant(bc);
 		customers.remove(bc);

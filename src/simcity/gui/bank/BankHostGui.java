@@ -3,6 +3,7 @@ package simcity.gui.bank;
 import java.awt.*;
 import java.util.Vector;
 
+import simcity.Location;
 import simcity.buildings.bank.BankHostRole;
 import simcity.gui.Gui;
 
@@ -33,5 +34,10 @@ public class BankHostGui implements Gui {
 	public boolean contains(Point point) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	public Location getLocation() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

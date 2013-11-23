@@ -69,7 +69,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 		event = Event.directedToWindow;
 		stateChanged();
 	}
-
+	
 	// bank teller sends this message to customer after opening an account
 	public void msgHereIsAccountInfo(BankCustomerRole bc, int accountNumber, double accountBalance) {
 		System.out.println("Here is your new account information");
@@ -81,6 +81,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	public void msgHereIsMoney(BankCustomerRole bc, int accountNumber, double accountBalance, double amountProcessed) {
 		System.out.println("Here is the money that you withdraw");
 		cashOnHand = cashOnHand + amountProcessed;
+		stateChanged();
 	}
 	//bank teller sends this message to customer after depositing money
 	public void msgMoneyIsDeposited(BankCustomerRole bc, int accountNumber, double accountBalance, double amountProcessed) {
@@ -102,8 +103,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
     	 event = Event.transactionProcessed;
 	     stateChanged(); 
      }
-	 //
-	
+
 	 //scheduler
 	 public boolean pickAndExecuteAnAction() {
 		 if (customerState == BankCustomerState.none){
@@ -118,7 +118,6 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 			 customerState = BankCustomerState.goingToWindow;
 			    if (transactionState == transactionState.openAccount) {
 			        OpenAccount();
-			        DepositMoney();
 			    }
 			    else if (transactionState == transactionState.depositMoney) {
 			        DepositMoney();
@@ -153,39 +152,66 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 		}
 
 		private void OpenAccount() {
+			((BankCustomerGui)gui).DoGoToBankTeller();
+			try {
+	    		atBank.acquire();
+	    	} catch (InterruptedException e) {
+	    		e.printStackTrace();
+	    	}
 		    bt.msgWantToOpenAccount(this, amountToProcess);
 		    System.out.println("Bank customer wants to open account");
 		    System.out.println("PLease deposit $100 if you want to open account");
 		}
 
 		private void DepositMoney() {
+			((BankCustomerGui)gui).DoGoToBankTeller();
+			try {
+	    		atBank.acquire();
+	    	} catch (InterruptedException e) {
+	    		e.printStackTrace();
+	    	}
 		    bt.msgWantToDeposit(this, amountToProcess);
 		    System.out.println("Bank customer wants to deposit money");
 		}
 
 		private void WithdrawMoney() {
+			((BankCustomerGui)gui).DoGoToBankTeller();
+			try {
+	    		atBank.acquire();
+	    	} catch (InterruptedException e) {
+	    		e.printStackTrace();
+	    	}
 		    bt.msgWantToWithdraw(this, amountToProcess);
 		    System.out.println("Bank customer wants to withdraw money");
 		}
 
 		private void LoanMoney() {
+			((BankCustomerGui)gui).DoGoToBankTeller();
+			try {
+	    		atBank.acquire();
+	    	} catch (InterruptedException e) {
+	    		e.printStackTrace();
+	    	}
 		    bt.msgWantALoan(this, amountToProcess);
 		    System.out.println("Bank customer wants to get loan");
 		}
 
 		private void InformBankHostOfDeparture() {
+			((BankCustomerGui)gui).DoExitBuilding();
+			try {
+	    		atBank.acquire();
+	    	} catch (InterruptedException e) {
+	    		e.printStackTrace();
+	    	}
 		    bh.msgLeavingBank(windowNumber);
 		    System.out.println("Bank host, I'm leaving the bank now");
 		}
-		@Override
+
 		public void msgExitBuilding() {
-			// TODO Auto-generated method stub
 			
 		}
-		@Override
 		public void msgEnterBuilding() {
-			// TODO Auto-generated method stub
-			
+		
 		}	 
 
 }

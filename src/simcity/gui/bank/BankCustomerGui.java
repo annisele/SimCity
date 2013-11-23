@@ -9,10 +9,13 @@ import simcity.gui.Gui;
 import simcity.interfaces.bank.BankCustomer;
 
 public class BankCustomerGui extends Gui{
-	private final int HOST_X = 250;
-	private final int HOST_Y = 420;
-	
-	
+	private int HOST_X = 250;
+	private int HOST_Y = 420;
+	private int xDestination, yDestination;
+	int xWindow[] = {300, 300, 300};
+	int yWindow[] = {200, 300, 400};
+	private enum Command {noCommand, GoToWindow, LeaveBank};
+	private Command command = Command.noCommand;
 	public BankCustomerGui(BankCustomerRole b) {
 		role = b;
 	}
@@ -24,4 +27,9 @@ public class BankCustomerGui extends Gui{
 	public void DoGoToHost() {
 		DoGoToLocation(HOST_X, HOST_Y);
 	}
+
+	public void DoGoToBankTeller() {
+	
+	}
+	
 }

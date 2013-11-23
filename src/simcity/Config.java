@@ -11,9 +11,11 @@ public class Config {
 	public Config(SystemManager s) {
 		systems = s;
 	}
+	
 	public void persons(){
 		
 	}
+	
 	public void threeBuildings() {
 		systems.clear();
 		
@@ -32,10 +34,13 @@ public class Config {
 //        world.addGui(testPed);
 	}
 	
-	public void oneBank() {
+	public void oneMarket() {
 		systems.clear();
 		systems.clearDetailPane();
 		
+		systems.addMarket("Market", 100, 100);
+		systems.addCashierHack("Mary", "Market");
+		systems.addPerson("Mark");
 
 	}
 	

@@ -14,7 +14,7 @@ import simcity.interfaces.transportation.Pedestrian;
 
 public class PedestrianGui extends Gui{
 	
-	ImageIcon ii = new ImageIcon("res/Person/PersonUp.png");
+	ImageIcon ii = new ImageIcon("res/person/personup.png");
     Image img = ii.getImage();
     Image personimage = img.getScaledInstance(17, 17,  java.awt.Image.SCALE_SMOOTH); 
 

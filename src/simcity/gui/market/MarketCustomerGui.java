@@ -18,7 +18,7 @@ public class MarketCustomerGui extends Gui {
 	private final int CASHIER_Y = 300;
 	
 
-	 ImageIcon ii = new ImageIcon("res/Person/PersonDown.png");
+	 ImageIcon ii = new ImageIcon("res/person/persondown.png");
 	    Image img = ii.getImage();
 	    Image personimage = img.getScaledInstance(30, 30,  java.awt.Image.SCALE_SMOOTH); 
 	

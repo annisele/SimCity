@@ -18,6 +18,18 @@ import simcity.interfaces.market.MarketCustomer;
 import simcity.interfaces.market.MarketTruck;
 import simcity.interfaces.market.MarketWorker;
 
+/****
+ * ISSUES: sometimes there is a flickering gray square in upper left corner of world panel
+ * because there is an idle gui showing as it switches between pedestrian and the actual
+ * event's role. Change idle gui starting location to fix this.
+ * 
+ * Customer does not reappear as an idle gui when it exits the market. Need to fix this!
+ * 
+ * Used a lot of hacks..usually commented //hack!! or something before it. Commented out getting
+ * inventory in computer, set prices to 0, hacked to initialize computers, etc.
+ */
+
+
 public class MarketSystem extends simcity.SimSystem {
 	
 	private MarketComputer computer = new MarketComputer();

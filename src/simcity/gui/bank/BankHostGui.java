@@ -7,7 +7,7 @@ import simcity.Location;
 import simcity.buildings.bank.BankHostRole;
 import simcity.gui.Gui;
 
-public class BankHostGui implements Gui {
+public class BankHostGui {
 	private String name;
 	private BankHostRole role = null;
 	private int xPos = 1, yPos = 1;//default Bank teller position

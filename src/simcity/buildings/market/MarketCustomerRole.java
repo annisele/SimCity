@@ -18,7 +18,7 @@ public class MarketCustomerRole extends Role implements simcity.interfaces.marke
 	
 	public MarketCustomerRole(PersonAgent p) {
 		person = p;
-		this.gui = new MarketCustomerGui();
+		this.gui = new MarketCustomerGui(this);
 	}
 	
 	@Override

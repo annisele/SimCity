@@ -8,8 +8,8 @@ import simcity.Role;
 public class Gui {
 
 	protected Role role;
-	protected int x = 0;
-	protected int y = 0;
+	protected int x = 236;
+	protected int y = 454;
 	protected int xDest = 0;
 	protected int yDest = 0;
 	protected  int SIZE = 20;

@@ -21,7 +21,7 @@ public class Config {
 		
 		systems.addMarket("Market", 100, 100);
 		systems.addRestaurantOne("RestaurantOne", 300, 100);
-		//systems.addBank("Bank", 100, 300);
+		systems.addBank("Bank", 100, 300);
 		systems.addHouse("House of the Lord", 300, 300);
 		systems.addPerson("Mark"); // Jesus get back in your house!
 		

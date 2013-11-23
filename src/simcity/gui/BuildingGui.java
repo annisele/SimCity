@@ -20,17 +20,17 @@ public class BuildingGui {
 	private SimSystem system;
 	//private ControlPanel controlPanel;
 	
-	ImageIcon restauranticon = new ImageIcon("res/CityGui/RestaurantOne.png");
+	ImageIcon restauranticon = new ImageIcon("res/citygui/restaurantone.png");
 	Image restaurantimage = restauranticon.getImage();
     Image finalrestaurantimage = restaurantimage.getScaledInstance(65, 65,  java.awt.Image.SCALE_SMOOTH); 
 
-	ImageIcon marketicon = new ImageIcon("res/CityGui/LargeMarket.png");
+	ImageIcon marketicon = new ImageIcon("res/citygui/squaremarket.png");
 	Image marketimage = marketicon.getImage();
 	Image finalmarketimage = marketimage.getScaledInstance(60, 60, java.awt.Image.SCALE_SMOOTH);
-	ImageIcon houseicon = new ImageIcon("res/CityGui/Home1.png");
+	ImageIcon houseicon = new ImageIcon("res/citygui/home1.png");
 	Image houseimage = houseicon.getImage();
 	Image finalhouseimage = houseimage.getScaledInstance(60, 60, java.awt.Image.SCALE_SMOOTH);
-    ImageIcon bankicon = new ImageIcon("res/CityGui/Bank.png");
+    ImageIcon bankicon = new ImageIcon("res/citygui/bank.png");
     Image bankimage = bankicon.getImage();
     Image finalbankimage = bankimage.getScaledInstance(60, 60, java.awt.Image.SCALE_SMOOTH);
 	

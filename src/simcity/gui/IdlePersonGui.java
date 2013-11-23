@@ -25,7 +25,7 @@ public class IdlePersonGui extends Gui {
 
 	@Override
 	public void draw(Graphics2D g) {
-		g.setColor(Color.MAGENTA);
+		g.setColor(Color.GRAY);
 		g.fillRect(x, y, SIZE, SIZE);
 	}
 

@@ -57,7 +57,7 @@ public class MarketCustomerRole extends Role implements simcity.interfaces.marke
 	//HACK!!
 	public void msgWait() {
 		System.out.println("Waiting..");
-		//invoices.clear();
+		invoices.clear();
 	}
 	
 	

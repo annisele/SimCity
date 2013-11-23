@@ -6,17 +6,18 @@
 package simcity.buildings.bank;
 
 import java.util.*;
-
+import java.util.concurrent.Semaphore;
 import simcity.PersonAgent;
 import simcity.Role;
 import simcity.gui.Gui;
 import simcity.gui.bank.BankCustomerGui;
 import simcity.interfaces.bank.*;
+
 public class BankCustomerRole extends Role implements simcity.interfaces.bank.BankCustomer {
 	
 	private String name;
 	private BankHostRole bh;
-	
+	private Semaphore atBank = new Semaphore(0, true);
 	private BankTellerRole bt;
 	int windowNumber;
 	
@@ -26,7 +27,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	// Constructor
 		public BankCustomerRole(PersonAgent person) {
 			this.person = person;
-			this.gui = new BankCustomerGui();
+			this.gui = new BankCustomerGui(this);
 		}
 	Timer timer = new Timer();
 	
@@ -35,7 +36,9 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	
 	public enum Event{none, arrivedAtBank, directedToWindow, transactionProcessed};
     private Event event;  
-  
+    public void atBank() {
+    	atBank.release();
+    }
     public enum BankCustomerState{none, waitingAtBank, goingToWindow};
     private BankCustomerState customerState;
     
@@ -78,8 +81,6 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	public void msgHereIsMoney(BankCustomerRole bc, int accountNumber, double accountBalance, double amountProcessed) {
 		System.out.println("Here is the money that you withdraw");
 		cashOnHand = cashOnHand + amountProcessed;
-		
-
 	}
 	//bank teller sends this message to customer after depositing money
 	public void msgMoneyIsDeposited(BankCustomerRole bc, int accountNumber, double accountBalance, double amountProcessed) {
@@ -139,10 +140,16 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 
 		 return false;
 	 }
-	 //actions
+	   //actions
 	    private void InformBankHostOfArrival() {
+	    	((BankCustomerGui)gui).DoGoToHost();
+	    	try {
+	    		atBank.acquire();
+	    	} catch (InterruptedException e) {
+	    		e.printStackTrace();
+	    	}
 		    bh.msgEnteringBank(this);
-		    System.out.println("Bank customer is here");
+		    System.out.println("I'm here for bank transaction");
 		}
 
 		private void OpenAccount() {

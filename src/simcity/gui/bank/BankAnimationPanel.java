@@ -21,7 +21,7 @@ import javax.swing.*;
  */
 public class BankAnimationPanel extends AnimationPanel implements ActionListener {
 	private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
-	ImageIcon ii = new ImageIcon("res/Bank/bankgui.png");
+	ImageIcon ii = new ImageIcon("res/bank/bankgui.png");
     Image img = ii.getImage();
     Image homeimage = img.getScaledInstance(470, 454,  java.awt.Image.SCALE_SMOOTH); 
 	public BankAnimationPanel() {

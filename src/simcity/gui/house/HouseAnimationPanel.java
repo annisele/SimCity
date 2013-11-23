@@ -17,7 +17,7 @@ import simcity.gui.Gui;
 public class HouseAnimationPanel extends AnimationPanel implements ActionListener {
 
 	private List<Gui> guis = new ArrayList<Gui>();
-    ImageIcon ii = new ImageIcon("res/Home/InteriorHome.png");
+    ImageIcon ii = new ImageIcon("res/home/interiorhome.png");
     Image img = ii.getImage();
     Image homeimage = img.getScaledInstance(470, 454,  java.awt.Image.SCALE_SMOOTH); 
 

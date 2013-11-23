@@ -1,11 +1,14 @@
 package simcity;
 
+import java.util.*;
+
 import simcity.gui.AnimationPanel;
 import simcity.gui.BuildingGui;
 import simcity.gui.transportation.PedestrianGui;
 
 public class Config {
 	
+	private Timer timer = new Timer();
 	private SystemManager systems;
 	
 	public Config(SystemManager s) {
@@ -40,7 +43,14 @@ public class Config {
 		
 		systems.addMarket("Market", 100, 100);
 		systems.addCashierHack("Mary", "Market");
-		systems.addPerson("Mark");
+		
+		timer.schedule(new TimerTask() {
+			public void run() {
+				systems.addPerson("Mark");
+			}
+		}, 2000);
+		
+		
 
 	}
 	

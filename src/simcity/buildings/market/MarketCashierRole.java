@@ -1,6 +1,7 @@
 package simcity.buildings.market;
 
 import java.util.*;
+import java.util.concurrent.Semaphore;
 
 import simcity.PersonAgent;
 import simcity.Role;
@@ -16,6 +17,7 @@ public class MarketCashierRole extends Role implements simcity.interfaces.market
 	private Map<String, Double> prices = Collections.synchronizedMap(new HashMap<String, Double>());
 	private List<MarketWorker> workers = Collections.synchronizedList(new ArrayList<MarketWorker>());
 	private List<MarketTruckAgent> trucks = Collections.synchronizedList(new ArrayList<MarketTruckAgent>());
+	private Semaphore atDest = new Semaphore(0, true);
 	private class MarketOrder {
 		int orderNumber;
 		Role deliverRole;
@@ -34,9 +36,13 @@ public class MarketCashierRole extends Role implements simcity.interfaces.market
 		this.gui = new MarketCashierGui(this);
 	}
 	
+	@Override
+	public void atDestination() {
+		atDest.release();
+	}
+	
 	public void msgHereIsAnOrder(MarketCustomerRole mc1, MarketCustomerRole mc2, Map<String, Integer> items) {
 		//orders.add(new MarketOrder(orders.size(), mc1, mc2, items, MarketOrderState.requested));
-		person.Do("hereIsAnOrder");
 		mc1.msgWait(); //HACK
 	}
 
@@ -133,7 +139,7 @@ public class MarketCashierRole extends Role implements simcity.interfaces.market
 
 	@Override
 	public void msgEnterBuilding() {
-		// TODO Auto-generated method stub
+		gui.DoGoToLocation(90, 100);
 
 	}
 

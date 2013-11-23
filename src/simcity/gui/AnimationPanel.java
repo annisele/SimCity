@@ -12,13 +12,13 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 public class AnimationPanel extends JPanel implements ActionListener{
-	
+
 	SimCityGui simCityGui;
 	JPanel controlPanel;
-	
+
 	protected List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
 	protected List<BuildingGui> buildingGuis = Collections.synchronizedList(new ArrayList<BuildingGui>());
-	
+
 	// 
 	// have a timer that calls repaint() on every panel
 	//private Timer repaintTimer = new Timer();
@@ -32,74 +32,74 @@ public class AnimationPanel extends JPanel implements ActionListener{
 
 	private int px; //x where mouse was pressed
 	private int py;
-	
+
 	protected AnimationPanel(){//SimCityGui sc) {
-		
+
 		//simCityGui = sc;
 		addMouseListener(new MouseListener() {
-			
+
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				
+
 			}
-			
+
 			@Override
 			public void mousePressed(MouseEvent e) {
 				px = e.getXOnScreen();
 				py = e.getYOnScreen();
 			}
-			
+
 			@Override
 			public void mouseExited(MouseEvent e) {
-				
+
 			}
-			
+
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				
+
 			}
-			
+
 			@Override
 			public void mouseClicked(MouseEvent me) {
-               // super.mouseClicked(me);
-                for (Gui g : guis) {
-                    if (g.contains(me.getPoint()) && g.isPresent()) {//check if mouse is clicked within shape
+				// super.mouseClicked(me);
+				for (Gui g : guis) {
+					if (g.contains(me.getPoint()) && g.isPresent()) {//check if mouse is clicked within shape
 
-                        //we can either just print out the object class name
-                        System.out.println("Clicked a "+g.getClass().getName());
-                        
-                        //controlPanel.updateSelected(g.getPerson());
+						//we can either just print out the object class name
+						System.out.println("Clicked a "+g.getClass().getName());
 
-                    }
-                }
-                // for (BuildingGui g : buildingGuis) {
-                for(BuildingGui g : buildingGuis) {
-                    if (g.contains(me.getPoint())) {//check if mouse is clicked within shape
+						//controlPanel.updateSelected(g.getPerson());
 
-                    	//if (controlPanel == null)
-                    		//System.out.println("The buildingGui's animationPanel is null!");
-                    	if (simCityGui != null) {
-                    		simCityGui.changeDetailPane(g.getSystem().getAnimationPanel());
-                    		
-                    		if (g.getSystem().getControlPanel() == null) {
-                        		System.out.println("We don't have a controlPanel for this building!");
-                        		
-                      
-                        	} else {
-                        		simCityGui.setControlPanel(g.getSystem().getControlPanel());
-                        		//g.getControlPanel().updateSelected(g);
-                        		//System.out.println(Clock.getTime());
-                        	}
-                    	}
-                 
-                    	
-                        
-                    }
+					}
+				}
+				// for (BuildingGui g : buildingGuis) {
+				for(BuildingGui g : buildingGuis) {
+					if (g.contains(me.getPoint())) {//check if mouse is clicked within shape
 
-               }
-            }
+						//if (controlPanel == null)
+						//System.out.println("The buildingGui's animationPanel is null!");
+						if (simCityGui != null) {
+							simCityGui.changeDetailPane(g.getSystem().getAnimationPanel());
+
+							if (g.getSystem().getControlPanel() == null) {
+								System.out.println("We don't have a controlPanel for this building!");
+
+
+							} else {
+								simCityGui.setControlPanel(g.getSystem().getControlPanel());
+								//g.getControlPanel().updateSelected(g);
+								//System.out.println(Clock.getTime());
+							}
+						}
+
+
+
+					}
+
+				}
+			}
 		});
-		
+
 		addMouseMotionListener(new MouseMotionListener() {
 
 			@Override
@@ -109,78 +109,83 @@ public class AnimationPanel extends JPanel implements ActionListener{
 
 			@Override
 			public void mouseMoved(MouseEvent e) {
-				
+
 			}
-			
+
 		});
-		
+
 		Timer timer = new Timer(12, this );
-    	timer.start();
+		timer.start();
 	}
-	
+
 	public void paintComponent(Graphics g) {
 		//System.out.println(" There are "+buildingGuis.size());
 		// compute dt, then send dt to every gui for updatePosition
 		//System.out.println("I have " + guis.size()+" guis");
-		for(Gui gui : guis) {
-            if (gui.isPresent()) {
-                gui.updatePosition();
-            }
-        }
-        for(Gui gui : guis) {
-            if (gui.isPresent()) {
-                gui.draw((Graphics2D)g);
-            }
-        }
+		synchronized(guis) {
+			for(Gui gui : guis) {
+				if (gui.isPresent()) {
+					gui.updatePosition();
+				}
+			}
+		}
 
-        //repaint();
+		synchronized(guis) {
+			for(Gui gui : guis) {
+				if (gui.isPresent()) {
+					gui.draw((Graphics2D)g);
+				}
+			}
+		}
+
+		//repaint();
 	}
-	
+
 	public void addGui(Gui gui) {
 		guis.add(gui);
 	}
-	
+
 	public void removeGui(Gui gui) {
 		guis.remove(gui);
 	}
-	
+
 	public void addBuilding(BuildingGui b) {
 		buildingGuis.add(b);
 	}
-	
+
 	public void setControlPanel(JPanel cp) {
 		controlPanel = cp;
 	}
-	
+
 	public JPanel getControlPanel() {
 		return controlPanel;
 	}
-	
+
 	public void setSimCityGui(SimCityGui scg) {
 		simCityGui = scg;
 
 	}
-	
+
 	public void clear() {
 		guis.clear();
 		buildingGuis.clear();
-		
+
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		repaint();
 	}
-	
-	
-	
+
+
+
 	/*public void addGui(gui) {
         guis.add(gui);
     }
-    
+
     public void setRestaurantPanel(RestaurantPanel restPanel) {
     	xTables = restPanel.getTableXPos();
         yTables = restPanel.getTableYPos();
     }*/
-	
+
 }

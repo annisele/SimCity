@@ -238,11 +238,11 @@ public class SystemManager {
 		Role cashier = new MarketCashierRole(person);
 		person.addWork(cashier, market);
 		people.add(person);
-		for(MarketSystem m : markets) {
-			if(m.getName().equalsIgnoreCase(market)) {
-				m.setCashier((MarketCashierRole) cashier);
-			}
-		}
+//		for(MarketSystem m : markets) {
+//			if(m.getName().equalsIgnoreCase(market)) {
+//				m.setCashier((MarketCashierRole) cashier);
+//			}
+//		}
 		//hacks
 		person.startThread();
 		

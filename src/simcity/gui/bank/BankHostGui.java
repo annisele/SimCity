@@ -1,16 +1,20 @@
 package simcity.gui.bank;
 
-import java.awt.*;
-import java.util.Vector;
-
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Point;
 import simcity.Location;
 import simcity.buildings.bank.BankHostRole;
 import simcity.gui.Gui;
+import simcity.interfaces.bank.BankHost;
 
-public class BankHostGui {
+public class BankHostGui extends Gui {
+	private final int HOST_X = 250;
+	private final int HOST_Y = 250;
+	
 	private String name;
 	private BankHostRole role = null;
-	private int xPos = 1, yPos = 1;//default Bank teller position
+
 	private boolean isPresent = false;
 	
 	public BankHostGui (BankHostRole b) {
@@ -24,8 +28,8 @@ public class BankHostGui {
 		
 	}
 	public void draw(Graphics2D g) {
-		// TODO Auto-generated method stub
-		
+		g.setColor(Color.PINK);
+		g.fillRect(x, y, SIZE, SIZE);
 	}
 	public boolean isPresent() {
 		// TODO Auto-generated method stub

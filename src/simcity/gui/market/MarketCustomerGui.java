@@ -14,8 +14,8 @@ import simcity.interfaces.market.MarketCustomer;
 
 public class MarketCustomerGui extends Gui {
 	
-	private final int CASHIER_X = 200;
-	private final int CASHIER_Y = 200;
+	private final int CASHIER_X = 169;
+	private final int CASHIER_Y = 99;
 	
 
 	 ImageIcon ii = new ImageIcon("res/person/persondown.png");
@@ -31,7 +31,7 @@ public class MarketCustomerGui extends Gui {
 	public void draw(Graphics2D g) {
 		//g.setColor(Color.CYAN);
 		//g.fillRect(x, y, SIZE, SIZE);
-		g.drawImage(personimage, x,y, null); 
+		g.drawImage(personimage, x, y, null); 
 
 	}
 	

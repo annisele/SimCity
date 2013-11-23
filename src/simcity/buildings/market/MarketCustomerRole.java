@@ -90,12 +90,6 @@ public class MarketCustomerRole extends Role implements simcity.interfaces.marke
 	}
 
 	private void SendOrder(Invoice i) {
-		((MarketCustomerGui)gui).DoGoToCashier();
-		try {
-			atDest.acquire();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 		market.getCashier().msgHereIsAnOrder(this, this, i.items);
 	}
 
@@ -154,7 +148,12 @@ public class MarketCustomerRole extends Role implements simcity.interfaces.marke
 
 	@Override
 	public void msgEnterBuilding() {
-		// TODO Auto-generated method stub
+		((MarketCustomerGui)gui).DoGoToCashier();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		
 	}
 }

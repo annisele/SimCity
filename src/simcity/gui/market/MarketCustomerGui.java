@@ -17,7 +17,7 @@ public class MarketCustomerGui extends Gui {
 	
 	public MarketCustomerGui(MarketCustomerRole m) {
 		role = m;
-	}
+	} 
 	
 	@Override
 	public void draw(Graphics2D g) {

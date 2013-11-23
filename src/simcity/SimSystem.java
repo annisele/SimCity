@@ -27,6 +27,7 @@ public class SimSystem {
 	
 	public void setName(String n) {
 		name = n;
+		System.out.println("Josh Testing " + name);
 	}
 	
 	public AnimationPanel getAnimationPanel() {

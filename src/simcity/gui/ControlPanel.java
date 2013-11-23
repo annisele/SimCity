@@ -96,8 +96,8 @@ public class ControlPanel extends JPanel implements ActionListener {
 		
 		//config panel
 		configStrings[0] = "Three Buildings";
-		configStrings[1] = "One bank";
-		configStrings[2] = "One restaurant";
+		configStrings[1] = "One Market";
+		configStrings[2] = "One Restaurant";
 		configDropdown = new JComboBox(configStrings);
 		configPanel.setLayout(new FlowLayout());
 		configPanel.add(configDropdown);
@@ -234,10 +234,10 @@ public class ControlPanel extends JPanel implements ActionListener {
 				config.threeBuildings();
 			}
 			else if(selection.equals(configStrings[1])) {
-				config.oneBank();
+				config.oneMarket();
 			}
 			else if(selection.equals(configStrings[2])) {
-				config.oneBank();
+				config.oneMarket();
 			}
 		}
 		//when pause button is pressed

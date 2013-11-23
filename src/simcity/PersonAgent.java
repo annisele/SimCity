@@ -16,6 +16,7 @@ import simcity.interfaces.market.MarketCustomer;
 import simcity.interfaces.transportation.Pedestrian;
 import simcity.buildings.bank.BankCustomerRole;
 import simcity.buildings.house.HouseInhabitantRole;
+import simcity.buildings.market.MarketCashierRole;
 import simcity.buildings.market.MarketCustomerRole;
 import simcity.buildings.market.MarketSystem;
 import simcity.buildings.restaurant.five.RestaurantFiveCustomerRole;
@@ -46,8 +47,10 @@ public class PersonAgent extends Agent implements Person {
 	private Timer timer = new Timer();
 	public enum EventType {Eat, GoToMarket, DepositMoney, WithdrawMoney, GetALoan, PayRent, Sleep, Work};
 	private IdlePersonGui idleGui;
-	public double money = 40;
 	
+	public double money = 40;
+	private String workBuilding;
+	private Role workRole;
 	
 	public PersonAgent(String n) {
 		name = n;
@@ -80,7 +83,7 @@ public class PersonAgent extends Agent implements Person {
 	public boolean pickAndExecuteAnAction() {
 
 		if(currentRole != null) {
-			Do("Current role is null.  Picking an action");
+			//Do("Calling role's scheduler: " + currentRole.getClass());
 			return currentRole.pickAndExecuteAnAction();
 		}
 		else if(currentEvent != null) {
@@ -163,10 +166,19 @@ public class PersonAgent extends Agent implements Person {
 			Do("GoToMarket is scheduled, which has "+steps.size()+" steps");
 			insertEvent(e);
 			stateChanged();
-		} //else if (t == EventType.) {
+		}
+		else if (t == EventType.Work) {
+			List<Step> steps = new ArrayList<Step>();
+			steps.add(new Step("exitBuilding", this));
+			steps.add(new Step("goTo", this));
+			steps.add(new Step("enterBuilding", this));
+	
+			e = new Event(workBuilding, workRole, 120, false, steps, t);
+			Do("GoToWork is scheduled, which has "+steps.size()+" steps");
+			insertEvent(e);
+			stateChanged();
 
-
-		//}
+		}
 	}
 
 	//this assumes after roles are done, they go stand outside the building
@@ -207,9 +219,16 @@ public class PersonAgent extends Agent implements Person {
 	
 	public void roleFinished() {
 		Do("Role is finished");
-		for (Role r : myRoles) {
-			if (r instanceof Pedestrian) {
-				idleGui.setLocation(r.getGui().getLocation());
+		//TODO: add more if statements once bus/car agents are in
+		if(currentRole instanceof Pedestrian) {
+			Directory.getWorld().getAnimationPanel().removeGui(currentRole.getGui());
+		}
+		else {
+			Directory.getSystem(currentEvent.buildingName).animationPanel.removeGui(currentRole.getGui());
+			for (Role r : myRoles) {
+				if (r instanceof Pedestrian) {
+					idleGui.setLocation(r.getGui().getLocation());
+				}
 			}
 		}
 		currentRole = null;
@@ -438,6 +457,13 @@ public class PersonAgent extends Agent implements Person {
 	public void receiveDelivery(Map<String, Integer> tempItems) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public void addWork(Role r, String building) {
+		myRoles.add(r);
+		workBuilding = building;
+		workRole = r;
+		scheduleEvent(EventType.Work);
 	}
 
 }

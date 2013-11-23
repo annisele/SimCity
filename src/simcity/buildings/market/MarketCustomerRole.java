@@ -47,6 +47,11 @@ public class MarketCustomerRole extends Role implements simcity.interfaces.marke
 		}
 	}
 	
+	//HACK!!
+	public void msgWait() {
+		System.out.println("Waiting..");
+	}
+	
 	
 	public boolean pickAndExecuteAnAction() {
 		synchronized (invoices) {
@@ -91,9 +96,7 @@ public class MarketCustomerRole extends Role implements simcity.interfaces.marke
 		Map<String, Integer> tempItems = i.items;       
 		invoices.remove(i);
 		person.receiveDelivery(tempItems);
-		gui.DoExitBuilding();
-		market.exitBuilding(this);
-		person.isIdle();
+		msgExitBuilding();
 	}
 
 	private class Invoice {
@@ -112,7 +115,10 @@ public class MarketCustomerRole extends Role implements simcity.interfaces.marke
 
 	@Override
 	public void msgExitBuilding() {
-		// TODO Auto-generated method stub
+		gui.DoExitBuilding();
+		market.exitBuilding(this);
+		person.roleFinished();
+		person.isIdle();
 		
 	}
 

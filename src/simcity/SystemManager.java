@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import simcity.Directory.EntryType;
 import simcity.buildings.bank.BankSystem;
 import simcity.buildings.house.HouseSystem;
+import simcity.buildings.market.MarketCashierRole;
 import simcity.buildings.market.MarketSystem;
 import simcity.buildings.restaurant.five.RestaurantFiveSystem;
 import simcity.buildings.restaurant.four.RestaurantFourSystem;
@@ -19,6 +20,7 @@ import simcity.buildings.transportation.TransportationSystem;
 import simcity.gui.Gui;
 import simcity.gui.SimCityGui;
 import simcity.gui.BuildingGui;
+import simcity.interfaces.market.MarketCashier;
 
 public class SystemManager {
 	
@@ -228,6 +230,22 @@ public class SystemManager {
 	
 	public void clearDetailPane() {
 		simcity.clearDetailPane();
+	}
+
+	public void addCashierHack(String name, String market) {
+		PersonAgent person = new PersonAgent(name);
+		world.getAnimationPanel().addGui(person.getIdleGui());
+		Role cashier = new MarketCashierRole();
+		person.addWork(cashier, market);
+		people.add(person);
+		for(MarketSystem m : markets) {
+			if(m.getName().equalsIgnoreCase(market)) {
+				m.setCashier((MarketCashier) cashier);
+			}
+		}
+		//hacks
+		person.startThread();
+		
 	}
 	
 	

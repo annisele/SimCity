@@ -49,6 +49,11 @@ public abstract class Role  {
 	public String getName() {
 		return person.getName();
 	}
+
+	public void setWorkBuilding(String building) {
+		// TODO Auto-generated method stub
+		
+	}
 	 
 	 
 	 

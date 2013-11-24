@@ -38,7 +38,8 @@ public class BankCustomerGui extends Gui{
 		DoGoToLocation(HOST_X, HOST_Y);
 	}
 
-	public void DoGoToBankTeller(int windowNumber) {
+	public void DoGoToBankTeller() {
+		/*
 		if(windowNumber == 1) {
 			DoGoToLocation(WINDOW1_X, WINDOW1_Y);
 		}
@@ -48,6 +49,7 @@ public class BankCustomerGui extends Gui{
 		else if(windowNumber == 3) {
 			DoGoToLocation(WINDOW3_X, WINDOW3_Y);
 		}
+		*/
 	
 	}
 	

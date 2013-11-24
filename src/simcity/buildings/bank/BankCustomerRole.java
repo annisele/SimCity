@@ -153,7 +153,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 		}
 
 		private void OpenAccount() {
-			((BankCustomerGui)gui).DoGoToBankTeller(windowNumber);
+			((BankCustomerGui)gui).DoGoToBankTeller();
 			try {
 	    		atBank.acquire();
 	    	} catch (InterruptedException e) {
@@ -165,7 +165,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 		}
 
 		private void DepositMoney() {
-			((BankCustomerGui)gui).DoGoToBankTeller(windowNumber);
+			((BankCustomerGui)gui).DoGoToBankTeller();
 			try {
 	    		atBank.acquire();
 	    	} catch (InterruptedException e) {
@@ -176,7 +176,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 		}
 
 		private void WithdrawMoney() {
-			((BankCustomerGui)gui).DoGoToBankTeller(windowNumber);
+			((BankCustomerGui)gui).DoGoToBankTeller();
 			try {
 	    		atBank.acquire();
 	    	} catch (InterruptedException e) {
@@ -187,7 +187,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 		}
 
 		private void LoanMoney() {
-			((BankCustomerGui)gui).DoGoToBankTeller(windowNumber);
+			((BankCustomerGui)gui).DoGoToBankTeller();
 			try {
 	    		atBank.acquire();
 	    	} catch (InterruptedException e) {

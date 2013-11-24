@@ -25,8 +25,8 @@ public class BankCustomerGui extends Gui{
 	
 	private final int WINDOW3_X = 250;
 	private final int WINDOW3_Y = 200;
-	private enum Command {noCommand, GoToWindow, LeaveBank};
-	private Command command = Command.noCommand;
+	
+	
 	public BankCustomerGui(BankCustomerRole b) {
 		role = b;
 	}

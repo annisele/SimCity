@@ -31,7 +31,6 @@ public class Config {
 
 		systems.addBus("Buster");
 		
-		systems.startThreads();				
 	}
 	
 	public void oneMarket() {
@@ -52,7 +51,6 @@ public class Config {
 			}
 		}, 2000);
 		
-		systems.startThreads();
 	}
 	
 	public void oneHouse() {
@@ -63,15 +61,12 @@ public class Config {
 		//systems.addPerson("Homie"); // This guy will live in the house, hence his name
 		systems.addPerson("Homie");
 		systems.setHome("Homie", "HouseOne");
-		
-		systems.startThreads();
 	}
 	
 	public void oneBank() {
 		systems.clear();
 		systems.clearDetailPane();
 		
-		systems.addPerson("Levonne");
 		systems.addBank("Bank", 100, 300);
 		systems.addBankHostHack("Kevin", "Bank");
 		
@@ -80,13 +75,11 @@ public class Config {
 				systems.addBankTellerHack("Key", "Bank");
 				timer.schedule(new TimerTask(){
 					public void run() {
-						systems.addPerson("Zuckerberg");
+						systems.addPerson("Levonne");
 					}
-				}, 2000);
+				}, 4000);
 			}
-		}, 2000);
-		
-		systems.startThreads();
+		}, 4000);
 	}
 	
 	public void oneRestaurant() {

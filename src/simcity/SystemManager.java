@@ -83,7 +83,7 @@ public class SystemManager {
 		//people.add(person);
 		
 		//hacks
-		//person.startThread();
+		//
 		
 		// Hack because Mark goes to Market
 		if (name == "Mark") {  //does this even work?  I'm using ==, not .equals()?  what?  -- tested, it does work
@@ -92,8 +92,9 @@ public class SystemManager {
 		if (name == "Levonne") {
 			person.goToBankNow();
 		}
-		
+		person.startThread();
 		people.add(person);
+		
 
 
 		
@@ -200,11 +201,6 @@ public class SystemManager {
 		resident.addHome(home);		
 	}
 	
-	public void startThreads() {
-		for (PersonAgent p : people) {
-			p.startThread();
-		}
-	}
 	
 	public MarketSystem getMarket(int i) {
 		return markets.get(i);

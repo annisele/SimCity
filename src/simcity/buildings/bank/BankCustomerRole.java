@@ -12,6 +12,7 @@ import simcity.PersonAgent;
 import simcity.Role;
 import simcity.gui.Gui;
 import simcity.gui.bank.BankCustomerGui;
+import simcity.gui.market.MarketCustomerGui;
 import simcity.interfaces.bank.*;
 
 public class BankCustomerRole extends Role implements simcity.interfaces.bank.BankCustomer {
@@ -19,7 +20,6 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	// Data
 
 	// from PersonAgent
-	private String name;
 	private int accountNumber;
 	private String accountPassword;
 	private double cashOnHand;
@@ -27,20 +27,15 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	private int landlordAccountNumber;		// when customer wants to pay rent, he gives this accountNumber instead
 
 	// set inside bank
-	private BankHostRole bh;
+	//private BankHostRole bh;  We might not need this anymore
 	private BankTellerRole bt;
 	private int windowNumber;
 	
 	private BankSystem bank;
 
-	// Constructor
-		public BankCustomerRole(PersonAgent person) {
-			this.person = person;
-			this.gui = new BankCustomerGui(this);
-		}
-
+	
 	// utility variables
-	private Semaphore atBank = new Semaphore(0, true);
+	private Semaphore atDest = new Semaphore(0, true);
 	Timer timer = new Timer();
 	
 	public enum TransactionType{none, openAccount, depositMoney, withdrawMoney, loanMoney, payLoan, payRent};
@@ -50,18 +45,24 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
     private State state = State.none;
 
 	public enum Event{none, arrivedAtBank, directedToWindow, transactionProcessed};
-    private Event event = Event.none;  
+    private Event event = Event.none;
+    
+	// Constructor
+	public BankCustomerRole(PersonAgent person) {
+		this.person = person;
+		this.gui = new BankCustomerGui(this);
+	}
 
-    public void atBank() {
-    	atBank.release();
+    public void atDestination() {
+    	atDest.release();
     }
     
     // utility functions
-	public void setBankHost(BankHostRole bh) {
+	/*public void setBankHost(BankHostRole bh) {
 		this.bh = bh;
-	}
+	}*/
 	public String getCustomerName() {
-		return name;
+		return person.getName();
 	}     
 	
 	public int getAccountNumber() {
@@ -163,6 +164,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	//scheduler
 	public boolean pickAndExecuteAnAction() {
 
+		person.Do("In sched, state is: "+state);
 	 	// person isn't doing anything, then arrives at bank
 		if (state == State.none && event == Event.arrivedAtBank){
 			InformBankHostOfArrival();
@@ -216,14 +218,15 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	    		e.printStackTrace();
 	    	}
 	    	*/
-		    bh.msgEnteringBank(this);
-		    System.out.println("I'm here for bank transaction");
+	    	System.out.println("I'm here for bank transaction");
+	    	bank.getBankHost().msgEnteringBank(this);
+		    
 		}
 
 		private void OpenAccount() {
 			((BankCustomerGui)gui).DoGoToBankTeller(windowNumber);
 			try {
-	    		atBank.acquire();
+	    		atDest.acquire();
 	    	} catch (InterruptedException e) {
 	    		e.printStackTrace();
 	    	}
@@ -235,7 +238,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 		private void DepositMoney() {
 			((BankCustomerGui)gui).DoGoToBankTeller(windowNumber);
 			try {
-	    		atBank.acquire();
+	    		atDest.acquire();
 	    	} catch (InterruptedException e) {
 	    		e.printStackTrace();
 	    	}
@@ -246,7 +249,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 		private void WithdrawMoney() {
 			((BankCustomerGui)gui).DoGoToBankTeller(windowNumber);
 			try {
-	    		atBank.acquire();
+	    		atDest.acquire();
 	    	} catch (InterruptedException e) {
 	    		e.printStackTrace();
 	    	}
@@ -257,7 +260,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 		private void LoanMoney() {
 			((BankCustomerGui)gui).DoGoToBankTeller(windowNumber);
 			try {
-	    		atBank.acquire();
+	    		atDest.acquire();
 	    	} catch (InterruptedException e) {
 	    		e.printStackTrace();
 	    	}
@@ -268,7 +271,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 		private void PayLoan() {
 			((BankCustomerGui)gui).DoGoToBankTeller(windowNumber);
 			try {
-	    		atBank.acquire();
+	    		atDest.acquire();
 	    	} catch (InterruptedException e) {
 	    		e.printStackTrace();
 	    	}
@@ -279,7 +282,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 		private void PayRent() {
 			((BankCustomerGui)gui).DoGoToBankTeller(windowNumber);
 			try {
-	    		atBank.acquire();
+	    		atDest.acquire();
 	    	} catch (InterruptedException e) {
 	    		e.printStackTrace();
 	    	}
@@ -290,11 +293,11 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 		private void InformBankHostOfDeparture() {
 			((BankCustomerGui)gui).DoExitBuilding();
 			try {
-	    		atBank.acquire();
+	    		atDest.acquire();
 	    	} catch (InterruptedException e) {
 	    		e.printStackTrace();
 	    	}
-		    bh.msgLeavingBank(windowNumber);
+		    bank.getBankHost().msgLeavingBank(windowNumber);
 		    System.out.println("Bank host, I'm leaving the bank now");
 		}
 
@@ -302,7 +305,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 			person.Do("Leaving bank");
 			gui.DoExitBuilding();
 			try {
-				atBank.acquire();
+				atDest.acquire();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -313,11 +316,12 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 		public void msgEnterBuilding() {
 			((BankCustomerGui)gui).DoGoToHost();
 			try {
-				atBank.acquire();
+				atDest.acquire();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 			
 		}	 
+
 
 }

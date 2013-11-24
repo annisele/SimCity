@@ -20,35 +20,27 @@ import javax.swing.*;
  * @author levonne key
  */
 public class BankAnimationPanel extends AnimationPanel implements ActionListener {
-	private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
+	
 	ImageIcon ii = new ImageIcon("res/bank/bankgui.png");
     Image img = ii.getImage();
     Image homeimage = img.getScaledInstance(470, 454,  java.awt.Image.SCALE_SMOOTH); 
+    
 	public BankAnimationPanel() {
 		super();
 	}
+	
 	public void actionPerformed(ActionEvent e) {
 		repaint();
 	}	
+	
 	public void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D)g;
 		//Clear the screen by painting a rectangle the size of the frame
-				g2.setColor(Color.LIGHT_GRAY);
-				g2.fillRect(0, 0, this.getWidth(), this.getHeight());
-				g2.drawImage(homeimage, 0,0, null);
-				for(Gui gui : guis) {
-					if (gui.isPresent()) {
-						gui.updatePosition();
-					}
-				}
-				for(Gui gui : guis) {
-					if (gui.isPresent()) {
-						gui.draw((Graphics2D)g);
-					}
-				}
+			g2.setColor(Color.LIGHT_GRAY);
+			g2.fillRect(0, 0, this.getWidth(), this.getHeight());
+			g2.drawImage(homeimage, 0,0, null);
 
-
-				super.paintComponent(g);
+			super.paintComponent(g);
 	}
 
 	public void addGui(Gui g) {

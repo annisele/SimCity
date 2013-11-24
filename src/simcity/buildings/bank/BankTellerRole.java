@@ -24,7 +24,7 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 	private List<MyCustomerInDebt> debtCustomers = Collections.synchronizedList(new ArrayList<MyCustomerInDebt>()); // list of bank customers in debt
 
 	// utility variables
-	private Semaphore atBank = new Semaphore(0, true);
+	private Semaphore atDest = new Semaphore(0, true);
 
 	public enum transactionType {none, openAccount, depositMoney, withdrawMoney, loanMoney, payLoan, payRent};	// type of transaction from customer
 	public enum transactionState {none, processing};											// transaction state
@@ -41,8 +41,8 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 	}
 
 	// utility function
-	public void atBank() {
-    	atBank.release();
+	public void atDestination() {
+    	atDest.release();
     }
 	// messages
 
@@ -377,7 +377,7 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 		person.Do("Leaving bank.");
 		gui.DoExitBuilding();
 		try {
-			atBank.acquire();
+			atDest.acquire();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -389,7 +389,7 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 	public void msgEnterBuilding() {
 		((BankTellerGui)gui).DoGoToHost();
 		try {
-			atBank.acquire();
+			atDest.acquire();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

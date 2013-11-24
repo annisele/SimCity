@@ -22,16 +22,9 @@ public class BankHostRole extends Role implements simcity.interfaces.bank.BankHo
 	private List<BankCustomerRole> customers = Collections.synchronizedList(new ArrayList<BankCustomerRole>());
 	
 	// utility variables
-	private Semaphore atBank = new Semaphore(0, true);
+	private Semaphore atDest = new Semaphore(0, true);
 	Timer timer = new Timer();
 	
-	// constructor
-	public BankHostRole (PersonAgent p) {
-		person = p;
-		this.gui = new BankHostGui(this);
-		//hack
-		computer = new BankComputer();
-	}
 
 	// utility class: BankWindow
 	public static class BankWindow {
@@ -82,11 +75,20 @@ public class BankHostRole extends Role implements simcity.interfaces.bank.BankHo
 			return bankTellerPresent;
 		}
 	}
+	
+	// constructor
+	public BankHostRole (PersonAgent p) {
+		person = p;
+		this.gui = new BankHostGui(this);
+		//hack
+		computer = new BankComputer();
+	}
 
 	// utility functions
-	public void atBank() {
-    	atBank.release();
+	public void atDestination() {
+    	atDest.release();
     }
+	
 
 	//messages
 	public void msgEnteringBank(BankCustomerRole bc) {
@@ -146,7 +148,7 @@ public class BankHostRole extends Role implements simcity.interfaces.bank.BankHo
 		person.Do("Leaving bank");
 		gui.DoExitBuilding();
 		try {
-			atBank.acquire();
+			atDest.acquire();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -160,7 +162,7 @@ public class BankHostRole extends Role implements simcity.interfaces.bank.BankHo
 	public void msgEnterBuilding() {
 		((BankHostGui)gui).DoGoToHostPosition();
 		try {
-			atBank.acquire();
+			atDest.acquire();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

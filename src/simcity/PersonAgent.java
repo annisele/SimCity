@@ -172,7 +172,9 @@ public class PersonAgent extends Agent implements Person {
 			stateChanged();
 		}
 		else if (t == EventType.DepositMoney) {
+			
 			List<String> banks = Directory.getBanks();
+			Do("We're Depositing, and banks size is "+banks.size());
 			int index = rand.nextInt(banks.size());
 			String buildingName = banks.get(index);
 			List<Step> steps = new ArrayList<Step>();

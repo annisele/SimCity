@@ -25,15 +25,15 @@ import simcity.gui.SimCityGui;
 public class BankControlPanel extends JPanel {
 	
 	private JLabel typeLabel = new JLabel("Type: Bank");
-	//int windows = 3;
+	private int windows = 3;
 	public BankControlPanel() {
 		add(typeLabel);
 	}
-	/*
+	
 	private Vector<BankCustomerRole> bankCustomers = new Vector<BankCustomerRole>();
 	private ArrayList<BankTellerRole> bankTeller = new ArrayList<BankTellerRole>();
-	private BankHostRole bankHost = new BankHostRole("Bank Host", windows);
-	*/
+	private BankHostRole bankHost;
+	private JPanel bankLabel = new JPanel();
 	
 	
 }

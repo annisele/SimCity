@@ -1,47 +1,29 @@
 package simcity.gui.bank;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Point;
-import simcity.Location;
+import java.awt.Image;
+import javax.swing.ImageIcon;
 import simcity.buildings.bank.BankHostRole;
 import simcity.gui.Gui;
 import simcity.interfaces.bank.BankHost;
 
 public class BankHostGui extends Gui {
-	private final int HOST_X = 250;
-	private final int HOST_Y = 250;
 	
-	private String name;
-	private BankHostRole role = null;
+	private final int HOST_X = 300;
+	private final int HOST_Y = 400;
+	
+	ImageIcon ii = new ImageIcon("res/person/persondownbig.png");
+	Image img = ii.getImage();
 
-	private boolean isPresent = false;
-	
 	public BankHostGui (BankHostRole b) {
-		this.role = b;
+		role = b;
 	}
 	
-	public void setPresent(boolean p) {
-		isPresent = p;
-	}
-	public void updatePosition() {
-		
-	}
 	public void draw(Graphics2D g) {
-		g.setColor(Color.PINK);
-		g.fillRect(x, y, SIZE, SIZE);
-	}
-	public boolean isPresent() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	public boolean contains(Point point) {
-		// TODO Auto-generated method stub
-		return false;
+		g.drawImage(img, x, y, null); 
 	}
 
-	public Location getLocation() {
-		// TODO Auto-generated method stub
-		return null;
+	public void DoGoToHostPosition() {
+		DoGoToLocation(HOST_X, HOST_Y);
 	}
 }

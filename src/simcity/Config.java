@@ -28,9 +28,9 @@ public class Config {
 		systems.addBank("Bank", 100, 300);
 		systems.addHouse("House of the Lord", 300, 300);
 		systems.addPerson("Mark"); // Jesus get back in your house!
+
 		systems.addBus("Buster");
 		
-				
 	}
 	
 	public void oneMarket() {
@@ -50,6 +50,7 @@ public class Config {
 				}, 2000);
 			}
 		}, 2000);
+		
 	}
 	
 	public void oneHouse() {
@@ -57,15 +58,15 @@ public class Config {
 		systems.clearDetailPane();
 		
 		systems.addHouse("HouseOne", 100, 100);
-		systems.addHouse("House", 300, 300);
-		systems.addPerson("Homie"); // This guy will live in the house
+		//systems.addPerson("Homie"); // This guy will live in the house, hence his name
+		systems.addPerson("Homie");
+		systems.setHome("Homie", "HouseOne");
 	}
 	
 	public void oneBank() {
 		systems.clear();
 		systems.clearDetailPane();
 		
-		systems.addPerson("Levonne");
 		systems.addBank("Bank", 100, 300);
 		systems.addBankHostHack("Kevin", "Bank");
 		
@@ -74,11 +75,11 @@ public class Config {
 				systems.addBankTellerHack("Key", "Bank");
 				timer.schedule(new TimerTask(){
 					public void run() {
-						systems.addPerson("Zuckerberg");
+						systems.addPerson("Levonne");
 					}
-				}, 2000);
+				}, 4000);
 			}
-		}, 2000);
+		}, 4000);
 	}
 	
 	public void oneRestaurant() {

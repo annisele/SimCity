@@ -81,21 +81,25 @@ public class SystemManager {
 	public void addPerson(String name) {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());
-		people.add(person);
+		//people.add(person);
 		
 		//hacks
-		person.startThread();
+		//
 		
 		// Hack because Mark goes to Market
-		if (name == "Mark") {
+		if (name == "Mark") {  //does this even work?  I'm using ==, not .equals()?  what?  -- tested, it does work
 			person.goToMarketNow();
-		}
-		if (name == "Homie") {
-			person.goToHomeNow();
 		}
 		if (name == "Levonne") {
 			person.goToBankNow();
 		}
+		person.startThread();
+		people.add(person);
+		
+
+
+		
+
 		//world.getAnimationPanel().addGui(person.getRoles().get(0).getGui());
 
 		//restaurantOnes.get(0).getAnimationPanel().addGui(person.getRoles().get(1).getGui());
@@ -185,6 +189,21 @@ public class SystemManager {
 	public void addRestaurantSix() {
 		restaurantSixes.add(new RestaurantSixSystem(simcity));
 	}
+	
+	public void setHome(String person, String home) {
+		//ApartmentSystem apt;
+		//HouseSystem house;
+		PersonAgent resident = null;
+		
+		for (PersonAgent p : people) {
+			if (p.getName().equals(person)) {
+				resident = p;
+			}
+		}
+		//System.out.println("setHome is being called, home is "+home+" and resident is: "+resident.getName());
+		resident.addHome(home);		
+	}
+	
 	
 	public MarketSystem getMarket(int i) {
 		return markets.get(i);

@@ -9,204 +9,392 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
+
+import simcity.buildings.market.MarketSystem;
+//import restaurant.MarketAgent;
+import simcity.buildings.restaurant.two.*;
+import simcity.gui.restauranttwo.*;
+import simcity.interfaces.restaurant.two.*;
 import simcity.Role;
 import simcity.gui.restaurantone.RestaurantOneCookGui;
+import simcity.interfaces.restaurant.two.RestaurantTwoWaiter;
 
 public class RestaurantTwoCookRole extends Role {
 
 	//Initially had explicit variables for this- Changed that after v2.1 submission
     //Am now using a map
-    private Map<String, Food> ItemMap = Collections.synchronizedMap(new HashMap<String, Food>());
-private Graphics2D g = null;
-
-    enum State {pending, cooking, done, sent, nostock, waitingforstock};
-    String name;
-    //boolean busy = false;
-    public RestaurantOneCookGui cookGui = null;
-    Timer CookTimer = new Timer();
-    private int marketchoice = 1; //USE LATER?
-
-    class CookOrder {
-            RestaurantOneWaiterRole waiter;
-            String choice;
-            int table;
-            State state;
-
-
-            public CookOrder(RestaurantOneWaiterRole w, String c, int t, State s) {
-                    waiter = w;
-                    choice = c;
-                    table = t;
-                    state = s;
-            }
-    }
-    
-    private List<CookOrder> orders = Collections.synchronizedList(new ArrayList<CookOrder>());
-
-
-
-
-    class Food {
-            int amount;
-            int cooktime;
-            boolean requested = false;
-            public Food (int a, int c) {
-                    amount = a;
-                    cooktime = c;
-            }
-    }
-    private List<MarketAgent> markets = Collections.synchronizedList(new ArrayList<MarketAgent>()); 
-    Map <String , Food> foodmatch;
-    
-    
-
-    public RestaurantTwoCookRole(String name) {
-            super();
-            this.name = name;
-            Food steak = new Food(0, 5);
-            Food salad = new Food(0, 2);
-            Food pizza = new Food(0, 4);
-            Food chicken = new Food(0, 2);                
-            ItemMap.put("Steak", steak); 
-            ItemMap.put("Salad", salad);  
-            ItemMap.put("Pizza", pizza);  
-            ItemMap.put("Chicken", chicken);
-    }
-
-    public void setGui(RestaurantOneCookGui gui) {
-            cookGui = gui;
-    }
-
-    public void draw(Graphics2D g) {
-            
-            
-    }
-    public void msgHereIsAnOrder(RestaurantOneWaiterRole w, String choice, int table) {
-            orders.add(new CookOrder(w, choice, table, State.pending));
-           // print("Received the order " + choice);
-            stateChanged();
-    }
-    
-    public void msgOrderComplete(String choice, int amount) {
-            ItemMap.get(choice).amount += amount;
-            ItemMap.get(choice).requested = false;
-            stateChanged();
-    }
-
-    @Override
-    public boolean pickAndExecuteAnAction() {
-            if (!orders.isEmpty())
-            {
-                    synchronized(orders){
-                    for (CookOrder o : orders){
-                            if (o.state == State.done) {
-                                    PlateIt(o);        
-                            }
-                            break;
-                    }
-                    }
-                    synchronized(orders){
-                    for (CookOrder o : orders){
-                            if (o.state == State.pending) {
-                                    CookIt(o);
-                                    o.state = State.cooking;
-                                    cookGui.putongrill();
-                            }
-                            break;
-                    }
-                    }
-                    return true;
-            }
-            synchronized(ItemMap) {
-             for (Map.Entry<String, Food> entry : ItemMap.entrySet()) {
-                    if ((entry.getValue().amount <= 0) && (!entry.getValue().requested)){
-                            orderFromMarket(entry.getKey());
-                            entry.getValue().requested = true;
-                            return true;
-                    }
-            } 
-            }
-            
-            return false;
-    }
-
-    
-
-//Market can't supply anything at all        
-    public void msgOrderIncomplete() {
-            marketchoice++;
-            if (marketchoice == 2)
-                    marketchoice = 0;
-            stateChanged();
-    }
-
-
-    private void CookIt(CookOrder o){
-            if (ItemMap.get(o.choice).amount > 0) {
-                    ItemMap.get(o.choice).amount--; 
-                    CookFood(o.choice);
-            }
-            else {
-                    //if it doesn't have all it needs for the amt.
-                    System.out.println("I am Ordering from the market");
-                    o.waiter.msgTellCustomerReorder(o.table);
-                    orderFromMarket(o.choice);
-                    orders.remove(o);
-                    ItemMap.get(o.choice).requested = true;
-            }
-    }
-
-    private void CookFood(final String choice) {
-            CookTimer.schedule(new TimerTask() {
-                    public void run() {
-                            //print("Done cooking " + choice );
-                            markDone(choice);
-                    }
-            },
-            ItemMap.get(choice).cooktime*500);
-    }
-
-    private void PlateIt(CookOrder o) {
-            o.waiter.msgOrderIsReady(o.choice, o.table); 
-            orders.remove(o);
-    }
-
-    private void orderFromMarket(String type) {
-            markets.get(marketchoice).msgNeedFood(type, 5- (ItemMap.get(type).amount));
-    }
-
-    
-    public void makeMarkets(List<MarketAgent> markets) {
-            this.markets = markets;
-    }
-
-    public void msgPartialComplete(String choice, int restoforder) {
-            // TODO Auto-generated method stub
-            ItemMap.get(choice).amount += (5-restoforder);
-            System.out.println("Amount of  " + choice + " = " + ItemMap.get(choice).amount);
-            ItemMap.get(choice).requested = true;
-            stateChanged();
-            
-            
-    }
-    
-    /*public void msgOrderComplete(String choice, int amount) {
-            ItemMap.get(choice).amount += amount;
-            ItemMap.get(choice).requested = false;
-            stateChanged();
-    } */
-
-
-    public void markDone(String choice) {
-            for (CookOrder o : orders){
-                    if (o.choice == choice) {
-                            o.state = State.done;
-                    }
-                    break;
-            }
-            stateChanged();
-    }
-
-
+	private RestaurantTwoWaiter waiter;
+	//private WaiterAgent waiter;
+	private static int num_items =10;
+	public List<MarketSystem> markets
+	= Collections.synchronizedList(new ArrayList<MarketSystem>());
+	public Map<String,Double> Menu= new HashMap<String, Double>();
+	private RestaurantTwoOrderWheel orderWheel;
+	public class inventory{
+		int steak;
+		boolean steak_low=false;
+		boolean steak_gone=false;
+		int chicken;
+		boolean chicken_low=false;
+		boolean chicken_gone=false;
+		int salad;
+		boolean salad_low=false;
+		boolean salad_gone=false;
+		int pizza;
+		boolean pizza_low=false;
+		boolean pizza_gone=false;
+		
+		inventory( int st, int ch, int sa, int pi ){
+		steak=st;
+		chicken=ch;
+		salad=sa;
+		pizza=pi;
+		
+		}
+	}
+	int x;
+	public inventory v;
+	public class order{
+		RestaurantTwoWaiter w;
+		String choice;
+		int table;
+		OrderState state;
+		
+		order(RestaurantTwoWaiter w_, String c_, int t_){
+			w=w_;
+			choice=c_;
+			table=t_;
+			state=OrderState.prep;
+		}
+	}
 	
+	public List <order> orders= Collections.synchronizedList(new ArrayList<order>());
+	public enum OrderState
+	{ prep, notready, done };
+	public int num=0;
+	Timer timer = new Timer();
+	String name;
+	private boolean cooking=false;
+	private int c_market=0;
+	public RestaurantTwoCookGui cookGui;
+	
+	public void setWaiter(RestaurantTwoWaiter waitr) {
+		this.waiter = waitr;
+	}
+	public void setGui(RestaurantTwoCookGui g) {
+		cookGui = g;
+	}
+	// Messages
+	
+	public RestaurantTwoCookRole(int st,int ch,int sa,int pi, RestaurantTwoOrderWheel od){
+		super();
+		v= new inventory(st,ch,sa,pi);
+		this.name="Cook";
+		cooking=false;
+	Menu.put("chicken",10.99);	
+		Menu.put("steak",15.99);
+		Menu.put("salad",5.99);
+		Menu.put("pizza",8.99);
+		this.orderWheel= od;
+		
+	}
+	public String getName() {
+		return name;
+	}
+	public void hack_chicken(){
+		v.chicken=0;
+		num_items=5;
+	}
+	public void hack_salad(){
+		v.salad=0;
+	}
+	public void hack_steak(){
+		v.steak=0;
+		//markets.get(0).hack_steak();
+	}
+	public void msgCookOrder(RestaurantTwoWaiter w, int tnum, String choice) {
+		Do("Recieve msg to cook order");
+		//waiter=w;
+		order o = new order (w,choice, tnum);
+		if(checkorder(choice)==true){
+		//o.state= OrderState.prep;
+		orders.add(o);
+		stateChanged();
+		}
+		else
+			o.state=OrderState.notready;
+			orders.add(o);
+			stateChanged();
+
+	}
+	public void msgFoodDone(order oo) {
+		oo.state= OrderState.done;
+		stateChanged();
+	}
+	
+	public void msgHereAreItems(String item){
+		Do("Recieved msg items are restocked");
+				if(item.equals("steak")){
+					v.steak=+10;
+			v.steak_low=false;
+			if(v.steak_gone==true){
+				addToMenu("steak");
+			}
+		}
+		if(item.equals("chicken")){
+			v.chicken=+10;
+			v.chicken_low=false;
+			if(v.chicken_gone==true){
+				addToMenu("chicken");
+			}
+		}
+		if(item.equals("salad")){
+			v.salad=+10;
+			v.salad_low=false;
+			if(v.salad_gone==true){
+				addToMenu("salad");
+			}
+		}
+		if(item.equals("pizza")){
+			v.pizza=+10;
+			v.pizza_low=false;
+			if(v.pizza_gone==true){
+				addToMenu("pizza");
+			}
+		}
+			
+	}
+	public void msgNoInventory(String item, int num){
+		Do("Recieved msg market out of item");
+		c_market++;
+		callMarket(item, num);
+	}
+	/**
+	 * Scheduler.  Determine what action is called for, and do it.
+	 * @return 
+	 */
+	public boolean pickAndExecuteAnAction() {
+		/* Think of this next rule as:
+            Does there exist a table and customer,
+            so that table is unoccupied and customer is waiting.
+            If so seat him at the table.
+		 */
+		if(cooking==false){
+			synchronized(orders){
+		for (order o : orders) {
+			if (o.state == OrderState.prep) {
+				cooking= true;
+				CookIt(o);
+				return true;
+			}
+			if (o.state == OrderState.notready) {
+				cooking= false;
+				Do("No Iventory, Customer must reorder");
+				notcool(o, o.table);
+				return true;
+			}
+			
+			if (o.state == OrderState.done) {
+				PlateIt(o);
+				return true;
+			}
+		}
+		
+		}
+		}
+		timer.schedule(new TimerTask(){
+            public void run(){  
+            checkOrderWheel();  
+            }
+        }, (int)(15000));
+
+		return false;
+	}
+
+	// Actions
+	
+	
+	private boolean checkorder(String c){
+		if (c.equals("chicken")) {
+			if (v.chicken!=0){
+			v.chicken--;
+				if(v.chicken<=5){
+					v.chicken_low=true;
+					callMarket(c,num_items);
+					Do("order chicken !!!!");
+				}
+			return true;
+			}
+			else{
+				callMarket(c,num_items);
+			return false;
+			}
+		}
+			
+		if (c.equals("steak")){
+			if (v.steak!=0){
+			v.steak--;
+			if(v.steak<=5){
+				v.steak_low=true;
+				callMarket(c,num_items);
+			}
+			return true;
+		}
+		else{
+			callMarket(c,num_items);
+			return false;
+		}
+		}
+			
+		if (c.equals( "salad")){
+			if (v.salad!=0){
+			v.salad--;
+			if(v.salad<=5){
+				v.salad_low=true;
+				callMarket(c,num_items);
+			}
+			return true;
+		}
+		else{
+			callMarket(c,num_items);
+			return false;
+		}
+		}
+		if (c.equals( "pizza")){
+			if (v.pizza!=0){
+			v.pizza--;
+			if(v.pizza<=5){
+				v.pizza_low=true;
+				callMarket(c,num_items);
+			}
+			return true;
+		}
+		else
+		{
+			callMarket(c,num_items);
+			return false;
+		}
+		}
+		return false;
+	}
+	private void notcool(order o,int t){
+		Do("not cool-"+o.choice+ " is out");
+		setWaiter(o.w);
+		removeFromMenu(o.choice);
+		waiter.msgnofood(t);
+		orders.remove(o);
+	}
+	 private void checkOrderWheel()
+	    {
+	        Do("Checking order wheel...");
+	        RestaurantTwoWOrder order= new RestaurantTwoWOrder(waiter, 2, "sam");
+	        order= orderWheel.remove(); // shared data!
+	        if(order == null)  /// if nothing on wheel
+	        {   Do("order wheel empty");
+	        }
+	        else
+	        {
+	            Do("Found ");
+	            msgCookOrder( order.waiter, order.tableNum, order.choice); 
+	        }
+	        stateChanged();
+	    }
+	private void CookIt(order o){
+		Do(""+o.choice);
+		cookGui.Prep();
+		//RestaurantTwocookGui.setText(o.choice);
+		num=find(o);
+		timer.schedule(new TimerTask(){
+			Object cookie = 1;
+			
+			public void run() {
+				orders.get(num).state= OrderState.done;
+				Do("finished cooking");
+				cooking=false;
+				stateChanged();
+			}
+		}, 3000);
+		
+	}
+	private int find(order o){
+		synchronized(orders){
+		for(int i=0; i<orders.size();i++){
+			if( orders.get(i)==o){
+			return i;
+			}
+		}
+		}
+		return 0;
+	}
+	
+	private void PlateIt(order o){
+		cookGui.Plate();
+		setWaiter(o.w);
+		Do("done plating");
+		//RestaurantTwocookGui.setText("");
+		waiter.msgFoodReady(o.table);
+		orders.remove(o);
+		
+	}
+	private void removeFromMenu(String choice){
+		Menu.remove(choice);
+		Do(""+choice+" has been removed from Menu.");
+		if(choice.equals("steak")){
+			v.steak_gone=true;
+		}
+		if(choice.equals("chicken")){
+			v.chicken_gone=true;
+		}
+		if(choice.equals("salad")){
+			v.salad_gone=true;
+		}
+		if(choice.equals("pizza")){
+			v.pizza_gone=true;
+		}
+	}
+	private void addToMenu(String choice){
+		Do(""+choice+" has been added to Menu");
+		if(choice.equals("steak")){
+			Menu.put("steak",15.99);
+			v.steak_gone=false;
+		}
+		if(choice.equals("chicken")){
+			Menu.put("chicken",11.99);
+			v.chicken_gone=false;
+		}
+		if(choice.equals("salad")){
+			Menu.put("salad",5.99);
+			v.salad_gone=false;
+		}
+		if(choice.equals("pizza")){
+			Menu.put("pizza",8.99);
+			v.pizza_gone=false;
+		}
+	}
+	private void callMarket(String item, int n){
+		Do("ordering from market "+c_market);
+	
+		//markets.get(c_market).msgLowOnItem(this, item, n);
+		
+	}
+	
+
+	// The animation DoXYZ() routines
+	
+
+	//utilities
+
+public void addMarket(MarketSystem m){
+	markets.add(m);
+}
+	@Override
+	public void msgExitBuilding() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void msgEnterBuilding() {
+		// TODO Auto-generated method stub
+		
+	}
 }

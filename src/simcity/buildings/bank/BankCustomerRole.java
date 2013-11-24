@@ -103,6 +103,8 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
     	 event = Event.transactionProcessed;
 	     stateChanged(); 
      }
+	 //bank teller sends this message to customer when the rent is paid to the landlord
+	 
 
 	 //scheduler
 	 public boolean pickAndExecuteAnAction() {

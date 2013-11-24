@@ -287,7 +287,7 @@ public class PersonAgent extends Agent implements Person {
 			//hack
 			BankCustomerRole z = new BankCustomerRole(this);
 			//assuming that paying rent reduces the amount of money in account
-			((BankCustomer)eventR).msgHereIsMoney(z, 123456, 1000, 500);
+			((BankCustomer)eventR).msgMoneyIsDeposited(z, 123456, 1000, 500);
 			
 			e = new Event(buildingName, eventR, 120, -1, true, steps, t);
 			

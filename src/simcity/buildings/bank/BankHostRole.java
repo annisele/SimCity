@@ -58,8 +58,9 @@ public class BankHostRole extends Role implements simcity.interfaces.bank.BankHo
 	// data
 	private String name;
 	Timer timer = new Timer();
-	public List<BankWindow> windows = Collections.synchronizedList(new ArrayList<BankWindow>());
-	public List<BankCustomerRole> customers = Collections.synchronizedList(new ArrayList<BankCustomerRole>());
+	private List<BankWindow> windows = Collections.synchronizedList(new ArrayList<BankWindow>());
+	private List<BankCustomerRole> customers = Collections.synchronizedList(new ArrayList<BankCustomerRole>());
+	private List<BankTeller> bankTellers = Collections.synchronizedList(new ArrayList<BankTeller>());
 	private Semaphore atBank = new Semaphore(0, true);
 	public BankHostRole (PersonAgent p) {
 		person = p;
@@ -104,9 +105,14 @@ public class BankHostRole extends Role implements simcity.interfaces.bank.BankHo
 	
 	//actions
 	private void tellCustomerToGoToWindow(BankCustomerRole bc, BankWindow window) {
-		System.out.println("Please go to the available window");
-		bc.msgGoToWindow(window.getWindowNumber(), window.getBankTeller());
-		window.setOccupant(bc);
+		if(bankTellers.isEmpty()) {
+			System.out.println("No bank tellers to perform bank transaction.");
+		}
+		else {
+			person.Do("Please go to the available window");
+			bc.msgGoToWindow(window.getWindowNumber(), window.getBankTeller());
+			window.setOccupant(bc);
+		}
 		customers.remove(bc);
 	}
 	
@@ -127,7 +133,6 @@ public class BankHostRole extends Role implements simcity.interfaces.bank.BankHo
 
 	@Override
 	public void msgEnterBuilding() {
-		// TODO Auto-generated method stub
 		
 	}
 }

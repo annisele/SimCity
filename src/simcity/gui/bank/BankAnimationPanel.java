@@ -29,18 +29,18 @@ public class BankAnimationPanel extends AnimationPanel implements ActionListener
 		super();
 	}
 	
-	public void actionPerformed(ActionEvent e) {
-		repaint();
+	public void actionPerformed(ActionEvent arg0) {
+		super.actionPerformed(arg0);
 	}	
 	
 	public void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D)g;
 		//Clear the screen by painting a rectangle the size of the frame
-			g2.setColor(Color.LIGHT_GRAY);
-			g2.fillRect(0, 0, this.getWidth(), this.getHeight());
-			g2.drawImage(homeimage, 0,0, null);
+		g2.setColor(Color.LIGHT_GRAY);
+		g2.fillRect(0, 0, this.getWidth(), this.getHeight());
+		g2.drawImage(homeimage, 0,0, null);
 
-			super.paintComponent(g);
+		super.paintComponent(g);
 	}
 
 	public void addGui(Gui g) {

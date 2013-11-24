@@ -33,6 +33,9 @@ public class BuildingGui {
     ImageIcon bankicon = new ImageIcon("res/citygui/bank.png");
     Image bankimage = bankicon.getImage();
     Image finalbankimage = bankimage.getScaledInstance(60, 60, java.awt.Image.SCALE_SMOOTH);
+    ImageIcon ii = new ImageIcon("res/citygui/basicroad.png");
+    Image img = ii.getImage();
+    Image roadimage = img.getScaledInstance(388, 400,  java.awt.Image.SCALE_SMOOTH); 
 	
 	
 	
@@ -49,12 +52,14 @@ public class BuildingGui {
     public void draw(Graphics2D g) {
     //	g.setColor(Color.BLUE);
     	//g.fillRect(location.getX(), location.getY(), SIZE_X, SIZE_Y);
+	    g.drawImage(roadimage, 40,32, null);
+
     	if (system.getName().equals("Market"))
     	g.drawImage(finalmarketimage,location.getX(), location.getY(), null);
     	if (system.getName().equals("RestaurantOne"))
-    	g.drawImage(finalrestaurantimage, location.getX(), location.getY()+8, null);
+    	g.drawImage(finalrestaurantimage, location.getX(), location.getY(), null);
     	if (system.getName().equals("House of the Lord"))
-    	g.drawImage(finalhouseimage, location.getX()+4, location.getY(), null);
+    	g.drawImage(finalhouseimage, location.getX(), location.getY(), null);
     	if (system.getName().equals("Bank"))
     	g.drawImage(finalbankimage, location.getX(), location.getY(), null);
     }

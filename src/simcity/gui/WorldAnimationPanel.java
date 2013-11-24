@@ -30,6 +30,7 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
 	    
         //here is the building gui
 	    g2.setColor(Color.BLUE);
+	    
         for(BuildingGui b : buildingGuis) {
         	b.draw((Graphics2D)g);
         	if ((JPanel)b.getSystem().getAnimationPanel() != super.getSimCityGui().getDetailPane()) {

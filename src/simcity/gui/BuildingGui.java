@@ -52,9 +52,9 @@ public class BuildingGui {
     	if (system.getName().equals("Market"))
     	g.drawImage(finalmarketimage,location.getX(), location.getY(), null);
     	if (system.getName().equals("RestaurantOne"))
-    	g.drawImage(finalrestaurantimage, location.getX(), location.getY()+8, null);
+    	g.drawImage(finalrestaurantimage, location.getX(), location.getY(), null);
     	if (system.getName().equals("House of the Lord"))
-    	g.drawImage(finalhouseimage, location.getX()+4, location.getY(), null);
+    	g.drawImage(finalhouseimage, location.getX(), location.getY(), null);
     	if (system.getName().equals("Bank"))
     	g.drawImage(finalbankimage, location.getX(), location.getY(), null);
     }

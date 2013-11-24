@@ -19,6 +19,7 @@ import simcity.buildings.restaurant.one.RestaurantOneSystem;
 import simcity.buildings.restaurant.six.RestaurantSixSystem;
 import simcity.buildings.restaurant.three.RestaurantThreeSystem;
 import simcity.buildings.restaurant.two.RestaurantTwoSystem;
+import simcity.buildings.transportation.BusAgent;
 import simcity.buildings.transportation.TransportationSystem;
 import simcity.gui.Gui;
 import simcity.gui.SimCityGui;
@@ -130,6 +131,18 @@ public class SystemManager {
 		//Location loc = new Location(xLoc, yLoc);
 		
 		//dir.add(name, EntryType.House, loc, temp);
+	}
+	
+	public void addBus(String name) {
+		// TODO Auto-generated method stub
+		TransportationSystem temp = new TransportationSystem(simcity);
+		temp.setName(name);
+		transportations.add(temp);
+		BuildingGui building = new BuildingGui(temp, 100, 400 );
+		world.getAnimationPanel().addBuilding(building);
+		Location loc = new Location(100, 400);
+		dir.add(name, EntryType.Bus, loc, temp);
+		
 	}
 	
 	public void addRestaurantOne(String name, int xLoc, int yLoc) {
@@ -247,6 +260,8 @@ public class SystemManager {
 		person.startThread();
 	}
 	
+	
+	
 	public void addMarketWorkerHack(String name, String market) {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());
@@ -273,10 +288,5 @@ public class SystemManager {
 		person.startThread();
 	}
 
-	public void addBus(String string) {
-		// TODO Auto-generated method stub
-		
-		
-	}
 	
 }

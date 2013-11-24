@@ -28,6 +28,7 @@ public class Config {
 		systems.addBank("Bank", 100, 300);
 		systems.addHouse("House of the Lord", 300, 300);
 		systems.addPerson("Mark"); // Jesus get back in your house!
+		systems.addBus("Buster");
 				
 	}
 	
@@ -54,8 +55,7 @@ public class Config {
 		systems.clear();
 		systems.clearDetailPane();
 		
-		systems.addMarket("Market", 100, 100);
-		systems.addHouse("House", 300, 300);
+		systems.addHouse("House", 100, 100);
 		systems.addPerson("Homie"); // This guy will live in the house
 	}
 	

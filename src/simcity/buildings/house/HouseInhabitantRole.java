@@ -49,7 +49,7 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
                  
                  public void run() {
                          
-                         Do("cooking");
+                         //("cooking");
                          // add gui events to "got to the kitcen and make food" 
                          stateChanged();
                  }
@@ -66,15 +66,15 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 
 	private void Sleep() {
 		int sleepTime;
-		if (person.isDone()==true) {
+		/*if (person.isDone()==true) {
 			sleepTime = 8;
-		} 
+		} */
 		sleeptimer.schedule(new TimerTask(){
             Object cookie = 1;
             
             public void run() {
                     
-                    Do("finished sleeping");
+                    //Do("finished sleeping");
                     WakeUp();
                     // add gui events to "got to the kitcen and make food" 
                     stateChanged();
@@ -91,6 +91,18 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 	public Map<String, Integer> getListToBuy() {
 		//clear list!!!!
 		return null;
+	}
+
+	@Override
+	public void msgExitBuilding() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgEnterBuilding() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

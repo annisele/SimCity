@@ -7,10 +7,17 @@ import simcity.interfaces.bank.BankCustomer;
 public class HouseComputer {
 
 	// variables
-
-
-	// constructor
+	private Map<String, Integer> inventory = Collections.synchronizedMap(new HashMap<String, Integer>());
 	
 
+	// constructor
+public HouseComputer() {
+		
+		
+	}
+
 	// functions
+public void setInventory(Map<String, Integer> map) {
+	inventory = map;
+}
 }	

@@ -4,23 +4,24 @@ import javax.swing.JPanel;
 
 import simcity.gui.SimCityGui;
 import simcity.gui.restaurantone.RestaurantOneAnimationPanel;
+import simcity.gui.restauranttwo.RestaurantTwoAnimationPanel;
 
 public class RestaurantPanel extends JPanel {
 
         private SimCityGui scg;
        // public RestaurantControlPanel controlPanel;
-        public RestaurantOneAnimationPanel animationPanel;
+        public RestaurantTwoAnimationPanel animationPanel;
       
 
         public RestaurantPanel(SimCityGui scgui) {
                 super();
                 scg = scgui;
                // controlPanel = new BankControlPanel();
-                animationPanel = new RestaurantOneAnimationPanel();
+                animationPanel = new RestaurantTwoAnimationPanel();
         }
         
         
-        public RestaurantOneAnimationPanel getAnimationPanel() {
+        public RestaurantTwoAnimationPanel getAnimationPanel() {
                 return animationPanel;
         }
         

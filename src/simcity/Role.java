@@ -24,20 +24,14 @@ public abstract class Role  {
 		return gui; 
 	}
 	
-	protected void Do(String msg, Throwable e) {
-        StringBuffer sb = new StringBuffer();
-        sb.append(person.getName());
-        sb.append(": ");
-        sb.append(msg);
-        sb.append("\n");
-        if (e != null) {
-            sb.append(StringUtil.stackTraceString(e));
-        }
-        System.out.print(sb.toString());
-	}
+	protected void Do(String msg) {
+        print(msg, null);
+    }
 	
 	protected void print(String msg, Throwable e) {
 	        StringBuffer sb = new StringBuffer();
+	        sb.append(person.getName());
+	        sb.append(": ");
 	        sb.append(msg);
 	        sb.append("\n");
 	        if (e != null) {

@@ -1,262 +1,220 @@
 package simcity.buildings.restaurant.two;
 
+
 import simcity.Role;
-import simcity.gui.restaurantone.RestaurantOneHostGui;
-import simcity.interfaces.restaurant.one.RestaurantOneCustomer;
-import simcity.interfaces.restaurant.one.RestaurantOneHost;
+import simcity.gui.restauranttwo.RestaurantTwoHostGui;
+import simcity.interfaces.restaurant.two.RestaurantTwoCustomer;
+import simcity.interfaces.restaurant.two.RestaurantTwoHost;
+import simcity.interfaces.restaurant.two.RestaurantTwoWaiter;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Map;
 import java.util.concurrent.Semaphore;
 
 public class RestaurantTwoHostRole extends Role {//implements simcity.interfaces.restaurant.one.RestaurantOneCustomer {
 	static final int NTABLES = 3;//a global for the number of tables.
-    //Notice that we implement waitingCustomers using ArrayList, but type it
-    //with List semantics.
-    public List<RestaurantOneCustomerRole> waitingCustomers = Collections.synchronizedList(new ArrayList<RestaurantOneCustomerRole>());
-    public Collection<Table> tables;
-    //note that tables is typed with Collection semantics.
-    //Later we will see how it is implemented
+	//Notice that we implement waitingCustomers using ArrayList, but type it
+	//with List semantics.
+	public int waiternum;
+	public Map<Integer,Boolean> waitingSpots= new HashMap<Integer, Boolean>();
+	public Map<Integer,Boolean> waiterSpots= new HashMap<Integer, Boolean>();
+	
+	public List<RestaurantTwoCustomerRole> waitingCustomers
+	= Collections.synchronizedList(new ArrayList<RestaurantTwoCustomerRole>());
+	public List<RestaurantTwoWaiter> waiters
+	= Collections.synchronizedList(new ArrayList<RestaurantTwoWaiter>());
+	public Collection<Table> tables;
+	//note that tables is typed with Collection semantics.
+	//Later we will see how it is implemented
+    public int currentwaiter=0;
+	private String name;
 
-    private String name;
-    private boolean alreadySeated = false;
+	public RestaurantTwoHostGui hostGui = null;
 
-    public RestaurantOneHostGui hostGui = null;
+	public RestaurantTwoHostRole(String name) {
+		super();
+		waitingSpots.put(0,false);
+		waitingSpots.put(1,false);
+		waitingSpots.put(2,false);
+		waitingSpots.put(3,false);
+		waiterSpots.put(0,false);
+		waiterSpots.put(1,false);
+		waiterSpots.put(2,false);
+		waiterSpots.put(3,false);
+		waiterSpots.put(4,false);
+		waiterSpots.put(5,false);
+		this.name = name;
+		// make some tables
+		tables =  Collections.synchronizedList(new ArrayList<Table>(NTABLES));
+		for (int ix = 1; ix <= NTABLES; ix++) {
+			tables.add(new Table(ix));//how you add to a collections
+		}
+	}
 
-    private Semaphore seatCustomer = new Semaphore(0, true);
+	public String getMaitreDName() {
+		return name;
+	}
 
-    private class MyWaiter {
-            public MyWaiter(RestaurantOneWaiterRole w, int nTables) {
-                    waiter = w;
-                    numTables = nTables; 
-                    onBreak = false;
-            }
-            RestaurantOneWaiterRole waiter;
-            int numTables;
-            boolean onBreak;
-            public boolean breakApproved = false;
-            public boolean breakDenied = false;
+	public String getName() {
+		return name;
+	}
 
-    }
+	public List getWaitingCustomers() {
+		return waitingCustomers;
+	}
 
-    private List<MyWaiter> waiters = new ArrayList<MyWaiter>();
+	public Collection getTables() {
+		return tables;
+		
+	}
+	// Messages
+	public void msgAskToBreak(RestaurantTwoWaiter w){
+		if(waiters.size()>1){
+			w.msgCanBreak(true);
+			waiters.remove(w);
+		}
+		else
+			w.msgCanBreak(false);
+	}
+	public void msgRestate(RestaurantTwoWaiter w){
+		waiters.add(w);
+	}
+	public void msgIWantFood(RestaurantTwoCustomerRole cust) {
+		waitingCustomers.add(cust);
+		stateChanged();
+		Do(cust.getName());
+	
+	}
 
-    public RestaurantTwoHostRole(String name) {
-            super();
-            this.name = name;
-            tables = new ArrayList<Table>(NTABLES);
-            for (int ix = 1; ix <= NTABLES; ix++) {
-                    tables.add(new Table(ix));//how you add to a collections
-            }
-    }
+	public void msgLeavingTable(RestaurantTwoCustomerRole cust) {
+		synchronized(tables){
+		for(Table t:tables){
+			if(t.getOccupant()==cust){
+				Do(cust + " leaving " + t);
+				t.setUnoccupied();
+				stateChanged();
+			}
+		}
+		}
+	
+	}
+//msg break
+	//if only waiter null
+	
 
-    public String getName() {
-            return name;
-    }
+	/**
+	 * Scheduler.  Determine what action is called for, and do it.
+	 */
+	public boolean pickAndExecuteAnAction() {
+		/* Think of this next rule as:
+            Does there exist a table and customer,
+            so that table is unoccupied and customer is waiting.
+            If so seat him at the table.
+		 */
+		synchronized(tables){
+		for (Table table : tables) {
+			if (!table.isOccupied()) {
+				if (!waitingCustomers.isEmpty()) {
+					if(!waiters.isEmpty()){			
+					assignWaiter(waitingCustomers.get(0),  table);//the action
+					
+					
+					return true;//return true to the abstract agent to reinvoke the scheduler.
+				}
+					else
+						return true;
+			}
+		}
+		}
+		}
+		return false;
+		//we have tried all our rules and found
+		//nothing to do. So return false to main loop of abstract agent
+		//and wait.
+	}
 
-    public List<RestaurantOneCustomerRole> getWaitingCustomers() {
-            return waitingCustomers;
-    }
+	// Actions
 
-    public Collection getTables() {
-            return tables;
-    }
+	private void assignWaiter(RestaurantTwoCustomerRole customer,  Table t) {
+		//msgsitattable to waiter include tablenum 
+		Do("assign "+currentwaiter);
+		
+	
+		waiters.get(currentwaiter).msgSeatCustomer(customer, t.tableNumber);
+		currentwaiter++;
+		Do("assign2 "+currentwaiter+" "+waiters.size());
+		if(currentwaiter>=waiters.size()){
+			currentwaiter=0;
+		}
+		Do("assign3 hey "+currentwaiter);
+		t.setOccupant(customer);
+		waitingCustomers.remove(customer);
+	}
 
-    // Messages
+	
+//wanttobreak
+	//mesg
+	//utilities
 
-    public void msgIWantFood(RestaurantOneCustomerRole cust) {
-            waitingCustomers.add(cust);
-            stateChanged();
-    }
+	public void setGui(RestaurantTwoHostGui gui) {
+		hostGui = gui;
+	}
 
-    public void msgNewWaiter(RestaurantOneWaiterRole w) {
-            waiters.add((new MyWaiter(w, 0)));
-            stateChanged();
-    }
-    public void msgTableIsFree(int table) {
-           // print ("Received msgTableIsFree");
-            synchronized(tables){
-            for (Table tbl : tables) {
-                    if (tbl.tableNumber == table) {
-                            tbl.setUnoccupied();
-                            stateChanged();
-                    }
-            }
-            }
-    }
+	public RestaurantTwoHostGui getGui() {
+		return hostGui;
+	}
+	
+	public void addWaiter(RestaurantTwoWaiter we){
+		
+		waiters.add(we);
+		Do("added "+waiters.size());
+	}
+	private class Table {
+		RestaurantTwoCustomerRole occupiedBy;
+		int tableNumber;
 
-    public void msgIWantABreak(RestaurantOneWaiterRole w)
-    {
-            if (waiters.size() > 1) {
-                    synchronized(waiters) {
-                    for (MyWaiter mw : waiters) {
-                            if (mw.waiter.equals(w)){
-                                    //mw.onBreak = true;
-                                    //mw.waiter.msgBreakApproved();
-                                    mw.breakApproved  = true;
-                                    stateChanged();
-                                    break;
-                            }
-                    }
-                    }
-            }
-            else {
-                    synchronized(waiters) {
-                    for (MyWaiter mw : waiters) {
-                            if (mw.waiter.equals(w)){
-                                    mw.breakDenied = true;
-                            }
-                    }
-            }
-            }
-    }
-    
-    public void msgImOffBreak(RestaurantOneWaiterRole w) {
-            synchronized(waiters) {
-            for (MyWaiter mw : waiters) {
-                    if (mw.waiter.equals(w)){
-                            mw.breakApproved = false;
-                            mw.breakDenied = false;
-                            mw.onBreak = false;
-                    }
-            }
-            }
-            
-    }
+		Table(int tableNumber) {
+			this.tableNumber = tableNumber;
+		}
 
-    // removes customer when customer chooses to leave early
-    public void msgLeaving(RestaurantOneCustomerRole c) {
-            if (!alreadySeated) {
-                    waitingCustomers.remove(c);
-                    stateChanged();
-            }
-    }
+		void setOccupant(RestaurantTwoCustomerRole cust) {
+			occupiedBy = cust;
+		}
 
-    //message from Gui once customer has been seated
-    public void msgCustomerSeated() {
-            seatCustomer.release();
-    }
+		void setUnoccupied() {
+			occupiedBy = null;
+		}
 
-    /**
-     * Scheduler.  Determine what action is called for, and do it.
-     */
-    public boolean pickAndExecuteAnAction() {
-            alreadySeated = false;
+		RestaurantTwoCustomerRole getOccupant() {
+			return occupiedBy;
+		}
 
-            if (!waiters.isEmpty())
-            {
-                    synchronized(waiters) {
-                    for (MyWaiter w : waiters) {
-                            if (!w.onBreak) {
-                                    if (w.breakApproved) {
-                                            w.waiter.msgBreakApproved();
-                                            w.onBreak = true;
-                                            System.out.println("ON BREAK ON BREAK");
-                                    }
-                                    else if (w.breakDenied) {
-                                            w.waiter.msgNoBreak();
-                                    }
-                            }
-                    }
-                    }
-                    synchronized(tables) {
-                    for (Table table : tables) {
-                            if (!table.isOccupied()) {
-                                    if (waitingCustomers.size() > 0) {
-                                            int i = 0;
-                                            synchronized(waiters){
-                                            for (MyWaiter m : waiters) {
-                                                    if (m.onBreak)
-                                                            i++;
-                                            }
-                                            }
-                                            int minTables = waiters.get(i).numTables;
-                                            int WaiterWithMinTables = i;
-                                            int j = 0;
-                                            synchronized(waiters){
-                                            for (MyWaiter mw : waiters) {
-                                                    if (!mw.onBreak)
-                                                    {
-                                                            if (mw.numTables < minTables) {
-                                                                    minTables = mw.numTables;
-                                                                    WaiterWithMinTables = j;
-                                                            }
-                                                    }
-                                                    j++;
-                                            }
-                                            }
-                                            waiters.get(WaiterWithMinTables).numTables++;
-                                            if (waitingCustomers.size() > 0) {
-                                                    alreadySeated = true;
-                                                    if (waitingCustomers.contains(waitingCustomers.get(0))) {
-                                                            tellWaiterToSeatCustomer(waitingCustomers.get(0), table, waiters.get(WaiterWithMinTables).waiter);
-                                                    }
-                                                    try {
-                                                            seatCustomer.acquire();
-                                                    } catch (InterruptedException e) {
-                                                            // TODO Auto-generated catch block
-                                                            e.printStackTrace();
-                                                    }
-                                                    return true;
-                                            }
-                                    }
-                            }
-                    }
-                    }
-            }
+		boolean isOccupied() {
+			return occupiedBy != null;
+		}
 
-            return false;
-    }
-
-    // Actions
-
-    private void tellWaiterToSeatCustomer(RestaurantOneCustomerRole customer, Table table, RestaurantOneWaiterRole waiter) {
-            waiter.msgSitAtTable(customer, table.tableNumber);
-            table.setOccupant(customer);
-            waitingCustomers.remove(customer);
-    }
-
-    //utilities
-
-    public void setGui(RestaurantOneHostGui gui) {
-            hostGui = gui;
-    }
-
-    public RestaurantOneHostGui getGui() {
-            return hostGui;
-    }
+		public String toString() {
+			return "table " + tableNumber;
+		}
+	}
 
 
-    private class Table {
-            RestaurantOneCustomerRole occupiedBy;
-            int tableNumber;
 
-            Table(int tableNumber) {
-                    this.tableNumber = tableNumber;
-            }
+	@Override
+	public void msgExitBuilding() {
+		// TODO Auto-generated method stub
+		
+	}
 
-            void setOccupant(RestaurantOneCustomerRole cust) {
-                    occupiedBy = cust;
-            }
-
-            void setUnoccupied() {
-                    occupiedBy = null;
-            }
-
-            RestaurantOneCustomerRole getOccupant() {
-                    return occupiedBy;
-            }
-
-            boolean isOccupied() {
-                    return occupiedBy != null;
-            }
-
-            public String toString() {
-                    return "table " + tableNumber;
-            }
-    }
+	@Override
+	public void msgEnterBuilding() {
+		// TODO Auto-generated method stub
+		
+	}
 
 
 }

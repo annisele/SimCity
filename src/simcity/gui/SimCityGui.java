@@ -114,6 +114,10 @@ public class SimCityGui extends JFrame implements ActionListener {
 		//System.out.println("Changing the control panel");
 	}
 	
+	public JPanel getDetailPane() {
+		return viewDetailPanel;
+	}
+	
 	public void actionPerformed(ActionEvent e) {
 	
 	}

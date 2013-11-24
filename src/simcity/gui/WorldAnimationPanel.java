@@ -11,8 +11,6 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
 
 	public WorldAnimationPanel() {//SimCityGui sc) {
 		super();
-		Timer timer = new Timer(8, this );
-    	timer.start();
 	}
 	
 	@Override
@@ -34,6 +32,9 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
 	    g2.setColor(Color.BLUE);
         for(BuildingGui b : buildingGuis) {
         	b.draw((Graphics2D)g);
+        	if ((JPanel)b.getSystem().getAnimationPanel() != super.getSimCityGui().getDetailPane()) {
+        		b.getSystem().getAnimationPanel().updateGuis();
+        	}
         }
         
         super.paintComponent(g);

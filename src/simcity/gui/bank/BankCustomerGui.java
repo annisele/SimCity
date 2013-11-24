@@ -3,66 +3,33 @@ package simcity.gui.bank;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
-
 import simcity.Location;
 import simcity.buildings.bank.BankCustomerRole;
 import simcity.gui.Gui;
+import simcity.interfaces.bank.BankCustomer;
 
-public class BankCustomerGui implements Gui{
-
-	private BankCustomerRole role = null;
-	private int x = 0;
-	private int y = 0;
-	private int xDest = 0;
-	private int yDest = 0;
-	private final int SIZE = 20;
+public class BankCustomerGui extends Gui{
+	private int HOST_X = 250;
+	private int HOST_Y = 420;
+	private int xDestination, yDestination;
+	int xWindow[] = {300, 300, 300};
+	int yWindow[] = {200, 300, 400};
+	private enum Command {noCommand, GoToWindow, LeaveBank};
+	private Command command = Command.noCommand;
+	public BankCustomerGui(BankCustomerRole b) {
+		role = b;
+	}
 	
-	public BankCustomerGui() {
-		
-	}
-	public void updatePosition() {
-		if(xDest > x) {
-			x++;
-		}
-		else {
-			x--;
-		}
-		if(yDest > y) {
-			y++;
-		}
-		else {
-			y--;
-		}
-		if(x == xDest && y == yDest) {
-			xDest = (int) (Math.random() * 200);
-			yDest = (int) (Math.random() * 200);
-		}
-	}
 	public void draw(Graphics2D g) {
-		g.setColor(Color.MAGENTA);
+		g.setColor(Color.GREEN);
 		g.fillRect(x, y, SIZE, SIZE);
 	}
-
-	public boolean isPresent() {
-		return true;
+	public void DoGoToHost() {
+		DoGoToLocation(HOST_X, HOST_Y);
 	}
 
-	public boolean contains(Point point) {
-		if(point.getX() >= x && point.getX() <= x + SIZE) {
-			if(point.y >= y && point.y <= y + SIZE) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public void DoGoToLocation(int x, int y) {
-		xDest = x;
-		yDest = y;
-	}
-	public Location getLocation() {
-		// TODO Auto-generated method stub
-		return null;
+	public void DoGoToBankTeller() {
+	
 	}
 	
 }

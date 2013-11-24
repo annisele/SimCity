@@ -6,8 +6,8 @@ import agent.StringUtil;
 
 public abstract class Role  {
 	
-	public PersonAgent person;
-	public Gui gui;
+	protected PersonAgent person;
+	protected Gui gui;
 	
 	public void stateChanged() {  
 		person.stateChanged(); 
@@ -48,6 +48,16 @@ public abstract class Role  {
 	 
 	public String getName() {
 		return person.getName();
+	}
+
+	public void setWorkBuilding(String building) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void atDestination() {
+		// TODO Auto-generated method stub
+		
 	}
 	 
 	 

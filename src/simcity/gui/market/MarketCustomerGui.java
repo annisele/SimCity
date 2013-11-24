@@ -1,34 +1,36 @@
 package simcity.gui.market;
 
 import java.awt.Graphics2D;
-import java.awt.Point;
+import java.awt.Image;
 
+import javax.swing.ImageIcon;
+
+import simcity.Location;
+import simcity.buildings.market.MarketCustomerRole;
 import simcity.gui.Gui;
+import simcity.interfaces.market.MarketCustomer;
 
-public class MarketCustomerGui implements Gui {
+public class MarketCustomerGui extends Gui {
 
-	@Override
-	public void updatePosition() {
-		// TODO Auto-generated method stub
-		
+	private final int CASHIER_X = 169;
+	private final int CASHIER_Y = 99;
+
+
+	ImageIcon ii = new ImageIcon("res/person/persondownbig.png");
+	Image img = ii.getImage();
+
+
+	public MarketCustomerGui(MarketCustomerRole m) {
+		role = m;
 	}
 
 	@Override
 	public void draw(Graphics2D g) {
-		// TODO Auto-generated method stub
-		
+		g.drawImage(img, x, y, null); //COMMENT this out to get old Gui Back- Josh
 	}
 
-	@Override
-	public boolean isPresent() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean contains(Point point) {
-		// TODO Auto-generated method stub
-		return false;
+	public void DoGoToCashier() {
+		DoGoToLocation(CASHIER_X, CASHIER_Y);
 	}
 
 }

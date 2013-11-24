@@ -2,75 +2,32 @@ package simcity.gui.transportation;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Point;
+
+import javax.swing.ImageIcon;
 
 import simcity.Location;
 import simcity.buildings.transportation.PedestrianRole;
 import simcity.gui.Gui;
+import simcity.interfaces.transportation.Pedestrian;
 
-public class PedestrianGui implements Gui{
+public class PedestrianGui extends Gui{
+	
+	ImageIcon ii = new ImageIcon("res/person/personup.png");
+    Image img = ii.getImage();
+    Image personimage = img.getScaledInstance(17, 17,  java.awt.Image.SCALE_SMOOTH); 
 
-	private PedestrianRole role;
-	private int x = 0;
-	private int y = 0;
-	private int xDest = 0;
-	private int yDest = 0;
-	private final int SIZE = 20;
-	
-	public PedestrianGui() {
-		
-	}
-	
-	@Override
-	public void updatePosition() {
-		//System.out.println("PedGui MADE!!!");
-		if(xDest > x) {
-			x++;
-		}
-		else {
-			x--;
-		}
-		if(yDest > y) {
-			y++;
-		}
-		else {
-			y--;
-		}
-		if(x == xDest && y == yDest) {
-			
-		}
+	public PedestrianGui(PedestrianRole p) {
+		role = p;
 	}
 
 	@Override
 	public void draw(Graphics2D g) {
-		g.setColor(Color.MAGENTA);
-		g.fillRect(x, y, SIZE, SIZE);
+		//g.setColor(Color.MAGENTA);
+		//g.fillRect(x, y, SIZE, SIZE);
+		g.drawImage(personimage, x,y, null); //COMMENT this out to get old Gui Back- Josh
+
 	}
 
-	@Override
-	public boolean isPresent() {
-		return true;
-	}
-
-	@Override
-	public boolean contains(Point point) {
-		if(point.getX() >= x && point.getX() <= x + SIZE) {
-			if(point.y >= y && point.y <= y + SIZE) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public void DoGoToLocation(int x, int y) {
-		System.out.println("We goin now! DoGoToLocation from Ped Gui");
-		xDest = x;
-		yDest = y;
-	}
-
-	@Override
-	public Location getLocation() {
-		return new Location(x, y);
-	}
-	
 }

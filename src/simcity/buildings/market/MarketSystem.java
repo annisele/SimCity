@@ -9,6 +9,7 @@ import simcity.gui.AnimationPanel;
 import simcity.gui.ControlPanel;
 import simcity.gui.SimCityGui;
 import simcity.Directory;
+import simcity.Role;
 import simcity.gui.market.MarketAnimationPanel;
 import simcity.gui.market.MarketCashierGui;
 import simcity.gui.market.MarketControlPanel;
@@ -16,6 +17,18 @@ import simcity.interfaces.market.MarketCashier;
 import simcity.interfaces.market.MarketCustomer;
 import simcity.interfaces.market.MarketTruck;
 import simcity.interfaces.market.MarketWorker;
+
+/****
+ * ISSUES: sometimes there is a flickering gray square in upper left corner of world panel
+ * because there is an idle gui showing as it switches between pedestrian and the actual
+ * event's role. Change idle gui starting location to fix this.
+ * 
+ * Customer does not reappear as an idle gui when it exits the market. Need to fix this!
+ * 
+ * Used a lot of hacks..usually commented //hack!! or something before it. Commented out getting
+ * inventory in computer, set prices to 0, hacked to initialize computers, etc.
+ */
+
 
 public class MarketSystem extends simcity.SimSystem {
 	
@@ -30,6 +43,8 @@ public class MarketSystem extends simcity.SimSystem {
 		super.setControlPanel(new MarketControlPanel());
 		super.setAnimationPanel(new MarketAnimationPanel());
 		
+		//hack
+		
 	}
 	
 	//replaces existing inventory with passed in one
@@ -38,10 +53,47 @@ public class MarketSystem extends simcity.SimSystem {
 	}
 	
 	//sets the cashier
-	public void setCashier(MarketCashier c) {
+	public void setCashier(MarketCashierRole c) {
+		//MarketCashier c2 = new MarketCashierRole();
 		cashier = c;
-		MarketCashierGui cGui = new MarketCashierGui();
+		MarketCashierGui cGui = new MarketCashierGui(c);
 		animationPanel.addGui(cGui);
+	}
+	
+	public MarketCashier getCashier() {
+		return cashier;
+	}
+	
+	@Override
+	public boolean msgEnterBuilding(Role role) {
+		animationPanel.addGui(role.getGui());
+		if(role instanceof MarketCustomer) {
+			customers.add((MarketCustomer) role);
+		}
+		else if(role instanceof MarketWorker) {
+			workers.add((MarketWorker) role);
+			((MarketCashierRole) cashier).addWorker((MarketWorker) role);
+		}
+		else if(role instanceof MarketTruck) {
+			trucks.add((MarketTruck) role);
+		}
+		else if(role instanceof MarketCashier) {
+			cashier = (MarketCashier) role;
+		}
+		return true;
+	}
+
+	public void exitBuilding(Role role) {
+		animationPanel.removeGui(role.getGui());
+		if(role instanceof MarketCustomer) {
+			customers.remove((MarketCustomer) role);
+		}
+		else if(role instanceof MarketWorker) {
+			workers.remove((MarketWorker) role);
+		}
+		else if(role instanceof MarketTruck) {
+			trucks.remove((MarketTruck) role);
+		}
 	}
 	
 	

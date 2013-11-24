@@ -90,12 +90,11 @@ private void Stop() {
 }
 	
 private void DoGoTo(int x, int y) {
+	//Animation
+	//Wait a few Seconds
 	
 	
 }
-
-	// Animation
-	//Wait a few seconds
 
 
 }

@@ -16,7 +16,7 @@ import simcity.buildings.transportation.*;
 
 public class BusGui extends Gui {
 
-
+		private BusAgent busagent;
 		private final int BUSSTOPX = 10; //BOGUS
 		private final int BUSSTOPY = 10; //BOGUS
 
@@ -26,9 +26,10 @@ public class BusGui extends Gui {
 
 
 	public BusGui(BusAgent bus) {
+		busagent = bus;
 		
 	}
-
+    
 	@Override
 	public void draw(Graphics2D g) {
 		g.drawImage(img, x, y, null); //COMMENT this out to get old Gui Back- Josh

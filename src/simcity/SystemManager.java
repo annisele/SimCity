@@ -66,6 +66,9 @@ public class SystemManager {
 		restaurantFives.clear();
 		restaurantSixes.clear();
 		transportations.clear();
+		busGuis.clear();
+		buildings.clear();
+		people.clear();
 	}
 	
 	public void getContact(SimSystem s) {

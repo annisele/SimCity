@@ -94,5 +94,10 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
 		
 	}
 	
+	public void clear() {
+		busGuis.clear();
+		super.clear();
+	}
+	
 
 }

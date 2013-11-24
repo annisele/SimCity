@@ -31,7 +31,7 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
         //Clear the screen by painting a rectangle the size of the frame
 		g2.setColor(Color.LIGHT_GRAY);
 	    g2.fillRect(0, 0, this.getWidth(), this.getHeight());
-	    g2.drawImage(roadimage, 40,32, null);
+	 //   g2.drawImage(roadimage, 40,32, null);
 	    
         //here is the building gui
 	    g2.setColor(Color.BLUE);

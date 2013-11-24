@@ -62,7 +62,7 @@ public class Config {
 		systems.clear();
 		systems.clearDetailPane();
 		
-		systems.addBank("Bank", 100, 400);
+		systems.addBank("Bank", 100, 300);
 		systems.addBankHostHack("Levonne", "Bank");
 		
 		timer.schedule(new TimerTask(){

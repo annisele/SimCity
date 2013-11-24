@@ -1,5 +1,41 @@
 package simcity.gui.transportation;
 
-public class BusGui {
+import java.awt.Graphics2D;
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
+
+import simcity.Location;
+import simcity.gui.Gui;
+import simcity.buildings.transportation.*;
+
+
+
+
+
+
+public class BusGui extends Gui {
+
+
+		private final int BUSSTOPX = 10; //BOGUS
+		private final int BUSSTOPY = 10; //BOGUS
+
+		ImageIcon ii = new ImageIcon("res/citygui/markettruck");
+		Image img = ii.getImage();
+		
+
+
+	public BusGui(BusAgent bus) {
+		
+	}
+
+	@Override
+	public void draw(Graphics2D g) {
+		g.drawImage(img, x, y, null); //COMMENT this out to get old Gui Back- Josh
+	}
+
+	public void DoGoToStop() {
+		DoGoToLocation(BUSSTOPX, BUSSTOPY );
+	}
 
 }

@@ -28,6 +28,7 @@ public class Config {
 		systems.addBank("Bank", 100, 300);
 		systems.addHouse("House of the Lord", 300, 300);
 		systems.addPerson("Mark"); // Jesus get back in your house!
+		
 				
 	}
 	

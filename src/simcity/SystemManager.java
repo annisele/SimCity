@@ -24,6 +24,7 @@ import simcity.buildings.transportation.TransportationSystem;
 import simcity.gui.Gui;
 import simcity.gui.SimCityGui;
 import simcity.gui.BuildingGui;
+import simcity.gui.transportation.BusGui;
 import simcity.interfaces.market.MarketCashier;
 
 public class SystemManager {
@@ -140,6 +141,9 @@ public class SystemManager {
 		transportations.add(temp);
 		Location loc = new Location(100, 400);
 		dir.add(name, EntryType.Bus, loc, temp);
+		BusAgent bus = new BusAgent(name);
+		world.getAnimationPanel().addBus(new BusGui(bus));
+		
 		
 	}
 	

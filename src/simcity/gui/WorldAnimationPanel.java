@@ -2,6 +2,8 @@ package simcity.gui;
 
 import javax.swing.*;
 
+import simcity.gui.transportation.BusGui;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -54,6 +56,10 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
 	
 	public void addBuilding(BuildingGui g) {
 		buildingGuis.add(g);
+	}
+	
+	public void addBus(BusGui g) {
+		busGuis.add(g);
 	}
 	
 

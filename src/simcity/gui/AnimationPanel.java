@@ -163,6 +163,10 @@ public class AnimationPanel extends JPanel implements ActionListener{
 	public void addBuilding(BuildingGui b) {
 		buildingGuis.add(b);
 	}
+	
+	public void addBus(BusGui g) {
+		busGuis.add(g);
+	}
 
 	public void setControlPanel(JPanel cp) {
 		controlPanel = cp;

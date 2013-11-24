@@ -55,9 +55,31 @@ public class Config {
 		systems.clearDetailPane();
 		
 		systems.addHouse("House", 100, 100);
-		systems.addPerson("Bob"); // This guy will live in the house
-		
+		systems.addPerson("Homie"); // This guy will live in the house
 	}
 	
+	public void oneBank() {
+		systems.clear();
+		systems.clearDetailPane();
+		
+		systems.addBank("Bank", 100, 400);
+		systems.addBankHostHack("Levonne", "Bank");
+		
+		timer.schedule(new TimerTask(){
+			public void run() {
+				systems.addBankTellerHack("Key", "Bank");
+				timer.schedule(new TimerTask(){
+					public void run() {
+						systems.addPerson("Zuckerberg");
+					}
+				}, 2000);
+			}
+		}, 2000);
+	}
+	
+	public void oneRestaurant() {
+		systems.clear();
+		systems.clearDetailPane();
+	}
 
 }

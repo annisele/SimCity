@@ -6,7 +6,9 @@ import java.util.*;
 import javax.swing.JPanel;
 
 import simcity.Directory.EntryType;
+import simcity.buildings.bank.BankHostRole;
 import simcity.buildings.bank.BankSystem;
+import simcity.buildings.bank.BankTellerRole;
 import simcity.buildings.house.HouseSystem;
 import simcity.buildings.market.MarketCashierRole;
 import simcity.buildings.market.MarketSystem;
@@ -84,6 +86,9 @@ public class SystemManager {
 		// Hack because Mark goes to Market
 		if (name == "Mark") {
 			person.goToMarketNow();
+		}
+		if (name == "Homie") {
+			person.goToHomeNow();
 		}
 		//world.getAnimationPanel().addGui(person.getRoles().get(0).getGui());
 
@@ -250,6 +255,22 @@ public class SystemManager {
 		people.add(person);
 		person.startThread();
 	}
-	
+
+	public void addBankHostHack(String name, String bank) {
+		PersonAgent person = new PersonAgent(name);
+		world.getAnimationPanel().addGui(person.getIdleGui());
+		Role bankHost = new BankHostRole(person);
+		person.addWork(bankHost, bank);
+		people.add(person);
+		person.startThread();
+	}
+	public void addBankTellerHack(String name, String bank) {
+		PersonAgent person = new PersonAgent(name);
+		world.getAnimationPanel().addGui(person.getIdleGui());
+		Role bankTeller = new BankTellerRole(person);
+		person.addWork(bankTeller, bank);
+		people.add(person);
+		person.startThread();
+	}
 	
 }

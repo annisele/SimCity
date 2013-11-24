@@ -61,8 +61,8 @@ public class BankHostRole extends Role implements simcity.interfaces.bank.BankHo
 	public List<BankWindow> windows = Collections.synchronizedList(new ArrayList<BankWindow>());
 	public List<BankCustomerRole> customers = Collections.synchronizedList(new ArrayList<BankCustomerRole>());
 	private Semaphore atBank = new Semaphore(0, true);
-	public BankHostRole (PersonAgent person) {
-		this.person = person;
+	public BankHostRole (PersonAgent p) {
+		person = p;
 		this.gui = new BankHostGui(this);
 	}
 	public void atBank() {

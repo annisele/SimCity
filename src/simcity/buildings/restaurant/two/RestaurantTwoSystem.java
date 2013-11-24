@@ -12,7 +12,10 @@ import javax.swing.JPanel;
 import java.awt.*;
 
 import simcity.gui.SimCityGui;
+import simcity.gui.restaurantone.RestaurantOneAnimationPanel;
+import simcity.gui.restaurantone.RestaurantOneControlPanel;
 import simcity.gui.restauranttwo.RestaurantTwoAnimationPanel;
+import simcity.gui.restauranttwo.RestaurantTwoControlPanel;
 import simcity.interfaces.restaurant.one.*;
 import simcity.interfaces.restaurant.two.RestaurantTwoCashier;
 import simcity.interfaces.restaurant.two.RestaurantTwoCook;
@@ -35,8 +38,10 @@ public class RestaurantTwoSystem extends SimSystem {
 		super(scgui);
 		scg = scgui;
 		// controlPanel = new RestaurantControlPanel();
-		animationPanel = new RestaurantTwoAnimationPanel();
+		super.setAnimationPanel(new RestaurantTwoAnimationPanel());
+		super.setControlPanel(new RestaurantTwoControlPanel());
 	}
+
 
 
 	public RestaurantTwoAnimationPanel getAnimationPanel() {

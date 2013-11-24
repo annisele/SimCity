@@ -12,8 +12,11 @@ public class BankComputer {
 	double loanableFunds;
 	double cashInBank;
 	Map<Integer,BankCustomerRole> customerAccounts = new HashMap<Integer,BankCustomerRole>(MAX_ACCOUNTS);
+	Map<Integer,String> passwordAccounts = new HashMap<Integer,String>(MAX_ACCOUNTS);
 	Map<Integer,Double> balanceAccounts = new HashMap<Integer,Double>(MAX_ACCOUNTS);
 	Map<Integer,Double> owedAccounts = new HashMap<Integer,Double>(MAX_ACCOUNTS);
+	
+	BankAccount account = new BankAccount(); // temporary account for purposes of lookup
 
 	// constructor
 	BankComputer() {
@@ -22,45 +25,65 @@ public class BankComputer {
 		
 	}
 	// functions
-	public int addAccountAndReturnNumber(BankCustomerRole bc, double amountToProcess) {
+	public int addAccountAndReturnNumber(BankCustomerRole bc, String password, double amountToProcess) {
 		numAccounts++;
 		customerAccounts.put(numAccounts, bc);
+		passwordAccounts.put(numAccounts, password);
 		balanceAccounts.put(numAccounts, amountToProcess);
 		owedAccounts.put(numAccounts, 0.0);
 		return numAccounts;
+	}
+	
+	public boolean verifyAccount(int accountNumber, String password) {
+		boolean verified = false;
+		String passwordLookup = passwordAccounts.get(accountNumber);
+		if (password == passwordLookup) {
+			verified = true;
+		}
+		return verified;
 	}
 	
 	public BankAccount accountLookup(int accountNumber) {
 		BankCustomerRole bc = customerAccounts.get(accountNumber);
 		double accountBalance = balanceAccounts.get(accountNumber);
 		double amountOwed = owedAccounts.get(accountNumber);
-		BankAccount account = new BankAccount(bc, accountBalance, accountNumber, amountOwed);
+		account.setBankCustomer(bc);
+		account.setAccountBalance(accountBalance);
+		account.setAmountOwed(amountOwed);
 		return account;
 	}
 	
 	public void updateSystemAccount(BankAccount account) {
-		customerAccounts.remove(account.getAccountNumber());
-		customerAccounts.put(account.getAccountNumber(), account.getBankCustomer());
 		balanceAccounts.remove(account.getAccountNumber());
 		balanceAccounts.put(account.getAccountNumber(), account.getAccountBalance());
 		owedAccounts.remove(account.getAccountNumber());
 		owedAccounts.put(account.getAccountNumber(), account.getAmountOwed());
 	}
 
+	public void reinitializeTempAccount() {
+		account.reinitialize();
+	}
+	
 	// utility classes
 	public class BankAccount {
-		int accountNumber;
-		BankCustomerRole bc;
-		double accountBalance;
-		double amountOwed;
+		private int accountNumber;
+		private String accountPassword;
+		private BankCustomerRole bc;
+		private double accountBalance;
+		private double amountOwed;
 
-		BankAccount(BankCustomerRole bc, double amountToProcess, int accountNumber, double amountOwed) {
-			setBankCustomer(bc);
-			setAccountBalance(amountToProcess);
-			setAccountNumber(accountNumber);
-			setAmountOwed(amountOwed);
+		BankAccount() {
+			
 		}
 
+		public void reinitialize() {
+			this.accountNumber = 0;
+			this.accountPassword = "";
+			this.bc = null;
+			this.accountBalance = 0;
+			this.amountOwed = 0;
+		}
+		
 		public int getAccountNumber() {
 			return accountNumber;
 		}
@@ -69,6 +92,14 @@ public class BankComputer {
 			this.accountNumber = accountNumber;
 		}
 
+		public String getAccountPassword() {
+			return accountPassword;
+		}
+		
+		public void setAccountPassword(String accountPassword) {
+			this.accountPassword = accountPassword;
+		}
+		
 		public BankCustomerRole getBankCustomer() {
 			return bc;
 		}

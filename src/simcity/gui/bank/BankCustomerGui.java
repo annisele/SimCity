@@ -28,7 +28,7 @@ public class BankCustomerGui extends Gui{
 		DoGoToLocation(HOST_X, HOST_Y);
 	}
 
-	public void DoGoToBankTeller() {
+	public void DoGoToBankTeller(int windowNumber) {
 	
 	}
 	

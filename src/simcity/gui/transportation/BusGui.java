@@ -17,7 +17,7 @@ import simcity.buildings.transportation.*;
 public class BusGui extends Gui {
 
 		private BusAgent busagent;
-		private  int BUSSTOPX = 32; //BOGUS
+		private  int BUSSTOPX = 55; //BOGUS
 		private  int BUSSTOPY = 67; //BOGUS
 
 		ImageIcon ii = new ImageIcon("res/citygui/markettruck.png");
@@ -32,8 +32,11 @@ public class BusGui extends Gui {
     
 	@Override
 	public void draw(Graphics2D g) {
+		if (BUSSTOPX < 365) {
 		BUSSTOPX++;
+		}
 		g.drawImage(busimage, BUSSTOPX, BUSSTOPY, null); //COMMENT this out to get old Gui Back- Josh
+		
 	}
 
 	public void DoGoToStop() {

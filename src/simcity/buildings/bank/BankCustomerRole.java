@@ -77,6 +77,12 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 		return landlordAccountNumber;
 	}
 	
+	//messages from personagent
+	public void msgDepositMoney(BankSystem b) {
+		bank = b;
+		stateChanged();
+	}
+	
 	//messages 
 	public void msgArrivedAtBank() { // from gui
 		System.out.println("I'm at bank");
@@ -218,7 +224,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	    		e.printStackTrace();
 	    	}
 	    	*/
-	    	System.out.println("I'm here for bank transaction");
+	    	System.out.println("I'm here for bank transaction, host is: "+bank);
 	    	bank.getBankHost().msgEnteringBank(this);
 		    
 		}

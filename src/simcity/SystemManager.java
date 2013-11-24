@@ -92,20 +92,11 @@ public class SystemManager {
 		if (name == "Levonne") {
 			person.goToBankNow();
 		}
-		person.startThread();
+		
 		people.add(person);
+		person.startThread();
 		
-
-
 		
-
-		//world.getAnimationPanel().addGui(person.getRoles().get(0).getGui());
-
-		//restaurantOnes.get(0).getAnimationPanel().addGui(person.getRoles().get(1).getGui());
-		//restaurantOnes.get(0).getAnimationPanel().addGui(person.getRestaurantOneCustomer().getGui());
-
-		//restaurantOnes.get(0).getAnimationPanel().addGui(person.getRoles().get(1).getGui());
-		//banks.get(0).getAnimationPanel().addGui(person.getRoles().get(2).getGui());
 	}
 	
 	public void addMarket(String name, int xLoc, int yLoc) {

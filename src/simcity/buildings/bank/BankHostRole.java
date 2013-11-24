@@ -11,6 +11,7 @@ import simcity.interfaces.bank.*;
 
 public class BankHostRole extends Role implements simcity.interfaces.bank.BankHost {	
 	// data
+	private BankSystem bank;
 	private String name;
 	Timer timer = new Timer();
 	private List<BankWindow> windows = Collections.synchronizedList(new ArrayList<BankWindow>());
@@ -114,14 +115,32 @@ public class BankHostRole extends Role implements simcity.interfaces.bank.BankHo
 		this.name = name;
 	}
 
-	@Override
 	public void msgExitBuilding() {
-		// TODO Auto-generated method stub
+		person.Do("Leaving bank");
+		gui.DoExitBuilding();
+		try {
+			atBank.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		bank.exitBuilding(this);
+		person.roleFinished();
+		person.isIdle();
 		
 	}
 
 	@Override
 	public void msgEnterBuilding() {
+		((BankHostGui)gui).DoGoToHostPosition();
+		try {
+			atBank.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		
+	}
+	public void addBankTeller(BankTeller b) {
+		bankTellers.add(b);
+		((BankTellerRole) b).setHost(this);
 	}
 }

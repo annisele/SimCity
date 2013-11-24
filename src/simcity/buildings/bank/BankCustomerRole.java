@@ -209,12 +209,13 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 
 	   // actions
 	    private void InformBankHostOfArrival() {
-	    	((BankCustomerGui)gui).DoGoToHost();
-	    	try {
+	    	//((BankCustomerGui)gui).DoGoToHost();
+	    /*	try {
 	    		atBank.acquire();
 	    	} catch (InterruptedException e) {
 	    		e.printStackTrace();
 	    	}
+	    	*/
 		    bh.msgEnteringBank(this);
 		    System.out.println("I'm here for bank transaction");
 		    ((BankCustomerGui)gui).DoGoToBankTeller(1);
@@ -311,7 +312,8 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 			person.isIdle();
 		}
 		public void msgEnterBuilding() {
-			((BankCustomerGui)gui).DoGoToHost();try {
+			((BankCustomerGui)gui).DoGoToHost();
+			try {
 				atBank.acquire();
 			} catch (InterruptedException e) {
 				e.printStackTrace();

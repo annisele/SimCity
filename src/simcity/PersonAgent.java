@@ -474,7 +474,9 @@ public class PersonAgent extends Agent implements Person {
 	public void goToMarketNow() {
 		this.scheduleEvent(EventType.GoToMarket);
 	}
-	
+	public void goToBankNow() {
+		this.scheduleEvent(EventType.DepositMoney);
+	}
 	public void goToHomeNow() {
 		this.scheduleEvent(EventType.Sleep);
 	}

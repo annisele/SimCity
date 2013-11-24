@@ -10,7 +10,7 @@ import simcity.gui.Gui;
 import simcity.interfaces.bank.BankCustomer;
 
 public class BankCustomerGui extends Gui{
-	private int HOST_X = 250;
+	private int HOST_X = 230;
 	private int HOST_Y = 420;
 
 	ImageIcon ii = new ImageIcon("res/person/persondownbig.png");

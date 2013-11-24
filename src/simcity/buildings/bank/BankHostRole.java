@@ -15,7 +15,7 @@ public class BankHostRole extends Role implements simcity.interfaces.bank.BankHo
 	// from PersonAgent
 	private BankSystem bank;
 	private String name;
-
+	private BankComputer computer;
 	// set in Bank
 	private List<BankWindow> windows = Collections.synchronizedList(new ArrayList<BankWindow>());
 	private List<BankTeller> bankTellers = Collections.synchronizedList(new ArrayList<BankTeller>());
@@ -29,6 +29,8 @@ public class BankHostRole extends Role implements simcity.interfaces.bank.BankHo
 	public BankHostRole (PersonAgent p) {
 		person = p;
 		this.gui = new BankHostGui(this);
+		//hack
+		computer = new BankComputer();
 	}
 
 	// utility class: BankWindow
@@ -122,14 +124,12 @@ public class BankHostRole extends Role implements simcity.interfaces.bank.BankHo
 	
 	//actions
 	private void tellCustomerToGoToWindow(BankCustomerRole bc, BankWindow window) {
-		if(bankTellers.isEmpty()) {
-			System.out.println("No bank tellers to perform bank transaction.");
-		}
-		else {
+		
 			person.Do("Please go to the available window");
-			bc.msgGoToWindow(window.getWindowNumber(), window.getBankTeller());
+			((BankCustomerRole) customers.get(0)).msgGoToWindow(window.getWindowNumber(), window.getBankTeller());
+			//bc.msgGoToWindow(window.getWindowNumber(), window.getBankTeller());
 			window.setOccupant(bc);
-		}
+		
 		customers.remove(bc);
 	}
 	

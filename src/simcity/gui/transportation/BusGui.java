@@ -34,7 +34,7 @@ public class BusGui extends Gui {
 	public void draw(Graphics2D g) {
 
 		if (BUSSTOPX < 365 ) {
-		BUSSTOPX++;
+			BUSSTOPX++;
 		}
 		g.drawImage(busimage, BUSSTOPX, BUSSTOPY, null); //COMMENT this out to get old Gui Back- Josh
 

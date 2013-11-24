@@ -44,6 +44,7 @@ public class SystemManager {
 	List<TransportationSystem> transportations = new ArrayList<TransportationSystem>();
 	
 	List<BuildingGui> buildings = new ArrayList<BuildingGui>();
+	List<BusGui> busGuis = Collections.synchronizedList(new ArrayList<BusGui>());
 	List<PersonAgent> people = new ArrayList<PersonAgent>();
 	
 	public SystemManager(SimCityGui g) {
@@ -65,6 +66,9 @@ public class SystemManager {
 		restaurantFives.clear();
 		restaurantSixes.clear();
 		transportations.clear();
+		busGuis.clear();
+		buildings.clear();
+		people.clear();
 	}
 	
 	public void getContact(SimSystem s) {
@@ -80,28 +84,23 @@ public class SystemManager {
 	public void addPerson(String name) {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());
-		people.add(person);
+		//people.add(person);
 		
 		//hacks
-		person.startThread();
+		//
 		
 		// Hack because Mark goes to Market
-		if (name == "Mark") {
+		if (name == "Mark") {  //does this even work?  I'm using ==, not .equals()?  what?  -- tested, it does work
 			person.goToMarketNow();
-		}
-		if (name == "Homie") {
-			person.goToHomeNow();
 		}
 		if (name == "Levonne") {
 			person.goToBankNow();
 		}
-		//world.getAnimationPanel().addGui(person.getRoles().get(0).getGui());
-
-		//restaurantOnes.get(0).getAnimationPanel().addGui(person.getRoles().get(1).getGui());
-		//restaurantOnes.get(0).getAnimationPanel().addGui(person.getRestaurantOneCustomer().getGui());
-
-		//restaurantOnes.get(0).getAnimationPanel().addGui(person.getRoles().get(1).getGui());
-		//banks.get(0).getAnimationPanel().addGui(person.getRoles().get(2).getGui());
+		
+		people.add(person);
+		person.startThread();
+		
+		
 	}
 	
 	public void addMarket(String name, int xLoc, int yLoc) {
@@ -146,9 +145,11 @@ public class SystemManager {
 		dir.add(name, EntryType.Bus, loc, temp);
 		BusAgent bus = new BusAgent(name);
 		BusGui tbg = new BusGui(bus);
+		bus.setGui(tbg);
 		world.getAnimationPanel().addBus(tbg);
-		
-		
+		System.out.println("FUCK");
+		bus.startThread();
+		bus.makeBusMove();
 	}
 	
 	public void addRestaurantOne(String name, int xLoc, int yLoc) {
@@ -182,6 +183,21 @@ public class SystemManager {
 	public void addRestaurantSix() {
 		restaurantSixes.add(new RestaurantSixSystem(simcity));
 	}
+	
+	public void setHome(String person, String home) {
+		//ApartmentSystem apt;
+		//HouseSystem house;
+		PersonAgent resident = null;
+		
+		for (PersonAgent p : people) {
+			if (p.getName().equals(person)) {
+				resident = p;
+			}
+		}
+		//System.out.println("setHome is being called, home is "+home+" and resident is: "+resident.getName());
+		resident.addHome(home);		
+	}
+	
 	
 	public MarketSystem getMarket(int i) {
 		return markets.get(i);

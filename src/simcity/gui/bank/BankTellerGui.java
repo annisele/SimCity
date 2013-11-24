@@ -13,6 +13,7 @@ import simcity.gui.Gui;
 import simcity.interfaces.bank.BankTeller;
 
 public class BankTellerGui extends Gui {
+	
 	private final int WINDOW1_X = 150;
 	private final int WINDOW1_Y = 200;
 	
@@ -24,6 +25,7 @@ public class BankTellerGui extends Gui {
 
 	private final int HOST_X = 300;
 	private final int HOST_Y = 400;
+	
 	ImageIcon ii = new ImageIcon("res/person/persondownbig.png");
 	Image img = ii.getImage();
 
@@ -31,6 +33,7 @@ public class BankTellerGui extends Gui {
 	public BankTellerGui(BankTellerRole b) {
 		role = b;
 	}
+	
 	public void draw(Graphics2D g) {
 		g.drawImage(img, x, y, null);
 	}

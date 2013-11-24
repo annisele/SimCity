@@ -25,9 +25,9 @@ public class MarketAnimationPanel extends AnimationPanel implements ActionListen
 	private final int NUM_SHELVES = 6;
 	private final int WALL_WIDTH = 5;
 	
-	 ImageIcon ii = new ImageIcon("res/Market/marketinterior.png");
-	    Image img = ii.getImage();
-	    Image marketimage = img.getScaledInstance(470, 454,  java.awt.Image.SCALE_SMOOTH); 
+	ImageIcon ii = new ImageIcon("res/Market/marketinterior.png");
+    Image img = ii.getImage();
+    Image marketimage = img.getScaledInstance(470, 454,  java.awt.Image.SCALE_SMOOTH); 
 	
 	public MarketAnimationPanel() {
 		super();

@@ -146,4 +146,24 @@ public class RestaurantOneCashierRole extends Role {//implements simcity.interfa
 	                        
 	                }
 	        }
+
+
+
+
+
+			@Override
+			public void msgExitBuilding() {
+				// TODO Auto-generated method stub
+				
+			}
+
+
+
+
+
+			@Override
+			public void msgEnterBuilding() {
+				// TODO Auto-generated method stub
+				
+			}
 }

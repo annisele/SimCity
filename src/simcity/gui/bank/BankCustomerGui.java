@@ -10,7 +10,7 @@ import simcity.gui.Gui;
 import simcity.interfaces.bank.BankCustomer;
 
 public class BankCustomerGui extends Gui{
-	private int HOST_X = 250;
+	private int HOST_X = 230;
 	private int HOST_Y = 420;
 
 	ImageIcon ii = new ImageIcon("res/person/persondownbig.png");
@@ -25,8 +25,8 @@ public class BankCustomerGui extends Gui{
 	
 	private final int WINDOW3_X = 250;
 	private final int WINDOW3_Y = 200;
-	private enum Command {noCommand, GoToWindow, LeaveBank};
-	private Command command = Command.noCommand;
+	
+	
 	public BankCustomerGui(BankCustomerRole b) {
 		role = b;
 	}

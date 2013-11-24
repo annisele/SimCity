@@ -22,8 +22,8 @@ public class BankComputer {
 	BankComputer() {
 		setLoanableFunds(500000);
 		setCashInBank(500000);
-		
 	}
+	
 	// functions
 	public int addAccountAndReturnNumber(BankCustomerRole bc, String password, double amountToProcess) {
 		numAccounts++;

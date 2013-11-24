@@ -24,7 +24,7 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 	private List<MyCustomerInDebt> debtCustomers = Collections.synchronizedList(new ArrayList<MyCustomerInDebt>()); // list of bank customers in debt
 
 	// utility variables
-	private Semaphore atBank = new Semaphore(0, true);
+	private Semaphore atDest = new Semaphore(0, true);
 
 	public enum transactionType {none, openAccount, depositMoney, withdrawMoney, loanMoney, payLoan, payRent};	// type of transaction from customer
 	public enum transactionState {none, processing};											// transaction state
@@ -41,8 +41,8 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 	}
 
 	// utility function
-	public void atBank() {
-    	atBank.release();
+	public void atDestination() {
+    	atDest.release();
     }
 	// messages
 
@@ -172,10 +172,18 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 		if(bank.verifyAccount(customer.getAccountNumber(), customer.getPassword())){
 			System.out.println("I've withdrawn your money");
 			BankAccount account = bank.accountLookup(customer.getAccountNumber());
-			account.setAccountBalance(account.getAccountBalance() - customer.getAmountToProcess());
-			bank.updateSystemAccount(account);
-			customer.getBankCustomer().msgHereIsMoney(account.getBankCustomer(), account.getAccountNumber(), 
-					account.getAccountBalance(), customer.getAmountToProcess());
+			
+			if (account.getAccountBalance() >= customer.getAmountToProcess()) {	// customer has enough money to withdraw
+				account.setAccountBalance(account.getAccountBalance() - customer.getAmountToProcess());
+				bank.updateSystemAccount(account);
+				customer.getBankCustomer().msgHereIsMoney(account.getBankCustomer(), account.getAccountNumber(), 
+						account.getAccountBalance(), customer.getAmountToProcess());
+			}
+			else {	// customer does not have enough money to withdraw
+				customer.getBankCustomer().msgNotEnoughMoneyToWithdraw(account.getBankCustomer(), account.getAccountNumber(), 
+						account.getAccountBalance(), customer.getAmountToProcess());
+			}
+			
 		}
 		else {
 			customer.getBankCustomer().msgVerificationFailed();
@@ -193,6 +201,7 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 				System.out.println("Your loan is approved!");
 				account.setAmountOwed(account.getAmountOwed() + customer.getAmountToProcess());
 				bank.updateSystemAccount(account);
+				bank.setLoanableFunds(bank.getLoanableFunds() - customer.getAmountToProcess());
 				customer.getBankCustomer().msgHereIsYourLoan(account.getBankCustomer(), account.getAccountNumber(), 
 						account.getAccountBalance(), customer.getAmountToProcess());
 			}
@@ -216,11 +225,12 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 		if(bank.verifyAccount(customer.getAccountNumber(), customer.getPassword())){
 			BankAccount account = bank.accountLookup(customer.getAccountNumber());
 			
-			if (account.getAmountOwed() <= customer.getAmountToProcess()) {	// exact payment
+			if (account.getAmountOwed() <= customer.getAmountToProcess()) {	// paid successfully
 				System.out.println("You've paid back all your loans!");
 				double actualPaid = account.getAmountOwed();	// in case customer pays too much
 				account.setAmountOwed(0);
 				bank.updateSystemAccount(account);
+				bank.setLoanableFunds(bank.getLoanableFunds() + actualPaid);
 				customer.getBankCustomer().msgLoanIsCompletelyRepaid(account.getBankCustomer(), account.getAccountNumber(), 
 						account.getAmountOwed(), customer.getAmountToProcess(), actualPaid);
 			}
@@ -228,6 +238,7 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 				System.out.println("You have paid a part of your loan.");
 				account.setAmountOwed(account.getAmountOwed() - customer.getAmountToProcess());
 				bank.updateSystemAccount(account);
+				bank.setLoanableFunds(bank.getLoanableFunds() + customer.getAmountToProcess());
 				customer.getBankCustomer().msgLoanIsPartiallyRepaid(account.getBankCustomer(), account.getAccountNumber(), 
 						account.getAmountOwed(), customer.getAmountToProcess());
 			}
@@ -377,7 +388,7 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 		person.Do("Leaving bank.");
 		gui.DoExitBuilding();
 		try {
-			atBank.acquire();
+			atDest.acquire();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -389,7 +400,7 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 	public void msgEnterBuilding() {
 		((BankTellerGui)gui).DoGoToHost();
 		try {
-			atBank.acquire();
+			atDest.acquire();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

@@ -7,6 +7,7 @@ package simcity.buildings.bank;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
+
 import simcity.PersonAgent;
 import simcity.Role;
 import simcity.gui.Gui;
@@ -20,7 +21,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	private Semaphore atBank = new Semaphore(0, true);
 	private BankTellerRole bt;
 	int windowNumber;
-	
+	private BankSystem bank;
 	int accountNumber;
 	double amountToProcess;
 	double cashOnHand;
@@ -210,10 +211,24 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 		}
 
 		public void msgExitBuilding() {
-			
+			person.Do("Leaving bank");
+			gui.DoExitBuilding();
+			try {
+				atBank.acquire();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			bank.exitBuilding(this);
+			person.roleFinished();
+			person.isIdle();
 		}
 		public void msgEnterBuilding() {
-		
+			((BankCustomerGui)gui).DoGoToHost();try {
+				atBank.acquire();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
 		}	 
 
 }

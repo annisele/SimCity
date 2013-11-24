@@ -4,16 +4,23 @@ import java.util.*;
 
 import javax.swing.JPanel;
 
+import simcity.Role;
 import simcity.gui.*;
 import simcity.gui.bank.*;
 import simcity.gui.market.MarketAnimationPanel;
+import simcity.interfaces.bank.BankCustomer;
+import simcity.interfaces.bank.BankHost;
+import simcity.interfaces.bank.BankTeller;
 import simcity.buildings.bank.BankHostRole;
 import simcity.buildings.bank.BankHostRole.BankWindow;
+
 
 public class BankSystem extends simcity.SimSystem{
 
 	private BankComputer computer= new BankComputer();
-	private BankHostRole bh;
+	private BankHost bh;
+	private List<BankCustomer> customers = Collections.synchronizedList(new ArrayList<BankCustomer>());
+	private List<BankTeller> bankTellers = Collections.synchronizedList(new ArrayList<BankTeller>());
 	private List<BankWindow> windows = Collections.synchronizedList(new ArrayList<BankWindow>());
 	private BankWindow windowLookup;
 	
@@ -29,12 +36,14 @@ public class BankSystem extends simcity.SimSystem{
 		}
 	}
 
-	public BankHostRole getBankHost() {
+	public BankHost getBankHost() {
 		return bh;
 	}
-
-	public void setBankHost(BankHostRole bh) {
-		this.bh = bh;
+	
+	public void setBankHost(BankHostRole c) {
+		this.bh = c;
+		BankHostGui hostGui = new BankHostGui(c);
+		animationPanel.addGui(hostGui);
 	}
 
 	public void setWindowLookup(int windowNumber) {
@@ -49,6 +58,29 @@ public class BankSystem extends simcity.SimSystem{
 	
 	public BankWindow getWindowLookup() {
 		return windowLookup;
+	}
+	public boolean msgEnterBuilding(Role role) {
+		animationPanel.addGui(role.getGui());
+		if(role instanceof BankCustomer) {
+			customers.add((BankCustomer) role);
+		}
+		
+		else if(role instanceof BankTeller) {
+			bankTellers.add((BankTeller) role);
+		}
+		else if(role instanceof BankHost) {
+			bh = (BankHost) role;
+		}
+		return true;
+	}
+	public void exitBuilding(Role role) {
+		animationPanel.removeGui(role.getGui());
+		if(role instanceof BankCustomer) {
+			customers.remove((BankCustomer) role);
+		}
+		else if(role instanceof BankTeller) {
+			bankTellers.remove((BankTeller) role);
+		}
 	}
 	
 }

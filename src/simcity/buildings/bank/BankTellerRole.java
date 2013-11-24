@@ -2,6 +2,7 @@ package simcity.buildings.bank;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
+
 import simcity.PersonAgent;
 import simcity.Role;
 import simcity.buildings.bank.BankComputer.BankAccount;
@@ -14,6 +15,7 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 	// data
 	private String name;
 	private BankHost bankHost;
+	private BankSystem bankSystem;
 	private List<MyCustomer> customers = Collections.synchronizedList(new ArrayList<MyCustomer>());		// list of customers
 	private List<MyCustomerInDebt> debtCustomers = Collections.synchronizedList(new ArrayList<MyCustomerInDebt>()); // list of bank customers in debt
 	BankComputer bank;	// bank system that contains account info for people
@@ -240,11 +242,25 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 	}
 
 	public void msgExitBuilding() {
-		// TODO Auto-generated method stub
+		person.Do("Leaving bank.");
+		gui.DoExitBuilding();
+		try {
+			atBank.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		bankSystem.exitBuilding(this);
+		person.roleFinished();
+		person.isIdle();
 		
 	}
 	public void msgEnterBuilding() {
-		// TODO Auto-generated method stub
+		((BankTellerGui)gui).DoGoToHost();
+		try {
+			atBank.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		
 	}
 	public void setHost(BankHostRole b) {

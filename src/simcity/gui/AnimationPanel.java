@@ -138,6 +138,22 @@ public class AnimationPanel extends JPanel implements ActionListener{
 				}
 			}
 		}
+		
+		/*synchronized(busGuis) {
+			for (BusGui bg : busGuis) {
+				if (bg.isPresent()) {
+					bg.updatePosition();
+				}
+			}
+		} */
+		
+	/*	synchronized(busGuis) {
+			for(BusGui bg : busGuis) {
+				if (bg.isPresent()) {
+					bg.draw((Graphics2D)g);
+				}
+			}
+		} */
 
 		//repaint();
 	}
@@ -145,11 +161,20 @@ public class AnimationPanel extends JPanel implements ActionListener{
 	public void updateGuis() {
 		synchronized(guis) {
 			for (Gui gui : guis) {
+
 				if (gui.isPresent()) {
 					gui.updatePosition();
 				}
 			}
 		}
+		/*synchronized(busGuis) {
+			for (BusGui bg : busGuis) {
+				
+				if (bg.isPresent()) {
+					//bg.updatePosition();
+				}
+			}
+		} */
 	}
 
 	public void addGui(Gui gui) {

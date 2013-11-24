@@ -78,11 +78,6 @@ public class PersonAgent extends Agent implements Person {
 		//myRoles.add(r5);
 	}
 
-	//hack
-	public IdlePersonGui getIdleGui() {
-		return idleGui;
-	}
-
 	@Override
 	public boolean pickAndExecuteAnAction() {
 		if(currentRole != null) {
@@ -486,6 +481,11 @@ public class PersonAgent extends Agent implements Person {
 
 	public boolean isIdle() {
 		return (currentRole == null);
+	}
+	
+	//hack
+	public IdlePersonGui getIdleGui() {
+		return idleGui;
 	}
 
 	public void receiveDelivery(Map<String, Integer> tempItems) {

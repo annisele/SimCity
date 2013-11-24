@@ -26,7 +26,12 @@ public class BusAgent implements simcity.interfaces.transportation.Bus {
 	
 	    }
 	
+		public BusAgent(String busname) {
+			this.name = busname; 
+			
+		}
 		
+	private String name;
 	List<MyPassenger> passengers;
 	List<Location> busStops;
 	int busStopCounter;
@@ -90,12 +95,11 @@ private void Stop() {
 }
 	
 private void DoGoTo(int x, int y) {
+	//Animation
+	//Wait a few Seconds
 	
 	
 }
-
-	// Animation
-	//Wait a few seconds
 
 
 }

@@ -19,10 +19,12 @@ import simcity.buildings.restaurant.one.RestaurantOneSystem;
 import simcity.buildings.restaurant.six.RestaurantSixSystem;
 import simcity.buildings.restaurant.three.RestaurantThreeSystem;
 import simcity.buildings.restaurant.two.RestaurantTwoSystem;
+import simcity.buildings.transportation.BusAgent;
 import simcity.buildings.transportation.TransportationSystem;
 import simcity.gui.Gui;
 import simcity.gui.SimCityGui;
 import simcity.gui.BuildingGui;
+import simcity.gui.transportation.BusGui;
 import simcity.interfaces.market.MarketCashier;
 
 public class SystemManager {
@@ -103,7 +105,7 @@ public class SystemManager {
 		MarketSystem temp = new MarketSystem(simcity);
 		temp.setName(name);
 		markets.add(temp);
-		BuildingGui building = new BuildingGui(temp, xLoc, yLoc);
+		BuildingGui building = new BuildingGui(temp, "Market", xLoc, yLoc);
 		world.getAnimationPanel().addBuilding(building);
 		Location loc = new Location(xLoc, yLoc);
 		
@@ -114,7 +116,7 @@ public class SystemManager {
 		BankSystem temp = new BankSystem(simcity);
 		temp.setName(name);
 		banks.add(temp);
-		BuildingGui building = new BuildingGui(temp, xLoc, yLoc);
+		BuildingGui building = new BuildingGui(temp, "Bank", xLoc, yLoc);
 		world.getAnimationPanel().addBuilding(building);
 		Location loc = new Location(xLoc, yLoc);
 		
@@ -125,18 +127,31 @@ public class SystemManager {
 		HouseSystem temp = new HouseSystem(simcity);
 		temp.setName(name);
 		houses.add(new HouseSystem(simcity));
-		BuildingGui building = new BuildingGui(temp, xLoc, yLoc);
+		BuildingGui building = new BuildingGui(temp, "House", xLoc, yLoc);
 		world.getAnimationPanel().addBuilding(building);
-		//Location loc = new Location(xLoc, yLoc);
+		Location loc = new Location(xLoc, yLoc);
 		
-		//dir.add(name, EntryType.House, loc, temp);
+		dir.add(name, EntryType.House, loc, temp);
+	}
+	
+	public void addBus(String name) {
+		// TODO Auto-generated method stub
+		TransportationSystem temp = new TransportationSystem(simcity);
+		temp.setName(name);
+		transportations.add(temp);
+		Location loc = new Location(100, 400);
+		dir.add(name, EntryType.Bus, loc, temp);
+		BusAgent bus = new BusAgent(name);
+		world.getAnimationPanel().addBus(new BusGui(bus));
+		
+		
 	}
 	
 	public void addRestaurantOne(String name, int xLoc, int yLoc) {
 		RestaurantOneSystem temp = new RestaurantOneSystem(simcity);
 		temp.setName(name);
 		restaurantOnes.add(temp);
-		BuildingGui building = new BuildingGui(temp, xLoc, yLoc);
+		BuildingGui building = new BuildingGui(temp, "RestaurantOne", xLoc, yLoc);
 		world.getAnimationPanel().addBuilding(building);
 		Location loc = new Location(xLoc, yLoc);
 		
@@ -247,6 +262,8 @@ public class SystemManager {
 		person.startThread();
 	}
 	
+	
+	
 	public void addMarketWorkerHack(String name, String market) {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());
@@ -272,5 +289,6 @@ public class SystemManager {
 		people.add(person);
 		person.startThread();
 	}
+
 	
 }

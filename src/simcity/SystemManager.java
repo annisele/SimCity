@@ -272,5 +272,11 @@ public class SystemManager {
 		people.add(person);
 		person.startThread();
 	}
+
+	public void addBus(String string) {
+		// TODO Auto-generated method stub
+		
+		
+	}
 	
 }

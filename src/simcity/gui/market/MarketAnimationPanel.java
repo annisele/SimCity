@@ -45,7 +45,7 @@ public class MarketAnimationPanel extends AnimationPanel implements ActionListen
 		g2.setColor(Color.LIGHT_GRAY);
 		g2.fillRect(0, 0, this.getWidth(), this.getHeight());
 		
-		g2.drawImage(marketimage, 0,0, null); //COMMENT this out to get old Gui Back- Josh
+		g2.drawImage(marketimage, 0,0, null); 
 
 
 		super.paintComponent(g);

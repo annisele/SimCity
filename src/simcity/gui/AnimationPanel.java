@@ -3,6 +3,7 @@ package simcity.gui;
 import java.awt.*;
 
 import simcity.Clock;
+import simcity.gui.transportation.BusGui;
 
 import java.awt.event.*;
 import java.util.Collections;
@@ -18,7 +19,7 @@ public class AnimationPanel extends JPanel implements ActionListener{
 
 	protected List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
 	protected List<BuildingGui> buildingGuis = Collections.synchronizedList(new ArrayList<BuildingGui>());
-
+	protected List<BusGui> busGuis = Collections.synchronizedList(new ArrayList<BusGui>());
 	// 
 	// have a timer that calls repaint() on every panel
 	//private Timer repaintTimer = new Timer();

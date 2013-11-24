@@ -138,8 +138,6 @@ public class SystemManager {
 		TransportationSystem temp = new TransportationSystem(simcity);
 		temp.setName(name);
 		transportations.add(temp);
-		BuildingGui building = new BuildingGui(temp, 100, 400 );
-		world.getAnimationPanel().addBuilding(building);
 		Location loc = new Location(100, 400);
 		dir.add(name, EntryType.Bus, loc, temp);
 		

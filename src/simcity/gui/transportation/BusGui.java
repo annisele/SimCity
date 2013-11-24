@@ -32,8 +32,7 @@ public class BusGui extends Gui {
     
 	@Override
 	public void draw(Graphics2D g) {
-		g.drawImage(img, 100, 100, null); //COMMENT this out to get old Gui Back- Josh
-		System.out.println("In Draw of BusGui");
+		g.drawImage(img, 100, 400, null); //COMMENT this out to get old Gui Back- Josh
 	}
 
 	public void DoGoToStop() {

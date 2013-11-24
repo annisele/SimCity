@@ -29,7 +29,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	// set inside bank
 	private BankHostRole bh;
 	private BankTellerRole bt;
-	private int windowNumber =1;
+	private int windowNumber;
 	
 	private BankSystem bank;
 
@@ -217,7 +217,6 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	    	}
 		    bh.msgEnteringBank(this);
 		    System.out.println("I'm here for bank transaction");
-		    ((BankCustomerGui)gui).DoGoToBankTeller(1);
 		}
 
 		private void OpenAccount() {

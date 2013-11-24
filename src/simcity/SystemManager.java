@@ -92,6 +92,9 @@ public class SystemManager {
 		if (name == "Homie") {
 			person.goToHomeNow();
 		}
+		if (name == "Levonne") {
+			person.goToBankNow();
+		}
 		//world.getAnimationPanel().addGui(person.getRoles().get(0).getGui());
 
 		//restaurantOnes.get(0).getAnimationPanel().addGui(person.getRoles().get(1).getGui());

@@ -44,6 +44,7 @@ public class SystemManager {
 	List<TransportationSystem> transportations = new ArrayList<TransportationSystem>();
 	
 	List<BuildingGui> buildings = new ArrayList<BuildingGui>();
+	List<BusGui> busGuis = Collections.synchronizedList(new ArrayList<BusGui>());
 	List<PersonAgent> people = new ArrayList<PersonAgent>();
 	
 	public SystemManager(SimCityGui g) {
@@ -141,9 +142,11 @@ public class SystemManager {
 		dir.add(name, EntryType.Bus, loc, temp);
 		BusAgent bus = new BusAgent(name);
 		BusGui tbg = new BusGui(bus);
+		bus.setGui(tbg);
 		world.getAnimationPanel().addBus(tbg);
-		
-		
+		System.out.println("FUCK");
+		bus.startThread();
+		bus.makeBusMove();
 	}
 	
 	public void addRestaurantOne(String name, int xLoc, int yLoc) {

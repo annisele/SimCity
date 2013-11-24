@@ -22,7 +22,7 @@ public class BusGui extends Gui {
 
 		ImageIcon ii = new ImageIcon("res/citygui/markettruck.png");
 		Image img = ii.getImage();
-		Image busimage = img.getScaledInstance(25, 25,  java.awt.Image.SCALE_SMOOTH); 
+		Image busimage = img.getScaledInstance(25, 20,  java.awt.Image.SCALE_SMOOTH); 
 
 
 	public BusGui(BusAgent bus) {
@@ -32,12 +32,12 @@ public class BusGui extends Gui {
     
 	@Override
 	public void draw(Graphics2D g) {
-<<<<<<< HEAD
-		g.drawImage(img, 100, 350, null); //COMMENT this out to get old Gui Back- Josh
-=======
+
+		if (BUSSTOPX < 365 ) {
 		BUSSTOPX++;
+		}
 		g.drawImage(busimage, BUSSTOPX, BUSSTOPY, null); //COMMENT this out to get old Gui Back- Josh
->>>>>>> 592f25a0e67ca2f036dc8c5ca59c346e27cf8b66
+
 	}
 
 	public void DoGoToStop() {

@@ -28,6 +28,8 @@ public class Config {
 		systems.addBank("Bank", 100, 300);
 		systems.addHouse("House of the Lord", 300, 300);
 		systems.addPerson("Mark"); // Jesus get back in your house!
+		
+		systems.startThreads();
 				
 	}
 	
@@ -48,6 +50,8 @@ public class Config {
 				}, 2000);
 			}
 		}, 2000);
+		
+		systems.startThreads();
 	}
 	
 	public void oneHouse() {
@@ -55,8 +59,11 @@ public class Config {
 		systems.clearDetailPane();
 		
 		systems.addHouse("HouseOne", 100, 100);
-		systems.addHouse("House", 300, 300);
-		systems.addPerson("Homie"); // This guy will live in the house
+		//systems.addPerson("Homie"); // This guy will live in the house, hence his name
+		systems.addPerson("Homie");
+		systems.setHome("Homie", "HouseOne");
+		
+		systems.startThreads();
 	}
 	
 	public void oneBank() {
@@ -76,6 +83,8 @@ public class Config {
 				}, 2000);
 			}
 		}, 2000);
+		
+		systems.startThreads();
 	}
 	
 	public void oneRestaurant() {

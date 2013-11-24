@@ -9,7 +9,6 @@ import simcity.gui.market.MarketCashierGui;
 import simcity.gui.market.MarketCustomerGui;
 import simcity.interfaces.market.MarketCustomer;
 import simcity.interfaces.market.MarketWorker;
-import sun.tools.tree.SuperExpression;
 
 public class MarketCashierRole extends Role implements simcity.interfaces.market.MarketCashier {
 	private List<MarketOrder> orders = Collections.synchronizedList(new ArrayList<MarketOrder>());

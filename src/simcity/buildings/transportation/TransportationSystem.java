@@ -4,7 +4,7 @@ import simcity.gui.SimCityGui;
 
 public class TransportationSystem extends simcity.SimSystem {
 
-	TransportationSystem(SimCityGui scg) {
+	public TransportationSystem(SimCityGui scg) {
 		super(scg);
 	}
 }

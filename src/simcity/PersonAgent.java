@@ -193,7 +193,7 @@ public class PersonAgent extends Agent implements Person {
 			}
 			//hack
 			BankCustomerRole bc = new BankCustomerRole(this);
-			((BankCustomer)eventR).msgMoneyIsDeposited(bc, 123456, 1500, 1000);
+			((BankCustomer)eventR).msgArrivedAtBank();
 			
 			e = new Event(buildingName, eventR, 120, -1, true, steps, t);
 			
@@ -473,11 +473,11 @@ public class PersonAgent extends Agent implements Person {
 	public void goToMarketNow() {
 		this.scheduleEvent(EventType.GoToMarket);
 	}
-	
-	/*public void goToHomeNow() {
-		this.scheduleEvent(EventType.Sleep);
-	} I don't think we need this method! */
 
+	public void goToBankNow() {
+		this.scheduleEvent(EventType.DepositMoney);
+	}
+	
 	public boolean isIdle() {
 		return (currentRole == null);
 	}

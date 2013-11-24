@@ -28,9 +28,10 @@ public class Config {
 		systems.addBank("Bank", 100, 300);
 		systems.addHouse("House of the Lord", 300, 300);
 		systems.addPerson("Mark"); // Jesus get back in your house!
+
+		systems.addBus("Buster");
 		
-		systems.startThreads();
-				
+		systems.startThreads();				
 	}
 	
 	public void oneMarket() {
@@ -70,8 +71,9 @@ public class Config {
 		systems.clear();
 		systems.clearDetailPane();
 		
+		systems.addPerson("Levonne");
 		systems.addBank("Bank", 100, 300);
-		systems.addBankHostHack("Levonne", "Bank");
+		systems.addBankHostHack("Kevin", "Bank");
 		
 		timer.schedule(new TimerTask(){
 			public void run() {

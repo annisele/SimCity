@@ -13,14 +13,14 @@ import simcity.gui.Gui;
 import simcity.interfaces.bank.BankTeller;
 
 public class BankTellerGui extends Gui {
-	private final int WINDOW1_X = 300;
+	private final int WINDOW1_X = 150;
 	private final int WINDOW1_Y = 200;
 	
-	private final int WINDOW2_X = 300;
-	private final int WINDOW2_Y = 300;
+	private final int WINDOW2_X = 200;
+	private final int WINDOW2_Y = 200;
 	
-	private final int WINDOW3_X = 300;
-	private final int WINDOW3_Y = 400;
+	private final int WINDOW3_X = 250;
+	private final int WINDOW3_Y = 200;
 
 	private final int HOST_X = 300;
 	private final int HOST_Y = 400;

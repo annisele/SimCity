@@ -2,6 +2,8 @@ package simcity.gui;
 
 import javax.swing.*;
 
+import simcity.gui.transportation.BusGui;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -43,6 +45,14 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
         	}
         }
         
+        for (BusGui b : busGuis) {
+        	//System.out.println("I should have one busGui");
+        	if (b.isPresent()) {
+				//b.updatePosition();
+			}
+        	b.draw((Graphics2D)g);
+        }
+        
         super.paintComponent(g);
 		
        
@@ -54,6 +64,12 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
 	
 	public void addBuilding(BuildingGui g) {
 		buildingGuis.add(g);
+	}
+	
+	public void addBus(BusGui g) {
+		System.out.println("Adding a bus");
+		busGuis.add(g);
+		
 	}
 	
 

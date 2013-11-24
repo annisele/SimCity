@@ -19,10 +19,12 @@ import simcity.buildings.restaurant.one.RestaurantOneSystem;
 import simcity.buildings.restaurant.six.RestaurantSixSystem;
 import simcity.buildings.restaurant.three.RestaurantThreeSystem;
 import simcity.buildings.restaurant.two.RestaurantTwoSystem;
+import simcity.buildings.transportation.BusAgent;
 import simcity.buildings.transportation.TransportationSystem;
 import simcity.gui.Gui;
 import simcity.gui.SimCityGui;
 import simcity.gui.BuildingGui;
+import simcity.gui.transportation.BusGui;
 import simcity.interfaces.market.MarketCashier;
 
 public class SystemManager {
@@ -87,9 +89,14 @@ public class SystemManager {
 		if (name == "Mark") {  //does this even work?  I'm using ==, not .equals()?  what?  -- tested, it does work
 			person.goToMarketNow();
 		}
+		if (name == "Levonne") {
+			person.goToBankNow();
+		}
 		
 		people.add(person);
 
+
+		
 
 		//world.getAnimationPanel().addGui(person.getRoles().get(0).getGui());
 
@@ -131,6 +138,20 @@ public class SystemManager {
 		Location loc = new Location(xLoc, yLoc);
 		
 		dir.add(name, EntryType.House, loc, temp);
+	}
+	
+	public void addBus(String name) {
+		// TODO Auto-generated method stub
+		TransportationSystem temp = new TransportationSystem(simcity);
+		temp.setName(name);
+		transportations.add(temp);
+		Location loc = new Location(100, 400);
+		dir.add(name, EntryType.Bus, loc, temp);
+		BusAgent bus = new BusAgent(name);
+		BusGui tbg = new BusGui(bus);
+		world.getAnimationPanel().addBus(tbg);
+		
+		
 	}
 	
 	public void addRestaurantOne(String name, int xLoc, int yLoc) {
@@ -268,6 +289,8 @@ public class SystemManager {
 		person.startThread();
 	}
 	
+	
+	
 	public void addMarketWorkerHack(String name, String market) {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());
@@ -294,10 +317,5 @@ public class SystemManager {
 		person.startThread();
 	}
 
-	public void addBus(String string) {
-		// TODO Auto-generated method stub
-		
-		
-	}
 	
 }

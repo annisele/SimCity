@@ -103,7 +103,7 @@ public class SystemManager {
 		MarketSystem temp = new MarketSystem(simcity);
 		temp.setName(name);
 		markets.add(temp);
-		BuildingGui building = new BuildingGui(temp, xLoc, yLoc);
+		BuildingGui building = new BuildingGui(temp, "Market", xLoc, yLoc);
 		world.getAnimationPanel().addBuilding(building);
 		Location loc = new Location(xLoc, yLoc);
 		
@@ -114,7 +114,7 @@ public class SystemManager {
 		BankSystem temp = new BankSystem(simcity);
 		temp.setName(name);
 		banks.add(temp);
-		BuildingGui building = new BuildingGui(temp, xLoc, yLoc);
+		BuildingGui building = new BuildingGui(temp, "Bank", xLoc, yLoc);
 		world.getAnimationPanel().addBuilding(building);
 		Location loc = new Location(xLoc, yLoc);
 		
@@ -125,18 +125,18 @@ public class SystemManager {
 		HouseSystem temp = new HouseSystem(simcity);
 		temp.setName(name);
 		houses.add(new HouseSystem(simcity));
-		BuildingGui building = new BuildingGui(temp, xLoc, yLoc);
+		BuildingGui building = new BuildingGui(temp, "House", xLoc, yLoc);
 		world.getAnimationPanel().addBuilding(building);
-		//Location loc = new Location(xLoc, yLoc);
+		Location loc = new Location(xLoc, yLoc);
 		
-		//dir.add(name, EntryType.House, loc, temp);
+		dir.add(name, EntryType.House, loc, temp);
 	}
 	
 	public void addRestaurantOne(String name, int xLoc, int yLoc) {
 		RestaurantOneSystem temp = new RestaurantOneSystem(simcity);
 		temp.setName(name);
 		restaurantOnes.add(temp);
-		BuildingGui building = new BuildingGui(temp, xLoc, yLoc);
+		BuildingGui building = new BuildingGui(temp, "RestaurantOne", xLoc, yLoc);
 		world.getAnimationPanel().addBuilding(building);
 		Location loc = new Location(xLoc, yLoc);
 		

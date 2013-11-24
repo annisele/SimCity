@@ -54,7 +54,7 @@ public class Config {
 		systems.clear();
 		systems.clearDetailPane();
 		
-		systems.addMarket("Market", 100, 100);
+		systems.addHouse("HouseOne", 100, 100);
 		systems.addHouse("House", 300, 300);
 		systems.addPerson("Homie"); // This guy will live in the house
 	}

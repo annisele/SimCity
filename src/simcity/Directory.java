@@ -5,7 +5,7 @@ import java.util.*;
 public class Directory {
 	
 	private static WorldSystem world;
-	public static enum EntryType {Market, Restaurant, Bank};
+	public static enum EntryType {Market, Restaurant, Bank, House};
 	private static Map<String, Entry> directory = new HashMap<String, Entry>(); //maps names to entries
 
 	private class Entry {

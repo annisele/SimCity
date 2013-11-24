@@ -54,13 +54,23 @@ public class Config {
 				}, 2000);
 			}
 		}, 2000);
-		
-		
-		
-		
-		
-
 	}
-	
+	public void oneBank() {
+		systems.clear();
+		systems.clearDetailPane();
+		systems.addBank("Bank", 100, 400);
+		systems.addBankHostHack("Levonne", "Bank");
+		
+		timer.schedule(new TimerTask(){
+			public void run() {
+				systems.addBankTellerHack("Key", "Bank");
+				timer.schedule(new TimerTask(){
+					public void run() {
+						systems.addPerson("Zuckerberg");
+					}
+				}, 2000);
+			}
+		}, 2000);
+	}
 
 }

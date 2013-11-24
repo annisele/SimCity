@@ -56,8 +56,6 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	}
 	
 	//messages 
-	
-	//bank host sends this message to tell bank customer to go to bank window
 	public void msgArrivedAtBank() { // from gui
 		System.out.println("I'm at bank");
 		event = Event.arrivedAtBank;
@@ -155,7 +153,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 		}
 
 		private void OpenAccount() {
-			((BankCustomerGui)gui).DoGoToBankTeller();
+			((BankCustomerGui)gui).DoGoToBankTeller(windowNumber);
 			try {
 	    		atBank.acquire();
 	    	} catch (InterruptedException e) {
@@ -167,7 +165,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 		}
 
 		private void DepositMoney() {
-			((BankCustomerGui)gui).DoGoToBankTeller();
+			((BankCustomerGui)gui).DoGoToBankTeller(windowNumber);
 			try {
 	    		atBank.acquire();
 	    	} catch (InterruptedException e) {
@@ -178,7 +176,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 		}
 
 		private void WithdrawMoney() {
-			((BankCustomerGui)gui).DoGoToBankTeller();
+			((BankCustomerGui)gui).DoGoToBankTeller(windowNumber);
 			try {
 	    		atBank.acquire();
 	    	} catch (InterruptedException e) {
@@ -189,7 +187,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 		}
 
 		private void LoanMoney() {
-			((BankCustomerGui)gui).DoGoToBankTeller();
+			((BankCustomerGui)gui).DoGoToBankTeller(windowNumber);
 			try {
 	    		atBank.acquire();
 	    	} catch (InterruptedException e) {

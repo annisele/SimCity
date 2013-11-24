@@ -13,6 +13,7 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 
 	// data
 	private String name;
+	private BankHost bankHost;
 	private List<MyCustomer> customers = Collections.synchronizedList(new ArrayList<MyCustomer>());		// list of customers
 	private List<MyCustomerInDebt> debtCustomers = Collections.synchronizedList(new ArrayList<MyCustomerInDebt>()); // list of bank customers in debt
 	BankComputer bank;	// bank system that contains account info for people
@@ -222,7 +223,6 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 		}
 	}
 	// utility functions
-
 	public String getName() {
 		return name;
 	}
@@ -239,16 +239,16 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 		this.bank = bank;
 	}
 
-	@Override
 	public void msgExitBuilding() {
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
 	public void msgEnterBuilding() {
 		// TODO Auto-generated method stub
 		
+	}
+	public void setHost(BankHostRole b) {
+		bankHost = b;
 	}
 
 }

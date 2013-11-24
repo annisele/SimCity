@@ -9,56 +9,45 @@ import simcity.Role;
 import simcity.gui.bank.BankHostGui;
 import simcity.interfaces.bank.*;
 
-public class BankHostRole extends Role implements simcity.interfaces.bank.BankHost {
-	
-	// utility class: BankWindow
-	public static class BankWindow {
-		
-		public BankCustomerRole occupiedBy;
-		public BankTellerRole bankTeller;
-		public int windowNum;
-		public boolean occupied;
-		
-		public boolean isOccupied() {
-			return occupied;
-		}
-		
-		public int getWindowNumber() {
-			return windowNum;
-		}
-		
-		public void setUnoccupied() {
-			occupiedBy = null;
-			occupied = false;
-		}
-		
-		public void setOccupant(BankCustomerRole cust) {
-			occupiedBy = cust;
-			occupied = true;
-		}
-		
-		public BankCustomerRole getOccupant() {
-			return occupiedBy;
-		}
-		
-		public BankWindow(int windowNum) {				// constructor
-			this.windowNum = windowNum;
-			this.occupied = false;
-		}
-		
-		public BankTellerRole getBankTeller() {
-			return bankTeller;
-		}
-		
-		public void setBankTeller(BankTellerRole bankTeller) {
-			this.bankTeller = bankTeller;
-		}		
-	}
-	
+public class BankHostRole extends Role implements simcity.interfaces.bank.BankHost {	
 	// data
 	private String name;
 	Timer timer = new Timer();
 	private List<BankWindow> windows = Collections.synchronizedList(new ArrayList<BankWindow>());
+	// utility class: BankWindow
+	public static class BankWindow {
+		public BankCustomerRole occupiedBy;
+		public BankTellerRole bankTeller;
+		public int windowNum;
+		public boolean occupied;
+		public boolean isOccupied() {
+			return occupied;
+		}
+		public int getWindowNumber() {
+			return windowNum;
+		}
+		public void setUnoccupied() {
+			occupiedBy = null;
+			occupied = false;
+		}
+		public void setOccupant(BankCustomerRole cust) {
+			occupiedBy = cust;
+			occupied = true;
+		}
+		public BankCustomerRole getOccupant() {
+			return occupiedBy;
+		}
+		public BankWindow(int windowNum) {				// constructor
+			this.windowNum = windowNum;
+			this.occupied = false;
+		}
+		public BankTellerRole getBankTeller() {
+			return bankTeller;
+		}	
+		public void setBankTeller(BankTellerRole bankTeller) {
+			this.bankTeller = bankTeller;
+		}		
+	}
 	private List<BankCustomerRole> customers = Collections.synchronizedList(new ArrayList<BankCustomerRole>());
 	private List<BankTeller> bankTellers = Collections.synchronizedList(new ArrayList<BankTeller>());
 	private Semaphore atBank = new Semaphore(0, true);

@@ -103,9 +103,17 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	public void msgHereIsMoney(BankCustomerRole bc, int accountNumber, double accountBalance, double amountProcessed) {
 		System.out.println("Here is the money that you withdraw");
 		cashOnHand = cashOnHand + amountProcessed;
+		event = Event.transactionProcessed;
 		stateChanged();
 	}
 
+	// bank teller sends this message to customer if not enough money is withdrawn
+	public void msgNotEnoughMoneyToWithdraw(BankCustomerRole bc, int accountNumber, double accountBalance, double amountProcessed) {
+		System.out.println("Not enough money to withdraw amount");
+		event = Event.transactionProcessed;
+		stateChanged();
+	}
+	
 	//bank teller sends this message to customer after depositing money
 	public void msgMoneyIsDeposited(BankCustomerRole bc, int accountNumber, double accountBalance, double amountProcessed) {
 		System.out.println("Here is the money that you deposited");
@@ -156,6 +164,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	 
 	 //bank teller sends this message to customer verification failed
 	 public void msgVerificationFailed() {
+		 System.out.println("Verification failed");
 		 event = Event.transactionProcessed;
 		 stateChanged();
 	 }
@@ -252,7 +261,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 		    bt.msgWantToWithdraw(this, amountToProcess);
 		    System.out.println("Bank customer wants to withdraw money");
 		}
-
+		
 		private void LoanMoney() {
 			((BankCustomerGui)gui).DoGoToBankTeller(windowNumber);
 			try {

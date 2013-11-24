@@ -142,7 +142,8 @@ public class SystemManager {
 		Location loc = new Location(100, 400);
 		dir.add(name, EntryType.Bus, loc, temp);
 		BusAgent bus = new BusAgent(name);
-		world.getAnimationPanel().addBus(new BusGui(bus));
+		BusGui tbg = new BusGui(bus);
+		world.getAnimationPanel().addBus(tbg);
 		
 		
 	}

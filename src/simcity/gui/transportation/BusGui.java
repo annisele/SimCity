@@ -20,7 +20,7 @@ public class BusGui extends Gui {
 		private final int BUSSTOPX = 10; //BOGUS
 		private final int BUSSTOPY = 10; //BOGUS
 
-		ImageIcon ii = new ImageIcon("res/citygui/markettruck");
+		ImageIcon ii = new ImageIcon("res/citygui/markettruck.png");
 		Image img = ii.getImage();
 		
 
@@ -32,7 +32,7 @@ public class BusGui extends Gui {
     
 	@Override
 	public void draw(Graphics2D g) {
-		g.drawImage(img, x, y, null); //COMMENT this out to get old Gui Back- Josh
+		g.drawImage(img, 100, 100, null); //COMMENT this out to get old Gui Back- Josh
 		System.out.println("In Draw of BusGui");
 	}
 

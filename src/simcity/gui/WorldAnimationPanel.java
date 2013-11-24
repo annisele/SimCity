@@ -45,6 +45,14 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
         	}
         }
         
+        for (BusGui b : busGuis) {
+        	//System.out.println("I should have one busGui");
+        	if (b.isPresent()) {
+				//b.updatePosition();
+			}
+        	b.draw((Graphics2D)g);
+        }
+        
         super.paintComponent(g);
 		
        
@@ -59,7 +67,9 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
 	}
 	
 	public void addBus(BusGui g) {
+		System.out.println("Adding a bus");
 		busGuis.add(g);
+		
 	}
 	
 

@@ -193,7 +193,7 @@ public class PersonAgent extends Agent implements Person {
 			}
 			//hack
 			BankCustomerRole bc = new BankCustomerRole(this);
-			((BankCustomer)eventR).msgMoneyIsDeposited(bc, 123456, 1500, 1000);
+			((BankCustomer)eventR).msgArrivedAtBank();
 			
 			e = new Event(buildingName, eventR, 120, -1, true, steps, t);
 			
@@ -481,6 +481,10 @@ public class PersonAgent extends Agent implements Person {
 		this.scheduleEvent(EventType.Sleep);
 	}
 
+	public void goToBankNow() {
+		this.scheduleEvent(EventType.DepositMoney);
+	}
+	
 	public boolean isIdle() {
 		return (currentRole == null);
 	}

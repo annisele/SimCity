@@ -65,8 +65,9 @@ public class Config {
 		systems.clear();
 		systems.clearDetailPane();
 		
+		systems.addPerson("Levonne");
 		systems.addBank("Bank", 100, 300);
-		systems.addBankHostHack("Levonne", "Bank");
+		systems.addBankHostHack("Kevin", "Bank");
 		
 		timer.schedule(new TimerTask(){
 			public void run() {

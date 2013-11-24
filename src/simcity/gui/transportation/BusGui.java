@@ -17,12 +17,12 @@ import simcity.buildings.transportation.*;
 public class BusGui extends Gui {
 
 		private BusAgent busagent;
-		private final int BUSSTOPX = 10; //BOGUS
-		private final int BUSSTOPY = 10; //BOGUS
+		private  int BUSSTOPX = 32; //BOGUS
+		private  int BUSSTOPY = 67; //BOGUS
 
 		ImageIcon ii = new ImageIcon("res/citygui/markettruck.png");
 		Image img = ii.getImage();
-		
+		Image busimage = img.getScaledInstance(25, 25,  java.awt.Image.SCALE_SMOOTH); 
 
 
 	public BusGui(BusAgent bus) {
@@ -32,7 +32,12 @@ public class BusGui extends Gui {
     
 	@Override
 	public void draw(Graphics2D g) {
+<<<<<<< HEAD
 		g.drawImage(img, 100, 350, null); //COMMENT this out to get old Gui Back- Josh
+=======
+		BUSSTOPX++;
+		g.drawImage(busimage, BUSSTOPX, BUSSTOPY, null); //COMMENT this out to get old Gui Back- Josh
+>>>>>>> 592f25a0e67ca2f036dc8c5ca59c346e27cf8b66
 	}
 
 	public void DoGoToStop() {

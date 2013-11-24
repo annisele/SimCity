@@ -52,6 +52,7 @@ public class PersonAgent extends Agent implements Person {
 	private IdlePersonGui idleGui;
 
 	public double money = 40;
+	private String myHouse;
 	private String workBuilding;
 	private Role workRole;
 
@@ -305,6 +306,22 @@ public class PersonAgent extends Agent implements Person {
 			insertEvent(e);
 			stateChanged();
 		}
+		else if (t == EventType.Sleep) {
+			List<Step> steps = new ArrayList<Step>();
+			steps.add(new Step("exitBuilding", this));
+			steps.add(new Step("goTo", this));
+			steps.add(new Step("enterBuilding", this));
+			HouseInhabitantRole house = null;
+			for(Role r : myRoles) {
+				if(r instanceof HouseInhabitantRole) {
+					house = (HouseInhabitantRole) r;
+				}
+			}
+			e = new Event(myHouse, house, 480, 3, false, steps, t);
+			//Do("GoToWork is scheduled, which has "+steps.size()+" steps");
+			insertEvent(e);
+			stateChanged();
+		}
 	}
 
 	//this assumes after roles are done, they go stand outside the building
@@ -461,6 +478,10 @@ public class PersonAgent extends Agent implements Person {
 	//Test event
 	public void goToMarketNow() {
 		this.scheduleEvent(EventType.GoToMarket);
+	}
+	
+	public void goToHomeNow() {
+		this.scheduleEvent(EventType.Sleep);
 	}
 
 	public boolean isIdle() {

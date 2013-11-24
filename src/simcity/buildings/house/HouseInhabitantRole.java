@@ -5,6 +5,7 @@ import simcity.PersonAgent;
 import simcity.Role;
 
 public class HouseInhabitantRole extends Role implements simcity.interfaces.house.HouseInhabitant {
+
 	private Map <String , Integer > foodStock= new HashMap<String,Integer>();
 	Timer sleeptimer= new Timer();
 	Timer cooktimer= new Timer();

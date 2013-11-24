@@ -87,6 +87,9 @@ public class SystemManager {
 		if (name == "Mark") {
 			person.goToMarketNow();
 		}
+		if (name == "Homie") {
+			person.goToHomeNow();
+		}
 		//world.getAnimationPanel().addGui(person.getRoles().get(0).getGui());
 
 		//restaurantOnes.get(0).getAnimationPanel().addGui(person.getRoles().get(1).getGui());

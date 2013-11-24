@@ -12,12 +12,16 @@ import javax.swing.ImageIcon;
 
 import simcity.Location;
 import simcity.SimSystem;
+import simcity.PersonAgent.EventType;
 
 public class BuildingGui {
+	
 	private Location location;
 	private static final int SIZE_X = 60;
 	private static final int SIZE_Y = 60;
 	private SimSystem system;
+	private enum BuildingType {House, Market, Bank, Apartment, RestaurantOne, RestaurantTwo, RestaurantThree, RestaurantFour, RestaurantFive, RestaurantSix};
+	private BuildingType type;
 	//private ControlPanel controlPanel;
 	
 	ImageIcon restauranticon = new ImageIcon("res/citygui/restaurantone.png");
@@ -42,8 +46,9 @@ public class BuildingGui {
 
 	
 	//System system;
-	public BuildingGui(SimSystem s, int xLoc, int yLoc) {
+	public BuildingGui(SimSystem s, String t, int xLoc, int yLoc) {
 		system = s;
+		type = BuildingType.valueOf(t);
 		//controlPanel = s.getControlPanel();
 		location = new Location(xLoc, yLoc);
 		
@@ -54,14 +59,14 @@ public class BuildingGui {
     	//g.fillRect(location.getX(), location.getY(), SIZE_X, SIZE_Y);
 	    g.drawImage(roadimage, 40,32, null);
 
-    	if (system.getName().equals("Market"))
-    	g.drawImage(finalmarketimage,location.getX(), location.getY(), null);
-    	if (system.getName().equals("RestaurantOne"))
-    	g.drawImage(finalrestaurantimage, location.getX(), location.getY(), null);
-    	if (system.getName().equals("House of the Lord"))
-    	g.drawImage(finalhouseimage, location.getX(), location.getY(), null);
-    	if (system.getName().equals("Bank"))
-    	g.drawImage(finalbankimage, location.getX(), location.getY(), null);
+    	if (type == BuildingType.Market)
+    		g.drawImage(finalmarketimage,location.getX(), location.getY(), null);
+    	else if (type == BuildingType.RestaurantOne)
+    		g.drawImage(finalrestaurantimage, location.getX(), location.getY(), null);
+    	else if (type == BuildingType.House)
+    		g.drawImage(finalhouseimage, location.getX(), location.getY(), null);
+    	else if (type == BuildingType.Bank)
+    		g.drawImage(finalbankimage, location.getX(), location.getY(), null);
     }
     
     //to check if this building was clicked on

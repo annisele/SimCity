@@ -12,7 +12,7 @@ public class Gui {
 	protected int y = 454;
 	protected int xDest = 0;
 	protected int yDest = 0;
-	protected  int SIZE = 20;
+	protected int SIZE = 20;
 	protected int EXIT_X = 235;
 	protected int EXIT_Y = 454;
 	protected boolean atDestNow = false;

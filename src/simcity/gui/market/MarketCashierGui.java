@@ -17,6 +17,7 @@ public class MarketCashierGui extends Gui {
 	private final int CASH_REG_Y = 95;
 	private final int COUNTER_X = 0;
 	private final int COUNTER_Y = 100;
+
 	
 	ImageIcon ii = new ImageIcon("res/market/cashier.png");
 	Image img = ii.getImage();

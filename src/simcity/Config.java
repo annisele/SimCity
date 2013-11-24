@@ -21,20 +21,16 @@ public class Config {
 	
 	public void threeBuildings() {
 		systems.clear();
+		systems.clearDetailPane();
 		
 		systems.addMarket("Market", 100, 100);
 		systems.addRestaurantOne("RestaurantOne", 300, 100);
 		systems.addBank("Bank", 100, 300);
 		systems.addHouse("House of the Lord", 300, 300);
 		systems.addPerson("Mark"); // Jesus get back in your house!
+
+		systems.addBus("Buster");
 		
-		systems.clearDetailPane();
-		//systems.setCards();
-		
-//		PedestrianGui testPed = new PedestrianGui();
-//        world.addBuilding(new BuildingGui("Market1", 30, 10));
-//        world.addBuilding(new BuildingGui("Bank1", 110, 10));
-//        world.addGui(testPed);
 	}
 	
 	public void oneMarket() {
@@ -55,12 +51,40 @@ public class Config {
 			}
 		}, 2000);
 		
-		
-		
-		
-		
-
 	}
 	
+	public void oneHouse() {
+		systems.clear();
+		systems.clearDetailPane();
+		
+		systems.addHouse("HouseOne", 100, 100);
+		//systems.addPerson("Homie"); // This guy will live in the house, hence his name
+		systems.addPerson("Homie");
+		systems.setHome("Homie", "HouseOne");
+	}
+	
+	public void oneBank() {
+		systems.clear();
+		systems.clearDetailPane();
+		
+		systems.addBank("Bank", 100, 300);
+		systems.addBankHostHack("Kevin", "Bank");
+		
+		timer.schedule(new TimerTask(){
+			public void run() {
+				systems.addBankTellerHack("Key", "Bank");
+				timer.schedule(new TimerTask(){
+					public void run() {
+						systems.addPerson("Levonne");
+					}
+				}, 4000);
+			}
+		}, 4000);
+	}
+	
+	public void oneRestaurant() {
+		systems.clear();
+		systems.clearDetailPane();
+	}
 
 }

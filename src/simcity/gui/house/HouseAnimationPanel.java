@@ -29,7 +29,7 @@ public class HouseAnimationPanel extends AnimationPanel implements ActionListene
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-
+		super.actionPerformed(arg0);
 	}
 
 	public void paintComponent(Graphics g) {

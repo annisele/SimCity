@@ -26,7 +26,7 @@ public class MarketCustomerGui extends Gui {
 
 	@Override
 	public void draw(Graphics2D g) {
-		g.drawImage(img, x, y, null); //COMMENT this out to get old Gui Back- Josh
+		g.drawImage(img, x, y, null); 
 	}
 
 	public void DoGoToCashier() {

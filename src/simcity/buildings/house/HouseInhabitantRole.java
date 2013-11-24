@@ -1,40 +1,52 @@
 package simcity.buildings.house;
 import java.util.*;
+import java.util.concurrent.Semaphore;
 
 import simcity.PersonAgent;
 import simcity.Role;
+import simcity.gui.house.HouseInhabitantGui;
+import simcity.gui.market.MarketCustomerGui;
 
 public class HouseInhabitantRole extends Role implements simcity.interfaces.house.HouseInhabitant {
+
+	HouseSystem house;
+	enum HouseInhabitantState { Hungry, ReadyToSleep, Sleeping, Bored } 
+	HouseInhabitantState state;
 	private Map <String , Integer > foodStock= new HashMap<String,Integer>();
 	Timer sleeptimer= new Timer();
 	Timer cooktimer= new Timer();
-	PersonAgent person;
-	enum HouseInhabitantState {hungry, readytosleep, sleeping, bored} 
-	HouseInhabitantState state;
+	
+	private Semaphore atDest = new Semaphore(0, true);
 	
 	
 	public HouseInhabitantRole(PersonAgent p){
 		this.person = p;
+		this.gui = new HouseInhabitantGui(this);
+	}
+	
+	@Override
+	public void atDestination() {
+		atDest.release();
 	}
 
 	//Messages
 
 	public void msgNeedToEat() { //From PersonAgent
-		state = HouseInhabitantState.hungry;
+		state = HouseInhabitantState.Hungry;
 	}
 	
 	public void msgGoToBed() {//from universe/simGOD
-		state = HouseInhabitantState.readytosleep;
+		state = HouseInhabitantState.ReadyToSleep;
 	}
 	
 	@Override
 	public boolean pickAndExecuteAnAction() {
 		// TODO Auto-generated method stub
-		if (state == HouseInhabitantState.hungry){
+		if (state == HouseInhabitantState.Hungry){
 				Cook();
 				return true;
 		}
-			if (state == HouseInhabitantState.readytosleep){
+			if (state == HouseInhabitantState.ReadyToSleep){
 				Sleep();
 				return true;
 			}
@@ -74,7 +86,7 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
             
             public void run() {
                     
-                    //Do("finished sleeping");
+                    //Do("finished Sleeping");
                     WakeUp();
                     // add gui events to "got to the kitcen and make food" 
                     stateChanged();
@@ -95,13 +107,27 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 
 	@Override
 	public void msgExitBuilding() {
-		// TODO Auto-generated method stub
+		person.Do("Leaving market.");
+		gui.DoExitBuilding();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		house.exitBuilding(this);
+		person.roleFinished();
+		person.isIdle();
 		
 	}
 
 	@Override
 	public void msgEnterBuilding() {
-		// TODO Auto-generated method stub
+		((HouseInhabitantGui)gui).DoGoToBed();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		
 	}
 

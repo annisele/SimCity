@@ -25,9 +25,9 @@ public class MarketAnimationPanel extends AnimationPanel implements ActionListen
 	private final int NUM_SHELVES = 6;
 	private final int WALL_WIDTH = 5;
 	
-	 ImageIcon ii = new ImageIcon("res/Market/marketinterior.png");
-	    Image img = ii.getImage();
-	    Image marketimage = img.getScaledInstance(470, 454,  java.awt.Image.SCALE_SMOOTH); 
+	ImageIcon ii = new ImageIcon("res/Market/marketinterior.png");
+    Image img = ii.getImage();
+    Image marketimage = img.getScaledInstance(470, 454,  java.awt.Image.SCALE_SMOOTH); 
 	
 	public MarketAnimationPanel() {
 		super();
@@ -45,7 +45,7 @@ public class MarketAnimationPanel extends AnimationPanel implements ActionListen
 		g2.setColor(Color.LIGHT_GRAY);
 		g2.fillRect(0, 0, this.getWidth(), this.getHeight());
 		
-		g2.drawImage(marketimage, 0,0, null); //COMMENT this out to get old Gui Back- Josh
+		g2.drawImage(marketimage, 0,0, null); 
 
 
 		super.paintComponent(g);

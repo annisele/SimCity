@@ -17,8 +17,8 @@ import simcity.buildings.transportation.*;
 public class BusGui extends Gui {
 
 		private BusAgent busagent;
-		private final int BUSSTOPX = 10; //BOGUS
-		private final int BUSSTOPY = 10; //BOGUS
+		private  int BUSSTOPX = 32; //BOGUS
+		private  int BUSSTOPY = 67; //BOGUS
 
 		ImageIcon ii = new ImageIcon("res/citygui/markettruck.png");
 		Image img = ii.getImage();
@@ -32,7 +32,8 @@ public class BusGui extends Gui {
     
 	@Override
 	public void draw(Graphics2D g) {
-		g.drawImage(busimage, 100, 360, null); //COMMENT this out to get old Gui Back- Josh
+		BUSSTOPX++;
+		g.drawImage(busimage, BUSSTOPX, BUSSTOPY, null); //COMMENT this out to get old Gui Back- Josh
 	}
 
 	public void DoGoToStop() {

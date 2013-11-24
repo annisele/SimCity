@@ -225,14 +225,75 @@ public class PersonAgent extends Agent implements Person {
 				}
 			}
 			//hack
-			BankCustomerRole bc = new BankCustomerRole(this);
-			((BankCustomer)eventR).msgMoneyIsDeposited(bc, 654321, 500, 500);
+			BankCustomerRole c = new BankCustomerRole(this);
+			((BankCustomer)eventR).msgHereIsMoney(c, 123456, 1000, 500);
 			
 			e = new Event(buildingName, eventR, 120, -1, true, steps, t);
 			
 			insertEvent(e);
 			stateChanged();
 		}
+		else if (t == EventType.GetALoan) {
+			List<String> banks = Directory.getBanks();
+			int index = rand.nextInt(banks.size());
+			String buildingName = banks.get(index);
+			List<Step> steps = new ArrayList<Step>();
+			steps.add(new Step("exitBuilding", this));
+			steps.add(new Step("goTo", this));
+			steps.add(new Step("enterBuilding", this));
+			Role eventR = null;
+			for(Role r : myRoles) {
+				if(r instanceof BankCustomer) {
+					eventR = r;
+				}
+			}
+			HouseInhabitantRole house = null;
+			for(Role r : myRoles) {
+				if(r instanceof HouseInhabitantRole) {
+					house = (HouseInhabitantRole) r;
+				}
+			}
+			//hack
+			BankCustomerRole o = new BankCustomerRole(this);
+			//assuming that getting a loan increases the amount of money in account
+			((BankCustomer)eventR).msgHereIsYourLoan(o, 123456, 1500, 500);
+			
+			e = new Event(buildingName, eventR, 120, -1, true, steps, t);
+			
+			insertEvent(e);
+			stateChanged();
+		}
+		else if (t == EventType.PayRent) {
+			List<String> banks = Directory.getBanks();
+			int index = rand.nextInt(banks.size());
+			String buildingName = banks.get(index);
+			List<Step> steps = new ArrayList<Step>();
+			steps.add(new Step("exitBuilding", this));
+			steps.add(new Step("goTo", this));
+			steps.add(new Step("enterBuilding", this));
+			Role eventR = null;
+			for(Role r : myRoles) {
+				if(r instanceof BankCustomer) {
+					eventR = r;
+				}
+			}
+			HouseInhabitantRole house = null;
+			for(Role r : myRoles) {
+				if(r instanceof HouseInhabitantRole) {
+					house = (HouseInhabitantRole) r;
+				}
+			}
+			//hack
+			BankCustomerRole z = new BankCustomerRole(this);
+			//assuming that paying rent reduces the amount of money in account
+			((BankCustomer)eventR).msgHereIsMoney(z, 123456, 1000, 500);
+			
+			e = new Event(buildingName, eventR, 120, -1, true, steps, t);
+			
+			insertEvent(e);
+			stateChanged();
+		}
+		
 		else if (t == EventType.Work) {
 			List<Step> steps = new ArrayList<Step>();
 			steps.add(new Step("exitBuilding", this));

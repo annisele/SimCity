@@ -19,9 +19,9 @@ public class MarketCashierGui extends Gui {
 	private final int LEFT_X = -50;
 	
 
-	ImageIcon ii = new ImageIcon("res/market/cashier.png");
-	Image img = ii.getImage();
-	Image cashierimage = img.getScaledInstance(70, 62,  java.awt.Image.SCALE_SMOOTH); 
+	ImageIcon ii = new ImageIcon("res/person/bluepersondownbig.png");
+	Image cashierimage = ii.getImage();
+	//Image cashierimage = img.getScaledInstance(70, 62,  java.awt.Image.SCALE_SMOOTH); 
 
 	public MarketCashierGui(MarketCashier m) {
 		role = m;

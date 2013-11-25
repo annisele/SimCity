@@ -33,10 +33,10 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 	
 	public BusAgent(String busname) {
 		this.name = busname; 
-		Location stop1 = new Location(55, 67);
-		Location stop2 = new Location(365, 67);
-		Location stop3 = new Location(365, 370);
-		Location stop4 = new Location(55, 370);
+		Location stop1 = new Location(68, 67);
+		Location stop2 = new Location(370, 67);
+		Location stop3 = new Location(370, 366);
+		Location stop4 = new Location(68, 366);
 		busStops.put(0, stop1);
 		busStops.put(1, stop2);
 		busStops.put(2, stop3);
@@ -114,7 +114,7 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 			e.printStackTrace();
 		} 
 		busStopCounter = ((busStopCounter + 1) % 4);
-		
+		Stop();
 		makeBusMove();
 	}
 
@@ -128,7 +128,7 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 				p.role.msgBusArriving();
 	                      }
 			event = BusEvent.loading; */
-		
+		System.out.println("In Stop");
 		
 		}
 	
@@ -140,6 +140,7 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 	}
 
 	public void atDestination() {
+		System.out.println("in At Destination in BusAgent");
 		atDestination.release();
 	}
 

@@ -185,7 +185,33 @@ public class MarketCashierRole extends Role implements simcity.interfaces.market
 
 	@Override
 	public void msgEnterBuilding() {
+		((MarketCashierGui)gui).DoGoToCenter();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		((MarketCashierGui)gui).DoGoToLeftCenter();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		((MarketCashierGui)gui).DoGoToLeftTop();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
 		((MarketCashierGui)gui).DoGoToCashRegister();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		//HACK - this should be here but doens't work with it
 		//		try {
 		//			atDest.acquire();
@@ -200,6 +226,7 @@ public class MarketCashierRole extends Role implements simcity.interfaces.market
 		((MarketWorkerRole) w).setCashier(this);
 		((MarketWorkerRole) w).setComputer(computer);
 	}
+
 
 
 

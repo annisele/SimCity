@@ -21,6 +21,7 @@ public abstract class Role  {
 	public boolean active = false;
 
 	public Gui getGui() { 
+		
 		return gui; 
 	}
 	

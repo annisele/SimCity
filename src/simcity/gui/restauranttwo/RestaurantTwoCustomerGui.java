@@ -28,12 +28,13 @@ public class RestaurantTwoCustomerGui extends Gui{
 	public static final int customer_rectsize =20;
 
 	public RestaurantTwoCustomerGui(RestaurantTwoCustomerRole c){ //HostAgent m) {
-		agent = c;
+		role=c;
+		/*agent = c;
 		xPos = -40;
 		yPos = -40;
 		xDestination = -40;
 		yDestination = -40;
-	
+	*/
 		
 		//maitreD = m;
 		//this.gui = gui;

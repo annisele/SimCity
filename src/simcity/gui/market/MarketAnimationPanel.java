@@ -6,13 +6,11 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.*;
 
 import javax.swing.ImageIcon;
 
 import simcity.gui.AnimationPanel;
 import simcity.gui.Gui;
-import simcity.gui.SimCityGui;
 
 
 /****************
@@ -21,9 +19,6 @@ import simcity.gui.SimCityGui;
  *
  */
 public class MarketAnimationPanel extends AnimationPanel implements ActionListener  {
-
-	private final int NUM_SHELVES = 6;
-	private final int WALL_WIDTH = 5;
 	
 	ImageIcon ii = new ImageIcon("res/Market/marketinterior.png");
     Image img = ii.getImage();
@@ -47,10 +42,7 @@ public class MarketAnimationPanel extends AnimationPanel implements ActionListen
 		
 		g2.drawImage(marketimage, 0,0, null); 
 
-
 		super.paintComponent(g);
-
-		//super.guis.add(bob);
 	}
 
 	public void addGui(Gui g) {

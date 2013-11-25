@@ -18,6 +18,8 @@ public class BusGui extends Gui {
 	private int xDest;
 	private int yDest;
 	
+	private boolean atDestNow = false;
+	
 	ImageIcon ii = new ImageIcon("res/citygui/markettruck.png");
 	Image img = ii.getImage();
 	Image busimage = img.getScaledInstance(25, 25,  java.awt.Image.SCALE_SMOOTH); 
@@ -27,33 +29,46 @@ public class BusGui extends Gui {
 	}
 	
 	public void updatePosition() {
-		
-		if(xDest > x) {
+		if(xDest+1 > x) {
 			x++;
 		}
 		else {
 			x--;
 		}
-		if(yDest > y) {
+		if(yDest+1 > y) {
 			y++;
 		}
 		else {
 			y--;
 		}
-		
-		if (x == xDest && y == yDest) {
-			busagent.atDestination();
-		}
+		/*
+		if (((x == (xDest)) || (x == (xDest+1)) || (x == (xDest-1)) && ((y == (yDest)) || (y == (yDest+1)) || (y == (yDest-1))))) {
+			if (atDestNow == false) {
+				busagent.atDestination();
+				atDestNow = true;
+			}
+		} */
+		if (((x == (xDest)) || (x == (xDest+1))) && ((y == (yDest)) || (y == (yDest+1)))) {
+			if (atDestNow == false) {
+				
+				busagent.atDestination();
+				atDestNow = true;
+				
+			}
+		} 
 	}
     
 	@Override
 	public void draw(Graphics2D g) {
+
 		g.drawImage(busimage, x, y, null); //COMMENT this out to get old Gui Back- Josh
 	}
 
 	public void DoGoToStop(int x, int y) {
+		//atDestNow = false;
 		xDest = x;
 		yDest = y;
+		atDestNow = false; 
 	}
 
 	public void setBusAgent(BusAgent bus) {

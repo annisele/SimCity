@@ -3,6 +3,8 @@ package simcity.buildings.transportation;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
 import agent.Agent;
@@ -13,6 +15,8 @@ import simcity.gui.transportation.BusGui;
 //Make Changes to bus stop counter
 //
 public class BusAgent extends Agent implements simcity.interfaces.transportation.Bus {
+	
+	Timer stopTimer = new Timer();
 
 	class MyPassenger {
 		BusPassengerRole role;
@@ -33,15 +37,15 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 	
 	public BusAgent(String busname) {
 		this.name = busname; 
-		Location stop1 = new Location(55, 67);
-		Location stop2 = new Location(365, 67);
-		Location stop3 = new Location(365, 370);
-		Location stop4 = new Location(55, 370);
-		busStops.put(1, stop1);
-		busStops.put(2, stop2);
-		busStops.put(3, stop3);
-		busStops.put(4, stop4);
-		busStopCounter = 1;
+		Location stop1 = new Location(68, 67);
+		Location stop2 = new Location(370, 67);
+		Location stop3 = new Location(370, 366);
+		Location stop4 = new Location(68, 366);
+		busStops.put(0, stop1);
+		busStops.put(1, stop2);
+		busStops.put(2, stop3);
+		busStops.put(3, stop4);
+		busStopCounter = 0;
 		
 	}
 		
@@ -62,7 +66,6 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 	BusEvent event;
 	
 	public void makeBusMove() {		// HACKHACKHACK
-		System.out.println("FUCK");
 		stateChanged();
 	}
 	
@@ -100,36 +103,42 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 	
 	// Scheduler
 	public boolean pickAndExecuteAnAction() {
-		System.out.println("Fuck");
 		Drive();
+		
+		if (state == BusState.stopped && event == BusEvent.loading) {
+			//	if (FullyLoaded == true)
+					state = BusState.driving;
+					Drive();
+					return true;
+		}
+		
+			if (state == BusState.driving && event == BusEvent.arrived) {	
+				state = BusState.stopped;
+				Stop();
+				return true;
+			}
+
+
+		
 		return false;
 	}
 	
 	// Actions
 	private void Drive() {
+		
 		DoGoTo(busStops.get(busStopCounter));
 		try {
 			atDestination.acquire();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
-		}
-		if (busStopCounter == 1) {
-			busStopCounter++;
-		}
-		else if (busStopCounter == 2) {
-			busStopCounter++;
-		}
-		else if (busStopCounter == 3) {
-			busStopCounter++;
-		}
-		else if (busStopCounter == 4) {
-			busStopCounter = 1;
-		}
+		} 
+	busStopCounter = ((busStopCounter + 1) % 4);
+		//Stop();
 		makeBusMove();
 	}
 
 	private void Stop() {
-		for (MyPassenger p : passengers) {
+		/*for (MyPassenger p : passengers) {
 			if (FullyLoaded() == true && p.destination == busStops.get(busStopCounter)) {
 				p.role.msgWeHaveArrived(busStops.get(busStopCounter).getX(),
 	                              busStops.get(busStopCounter).getY());
@@ -137,19 +146,24 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 			else if (p.loaded == false && p.startLocation == busStops.get(busStopCounter)) {
 				p.role.msgBusArriving();
 	                      }
-			event = BusEvent.loading;
+			event = BusEvent.loading; */
+		
 		}
-	}
+	
 	
 	private void DoGoTo(Location l) {
 		//Animation
 		//Wait a few Seconds
 		gui.DoGoToStop(l.getX(), l.getY());
-	
 	}
 
 	public void atDestination() {
-		atDestination.release();
+		  stopTimer.schedule(new TimerTask() {
+              public void run() {
+                      atDestination.release();
+              }
+      },
+     100);
 	}
 
 	public void setGui(BusGui gui) {

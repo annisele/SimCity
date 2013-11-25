@@ -92,7 +92,7 @@ public class SystemManager {
 		//
 		
 		// Hack because Mark goes to Market
-		if (name == "Mark") {  //does this even work?  I'm using ==, not .equals()?  what?  -- tested, it does work
+		if (name.equalsIgnoreCase("Rebecca")) {
 			person.goToMarketNow();
 		}
 		if (name == "Levonne") {
@@ -149,7 +149,6 @@ public class SystemManager {
 		BusGui tbg = new BusGui(bus);
 		bus.setGui(tbg);
 		world.getAnimationPanel().addBus(tbg);
-		System.out.println("FUCK");
 		bus.startThread();
 		bus.makeBusMove();
 	}
@@ -292,8 +291,6 @@ public class SystemManager {
 		person.startThread();
 	}
 	
-	
-	
 	public void addMarketWorkerHack(String name, String market) {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());
@@ -306,7 +303,7 @@ public class SystemManager {
 	public void addBankHostHack(String name, String bank) {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());
-		Role bankHost = new BankHostRole(person);
+		Role bankHost = new BankHostRole(person, banks.get(0));;
 		person.addWork(bankHost, bank);
 		people.add(person);
 		person.startThread();
@@ -314,7 +311,7 @@ public class SystemManager {
 	public void addBankTellerHack(String name, String bank) {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());
-		Role bankTeller = new BankTellerRole(person);
+		Role bankTeller = new BankTellerRole(person, banks.get(0));
 		person.addWork(bankTeller, bank);
 		people.add(person);
 		person.startThread();

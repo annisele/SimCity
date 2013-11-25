@@ -1,6 +1,7 @@
 package simcity.buildings.transportation;
 import simcity.Location;
 import simcity.Role;
+import simcity.SimSystem;
 
 public class CarPassengerRole extends Role implements simcity.interfaces.transportation.CarPassenger {
 	Location destination;
@@ -62,7 +63,12 @@ public class CarPassengerRole extends Role implements simcity.interfaces.transpo
 		
 	}
 	@Override
-	public void msgEnterBuilding() {
+	public void atDestination() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void msgEnterBuilding(SimSystem s) {
 		// TODO Auto-generated method stub
 		
 	}

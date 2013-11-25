@@ -7,7 +7,6 @@ import javax.swing.JPanel;
 import simcity.Role;
 import simcity.gui.*;
 import simcity.gui.bank.*;
-import simcity.gui.market.MarketAnimationPanel;
 import simcity.interfaces.bank.BankCustomer;
 import simcity.interfaces.bank.BankHost;
 import simcity.interfaces.bank.BankTeller;
@@ -23,6 +22,7 @@ public class BankSystem extends simcity.SimSystem{
 	private List<BankTeller> bankTellers = Collections.synchronizedList(new ArrayList<BankTeller>());
 	private List<BankWindow> windows = Collections.synchronizedList(new ArrayList<BankWindow>());
 	private BankWindow windowLookup;
+	private BankWindow availableWindow;
 	
 	private static final int NUM_BANKWINDOWS = 3;
 	
@@ -39,13 +39,42 @@ public class BankSystem extends simcity.SimSystem{
 	public BankHost getBankHost() {
 		return bh;
 	}
-	
-	public void setBankHost(BankHostRole c) {
+	/*
+	public void setBankHost(BankHost c) {
 		this.bh = c;
 		BankHostGui hostGui = new BankHostGui(c);
 		animationPanel.addGui(hostGui);
 	}
-
+*/
+	public void findAvailableWindow() {
+		synchronized(windows) {
+			for (BankWindow window : windows) {
+				if (!window.isOccupied() && window.isReadyToServe()) {
+					availableWindow = window;
+				}
+			}
+		}
+	}
+	
+	public BankWindow getAvailableWindow() {
+		return availableWindow;
+	}
+	
+	public void reinitializeAvailableWindow() {
+		availableWindow = null;
+	}
+	
+	public void findUnreadyWindowAndSendBankTeller(BankTeller bt) {
+		synchronized(windows) {
+			for (BankWindow window : windows) {
+				if (!window.isReadyToServe()) {
+					window.setBankTeller(bt);
+					return;
+				}
+			}
+		}
+	}
+	
 	public void setWindowLookup(int windowNumber) {
 		synchronized(windows) {
 			for (BankWindow window : windows) {
@@ -69,6 +98,7 @@ public class BankSystem extends simcity.SimSystem{
 			bankTellers.add((BankTeller) role);
 		}
 		else if(role instanceof BankHost) {
+			System.out.println(role == null);
 			bh = (BankHost) role;
 		}
 		return true;

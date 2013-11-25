@@ -52,16 +52,12 @@ public class MarketSystem extends simcity.SimSystem {
 		computer.setInventory(inv);
 	}
 	
-	//sets the cashier
-	public void setCashier(MarketCashierRole c) {
-		//MarketCashier c2 = new MarketCashierRole();
-		cashier = c;
-		MarketCashierGui cGui = new MarketCashierGui(c);
-		animationPanel.addGui(cGui);
-	}
-	
 	public MarketCashier getCashier() {
 		return cashier;
+	}
+	
+	public MarketComputer getComputer() {
+		return computer;
 	}
 	
 	@Override

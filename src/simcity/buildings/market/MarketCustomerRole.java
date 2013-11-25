@@ -1,15 +1,20 @@
 package simcity.buildings.market;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Semaphore;
 
 import simcity.PersonAgent;
 import simcity.Role;
+import simcity.SimSystem;
 import simcity.gui.market.MarketCustomerGui;
-import simcity.gui.transportation.PedestrianGui;
 import simcity.interfaces.market.MarketCashier;
+import simcity.interfaces.market.MarketCustomer;
+import simcity.interfaces.market.MarketPayer;
 
-public class MarketCustomerRole extends Role implements simcity.interfaces.market.MarketCustomer {
+public class MarketCustomerRole extends Role implements MarketCustomer {
 
 	private List<Invoice> invoices = Collections.synchronizedList(new ArrayList<Invoice>());
 	private enum InvoiceState {notSent, expected, requested, billed, paid, delivered};
@@ -27,15 +32,14 @@ public class MarketCustomerRole extends Role implements simcity.interfaces.marke
 	}
 	
 	@Override
-	public void msgBuyStuff(Map<String, Integer> itemsToBuy, MarketSystem m) {
+	public void msgBuyStuff(Map<String, Integer> itemsToBuy) {
 		invoices.add(new Invoice(InvoiceState.notSent, itemsToBuy, invoices.size()));
-		market = m;
 		stateChanged();
 	}
 
-	public void msgPleasePay(MarketCashierRole c, double payment, int orderNum) {
+	@Override
+	public void msgPleasePay(MarketCashier c, double payment, int orderNum) {
 		person.Do("Received msgPleasePay");
-		
 		
 		synchronized (invoices) {
 			for(Invoice i : invoices) {
@@ -49,6 +53,7 @@ public class MarketCustomerRole extends Role implements simcity.interfaces.marke
 		stateChanged();
 	}
 
+	@Override
 	public void msgDeliveringOrder(Map<String, Integer> itemsToDeliver) {
 		person.Do("Received msgDeliveringOrder");
 		
@@ -61,14 +66,6 @@ public class MarketCustomerRole extends Role implements simcity.interfaces.marke
 		}
 		stateChanged();
 	}
-	
-	//HACK!!
-	public void msgWait() {
-		System.out.println("Waiting..");
-		invoices.clear();
-		stateChanged();
-	}
-	
 	
 	public boolean pickAndExecuteAnAction() {
 		synchronized (invoices) {
@@ -127,6 +124,34 @@ public class MarketCustomerRole extends Role implements simcity.interfaces.marke
 		person.receiveDelivery(tempItems);
 		msgExitBuilding();
 	}
+	
+
+	@Override
+	public void msgExitBuilding() {
+		person.Do("Leaving market.");
+		gui.DoExitBuilding();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		market.exitBuilding(this);
+		person.roleFinished();
+		person.isIdle();
+		
+	}
+
+	@Override
+	public void msgEnterBuilding(SimSystem s) {
+		market = (MarketSystem)s;
+		((MarketCustomerGui)gui).DoGoToCashier();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+	}
 
 	private class Invoice {
 		double payment;
@@ -145,29 +170,4 @@ public class MarketCustomerRole extends Role implements simcity.interfaces.marke
 		}
 	}
 
-	@Override
-	public void msgExitBuilding() {
-		person.Do("Leaving market.");
-		gui.DoExitBuilding();
-		try {
-			atDest.acquire();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		market.exitBuilding(this);
-		person.roleFinished();
-		person.isIdle();
-		
-	}
-
-	@Override
-	public void msgEnterBuilding() {
-		((MarketCustomerGui)gui).DoGoToCashier();
-		try {
-			atDest.acquire();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		
-	}
 }

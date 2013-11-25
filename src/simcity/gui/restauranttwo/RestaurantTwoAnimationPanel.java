@@ -28,6 +28,12 @@ public class RestaurantTwoAnimationPanel extends AnimationPanel implements Actio
 		setVisible(true);
 
 
+    public void actionPerformed(ActionEvent arg0) {
+		super.actionPerformed(arg0);
+		
+	}
+
+
 		Timer timer = new Timer(3, this );
 		timer.start();
 

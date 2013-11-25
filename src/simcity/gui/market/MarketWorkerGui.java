@@ -11,13 +11,18 @@ import simcity.gui.Gui;
 
 public class MarketWorkerGui extends Gui {
 
-	private final int SHELF_X = 240;
-	private final int SHELF_ONE_Y = 130;
-	private final int SHELF_TWO_Y = 350;
+	private final int SHELF_ONE_AREA_X = 250;
+	private final int SHELF_ONE_AREA_Y = 225;
+	private final int SHELF_ONE_X = 400;
+	private final int SHELF_TWO_X = 90;
+	private final int SHELF_ONE_Y = 205;
+	private final int SHELF_TWO_Y = 340;
 	private final int COUNTER_X = 20;
-	private final int COUNTER_Y = 230;
+	private final int COUNTER_Y = 200;
 	private final int HOME_X = -50;
-	private final int HOME_Y = 275;
+	private final int HOME_Y = 225;
+	private final int CENTER_X = 115;	
+	private final int CENTER_Y = 225;
 	
 	ImageIcon ii = new ImageIcon("res/market/cashier.png");
 	Image img = ii.getImage();
@@ -29,16 +34,19 @@ public class MarketWorkerGui extends Gui {
 
 	@Override
 	public void draw(Graphics2D g) {
-		g.drawImage(workerimage, x, y, null);
-
+		g.drawImage(workerimage, getX(), getY(), null);
+	}
+	
+	public void DoGoToShelfOneArea() {
+		DoGoToLocation(SHELF_ONE_AREA_X, SHELF_ONE_AREA_Y);
 	}
 	
 	public void DoGoToShelfOne() {
-		DoGoToLocation(SHELF_X, SHELF_ONE_Y);
+		DoGoToLocation(SHELF_ONE_X, SHELF_ONE_Y);
 	}
 	
 	public void DoGoToShelfTwo() {
-		DoGoToLocation(SHELF_X, SHELF_TWO_Y);
+		DoGoToLocation(SHELF_TWO_X, SHELF_TWO_Y);
 	}
 	
 	public void DoGoToDropOffItems() {
@@ -47,6 +55,10 @@ public class MarketWorkerGui extends Gui {
 	
 	public void DoGoToHomePosition() {
 		DoGoToLocation(HOME_X, HOME_Y);
+	}
+	
+	public void DoGoToCenter() {
+		DoGoToLocation(CENTER_X, CENTER_Y);
 	}
 
 

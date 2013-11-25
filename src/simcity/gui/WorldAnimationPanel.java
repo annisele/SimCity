@@ -90,7 +90,6 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
 	}
 	
 	public void addBus(BusGui g) {
-		System.out.println("Adding a bus");
 		busGuis.add(g);
 		
 	}

@@ -5,6 +5,7 @@ import java.util.concurrent.Semaphore;
 
 import simcity.PersonAgent;
 import simcity.Role;
+import simcity.SimSystem;
 import simcity.buildings.bank.BankComputer.BankAccount;
 import simcity.gui.Gui;
 import simcity.gui.bank.BankTellerGui;
@@ -35,9 +36,10 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 		setBankSystem(bank);
 	}
 	*/
-	public BankTellerRole(PersonAgent person) {
+	public BankTellerRole(PersonAgent person, BankSystem bank) {
 		this.person = person;
 		this.gui = new BankTellerGui(this);
+		this.bankSystem = bank;
 	}
 
 	// utility function
@@ -46,37 +48,37 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
     }
 	// messages
 
-	public void msgWantToOpenAccount(BankCustomerRole bc, double amountToProcess) {
+	public void msgWantToOpenAccount(BankCustomer bc, double amountToProcess) {
 		System.out.println("I want to open an account");
     	customers.add(new MyCustomer(bc, bc.getPassword(), amountToProcess, transactionType.openAccount));
     	stateChanged();
 	}
 
-	public void msgWantToDeposit(BankCustomerRole bc, double amountToProcess) {
+	public void msgWantToDeposit(BankCustomer bc, double amountToProcess) {
 		System.out.println("I want to deposit money");
     	customers.add(new MyCustomer(bc, bc.getAccountNumber(), bc.getPassword(), amountToProcess, transactionType.depositMoney));
     	stateChanged();
 	}
 
-	public void msgWantToWithdraw(BankCustomerRole bc, double amountToProcess) {
+	public void msgWantToWithdraw(BankCustomer bc, double amountToProcess) {
 		System.out.println("I want to withdraw money");
     	customers.add(new MyCustomer(bc, bc.getAccountNumber(), bc.getPassword(), amountToProcess, transactionType.withdrawMoney));
     	stateChanged();
 	}
 
-	public void msgWantALoan(BankCustomerRole bc, double amountToProcess) {
+	public void msgWantALoan(BankCustomer bc, double amountToProcess) {
 		System.out.println("I want to get a loan");
     	customers.add(new MyCustomer(bc, bc.getAccountNumber(), bc.getPassword(), amountToProcess, transactionType.loanMoney));
     	stateChanged();
 	}
 
-	public void msgWantToPayLoan(BankCustomerRole bc, double amountToProcess) {
+	public void msgWantToPayLoan(BankCustomer bc, double amountToProcess) {
 		System.out.println("I want to pay off my loan");
 		customers.add(new MyCustomer(bc, bc.getAccountNumber(), bc.getPassword(), amountToProcess, transactionType.payLoan));
 		stateChanged();
 	}
 	
-	public void msgWantToPayRent(BankCustomerRole bc, double amountToProcess) {
+	public void msgWantToPayRent(BankCustomer bc, double amountToProcess) {
 		System.out.println("I want to pay rent");
 		customers.add(new MyCustomer(bc, amountToProcess, bc.getLandlordAccountNumber(), transactionType.payRent));
 		stateChanged();
@@ -265,7 +267,7 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 
 	// utility classes
 	public class MyCustomer {
-		BankCustomerRole bc;
+		BankCustomer bc;
 		int accountNumber;
 		String accountPassword;
 		double amountToProcess;
@@ -273,7 +275,7 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 		transactionState ts;
 		int landlordAccountNumber;
 
-		MyCustomer(BankCustomerRole bc, String accountPassword, double amountToProcess, transactionType tt) {
+		MyCustomer(BankCustomer bc, String accountPassword, double amountToProcess, transactionType tt) {
 			this.bc = bc;
 			this.accountPassword = accountPassword;
 			this.amountToProcess = amountToProcess;
@@ -281,7 +283,7 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 			this.ts = transactionState.none;
 		}
 		
-		MyCustomer(BankCustomerRole bc, int accountNumber, String accountPassword, double amountToProcess, transactionType tt) {
+		MyCustomer(BankCustomer bc, int accountNumber, String accountPassword, double amountToProcess, transactionType tt) {
 			this.bc = bc;
 			this.accountNumber = accountNumber;
 			this.accountPassword = accountPassword;
@@ -290,18 +292,18 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 			this.ts = transactionState.none;
 		}
 	
-		MyCustomer(BankCustomerRole bc, double amountToProcess, int landlordAccountNumber, transactionType tt) {
+		MyCustomer(BankCustomer bc, double amountToProcess, int landlordAccountNumber, transactionType tt) {
 			this.bc = bc;
 			this.amountToProcess = amountToProcess;
 			this.landlordAccountNumber = landlordAccountNumber;
 			this.tt = tt;
 		}
 		
-		public BankCustomerRole getBankCustomer() {
+		public BankCustomer getBankCustomer() {
 			return bc;
 		}
 
-		public void setBankCustomer(BankCustomerRole bc) {
+		public void setBankCustomer(BankCustomer bc) {
 			this.bc = bc;
 		}
 
@@ -355,12 +357,12 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 		
 	}
 	public class MyCustomerInDebt {
-		BankCustomerRole bc;
+		BankCustomer bc;
 		int accountNumber;
 		double amountOwed;
 		double amountPaid;
 		
-		MyCustomerInDebt (BankCustomerRole bc, int accountNumber, double amountOwed, double amountPaid) {
+		MyCustomerInDebt (BankCustomer bc, int accountNumber, double amountOwed, double amountPaid) {
 			this.bc = bc;
 			this.accountNumber = accountNumber;
 			this.amountOwed = amountOwed;
@@ -397,14 +399,27 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 		person.isIdle();
 		
 	}
-	public void msgEnterBuilding() {
+	public void msgEnterBuilding(SimSystem s) {
+		bankSystem = (BankSystem) s;
 		((BankTellerGui)gui).DoGoToHost();
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
+		((BankTellerGui)gui).DoGoToCorridor();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		((BankTellerGui)gui).DoGoToWindow3();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		bankSystem.getBankHost().msgImReadyToWork(this);
 	}
 	public void setHost(BankHostRole b) {
 		bankHost = b;

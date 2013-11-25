@@ -19,6 +19,7 @@ import simcity.interfaces.restaurant.two.RestaurantTwoCustomer;
 import simcity.interfaces.transportation.Pedestrian;
 import simcity.buildings.bank.BankCustomerRole;
 import simcity.buildings.bank.BankHostRole;
+import simcity.buildings.bank.BankSystem;
 import simcity.buildings.bank.BankTellerRole;
 import simcity.buildings.house.HouseInhabitantRole;
 import simcity.buildings.market.MarketCashierRole;
@@ -160,13 +161,13 @@ public class PersonAgent extends Agent implements Person {
 					house = (HouseInhabitantRole) r;
 				}
 			}
-			//((MarketCustomer)eventR).msgBuyStuff(house.getListToBuy(), (MarketSystem)(Directory.getSystem(buildingName)));
 			
+			//((MarketCustomer)eventR).msgBuyStuff(house.getListToBuy(), (MarketSystem)(Directory.getSystem(buildingName)));
 			//hack
 			Map<String, Integer> itemsHack = new HashMap<String, Integer>();
 			itemsHack.put("chicken", 1);
 			itemsHack.put("steak", 2);
-			((MarketCustomer)eventR).msgBuyStuff(itemsHack, (MarketSystem)(Directory.getSystem(buildingName)));
+			((MarketCustomer)eventR).msgBuyStuff(itemsHack);
 			
 			e = new Event(buildingName, eventR, 120, -1, true, steps, t);
 			//Do("GoToMarket is scheduled, which has "+steps.size()+" steps");
@@ -230,13 +231,16 @@ public class PersonAgent extends Agent implements Person {
 				}
 			}
 			//hack
-			BankCustomerRole bc = new BankCustomerRole(this);
-			((BankCustomer)eventR).msgArrivedAtBank();
+			//BankCustomerRole bc = new BankCustomerRole(this);
 			
+			((BankCustomer)eventR).msgDepositMoney((BankSystem)(Directory.getSystem(buildingName)));
+			//((BankCustomer)eventR).msgArrivedAtBank();
 			e = new Event(buildingName, eventR, 120, -1, true, steps, t);
 			
 			insertEvent(e);
 			stateChanged();
+			
+			
 		}
 		else if (t == EventType.WithdrawMoney) {
 			List<String> banks = Directory.getBanks();
@@ -259,8 +263,8 @@ public class PersonAgent extends Agent implements Person {
 				}
 			}
 			//hack
-			BankCustomerRole c = new BankCustomerRole(this);
-			((BankCustomer)eventR).msgHereIsMoney(c, 123456, 1000, 500);
+			((BankCustomer)eventR).msgWithdrawMoney((BankSystem)(Directory.getSystem(buildingName)));
+			((BankCustomer)eventR).msgArrivedAtBank();
 			
 			e = new Event(buildingName, eventR, 120, -1, true, steps, t);
 			
@@ -349,6 +353,7 @@ public class PersonAgent extends Agent implements Person {
 					house = (HouseInhabitantRole) r;
 				}
 			}
+			house.msgGoToBed();
 			e = new Event(home, house, 480, 3, false, steps, t);
 			//Do("GoToWork is scheduled, which has "+steps.size()+" steps");
 			insertEvent(e);
@@ -384,7 +389,8 @@ public class PersonAgent extends Agent implements Person {
 		if(Directory.getSystem(currentEvent.buildingName).msgEnterBuilding(currentEvent.role)) {
 			currentRole = currentEvent.role;
 			Do("Entered building. Changing role to " + currentRole.getClass());
-			currentRole.msgEnterBuilding();
+			
+			currentRole.msgEnterBuilding(Directory.getSystem(currentEvent.buildingName));
 			Directory.getSystem(currentEvent.buildingName).animationPanel.addGui(currentRole.getGui());
 			
 		} else {

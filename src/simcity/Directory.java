@@ -7,7 +7,7 @@ public class Directory {
 	private static WorldSystem world;
 	public static enum EntryType {Market, Restaurant, Bank, House, Bus};
 	private static Map<String, Entry> directory = new HashMap<String, Entry>(); //maps names to entries
-
+	
 	private class Entry {
 		String name;
 		Location location;
@@ -15,7 +15,8 @@ public class Directory {
 		SimSystem system;
 
 		Entry(Location l, EntryType t, SimSystem s) {
-			location = l;
+			//shifting location so people enter through the door
+			location = new Location(l.getX() + 22, l.getY() + 50);
 			type = t;
 			system = s;
 		}

@@ -27,7 +27,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	private int landlordAccountNumber;		// when customer wants to pay rent, he gives this accountNumber instead
 
 	// set inside bank
-	private BankHostRole bh;  
+	private BankHost bh;  
 	private BankTellerRole bt;
 	private int windowNumber;
 	
@@ -83,7 +83,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 		amountToProcess = 20;
 		transactionType = TransactionType.openAccount;
 		bank = b;
-		stateChanged();
+		//stateChanged();
 	}
 	
 	//messages 
@@ -229,16 +229,16 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 
 	   // actions
 	    private void InformBankHostOfArrival() {
-	    	//((BankCustomerGui)gui).DoGoToHost();
-	    /*	try {
-	    		atBank.acquire();
+	    	((BankCustomerGui)gui).DoGoToHost();
+	    	try {
+	    		atDest.acquire();
 	    	} catch (InterruptedException e) {
 	    		e.printStackTrace();
 	    	}
-	    	*/
+	    	
 	    	System.out.println("I'm here for bank transaction, host is: "+bank.getBankHost());
 	    	bank.getBankHost().msgEnteringBank(this);
-	    	((BankCustomerGui)gui).DoGoToBankTeller(1);
+	    	//((BankCustomerGui)gui).DoGoToBankTeller(1);
 			try {
 	    		atDest.acquire();
 	    	} catch (InterruptedException e) {
@@ -337,12 +337,16 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 			person.isIdle();
 		}
 		public void msgEnterBuilding() {
+			bh = bank.getBankHost();
+			msgArrivedAtBank();
+			/*
 			((BankCustomerGui)gui).DoGoToHost();
 			try {
 				atDest.acquire();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			*/
 			
 		}	 
 

@@ -4,22 +4,39 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Semaphore;
 
+import simcity.Directory;
+import simcity.Location;
 import simcity.Role;
+import simcity.SimSystem;
+import simcity.gui.market.MarketTruckGui;
+import simcity.interfaces.market.MarketOrderer;
 import simcity.interfaces.market.MarketTruck;
 import agent.Agent;
 
 public class MarketTruckAgent extends Agent implements MarketTruck {
 
 	private List<TruckOrder> orders = Collections.synchronizedList(new ArrayList<TruckOrder>());
-
-	public MarketTruckAgent() {
-
+	private Semaphore atDest = new Semaphore(0, true);
+	private MarketSystem market;
+	MarketTruckGui gui;
+	
+	public MarketTruckAgent(SimSystem m) {
+		market = (MarketSystem)m;
+		Location loc = Directory.getLocation(market.getName());
+		
+		gui = new MarketTruckGui(this, loc.getX(), loc.getY());
+	}
+	
+	public MarketTruckGui getGui() {
+		return gui;
 	}
 
 	@Override
-	public void msgPleaseDeliverOrder(Role r, Map<String, Integer> items) {
+	public void msgPleaseDeliverOrder(MarketOrderer r, Map<String, Integer> items) {
 		orders.add(new TruckOrder(r, items));
+		stateChanged();
 	}
 
 	@Override
@@ -34,22 +51,28 @@ public class MarketTruckAgent extends Agent implements MarketTruck {
 	}
 
 	private void DeliverOrder(TruckOrder o) {
-		//DoDeliverOrder(o.role.person.getAddress()); //animation call
-		//use semaphores to wait until animation arrives at address
-		if(o.role instanceof MarketCustomerRole) {
-			((MarketCustomerRole) o.role).msgDeliveringOrder(o.itemsToDeliver);
+		gui.DoGoToMarket();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
-		else {
-			//need to implement delivering to the 6 different restaurant cooks
+		gui.DoGoToLocation(200, 250);
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
+		
+		o.role.msgDeliveringOrder(o.itemsToDeliver);
 		orders.remove(o);
 	}
 
 	private class TruckOrder {
-		Role role;
+		MarketOrderer role;
 		Map<String, Integer> itemsToDeliver;
 
-		TruckOrder(Role roleIn, Map<String, Integer> itemsToDeliverIn) {
+		TruckOrder(MarketOrderer roleIn, Map<String, Integer> itemsToDeliverIn) {
 			role = roleIn;
 			itemsToDeliver = itemsToDeliverIn;
 		}
@@ -58,7 +81,6 @@ public class MarketTruckAgent extends Agent implements MarketTruck {
 
 	@Override
 	public void atDestination() {
-		// TODO Auto-generated method stub
-
+		atDest.release();
 	}
 }

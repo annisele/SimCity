@@ -4,6 +4,7 @@ package simcity.buildings.restaurant.two;
 import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
+import simcity.buildings.bank.BankSystem;
 import simcity.gui.bank.BankHostGui;
 import simcity.gui.restauranttwo.RestaurantTwoHostGui;
 import simcity.interfaces.restaurant.two.RestaurantTwoCustomer;
@@ -23,6 +24,7 @@ public class RestaurantTwoHostRole extends Role implements simcity.interfaces.re
 	//Notice that we implement waitingCustomers using ArrayList, but type it
 	//with List semantics.
 	public int waiternum;
+	private Semaphore atDest = new Semaphore(0, true);
 	public Map<Integer,Boolean> waitingSpots= new HashMap<Integer, Boolean>();
 	public Map<Integer,Boolean> waiterSpots= new HashMap<Integer, Boolean>();
 	
@@ -214,14 +216,20 @@ public class RestaurantTwoHostRole extends Role implements simcity.interfaces.re
 
 	@Override
 	public void msgEnterBuilding(SimSystem s) {
-		// TODO Auto-generated method stub
+		System.out.println("wdhooo");
+		R2 = (RestaurantTwoSystem)s;
+		((RestaurantTwoHostGui)gui).DoGoToHostPosition();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
 		
 	}
 
-	@Override
 	public void atDestination() {
-		// TODO Auto-generated method stub
-		
+		atDest.release();
 	}
 
 

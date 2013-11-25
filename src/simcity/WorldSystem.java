@@ -16,4 +16,11 @@ public class WorldSystem extends SimSystem {
 		animationPanel.setSimCityGui(sc);
 	}
 	
+	public void clear() {
+		for (PersonAgent p : personsList) {
+				p.clear();
+		}
+		personsList.clear();
+	}
+	
 }

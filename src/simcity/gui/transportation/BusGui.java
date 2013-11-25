@@ -75,4 +75,8 @@ public class BusGui extends Gui {
 		this.busagent = bus;
 	}
 	
+	public void clear() {
+		busagent.clear();
+	}
+	
 }

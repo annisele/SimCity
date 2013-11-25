@@ -175,6 +175,12 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 	public void setGui(BusGui gui) {
 		this.gui = gui;
 	}
+	
+	
+	public void clear() {
+		stopTimer.cancel();
+		stopTimer.purge();
+	}
 
 }
 

@@ -21,7 +21,7 @@ public class Directory {
 			//shifting location so people enter through the door
 			location = new Location(l.getX() + 22, l.getY() + 50);
 			type = t;
-			system = s;
+			system = s; 
 		}
 	}
 	
@@ -97,5 +97,9 @@ public class Directory {
 	public void add(String n, EntryType t, Location l, SimSystem s){
 		Entry temp = new Entry(l, t, s);
 		directory.put(n, temp);
+	}
+	
+	public void clear() {
+		directory.clear();
 	}
 }

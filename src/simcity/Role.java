@@ -49,6 +49,10 @@ public abstract class Role  {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public void clear() {
+		
+	}
 	 
 	 
 	 

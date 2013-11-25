@@ -1,24 +1,28 @@
 package simcity.buildings.house;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
 import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
 import simcity.gui.house.HouseInhabitantGui;
-import simcity.gui.market.MarketCustomerGui;
 
 public class HouseInhabitantRole extends Role implements simcity.interfaces.house.HouseInhabitant {
 
 	HouseSystem house;
+	Timer timer = new Timer();
 	enum HouseInhabitantState { Eating, Sleeping, Bored } 
 	enum HouseInhabitantEvent { Hungry, ReadyToSleep, None } 
 	HouseInhabitantState state;
 	HouseInhabitantEvent event;
 	private Map <String , Integer > foodStock= new HashMap<String,Integer>();
-	private int sleepTime;
-	Timer sleeptimer = new Timer();
-	Timer cooktimer = new Timer();
+	private int sleepTime = 4000;
+	private int cookTime = 6000;
+	private int eatTime = 4000;
+	
 	
 	private Semaphore atDest = new Semaphore(0, true);
 	
@@ -26,7 +30,10 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 	public HouseInhabitantRole(PersonAgent p){
 		this.person = p;
 		this.gui = new HouseInhabitantGui(this);
-		sleepTime = 4000;
+		foodStock.put("steak", 1);
+		foodStock.put("chicken", 1);
+		foodStock.put("pizza", 1);
+		foodStock.put("salad", 1);
 	}
 	
 	@Override
@@ -48,29 +55,37 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 	@Override
 	public boolean pickAndExecuteAnAction() {
 		// TODO Auto-generated method stub
-		if (state == HouseInhabitantState.Bored && event == HouseInhabitantEvent.Hungry){
+		if (event == HouseInhabitantEvent.Hungry){
 			Cook();
-			return true;
 		}
-		else if (state == HouseInhabitantState.Bored && event == HouseInhabitantEvent.ReadyToSleep){
+		else if (event == HouseInhabitantEvent.ReadyToSleep){
 			Sleep();
-			return false;
 		}
-
 		return false;
 	}	
-
+	
+	// Actions
 	private void Cook() {
+		event = HouseInhabitantEvent.None;
 		person.Do("I'm hungry, I should eat");
 		DoGoToKitchen();
 		DoGoToFridge();
+		((HouseInhabitantGui)gui).DoHoldFood();
 		DoGoToStove();
-		DoGoToTable();
+		((HouseInhabitantGui)gui).DoFoodOnStove();
 		
-		DoGetUpFromTable();
-		msgExitBuilding();
+		person.Do("Wow cooking is so much fun");
+		
+		timer.schedule(new TimerTask(){            
+            public void run() {
+                    Eat();
+                    //stateChanged();
+            }
+		}, cookTime); //or whatever time is fine
+		
+		/*
 		if (person.money < 100)
-		     cooktimer.schedule(new TimerTask(){
+		     timer.schedule(new TimerTask(){
                  Object cookie = 1;
                  
                  public void run() {
@@ -80,8 +95,29 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
                          stateChanged();
                  }
          }, 3000); //or whatever time is fine
-		else LeaveForRestaurant();
+		else LeaveForRestaurant();*/
+	}
+	
+	private void Eat() {
+		Do("Food looks ready!");
+		((HouseInhabitantGui)gui).DoHoldFood();
+		DoGoToTable();
+		((HouseInhabitantGui)gui).DoFoodOnTable();
+		
+		timer.schedule(new TimerTask(){            
+            public void run() {
+                    DoneEating();
+            }
+		}, eatTime); //or whatever time is fine
+	}
+	
+	private void DoneEating() {
+		((HouseInhabitantGui)gui).DoEatFood();
+		Do("That was great. Wow. Such noms");
+		DoGetUpFromTable();
+		
 
+		msgExitBuilding();
 	}
 
 	private void LeaveForRestaurant() {
@@ -93,12 +129,12 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 	private void Sleep() {
 		DoGoToBed();
 		person.Do("I'm going to sleep...");
-		state = HouseInhabitantState.Sleeping;
+		//state = HouseInhabitantState.Sleeping;
 		
-		sleeptimer.schedule(new TimerTask(){            
+		timer.schedule(new TimerTask(){            
             public void run() {
                     WakeUp();
-                    stateChanged();
+                    //stateChanged();
             }
 		}, sleepTime); //or whatever time is fine
 	}
@@ -243,6 +279,12 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 		}
 		state = HouseInhabitantState.Bored;
 		
+	}
+	
+	@Override
+	public void clear() {
+		timer.cancel();
+		timer.purge();
 	}
 
 }

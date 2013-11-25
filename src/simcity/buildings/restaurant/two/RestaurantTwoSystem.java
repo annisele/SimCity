@@ -45,8 +45,6 @@ public class RestaurantTwoSystem extends SimSystem {
 
 	public RestaurantTwoSystem(SimCityGui scgui) {
 		super(scgui);
-		scg = scgui;
-		// controlPanel = new RestaurantControlPanel();
 		super.setAnimationPanel(new RestaurantTwoAnimationPanel());
 		super.setControlPanel(new RestaurantTwoControlPanel());
 	}
@@ -62,14 +60,18 @@ public class RestaurantTwoSystem extends SimSystem {
 	}
 
 	public boolean msgEnterBuilding(Role role) {
+
+		System.out.println("gui: "+role.getGui());
+
 		//System.out.println("gui: "+role.getGui());
+		System.out.println("the role has a gui: "+role.getGui());
+
 		animationPanel.addGui(role.getGui());
 		if(role instanceof RestaurantTwoCustomer) {
 			customers.add((RestaurantTwoCustomer) role);
 		}
 		else if(role instanceof RestaurantTwoHost) {
-			
-			host= (RestaurantTwoHost) role;
+			host = (RestaurantTwoHost) role;
 		}
 		else if(role instanceof RestaurantTwoWaiter) {
 			waiters.add((RestaurantTwoWaiter) role);

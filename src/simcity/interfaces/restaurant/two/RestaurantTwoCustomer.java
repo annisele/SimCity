@@ -1,5 +1,6 @@
 package simcity.interfaces.restaurant.two;
 
+import simcity.SimSystem;
 import simcity.buildings.restaurant.two.*;
 //import restaurant.test.mock.EventLog;
 import simcity.interfaces.GuiPartner;
@@ -20,7 +21,7 @@ public abstract void hack_salad();
 
 public abstract void hack_steak();
 
-public abstract String getCustomerName() ;
+//public abstract String getCustomerName() ;
 
 // Messages
 
@@ -46,7 +47,7 @@ public abstract void msgGoodbye() ;
 //public abstract void msgAnimationFinishedLeaveRestaurant() ;
 	//from animation
 
-
+abstract void msgEnterBuilding(SimSystem s);
 public abstract void msgArrivedAtRestaurant();
 
 }

@@ -24,9 +24,11 @@ public interface BankCustomer extends GuiPartner {
 	public abstract void msgEnterBuilding(SimSystem s);
 	public abstract void msgWithdrawMoney(BankSystem b);
 	public abstract void msgDepositMoney(BankSystem b);
-	
+	public abstract void msgPayRent(BankSystem b);
 	public abstract String getCustomerName();
 	public abstract int getAccountNumber();
 	public abstract String getPassword();
 	public abstract int getLandlordAccountNumber();
+	public abstract void msgGetLoan(BankSystem b);
+	
 }

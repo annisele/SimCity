@@ -1,10 +1,7 @@
 package simcity;
 
-import java.util.*;
-
-import simcity.gui.AnimationPanel;
-import simcity.gui.BuildingGui;
-import simcity.gui.transportation.PedestrianGui;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Config {
 	
@@ -14,14 +11,11 @@ public class Config {
 	public Config(SystemManager s) {
 		systems = s;
 	}
-	
-	public void persons(){
-		
-	}
-	
+
 	public void threeBuildings() {
 		systems.clear();
 		systems.clearDetailPane();
+		
 		
 		systems.addMarket("Market", 100, 100);
 		//systems.addRestaurantTwo("RestaurantTwo", 300, 100);
@@ -41,7 +35,7 @@ public class Config {
 		systems.addMarket("Market", 100, 100);
 		systems.addMarketCashierHack("Mary", "Market");
 		systems.addBus("Buster"); //Take this out if you don't want the bus here
-
+		systems.addMarketTruck("Market");
 		
 		timer.schedule(new TimerTask() {
 			public void run() {
@@ -72,10 +66,10 @@ public class Config {
 		
 		systems.addBank("Bank", 100, 300);
 		systems.addBankHostHack("Kevin", "Bank");
-		
+		systems.addHackedBankAccount(0, 100, "abcdef");
 		timer.schedule(new TimerTask(){
 			public void run() {
-				systems.addBankTellerHack("Key", "Bank");
+				systems.addBankTellerHack("Bank Teller", "Bank");
 				timer.schedule(new TimerTask(){
 					public void run() {
 						systems.addPerson("Levonne");
@@ -105,5 +99,16 @@ public class Config {
 		}, 2000);
 	}
 	
+
+	public void fullCity() {
+		systems.clear();
+		systems.clearDetailPane();
+		
+	}
+	
+	public void clearTimer() {
+		timer.cancel();
+		timer.purge();
+	}
 
 }

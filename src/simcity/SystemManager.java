@@ -1,7 +1,11 @@
 
 package simcity;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.swing.JPanel;
 
@@ -12,6 +16,7 @@ import simcity.buildings.bank.BankTellerRole;
 import simcity.buildings.house.HouseSystem;
 import simcity.buildings.market.MarketCashierRole;
 import simcity.buildings.market.MarketSystem;
+import simcity.buildings.market.MarketTruckAgent;
 import simcity.buildings.market.MarketWorkerRole;
 import simcity.buildings.restaurant.five.RestaurantFiveSystem;
 import simcity.buildings.restaurant.four.RestaurantFourSystem;
@@ -23,11 +28,9 @@ import simcity.buildings.restaurant.two.RestaurantTwoSystem;
 import simcity.buildings.restaurant.two.RestaurantTwoWaiterRole;
 import simcity.buildings.transportation.BusAgent;
 import simcity.buildings.transportation.TransportationSystem;
-import simcity.gui.Gui;
-import simcity.gui.SimCityGui;
 import simcity.gui.BuildingGui;
+import simcity.gui.SimCityGui;
 import simcity.gui.transportation.BusGui;
-import simcity.interfaces.market.MarketCashier;
 
 public class SystemManager {
 	
@@ -57,8 +60,14 @@ public class SystemManager {
 	}
 	
 	public void clear() {
+		
+		for (BusGui b : busGuis) {
+			b.clear();
+		}
+		world.clear();
 		world.getAnimationPanel().clear();
 		
+		dir.clear();
 		markets.clear();
 		banks.clear();
 		houses.clear();
@@ -72,6 +81,9 @@ public class SystemManager {
 		busGuis.clear();
 		buildings.clear();
 		people.clear();
+		
+		Clock.reset();
+		
 	}
 	
 	public void getContact(SimSystem s) {
@@ -283,6 +295,13 @@ public class SystemManager {
 	public void clearDetailPane() {
 		simcity.clearDetailPane();
 	}
+	
+	public void addMarketTruck(String market) {
+		MarketTruckAgent t = new MarketTruckAgent(Directory.getSystem(market));
+		((MarketSystem) Directory.getSystem(market)).addTruck(t);
+		t.startThread();
+		world.getAnimationPanel().addGui(t.getGui());
+	}
 
 	public void addMarketCashierHack(String name, String market) {
 		PersonAgent person = new PersonAgent(name);
@@ -319,6 +338,10 @@ public class SystemManager {
 		person.startThread();
 	}
 
+	public void addHackedBankAccount(int accountNumber, double accountBalance, String password) {
+		banks.get(0).getBankComputer().addHackedBankAccount(accountNumber, accountBalance, password);
+	}
+	
 	public void addRestaurantTwoHostHack(String name, String rest) {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());

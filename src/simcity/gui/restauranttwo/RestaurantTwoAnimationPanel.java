@@ -25,9 +25,10 @@ public class RestaurantTwoAnimationPanel extends AnimationPanel implements Actio
             
     }
 
-        public void actionPerformed(ActionEvent e) {
-                repaint();  //Will have paintComponent called
-        }
+    public void actionPerformed(ActionEvent arg0) {
+		super.actionPerformed(arg0);
+		
+	}
 
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D)g;

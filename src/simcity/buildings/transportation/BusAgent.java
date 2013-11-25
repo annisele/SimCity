@@ -62,7 +62,7 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 	public enum BusState {stopped, driving};
 	public enum BusEvent {loading, arrived};
 	
-	BusState state;
+	BusState state = BusState.stopped;
 	BusEvent event;
 	
 	public void makeBusMove() {		// HACKHACKHACK
@@ -71,6 +71,7 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 	
 	public void msgWantBus(BusPassengerRole cp, Location l) {
 		passengers.add(new MyPassenger(cp, l));
+		stateChanged();
 	}
 	
 	public void msgGettingOn(BusPassengerRole cp, Location l) {
@@ -80,15 +81,18 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 				p.loaded();
 			}
 		}
+		stateChanged();
 	}
 	
 	public void msgGettingOff(BusPassengerRole cp) {
 		passengers.remove(cp);
+		stateChanged();
 	}
 
 	// from animation
 	public void msgArrived() {
 		event = BusEvent.arrived;
+		stateChanged();
 	}
 
 	boolean FullyLoaded() {
@@ -133,12 +137,11 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 			e.printStackTrace();
 		} 
 	busStopCounter = ((busStopCounter + 1) % 4);
-		//Stop();
 		makeBusMove();
 	}
 
 	private void Stop() {
-		/*for (MyPassenger p : passengers) {
+		for (MyPassenger p : passengers) {
 			if (FullyLoaded() == true && p.destination == busStops.get(busStopCounter)) {
 				p.role.msgWeHaveArrived(busStops.get(busStopCounter).getX(),
 	                              busStops.get(busStopCounter).getY());
@@ -146,7 +149,10 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 			else if (p.loaded == false && p.startLocation == busStops.get(busStopCounter)) {
 				p.role.msgBusArriving();
 	                      }
-			event = BusEvent.loading; */
+		}
+			//event = BusEvent.loading; 
+			
+			
 		
 		}
 	
@@ -158,12 +164,13 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 	}
 
 	public void atDestination() {
+		
 		  stopTimer.schedule(new TimerTask() {
               public void run() {
                       atDestination.release();
               }
       },
-     100);
+     300);
 	}
 
 	public void setGui(BusGui gui) {

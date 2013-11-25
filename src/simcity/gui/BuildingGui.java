@@ -20,7 +20,7 @@ public class BuildingGui {
 	private static final int SIZE_X = 60;
 	private static final int SIZE_Y = 60;
 	private SimSystem system;
-	private enum BuildingType {House, Market, Bank, Apartment, RestaurantOne, RestaurantTwo, RestaurantThree, RestaurantFour, RestaurantFive, RestaurantSix};
+	private enum BuildingType { House, Market, Bank, Apartment, RestaurantOne, RestaurantTwo, RestaurantThree, RestaurantFour, RestaurantFive, RestaurantSix };
 	private BuildingType type;
 	//private ControlPanel controlPanel;
 	

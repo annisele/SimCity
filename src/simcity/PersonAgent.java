@@ -77,7 +77,9 @@ public class PersonAgent extends Agent implements Person {
 		myRoles.add(m);
 		myRoles.add(b);
 		myRoles.add(r2);
+		Do("r: "+r2);
 		myRoles.add(r4);
+		Do("roles "+myRoles.toString());
 		//myRoles.add(r5);
 	}
 
@@ -178,19 +180,20 @@ public class PersonAgent extends Agent implements Person {
 			List<String> restaurants = Directory.getRestaurants();
 			//int index = rand.nextInt(restaurants.size());
 			//HACK FOR RESTAURANT 2 ONLY
-			Do("NAME: "+ restaurants.get(1));
-			String buildingName = restaurants.get(1);
+			Do("NAME: "+ restaurants.get(0));
+			String buildingName = restaurants.get(0);
 			List<Step> steps = new ArrayList<Step>();
 			steps.add(new Step("exitBuilding", this));
 			steps.add(new Step("goTo", this));
 			steps.add(new Step("enterBuilding", this));
 			Role eventR = null;
 			for(Role r : myRoles) {
-				if(r instanceof RestaurantTwoCustomer||r instanceof RestaurantOneCustomer) {
+				if(r instanceof RestaurantTwoCustomer) {
 					eventR = r;
+					Do("ppppwef: "+eventR);
 				}
 			}
-			
+			Do("pppp: "+eventR);
 			HouseInhabitantRole house = null;
 			for(Role r : myRoles) {
 				if(r instanceof HouseInhabitantRole) {
@@ -200,7 +203,7 @@ public class PersonAgent extends Agent implements Person {
 			//((MarketCustomer)eventR).msgBuyStuff(house.getListToBuy(), (MarketSystem)(Directory.getSystem(buildingName)));
 			
 			//hack
-			RestaurantTwoCustomerRole rc = new RestaurantTwoCustomerRole(this);
+			//RestaurantTwoCustomerRole rc = new RestaurantTwoCustomerRole(this);
 			((RestaurantTwoCustomer)eventR).msgArrivedAtRestaurant();
 			
 			e = new Event(buildingName, eventR, 120, -1, true, steps, t);
@@ -336,7 +339,7 @@ public class PersonAgent extends Agent implements Person {
 			steps.add(new Step("exitBuilding", this));
 			steps.add(new Step("goTo", this));
 			steps.add(new Step("enterBuilding", this));
-			Do("building: "+workBuilding+" workrole: "+workRole);
+			//Do("building: "+workBuilding+" workrole: "+workRole);
 			e = new Event(workBuilding, workRole, 120, 3, false, steps, t);
 			//Do("GoToWork is scheduled, which has "+steps.size()+" steps");
 			insertEvent(e);
@@ -385,7 +388,7 @@ public class PersonAgent extends Agent implements Person {
 	}
 
 	public void enterBuilding() {
-		Do("buildng name: "+ currentEvent.buildingName+" rold: "+currentEvent.role);
+		//Do("buildng name: "+ currentEvent.buildingName+" rold: "+currentEvent.role);
 		if(Directory.getSystem(currentEvent.buildingName).msgEnterBuilding(currentEvent.role)) {
 			currentRole = currentEvent.role;
 			Do("Entered building. Changing role to " + currentRole.getClass());
@@ -521,6 +524,9 @@ public class PersonAgent extends Agent implements Person {
 
 	public void goToBankNow() {
 		this.scheduleEvent(EventType.DepositMoney);
+	}
+	public void goToRestaurantTwoNow() {
+		this.scheduleEvent(EventType.EatAtRestaurant);
 	}
 	
 	public boolean isIdle() {

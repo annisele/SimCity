@@ -11,6 +11,7 @@ import java.util.concurrent.Semaphore;
 
 import simcity.PersonAgent;
 import simcity.Role;
+import simcity.SimSystem;
 import simcity.interfaces.restaurant.two.*;
 import simcity.gui.restauranttwo.*;
 
@@ -27,7 +28,7 @@ public Map<String,Double> Menu= new HashMap<String, Double>();
 private RestaurantTwoHostRole host;
 private RestaurantTwoCookRole cook;
 private RestaurantTwoCashierRole cashier;
-
+private RestaurantTwoSystem R2;
 enum CustomerState{
 	waiting,seated,asked, readytoorder, askedtoorder,ordered, 
 	waitingfororder, mustreorder, pend, waitingforfood, eating, 
@@ -63,13 +64,14 @@ class mycustomer {
 
 	
 
-	public RestaurantTwoWaiterRole(PersonAgent person) {
+	public RestaurantTwoWaiterRole(PersonAgent person,RestaurantTwoSystem r) {
 		super();
 		Menu.put("chicken",10.99);	
 		Menu.put("steak",15.99);
 		Menu.put("salad",5.99);
 		Menu.put("pizza",8.99);
 		this.person = person;
+		this.R2=r;
 		this.gui = new RestaurantTwoWaiterGui(this);
 		spot=0;
 		
@@ -532,8 +534,15 @@ public void EndBreak(){
 		
 	}
 
+
 	@Override
-	public void msgEnterBuilding() {
+	public void msgEnterBuilding(SimSystem s) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void atDestination() {
 		// TODO Auto-generated method stub
 		
 	}

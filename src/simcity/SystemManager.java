@@ -98,6 +98,9 @@ public class SystemManager {
 		if (name == "Levonne") {
 			person.goToBankNow();
 		}
+		if (name == "jenny") {
+			person.goToRestaurantTwoNow();
+		}
 		
 		people.add(person);
 		person.startThread();
@@ -320,7 +323,7 @@ public class SystemManager {
 	public void addRestaurantTwoHostHack(String name, String rest) {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());
-		Role r2Host = new RestaurantTwoHostRole(person);
+		Role r2Host = new RestaurantTwoHostRole(person,restaurantTwos.get(0));
 		person.addWork(r2Host, rest);
 		people.add(person);
 		person.startThread();
@@ -330,7 +333,7 @@ public class SystemManager {
 	public void addRestaurantTwoWaiterHack(String name, String rest) {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());
-		Role r2Waiter = new RestaurantTwoWaiterRole(person);
+		Role r2Waiter = new RestaurantTwoWaiterRole(person,restaurantTwos.get(0));
 		person.addWork(r2Waiter, rest);
 		people.add(person);
 		person.startThread();

@@ -3,6 +3,7 @@ package simcity.buildings.restaurant.two;
 
 import simcity.PersonAgent;
 import simcity.Role;
+import simcity.SimSystem;
 import simcity.gui.bank.BankHostGui;
 import simcity.gui.restauranttwo.RestaurantTwoHostGui;
 import simcity.interfaces.restaurant.two.RestaurantTwoCustomer;
@@ -34,10 +35,11 @@ public class RestaurantTwoHostRole extends Role implements simcity.interfaces.re
 	//Later we will see how it is implemented
     public int currentwaiter=0;
 	private String name;
+	private RestaurantTwoSystem R2;
 
 	//public RestaurantTwoHostGui hostGui = null;
 
-	public RestaurantTwoHostRole(PersonAgent person) {
+	public RestaurantTwoHostRole(PersonAgent person, RestaurantTwoSystem r) {
 		super();
 		waitingSpots.put(0,false);
 		waitingSpots.put(1,false);
@@ -51,6 +53,7 @@ public class RestaurantTwoHostRole extends Role implements simcity.interfaces.re
 		waiterSpots.put(5,false);
 		this.person = person;
 		this.gui = new RestaurantTwoHostGui(this);
+		this.R2=r;
 		// make some tables
 		tables =  Collections.synchronizedList(new ArrayList<Table>(NTABLES));
 		for (int ix = 1; ix <= NTABLES; ix++) {
@@ -207,8 +210,16 @@ public class RestaurantTwoHostRole extends Role implements simcity.interfaces.re
 		
 	}
 
+
+
 	@Override
-	public void msgEnterBuilding() {
+	public void msgEnterBuilding(SimSystem s) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void atDestination() {
 		// TODO Auto-generated method stub
 		
 	}

@@ -10,7 +10,9 @@ import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
 import simcity.PersonAgent;
 import simcity.Role;
+import simcity.SimSystem;
 import simcity.buildings.bank.BankCustomerRole.Event;
+import simcity.gui.bank.BankCustomerGui;
 import simcity.gui.restauranttwo.*;
 import simcity.interfaces.restaurant.two.*;;
 
@@ -28,11 +30,12 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
      
 
      // agent correspondents
-     private PersonAgent person;
+     
      private RestaurantTwoHostRole host;
      private RestaurantTwoWaiter waiter;
      private RestaurantTwoCashierRole cashier;
      private RestaurantTwoCookRole cook;
+     private RestaurantTwoSystem R2;
      private boolean hack_c=false;
      private boolean hack_s=false;
      private boolean hack_st=false;
@@ -51,10 +54,12 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
       * @param name name of the customer
       * @param gui  reference to the customergui so the customer can send it messages
       */
-     public RestaurantTwoCustomerRole(PersonAgent personAgent){
-             super();
-             this.person = personAgent;
-
+     public RestaurantTwoCustomerRole(PersonAgent p){
+            
+             person = p;
+            
+             this.gui = new RestaurantTwoCustomerGui(this);
+             /*
              lowestprice=6;
              double temp= 5+(double)(Math.random()*(15));
              DecimalFormat f =new DecimalFormat("##.00");
@@ -65,10 +70,10 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
 					} catch (java.text.ParseException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
-					}
+					}*/
           
             // Do("$$$= "+cashmoney);
-             customer_check=0;
+           //  customer_check=0;
      }
 
      /**
@@ -112,6 +117,7 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
      public void msgArrivedAtRestaurant() { // from gui
  		System.out.println("I'm ehere yoo");
  		event = AgentEvent.arrivedAtRestaurant;
+ 		Do("person: "+person);
  		stateChanged();
  	}
      public void gotHungry() {//from animation
@@ -505,8 +511,16 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
 		
 	}
 
+
+
 	@Override
-	public void msgEnterBuilding() {
+	public void msgEnterBuilding(SimSystem s) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void atDestination() {
 		// TODO Auto-generated method stub
 		
 	}

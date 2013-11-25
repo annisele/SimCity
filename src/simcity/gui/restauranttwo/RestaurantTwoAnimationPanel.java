@@ -27,21 +27,19 @@ public class RestaurantTwoAnimationPanel extends AnimationPanel implements Actio
 		//setSize(WINDOWX, WINDOWY);
 		setVisible(true);
 
+		Timer timer = new Timer(3, this );
+		timer.start();
 
+	}
+
+	
     public void actionPerformed(ActionEvent arg0) {
 		super.actionPerformed(arg0);
 		
 	}
 
 
-		Timer timer = new Timer(3, this );
-		timer.start();
-
-	}
-
-	public void actionPerformed(ActionEvent e) {
-		repaint();  //Will have paintComponent called
-	}
+	
 
 	public void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D)g;
@@ -111,7 +109,7 @@ public class RestaurantTwoAnimationPanel extends AnimationPanel implements Actio
 	}
 
 	public void addGui(Gui g) {
-		System.out.println("here: "+g);
+		//System.out.println("here: "+g);
 		guis.add(g);
 	}
 

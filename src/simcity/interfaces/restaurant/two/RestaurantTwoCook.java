@@ -1,5 +1,7 @@
 package simcity.interfaces.restaurant.two;
 
-public interface RestaurantTwoCook {
+import simcity.interfaces.GuiPartner;
+
+public interface RestaurantTwoCook extends GuiPartner{
 
 }

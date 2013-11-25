@@ -5,12 +5,12 @@ import simcity.PersonAgent;
 import simcity.interfaces.restaurant.two.*;;
 
 public class RestaurantTwoSharedDataWaiterRole extends RestaurantTwoWaiterRole  implements simcity.interfaces.restaurant.two.RestaurantTwoWaiter{
-	
+
 		private RestaurantTwoOrderWheel orderWheel;
 
-	    public RestaurantTwoSharedDataWaiterRole(PersonAgent person, RestaurantTwoOrderWheel orderWheel) 
+	    public RestaurantTwoSharedDataWaiterRole(PersonAgent person, RestaurantTwoSystem R2, RestaurantTwoOrderWheel orderWheel) 
 	    {
-	            super(person);
+	            super(person, R2);
 	            
 	            this.orderWheel = orderWheel;
 	    }

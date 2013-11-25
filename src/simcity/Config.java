@@ -94,10 +94,11 @@ public class Config {
 		
 		timer.schedule(new TimerTask() {
 			public void run() {
-				systems.addRestaurantTwoWaiterHack("bob dylan", "RestaurantTwo");
+				systems.addRestaurantTwoWaiterHack("Bob dylan", "RestaurantTwo");
 				timer.schedule(new TimerTask() {
 					public void run() {
-						systems.addPerson("heizenberg");
+						System.out.println("hi");
+						systems.addPerson("jenny");
 					}
 				}, 2000);
 			}

@@ -1,10 +1,11 @@
 package simcity.interfaces.bank;
 
 import simcity.buildings.bank.BankCustomerRole;
+import simcity.buildings.bank.BankSystem;
 import simcity.buildings.bank.BankTellerRole;
 
 public interface BankCustomer {
-	
+	public abstract void msgDepositMoney(BankSystem b);
 	public abstract void msgArrivedAtBank();
 	public abstract void msgGoToWindow(int windowNumber, BankTellerRole bt);
 	public abstract void msgHereIsAccountInfo(BankCustomerRole bc, int accountNumber, double accountBalance);

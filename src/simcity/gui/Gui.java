@@ -10,10 +10,10 @@ import simcity.interfaces.GuiPartner;
 public class Gui {
 
 	protected GuiPartner role;
-	private int x = -50;
-	private int y = 475;
-	private int xDest = -50;
-	private int yDest = 475;
+	private int x = 240;
+	private int y = 460;
+	private int xDest = 240;
+	private int yDest = 460;
 	protected int SIZE = 20;
 	private int EXIT_X = 235;
 	private int EXIT_Y = 454;

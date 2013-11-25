@@ -304,7 +304,7 @@ public class SystemManager {
 	public void addBankHostHack(String name, String bank) {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());
-		Role bankHost = new BankHostRole(person, banks.get(0));;
+		Role bankHost = new BankHostRole(person);;
 		person.addWork(bankHost, bank);
 		people.add(person);
 		person.startThread();

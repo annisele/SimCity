@@ -39,13 +39,13 @@ public class BankSystem extends simcity.SimSystem{
 	public BankHost getBankHost() {
 		return bh;
 	}
-	/*
+	
 	public void setBankHost(BankHost c) {
 		this.bh = c;
-		BankHostGui hostGui = new BankHostGui(c);
-		animationPanel.addGui(hostGui);
+		//BankHostGui hostGui = new BankHostGui(c);
+		//animationPanel.addGui(hostGui);
 	}
-*/
+
 	public void findAvailableWindow() {
 		synchronized(windows) {
 			for (BankWindow window : windows) {
@@ -69,8 +69,15 @@ public class BankSystem extends simcity.SimSystem{
 			for (BankWindow window : windows) {
 				if (!window.isReadyToServe()) {
 					window.setBankTeller(bt);
-					return;
 				}
+			}
+		}
+	}
+	
+	public void setWindowAvailable(int windowNumber) {
+		synchronized(windows) {
+			for (BankWindow window : windows) {
+				window.setUnoccupied();
 			}
 		}
 	}
@@ -88,17 +95,19 @@ public class BankSystem extends simcity.SimSystem{
 	public BankWindow getWindowLookup() {
 		return windowLookup;
 	}
+	
 	public boolean msgEnterBuilding(Role role) {
 		animationPanel.addGui(role.getGui());
-		if(role instanceof BankCustomer) {
+		if(role instanceof BankCustomerRole) {
 			customers.add((BankCustomer) role);
 		}
 		
-		else if(role instanceof BankTeller) {
+		else if(role instanceof BankTellerRole) {
 			bankTellers.add((BankTeller) role);
 		}
 		else if(role instanceof BankHost) {
-			System.out.println(role == null);
+			System.out.println("What");
+			//setBankHost((BankHost) role);
 			bh = (BankHost) role;
 		}
 		return true;

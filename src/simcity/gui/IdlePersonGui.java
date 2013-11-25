@@ -13,8 +13,6 @@ import simcity.PersonAgent;
 public class IdlePersonGui extends Gui {
 
 	private PersonAgent person;
-	private int x = 0;
-	private int y = 0;
 	private final int SIZE = 20;
 	
 	ImageIcon ii = new ImageIcon("res/person/persondown.png");

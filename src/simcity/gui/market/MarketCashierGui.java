@@ -32,7 +32,7 @@ public class MarketCashierGui extends Gui {
 
 	@Override
 	public void draw(Graphics2D g) {
-		g.drawImage(cashierimage, x, y, null);
+		g.drawImage(cashierimage, getX(), getY(), null);
 	}
 	
 	public void DoGoToCashRegister() {

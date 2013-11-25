@@ -32,7 +32,7 @@ public class MarketWorkerGui extends Gui {
 
 	@Override
 	public void draw(Graphics2D g) {
-		g.drawImage(workerimage, x, y, null);
+		g.drawImage(workerimage, getX(), getY(), null);
 
 	}
 	

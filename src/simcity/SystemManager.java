@@ -282,8 +282,6 @@ public class SystemManager {
 		person.startThread();
 	}
 	
-	
-	
 	public void addMarketWorkerHack(String name, String market) {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());

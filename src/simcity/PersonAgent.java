@@ -313,6 +313,7 @@ public class PersonAgent extends Agent implements Person {
 					house = (HouseInhabitantRole) r;
 				}
 			}
+			house.msgGoToBed();
 			e = new Event(home, house, 480, 3, false, steps, t);
 			//Do("GoToWork is scheduled, which has "+steps.size()+" steps");
 			insertEvent(e);

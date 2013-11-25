@@ -1,7 +1,10 @@
 package simcity.buildings.restaurant.two;
 
 
+import simcity.PersonAgent;
 import simcity.Role;
+import simcity.SimSystem;
+import simcity.gui.bank.BankHostGui;
 import simcity.gui.restauranttwo.RestaurantTwoHostGui;
 import simcity.interfaces.restaurant.two.RestaurantTwoCustomer;
 import simcity.interfaces.restaurant.two.RestaurantTwoHost;
@@ -15,7 +18,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.Semaphore;
 
-public class RestaurantTwoHostRole extends Role {//implements simcity.interfaces.restaurant.one.RestaurantOneCustomer {
+public class RestaurantTwoHostRole extends Role implements simcity.interfaces.restaurant.two.RestaurantTwoHost{//implements simcity.interfaces.restaurant.one.RestaurantOneCustomer {
 	static final int NTABLES = 3;//a global for the number of tables.
 	//Notice that we implement waitingCustomers using ArrayList, but type it
 	//with List semantics.
@@ -32,10 +35,11 @@ public class RestaurantTwoHostRole extends Role {//implements simcity.interfaces
 	//Later we will see how it is implemented
     public int currentwaiter=0;
 	private String name;
+	private RestaurantTwoSystem R2;
 
-	public RestaurantTwoHostGui hostGui = null;
+	//public RestaurantTwoHostGui hostGui = null;
 
-	public RestaurantTwoHostRole(String name) {
+	public RestaurantTwoHostRole(PersonAgent person, RestaurantTwoSystem r) {
 		super();
 		waitingSpots.put(0,false);
 		waitingSpots.put(1,false);
@@ -47,7 +51,9 @@ public class RestaurantTwoHostRole extends Role {//implements simcity.interfaces
 		waiterSpots.put(3,false);
 		waiterSpots.put(4,false);
 		waiterSpots.put(5,false);
-		this.name = name;
+		this.person = person;
+		this.gui = new RestaurantTwoHostGui(this);
+		this.R2=r;
 		// make some tables
 		tables =  Collections.synchronizedList(new ArrayList<Table>(NTABLES));
 		for (int ix = 1; ix <= NTABLES; ix++) {
@@ -160,13 +166,7 @@ public class RestaurantTwoHostRole extends Role {//implements simcity.interfaces
 	//mesg
 	//utilities
 
-	public void setGui(RestaurantTwoHostGui gui) {
-		hostGui = gui;
-	}
-
-	public RestaurantTwoHostGui getGui() {
-		return hostGui;
-	}
+	
 	
 	public void addWaiter(RestaurantTwoWaiter we){
 		
@@ -210,8 +210,16 @@ public class RestaurantTwoHostRole extends Role {//implements simcity.interfaces
 		
 	}
 
+
+
 	@Override
-	public void msgEnterBuilding() {
+	public void msgEnterBuilding(SimSystem s) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void atDestination() {
 		// TODO Auto-generated method stub
 		
 	}

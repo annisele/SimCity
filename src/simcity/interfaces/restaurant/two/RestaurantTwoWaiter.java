@@ -1,10 +1,11 @@
 package simcity.interfaces.restaurant.two;
 
 import simcity.buildings.restaurant.two.*;
+import simcity.interfaces.GuiPartner;
 import simcity.interfaces.restaurant.two.*;
 //import restaurant.test.mock.EventLog;
 
-public interface RestaurantTwoWaiter {
+public interface RestaurantTwoWaiter extends GuiPartner{
 
 	
 	//public static EventLog log = new EventLog();

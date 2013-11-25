@@ -1,8 +1,11 @@
 package simcity.buildings.transportation;
 
 import simcity.Location;
+import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
+import simcity.gui.market.MarketCustomerGui;
+import simcity.gui.transportation.BusPassengerGui;
 import agent.Agent;
 
 	public class BusPassengerRole extends Role implements simcity.interfaces.transportation.BusPassenger {
@@ -18,6 +21,11 @@ import agent.Agent;
 		public enum PassengerEvent {atBusStop, busArriving, busStopping};
 		PassengerState state = PassengerState.offBus;
 		PassengerEvent event;
+		
+		public BusPassengerRole(PersonAgent p) {
+			person = p;
+			this.gui = new BusPassengerGui(this);
+		}
 	
 
 	public void msgBusTo(Location l) { // from PersonAgent

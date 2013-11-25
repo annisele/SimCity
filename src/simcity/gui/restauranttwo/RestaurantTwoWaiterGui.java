@@ -11,12 +11,12 @@ import simcity.interfaces.restaurant.two.RestaurantTwoWaiter;
 
 public class RestaurantTwoWaiterGui extends Gui{
 
-	 private RestaurantTwoWaiter agent = null;
+	 private RestaurantTwoWaiterRole agent = null;
 	    //RestaurantGui gui;
 	    private int xPos = 0, yPos = 20;//default waiter position
 	    private int xDestination = 0, yDestination = 20;//default start position
 	    private int tablenum;
-	    private boolean atTable=false;
+	   
 	    public static final int xTable = 100;
 	    public static final int yTable = 150;
 	    //public List<int>[] a= new ArrayList<int>[5]();
@@ -25,7 +25,7 @@ public class RestaurantTwoWaiterGui extends Gui{
 		private boolean onBreak ;
 		
 
-	    public RestaurantTwoWaiterGui(RestaurantTwoWaiter agent) {
+	    public RestaurantTwoWaiterGui(RestaurantTwoWaiterRole agent) {
 	    	onBreak = false;
 	        this.agent = agent;
 	        tablelist[0]=100;
@@ -52,10 +52,10 @@ public class RestaurantTwoWaiterGui extends Gui{
 	        if (xPos == xDestination && yPos == yDestination
 	        		& (xDestination == tempnum + 20) & (yDestination == yTable - 20)) {
 	           agent.msgAtTable();
-	           atTable=true;
+	           agent.w_at_table=true;
 	        }
 	        else
-	        	atTable=false;
+	        	agent.w_at_table=false;
 	        
 	       if (xPos == xDestination && yPos == yDestination
 	       		& (xDestination == agent.spot*25) & (yDestination == 20)) {

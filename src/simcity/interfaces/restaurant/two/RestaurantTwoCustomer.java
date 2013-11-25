@@ -2,8 +2,9 @@ package simcity.interfaces.restaurant.two;
 
 import simcity.buildings.restaurant.two.*;
 //import restaurant.test.mock.EventLog;
+import simcity.interfaces.GuiPartner;
 
-public interface RestaurantTwoCustomer {
+public interface RestaurantTwoCustomer extends GuiPartner{
 	//EventLog log = new EventLog();
 	public abstract void setWaiter(RestaurantTwoWaiter waitr);
 	
@@ -44,5 +45,8 @@ public abstract void msgPaying() ;
 public abstract void msgGoodbye() ;
 //public abstract void msgAnimationFinishedLeaveRestaurant() ;
 	//from animation
+
+
+public abstract void msgArrivedAtRestaurant();
 
 }

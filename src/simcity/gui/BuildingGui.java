@@ -20,7 +20,7 @@ public class BuildingGui {
 	private static final int SIZE_X = 60;
 	private static final int SIZE_Y = 60;
 	private SimSystem system;
-	private enum BuildingType {House, Market, Bank, Apartment, RestaurantOne, RestaurantTwo, RestaurantThree, RestaurantFour, RestaurantFive, RestaurantSix};
+	private enum BuildingType { House, Market, Bank, Apartment, RestaurantOne, RestaurantTwo, RestaurantThree, RestaurantFour, RestaurantFive, RestaurantSix };
 	private BuildingType type;
 	//private ControlPanel controlPanel;
 	
@@ -49,6 +49,7 @@ public class BuildingGui {
 	public BuildingGui(SimSystem s, String t, int xLoc, int yLoc) {
 		system = s;
 		type = BuildingType.valueOf(t);
+		//System.out.println("heyyo "+type);
 		//controlPanel = s.getControlPanel();
 		location = new Location(xLoc, yLoc);
 		
@@ -62,6 +63,8 @@ public class BuildingGui {
     	if (type == BuildingType.Market)
     		g.drawImage(finalmarketimage,location.getX(), location.getY(), null);
     	else if (type == BuildingType.RestaurantOne)
+    		g.drawImage(finalrestaurantimage, location.getX(), location.getY(), null);
+    	else if (type == BuildingType.RestaurantTwo)
     		g.drawImage(finalrestaurantimage, location.getX(), location.getY(), null);
     	else if (type == BuildingType.House)
     		g.drawImage(finalhouseimage, location.getX(), location.getY(), null);

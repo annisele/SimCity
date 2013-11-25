@@ -46,6 +46,7 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
         for(BuildingGui b : buildingGuis) {
         	b.draw((Graphics2D)g);
         	if ((JPanel)b.getSystem().getAnimationPanel() != super.getSimCityGui().getDetailPane()) {
+        		//System.out.println("hey "+ b.getSystem()+"   "+ b.getSystem().getAnimationPanel());
         		b.getSystem().getAnimationPanel().updateGuis();
         	}
         }

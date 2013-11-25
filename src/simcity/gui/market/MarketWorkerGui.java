@@ -11,9 +11,11 @@ import simcity.gui.Gui;
 
 public class MarketWorkerGui extends Gui {
 
+	private final int SHELF_ONE_AREA_X = 250;
+	private final int SHELF_ONE_AREA_Y = 225;
 	private final int SHELF_ONE_X = 400;
 	private final int SHELF_TWO_X = 90;
-	private final int SHELF_ONE_Y = 225;
+	private final int SHELF_ONE_Y = 205;
 	private final int SHELF_TWO_Y = 340;
 	private final int COUNTER_X = 20;
 	private final int COUNTER_Y = 200;
@@ -33,6 +35,10 @@ public class MarketWorkerGui extends Gui {
 	@Override
 	public void draw(Graphics2D g) {
 		g.drawImage(workerimage, getX(), getY(), null);
+	}
+	
+	public void DoGoToShelfOneArea() {
+		DoGoToLocation(SHELF_ONE_AREA_X, SHELF_ONE_AREA_Y);
 	}
 	
 	public void DoGoToShelfOne() {

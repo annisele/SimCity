@@ -80,6 +80,13 @@ public class MarketWorkerRole extends Role implements MarketWorker {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		
+		((MarketWorkerGui)gui).DoGoToShelfOneArea();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 
 		((MarketWorkerGui)gui).DoGoToShelfOne();
 		try {

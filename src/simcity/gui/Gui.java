@@ -4,10 +4,11 @@ import java.awt.*;
 
 import simcity.Location;
 import simcity.Role;
+import simcity.interfaces.GuiPartner;
 
 public class Gui {
 
-	protected Role role;
+	protected GuiPartner role;
 	private int x = 236;
 	private int y = 454;
 	private int xDest = 0;

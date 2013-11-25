@@ -20,7 +20,7 @@ public class MarketCustomerGui extends Gui {
 	Image img = ii.getImage();
 
 
-	public MarketCustomerGui(MarketCustomerRole m) {
+	public MarketCustomerGui(MarketCustomer m) {
 		role = m;
 	}
 

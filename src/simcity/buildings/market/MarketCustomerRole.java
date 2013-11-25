@@ -1,16 +1,19 @@
 package simcity.buildings.market;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Semaphore;
 
 import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
 import simcity.gui.market.MarketCustomerGui;
-import simcity.gui.transportation.PedestrianGui;
 import simcity.interfaces.market.MarketCashier;
+import simcity.interfaces.market.MarketCustomer;
 
-public class MarketCustomerRole extends Role implements simcity.interfaces.market.MarketCustomer {
+public class MarketCustomerRole extends Role implements MarketCustomer {
 
 	private List<Invoice> invoices = Collections.synchronizedList(new ArrayList<Invoice>());
 	private enum InvoiceState {notSent, expected, requested, billed, paid, delivered};

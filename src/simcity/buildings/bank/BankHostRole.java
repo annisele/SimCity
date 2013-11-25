@@ -101,15 +101,9 @@ public class BankHostRole extends Role implements BankHost {
 	}
 	
 	public void msgLeavingBank(int windowNumber) {
-		synchronized(windows){
-			System.out.println("Bank customer is leaving the bank");
-			for (BankWindow window : windows) {
-				if (windowNumber == window.getWindowNumber()) {
-					window.setUnoccupied();
-					stateChanged();
-				}
-			}
-		}
+		System.out.println("Bank customer is leaving the bank");
+		bank.setWindowAvailable(windowNumber);
+		stateChanged();
 	}
 	
 	public void msgImReadyToWork(BankTellerRole bt) {

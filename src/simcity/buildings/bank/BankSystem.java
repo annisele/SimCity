@@ -74,6 +74,14 @@ public class BankSystem extends simcity.SimSystem{
 		}
 	}
 	
+	public void setWindowAvailable(int windowNumber) {
+		synchronized(windows) {
+			for (BankWindow window : windows) {
+				window.setUnoccupied();
+			}
+		}
+	}
+	
 	public void setWindowLookup(int windowNumber) {
 		synchronized(windows) {
 			for (BankWindow window : windows) {

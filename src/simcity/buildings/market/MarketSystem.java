@@ -56,8 +56,20 @@ public class MarketSystem extends simcity.SimSystem {
 		return cashier;
 	}
 	
+	public List<MarketTruck> getTrucks() {
+		return trucks;
+	}
+	
+	public List<MarketWorker> getWorkers() {
+		return workers;
+	}
+	
 	public MarketComputer getComputer() {
 		return computer;
+	}
+	
+	public void addTruck(MarketTruck t) {
+		trucks.add(t);
 	}
 	
 	@Override
@@ -68,10 +80,6 @@ public class MarketSystem extends simcity.SimSystem {
 		}
 		else if(role instanceof MarketWorker) {
 			workers.add((MarketWorker) role);
-			((MarketCashierRole) cashier).addWorker((MarketWorker) role);
-		}
-		else if(role instanceof MarketTruck) {
-			trucks.add((MarketTruck) role);
 		}
 		else if(role instanceof MarketCashier) {
 			cashier = (MarketCashier) role;

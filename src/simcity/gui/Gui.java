@@ -1,18 +1,19 @@
 package simcity.gui;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Point;
 
 import simcity.Location;
-import simcity.Role;
 import simcity.interfaces.GuiPartner;
 
 public class Gui {
 
 	protected GuiPartner role;
-	private int x = 236;
-	private int y = 454;
-	private int xDest = 0;
-	private int yDest = 0;
+	private int x = 240;
+	private int y = 460;
+	private int xDest = 240;
+	private int yDest = 460;
 	protected int SIZE = 20;
 	private int EXIT_X = 235;
 	private int EXIT_Y = 454;

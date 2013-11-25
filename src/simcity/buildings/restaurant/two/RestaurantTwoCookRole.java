@@ -10,12 +10,15 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 
+
+
 import simcity.buildings.market.MarketSystem;
 //import restaurant.MarketAgent;
 import simcity.buildings.restaurant.two.*;
 import simcity.gui.restauranttwo.*;
 import simcity.interfaces.restaurant.two.*;
 import simcity.Role;
+import simcity.SimSystem;
 import simcity.gui.restaurantone.RestaurantOneCookGui;
 import simcity.interfaces.restaurant.two.RestaurantTwoWaiter;
 
@@ -24,6 +27,7 @@ public class RestaurantTwoCookRole extends Role {
 	//Initially had explicit variables for this- Changed that after v2.1 submission
     //Am now using a map
 	private RestaurantTwoWaiter waiter;
+	private RestaurantTwoSystem R2;
 	//private WaiterAgent waiter;
 	private static int num_items =10;
 	public List<MarketSystem> markets
@@ -392,8 +396,9 @@ public void addMarket(MarketSystem m){
 		// TODO Auto-generated method stub
 		
 	}
+	
 	@Override
-	public void msgEnterBuilding() {
+	public void msgEnterBuilding(SimSystem s) {
 		// TODO Auto-generated method stub
 		
 	}

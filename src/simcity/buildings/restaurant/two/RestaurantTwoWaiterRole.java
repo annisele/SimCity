@@ -9,7 +9,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
+import simcity.PersonAgent;
 import simcity.Role;
+import simcity.SimSystem;
 import simcity.interfaces.restaurant.two.*;
 import simcity.gui.restauranttwo.*;
 
@@ -26,7 +28,7 @@ public Map<String,Double> Menu= new HashMap<String, Double>();
 private RestaurantTwoHostRole host;
 private RestaurantTwoCookRole cook;
 private RestaurantTwoCashierRole cashier;
-
+private RestaurantTwoSystem R2;
 enum CustomerState{
 	waiting,seated,asked, readytoorder, askedtoorder,ordered, 
 	waitingfororder, mustreorder, pend, waitingforfood, eating, 
@@ -60,15 +62,17 @@ class mycustomer {
 	private boolean WantToGoOnBreak=false;
 	private boolean WaitingToBreak=false;
 
-	public RestaurantTwoWaiterGui waiterGui = null;
+	
 
-	public RestaurantTwoWaiterRole(String name) {
+	public RestaurantTwoWaiterRole(PersonAgent person,RestaurantTwoSystem r) {
 		super();
 		Menu.put("chicken",10.99);	
 		Menu.put("steak",15.99);
 		Menu.put("salad",5.99);
 		Menu.put("pizza",8.99);
-		this.name = name;
+		this.person = person;
+		this.R2=r;
+		this.gui = new RestaurantTwoWaiterGui(this);
 		spot=0;
 		
 	}
@@ -113,7 +117,7 @@ class mycustomer {
 		if(bool==false){
 			Do("host refuse break");
 			WantToGoOnBreak=false;
-			waiterGui.reset();
+			((RestaurantTwoWaiterGui)gui).reset();
 		}
 	}
 	public void msgSeatCustomer(RestaurantTwoCustomerRole c, int table_num){
@@ -256,7 +260,7 @@ class mycustomer {
 			e.printStackTrace();
 			Do("PROBLEM");
 		}
-		waiterGui.DoLeaveCustomer();
+		((RestaurantTwoWaiterGui)gui).DoLeaveCustomer();
 	}
 	public void msgAtTable() {//from animation
 	Do("at table");
@@ -297,8 +301,8 @@ class mycustomer {
 		}
 		if(WantToGoOnBreak==false&&WaitingToBreak==true){
 			if(customers.size()==0){
-				waiterGui.DoLeaveCustomer();
-				waiterGui.set();
+				((RestaurantTwoWaiterGui)gui).DoLeaveCustomer();
+				((RestaurantTwoWaiterGui)gui).set();
 				Do("On break");
 				breaktimer.schedule(new TimerTask(){
 					Object cookie = 1;
@@ -390,7 +394,7 @@ class mycustomer {
 	
 	//goone
 	private void SeatCustomer(mycustomer customer, int table) {
-		waiterGui.DoLeaveCustomer();
+		((RestaurantTwoWaiterGui)gui).DoLeaveCustomer();
 		try {
 			atLobby.acquire();
 		} catch (InterruptedException e) {
@@ -410,7 +414,7 @@ class mycustomer {
 		}
 		
 		//customers.remove(customer);
-		waiterGui.DoLeaveCustomer();
+		((RestaurantTwoWaiterGui)gui).DoLeaveCustomer();
 		w_at_table=false;
 		
 		
@@ -427,12 +431,12 @@ class mycustomer {
 		tablelist[2]=400;
 		//int tablenum= table.tableNumber;
 		Do("Seating " + customer + " at " + table);
-		waiterGui.DoBringToTable(table); 
+		((RestaurantTwoWaiterGui)gui).DoBringToTable(table); 
 	}
 
 public void TakeOrder (mycustomer c){
 	
-	waiterGui.DoBringToTable( c.table_num);
+	((RestaurantTwoWaiterGui)gui).DoBringToTable( c.table_num);
 	w_at_lobby=false;
 	try {
 		atTable.acquire();
@@ -442,7 +446,7 @@ public void TakeOrder (mycustomer c){
 	}
 	Do("take order");
 	c.c.msgWhatsYourOrder();
-	waiterGui.GoToKitchen();
+	((RestaurantTwoWaiterGui)gui).GoToKitchen();
 	w_at_table=false;
 	
 	
@@ -464,7 +468,7 @@ public void GettingFood(mycustomer c){
 	//go to table
 	 Do("gives cashier "+c.c+" order");
 	 cashier.msgCustomerOrder(this,c.c,c.table_num, c.choice);
-	waiterGui.GoToKitchen();
+	 ((RestaurantTwoWaiterGui)gui).GoToKitchen();
 	try {
 		atKitchen.acquire();
 	} catch (InterruptedException e) {
@@ -475,14 +479,14 @@ public void GettingFood(mycustomer c){
 }
 public void ServeFood(mycustomer c){
 	Do("waiter is delivering food");
-	waiterGui.DoBringToTable(c.table_num); 
+	((RestaurantTwoWaiterGui)gui).DoBringToTable(c.table_num); 
 	try {
 		atTable.acquire();
 	} catch (InterruptedException e) {
 		e.printStackTrace();
 	}
 	c.c.msgFoodIsHere();
-	waiterGui.DoLeaveCustomer();
+	((RestaurantTwoWaiterGui)gui).DoLeaveCustomer();
 }
 /*servefood
  * at tabe aquire
@@ -491,13 +495,13 @@ public void ServeFood(mycustomer c){
  */
 
 public void ReOrder(mycustomer c){
-	waiterGui.DoBringToTable(c.table_num); 
+	((RestaurantTwoWaiterGui)gui).DoBringToTable(c.table_num); 
 	try {
 		atTable.acquire();
 	} catch (InterruptedException e) {
 		e.printStackTrace();
 	}
-	waiterGui.GoToKitchen();
+	((RestaurantTwoWaiterGui)gui).GoToKitchen();
 	w_at_table=false;
 	c.c.msgReorder(c.table_num,c.choice);
 	
@@ -505,7 +509,7 @@ public void ReOrder(mycustomer c){
 public void DeliverCheck(mycustomer c){
 Do("delivering check");
 	//cashier.msgGetCheck(c.c);
-	waiterGui.DoBringToTable(c.table_num); 
+((RestaurantTwoWaiterGui)gui).DoBringToTable(c.table_num); 
 	try {
 		atTable.acquire();
 	} catch (InterruptedException e) {
@@ -513,7 +517,7 @@ Do("delivering check");
 	}
 	c.c.msgHereIsCheck(c.check);
 	Do("customer recieved check");
-	waiterGui.Start(spot);
+	((RestaurantTwoWaiterGui)gui).Start(spot);
 	customers.remove(c);
 }
 
@@ -523,13 +527,6 @@ public void EndBreak(){
 }
 	//utilities
 
-	public void setGui(RestaurantTwoWaiterGui gui) {
-		waiterGui = gui;
-	}
-
-	public RestaurantTwoWaiterGui getGui() {
-		return waiterGui;
-	}
 
 	@Override
 	public void msgExitBuilding() {
@@ -537,8 +534,15 @@ public void EndBreak(){
 		
 	}
 
+
 	@Override
-	public void msgEnterBuilding() {
+	public void msgEnterBuilding(SimSystem s) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void atDestination() {
 		// TODO Auto-generated method stub
 		
 	}

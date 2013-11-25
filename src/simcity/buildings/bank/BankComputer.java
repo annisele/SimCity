@@ -11,7 +11,7 @@ public class BankComputer {
 	int numAccounts = 0;
 	double loanableFunds;
 	double cashInBank;
-	Map<Integer,BankCustomerRole> customerAccounts = new HashMap<Integer,BankCustomerRole>(MAX_ACCOUNTS);
+	Map<Integer,BankCustomer> customerAccounts = new HashMap<Integer,BankCustomer>(MAX_ACCOUNTS);
 	Map<Integer,String> passwordAccounts = new HashMap<Integer,String>(MAX_ACCOUNTS);
 	Map<Integer,Double> balanceAccounts = new HashMap<Integer,Double>(MAX_ACCOUNTS);
 	Map<Integer,Double> owedAccounts = new HashMap<Integer,Double>(MAX_ACCOUNTS);
@@ -25,7 +25,7 @@ public class BankComputer {
 	}
 	
 	// functions
-	public int addAccountAndReturnNumber(BankCustomerRole bc, String password, double amountToProcess) {
+	public int addAccountAndReturnNumber(BankCustomer bc, String password, double amountToProcess) {
 		numAccounts++;
 		customerAccounts.put(numAccounts, bc);
 		passwordAccounts.put(numAccounts, password);
@@ -44,7 +44,7 @@ public class BankComputer {
 	}
 	
 	public BankAccount accountLookup(int accountNumber) {
-		BankCustomerRole bc = customerAccounts.get(accountNumber);
+		BankCustomer bc = customerAccounts.get(accountNumber);
 		double accountBalance = balanceAccounts.get(accountNumber);
 		double amountOwed = owedAccounts.get(accountNumber);
 		account.setBankCustomer(bc);
@@ -68,7 +68,7 @@ public class BankComputer {
 	public class BankAccount {
 		private int accountNumber;
 		private String accountPassword;
-		private BankCustomerRole bc;
+		private BankCustomer bc;
 		private double accountBalance;
 		private double amountOwed;
 
@@ -100,11 +100,11 @@ public class BankComputer {
 			this.accountPassword = accountPassword;
 		}
 		
-		public BankCustomerRole getBankCustomer() {
+		public BankCustomer getBankCustomer() {
 			return bc;
 		}
 
-		public void setBankCustomer(BankCustomerRole bc) {
+		public void setBankCustomer(BankCustomer bc) {
 			this.bc = bc;
 		}
 

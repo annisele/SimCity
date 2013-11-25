@@ -19,7 +19,6 @@ public class BankHostRole extends Role implements BankHost {
 	// data
 	// from PersonAgent
 	private BankSystem bank;
-	private String name;
 	private BankComputer computer;
 	// set in Bank
 	//private List<BankWindow> windows = Collections.synchronizedList(new ArrayList<BankWindow>());
@@ -50,7 +49,7 @@ public class BankHostRole extends Role implements BankHost {
 		public BankWindow(int windowNum) {				// constructor
 			this.windowNum = windowNum;
 			this.occupied = false;
-			this.bankTellerPresent = true;	// HACKHACKHACK
+			this.bankTellerPresent = false;	// HACKHACKHACK
 		}
 
 		public BankCustomerRole getOccupant() {
@@ -87,15 +86,6 @@ public class BankHostRole extends Role implements BankHost {
 		public boolean isReadyToServe() {
 			return bankTellerPresent;
 		}
-	}
-
-	// constructor
-	public BankHostRole (PersonAgent p, BankSystem bank) {
-		person = p;
-		this.gui = new BankHostGui(this);
-		this.bank = bank;
-		//hack
-		computer = new BankComputer();
 	}
 
 	// utility functions
@@ -150,7 +140,7 @@ public class BankHostRole extends Role implements BankHost {
 		
 		synchronized(customers) {
 			if (!customers.isEmpty()) {
-				while (availableWindow == null) {
+				while (bank.getAvailableWindow() == null) {
 					bank.findAvailableWindow();
 					availableWindow = bank.getAvailableWindow();
 				}
@@ -174,14 +164,6 @@ public class BankHostRole extends Role implements BankHost {
 	}
 	
 	// utility functions
-	public String getName() {
-		return name;
-	}
-	
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	public void msgExitBuilding() {
 		person.Do("Leaving bank");
 		gui.DoExitBuilding();
@@ -200,12 +182,6 @@ public class BankHostRole extends Role implements BankHost {
 	public void msgEnterBuilding(SimSystem s) {
 		bank = (BankSystem)s;
 		((BankHostGui)gui).DoGoToHostPosition();
-		try {
-			atBank.acquire();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		
 	}
 	
 	public void addBankTeller(BankTeller b) {

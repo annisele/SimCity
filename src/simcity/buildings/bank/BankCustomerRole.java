@@ -103,7 +103,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	}
 	
 	// bank teller sends this message to customer after opening an account
-	public void msgHereIsAccountInfo(BankCustomerRole bc, int accountNumber, double accountBalance) {
+	public void msgHereIsAccountInfo(BankCustomer bc, int accountNumber, double accountBalance) {
 		System.out.println("Here is your new account information");
 		cashOnHand = cashOnHand - accountBalance;
 		event = Event.transactionProcessed;
@@ -111,7 +111,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	}
 
 	//bank teller sends this message to customer after withdrawing money
-	public void msgHereIsMoney(BankCustomerRole bc, int accountNumber, double accountBalance, double amountProcessed) {
+	public void msgHereIsMoney(BankCustomer bc, int accountNumber, double accountBalance, double amountProcessed) {
 		System.out.println("Here is the money that you withdraw");
 		cashOnHand = cashOnHand + amountProcessed;
 		event = Event.transactionProcessed;
@@ -119,14 +119,14 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	}
 
 	// bank teller sends this message to customer if not enough money is withdrawn
-	public void msgNotEnoughMoneyToWithdraw(BankCustomerRole bc, int accountNumber, double accountBalance, double amountProcessed) {
+	public void msgNotEnoughMoneyToWithdraw(BankCustomer bc, int accountNumber, double accountBalance, double amountProcessed) {
 		System.out.println("Not enough money to withdraw amount");
 		event = Event.transactionProcessed;
 		stateChanged();
 	}
 	
 	//bank teller sends this message to customer after depositing money
-	public void msgMoneyIsDeposited(BankCustomerRole bc, int accountNumber, double accountBalance, double amountProcessed) {
+	public void msgMoneyIsDeposited(BankCustomer bc, int accountNumber, double accountBalance, double amountProcessed) {
 		System.out.println("Here is the money that you deposited");
 		cashOnHand = cashOnHand - amountProcessed;
 		event = Event.transactionProcessed;
@@ -134,7 +134,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
     }
 
 	//bank teller sends this message to customer when the loan is approved
-	 public void msgHereIsYourLoan(BankCustomerRole bc, int accountNumber, double accountBalance, double amountProcessed) {
+	 public void msgHereIsYourLoan(BankCustomer bc, int accountNumber, double accountBalance, double amountProcessed) {
 		    System.out.println("Your loan has been approved");
 		    cashOnHand = cashOnHand + amountProcessed;
 		    event = Event.transactionProcessed;
@@ -142,14 +142,14 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	 }
 	 
 	//bank teller sends this message to customer when the loan is not approved
-	 public void msgCannotGrantLoan(BankCustomerRole bc, int accountNumber, double accountBalance, double loanAmount) {
+	 public void msgCannotGrantLoan(BankCustomer bc, int accountNumber, double accountBalance, double loanAmount) {
 		 System.out.println("Your loan is not approved");
     	 event = Event.transactionProcessed;
 	     stateChanged(); 
      }
 
 	 // bank teller sends this message when the loan is completely repaid
-	 public void msgLoanIsCompletelyRepaid(BankCustomerRole bc, int accountNumber, double amountOwed, double amountProcessed, 
+	 public void msgLoanIsCompletelyRepaid(BankCustomer bc, int accountNumber, double amountOwed, double amountProcessed, 
 			 double actualPaid) {
 		 System.out.println("Loan repaid!");
 		 cashOnHand = cashOnHand - actualPaid;
@@ -158,7 +158,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	 }
 	 
 	 // bank teller sends this message when the loan is only partially repaid
-	 public void msgLoanIsPartiallyRepaid(BankCustomerRole bc, int accountNumber, double amountOwed, double amountProcessed) {
+	 public void msgLoanIsPartiallyRepaid(BankCustomer bc, int accountNumber, double amountOwed, double amountProcessed) {
 		 System.out.println("Loan partially repaid");
 		 cashOnHand = cashOnHand - amountProcessed;
 		 event = Event.transactionProcessed;
@@ -166,7 +166,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	 }
 	 
 	 // bank teller sends this message when rent is successfully paid
-	 public void msgRentIsPaid(BankCustomerRole bc, int accountNumber, double amountProcessed) {
+	 public void msgRentIsPaid(BankCustomer bc, int accountNumber, double amountProcessed) {
 		 System.out.println("Rent paid");
 		 cashOnHand = cashOnHand - amountProcessed;
 		 event = Event.transactionProcessed;
@@ -238,7 +238,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	    		e.printStackTrace();
 	    	}
 	    	
-	    	System.out.println("I'm here for bank transaction, host is: "+bank.getBankHost());
+	    	System.out.println("I'm here for bank transaction, host is: "+ bank.getBankHost());
 	    	bank.getBankHost().msgEnteringBank(this);
 	    	/*
 	    	((BankCustomerGui)gui).DoGoToBankTeller(3);

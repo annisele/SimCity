@@ -5,15 +5,18 @@ import java.util.concurrent.Semaphore;
 
 import simcity.PersonAgent;
 import simcity.Role;
+import simcity.SimSystem;
 import simcity.gui.market.MarketCashierGui;
 import simcity.gui.market.MarketWorkerGui;
 import simcity.interfaces.market.MarketCashier;
 
 public class MarketWorkerRole extends Role implements simcity.interfaces.market.MarketWorker {
 	private MarketComputer computer;
+	private MarketSystem market;
 	private List<WorkerOrder> orders = Collections.synchronizedList(new ArrayList<WorkerOrder>());
 	private MarketCashier cashier;
 	private Semaphore atDest = new Semaphore(0, true);
+	Timer timer = new Timer();
 	
 	public MarketWorkerRole(PersonAgent p) {
 		person = p;
@@ -43,26 +46,8 @@ public class MarketWorkerRole extends Role implements simcity.interfaces.market.
 	}
 	
 	private void FindAndDeliverOrder(WorkerOrder o) {
-		((MarketWorkerGui)gui).DoGoToShelfOne();
-		try {
-			atDest.acquire();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 		
-		((MarketWorkerGui)gui).DoGoToShelfTwo();
-		try {
-			atDest.acquire();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		
-		((MarketWorkerGui)gui).DoGoToDropOffItems();
-		try {
-			atDest.acquire();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		collectItemsAnimation();
 		
 		if(computer == null) System.out.println("computer null");
 		if(o == null) System.out.println("order is null");
@@ -84,6 +69,44 @@ public class MarketWorkerRole extends Role implements simcity.interfaces.market.
 		orders.remove(o);
 		
 	}
+	
+	private void collectItemsAnimation() {
+		
+		((MarketWorkerGui)gui).DoGoToCenter();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		((MarketWorkerGui)gui).DoGoToShelfOne();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		((MarketWorkerGui)gui).DoGoToShelfTwo();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		((MarketWorkerGui)gui).DoGoToCenter();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		((MarketWorkerGui)gui).DoGoToDropOffItems();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
 
 	private class WorkerOrder {
 
@@ -103,14 +126,20 @@ public class MarketWorkerRole extends Role implements simcity.interfaces.market.
 	}
 
 	@Override
-	public void msgEnterBuilding() {
+	public void msgEnterBuilding(SimSystem s) {
+		market = (MarketSystem)s;
+		((MarketWorkerGui)gui).DoGoToCenter();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		((MarketWorkerGui)gui).DoGoToHomePosition();
-		//HACK - this should be here but doesn't work with it
-//		try {
-//			atDest.acquire();
-//		} catch (InterruptedException e) {
-//			e.printStackTrace();
-//		}
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		
 	}
 	

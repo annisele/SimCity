@@ -8,7 +8,7 @@ import javax.swing.ImageIcon;
 import simcity.buildings.transportation.PedestrianRole;
 import simcity.gui.Gui;
 
-public class PedestrianGui extends Gui{
+public class PedestrianGui extends Gui {
 	
 	ImageIcon ii = new ImageIcon("res/person/personup.png");
     Image img = ii.getImage();

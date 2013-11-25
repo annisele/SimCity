@@ -8,6 +8,7 @@ import simcity.Role;
 import simcity.SimSystem;
 import simcity.buildings.bank.BankComputer.BankAccount;
 import simcity.gui.Gui;
+import simcity.gui.bank.BankCustomerGui;
 import simcity.gui.bank.BankTellerGui;
 import simcity.interfaces.bank.*;
 
@@ -376,7 +377,19 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 	public void setName(String name) {
 		this.name = name;
 	}
-
+	/*
+	private void InformBankHostOfDeparture() {
+		((BankCustomerGui)gui).DoExitBuilding();
+		try {
+    		atDest.acquire();
+    	} catch (InterruptedException e) {
+    		e.printStackTrace();
+    	}
+	    bank.getBankHost().msgLeavingBank(windowNumber);
+	    System.out.println("Bank host, I'm leaving the bank now");
+	    msgExitBuilding();
+	}
+	*/
 	public void msgExitBuilding() {
 		person.Do("Leaving bank.");
 		gui.DoExitBuilding();
@@ -385,10 +398,10 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		bankSystem.exitBuilding(this);
+		
 		person.roleFinished();
 		person.isIdle();
-		
+		bankSystem.exitBuilding(this);
 	}
 	public void msgEnterBuilding(SimSystem s) {
 		bankSystem = (BankSystem) s;

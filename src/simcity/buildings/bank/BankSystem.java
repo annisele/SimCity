@@ -125,6 +125,9 @@ public class BankSystem extends simcity.SimSystem{
 		else if(role instanceof BankTeller) {
 			bankTellers.remove((BankTeller) role);
 		}
+		else if (role instanceof BankHost) {
+			bh = null;
+		}
 	}
 	
 }

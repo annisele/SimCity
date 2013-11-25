@@ -330,6 +330,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	    	}
 		    bank.getBankHost().msgLeavingBank(windowNumber);
 		    System.out.println("Bank host, I'm leaving the bank now");
+		    msgExitBuilding();
 		}
 
 		public void msgExitBuilding() {
@@ -340,9 +341,10 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			bank.exitBuilding(this);
+			
 			person.roleFinished();
 			person.isIdle();
+			bank.exitBuilding(this);
 		}
 		public void msgEnterBuilding(SimSystem s) {
 			bank = (BankSystem)s;

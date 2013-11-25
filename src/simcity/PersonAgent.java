@@ -11,6 +11,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 
+
 import simcity.gui.Gui;
 import simcity.gui.IdlePersonGui;
 import simcity.gui.bank.BankCustomerGui;
@@ -23,13 +24,13 @@ import simcity.interfaces.market.MarketCustomer;
 import simcity.interfaces.restaurant.one.RestaurantOneCustomer;
 import simcity.interfaces.restaurant.two.RestaurantTwoCustomer;
 import simcity.interfaces.transportation.Pedestrian;
-
 import simcity.buildings.bank.BankCustomerRole;
 import simcity.buildings.bank.BankSystem;
 import simcity.buildings.house.HouseInhabitantRole;
 import simcity.buildings.market.MarketCustomerRole;
 import simcity.buildings.restaurant.five.RestaurantFiveCustomerRole;
 import simcity.buildings.restaurant.four.RestaurantFourCustomerRole;
+import simcity.buildings.restaurant.two.RestaurantTwoCustomerRole;
 import simcity.buildings.transportation.PedestrianRole;
 import simcity.gui.IdlePersonGui;
 import simcity.interfaces.Person;

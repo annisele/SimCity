@@ -137,20 +137,22 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 			e.printStackTrace();
 		} 
 	busStopCounter = ((busStopCounter + 1) % 4);
-		//Stop();
 		makeBusMove();
 	}
 
 	private void Stop() {
-		/*for (MyPassenger p : passengers) {
+		for (MyPassenger p : passengers) {
 			if (FullyLoaded() == true && p.destination == busStops.get(busStopCounter)) {
 				p.role.msgWeHaveArrived(busStops.get(busStopCounter).getX(),
 	                              busStops.get(busStopCounter).getY());
 			}
 			else if (p.loaded == false && p.startLocation == busStops.get(busStopCounter)) {
 				p.role.msgBusArriving();
-	                      } */
-			event = BusEvent.loading; 
+	                      }
+		}
+			//event = BusEvent.loading; 
+			
+			
 		
 		}
 	
@@ -162,12 +164,13 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 	}
 
 	public void atDestination() {
+		
 		  stopTimer.schedule(new TimerTask() {
               public void run() {
                       atDestination.release();
               }
       },
-     100);
+     300);
 	}
 
 	public void setGui(BusGui gui) {

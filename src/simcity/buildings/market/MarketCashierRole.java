@@ -5,6 +5,7 @@ import java.util.concurrent.Semaphore;
 
 import simcity.PersonAgent;
 import simcity.Role;
+import simcity.SimSystem;
 import simcity.gui.market.MarketCashierGui;
 import simcity.gui.market.MarketCustomerGui;
 import simcity.interfaces.market.MarketCustomer;
@@ -13,6 +14,7 @@ import simcity.interfaces.market.MarketWorker;
 public class MarketCashierRole extends Role implements simcity.interfaces.market.MarketCashier {
 	private List<MarketOrder> orders = Collections.synchronizedList(new ArrayList<MarketOrder>());
 	private MarketComputer computer;
+	private MarketSystem market;
 	private enum MarketOrderState {requested, waitingForPayment, paid, filling, found};
 	private Map<String, Double> prices = Collections.synchronizedMap(new HashMap<String, Double>());
 	private List<MarketWorker> workers = Collections.synchronizedList(new ArrayList<MarketWorker>());
@@ -177,14 +179,43 @@ public class MarketCashierRole extends Role implements simcity.interfaces.market
 
 	@Override
 	public void msgExitBuilding() {
-		// TODO Auto-generated method stub
+		((MarketCashierGui)gui).DoGoToLeftTop();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		((MarketCashierGui)gui).DoGoToLeftCenter();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		((MarketCashierGui)gui).DoGoToCenter();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		gui.DoExitBuilding();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		person.Do("Leaving market.");
+		market.exitBuilding(this);
+		person.roleFinished();
+		person.isIdle();
 
 	}
 
-	//PROBLEM!!!! Semaphore is never released
-
 	@Override
-	public void msgEnterBuilding() {
+	public void msgEnterBuilding(SimSystem s) {
+		market = (MarketSystem)s;
 		((MarketCashierGui)gui).DoGoToCenter();
 		try {
 			atDest.acquire();
@@ -212,13 +243,6 @@ public class MarketCashierRole extends Role implements simcity.interfaces.market
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		//HACK - this should be here but doens't work with it
-		//		try {
-		//			atDest.acquire();
-		//		} catch (InterruptedException e) {
-		//			e.printStackTrace();
-		//		}
-
 	}
 
 	public void addWorker(MarketWorker w) {

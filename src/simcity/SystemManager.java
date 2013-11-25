@@ -90,7 +90,7 @@ public class SystemManager {
 		//
 		
 		// Hack because Mark goes to Market
-		if (name == "Mark") {  //does this even work?  I'm using ==, not .equals()?  what?  -- tested, it does work
+		if (name.equalsIgnoreCase("Rebecca")) {
 			person.goToMarketNow();
 		}
 		if (name == "Levonne") {

@@ -47,7 +47,7 @@ public class Config {
 				systems.addMarketWorkerHack("Bob", "Market");
 				timer.schedule(new TimerTask() {
 					public void run() {
-						systems.addPerson("Mark");
+						systems.addPerson("Rebecca");
 					}
 				}, 2000);
 			}

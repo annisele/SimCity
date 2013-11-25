@@ -17,8 +17,8 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 	HouseInhabitantEvent event;
 	private Map <String , Integer > foodStock= new HashMap<String,Integer>();
 	private int sleepTime;
-	Timer sleeptimer= new Timer();
-	Timer cooktimer= new Timer();
+	Timer sleeptimer = new Timer();
+	Timer cooktimer = new Timer();
 	
 	private Semaphore atDest = new Semaphore(0, true);
 	
@@ -66,6 +66,9 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 		DoGoToFridge();
 		DoGoToStove();
 		DoGoToTable();
+		
+		DoGetUpFromTable();
+		msgExitBuilding();
 		if (person.money < 100)
 		     cooktimer.schedule(new TimerTask(){
                  Object cookie = 1;
@@ -197,6 +200,22 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 			e.printStackTrace();
 		}
 	}
+	
+	public void DoGetUpFromTable() {
+		((HouseInhabitantGui)gui).DoGoToNearTable();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		((HouseInhabitantGui)gui).DoGoToLiving();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+	}
 
 	@Override
 	public void msgExitBuilding() {
@@ -213,8 +232,9 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 		
 	}
 
-	// OLD OVERRIDE?
-	public void msgEnterBuilding() {
+	@Override
+	public void msgEnterBuilding(SimSystem s) {
+		house = (HouseSystem)s;
 		((HouseInhabitantGui)gui).DoGoToLiving();
 		try {
 			atDest.acquire();
@@ -222,11 +242,6 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 			e.printStackTrace();
 		}
 		state = HouseInhabitantState.Bored;
-	}
-
-	@Override
-	public void msgEnterBuilding(SimSystem s) {
-		// TODO Auto-generated method stub
 		
 	}
 

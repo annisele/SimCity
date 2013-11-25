@@ -335,6 +335,10 @@ public class SystemManager {
 		person.startThread();
 	}
 
+	public void addHackedBankAccount(int accountNumber, double accountBalance, String password) {
+		banks.get(0).getBankComputer().addHackedBankAccount(accountNumber, accountBalance, password);
+	}
+	
 	public void addRestaurantTwoHostHack(String name, String rest) {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());

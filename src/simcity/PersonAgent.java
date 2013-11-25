@@ -241,7 +241,7 @@ public class PersonAgent extends Agent implements Person {
 
 			//hack
 			((BankCustomer)eventR).msgWithdrawMoney((BankSystem)(Directory.getSystem(buildingName)));
-			((BankCustomer)eventR).msgArrivedAtBank();
+			//((BankCustomer)eventR).msgArrivedAtBank();
 			
 			e = new Event(buildingName, eventR, 120, -1, true, steps, t);
 			
@@ -486,7 +486,7 @@ public class PersonAgent extends Agent implements Person {
 	}
 
 	public void goToBankNow() {
-		this.scheduleEvent(EventType.DepositMoney);
+		this.scheduleEvent(EventType.WithdrawMoney);
 	}
 	public void goToRestaurantTwoNow() {
 		this.scheduleEvent(EventType.EatAtRestaurant);

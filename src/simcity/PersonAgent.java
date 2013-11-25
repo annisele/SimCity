@@ -17,6 +17,7 @@ import simcity.interfaces.market.MarketCustomer;
 import simcity.interfaces.transportation.Pedestrian;
 import simcity.buildings.bank.BankCustomerRole;
 import simcity.buildings.bank.BankHostRole;
+import simcity.buildings.bank.BankSystem;
 import simcity.buildings.bank.BankTellerRole;
 import simcity.buildings.house.HouseInhabitantRole;
 import simcity.buildings.market.MarketCashierRole;
@@ -195,12 +196,15 @@ public class PersonAgent extends Agent implements Person {
 			}
 			//hack
 			BankCustomerRole bc = new BankCustomerRole(this);
-			((BankCustomer)eventR).msgArrivedAtBank();
 			
+			((BankCustomer)eventR).msgDepositMoney((BankSystem)(Directory.getSystem(buildingName)));
+			((BankCustomer)eventR).msgArrivedAtBank();
 			e = new Event(buildingName, eventR, 120, -1, true, steps, t);
 			
 			insertEvent(e);
 			stateChanged();
+			
+			
 		}
 		else if (t == EventType.WithdrawMoney) {
 			List<String> banks = Directory.getBanks();

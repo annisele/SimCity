@@ -27,7 +27,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	private int landlordAccountNumber;		// when customer wants to pay rent, he gives this accountNumber instead
 
 	// set inside bank
-	//private BankHostRole bh;  We might not need this anymore
+	private BankHostRole bh;  
 	private BankTellerRole bt;
 	private int windowNumber;
 	
@@ -58,9 +58,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
     }
     
     // utility functions
-	/*public void setBankHost(BankHostRole bh) {
-		this.bh = bh;
-	}*/
+	
 	public String getCustomerName() {
 		return person.getName();
 	}     
@@ -79,6 +77,11 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	
 	//messages from personagent
 	public void msgDepositMoney(BankSystem b) {
+		System.out.println("I need to open an account and deposit money");
+		cashOnHand = 50;
+		accountPassword = "abcdef";
+		amountToProcess = 20;
+		transactionType = TransactionType.openAccount;
 		bank = b;
 		stateChanged();
 	}
@@ -233,9 +236,14 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	    		e.printStackTrace();
 	    	}
 	    	*/
-	    	System.out.println("I'm here for bank transaction, host is: "+bank);
+	    	System.out.println("I'm here for bank transaction, host is: "+bank.getBankHost());
 	    	bank.getBankHost().msgEnteringBank(this);
-		    
+	    	((BankCustomerGui)gui).DoGoToBankTeller(1);
+			try {
+	    		atDest.acquire();
+	    	} catch (InterruptedException e) {
+	    		e.printStackTrace();
+	    	}
 		}
 
 		private void OpenAccount() {

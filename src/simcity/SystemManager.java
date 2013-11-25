@@ -147,7 +147,6 @@ public class SystemManager {
 		BusGui tbg = new BusGui(bus);
 		bus.setGui(tbg);
 		world.getAnimationPanel().addBus(tbg);
-		System.out.println("FUCK");
 		bus.startThread();
 		bus.makeBusMove();
 	}

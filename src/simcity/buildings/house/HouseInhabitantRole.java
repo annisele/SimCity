@@ -4,6 +4,7 @@ import java.util.concurrent.Semaphore;
 
 import simcity.PersonAgent;
 import simcity.Role;
+import simcity.SimSystem;
 import simcity.gui.house.HouseInhabitantGui;
 import simcity.gui.market.MarketCustomerGui;
 
@@ -143,7 +144,7 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 		
 	}
 
-	@Override
+	// OLD OVERRIDE?
 	public void msgEnterBuilding() {
 		((HouseInhabitantGui)gui).DoGoToLiving();
 		try {
@@ -152,6 +153,12 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 			e.printStackTrace();
 		}
 		state = HouseInhabitantState.Bored;
+	}
+
+	@Override
+	public void msgEnterBuilding(SimSystem s) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

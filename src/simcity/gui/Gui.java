@@ -4,21 +4,27 @@ import java.awt.*;
 
 import simcity.Location;
 import simcity.Role;
+import simcity.interfaces.GuiPartner;
 
 public class Gui {
 
-	protected Role role;
-	protected int x = 236;
-	protected int y = 454;
-	protected int xDest = 0;
-	protected int yDest = 0;
+	protected GuiPartner role;
+	private int x = 236;
+	private int y = 454;
+	private int xDest = 0;
+	private int yDest = 0;
 	protected int SIZE = 20;
-	protected int EXIT_X = 235;
-	protected int EXIT_Y = 454;
-	protected boolean atDestNow = false;
+	private int EXIT_X = 235;
+	private int EXIT_Y = 454;
+	private boolean atDestNow = false;
 
 	public void updatePosition() {
-		if(xDest > x) {
+		//role is null when idle gui should be drawn
+		if(role == null) {
+			x = xDest;
+			y = yDest;
+		}
+ 		if(xDest > x) {
 			x++;
 		}
 		else {
@@ -67,6 +73,14 @@ public class Gui {
 
 	public void DoExitBuilding() {
 		DoGoToLocation(EXIT_X, EXIT_Y);
+	}
+	
+	public int getX() {
+		return x;
+	}
+	
+	public int getY() {
+		return y;
 	}
 
 }

@@ -3,6 +3,8 @@ package simcity.buildings.transportation;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
 import agent.Agent;
@@ -13,6 +15,8 @@ import simcity.gui.transportation.BusGui;
 //Make Changes to bus stop counter
 //
 public class BusAgent extends Agent implements simcity.interfaces.transportation.Bus {
+	
+	Timer stopTimer = new Timer();
 
 	class MyPassenger {
 		BusPassengerRole role;
@@ -113,8 +117,8 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		} 
-		busStopCounter = ((busStopCounter + 1) % 4);
-		Stop();
+	busStopCounter = ((busStopCounter + 1) % 4);
+		//Stop();
 		makeBusMove();
 	}
 
@@ -128,7 +132,6 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 				p.role.msgBusArriving();
 	                      }
 			event = BusEvent.loading; */
-		System.out.println("In Stop");
 		
 		}
 	
@@ -140,8 +143,12 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 	}
 
 	public void atDestination() {
-		System.out.println("in At Destination in BusAgent");
-		atDestination.release();
+		  stopTimer.schedule(new TimerTask() {
+              public void run() {
+                      atDestination.release();
+              }
+      },
+     800);
 	}
 
 	public void setGui(BusGui gui) {

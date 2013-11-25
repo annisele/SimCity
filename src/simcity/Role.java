@@ -16,7 +16,7 @@ public abstract class Role  {
 	public abstract boolean pickAndExecuteAnAction();
 	
 	public abstract void msgExitBuilding();
-	public abstract void msgEnterBuilding();
+	public abstract void msgEnterBuilding(SimSystem s);
 	 
 	public boolean active = false;
 
@@ -45,11 +45,6 @@ public abstract class Role  {
 	}
 
 	public void setWorkBuilding(String building) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void atDestination() {
 		// TODO Auto-generated method stub
 		
 	}

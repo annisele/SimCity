@@ -1,5 +1,7 @@
 package simcity.interfaces.transportation;
 
-public interface Car {
+import simcity.interfaces.GuiPartner;
+
+public interface Car extends GuiPartner {
 
 }

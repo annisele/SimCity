@@ -1,15 +1,19 @@
 package simcity.buildings.market;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Semaphore;
 
 import simcity.PersonAgent;
 import simcity.Role;
+import simcity.SimSystem;
 import simcity.gui.market.MarketCustomerGui;
-import simcity.gui.transportation.PedestrianGui;
 import simcity.interfaces.market.MarketCashier;
+import simcity.interfaces.market.MarketCustomer;
 
-public class MarketCustomerRole extends Role implements simcity.interfaces.market.MarketCustomer {
+public class MarketCustomerRole extends Role implements MarketCustomer {
 
 	private List<Invoice> invoices = Collections.synchronizedList(new ArrayList<Invoice>());
 	private enum InvoiceState {notSent, expected, requested, billed, paid, delivered};
@@ -27,9 +31,8 @@ public class MarketCustomerRole extends Role implements simcity.interfaces.marke
 	}
 	
 	@Override
-	public void msgBuyStuff(Map<String, Integer> itemsToBuy, MarketSystem m) {
+	public void msgBuyStuff(Map<String, Integer> itemsToBuy) {
 		invoices.add(new Invoice(InvoiceState.notSent, itemsToBuy, invoices.size()));
-		market = m;
 		stateChanged();
 	}
 
@@ -61,14 +64,6 @@ public class MarketCustomerRole extends Role implements simcity.interfaces.marke
 		}
 		stateChanged();
 	}
-	
-	//HACK!!
-	public void msgWait() {
-		System.out.println("Waiting..");
-		invoices.clear();
-		stateChanged();
-	}
-	
 	
 	public boolean pickAndExecuteAnAction() {
 		synchronized (invoices) {
@@ -161,7 +156,8 @@ public class MarketCustomerRole extends Role implements simcity.interfaces.marke
 	}
 
 	@Override
-	public void msgEnterBuilding() {
+	public void msgEnterBuilding(SimSystem s) {
+		market = (MarketSystem)s;
 		((MarketCustomerGui)gui).DoGoToCashier();
 		try {
 			atDest.acquire();

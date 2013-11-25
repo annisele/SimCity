@@ -1,12 +1,11 @@
 package simcity.interfaces.bank;
 
+import simcity.SimSystem;
 import simcity.buildings.bank.BankCustomerRole;
 import simcity.buildings.bank.BankSystem;
-import simcity.buildings.bank.BankTellerRole;
-import simcity.buildings.bank.BankCustomerRole.Event;
-import simcity.buildings.bank.BankCustomerRole.TransactionType;
+import simcity.interfaces.GuiPartner;
 
-public interface BankCustomer {
+public interface BankCustomer extends GuiPartner {
 	
 	public abstract void msgArrivedAtBank();
 	public abstract void msgGoToWindow(int windowNumber, BankTeller bt);
@@ -23,7 +22,7 @@ public interface BankCustomer {
 	public abstract void msgVerificationFailed();
 	
 	public abstract void msgExitBuilding();
-	public abstract void msgEnterBuilding();
+	public abstract void msgEnterBuilding(SimSystem s);
 	public abstract void msgWithdrawMoney(BankSystem b);
 	public abstract void msgDepositMoney(BankSystem b);
 	

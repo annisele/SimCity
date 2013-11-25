@@ -20,13 +20,13 @@ public class MarketCustomerGui extends Gui {
 	Image img = ii.getImage();
 
 
-	public MarketCustomerGui(MarketCustomerRole m) {
+	public MarketCustomerGui(MarketCustomer m) {
 		role = m;
 	}
 
 	@Override
 	public void draw(Graphics2D g) {
-		g.drawImage(img, x, y, null); 
+		g.drawImage(img, getX(), getY(), null); 
 	}
 
 	public void DoGoToCashier() {

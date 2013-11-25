@@ -45,4 +45,7 @@ public abstract void msgGoodbye() ;
 //public abstract void msgAnimationFinishedLeaveRestaurant() ;
 	//from animation
 
+
+public abstract void msgArrivedAtRestaurant();
+
 }

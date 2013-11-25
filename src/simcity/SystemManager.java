@@ -18,7 +18,9 @@ import simcity.buildings.restaurant.four.RestaurantFourSystem;
 import simcity.buildings.restaurant.one.RestaurantOneSystem;
 import simcity.buildings.restaurant.six.RestaurantSixSystem;
 import simcity.buildings.restaurant.three.RestaurantThreeSystem;
+import simcity.buildings.restaurant.two.RestaurantTwoHostRole;
 import simcity.buildings.restaurant.two.RestaurantTwoSystem;
+import simcity.buildings.restaurant.two.RestaurantTwoWaiterRole;
 import simcity.buildings.transportation.BusAgent;
 import simcity.buildings.transportation.TransportationSystem;
 import simcity.gui.Gui;
@@ -164,8 +166,16 @@ public class SystemManager {
 		
 	}
 	
-	public void addRestaurantTwo() {
-		restaurantTwos.add(new RestaurantTwoSystem(simcity));
+	public void addRestaurantTwo(String name, int xLoc, int yLoc) {
+		//restaurantTwos.add(new RestaurantTwoSystem(simcity));
+		RestaurantTwoSystem temp = new RestaurantTwoSystem(simcity);
+		temp.setName(name);
+		restaurantTwos.add(temp);
+		BuildingGui building = new BuildingGui(temp, "RestaurantTwo", xLoc, yLoc);
+		world.getAnimationPanel().addBuilding(building);
+		Location loc = new Location(xLoc, yLoc);
+		
+		dir.add(name, EntryType.Restaurant, loc, temp);
 	}
 	
 	public void addRestaurantThree() {
@@ -306,6 +316,25 @@ public class SystemManager {
 		world.getAnimationPanel().addGui(person.getIdleGui());
 		Role bankTeller = new BankTellerRole(person);
 		person.addWork(bankTeller, bank);
+		people.add(person);
+		person.startThread();
+	}
+
+	public void addRestaurantTwoHostHack(String name, String rest) {
+		PersonAgent person = new PersonAgent(name);
+		world.getAnimationPanel().addGui(person.getIdleGui());
+		Role r2Host = new RestaurantTwoHostRole(person);
+		person.addWork(r2Host, rest);
+		people.add(person);
+		person.startThread();
+		
+	}
+
+	public void addRestaurantTwoWaiterHack(String name, String rest) {
+		PersonAgent person = new PersonAgent(name);
+		world.getAnimationPanel().addGui(person.getIdleGui());
+		Role r2Waiter = new RestaurantTwoWaiterRole(person);
+		person.addWork(r2Waiter, rest);
 		people.add(person);
 		person.startThread();
 	}

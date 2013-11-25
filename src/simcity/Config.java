@@ -24,6 +24,7 @@ public class Config {
 		systems.clearDetailPane();
 		
 		systems.addMarket("Market", 100, 100);
+		//systems.addRestaurantTwo("RestaurantTwo", 300, 100);
 		systems.addRestaurantOne("RestaurantOne", 300, 100);
 		systems.addBank("Bank", 100, 300);
 		systems.addHouse("House of the Lord", 300, 300);
@@ -85,6 +86,20 @@ public class Config {
 	public void oneRestaurant() {
 		systems.clear();
 		systems.clearDetailPane();
+		
+		systems.addRestaurantTwo("RestaurantTwo", 300, 100);
+		systems.addRestaurantTwoHostHack("Bloke", "RestaurantTwo");
+		
+		timer.schedule(new TimerTask() {
+			public void run() {
+				systems.addRestaurantTwoWaiterHack("bob dylan", "RestaurantTwo");
+				timer.schedule(new TimerTask() {
+					public void run() {
+						systems.addPerson("heizenberg");
+					}
+				}, 2000);
+			}
+		}, 2000);
 	}
 
 }

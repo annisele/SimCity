@@ -10,6 +10,7 @@ import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
 import simcity.PersonAgent;
 import simcity.Role;
+import simcity.buildings.bank.BankCustomerRole.Event;
 import simcity.gui.restauranttwo.*;
 import simcity.interfaces.restaurant.two.*;;
 
@@ -41,7 +42,7 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
      private AgentState state = AgentState.DoingNothing;//The start state
 
      public enum AgentEvent 
-     {none, gotHungry, followWaiter, seated, readytoOrder,x, ordered,gotFood, doneEating, paying, Leaving,doneLeaving};
+     {none, gotHungry, followWaiter, seated, readytoOrder,x, ordered,gotFood, doneEating, paying, Leaving,doneLeaving, arrivedAtRestaurant};
      AgentEvent event = AgentEvent.none;
 
      /**
@@ -66,7 +67,7 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
 						e.printStackTrace();
 					}
           
-             Do("$$$= "+cashmoney);
+            // Do("$$$= "+cashmoney);
              customer_check=0;
      }
 
@@ -108,7 +109,11 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
              return name;
      }
      // Messages
-
+     public void msgArrivedAtRestaurant() { // from gui
+ 		System.out.println("I'm ehere yoo");
+ 		event = AgentEvent.arrivedAtRestaurant;
+ 		stateChanged();
+ 	}
      public void gotHungry() {//from animation
              Do("I'm hungry");
      

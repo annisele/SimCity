@@ -1,18 +1,27 @@
 package simcity.buildings.market;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.Semaphore;
 
 import simcity.PersonAgent;
 import simcity.Role;
+import simcity.SimSystem;
 import simcity.gui.market.MarketCashierGui;
-import simcity.gui.market.MarketCustomerGui;
+import simcity.interfaces.market.MarketCashier;
 import simcity.interfaces.market.MarketCustomer;
+import simcity.interfaces.market.MarketOrderer;
+import simcity.interfaces.market.MarketPayer;
 import simcity.interfaces.market.MarketWorker;
 
-public class MarketCashierRole extends Role implements simcity.interfaces.market.MarketCashier {
+public class MarketCashierRole extends Role implements MarketCashier {
 	private List<MarketOrder> orders = Collections.synchronizedList(new ArrayList<MarketOrder>());
 	private MarketComputer computer;
+	private MarketSystem market;
 	private enum MarketOrderState {requested, waitingForPayment, paid, filling, found};
 	private Map<String, Double> prices = Collections.synchronizedMap(new HashMap<String, Double>());
 	private List<MarketWorker> workers = Collections.synchronizedList(new ArrayList<MarketWorker>());
@@ -20,13 +29,13 @@ public class MarketCashierRole extends Role implements simcity.interfaces.market
 	private Semaphore atDest = new Semaphore(0, true);
 	private class MarketOrder {
 		int orderNumber;
-		Role deliverRole;
-		Role payRole;
+		MarketOrderer deliverRole;
+		MarketPayer payRole;
 		Map<String, Integer> items;
 		double payment;
 		MarketOrderState state;
 
-		MarketOrder(int oNum, Role rD, Role rP, Map<String, Integer> it, MarketOrderState s) {
+		MarketOrder(int oNum, MarketOrderer rD, MarketPayer rP, Map<String, Integer> it, MarketOrderState s) {
 			orderNumber = oNum;
 			deliverRole = rD;
 			payRole = rP;
@@ -52,11 +61,13 @@ public class MarketCashierRole extends Role implements simcity.interfaces.market
 		atDest.release();
 	}
 
-	public void msgHereIsAnOrder(MarketCustomerRole mc1, MarketCustomerRole mc2, Map<String, Integer> items) {
+	@Override
+	public void msgHereIsAnOrder(MarketOrderer mc1, MarketPayer mc2, Map<String, Integer> items) {
 		orders.add(new MarketOrder(orders.size(), mc1, mc2, items, MarketOrderState.requested));
 		stateChanged();
 	}
 
+	@Override
 	public void msgHereIsPayment(double payment, int oNum) {
 		synchronized (orders) {
 			for(MarketOrder o : orders) {
@@ -68,6 +79,7 @@ public class MarketCashierRole extends Role implements simcity.interfaces.market
 		stateChanged();
 	}
 
+	@Override
 	public void msgOrderFound(int orderNum) {
 		synchronized (orders) {
 			for(MarketOrder o : orders) {
@@ -119,7 +131,7 @@ public class MarketCashierRole extends Role implements simcity.interfaces.market
 		//hack!!
 		o.payment = 0;
 		if(o.payRole instanceof MarketCustomer) {
-			((MarketCustomerRole)o.payRole).msgPleasePay(this, o.payment, o.orderNumber);
+			o.payRole.msgPleasePay(this, o.payment, o.orderNumber);
 		}
 		else {
 			//deal with different types of restaurant cooks
@@ -137,7 +149,7 @@ public class MarketCashierRole extends Role implements simcity.interfaces.market
 		}
 		else {
 			//hack! shouldn't cast like this
-			((MarketWorkerRole) workers.get(0)).msgFindOrder(o.orderNumber, o.items);
+			((MarketWorker) workers.get(0)).msgFindOrder(o.orderNumber, o.items);
 		}
 
 		o.state = MarketOrderState.filling;
@@ -154,19 +166,19 @@ public class MarketCashierRole extends Role implements simcity.interfaces.market
 		}
 
 		((MarketCashierGui)gui).DoGoToCashRegister();
-		
+
 		//for some reason if this is here is never acquires??!?? program gets stuck here
-//		try {
-//			atDest.acquire();
-//		} catch (InterruptedException e) {
-//			e.printStackTrace();
-//		}
+		//		try {
+		//			atDest.acquire();
+		//		} catch (InterruptedException e) {
+		//			e.printStackTrace();
+		//		}
 
 		person.Do("Giving items to customer");
 		//.getNext() is a stub for load balancing
-		if(o.deliverRole instanceof MarketCustomerRole) {
+		if(o.deliverRole instanceof MarketCustomer) {
 			//hack!! shouldn't cast like this
-			((MarketCustomerRole)o.deliverRole).msgDeliveringOrder(o.items);
+			o.deliverRole.msgDeliveringOrder(o.items);
 		}
 		else {
 			//o.deliverRole.msgOrderWillBeDelivered(o.items);
@@ -177,54 +189,74 @@ public class MarketCashierRole extends Role implements simcity.interfaces.market
 
 	@Override
 	public void msgExitBuilding() {
-		// TODO Auto-generated method stub
-
-	}
-
-	//PROBLEM!!!! Semaphore is never released
-
-	@Override
-	public void msgEnterBuilding() {
-		((MarketCashierGui)gui).DoGoToCenter();
-		try {
-			atDest.acquire();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		
-		((MarketCashierGui)gui).DoGoToLeftCenter();
-		try {
-			atDest.acquire();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		
 		((MarketCashierGui)gui).DoGoToLeftTop();
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
+
+		((MarketCashierGui)gui).DoGoToLeftCenter();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		((MarketCashierGui)gui).DoGoToCenter();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		gui.DoExitBuilding();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		person.Do("Leaving market.");
+		market.exitBuilding(this);
+		person.roleFinished();
+		person.isIdle();
+
+	}
+
+	@Override
+	public void msgEnterBuilding(SimSystem s) {
+		market = (MarketSystem)s;
+		((MarketCashierGui)gui).DoGoToCenter();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		((MarketCashierGui)gui).DoGoToLeftCenter();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		((MarketCashierGui)gui).DoGoToLeftTop();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
 		((MarketCashierGui)gui).DoGoToCashRegister();
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		//HACK - this should be here but doens't work with it
-		//		try {
-		//			atDest.acquire();
-		//		} catch (InterruptedException e) {
-		//			e.printStackTrace();
-		//		}
-
 	}
 
 	public void addWorker(MarketWorker w) {
 		workers.add(w);
-		((MarketWorkerRole) w).setCashier(this);
-		((MarketWorkerRole) w).setComputer(computer);
 	}
 
 

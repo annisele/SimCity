@@ -1,5 +1,11 @@
 package simcity.interfaces.market;
 
-public interface MarketWorker {
+import java.util.Map;
+
+import simcity.interfaces.GuiPartner;
+
+public interface MarketWorker extends GuiPartner {
+
+	void msgFindOrder(int orderNum, Map<String, Integer> itemsList);
 
 }

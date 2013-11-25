@@ -159,13 +159,13 @@ public class PersonAgent extends Agent implements Person {
 					house = (HouseInhabitantRole) r;
 				}
 			}
-			//((MarketCustomer)eventR).msgBuyStuff(house.getListToBuy(), (MarketSystem)(Directory.getSystem(buildingName)));
 			
+			//((MarketCustomer)eventR).msgBuyStuff(house.getListToBuy(), (MarketSystem)(Directory.getSystem(buildingName)));
 			//hack
 			Map<String, Integer> itemsHack = new HashMap<String, Integer>();
 			itemsHack.put("chicken", 1);
 			itemsHack.put("steak", 2);
-			((MarketCustomer)eventR).msgBuyStuff(itemsHack, (MarketSystem)(Directory.getSystem(buildingName)));
+			((MarketCustomer)eventR).msgBuyStuff(itemsHack);
 			
 			e = new Event(buildingName, eventR, 120, -1, true, steps, t);
 			//Do("GoToMarket is scheduled, which has "+steps.size()+" steps");
@@ -352,7 +352,8 @@ public class PersonAgent extends Agent implements Person {
 		if(Directory.getSystem(currentEvent.buildingName).msgEnterBuilding(currentEvent.role)) {
 			currentRole = currentEvent.role;
 			Do("Entered building. Changing role to " + currentRole.getClass());
-			currentRole.msgEnterBuilding();
+			
+			currentRole.msgEnterBuilding(Directory.getSystem(currentEvent.buildingName));
 			Directory.getSystem(currentEvent.buildingName).animationPanel.addGui(currentRole.getGui());
 			
 		} else {

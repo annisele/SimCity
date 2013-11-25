@@ -2,6 +2,7 @@ package simcity.buildings.transportation;
 
 import simcity.Location;
 import simcity.Role;
+import simcity.SimSystem;
 import agent.Agent;
 
 	public class BusPassengerRole extends Role implements simcity.interfaces.transportation.BusPassenger {
@@ -15,7 +16,7 @@ import agent.Agent;
 		//PassengerEvent event = enum{ atBusStop, busArriving, busStopping };
 		public enum PassengerState {offBus, waitingForBus, onBus};
 		public enum PassengerEvent {atBusStop, busArriving, busStopping};
-		PassengerState state;
+		PassengerState state = PassengerState.offBus;
 		PassengerEvent event;
 	
 
@@ -92,7 +93,13 @@ import agent.Agent;
 	}
 
 	@Override
-	public void msgEnterBuilding() {
+	public void atDestination() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgEnterBuilding(SimSystem s) {
 		// TODO Auto-generated method stub
 		
 	}

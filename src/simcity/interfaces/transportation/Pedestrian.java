@@ -1,5 +1,7 @@
 package simcity.interfaces.transportation;
 
-public interface Pedestrian {
+import simcity.interfaces.GuiPartner;
+
+public interface Pedestrian extends GuiPartner{
 
 }

@@ -56,6 +56,10 @@ public class MarketSystem extends simcity.SimSystem {
 		return cashier;
 	}
 	
+	public MarketComputer getComputer() {
+		return computer;
+	}
+	
 	@Override
 	public boolean msgEnterBuilding(Role role) {
 		animationPanel.addGui(role.getGui());

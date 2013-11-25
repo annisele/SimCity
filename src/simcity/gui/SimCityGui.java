@@ -91,8 +91,8 @@ public class SimCityGui extends JFrame implements ActionListener {
 		viewWorldPanel.setMaximumSize(new Dimension(400, 400));
 		viewDetailPanel.setMaximumSize(new Dimension(400, 400));
 		
-		worldTracePanel.setMinimumSize(new Dimension(200, 196));
-		detailTracePanel.setMinimumSize(new Dimension(200, 196));
+		worldTracePanel.setMinimumSize(new Dimension(200, 208));
+		detailTracePanel.setMinimumSize(new Dimension(200, 208));
 		//splitPaneWorld.setResizeWeight(0.0);
 		//splitPaneDetail.setResizableWithParent(viewDetailPanel, Boolean.FALSE);
 		
@@ -179,7 +179,8 @@ public class SimCityGui extends JFrame implements ActionListener {
 	  SimCityGui gui = new SimCityGui();
       gui.setTitle("SimCity Team 14");
       
-      gui.setResizable(true);
+      
+      gui.setResizable(false);
       gui.setSize(1250, 700);
       gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       gui.setVisible(true);

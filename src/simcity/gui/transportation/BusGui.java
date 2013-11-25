@@ -63,10 +63,7 @@ public class BusGui extends Gui {
 	}
 
 	public void DoGoToStop(int x, int y) {
-		//System.out.println(" atDestNow is: "+atDestNow);
-		System.out.println("At Do Go to Stop");
 		//atDestNow = false;
-		//System.out.println(" atDestNow is: "+atDestNow);
 		xDest = x;
 		yDest = y;
 		atDestNow = false;

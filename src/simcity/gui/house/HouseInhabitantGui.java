@@ -33,22 +33,18 @@ public class HouseInhabitantGui extends Gui {
 	}
 
 	public void DoGoToBedroom() {
-		System.out.println("HouseInhabGui is going to bed!");
 		DoGoToLocation(BEDROOM_X, BEDROOM_Y);
 	}
 	
 	public void DoGoToBed() {
-		System.out.println("HouseInhabGui is going to bed!");
 		DoGoToLocation(BED_X, BED_Y);
 	}
 	
 	public void DoGoToLiving() {
-		System.out.println("HouseInhabGui is going to bed!");
 		DoGoToLocation(LIVING_X, LIVING_Y);
 	}
 	
 	public void DoGoToKitchen() {
-		System.out.println("HouseInhabGui is going to bed!");
 		DoGoToLocation(KITCHEN_X, KITCHEN_Y);
 	}
 

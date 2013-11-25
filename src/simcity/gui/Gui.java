@@ -30,8 +30,8 @@ public class Gui {
 		else {
 			y--;
 		}
-		if(x == xDest && y == yDest) {
-			if(!atDestNow) {
+		if(((x == xDest) || (x == xDest + 1) || (x == xDest - 1)) && ((y == yDest) || (y == yDest + 1) || (y == yDest - 1))) {
+			if(!atDestNow && role != null) {
 				role.atDestination();
 				atDestNow = true;
 			}

@@ -105,6 +105,21 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 	public boolean pickAndExecuteAnAction() {
 		Drive();
 		
+		if (state == BusState.stopped && event == BusEvent.loading) {
+			//	if (FullyLoaded == true)
+					state = BusState.driving;
+					Drive();
+					return true;
+		}
+		
+			if (state == BusState.driving && event == BusEvent.arrived) {	
+				state = BusState.stopped;
+				Stop();
+				return true;
+			}
+
+
+		
 		return false;
 	}
 	

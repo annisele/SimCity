@@ -16,7 +16,7 @@ import agent.Agent;
 		//PassengerEvent event = enum{ atBusStop, busArriving, busStopping };
 		public enum PassengerState {offBus, waitingForBus, onBus};
 		public enum PassengerEvent {atBusStop, busArriving, busStopping};
-		PassengerState state;
+		PassengerState state = PassengerState.offBus;
 		PassengerEvent event;
 	
 

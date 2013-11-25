@@ -137,12 +137,10 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 		//Animation
 		//Wait a few Seconds
 		gui.DoGoToStop(l.getX(), l.getY());
-	
 	}
 
 	public void atDestination() {
 		atDestination.release();
-
 	}
 
 	public void setGui(BusGui gui) {

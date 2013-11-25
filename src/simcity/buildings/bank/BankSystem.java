@@ -69,6 +69,7 @@ public class BankSystem extends simcity.SimSystem{
 			bankTellers.add((BankTeller) role);
 		}
 		else if(role instanceof BankHost) {
+			System.out.println(role == null);
 			bh = (BankHost) role;
 		}
 		return true;

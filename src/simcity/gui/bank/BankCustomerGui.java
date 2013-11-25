@@ -17,13 +17,13 @@ public class BankCustomerGui extends Gui{
 	Image img = ii.getImage();
 
 	private int xDestination, yDestination;
-	private final int WINDOW1_X = 120;
+	private final int WINDOW1_X = 105;
 	private final int WINDOW1_Y = 200;
 	
-	private final int WINDOW2_X = 160;
+	private final int WINDOW2_X = 200;
 	private final int WINDOW2_Y = 200;
 	
-	private final int WINDOW3_X = 200;
+	private final int WINDOW3_X = 280;
 	private final int WINDOW3_Y = 200;
 	
 	

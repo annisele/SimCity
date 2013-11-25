@@ -144,7 +144,7 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 	// actions
 
 	private void AddAccount(MyCustomer customer) {
-		System.out.println("I've opened an account for you");
+		person.Do("I've opened an account for you");
 		int tempAccountNumber = bank.addAccountAndReturnNumber(customer.getBankCustomer(), customer.getPassword(), 
 				customer.getAmountToProcess());
 		BankAccount account = bank.accountLookup(tempAccountNumber);
@@ -156,7 +156,7 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 
 	private void DepositMoney(MyCustomer customer) {
 		if(bank.verifyAccount(customer.getAccountNumber(), customer.getPassword())){
-			System.out.println("I've deposited your money");
+			person.Do("I've deposited your money");
 			BankAccount account = bank.accountLookup(customer.getAccountNumber());
 			account.setAccountBalance(account.getAccountBalance() + customer.getAmountToProcess());
 			bank.updateSystemAccount(account);
@@ -172,7 +172,7 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 
 	private void WithdrawMoney(MyCustomer customer) {
 		if(bank.verifyAccount(customer.getAccountNumber(), customer.getPassword())){
-			System.out.println("I've withdrawn your money");
+			person.Do("I've withdrawn your money");
 			BankAccount account = bank.accountLookup(customer.getAccountNumber());
 			
 			if (account.getAccountBalance() >= customer.getAmountToProcess()) {	// customer has enough money to withdraw
@@ -200,7 +200,7 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 			
 			// RULE FOR LOAN: Loan is at max twice of account balance
 			if (account.getAccountBalance() > customer.getAmountToProcess() * 0.5) { 
-				System.out.println("Your loan is approved!");
+				person.Do("Your loan is approved!");
 				account.setAmountOwed(account.getAmountOwed() + customer.getAmountToProcess());
 				bank.updateSystemAccount(account);
 				bank.setLoanableFunds(bank.getLoanableFunds() - customer.getAmountToProcess());
@@ -208,7 +208,7 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 						account.getAccountBalance(), customer.getAmountToProcess());
 			}
 			else {
-				System.out.println("Your loan was not approved!");
+				person.Do("Your loan was not approved!");
 				customer.getBankCustomer().msgCannotGrantLoan(account.getBankCustomer(), account.getAccountNumber(), 
 						account.getAmountOwed(), customer.getAmountToProcess());
 			}
@@ -228,7 +228,7 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 			BankAccount account = bank.accountLookup(customer.getAccountNumber());
 			
 			if (account.getAmountOwed() <= customer.getAmountToProcess()) {	// paid successfully
-				System.out.println("You've paid back all your loans!");
+				person.Do("You've paid back all your loans!");
 				double actualPaid = account.getAmountOwed();	// in case customer pays too much
 				account.setAmountOwed(0);
 				bank.updateSystemAccount(account);
@@ -237,7 +237,7 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 						account.getAmountOwed(), customer.getAmountToProcess(), actualPaid);
 			}
 			else if (account.getAmountOwed() > customer.getAmountToProcess()) { // not yet finished paying loan
-				System.out.println("You have paid a part of your loan.");
+				person.Do("You have paid a part of your loan.");
 				account.setAmountOwed(account.getAmountOwed() - customer.getAmountToProcess());
 				bank.updateSystemAccount(account);
 				bank.setLoanableFunds(bank.getLoanableFunds() + customer.getAmountToProcess());

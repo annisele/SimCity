@@ -2,6 +2,7 @@ package simcity.buildings.restaurant.two;
 
 import java.text.DecimalFormat;
 import java.util.Map.Entry;
+import java.util.concurrent.Semaphore;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -22,12 +23,12 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
 	 private int waitingPosition, tnum,lowestprice;
      private double cashmoney, customer_check;
      
-     private String name, choice;
+     private String  choice;
      private int hungerLevel = 5;        // determines length of meal
      Timer timer = new Timer();
      private RestaurantTwoCustomerGui customerGui;
      private RestaurantTwoOrderWheel OrderWheel= new RestaurantTwoOrderWheel(); 
-     
+ 	private Semaphore atDest = new Semaphore(0, true);
 
      // agent correspondents
      
@@ -55,10 +56,12 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
       * @param name name of the customer
       * @param gui  reference to the customergui so the customer can send it messages
       */
+
+
      public RestaurantTwoCustomerRole(PersonAgent p){
     	 	System.out.println("Person is: "+p);
             person = p;
-            
+
             
             this.gui = new RestaurantTwoCustomerGui(this);
              /*
@@ -112,9 +115,9 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
              cook.hack_chicken();
              cashier.modBalance(50);
      }
-     public String getCustomerName() {
+     /*public String getCustomerName() {
              return name;
-     }
+     }*/
      // Messages
      public void msgArrivedAtRestaurant() { // from gui
  		System.out.println("I'm ehere yoo");
@@ -476,7 +479,7 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
              Do("Has left");
      }
      // Accessors, etc.
-
+/*
      public String getName() {
              return name;
      }
@@ -517,14 +520,21 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
 
 	@Override
 	public void msgEnterBuilding(SimSystem s) {
-		// TODO Auto-generated method stub
+		System.out.println("wasdooo");
+		R2 = (RestaurantTwoSystem)s;
+		((RestaurantTwoCustomerGui)gui).DoGoToRestaurant(10);
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		
 	}
 
 	@Override
 	public void atDestination() {
 		// TODO Auto-generated method stub
-		
+		atDest.release();
 	}
 
 	

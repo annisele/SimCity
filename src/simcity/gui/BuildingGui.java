@@ -1,18 +1,13 @@
 package simcity.gui;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import javax.swing.ImageIcon;
 
 import simcity.Location;
 import simcity.SimSystem;
-import simcity.PersonAgent.EventType;
 
 public class BuildingGui {
 	
@@ -49,7 +44,6 @@ public class BuildingGui {
 	public BuildingGui(SimSystem s, String t, int xLoc, int yLoc) {
 		system = s;
 		type = BuildingType.valueOf(t);
-		//System.out.println("heyyo "+type);
 		//controlPanel = s.getControlPanel();
 		location = new Location(xLoc, yLoc);
 		

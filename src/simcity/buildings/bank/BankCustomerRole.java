@@ -78,7 +78,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	
 	//messages from personagent
 	public void msgDepositMoney(BankSystem b) {
-		System.out.println("I need to open an account and deposit money");
+		person.Do("I need to open an account and deposit money");
 		cashOnHand = 50;
 		accountPassword = "abcdef";
 		amountToProcess = 20;
@@ -89,13 +89,13 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	
 	//messages 
 	public void msgArrivedAtBank() { // from gui
-		System.out.println("I'm at bank");
+		person.Do("I'm at bank");
 		event = Event.arrivedAtBank;
 		stateChanged();
 	}
 
 	public void msgGoToWindow(int windowNumber, BankTeller bt) {
-		System.out.println("I'm going to the window to perform bank transaction");
+		person.Do("I'm going to the window to perform bank transaction");
 		this.windowNumber = windowNumber;
 		this.bt = bt;
 		event = Event.directedToWindow;
@@ -104,7 +104,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	
 	// bank teller sends this message to customer after opening an account
 	public void msgHereIsAccountInfo(BankCustomer bc, int accountNumber, double accountBalance) {
-		System.out.println("Here is your new account information");
+		person.Do("Here is your new account information");
 		cashOnHand = cashOnHand - accountBalance;
 		event = Event.transactionProcessed;
 		stateChanged();
@@ -112,7 +112,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 
 	//bank teller sends this message to customer after withdrawing money
 	public void msgHereIsMoney(BankCustomer bc, int accountNumber, double accountBalance, double amountProcessed) {
-		System.out.println("Here is the money that you withdraw");
+		person.Do("Here is the money that you withdraw");
 		cashOnHand = cashOnHand + amountProcessed;
 		event = Event.transactionProcessed;
 		stateChanged();
@@ -120,14 +120,14 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 
 	// bank teller sends this message to customer if not enough money is withdrawn
 	public void msgNotEnoughMoneyToWithdraw(BankCustomer bc, int accountNumber, double accountBalance, double amountProcessed) {
-		System.out.println("Not enough money to withdraw amount");
+		person.Do("Not enough money to withdraw amount");
 		event = Event.transactionProcessed;
 		stateChanged();
 	}
 	
 	//bank teller sends this message to customer after depositing money
 	public void msgMoneyIsDeposited(BankCustomer bc, int accountNumber, double accountBalance, double amountProcessed) {
-		System.out.println("Here is the money that you deposited");
+		person.Do("Here is the money that you deposited");
 		cashOnHand = cashOnHand - amountProcessed;
 		event = Event.transactionProcessed;
 		stateChanged();
@@ -238,7 +238,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	    		e.printStackTrace();
 	    	}
 	    	
-	    	System.out.println("I'm here for bank transaction, host is: "+ bank.getBankHost());
+	    	person.Do("I'm here for bank transaction, host is: "+ bank.getBankHost());
 	    	bank.getBankHost().msgEnteringBank(this);
 	    	/*
 	    	((BankCustomerGui)gui).DoGoToBankTeller(3);
@@ -258,8 +258,8 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	    		e.printStackTrace();
 	    	}
 		    bt.msgWantToOpenAccount(this, amountToProcess);
-		    System.out.println("Bank customer wants to open account");
-		    System.out.println("PLease deposit $100 if you want to open account");
+		    person.Do("I want to open account");
+		    person.Do("deposit $100 to open account");
 		}
 
 		private void DepositMoney() {
@@ -270,7 +270,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	    		e.printStackTrace();
 	    	}
 		    bt.msgWantToDeposit(this, amountToProcess);
-		    System.out.println("Bank customer wants to deposit money");
+		    person.Do("I want to deposit money");
 		}
 
 		private void WithdrawMoney() {
@@ -281,7 +281,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	    		e.printStackTrace();
 	    	}
 		    bt.msgWantToWithdraw(this, amountToProcess);
-		    System.out.println("Bank customer wants to withdraw money");
+		    person.Do("I want to withdraw money");
 		}
 		
 		private void LoanMoney() {
@@ -292,7 +292,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	    		e.printStackTrace();
 	    	}
 		    bt.msgWantALoan(this, amountToProcess);
-		    System.out.println("Bank customer wants to get loan");
+		    person.Do("I want to get loan");
 		}
 
 		private void PayLoan() {

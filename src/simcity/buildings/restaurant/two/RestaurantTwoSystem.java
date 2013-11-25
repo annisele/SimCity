@@ -60,8 +60,12 @@ public class RestaurantTwoSystem extends SimSystem {
 	}
 
 	public boolean msgEnterBuilding(Role role) {
+
+		System.out.println("gui: "+role.getGui());
+
 		//System.out.println("gui: "+role.getGui());
 		System.out.println("the role has a gui: "+role.getGui());
+
 		animationPanel.addGui(role.getGui());
 		if(role instanceof RestaurantTwoCustomer) {
 			customers.add((RestaurantTwoCustomer) role);

@@ -123,7 +123,7 @@ public class MarketCashierRole extends Role implements MarketCashier {
 	private void SendBill(MarketOrder o) {
 		person.Do("Sending bill to customer");
 
-		Set<String> keys = prices.keySet();
+		Set<String> keys = o.items.keySet();
 		for (String key : keys) {
 			o.payment += o.items.get(key) * prices.get(key);
 		}
@@ -168,11 +168,11 @@ public class MarketCashierRole extends Role implements MarketCashier {
 		((MarketCashierGui)gui).DoGoToCashRegister();
 
 		//for some reason if this is here is never acquires??!?? program gets stuck here
-		//		try {
-		//			atDest.acquire();
-		//		} catch (InterruptedException e) {
-		//			e.printStackTrace();
-		//		}
+//				try {
+//					atDest.acquire();
+//				} catch (InterruptedException e) {
+//					e.printStackTrace();
+//				}
 
 		person.Do("Giving items to customer");
 		//.getNext() is a stub for load balancing

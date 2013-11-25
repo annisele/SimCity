@@ -2,7 +2,10 @@ package simcity.gui.restauranttwo;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Point;
+
+import javax.swing.ImageIcon;
 
 import simcity.buildings.restaurant.two.*;
 import simcity.gui.restauranttwo.*;
@@ -23,10 +26,12 @@ public class RestaurantTwoWaiterGui extends Gui{
 	    int[] tablelist = new int[3];
 	    private boolean isPresent = false;
 		private boolean onBreak ;
-		
+		ImageIcon ii = new ImageIcon("res/person/persondownbig.png");
+		Image img = ii.getImage();
 
-	    public RestaurantTwoWaiterGui(RestaurantTwoWaiterRole agent) {
+	    public RestaurantTwoWaiterGui(RestaurantTwoWaiter w) {
 	    	onBreak = false;
+	    	role=w;
 	        this.agent = agent;
 	        tablelist[0]=100;
 	    	tablelist[1]=200;
@@ -75,8 +80,9 @@ public class RestaurantTwoWaiterGui extends Gui{
 
 	}
 	    public void draw(Graphics2D g) {
-	        g.setColor(Color.MAGENTA);
-	        g.fillRect(xPos, yPos, 20, 20);
+	      // g.setColor(Color.MAGENTA);
+	        //g.fillRect(xPos, yPos, 20, 20);
+	        g.drawImage(img, getX(), getY(), null); 
 	    }
 
 	    public boolean isPresent() {

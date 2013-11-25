@@ -13,7 +13,6 @@ import java.util.ArrayList;
 
 public class RestaurantTwoAnimationPanel extends AnimationPanel implements ActionListener {
 
-	private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
 	ImageIcon ii = new ImageIcon("res/restaurant/one/tablecartoon.png");
 	Image tableimage = ii.getImage();
 	ImageIcon cookicon = new ImageIcon("res/restaurant/one/cookcartoon.jpg");

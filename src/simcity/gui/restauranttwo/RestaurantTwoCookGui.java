@@ -12,8 +12,8 @@ public class RestaurantTwoCookGui extends Gui {
 
 	   private RestaurantTwoCookRole agent = null;
 
-	    private int xPos = 370, yPos = 300;//default waiter position
-	    private int xDestination = 370, yDestination = 300;//default start position
+	   private int xPos = 370, yPos = 300;//default waiter position
+	   private int xDestination = 370, yDestination = 300;//default start position
 	   private String text=""; 
 
 

@@ -35,6 +35,7 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
      private RestaurantTwoWaiter waiter;
      private RestaurantTwoCashierRole cashier;
      private RestaurantTwoCookRole cook;
+     
      private RestaurantTwoSystem R2;
      private boolean hack_c=false;
      private boolean hack_s=false;
@@ -55,10 +56,11 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
       * @param gui  reference to the customergui so the customer can send it messages
       */
      public RestaurantTwoCustomerRole(PersonAgent p){
+    	 	System.out.println("Person is: "+p);
+            person = p;
             
-             person = p;
             
-             this.gui = new RestaurantTwoCustomerGui(this);
+            this.gui = new RestaurantTwoCustomerGui(this);
              /*
              lowestprice=6;
              double temp= 5+(double)(Math.random()*(15));
@@ -494,7 +496,7 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
      }
 
      public String toString() {
-             return "customer " + getName();
+             return "customer " + person.getName();
      }
 
      public void setGui(RestaurantTwoCustomerGui g) {

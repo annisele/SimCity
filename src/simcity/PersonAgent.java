@@ -83,9 +83,7 @@ public class PersonAgent extends Agent implements Person {
 		myRoles.add(m);
 		myRoles.add(b);
 		myRoles.add(r2);
-		Do("r: "+r2);
 		myRoles.add(r4);
-		Do("roles "+myRoles.toString());
 		//myRoles.add(r5);
 	}
 

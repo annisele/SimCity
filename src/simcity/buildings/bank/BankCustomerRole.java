@@ -221,15 +221,13 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 		    return true;
 		}
 
-		// person receives
+		// person leaves the bank after completing bank transaction
 		if (state == State.goingToWindow && event == Event.transactionProcessed) {
 			state = State.leaving;
 		    InformBankHostOfDeparture();
 		    return true;
 		}
 		
-		System.out.println("No scheduler rule fired, should not happen in FSM, event="+event+" state="+ state);
-
 		return false;
 	}
 
@@ -244,14 +242,6 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	    	
 	    	person.Do("I'm here for bank transaction, host is: "+ bank.getBankHost());
 	    	bank.getBankHost().msgEnteringBank(this);
-	    	/*
-	    	((BankCustomerGui)gui).DoGoToBankTeller(3);
-
-			try {
-	    		atDest.acquire();
-	    	} catch (InterruptedException e) {
-	    		e.printStackTrace();
-	    	}*/
 		}
 
 		private void OpenAccount() {
@@ -318,7 +308,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	    		e.printStackTrace();
 	    	}
 		    bt.msgWantToPayRent(this, amountToProcess);
-		    System.out.println("Bank customer wants to get loan");
+		    System.out.println("Bank customer wants to pay $10 rent");
 		}
 		
 		private void InformBankHostOfDeparture() {
@@ -359,7 +349,25 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 			amountToProcess = 20;
 			transactionType = TransactionType.withdrawMoney;
 			bank = b;
-			//stateChanged();
-			
+			//stateChanged();	
 		}
+		public void msgPayRent(BankSystem b) {
+			System.out.println("I need to pay rent");
+			cashOnHand = 50;
+			accountPassword = "abcdef";
+			amountToProcess = 10;
+			transactionType = TransactionType.payRent;
+			bank = b;
+			//stateChanged();	
+		}
+		public void msgGetLoan(BankSystem b) {
+			System.out.println("I need to get a loan");
+			cashOnHand = 50;
+			accountPassword = "abcdef";
+			amountToProcess = 100;
+			transactionType = TransactionType.loanMoney;
+			bank = b;
+			//stateChanged();	
+		}
+		
 }

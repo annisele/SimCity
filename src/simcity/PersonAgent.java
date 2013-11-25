@@ -213,10 +213,7 @@ public class PersonAgent extends Agent implements Person {
 			}
 			
 			//hack
-			//BankCustomerRole bc = new BankCustomerRole(this);
-			
 			((BankCustomer)eventR).msgDepositMoney((BankSystem)(Directory.getSystem(buildingName)));
-			//((BankCustomer)eventR).msgArrivedAtBank();
 			e = new Event(buildingName, eventR, 120, -1, true, steps, t);
 			
 			insertEvent(e);
@@ -241,8 +238,6 @@ public class PersonAgent extends Agent implements Person {
 
 			//hack
 			((BankCustomer)eventR).msgWithdrawMoney((BankSystem)(Directory.getSystem(buildingName)));
-			//((BankCustomer)eventR).msgArrivedAtBank();
-			
 			e = new Event(buildingName, eventR, 120, -1, true, steps, t);
 			
 			insertEvent(e);
@@ -262,13 +257,10 @@ public class PersonAgent extends Agent implements Person {
 					eventR = r;
 				}
 			}
-			
 			//hack
-			BankCustomerRole o = new BankCustomerRole(this);
-			//assuming that getting a loan increases the amount of money in account
-			((BankCustomer)eventR).msgHereIsYourLoan(o, 123456, 1500, 500);
-			
+			((BankCustomer)eventR).msgGetLoan((BankSystem)(Directory.getSystem(buildingName)));
 			e = new Event(buildingName, eventR, 120, -1, true, steps, t);
+			
 			
 			insertEvent(e);
 			stateChanged();
@@ -287,12 +279,8 @@ public class PersonAgent extends Agent implements Person {
 					eventR = r;
 				}
 			}
-			
 			//hack
-			BankCustomerRole z = new BankCustomerRole(this);
-			//assuming that paying rent reduces the amount of money in account
-			((BankCustomer)eventR).msgMoneyIsDeposited(z, 123456, 1000, 500);
-			
+			((BankCustomer)eventR).msgPayRent((BankSystem)(Directory.getSystem(buildingName)));
 			e = new Event(buildingName, eventR, 120, -1, true, steps, t);
 			
 			insertEvent(e);

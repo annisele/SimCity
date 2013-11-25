@@ -21,6 +21,7 @@ import simcity.interfaces.restaurant.two.RestaurantTwoCustomer;
 import simcity.interfaces.restaurant.two.RestaurantTwoWaiter;
 //import simcity.test.mock.LoggedEvent;
 import simcity.Role;
+import simcity.SimSystem;
 import simcity.buildings.restaurant.one.RestaurantOneCheck.CheckState;
 import simcity.interfaces.restaurant.one.RestaurantOneCustomer;
 
@@ -29,6 +30,7 @@ public class RestaurantTwoCashierRole extends Role {//implements simcity.interfa
 	
 	 private RestaurantTwoWaiterRole wait;
 	private RestaurantTwoCustomer cust;
+	private RestaurantTwoSystem R2;
 	public double balance;
 	public List<mymarket> markets
 	= Collections.synchronizedList(new ArrayList<mymarket>());
@@ -78,8 +80,9 @@ public class RestaurantTwoCashierRole extends Role {//implements simcity.interfa
 	//public void setWaiter(WaiterAgent waitr) {
 		//this.waiter = waitr;
 	//}
-	public void setCustomer(RestaurantTwoCustomer c) {
+	public void setCustomer(RestaurantTwoCustomer c,RestaurantTwoSystem r) {
 		this.cust = c;
+		this.R2=r;
 	}
 	// Messages
 	
@@ -336,11 +339,8 @@ public class RestaurantTwoCashierRole extends Role {//implements simcity.interfa
 			}
 
 
-
-
-
 			@Override
-			public void msgEnterBuilding() {
+			public void msgEnterBuilding(SimSystem s) {
 				// TODO Auto-generated method stub
 				
 			}

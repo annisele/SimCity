@@ -16,11 +16,13 @@ import simcity.buildings.house.HouseInhabitantRole;
 import simcity.buildings.market.MarketCustomerRole;
 import simcity.buildings.restaurant.five.RestaurantFiveCustomerRole;
 import simcity.buildings.restaurant.four.RestaurantFourCustomerRole;
+import simcity.buildings.restaurant.two.RestaurantTwoCustomerRole;
 import simcity.buildings.transportation.PedestrianRole;
 import simcity.gui.IdlePersonGui;
 import simcity.interfaces.Person;
 import simcity.interfaces.bank.BankCustomer;
 import simcity.interfaces.market.MarketCustomer;
+import simcity.interfaces.restaurant.two.RestaurantTwoCustomer;
 import simcity.interfaces.transportation.Pedestrian;
 import agent.Agent;
 
@@ -41,7 +43,7 @@ public class PersonAgent extends Agent implements Person {
 	private Role currentRole = null;
 	private Event currentEvent = null;
 	private Timer timer = new Timer();
-	public enum EventType { Eat, GoToMarket, DepositMoney, WithdrawMoney, GetALoan, PayRent, Sleep, Work };
+	public enum EventType { Eat, GoToMarket,EatAtRestaurant, DepositMoney, WithdrawMoney, GetALoan, PayRent, Sleep, Work };
 	private IdlePersonGui idleGui;
 
 	public double money = 40;
@@ -57,7 +59,7 @@ public class PersonAgent extends Agent implements Person {
 		MarketCustomerRole m = new MarketCustomerRole(this);
 		BankCustomerRole b = new BankCustomerRole(this);
 		//RestaurantOneCustomerRole r1 = new RestaurantOneCustomerRole(this);
-		//RestaurantTwoCustomerRole r2 = new RestaurantTwoCustomerRole(this);
+		RestaurantTwoCustomerRole r2 = new RestaurantTwoCustomerRole(this);
 		//RestaurantThreeCustomerRole r3 = new RestaurantThreeCustomerRole(this);
 		RestaurantFourCustomerRole r4 = new RestaurantFourCustomerRole(this);
 		RestaurantFiveCustomerRole r5 = new RestaurantFiveCustomerRole(this);
@@ -66,8 +68,10 @@ public class PersonAgent extends Agent implements Person {
 		myRoles.add(h);
 		myRoles.add(m);
 		myRoles.add(b);
-		//myRoles.add(r2);
+		myRoles.add(r2);
+		Do("r: "+r2);
 		myRoles.add(r4);
+		Do("roles "+myRoles.toString());
 		//myRoles.add(r5);
 	}
 
@@ -156,8 +160,35 @@ public class PersonAgent extends Agent implements Person {
 			//hack
 			Map<String, Integer> itemsHack = new HashMap<String, Integer>();
 			itemsHack.put("chicken", 1);
-			itemsHack.put("steak", 2);
 			((MarketCustomer)eventR).msgBuyStuff(itemsHack);
+			
+			e = new Event(buildingName, eventR, 120, -1, true, steps, t);
+			//Do("GoToMarket is scheduled, which has "+steps.size()+" steps");
+			insertEvent(e);
+			stateChanged();
+		}
+		if(t == EventType.EatAtRestaurant) {
+			List<String> restaurants = Directory.getRestaurants();
+			//int index = rand.nextInt(restaurants.size());
+			//HACK FOR RESTAURANT 2 ONLY
+			Do("NAME: "+ restaurants.get(0));
+			String buildingName = restaurants.get(0);
+			List<Step> steps = new ArrayList<Step>();
+			steps.add(new Step("exitBuilding", this));
+			steps.add(new Step("goTo", this));
+			steps.add(new Step("enterBuilding", this));
+			Role eventR = null;
+			for(Role r : myRoles) {
+				if(r instanceof RestaurantTwoCustomer) {
+					eventR = r;
+					Do("ppppwef: "+eventR);
+				}
+			}
+			Do("pppp: "+eventR);
+		
+			//hack
+			//RestaurantTwoCustomerRole rc = new RestaurantTwoCustomerRole(this);
+			((RestaurantTwoCustomer)eventR).msgArrivedAtRestaurant();
 			
 			e = new Event(buildingName, eventR, 120, -1, true, steps, t);
 			//Do("GoToMarket is scheduled, which has "+steps.size()+" steps");
@@ -180,12 +211,7 @@ public class PersonAgent extends Agent implements Person {
 					eventR = r;
 				}
 			}
-			HouseInhabitantRole house = null;
-			for(Role r : myRoles) {
-				if(r instanceof HouseInhabitantRole) {
-					house = (HouseInhabitantRole) r;
-				}
-			}
+			
 			//hack
 			//BankCustomerRole bc = new BankCustomerRole(this);
 			
@@ -212,12 +238,7 @@ public class PersonAgent extends Agent implements Person {
 					eventR = r;
 				}
 			}
-			HouseInhabitantRole house = null;
-			for(Role r : myRoles) {
-				if(r instanceof HouseInhabitantRole) {
-					house = (HouseInhabitantRole) r;
-				}
-			}
+
 			//hack
 			((BankCustomer)eventR).msgWithdrawMoney((BankSystem)(Directory.getSystem(buildingName)));
 			((BankCustomer)eventR).msgArrivedAtBank();
@@ -241,12 +262,7 @@ public class PersonAgent extends Agent implements Person {
 					eventR = r;
 				}
 			}
-			HouseInhabitantRole house = null;
-			for(Role r : myRoles) {
-				if(r instanceof HouseInhabitantRole) {
-					house = (HouseInhabitantRole) r;
-				}
-			}
+			
 			//hack
 			BankCustomerRole o = new BankCustomerRole(this);
 			//assuming that getting a loan increases the amount of money in account
@@ -271,12 +287,7 @@ public class PersonAgent extends Agent implements Person {
 					eventR = r;
 				}
 			}
-			HouseInhabitantRole house = null;
-			for(Role r : myRoles) {
-				if(r instanceof HouseInhabitantRole) {
-					house = (HouseInhabitantRole) r;
-				}
-			}
+			
 			//hack
 			BankCustomerRole z = new BankCustomerRole(this);
 			//assuming that paying rent reduces the amount of money in account
@@ -292,7 +303,7 @@ public class PersonAgent extends Agent implements Person {
 			steps.add(new Step("exitBuilding", this));
 			steps.add(new Step("goTo", this));
 			steps.add(new Step("enterBuilding", this));
-
+			//Do("building: "+workBuilding+" workrole: "+workRole);
 			e = new Event(workBuilding, workRole, 120, 3, false, steps, t);
 			//Do("GoToWork is scheduled, which has "+steps.size()+" steps");
 			insertEvent(e);
@@ -341,10 +352,12 @@ public class PersonAgent extends Agent implements Person {
 	}
 
 	public void enterBuilding() {
+		//Do("buildng name: "+ currentEvent.buildingName+" rold: "+currentEvent.role);
 		if(Directory.getSystem(currentEvent.buildingName).msgEnterBuilding(currentEvent.role)) {
 			currentRole = currentEvent.role;
 			Do("Entered building. Changing role to " + currentRole.getClass());
 			currentRole.msgEnterBuilding(Directory.getSystem(currentEvent.buildingName));			
+
 		} else {
 			Do("Building closed. Cannot enter.");
 			scheduleEvent(currentEvent.type); //maybe change this?
@@ -473,6 +486,9 @@ public class PersonAgent extends Agent implements Person {
 
 	public void goToBankNow() {
 		this.scheduleEvent(EventType.DepositMoney);
+	}
+	public void goToRestaurantTwoNow() {
+		this.scheduleEvent(EventType.EatAtRestaurant);
 	}
 	
 	public boolean isIdle() {

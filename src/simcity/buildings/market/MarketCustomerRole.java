@@ -12,6 +12,7 @@ import simcity.SimSystem;
 import simcity.gui.market.MarketCustomerGui;
 import simcity.interfaces.market.MarketCashier;
 import simcity.interfaces.market.MarketCustomer;
+import simcity.interfaces.market.MarketPayer;
 
 public class MarketCustomerRole extends Role implements MarketCustomer {
 
@@ -36,9 +37,9 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		stateChanged();
 	}
 
-	public void msgPleasePay(MarketCashierRole c, double payment, int orderNum) {
+	@Override
+	public void msgPleasePay(MarketCashier c, double payment, int orderNum) {
 		person.Do("Received msgPleasePay");
-		
 		
 		synchronized (invoices) {
 			for(Invoice i : invoices) {
@@ -52,6 +53,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		stateChanged();
 	}
 
+	@Override
 	public void msgDeliveringOrder(Map<String, Integer> itemsToDeliver) {
 		person.Do("Received msgDeliveringOrder");
 		
@@ -122,23 +124,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		person.receiveDelivery(tempItems);
 		msgExitBuilding();
 	}
-
-	private class Invoice {
-		double payment;
-		InvoiceState state;
-		MarketCashier cashier;
-		Map<String, Integer> items;
-		int orderNumber;
-
-		Invoice(InvoiceState s, Map<String, Integer> itemsToBuy, int num) {
-			items = itemsToBuy;
-			state = s;
-			orderNumber = num;
-			
-			//hack!!
-			payment = 0;
-		}
-	}
+	
 
 	@Override
 	public void msgExitBuilding() {
@@ -166,4 +152,22 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		}
 		
 	}
+
+	private class Invoice {
+		double payment;
+		InvoiceState state;
+		MarketCashier cashier;
+		Map<String, Integer> items;
+		int orderNumber;
+
+		Invoice(InvoiceState s, Map<String, Integer> itemsToBuy, int num) {
+			items = itemsToBuy;
+			state = s;
+			orderNumber = num;
+			
+			//hack!!
+			payment = 0;
+		}
+	}
+
 }

@@ -5,8 +5,6 @@ import java.awt.Image;
 
 import javax.swing.ImageIcon;
 
-import simcity.Location;
-import simcity.buildings.market.MarketCustomerRole;
 import simcity.gui.Gui;
 import simcity.interfaces.market.MarketCustomer;
 
@@ -14,11 +12,8 @@ public class MarketCustomerGui extends Gui {
 
 	private final int CASHIER_X = 169;
 	private final int CASHIER_Y = 99;
-
-
-	ImageIcon ii = new ImageIcon("res/person/persondownbig.png");
-	Image img = ii.getImage();
-
+	private ImageIcon ii = new ImageIcon("res/person/persondownbig.png");
+	private Image img = ii.getImage();
 
 	public MarketCustomerGui(MarketCustomer m) {
 		role = m;

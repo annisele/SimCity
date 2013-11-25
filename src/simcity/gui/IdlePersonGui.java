@@ -1,9 +1,7 @@
 package simcity.gui;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Point;
 
 import javax.swing.ImageIcon;
 
@@ -13,7 +11,6 @@ import simcity.PersonAgent;
 public class IdlePersonGui extends Gui {
 
 	private PersonAgent person;
-	private final int SIZE = 20;
 	
 	ImageIcon ii = new ImageIcon("res/person/persondown.png");
 	Image img = ii.getImage();

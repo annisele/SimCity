@@ -1,16 +1,12 @@
 package simcity.gui.transportation;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Point;
 
 import javax.swing.ImageIcon;
 
-import simcity.Location;
 import simcity.buildings.transportation.PedestrianRole;
 import simcity.gui.Gui;
-import simcity.interfaces.transportation.Pedestrian;
 
 public class PedestrianGui extends Gui{
 	
@@ -24,8 +20,6 @@ public class PedestrianGui extends Gui{
 
 	@Override
 	public void draw(Graphics2D g) {
-		//g.setColor(Color.MAGENTA);
-		//g.fillRect(x, y, SIZE, SIZE);
 		g.drawImage(personimage, getX(), getY(), null); //COMMENT this out to get old Gui Back- Josh
 
 	}

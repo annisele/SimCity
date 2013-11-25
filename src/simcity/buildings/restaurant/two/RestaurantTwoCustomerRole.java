@@ -57,9 +57,6 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
       * @param gui  reference to the customergui so the customer can send it messages
       */
 
-     public RestaurantTwoCustomerRole(PersonAgent prrr){
-            System.out.println("cust: "+prrr);
-             person = prrr;
 
      public RestaurantTwoCustomerRole(PersonAgent p){
     	 	System.out.println("Person is: "+p);

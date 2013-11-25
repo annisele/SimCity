@@ -1,12 +1,28 @@
 package simcity.gui;
 
-import javax.swing.*;
-
-import simcity.Config;
-
-import java.awt.*;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JSlider;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
+
+import simcity.Clock;
+import simcity.Config;
 
 /***************************
  * Control Panel - Entire right side panel. Used to control program.
@@ -14,8 +30,6 @@ import java.awt.event.ActionListener;
  *  panel to control people or buildings, panel to control log, and panel
  *  to control general settings.
  *  
- *  NOTES - need to find shorter tab names or it looks bad
- * @author rebeccahao
  * 
  */
 public class ControlPanel extends JPanel implements ActionListener {
@@ -26,14 +40,14 @@ public class ControlPanel extends JPanel implements ActionListener {
 	//pause and clock elements
 	private JPanel pauseAndTime = new JPanel();
 	private JButton pauseB = new JButton("Pause");
-	private JTextField clock = new JTextField();
-	private String time;
-	private String ampm;
+	private JTextField clockDisplay = new JTextField("", 6);
+	private Timer timer = new Timer();
+
 	
 	//config panel elements
 	private JPanel configPanel = new JPanel();
 	private JComboBox configDropdown;
-	private String[] configStrings = new String[5];
+	private String[] configStrings = new String[6];
 	private JButton load = new JButton("Load");
 
 	//tab elements
@@ -100,6 +114,7 @@ public class ControlPanel extends JPanel implements ActionListener {
 		configStrings[2] = "One Restaurant";
 		configStrings[3] = "One Bank";
 		configStrings[4] = "One House";
+		configStrings[5] = "Full City";
 		configDropdown = new JComboBox(configStrings);
 		configPanel.setLayout(new FlowLayout());
 		configPanel.add(configDropdown);
@@ -110,15 +125,20 @@ public class ControlPanel extends JPanel implements ActionListener {
 		
 		//pause and time panel
 		pauseB.addActionListener(this);
-		time = "10:10";
-		ampm = " AM";
-		clock.setText(time + ampm);
-		clock.setEnabled(false);
+		clockDisplay.setText("0:00");
+		//clockDisplay.
+		clockDisplay.setEnabled(false);
+		//.addActionListener(this);
 		pauseAndTime.setLayout(new FlowLayout());
-		pauseAndTime.add(clock);
+		pauseAndTime.add(clockDisplay);
 		pauseAndTime.add(pauseB);
 		pauseAndTime.setPreferredSize(new Dimension(this.getWidth(), 100));
 		add(pauseAndTime);
+		timer.scheduleAtFixedRate((new TimerTask() {
+			public void run() {
+				clockDisplay.setText(Clock.getDisplayTime());
+			}
+		}), 0, 1000);
 		
 		tabPane.setPreferredSize(new Dimension(300, 650));
 		
@@ -216,8 +236,6 @@ public class ControlPanel extends JPanel implements ActionListener {
 		tabPane.addTab("Log", logTab);
 		tabPane.addTab("Events", eventsTab);
 		
-		
-		
 		add(tabPane);
 		
 		bottomSpace.setPreferredSize(new Dimension(this.getWidth(), 50));
@@ -230,22 +248,21 @@ public class ControlPanel extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		//NEED TO RESET WORLD WHEN LOAD IS PRESSED
 		//when load button is pressed
+
 		if(e.getSource() == load) {
 			String selection = (String)configDropdown.getSelectedItem();
 			if(selection.equals(configStrings[0])) {
 				config.threeBuildings();
-			}
-			else if(selection.equals(configStrings[1])) {
+			} else if(selection.equals(configStrings[1])) {
 				config.oneMarket();
-			}
-			else if(selection.equals(configStrings[2])) {
+			} else if(selection.equals(configStrings[2])) {
 				config.oneRestaurant();
-			}
-			else if(selection.equals(configStrings[3])) {
+			} else if(selection.equals(configStrings[3])) {
 				config.oneBank();
-			}
-			else if(selection.equals(configStrings[4])) {
+			} else if(selection.equals(configStrings[4])) {
 				config.oneHouse();
+			} else if(selection.equals(configStrings[4])) {
+				config.fullCity();
 			}
 		}
 		//when pause button is pressed
@@ -325,4 +342,5 @@ public class ControlPanel extends JPanel implements ActionListener {
 
 		
 	}
+	
 }

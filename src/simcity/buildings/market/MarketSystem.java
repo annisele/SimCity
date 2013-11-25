@@ -5,13 +5,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import simcity.gui.AnimationPanel;
-import simcity.gui.ControlPanel;
-import simcity.gui.SimCityGui;
-import simcity.Directory;
 import simcity.Role;
+import simcity.gui.SimCityGui;
 import simcity.gui.market.MarketAnimationPanel;
-import simcity.gui.market.MarketCashierGui;
 import simcity.gui.market.MarketControlPanel;
 import simcity.interfaces.market.MarketCashier;
 import simcity.interfaces.market.MarketCustomer;

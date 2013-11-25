@@ -81,6 +81,8 @@ public class SystemManager {
 		buildings.clear();
 		people.clear();
 		
+		Clock.reset();
+		
 	}
 	
 	public void getContact(SimSystem s) {

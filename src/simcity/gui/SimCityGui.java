@@ -80,12 +80,21 @@ public class SimCityGui extends JFrame implements ActionListener {
 		menuPanel.add(controlPanel);
 		
 		// Setup the two views and consoles
+		
+		//viewWorldPanel.setMinimumSize(minimumSize);
 		splitPaneWorld = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
                 viewWorldPanel, worldTracePanel);
-		splitPaneWorld.setResizeWeight(0.7);
+		splitPaneWorld.setResizeWeight(0.83);
 		splitPaneDetail = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
                 viewDetailPanel, detailTracePanel);
-		splitPaneDetail.setResizeWeight(0.7);
+		splitPaneDetail.setResizeWeight(0.83);
+		viewWorldPanel.setMaximumSize(new Dimension(400, 400));
+		viewDetailPanel.setMaximumSize(new Dimension(400, 400));
+		
+		worldTracePanel.setMinimumSize(new Dimension(200, 196));
+		detailTracePanel.setMinimumSize(new Dimension(200, 196));
+		//splitPaneWorld.setResizeWeight(0.0);
+		//splitPaneDetail.setResizableWithParent(viewDetailPanel, Boolean.FALSE);
 		
 		//trace panels
 		AlertLog.getInstance().addAlertListener(worldTracePanel);

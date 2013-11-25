@@ -238,11 +238,10 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	    	
 	    	System.out.println("I'm here for bank transaction, host is: "+bank.getBankHost());
 	    	bank.getBankHost().msgEnteringBank(this);
-<<<<<<< HEAD
+
 	    	((BankCustomerGui)gui).DoGoToBankTeller(3);
-=======
-	    	//((BankCustomerGui)gui).DoGoToBankTeller(1);
->>>>>>> e30c60cac8135ee89051b397e334dfd99577a093
+
+
 			try {
 	    		atDest.acquire();
 	    	} catch (InterruptedException e) {

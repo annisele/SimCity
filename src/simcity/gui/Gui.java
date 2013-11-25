@@ -18,7 +18,12 @@ public class Gui {
 	private boolean atDestNow = false;
 
 	public void updatePosition() {
-		if(xDest > x) {
+		//role is null when idle gui should be drawn
+		if(role == null) {
+			x = xDest;
+			y = yDest;
+		}
+ 		if(xDest > x) {
 			x++;
 		}
 		else {

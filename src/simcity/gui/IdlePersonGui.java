@@ -24,13 +24,12 @@ public class IdlePersonGui extends Gui {
 	}
 	
 	public void setLocation(Location l) {
-		x = l.getX();
-		y = l.getY();
+		DoGoToLocation(l.getX(), l.getY());
 	}
 
 	@Override
 	public void draw(Graphics2D g) {
-		g.drawImage(personimage, x, y, null); 
+		g.drawImage(personimage, getX(), getY(), null); 
 	}
 
 	@Override

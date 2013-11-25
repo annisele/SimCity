@@ -33,6 +33,7 @@ import simcity.Role;
 import agent.Agent;
 
 
+
 /**
  * ISSUES: It adds GoToMarket event, then does the first step (ExitBuilding),
  *  so person is now a pedestrian gui. However, it never goes on to the next step
@@ -334,6 +335,7 @@ public class PersonAgent extends Agent implements Person {
 
 	//later, add bus and car options
 	public void goTo() {
+		
 		for(Role r : myRoles) {
 			if(r instanceof Pedestrian) {
 				currentRole = r;

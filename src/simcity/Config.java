@@ -97,5 +97,10 @@ public class Config {
 			}
 		}, 2000);
 	}
+	
+	public void clearTimer() {
+		timer.cancel();
+		timer.purge();
+	}
 
 }

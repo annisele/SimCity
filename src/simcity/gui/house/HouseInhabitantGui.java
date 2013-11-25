@@ -34,7 +34,7 @@ public class HouseInhabitantGui extends Gui {
 	private static final int TABLE_X = 50;
 	private static final int TABLE_Y = 310;
 	
-	private static final int PLATE_X = 110;
+	private static final int PLATE_X = 100;
 	private static final int PLATE_Y = 315;
 	
 	private boolean foodHeld = false;

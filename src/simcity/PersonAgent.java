@@ -643,4 +643,12 @@ public class PersonAgent extends Agent implements Person {
 
 		}
 	}
+	
+	public void clear() {
+		for (Role r : myRoles) {
+			r.clear();
+		}
+		timer.cancel();
+		timer.purge();
+	}
 }

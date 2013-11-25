@@ -1,12 +1,14 @@
 package simcity.buildings.house;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
 import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
 import simcity.gui.house.HouseInhabitantGui;
-import simcity.gui.market.MarketCustomerGui;
 
 public class HouseInhabitantRole extends Role implements simcity.interfaces.house.HouseInhabitant {
 
@@ -55,7 +57,6 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 		// TODO Auto-generated method stub
 		if (event == HouseInhabitantEvent.Hungry){
 			Cook();
-			return true;
 		}
 		else if (event == HouseInhabitantEvent.ReadyToSleep){
 			Sleep();
@@ -82,7 +83,7 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
             }
 		}, cookTime); //or whatever time is fine
 		
-		
+		/*
 		if (person.money < 100)
 		     timer.schedule(new TimerTask(){
                  Object cookie = 1;
@@ -94,7 +95,7 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
                          stateChanged();
                  }
          }, 3000); //or whatever time is fine
-		else LeaveForRestaurant();
+		else LeaveForRestaurant();*/
 	}
 	
 	private void Eat() {
@@ -278,6 +279,12 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 		}
 		state = HouseInhabitantState.Bored;
 		
+	}
+	
+	@Override
+	public void clear() {
+		timer.cancel();
+		timer.purge();
 	}
 
 }

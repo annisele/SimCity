@@ -72,4 +72,8 @@ public class Directory {
 		Entry temp = new Entry(l, t, s);
 		directory.put(n, temp);
 	}
+	
+	public void clear() {
+		directory.clear();
+	}
 }

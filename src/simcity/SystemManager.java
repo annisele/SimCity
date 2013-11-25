@@ -28,6 +28,7 @@ import simcity.gui.SimCityGui;
 import simcity.gui.BuildingGui;
 import simcity.gui.transportation.BusGui;
 import simcity.interfaces.market.MarketCashier;
+import simcity.interfaces.transportation.Bus;
 
 public class SystemManager {
 	
@@ -56,8 +57,14 @@ public class SystemManager {
 	}
 	
 	public void clear() {
+		
+		for (BusGui b : busGuis) {
+			b.clear();
+		}
+		world.clear();
 		world.getAnimationPanel().clear();
 		
+		dir.clear();
 		markets.clear();
 		banks.clear();
 		houses.clear();
@@ -71,6 +78,7 @@ public class SystemManager {
 		busGuis.clear();
 		buildings.clear();
 		people.clear();
+		
 	}
 	
 	public void getContact(SimSystem s) {

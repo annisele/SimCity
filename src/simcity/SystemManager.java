@@ -293,7 +293,7 @@ public class SystemManager {
 	public void addBankHostHack(String name, String bank) {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());
-		Role bankHost = new BankHostRole(person);
+		Role bankHost = new BankHostRole(person, banks.get(0));;
 		person.addWork(bankHost, bank);
 		people.add(person);
 		person.startThread();
@@ -301,7 +301,7 @@ public class SystemManager {
 	public void addBankTellerHack(String name, String bank) {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());
-		Role bankTeller = new BankTellerRole(person);
+		Role bankTeller = new BankTellerRole(person, banks.get(0));
 		person.addWork(bankTeller, bank);
 		people.add(person);
 		person.startThread();

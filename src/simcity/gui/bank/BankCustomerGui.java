@@ -27,13 +27,14 @@ public class BankCustomerGui extends Gui{
 	private final int WINDOW3_Y = 200;
 	
 	
-	public BankCustomerGui(BankCustomerRole b) {
+	public BankCustomerGui(BankCustomer b) {
 		role = b;
 	}
 	
 	public void draw(Graphics2D g) {
 		g.drawImage(img, x, y, null); 
 	}
+	
 	public void DoGoToHost() {
 		DoGoToLocation(HOST_X, HOST_Y);
 	}

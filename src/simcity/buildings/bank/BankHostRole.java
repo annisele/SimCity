@@ -17,7 +17,8 @@ public class BankHostRole extends Role implements simcity.interfaces.bank.BankHo
 	private String name;
 	private BankComputer computer;
 	// set in Bank
-	private List<BankWindow> windows = Collections.synchronizedList(new ArrayList<BankWindow>());
+	//private List<BankWindow> windows = Collections.synchronizedList(new ArrayList<BankWindow>());
+	private BankWindow availableWindow;
 	private List<BankTeller> bankTellers = Collections.synchronizedList(new ArrayList<BankTeller>());
 	private List<BankCustomerRole> customers = Collections.synchronizedList(new ArrayList<BankCustomerRole>());
 	
@@ -29,7 +30,7 @@ public class BankHostRole extends Role implements simcity.interfaces.bank.BankHo
 	// utility class: BankWindow
 	public static class BankWindow {
 		public BankCustomerRole occupiedBy;
-		public BankTellerRole bankTeller;
+		public BankTeller bankTeller;
 		public int windowNum;
 		public boolean occupied;
 		public boolean bankTellerPresent;
@@ -37,7 +38,7 @@ public class BankHostRole extends Role implements simcity.interfaces.bank.BankHo
 		public BankWindow(int windowNum) {				// constructor
 			this.windowNum = windowNum;
 			this.occupied = false;
-			this.bankTellerPresent = false;
+			this.bankTellerPresent = true;	// HACKHACKHACK
 		}
 
 		public BankCustomerRole getOccupant() {
@@ -58,11 +59,11 @@ public class BankHostRole extends Role implements simcity.interfaces.bank.BankHo
 			return windowNum;
 		}
 
-		public BankTellerRole getBankTeller() {
+		public BankTeller getBankTeller() {
 			return bankTeller;
 		}	
 
-		public void setBankTeller(BankTellerRole bankTeller) {
+		public void setBankTeller(BankTeller bankTeller) {
 			this.bankTeller = bankTeller;
 			bankTellerPresent = true;
 		}	
@@ -77,9 +78,10 @@ public class BankHostRole extends Role implements simcity.interfaces.bank.BankHo
 	}
 	
 	// constructor
-	public BankHostRole (PersonAgent p) {
+	public BankHostRole (PersonAgent p, BankSystem bank) {
 		person = p;
 		this.gui = new BankHostGui(this);
+		this.bank = bank;
 		//hack
 		computer = new BankComputer();
 	}
@@ -109,8 +111,14 @@ public class BankHostRole extends Role implements simcity.interfaces.bank.BankHo
 		}
 	}
 	
+	public void msgImReadyToWork(BankTellerRole bt) {
+		bankTellers.add(bt);
+		stateChanged();
+	}
+	
 	//scheduler
 	public boolean pickAndExecuteAnAction() {
+		/*
 		synchronized(windows){
 			if (!customers.isEmpty()) {
 				for (BankWindow window : windows) {
@@ -119,6 +127,25 @@ public class BankHostRole extends Role implements simcity.interfaces.bank.BankHo
 						return true;
 					}
 				}
+			}
+		}
+		*/
+		
+		synchronized(bankTellers) {
+			if (!bankTellers.isEmpty()) {
+				bank.findUnreadyWindowAndSendBankTeller(bankTellers.get(0));
+			}
+		}
+		
+		synchronized(customers) {
+			if (!customers.isEmpty()) {
+				while (availableWindow == null) {
+					bank.findAvailableWindow();
+					availableWindow = bank.getAvailableWindow();
+				}
+				bank.reinitializeAvailableWindow();
+				tellCustomerToGoToWindow(customers.get(0), availableWindow);
+				availableWindow = null;
 			}
 		}
 		return false;

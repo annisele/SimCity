@@ -28,7 +28,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 
 	// set inside bank
 	private BankHost bh;  
-	private BankTellerRole bt;
+	private BankTeller bt;
 	private int windowNumber;
 	
 	private BankSystem bank;
@@ -93,7 +93,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 		stateChanged();
 	}
 
-	public void msgGoToWindow(int windowNumber, BankTellerRole bt) {
+	public void msgGoToWindow(int windowNumber, BankTeller bt) {
 		System.out.println("I'm going to the window to perform bank transaction");
 		this.windowNumber = windowNumber;
 		this.bt = bt;
@@ -239,8 +239,8 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	    	
 	    	System.out.println("I'm here for bank transaction, host is: "+bank.getBankHost());
 	    	bank.getBankHost().msgEnteringBank(this);
-
-	    	/*((BankCustomerGui)gui).DoGoToBankTeller(1);
+	    	/*
+	    	((BankCustomerGui)gui).DoGoToBankTeller(3);
 
 			try {
 	    		atDest.acquire();

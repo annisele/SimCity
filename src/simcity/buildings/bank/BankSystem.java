@@ -34,8 +34,13 @@ public class BankSystem extends simcity.SimSystem{
 		for (int i=1; i<=NUM_BANKWINDOWS; i++) {
 			windows.add(new BankWindow(i));
 		}
+
 	}
 
+	public BankComputer getBankComputer() {
+		return computer;
+	}
+	
 	public BankHost getBankHost() {
 		return bh;
 	}

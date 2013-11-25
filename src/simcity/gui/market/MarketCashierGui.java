@@ -17,6 +17,7 @@ public class MarketCashierGui extends Gui {
 	private final int CENTER_X = 115;	
 	private final int CENTER_Y = 225;
 	private final int LEFT_X = -50;
+	
 
 	ImageIcon ii = new ImageIcon("res/market/cashier.png");
 	Image img = ii.getImage();
@@ -24,6 +25,8 @@ public class MarketCashierGui extends Gui {
 
 	public MarketCashierGui(MarketCashier m) {
 		role = m;
+		size_x = 70;
+		size_y = 62;
 	}
 
 	@Override

@@ -64,9 +64,11 @@ public class Config {
 		systems.clear();
 		systems.clearDetailPane();
 		
+		
+		
 		systems.addBank("Bank", 100, 300);
 		systems.addBankHostHack("Kevin", "Bank");
-		
+		systems.addHackedBankAccount(0, 100, "abcdef");
 		timer.schedule(new TimerTask(){
 			public void run() {
 				systems.addBankTellerHack("Key", "Bank");

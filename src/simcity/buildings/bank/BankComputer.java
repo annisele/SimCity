@@ -64,6 +64,13 @@ public class BankComputer {
 		account.reinitialize();
 	}
 	
+	public void addHackedBankAccount(int accountNumber, double accountBalance, String password) {
+		customerAccounts.put(accountNumber, null);
+		passwordAccounts.put(accountNumber, password);
+		balanceAccounts.put(accountNumber, accountBalance);
+		owedAccounts.put(accountNumber, 0.0);
+	}
+	
 	// utility classes
 	public class BankAccount {
 		private int accountNumber;

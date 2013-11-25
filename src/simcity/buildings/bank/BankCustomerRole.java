@@ -105,6 +105,8 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	// bank teller sends this message to customer after opening an account
 	public void msgHereIsAccountInfo(BankCustomer bc, int accountNumber, double accountBalance) {
 		person.Do("Here is your new account information");
+		person.Do("Accountnumber: " + accountNumber);
+		person.Do("Balance: " + accountBalance);
 		cashOnHand = cashOnHand - accountBalance;
 		event = Event.transactionProcessed;
 		stateChanged();
@@ -113,6 +115,8 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	//bank teller sends this message to customer after withdrawing money
 	public void msgHereIsMoney(BankCustomer bc, int accountNumber, double accountBalance, double amountProcessed) {
 		person.Do("Here is the money that you withdraw");
+		person.Do("Accountnumber: " + accountNumber);
+		person.Do("Balance: " + accountBalance);
 		cashOnHand = cashOnHand + amountProcessed;
 		event = Event.transactionProcessed;
 		stateChanged();
@@ -351,9 +355,9 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 			cashOnHand = 50;
 			accountPassword = "abcdef";
 			amountToProcess = 20;
-			transactionType = TransactionType.openAccount;
+			transactionType = TransactionType.withdrawMoney;
 			bank = b;
-			stateChanged();
+			//stateChanged();
 			
 		}
 }

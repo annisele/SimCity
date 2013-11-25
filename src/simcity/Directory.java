@@ -18,7 +18,7 @@ public class Directory {
 			//shifting location so people enter through the door
 			location = new Location(l.getX() + 22, l.getY() + 50);
 			type = t;
-			system = s;
+			system = s; 
 		}
 	}
 	

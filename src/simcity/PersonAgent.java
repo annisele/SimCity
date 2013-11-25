@@ -195,7 +195,7 @@ public class PersonAgent extends Agent implements Person {
 				}
 			}
 			//hack
-			BankCustomerRole bc = new BankCustomerRole(this);
+			//BankCustomerRole bc = new BankCustomerRole(this);
 			
 			((BankCustomer)eventR).msgDepositMoney((BankSystem)(Directory.getSystem(buildingName)));
 			((BankCustomer)eventR).msgArrivedAtBank();
@@ -227,8 +227,8 @@ public class PersonAgent extends Agent implements Person {
 				}
 			}
 			//hack
-			BankCustomerRole c = new BankCustomerRole(this);
-			((BankCustomer)eventR).msgHereIsMoney(c, 123456, 1000, 500);
+			((BankCustomer)eventR).msgWithdrawMoney((BankSystem)(Directory.getSystem(buildingName)));
+			((BankCustomer)eventR).msgArrivedAtBank();
 			
 			e = new Event(buildingName, eventR, 120, -1, true, steps, t);
 			

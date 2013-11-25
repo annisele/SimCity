@@ -238,7 +238,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	    	*/
 	    	System.out.println("I'm here for bank transaction, host is: "+bank.getBankHost());
 	    	bank.getBankHost().msgEnteringBank(this);
-	    	((BankCustomerGui)gui).DoGoToBankTeller(1);
+	    	((BankCustomerGui)gui).DoGoToBankTeller(3);
 			try {
 	    		atDest.acquire();
 	    	} catch (InterruptedException e) {
@@ -343,6 +343,17 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			
+		}
+
+		public void msgWithdrawMoney(BankSystem b) {
+			System.out.println("I need to withdraw money");
+			cashOnHand = 50;
+			accountPassword = "abcdef";
+			amountToProcess = 20;
+			transactionType = TransactionType.openAccount;
+			bank = b;
+			stateChanged();
 			
 		}	 
 

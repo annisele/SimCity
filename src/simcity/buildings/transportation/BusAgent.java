@@ -128,7 +128,6 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 				p.role.msgBusArriving();
 	                      }
 			event = BusEvent.loading; */
-		System.out.println("In Stop");
 		
 		}
 	
@@ -140,7 +139,6 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 	}
 
 	public void atDestination() {
-		System.out.println("in At Destination in BusAgent");
 		atDestination.release();
 	}
 

@@ -71,18 +71,20 @@ public class PersonAgent extends Agent implements Person {
 		HouseInhabitantRole h = new HouseInhabitantRole(this);
 		MarketCustomerRole m = new MarketCustomerRole(this);
 		BankCustomerRole b = new BankCustomerRole(this);
+		Do("1: "+this);
 		//RestaurantOneCustomerRole r1 = new RestaurantOneCustomerRole(this);
 		RestaurantTwoCustomerRole r2 = new RestaurantTwoCustomerRole(this);
 		//RestaurantThreeCustomerRole r3 = new RestaurantThreeCustomerRole(this);
 		RestaurantFourCustomerRole r4 = new RestaurantFourCustomerRole(this);
 		RestaurantFiveCustomerRole r5 = new RestaurantFiveCustomerRole(this);
 		//RestaurantSixCustomerRole r6 = new RestaurantSixCustomerRole(this);
+		Do("r: "+r2);
 		myRoles.add(p);
 		myRoles.add(h);
 		myRoles.add(m);
 		myRoles.add(b);
 		myRoles.add(r2);
-		Do("r: "+r2);
+		
 		myRoles.add(r4);
 		Do("roles "+myRoles.toString());
 		//myRoles.add(r5);

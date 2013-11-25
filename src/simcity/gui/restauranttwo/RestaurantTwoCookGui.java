@@ -7,6 +7,7 @@ import java.awt.Point;
 
 import simcity.buildings.restaurant.two.RestaurantTwoCookRole;
 import simcity.gui.Gui;
+import simcity.interfaces.restaurant.two.RestaurantTwoCook;
 
 public class RestaurantTwoCookGui extends Gui {
 
@@ -17,8 +18,9 @@ public class RestaurantTwoCookGui extends Gui {
 	   private String text=""; 
 
 
-	    public RestaurantTwoCookGui(RestaurantTwoCookRole agent) {
-	        this.agent = agent;
+	    public RestaurantTwoCookGui(RestaurantTwoCook c) {
+	    	role=c;
+	       // this.agent = agent;
 	    }
 
 	    public void updatePosition() {

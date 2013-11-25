@@ -2,22 +2,28 @@ package simcity.gui.restauranttwo;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Point;
+
+import javax.swing.ImageIcon;
 
 import simcity.gui.restauranttwo.*;
 import simcity.Location;
 import simcity.buildings.restaurant.one.RestaurantOneCustomerRole;
 import simcity.buildings.restaurant.two.RestaurantTwoCustomerRole;
 import simcity.gui.Gui;
+import simcity.interfaces.restaurant.two.RestaurantTwoCustomer;
 
 public class RestaurantTwoCustomerGui extends Gui{
 
-	private RestaurantTwoCustomerRole agent = null;
+	
 	private boolean isPresent = false;
 	private boolean isHungry = false;
 
 	//private HostAgent host;
 	//RestaurantGui gui;
+	private ImageIcon ii = new ImageIcon("res/person/persondownbig.png");
+	private Image img = ii.getImage();
 
 	private int xPos, yPos;
 	private int xDestination, yDestination;
@@ -27,9 +33,9 @@ public class RestaurantTwoCustomerGui extends Gui{
 	public static final int yTable = 150;
 	public static final int customer_rectsize =20;
 
-	public RestaurantTwoCustomerGui(RestaurantTwoCustomerRole c){ //HostAgent m) {
+	public RestaurantTwoCustomerGui(RestaurantTwoCustomer c){ //HostAgent m) {
 		role=c;
-		/*agent = c;
+		/*role = c;
 		xPos = -40;
 		yPos = -40;
 		xDestination = -40;
@@ -52,22 +58,24 @@ public class RestaurantTwoCustomerGui extends Gui{
 			yPos--;
 
 		if (xPos == xDestination && yPos == yDestination) {
-			if (command==Command.GoToSeat) agent.msgAnimationFinishedGoToSeat();
+			if (command==Command.GoToSeat) 
+				((RestaurantTwoCustomerRole)role).msgAnimationFinishedGoToSeat();
 			else if (command==Command.LeaveRestaurant) {
-				agent.msgPaying();
+				((RestaurantTwoCustomerRole)role).msgPaying();
 				System.out.println("customer at cashier");
 
-				//agent.msgAnimationFinishedLeaveRestaurant();
+				//role.msgAnimationFinishedLeaveRestaurant();
 				isHungry = false;
-				//gui.setCustomerEnabled(agent);
+				//gui.setCustomerEnabled(role);
 			}
 			command=Command.noCommand;
 		}
 	}
 
 	public void draw(Graphics2D g) {
-		g.setColor(Color.GREEN);
-		g.fillRect(xPos, yPos, customer_rectsize, customer_rectsize);
+		//g.setColor(Color.GREEN);
+		//g.fillRect(xPos, yPos, customer_rectsize, customer_rectsize);
+		g.drawImage(img, getX(), getY(), null); 
 	}
 
 	public boolean isPresent() {
@@ -75,7 +83,7 @@ public class RestaurantTwoCustomerGui extends Gui{
 	}
 	public void setHungry() {
 		isHungry = true;
-		agent.gotHungry();
+		((RestaurantTwoCustomerRole)role).gotHungry();
 		setPresent(true);
 	}
 	public boolean isHungry() {

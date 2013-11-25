@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
+import java.util.concurrent.Semaphore;
 
 import simcity.buildings.market.MarketSystem;
 import simcity.buildings.restaurant.two.RestaurantTwoCustomerRole;
@@ -16,6 +17,7 @@ import simcity.buildings.restaurant.two.RestaurantTwoWaiterRole;
 import simcity.buildings.restaurant.two.RestaurantTwoCashierRole.OrderState;
 import simcity.buildings.restaurant.two.RestaurantTwoCashierRole.mymarket;
 import simcity.buildings.restaurant.two.RestaurantTwoCashierRole.order;
+import simcity.gui.market.MarketCashierGui;
 import simcity.interfaces.restaurant.two.RestaurantTwoCustomer;
 //import restaurant.interfaces.Market;
 import simcity.interfaces.restaurant.two.RestaurantTwoWaiter;
@@ -31,6 +33,7 @@ public class RestaurantTwoCashierRole extends Role {//implements simcity.interfa
 	 private RestaurantTwoWaiterRole wait;
 	private RestaurantTwoCustomer cust;
 	private RestaurantTwoSystem R2;
+	private Semaphore atDest = new Semaphore(0, true);
 	public double balance;
 	public List<mymarket> markets
 	= Collections.synchronizedList(new ArrayList<mymarket>());
@@ -120,7 +123,7 @@ public class RestaurantTwoCashierRole extends Role {//implements simcity.interfa
            return 0;
    }
 	*/public void msgCustomerOrder(RestaurantTwoWaiter w, RestaurantTwoCustomer c,int t, String ch) {
-		Do("Recieved "+((RestaurantTwoCustomerRole) c).getCustomerName()+"'s "+ch+" order");
+		//Do("Recieved "+((RestaurantTwoCustomerRole) c).getCustomerName()+"'s "+ch+" order");
 		//log.add(new LoggedEvent("Recieved order"));
 		order o= new order(w, c, t,ch);
 		cashiers_list.add(o);
@@ -329,7 +332,9 @@ public class RestaurantTwoCashierRole extends Role {//implements simcity.interfa
 	}
 	
 
-
+	public void atDestination() {
+		atDest.release();
+	}
 
 
 			@Override
@@ -341,7 +346,35 @@ public class RestaurantTwoCashierRole extends Role {//implements simcity.interfa
 
 			@Override
 			public void msgEnterBuilding(SimSystem s) {
+				System.out.println("whooo");
 				// TODO Auto-generated method stub
-				
+				R2 = (RestaurantTwoSystem)s;
+				((MarketCashierGui)gui).DoGoToCenter();
+				try {
+					atDest.acquire();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+
+				((MarketCashierGui)gui).DoGoToLeftCenter();
+				try {
+					atDest.acquire();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+
+				((MarketCashierGui)gui).DoGoToLeftTop();
+				try {
+					atDest.acquire();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+
+				((MarketCashierGui)gui).DoGoToCashRegister();
+				try {
+					atDest.acquire();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 }

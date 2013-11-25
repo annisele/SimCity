@@ -344,10 +344,7 @@ public class PersonAgent extends Agent implements Person {
 		if(Directory.getSystem(currentEvent.buildingName).msgEnterBuilding(currentEvent.role)) {
 			currentRole = currentEvent.role;
 			Do("Entered building. Changing role to " + currentRole.getClass());
-			
-			currentRole.msgEnterBuilding(Directory.getSystem(currentEvent.buildingName));
-			Directory.getSystem(currentEvent.buildingName).animationPanel.addGui(currentRole.getGui());
-			
+			currentRole.msgEnterBuilding(Directory.getSystem(currentEvent.buildingName));			
 		} else {
 			Do("Building closed. Cannot enter.");
 			scheduleEvent(currentEvent.type); //maybe change this?

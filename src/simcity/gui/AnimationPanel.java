@@ -115,7 +115,7 @@ public class AnimationPanel extends JPanel implements ActionListener{
 
 		});
 
-		Timer timer = new Timer(12, this );
+		Timer timer = new Timer(10, this );
 		timer.start();
 	}
 

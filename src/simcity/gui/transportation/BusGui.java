@@ -68,7 +68,7 @@ public class BusGui extends Gui {
 		//atDestNow = false;
 		xDest = x;
 		yDest = y;
-		atDestNow = false;
+		atDestNow = false; 
 	}
 
 	public void setBusAgent(BusAgent bus) {

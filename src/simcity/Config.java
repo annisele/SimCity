@@ -39,6 +39,8 @@ public class Config {
 		
 		systems.addMarket("Market", 100, 100);
 		systems.addMarketCashierHack("Mary", "Market");
+		systems.addBus("Buster"); //Take this out if you don't want the bus here
+
 		
 		timer.schedule(new TimerTask() {
 			public void run() {

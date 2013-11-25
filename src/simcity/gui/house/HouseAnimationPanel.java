@@ -16,7 +16,6 @@ import simcity.gui.Gui;
 
 public class HouseAnimationPanel extends AnimationPanel implements ActionListener {
 
-	private List<Gui> guis = new ArrayList<Gui>();
     ImageIcon ii = new ImageIcon("res/home/interiorhome.png");
     Image img = ii.getImage();
     Image homeimage = img.getScaledInstance(470, 454,  java.awt.Image.SCALE_SMOOTH); 
@@ -24,7 +23,6 @@ public class HouseAnimationPanel extends AnimationPanel implements ActionListene
 	
 	public HouseAnimationPanel() {
 		super();
-		
 	}
 
 	@Override
@@ -39,16 +37,6 @@ public class HouseAnimationPanel extends AnimationPanel implements ActionListene
 		g2.setColor(Color.LIGHT_GRAY);
 		g2.fillRect(0, 0, this.getWidth(), this.getHeight());
 		g2.drawImage(homeimage, 0,0, null);
-		for(Gui gui : guis) {
-			if (gui.isPresent()) {
-				gui.updatePosition();
-			}
-		}
-		for(Gui gui : guis) {
-			if (gui.isPresent()) {
-				gui.draw((Graphics2D)g);
-			}
-		}
 
 
 		super.paintComponent(g);

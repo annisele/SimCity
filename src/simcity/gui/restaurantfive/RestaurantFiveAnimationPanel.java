@@ -8,8 +8,8 @@ import simcity.gui.AnimationPanel;
 public class RestaurantFiveAnimationPanel extends AnimationPanel implements ActionListener {
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+	public void actionPerformed(ActionEvent arg0) {
+		super.actionPerformed(arg0);
 		
 	}
 	

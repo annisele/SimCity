@@ -11,12 +11,14 @@ import simcity.buildings.transportation.*;
 
 public class BusGui extends Gui {
 
-		private BusAgent busagent;
+	private BusAgent busagent;
 
 	private int x = 55;
 	private int y = 67;
 	private int xDest;
 	private int yDest;
+	
+	private boolean atDestNow = false;
 	
 	ImageIcon ii = new ImageIcon("res/citygui/markettruck.png");
 	Image img = ii.getImage();
@@ -27,23 +29,31 @@ public class BusGui extends Gui {
 	}
 	
 	public void updatePosition() {
-		
-		if(xDest > x) {
+		if(xDest+1 > x) {
 			x++;
 		}
 		else {
 			x--;
 		}
-		if(yDest > y) {
+		if(yDest+1 > y) {
 			y++;
 		}
 		else {
 			y--;
 		}
-		
-		if (x == xDest && y == yDest) {
-			busagent.atDestination();
-		}
+		/*
+		if (((x == (xDest)) || (x == (xDest+1)) || (x == (xDest-1)) && ((y == (yDest)) || (y == (yDest+1)) || (y == (yDest-1))))) {
+			if (atDestNow == false) {
+				busagent.atDestination();
+				atDestNow = true;
+			}
+		} */
+		if (((x == (xDest)) || (x == (xDest+1))) && ((y == (yDest)) || (y == (yDest+1)))) {
+			if (atDestNow == false) {
+				busagent.atDestination();
+				atDestNow = true;
+			}
+		} 
 	}
     
 	@Override
@@ -53,8 +63,10 @@ public class BusGui extends Gui {
 	}
 
 	public void DoGoToStop(int x, int y) {
+		//atDestNow = false;
 		xDest = x;
 		yDest = y;
+		atDestNow = false;
 	}
 
 	public void setBusAgent(BusAgent bus) {

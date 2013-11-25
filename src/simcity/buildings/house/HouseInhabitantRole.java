@@ -27,6 +27,7 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 	@Override
 	public void atDestination() {
 		atDest.release();
+		
 	}
 
 	//Messages
@@ -122,12 +123,14 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 
 	@Override
 	public void msgEnterBuilding() {
-		((HouseInhabitantGui)gui).DoGoToBed();
+		((HouseInhabitantGui)gui).DoGoToLiving();
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+
+		
 		
 	}
 

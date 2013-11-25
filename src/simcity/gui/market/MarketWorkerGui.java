@@ -5,9 +5,8 @@ import java.awt.Image;
 
 import javax.swing.ImageIcon;
 
-import simcity.buildings.market.MarketCashierRole;
-import simcity.buildings.market.MarketWorkerRole;
 import simcity.gui.Gui;
+import simcity.interfaces.market.MarketWorker;
 
 public class MarketWorkerGui extends Gui {
 
@@ -28,7 +27,7 @@ public class MarketWorkerGui extends Gui {
 	Image img = ii.getImage();
 	Image workerimage = img.getScaledInstance(70, 62,  java.awt.Image.SCALE_SMOOTH); 
 
-	public MarketWorkerGui(MarketWorkerRole m) {
+	public MarketWorkerGui(MarketWorker m) {
 		role = m;
 	}
 

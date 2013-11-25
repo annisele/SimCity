@@ -16,6 +16,15 @@ import javax.swing.JTextArea;
 
 import simcity.Config;
 import simcity.SystemManager;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
+import simcity.gui.trace.TracePanel;
+
+/***
+ * TRACE PANEL ISSUES - take out transparency, all guis need to override size (default
+ * is 20)
+ */
+
 
 /****************************
  * SimCityGui - The entire window which contains a world panel, detail panel
@@ -28,7 +37,8 @@ public class SimCityGui extends JFrame implements ActionListener {
 	
 	// Panel on the right
 	private JPanel menuPanel = new JPanel();
-	
+	TracePanel worldTracePanel = new TracePanel();
+	TracePanel detailTracePanel = new TracePanel();
 	// Panels for each view and console
 	//	private JPanel viewWorldPanel = new WorldAnimationPanel();
 	//	private JPanel viewDetailPanel = new MarketAnimationPanel(); //new AnimationPanel();
@@ -37,8 +47,6 @@ public class SimCityGui extends JFrame implements ActionListener {
 	private AnimationPanel viewWorldPanel;
 	//private AnimationPanel viewDetailPanel;
 	private JPanel viewDetailPanel;
-	private JTextArea consoleWorld = new JTextArea();
-	private JTextArea consoleDetail = new JTextArea();
 	private JSplitPane splitPaneWorld;
 	private JSplitPane splitPaneDetail;
 	
@@ -72,14 +80,25 @@ public class SimCityGui extends JFrame implements ActionListener {
 		menuPanel.add(controlPanel);
 		
 		// Setup the two views and consoles
-		consoleWorld.setEnabled(false);
-		consoleDetail.setEnabled(false);
 		splitPaneWorld = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
-                viewWorldPanel, consoleWorld);
+                viewWorldPanel, worldTracePanel);
 		splitPaneWorld.setResizeWeight(0.7);
 		splitPaneDetail = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
-                viewDetailPanel, consoleDetail);
+                viewDetailPanel, detailTracePanel);
 		splitPaneDetail.setResizeWeight(0.7);
+		
+		//trace panels
+		AlertLog.getInstance().addAlertListener(worldTracePanel);
+		AlertLog.getInstance().addAlertListener(detailTracePanel);
+		detailTracePanel.showAlertsWithTag(AlertTag.MARKET_CASHIER);
+		detailTracePanel.showAlertsWithTag(AlertTag.MARKET_WORKER);
+		detailTracePanel.showAlertsWithTag(AlertTag.MARKET_CUSTOMER);
+		worldTracePanel.showAlertsWithTag(AlertTag.PEDESTRIAN);
+		worldTracePanel.showAlertsWithTag(AlertTag.WORLD);
+		worldTracePanel.showAlertsWithTag(AlertTag.IDLE_PERSON);
+
+
+
 		
 		// Add it all to the main pane
 		fullPane.setLayout(twoGridLayout);

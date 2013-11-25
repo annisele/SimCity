@@ -10,20 +10,6 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
-
-
-import simcity.gui.Gui;
-import simcity.gui.IdlePersonGui;
-import simcity.gui.bank.BankCustomerGui;
-import simcity.gui.restaurantone.RestaurantOneCustomerGui;
-import simcity.gui.transportation.PedestrianGui;
-import simcity.interfaces.Person;
-import simcity.interfaces.bank.BankCustomer;
-import simcity.interfaces.house.HouseInhabitant;
-import simcity.interfaces.market.MarketCustomer;
-import simcity.interfaces.restaurant.one.RestaurantOneCustomer;
-import simcity.interfaces.restaurant.two.RestaurantTwoCustomer;
-import simcity.interfaces.transportation.Pedestrian;
 import simcity.buildings.bank.BankCustomerRole;
 import simcity.buildings.bank.BankSystem;
 import simcity.buildings.house.HouseInhabitantRole;
@@ -36,6 +22,7 @@ import simcity.gui.IdlePersonGui;
 import simcity.interfaces.Person;
 import simcity.interfaces.bank.BankCustomer;
 import simcity.interfaces.market.MarketCustomer;
+import simcity.interfaces.restaurant.two.RestaurantTwoCustomer;
 import simcity.interfaces.transportation.Pedestrian;
 import agent.Agent;
 
@@ -198,14 +185,7 @@ public class PersonAgent extends Agent implements Person {
 				}
 			}
 			Do("pppp: "+eventR);
-			HouseInhabitantRole house = null;
-			for(Role r : myRoles) {
-				if(r instanceof HouseInhabitantRole) {
-					house = (HouseInhabitantRole) r;
-				}
-			}
-			//((MarketCustomer)eventR).msgBuyStuff(house.getListToBuy(), (MarketSystem)(Directory.getSystem(buildingName)));
-			
+		
 			//hack
 			//RestaurantTwoCustomerRole rc = new RestaurantTwoCustomerRole(this);
 			((RestaurantTwoCustomer)eventR).msgArrivedAtRestaurant();
@@ -231,12 +211,7 @@ public class PersonAgent extends Agent implements Person {
 					eventR = r;
 				}
 			}
-			HouseInhabitantRole house = null;
-			for(Role r : myRoles) {
-				if(r instanceof HouseInhabitantRole) {
-					house = (HouseInhabitantRole) r;
-				}
-			}
+			
 			//hack
 			//BankCustomerRole bc = new BankCustomerRole(this);
 			
@@ -263,12 +238,7 @@ public class PersonAgent extends Agent implements Person {
 					eventR = r;
 				}
 			}
-			HouseInhabitantRole house = null;
-			for(Role r : myRoles) {
-				if(r instanceof HouseInhabitantRole) {
-					house = (HouseInhabitantRole) r;
-				}
-			}
+
 			//hack
 			((BankCustomer)eventR).msgWithdrawMoney((BankSystem)(Directory.getSystem(buildingName)));
 			((BankCustomer)eventR).msgArrivedAtBank();
@@ -292,12 +262,7 @@ public class PersonAgent extends Agent implements Person {
 					eventR = r;
 				}
 			}
-			HouseInhabitantRole house = null;
-			for(Role r : myRoles) {
-				if(r instanceof HouseInhabitantRole) {
-					house = (HouseInhabitantRole) r;
-				}
-			}
+			
 			//hack
 			BankCustomerRole o = new BankCustomerRole(this);
 			//assuming that getting a loan increases the amount of money in account
@@ -322,12 +287,7 @@ public class PersonAgent extends Agent implements Person {
 					eventR = r;
 				}
 			}
-			HouseInhabitantRole house = null;
-			for(Role r : myRoles) {
-				if(r instanceof HouseInhabitantRole) {
-					house = (HouseInhabitantRole) r;
-				}
-			}
+			
 			//hack
 			BankCustomerRole z = new BankCustomerRole(this);
 			//assuming that paying rent reduces the amount of money in account
@@ -396,9 +356,8 @@ public class PersonAgent extends Agent implements Person {
 		if(Directory.getSystem(currentEvent.buildingName).msgEnterBuilding(currentEvent.role)) {
 			currentRole = currentEvent.role;
 			Do("Entered building. Changing role to " + currentRole.getClass());
-			
-			currentRole.msgEnterBuilding(Directory.getSystem(currentEvent.buildingName));
-			
+			currentRole.msgEnterBuilding(Directory.getSystem(currentEvent.buildingName));			
+
 		} else {
 			Do("Building closed. Cannot enter.");
 			scheduleEvent(currentEvent.type); //maybe change this?

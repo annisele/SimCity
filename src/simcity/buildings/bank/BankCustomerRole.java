@@ -10,6 +10,7 @@ import java.util.concurrent.Semaphore;
 
 import simcity.PersonAgent;
 import simcity.Role;
+import simcity.SimSystem;
 import simcity.gui.Gui;
 import simcity.gui.bank.BankCustomerGui;
 import simcity.gui.market.MarketCustomerGui;
@@ -339,18 +340,10 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 			person.roleFinished();
 			person.isIdle();
 		}
-		public void msgEnterBuilding() {
+		public void msgEnterBuilding(SimSystem s) {
+			bank = (BankSystem)s;
 			bh = bank.getBankHost();
 			msgArrivedAtBank();
-			/*
-			((BankCustomerGui)gui).DoGoToHost();
-			try {
-				atDest.acquire();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			*/
-			
 		}
 
 		public void msgWithdrawMoney(BankSystem b) {
@@ -362,7 +355,5 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 			bank = b;
 			stateChanged();
 			
-		}	 
-
-
+		}
 }

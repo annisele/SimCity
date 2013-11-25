@@ -5,6 +5,7 @@ import java.util.concurrent.Semaphore;
 
 import simcity.PersonAgent;
 import simcity.Role;
+import simcity.SimSystem;
 import simcity.buildings.bank.BankComputer.BankAccount;
 import simcity.gui.Gui;
 import simcity.gui.bank.BankTellerGui;
@@ -397,7 +398,8 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 		person.isIdle();
 		
 	}
-	public void msgEnterBuilding() {
+	public void msgEnterBuilding(SimSystem s) {
+		bankSystem = (BankSystem) s;
 		((BankTellerGui)gui).DoGoToHost();
 		try {
 			atDest.acquire();

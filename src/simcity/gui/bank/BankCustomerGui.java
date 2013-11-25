@@ -1,6 +1,5 @@
 package simcity.gui.bank;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import javax.swing.ImageIcon;
@@ -11,12 +10,11 @@ import simcity.interfaces.bank.BankCustomer;
 
 public class BankCustomerGui extends Gui{
 	private int HOST_X = 230;
-	private int HOST_Y = 420;
+	private int HOST_Y = 400;
 
 	ImageIcon ii = new ImageIcon("res/person/persondownbig.png");
 	Image img = ii.getImage();
 
-	private int xDestination, yDestination;
 	private final int WINDOW1_X = 105;
 	private final int WINDOW1_Y = 200;
 	
@@ -49,8 +47,6 @@ public class BankCustomerGui extends Gui{
 		else if(windowNumber == 3) {
 			DoGoToLocation(WINDOW3_X, WINDOW3_Y);
 		}
-
-		
 
 	}
 	

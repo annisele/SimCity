@@ -6,6 +6,7 @@ import java.util.concurrent.Semaphore;
 import simcity.gui.Gui;
 import simcity.PersonAgent;
 import simcity.Role;
+import simcity.SimSystem;
 import simcity.gui.bank.BankHostGui;
 import simcity.interfaces.bank.*;
 
@@ -22,9 +23,16 @@ public class BankHostRole extends Role implements simcity.interfaces.bank.BankHo
 	private List<BankCustomerRole> customers = Collections.synchronizedList(new ArrayList<BankCustomerRole>());
 	
 	// utility variables
-	private Semaphore atDest = new Semaphore(0, true);
+	private Semaphore atBank = new Semaphore(0, true);
 	Timer timer = new Timer();
 	
+	// constructor
+	public BankHostRole (PersonAgent p) {
+		person = p;
+		this.gui = new BankHostGui(this);
+		//hack
+		computer = new BankComputer();
+	}
 
 	// utility class: BankWindow
 	public static class BankWindow {
@@ -75,20 +83,11 @@ public class BankHostRole extends Role implements simcity.interfaces.bank.BankHo
 			return bankTellerPresent;
 		}
 	}
-	
-	// constructor
-	public BankHostRole (PersonAgent p) {
-		person = p;
-		this.gui = new BankHostGui(this);
-		//hack
-		computer = new BankComputer();
-	}
 
 	// utility functions
-	public void atDestination() {
-    	atDest.release();
+	public void atBank() {
+    	atBank.release();
     }
-	
 
 	//messages
 	public void msgEnteringBank(BankCustomerRole bc) {
@@ -129,7 +128,7 @@ public class BankHostRole extends Role implements simcity.interfaces.bank.BankHo
 		
 			person.Do("Please go to the available window");
 			((BankCustomerRole) customers.get(0)).msgGoToWindow(window.getWindowNumber(), window.getBankTeller());
-			//bc.msgGoToWindow(window.getWindowNumber(), window.getBankTeller());
+			
 			window.setOccupant(bc);
 		
 		customers.remove(bc);
@@ -148,7 +147,7 @@ public class BankHostRole extends Role implements simcity.interfaces.bank.BankHo
 		person.Do("Leaving bank");
 		gui.DoExitBuilding();
 		try {
-			atDest.acquire();
+			atBank.acquire();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -159,10 +158,11 @@ public class BankHostRole extends Role implements simcity.interfaces.bank.BankHo
 	}
 
 	@Override
-	public void msgEnterBuilding() {
+	public void msgEnterBuilding(SimSystem s) {
+		bank = (BankSystem)s;
 		((BankHostGui)gui).DoGoToHostPosition();
 		try {
-			atDest.acquire();
+			atBank.acquire();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

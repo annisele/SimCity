@@ -18,6 +18,8 @@ public class BusGui extends Gui {
 	private int xDest;
 	private int yDest;
 	
+	private boolean atDestNow = false;
+	
 	ImageIcon ii = new ImageIcon("res/citygui/markettruck.png");
 	Image img = ii.getImage();
 	Image busimage = img.getScaledInstance(25, 25,  java.awt.Image.SCALE_SMOOTH); 
@@ -27,7 +29,6 @@ public class BusGui extends Gui {
 	}
 	
 	public void updatePosition() {
-		
 		if(xDest > x) {
 			x++;
 		}
@@ -41,9 +42,12 @@ public class BusGui extends Gui {
 			y--;
 		}
 		
-		if (x == xDest && y == yDest) {
-			busagent.atDestination();
-		}
+		if (((x == (xDest)) || (x == (xDest+1)) || (x == (xDest-1)) && ((y == (yDest)) || (y == (yDest+1)) || (y == (yDest-1))))) {
+			if (atDestNow == false) {
+				busagent.atDestination();
+				atDestNow = true;
+			}
+		} 
 	}
     
 	@Override
@@ -53,6 +57,10 @@ public class BusGui extends Gui {
 	}
 
 	public void DoGoToStop(int x, int y) {
+		//System.out.println(" atDestNow is: "+atDestNow);
+		System.out.println("At Do Go to Stop");
+		atDestNow = false;
+		//System.out.println(" atDestNow is: "+atDestNow);
 		xDest = x;
 		yDest = y;
 	}

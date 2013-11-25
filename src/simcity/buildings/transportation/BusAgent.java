@@ -37,11 +37,11 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 		Location stop2 = new Location(365, 67);
 		Location stop3 = new Location(365, 370);
 		Location stop4 = new Location(55, 370);
-		busStops.put(1, stop1);
-		busStops.put(2, stop2);
-		busStops.put(3, stop3);
-		busStops.put(4, stop4);
-		busStopCounter = 1;
+		busStops.put(0, stop1);
+		busStops.put(1, stop2);
+		busStops.put(2, stop3);
+		busStops.put(3, stop4);
+		busStopCounter = 0;
 		
 	}
 		
@@ -62,7 +62,6 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 	BusEvent event;
 	
 	public void makeBusMove() {		// HACKHACKHACK
-		System.out.println("FUCK");
 		stateChanged();
 	}
 	
@@ -100,31 +99,22 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 	
 	// Scheduler
 	public boolean pickAndExecuteAnAction() {
-		System.out.println("Fuck");
 		Drive();
+		
 		return false;
 	}
 	
 	// Actions
 	private void Drive() {
+		
 		DoGoTo(busStops.get(busStopCounter));
 		try {
 			atDestination.acquire();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
-		}
-		if (busStopCounter == 1) {
-			busStopCounter++;
-		}
-		else if (busStopCounter == 2) {
-			busStopCounter++;
-		}
-		else if (busStopCounter == 3) {
-			busStopCounter++;
-		}
-		else if (busStopCounter == 4) {
-			busStopCounter = 1;
-		}
+		} 
+		busStopCounter = ((busStopCounter + 1) % 4);
+		
 		makeBusMove();
 	}
 
@@ -145,11 +135,14 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 		//Animation
 		//Wait a few Seconds
 		gui.DoGoToStop(l.getX(), l.getY());
+		System.out.println(l.getX() + "  " + l.getY());
 	
 	}
 
 	public void atDestination() {
 		atDestination.release();
+		System.out.println("At Bus Stop " + busStopCounter);
+
 	}
 
 	public void setGui(BusGui gui) {

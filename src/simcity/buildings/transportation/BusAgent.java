@@ -148,7 +148,7 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
                       atDestination.release();
               }
       },
-     800);
+     100);
 	}
 
 	public void setGui(BusGui gui) {

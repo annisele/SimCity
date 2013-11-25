@@ -17,6 +17,10 @@ public class MarketCashierGui extends Gui {
 	private final int CASH_REG_Y = 95;
 	private final int COUNTER_X = 0;
 	private final int COUNTER_Y = 100;
+	private final int CENTER_X = 250;	
+	private final int CENTER_Y = 250;
+	private final int LEFT_X = -50;
+	
 
 	
 	ImageIcon ii = new ImageIcon("res/market/cashier.png");
@@ -34,6 +38,18 @@ public class MarketCashierGui extends Gui {
 	
 	public void DoGoToCashRegister() {
 		DoGoToLocation(CASH_REG_X, CASH_REG_Y);
+	}
+	
+	public void DoGoToCenter() {
+		DoGoToLocation(CENTER_X, CENTER_Y);
+	}
+	
+	public void DoGoToLeftCenter() {
+		DoGoToLocation(LEFT_X, CENTER_Y);
+	}
+	
+	public void DoGoToLeftTop() {
+		DoGoToLocation(LEFT_X, CASH_REG_Y);
 	}
 	
 	public void DoGoToCounter() {

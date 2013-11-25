@@ -183,6 +183,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	public boolean pickAndExecuteAnAction() {
 
 		person.Do("In sched, state is: "+state);
+		person.Do("event is: "+event);
 	 	// person isn't doing anything, then arrives at bank
 		if (state == State.none && event == Event.arrivedAtBank){
 			InformBankHostOfArrival();
@@ -238,12 +239,12 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	    	
 	    	System.out.println("I'm here for bank transaction, host is: "+bank.getBankHost());
 	    	bank.getBankHost().msgEnteringBank(this);
-	    	//((BankCustomerGui)gui).DoGoToBankTeller(1);
+	    	/*((BankCustomerGui)gui).DoGoToBankTeller(1);
 			try {
 	    		atDest.acquire();
 	    	} catch (InterruptedException e) {
 	    		e.printStackTrace();
-	    	}
+	    	}*/
 		}
 
 		private void OpenAccount() {

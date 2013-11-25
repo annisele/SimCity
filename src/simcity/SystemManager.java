@@ -53,6 +53,7 @@ public class SystemManager {
 		simcity = g;
 		world = new WorldSystem(simcity);//simcity.getWorld();
 		dir.setWorld(world);
+		dir.makeBusStops();
 	}
 	
 	public void clear() {

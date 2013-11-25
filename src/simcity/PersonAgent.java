@@ -134,6 +134,11 @@ public class PersonAgent extends Agent implements Person {
 			}
 		}, waitTime);
 	}
+	
+	private int chooseTransportation() {
+		 int randchoice = (int)((Math.random()*100)%2);
+		 return randchoice;
+	}
 
 	public void scheduleEvent(EventType t) {
 		Event e;
@@ -143,7 +148,22 @@ public class PersonAgent extends Agent implements Person {
 			String buildingName = markets.get(index);
 			List<Step> steps = new ArrayList<Step>();
 			steps.add(new Step("exitBuilding", this));
+			steps.add(new Step("goToBusStop", this));
 			steps.add(new Step("goTo", this));
+			
+			if (chooseTransportation() == 0) {
+			steps.add(new Step("goTo", this));
+			}
+			else {
+				steps.add(new Step("goToBusStop", this));
+				Role eventR = null;
+				for(Role r : myRoles) {
+					if(r instanceof BusPassengerRole) {
+						eventR = r;
+					}
+				}
+				steps.add(new Step("goTo", this));
+			}
 			steps.add(new Step("enterBuilding", this));
 			Role eventR = null;
 			for(Role r : myRoles) {
@@ -151,14 +171,15 @@ public class PersonAgent extends Agent implements Person {
 					eventR = r;
 				}
 			}
+			
 			HouseInhabitantRole house = null;
 			for(Role r : myRoles) {
 				if(r instanceof HouseInhabitantRole) {
 					house = (HouseInhabitantRole) r;
 				}
-			}
+			}  
 			
-			//((MarketCustomer)eventR).msgBuyStuff(house.getListToBuy(), (MarketSystem)(Directory.getSystem(buildingName)));
+			((MarketCustomer)eventR).msgBuyStuff(house.getListToBuy(), (MarketSystem)(Directory.getSystem(buildingName)));
 			//hack
 			Map<String, Integer> itemsHack = new HashMap<String, Integer>();
 			itemsHack.put("chicken", 1);
@@ -334,6 +355,19 @@ public class PersonAgent extends Agent implements Person {
 	//so this only needs to prep the person to walk somewhere by changing it to pedestrian
 	public void exitBuilding() {
 		//Do("exitBuilding step is called");
+		stateChanged();
+	}
+	
+	public void goToBusStop() {
+		for(Role r : myRoles) {
+			if(r instanceof Pedestrian) {
+				currentRole = r;
+				Directory.getWorld().getAnimationPanel().addGui(currentRole.getGui());
+		}
+	}
+		Location loc = Directory.getBusStop();
+		System.out.println("In DoGoToBusStop");
+		((PedestrianRole)currentRole).addDestination(loc);
 		stateChanged();
 	}
 

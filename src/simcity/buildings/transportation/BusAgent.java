@@ -24,8 +24,7 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 		Location destination;
 		boolean loaded = false;
 		MyPassenger(BusPassengerRole r, Location d) {
-			role = r;
-			
+			role = r;			
 			destination = d;
 		}
 		

@@ -31,12 +31,6 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 	public enum transactionType {none, openAccount, depositMoney, withdrawMoney, loanMoney, payLoan, payRent};	// type of transaction from customer
 	public enum transactionState {none, processing};											// transaction state
 
-	// constructor
-	/*
-	public BankTellerRole(BankComputer bank) {
-		setBankSystem(bank);
-	}
-	*/
 	public BankTellerRole(PersonAgent person, BankSystem bank) {
 		this.person = person;
 		this.gui = new BankTellerGui(this);
@@ -187,7 +181,7 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 			}
 			
 		}
-		else {
+		else { // customer fails to verify the account with password
 			customer.getBankCustomer().msgVerificationFailed();
 		}
 		bankSystem.getBankComputer().reinitializeTempAccount();
@@ -253,7 +247,7 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 		customers.remove(customer);
 	}
 	
-	private void PayRent(MyCustomer customer) {
+	private void PayRent(MyCustomer customer) { //bank customer pays rent to the landlord at Bank
 		BankAccount account = bankSystem.getBankComputer().accountLookup(customer.getLandlordAccountNumber());
 		account.setAccountBalance(account.getAccountBalance() + customer.getAmountToProcess());
 		bankSystem.getBankComputer().updateSystemAccount(account);
@@ -385,7 +379,7 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
     	} catch (InterruptedException e) {
     		e.printStackTrace();
     	}
-	    bank.getBankHost().msgLeavingBank(windowNumber);
+	    bankSystem.getBankHost().msgLeavingBank(3);
 	    System.out.println("Bank host, I'm leaving the bank now");
 	    msgExitBuilding();
 	}

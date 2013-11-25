@@ -50,8 +50,10 @@ public class BusGui extends Gui {
 		} */
 		if (((x == (xDest)) || (x == (xDest+1))) && ((y == (yDest)) || (y == (yDest+1)))) {
 			if (atDestNow == false) {
+				
 				busagent.atDestination();
 				atDestNow = true;
+				
 			}
 		} 
 	}

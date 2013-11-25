@@ -88,20 +88,16 @@ public class BankHostRole extends Role implements BankHost {
 		}
 	}
 
-	// utility functions
-	public void atBank() {
-    	atBank.release();
-    }
-
+	
 	//messages
 	public void msgEnteringBank(BankCustomerRole bc) {
-		System.out.println("Bank customer is entering the bank");
+		person.Do("Bank customer is entering the bank");
 		customers.add(bc);
 		stateChanged();
 	}
 	
 	public void msgLeavingBank(int windowNumber) {
-		System.out.println("Bank customer is leaving the bank");
+		person.Do("Bank customer is leaving the bank");
 		bank.setWindowAvailable(windowNumber);
 		stateChanged();
 	}
@@ -125,7 +121,6 @@ public class BankHostRole extends Role implements BankHost {
 			}
 		}
 		*/
-		
 		synchronized(bankTellers) {
 			if (!bankTellers.isEmpty()) {
 				bank.findUnreadyWindowAndSendBankTeller(bankTellers.get(0));
@@ -185,7 +180,6 @@ public class BankHostRole extends Role implements BankHost {
 
 	@Override
 	public void atDestination() {
-		// TODO Auto-generated method stub
-		
+		atBank.release();
 	}
 }

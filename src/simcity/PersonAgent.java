@@ -64,6 +64,7 @@ public class PersonAgent extends Agent implements Person {
 		HouseInhabitantRole h = new HouseInhabitantRole(this);
 		MarketCustomerRole m = new MarketCustomerRole(this);
 		BankCustomerRole b = new BankCustomerRole(this);
+		BusPassengerRole bp = new BusPassengerRole(this);
 		//RestaurantOneCustomerRole r1 = new RestaurantOneCustomerRole(this);
 		//RestaurantTwoCustomerRole r2 = new RestaurantTwoCustomerRole(this);
 		//RestaurantThreeCustomerRole r3 = new RestaurantThreeCustomerRole(this);
@@ -74,6 +75,7 @@ public class PersonAgent extends Agent implements Person {
 		myRoles.add(h);
 		myRoles.add(m);
 		myRoles.add(b);
+		myRoles.add(bp);
 		//myRoles.add(r2);
 		myRoles.add(r4);
 		//myRoles.add(r5);
@@ -339,6 +341,7 @@ public class PersonAgent extends Agent implements Person {
 				currentRole = r;
 				Directory.getWorld().getAnimationPanel().addGui(currentRole.getGui());
 			}
+			
 		}
 		Location loc = Directory.getLocation(currentEvent.buildingName);
 		//Do("Location is: "+loc.getX()+", "+loc.getY());

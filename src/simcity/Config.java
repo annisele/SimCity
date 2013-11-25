@@ -88,5 +88,6 @@ public class Config {
 		systems.clear();
 		systems.clearDetailPane();
 	}
+	
 
 }

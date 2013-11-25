@@ -120,9 +120,7 @@ public class AnimationPanel extends JPanel implements ActionListener{
 	}
 
 	public void paintComponent(Graphics g) {
-		//System.out.println(" There are "+buildingGuis.size());
 		// compute dt, then send dt to every gui for updatePosition
-		//System.out.println("I have " + guis.size()+" guis");
 		synchronized(guis) {
 			for(Gui gui : guis) {
 				if (gui.isPresent()) {
@@ -220,16 +218,4 @@ public class AnimationPanel extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent arg0) {
 		repaint();
 	}
-
-
-
-	/*public void addGui(gui) {
-        guis.add(gui);
-    }
-
-    public void setRestaurantPanel(RestaurantPanel restPanel) {
-    	xTables = restPanel.getTableXPos();
-        yTables = restPanel.getTableYPos();
-    }*/
-
 }

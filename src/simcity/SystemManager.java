@@ -87,9 +87,7 @@ public class SystemManager {
 		//people.add(person);
 		
 		//hacks
-		//
-		
-		// Hack because Mark goes to Market
+
 		if (name.equalsIgnoreCase("Rebecca")) {
 			person.goToMarketNow();
 		}

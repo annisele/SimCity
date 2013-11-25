@@ -2,34 +2,26 @@ package simcity;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.*;
-import java.lang.reflect.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
-import simcity.gui.Gui;
-import simcity.gui.IdlePersonGui;
-import simcity.gui.bank.BankCustomerGui;
-import simcity.gui.restaurantone.RestaurantOneCustomerGui;
-import simcity.gui.transportation.PedestrianGui;
-import simcity.interfaces.Person;
-import simcity.interfaces.bank.BankCustomer;
-import simcity.interfaces.house.HouseInhabitant;
-import simcity.interfaces.market.MarketCustomer;
-import simcity.interfaces.transportation.Pedestrian;
 import simcity.buildings.bank.BankCustomerRole;
-import simcity.buildings.bank.BankHostRole;
 import simcity.buildings.bank.BankSystem;
-import simcity.buildings.bank.BankTellerRole;
 import simcity.buildings.house.HouseInhabitantRole;
-import simcity.buildings.market.MarketCashierRole;
 import simcity.buildings.market.MarketCustomerRole;
-import simcity.buildings.market.MarketSystem;
 import simcity.buildings.restaurant.five.RestaurantFiveCustomerRole;
 import simcity.buildings.restaurant.four.RestaurantFourCustomerRole;
-import simcity.buildings.restaurant.one.RestaurantOneCustomerRole;
-import simcity.buildings.transportation.*;
-import simcity.buildings.restaurant.one.*;
-import simcity.buildings.restaurant.two.RestaurantTwoCustomerRole;
-import simcity.Role;
+import simcity.buildings.transportation.PedestrianRole;
+import simcity.gui.IdlePersonGui;
+import simcity.interfaces.Person;
+import simcity.interfaces.bank.BankCustomer;
+import simcity.interfaces.market.MarketCustomer;
+import simcity.interfaces.transportation.Pedestrian;
 import agent.Agent;
 
 

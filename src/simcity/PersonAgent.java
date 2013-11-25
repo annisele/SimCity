@@ -164,7 +164,6 @@ public class PersonAgent extends Agent implements Person {
 			//hack
 			Map<String, Integer> itemsHack = new HashMap<String, Integer>();
 			itemsHack.put("chicken", 1);
-			itemsHack.put("steak", 2);
 			((MarketCustomer)eventR).msgBuyStuff(itemsHack);
 			
 			e = new Event(buildingName, eventR, 120, -1, true, steps, t);
@@ -354,7 +353,6 @@ public class PersonAgent extends Agent implements Person {
 			Do("Entered building. Changing role to " + currentRole.getClass());
 			
 			currentRole.msgEnterBuilding(Directory.getSystem(currentEvent.buildingName));
-			Directory.getSystem(currentEvent.buildingName).animationPanel.addGui(currentRole.getGui());
 			
 		} else {
 			Do("Building closed. Cannot enter.");

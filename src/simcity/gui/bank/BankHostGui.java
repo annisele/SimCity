@@ -15,8 +15,8 @@ public class BankHostGui extends Gui {
 	ImageIcon ii = new ImageIcon("res/person/persondownbig.png");
 	Image img = ii.getImage();
 
-	public BankHostGui (BankHostRole b) {
-		role = b;
+	public BankHostGui (BankHost c) {
+		role = c;
 	}
 	
 	public void draw(Graphics2D g) {

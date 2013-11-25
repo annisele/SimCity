@@ -12,8 +12,6 @@ public interface BankHost extends GuiPartner {
 	public abstract void msgLeavingBank(int windowNumber);
 	public abstract void msgImReadyToWork(BankTellerRole bt);
 	
-	public abstract String getName();
-	public abstract void setName(String name);
 	public abstract void msgExitBuilding();
 	public abstract void msgEnterBuilding(SimSystem s);
 	public abstract void addBankTeller(BankTeller b);

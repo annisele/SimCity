@@ -15,7 +15,8 @@ public class Directory {
 		SimSystem system;
 
 		Entry(Location l, EntryType t, SimSystem s) {
-			location = l;
+		//	location = l;
+			location = new Location(l.getX() + 22, l.getY() + 50);
 			type = t;
 			system = s;
 		}

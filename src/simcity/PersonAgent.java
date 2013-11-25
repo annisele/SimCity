@@ -198,7 +198,7 @@ public class PersonAgent extends Agent implements Person {
 			//BankCustomerRole bc = new BankCustomerRole(this);
 			
 			((BankCustomer)eventR).msgDepositMoney((BankSystem)(Directory.getSystem(buildingName)));
-			((BankCustomer)eventR).msgArrivedAtBank();
+			//((BankCustomer)eventR).msgArrivedAtBank();
 			e = new Event(buildingName, eventR, 120, -1, true, steps, t);
 			
 			insertEvent(e);

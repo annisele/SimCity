@@ -33,10 +33,10 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 	
 	public BusAgent(String busname) {
 		this.name = busname; 
-		Location stop1 = new Location(59, 67);
+		Location stop1 = new Location(55, 67);
 		Location stop2 = new Location(365, 67);
-		Location stop3 = new Location(365, 366);
-		Location stop4 = new Location(59, 366);
+		Location stop3 = new Location(365, 370);
+		Location stop4 = new Location(55, 370);
 		busStops.put(0, stop1);
 		busStops.put(1, stop2);
 		busStops.put(2, stop3);

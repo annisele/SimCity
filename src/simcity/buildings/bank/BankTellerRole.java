@@ -410,7 +410,12 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
+		((BankTellerGui)gui).DoGoToWindow3();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		
 	}
 	public void setHost(BankHostRole b) {

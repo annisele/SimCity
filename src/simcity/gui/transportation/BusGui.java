@@ -11,7 +11,7 @@ import simcity.buildings.transportation.*;
 
 public class BusGui extends Gui {
 
-		private BusAgent busagent;
+	private BusAgent busagent;
 
 	private int x = 55;
 	private int y = 67;
@@ -29,20 +29,26 @@ public class BusGui extends Gui {
 	}
 	
 	public void updatePosition() {
-		if(xDest > x) {
+		if(xDest+1 > x) {
 			x++;
 		}
 		else {
 			x--;
 		}
-		if(yDest > y) {
+		if(yDest+1 > y) {
 			y++;
 		}
 		else {
 			y--;
 		}
-		
+		/*
 		if (((x == (xDest)) || (x == (xDest+1)) || (x == (xDest-1)) && ((y == (yDest)) || (y == (yDest+1)) || (y == (yDest-1))))) {
+			if (atDestNow == false) {
+				busagent.atDestination();
+				atDestNow = true;
+			}
+		} */
+		if (((x == (xDest)) || (x == (xDest+1))) && ((y == (yDest)) || (y == (yDest+1)))) {
 			if (atDestNow == false) {
 				busagent.atDestination();
 				atDestNow = true;
@@ -59,10 +65,11 @@ public class BusGui extends Gui {
 	public void DoGoToStop(int x, int y) {
 		//System.out.println(" atDestNow is: "+atDestNow);
 		System.out.println("At Do Go to Stop");
-		atDestNow = false;
+		//atDestNow = false;
 		//System.out.println(" atDestNow is: "+atDestNow);
 		xDest = x;
 		yDest = y;
+		atDestNow = false;
 	}
 
 	public void setBusAgent(BusAgent bus) {

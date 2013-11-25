@@ -1,10 +1,7 @@
 package simcity;
 
-import java.util.*;
-
-import simcity.gui.AnimationPanel;
-import simcity.gui.BuildingGui;
-import simcity.gui.transportation.PedestrianGui;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Config {
 	
@@ -14,11 +11,7 @@ public class Config {
 	public Config(SystemManager s) {
 		systems = s;
 	}
-	
-	public void persons(){
-		
-	}
-	
+
 	public void threeBuildings() {
 		systems.clear();
 		systems.clearDetailPane();

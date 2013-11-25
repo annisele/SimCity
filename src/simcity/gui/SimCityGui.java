@@ -1,22 +1,21 @@
 package simcity.gui;
 
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Iterator;
+import java.util.Map;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JSplitPane;
+import javax.swing.JTextArea;
 
 import simcity.Config;
 import simcity.SystemManager;
-import simcity.WorldSystem;
-import simcity.buildings.market.MarketSystem;
-import simcity.buildings.restaurant.one.RestaurantOneSystem;
-import simcity.gui.market.MarketAnimationPanel;
-import simcity.gui.restaurantone.RestaurantOneAnimationPanel;
-import simcity.gui.transportation.PedestrianGui;
-
-import java.awt.*;
-import java.awt.event.*;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.List;
 
 /****************************
  * SimCityGui - The entire window which contains a world panel, detail panel

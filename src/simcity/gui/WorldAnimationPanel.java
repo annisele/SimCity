@@ -1,15 +1,19 @@
 package simcity.gui;
 
-import javax.swing.*;
-
-import simcity.gui.transportation.BusGui;
-
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+
+import simcity.gui.transportation.BusGui;
 
 
 public class WorldAnimationPanel extends AnimationPanel implements ActionListener {

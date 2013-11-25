@@ -5,10 +5,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import agent.Agent;
 import simcity.Role;
+import simcity.interfaces.market.MarketTruck;
+import agent.Agent;
 
-public class MarketTruckAgent extends Agent implements simcity.interfaces.market.MarketTruck {
+public class MarketTruckAgent extends Agent implements MarketTruck {
 
 	private List<TruckOrder> orders = Collections.synchronizedList(new ArrayList<TruckOrder>());
 
@@ -16,6 +17,7 @@ public class MarketTruckAgent extends Agent implements simcity.interfaces.market
 
 	}
 
+	@Override
 	public void msgPleaseDeliverOrder(Role r, Map<String, Integer> items) {
 		orders.add(new TruckOrder(r, items));
 	}
@@ -51,6 +53,12 @@ public class MarketTruckAgent extends Agent implements simcity.interfaces.market
 			role = roleIn;
 			itemsToDeliver = itemsToDeliverIn;
 		}
+
+	}
+
+	@Override
+	public void atDestination() {
+		// TODO Auto-generated method stub
 
 	}
 }

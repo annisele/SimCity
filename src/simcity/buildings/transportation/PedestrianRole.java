@@ -6,6 +6,7 @@ import java.util.concurrent.Semaphore;
 import simcity.Location;
 import simcity.PersonAgent;
 import simcity.Role;
+import simcity.SimSystem;
 import simcity.gui.transportation.PedestrianGui;
 
 public class PedestrianRole extends Role implements simcity.interfaces.transportation.Pedestrian {
@@ -26,12 +27,6 @@ public class PedestrianRole extends Role implements simcity.interfaces.transport
 	//Messages
 	@Override
 	public void msgExitBuilding() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void msgEnterBuilding() {
 		// TODO Auto-generated method stub
 		
 	}
@@ -79,6 +74,12 @@ public class PedestrianRole extends Role implements simcity.interfaces.transport
 	
 	public PedestrianGui getGui() {
 		return gui;
+	}
+
+	@Override
+	public void msgEnterBuilding(SimSystem s) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	

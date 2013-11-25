@@ -38,7 +38,7 @@ public class BankTellerGui extends Gui {
 	}
 	
 	public void draw(Graphics2D g) {
-		g.drawImage(img, x, y, null);
+		g.drawImage(img,getX(), getY(), null);
 	}
 	public void DoGoToCorridor() {
 		DoGoToLocation(CORRIDOR_X, CORRIDOR_Y);

@@ -1,16 +1,20 @@
 package simcity.buildings.market;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Semaphore;
 
 import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
 import simcity.gui.market.MarketCustomerGui;
-import simcity.gui.transportation.PedestrianGui;
 import simcity.interfaces.market.MarketCashier;
+import simcity.interfaces.market.MarketCustomer;
+import simcity.interfaces.market.MarketPayer;
 
-public class MarketCustomerRole extends Role implements simcity.interfaces.market.MarketCustomer {
+public class MarketCustomerRole extends Role implements MarketCustomer {
 
 	private List<Invoice> invoices = Collections.synchronizedList(new ArrayList<Invoice>());
 	private enum InvoiceState {notSent, expected, requested, billed, paid, delivered};
@@ -33,9 +37,9 @@ public class MarketCustomerRole extends Role implements simcity.interfaces.marke
 		stateChanged();
 	}
 
-	public void msgPleasePay(MarketCashierRole c, double payment, int orderNum) {
+	@Override
+	public void msgPleasePay(MarketCashier c, double payment, int orderNum) {
 		person.Do("Received msgPleasePay");
-		
 		
 		synchronized (invoices) {
 			for(Invoice i : invoices) {
@@ -49,6 +53,7 @@ public class MarketCustomerRole extends Role implements simcity.interfaces.marke
 		stateChanged();
 	}
 
+	@Override
 	public void msgDeliveringOrder(Map<String, Integer> itemsToDeliver) {
 		person.Do("Received msgDeliveringOrder");
 		
@@ -119,23 +124,7 @@ public class MarketCustomerRole extends Role implements simcity.interfaces.marke
 		person.receiveDelivery(tempItems);
 		msgExitBuilding();
 	}
-
-	private class Invoice {
-		double payment;
-		InvoiceState state;
-		MarketCashier cashier;
-		Map<String, Integer> items;
-		int orderNumber;
-
-		Invoice(InvoiceState s, Map<String, Integer> itemsToBuy, int num) {
-			items = itemsToBuy;
-			state = s;
-			orderNumber = num;
-			
-			//hack!!
-			payment = 0;
-		}
-	}
+	
 
 	@Override
 	public void msgExitBuilding() {
@@ -163,4 +152,22 @@ public class MarketCustomerRole extends Role implements simcity.interfaces.marke
 		}
 		
 	}
+
+	private class Invoice {
+		double payment;
+		InvoiceState state;
+		MarketCashier cashier;
+		Map<String, Integer> items;
+		int orderNumber;
+
+		Invoice(InvoiceState s, Map<String, Integer> itemsToBuy, int num) {
+			items = itemsToBuy;
+			state = s;
+			orderNumber = num;
+			
+			//hack!!
+			payment = 0;
+		}
+	}
+
 }

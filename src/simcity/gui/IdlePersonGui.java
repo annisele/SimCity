@@ -1,9 +1,7 @@
 package simcity.gui;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Point;
 
 import javax.swing.ImageIcon;
 
@@ -13,9 +11,6 @@ import simcity.PersonAgent;
 public class IdlePersonGui extends Gui {
 
 	private PersonAgent person;
-	private int x = 0;
-	private int y = 0;
-	private final int SIZE = 20;
 	
 	ImageIcon ii = new ImageIcon("res/person/persondown.png");
 	Image img = ii.getImage();
@@ -26,13 +21,12 @@ public class IdlePersonGui extends Gui {
 	}
 	
 	public void setLocation(Location l) {
-		x = l.getX();
-		y = l.getY();
+		DoGoToLocation(l.getX(), l.getY());
 	}
 
 	@Override
 	public void draw(Graphics2D g) {
-		g.drawImage(personimage, x, y, null); 
+		g.drawImage(personimage, getX(), getY(), null); 
 	}
 
 	@Override

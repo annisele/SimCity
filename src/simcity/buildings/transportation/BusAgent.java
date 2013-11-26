@@ -70,7 +70,7 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 	
 	public void makeBusMove() {		// HACKHACKHACK
 		//stateChanged();
-		Drive();
+		stateChanged();
 	}
 	
 	public void msgWantBus(BusPassengerRole cp, int s, int d) {
@@ -117,6 +117,7 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 	public boolean pickAndExecuteAnAction() {
 		if (passengers.size() == 0) {
 		if (state == BusState.stopped){
+			System.out.println("In Pick and execute in BusAgent");
 					Drive();
 					state = BusState.driving;
 					return true;

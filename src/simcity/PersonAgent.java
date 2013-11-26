@@ -153,7 +153,6 @@ public class PersonAgent extends Agent implements Person {
 			steps.add(new Step("exitBuilding", this));
 			steps.add(new Step("goTo", this));
 			steps.add(new Step("enterBuilding", this));
-
 			//steps.add(new Step("goToBusStop", this));
 			//steps.add(new Step("waitForBus", this));
 			//waitForTransport();
@@ -358,14 +357,12 @@ public class PersonAgent extends Agent implements Person {
 	}
 		Do("At Bus Stop");
 		Location loc = Directory.getBusStop(3);
-		System.out.println("In DoGoToBusStop");
 		((PedestrianRole)currentRole).addDestination(loc);
 		//waitForTransport();
 		stateChanged();
 	}
 	
 	public void waitForBus() {
-		System.out.println("In Wait for bus");
 		for (Role r : myRoles) {
 			if(r instanceof BusPassengerRole) {
 				currentRole = r;
@@ -410,7 +407,6 @@ public class PersonAgent extends Agent implements Person {
 	}
 	
 	public void waitForTransport() {
-		System.out.println("In Wait for Transport");
 		for (Role r : myRoles) {
 			if (r instanceof Pedestrian) {
 				idleGui.setLocation(r.getGui().getLocation());
@@ -704,7 +700,6 @@ public class PersonAgent extends Agent implements Person {
 	
 	public void setBus(BusAgent b) {
 		bus = b;
-		System.out.println("In PersonAgent, we have a bus " + bus.getName());
 	}
 
 }

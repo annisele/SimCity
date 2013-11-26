@@ -27,9 +27,10 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 
 	// utility variables
 	private Semaphore atDest = new Semaphore(0, true);
+	private Timer timer = new Timer();
 
 	public enum transactionType {none, openAccount, depositMoney, withdrawMoney, loanMoney, payLoan, payRent};	// type of transaction from customer
-	public enum transactionState {none, processing};											// transaction state
+	public enum transactionState {none, processing, processed, done};											// transaction state
 
 	public BankTellerRole(PersonAgent person, BankSystem bank) {
 		this.person = person;
@@ -79,6 +80,11 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 		stateChanged();
 	}
 	
+	public void msgTransactionProcessed() {
+		customers.get(0).setTransactionState(transactionState.processed);
+		stateChanged();
+	}
+	
 	// scheduler
 
 	public boolean pickAndExecuteAnAction() {
@@ -87,45 +93,50 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 
 				// if customer hasn't been processed
 				if (customers.get(0).getTransactionState() == transactionState.none) {
-
+					customers.get(0).setTransactionState(transactionState.processing);
+					ProcessTransaction(customers.get(0));
+					return true;
+				}
+					
+				if (customers.get(0).getTransactionState() == transactionState.processed) {
 					// customer wants to open an account
 					if (customers.get(0).getTransactionType() == transactionType.openAccount) {
-						customers.get(0).setTransactionState(transactionState.processing);
+						customers.get(0).setTransactionState(transactionState.done);
 						AddAccount(customers.get(0));
 						return true;
 					}
 
 					// customer wants to deposit money into his own account
 					else if (customers.get(0).getTransactionType() == transactionType.depositMoney) {
-						customers.get(0).setTransactionState(transactionState.processing);
+						customers.get(0).setTransactionState(transactionState.done);
 						DepositMoney(customers.get(0));
 						return true;
 					}
 
 					// customer wants to withdraw money
 					else if (customers.get(0).getTransactionType() == transactionType.withdrawMoney) {
-						customers.get(0).setTransactionState(transactionState.processing);
+						customers.get(0).setTransactionState(transactionState.done);
 						WithdrawMoney(customers.get(0));
 						return true;
 					}
 
 					// customer wants a loan
 					else if (customers.get(0).getTransactionType() == transactionType.loanMoney) {
-						customers.get(0).setTransactionState(transactionState.processing);
+						customers.get(0).setTransactionState(transactionState.done);
 						LoanMoney(customers.get(0));
 						return true;
 					}
 
 					// customer wants to pay loan
 					else if (customers.get(0).getTransactionType() == transactionType.payLoan) {
-						customers.get(0).setTransactionState(transactionState.processing);
+						customers.get(0).setTransactionState(transactionState.done);
 						PayLoan(customers.get(0));
 						return true;
 					}
 					
 					// customer wants to pay rent
 					else if (customers.get(0).getTransactionType() == transactionType.payRent) {
-						customers.get(0).setTransactionState(transactionState.processing);
+						customers.get(0).setTransactionState(transactionState.done);
 						PayRent(customers.get(0));
 						return true;
 					}
@@ -138,6 +149,15 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 
 	// actions
 
+	private void ProcessTransaction(MyCustomer customer) {
+		timer.schedule(new TimerTask() {
+			public void run() {
+				msgTransactionProcessed();
+			}
+		},
+		2000);
+	}
+	
 	private void AddAccount(MyCustomer customer) {
 		person.Do("I've opened an account for you");
 		int tempAccountNumber = bankSystem.getBankComputer().addAccountAndReturnNumber(customer.getBankCustomer(), customer.getPassword(), 

@@ -32,9 +32,9 @@ public class MarketWorkerRole extends Role implements MarketWorker {
 	@Override
 	public void msgFindOrder(int orderNum, Map<String, Integer> itemsList) {         
 		person.Do("Received msgFindOrder");
-
-
-		orders.add(new WorkerOrder(orderNum, itemsList));
+		synchronized(orders) {
+			orders.add(new WorkerOrder(orderNum, itemsList));
+		}
 		stateChanged();
 	}
 
@@ -48,7 +48,7 @@ public class MarketWorkerRole extends Role implements MarketWorker {
 	}
 
 	private void FindAndDeliverOrder(WorkerOrder o) {
-
+		Do("Find and Deliver action!");
 		collectItemsAnimation();
 
 		o.itemsToFind = market.getComputer().fillOrder(o.itemsToFind); //gets full order from system
@@ -58,16 +58,17 @@ public class MarketWorkerRole extends Role implements MarketWorker {
 		else {
 			System.out.println("Cannot fulfill order.");
 		}
-
-		((MarketWorkerGui)gui).DoGoToHomePosition();
-		try {
-			atDest.acquire();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		synchronized(orders) {
+			orders.remove(o);
 		}
-
-		orders.remove(o);
-
+		if(orders.isEmpty()) {
+			((MarketWorkerGui)gui).DoGoToHomePosition();
+			try {
+				atDest.acquire();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	private void collectItemsAnimation() {

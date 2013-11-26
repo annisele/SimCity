@@ -14,31 +14,35 @@ import simcity.interfaces.restaurant.two.RestaurantTwoWaiter;
 
 public class RestaurantTwoWaiterGui extends Gui{
 
-	 private RestaurantTwoWaiterRole agent = null;
+	// private RestaurantTwoWaiterRole agent = null;
 	    //RestaurantGui gui;
-	    private int xPos = 0, yPos = 20;//default waiter position
-	    private int xDestination = 0, yDestination = 20;//default start position
+	
+	//    private int xPos = 0, yPos = 20;//default waiter position
+	  //  private int xDestination = 0, yDestination = 20;//default start position
 	    private int tablenum;
-	   
+	    private final int HOST_X = 200;
+		private final int HOST_Y = 300;
 	    public static final int xTable = 100;
-	    public static final int yTable = 150;
+	    public static final int yTable = 250;
 	    //public List<int>[] a= new ArrayList<int>[5]();
 	    int[] tablelist = new int[3];
 	    private boolean isPresent = false;
 		private boolean onBreak ;
-		ImageIcon ii = new ImageIcon("res/person/persondownbig.png");
+		ImageIcon ii = new ImageIcon("res/restaurant/two/waiterdown.png");
 		Image img = ii.getImage();
+		Image image = img.getScaledInstance(30, 35,  java.awt.Image.SCALE_SMOOTH); 
+
 
 	    public RestaurantTwoWaiterGui(RestaurantTwoWaiter w) {
-	    	onBreak = false;
+	    	//onBreak = false;
 	    	role=w;
-	        this.agent = agent;
+	       // this.agent = agent;
 	        tablelist[0]=100;
 	    	tablelist[1]=200;
 	    	tablelist[2]=300;
 	    	//this.gui=gui;
 	    }
-
+/*
 	    public void updatePosition() {
 	    	int tempnum = tablenum*100 ;
 	    	if(onBreak!=true){
@@ -56,33 +60,29 @@ public class RestaurantTwoWaiterGui extends Gui{
 
 	        if (xPos == xDestination && yPos == yDestination
 	        		& (xDestination == tempnum + 20) & (yDestination == yTable - 20)) {
-	           agent.msgAtTable();
-	           agent.w_at_table=true;
+	           ((RestaurantTwoWaiter)role).msgAtTable();
 	        }
 	        else
-	        	agent.w_at_table=false;
+	        	//agent.w_at_table=false;
 	        
 	       if (xPos == xDestination && yPos == yDestination
-	       		& (xDestination == agent.spot*25) & (yDestination == 20)) {
-	          agent.msgAtLobby();
+	       		& (xDestination == ((RestaurantTwoWaiterRole)role).spot*25) & (yDestination == 20)) {
+	    	   ((RestaurantTwoWaiterRole)role).msgAtLobby();
 	      }
-	       else
-	       	agent.w_at_lobby=false;
 	       if (xPos == xDestination && yPos == yDestination
 	          		& (xDestination == 330) & (yDestination == 300)) {
-	             agent.msgAtKitchen();
+	    	   ((RestaurantTwoWaiter)role).msgAtKitchen();
 	         }
-	    }
+	    }*/
 	    public void Start(int i) {//later you will map seatnumber to table coordinates.
+	    	DoGoToLocation(i*25,400);
 			
-			xDestination = i*25;
-			yDestination = 20;
 
 	}
 	    public void draw(Graphics2D g) {
 	      // g.setColor(Color.MAGENTA);
 	        //g.fillRect(xPos, yPos, 20, 20);
-	        g.drawImage(img, getX(), getY(), null); 
+	        g.drawImage(image, getX(), getY(), null); 
 	    }
 
 	    public boolean isPresent() {
@@ -92,7 +92,7 @@ public class RestaurantTwoWaiterGui extends Gui{
 			isPresent = p;
 		}
 	    public void setBreak(){
-			agent.wantsaBreak();
+	    	 ((RestaurantTwoWaiter)role).wantsaBreak();
 			//setPresent(true);
 		}
 	    public void reset(){
@@ -112,30 +112,27 @@ public class RestaurantTwoWaiterGui extends Gui{
 	    	//agent.print("waiter animation is coming to table!");
 	    	tablenum= b;
 	    	if (b==1){
-	        xDestination = tablelist[0] + 20;
-	        yDestination = yTable - 20;
+	    		DoGoToLocation(tablelist[0] + 20,yTable - 20);
 	    	}
 	    	if (b==2){
-	            xDestination = tablelist[1] + 20;
-	            yDestination = yTable - 20;
+	    		  DoGoToLocation( tablelist[1] + 20,yTable - 20);
+	          
 	        	}
 	    	if (b==3){
-	            xDestination = tablelist[2] + 20;
-	            yDestination = yTable - 20;
+	    		DoGoToLocation( tablelist[2] + 20,yTable - 20);
+		          
 	        	}
 	    	
 	    		
 	    }
 
-	    public void DoLeaveCustomer() {
-	        xDestination = 0;
-	        yDestination = 20;
+	    public void DoLeaveCustomer(int i) {
+	    	DoGoToLocation(i*25,400);
 	    }
 	    public void GoToKitchen() {
-	        xDestination = 330;
-	        yDestination = 300;
+	    	DoGoToLocation(300,50);
 	    }
-
+/*
 	    public int getXPos() {
 	        return xPos;
 	    }
@@ -143,6 +140,12 @@ public class RestaurantTwoWaiterGui extends Gui{
 	    public int getYPos() {
 	        return yPos;
 	    }
+*/
+		public void DoGoToWaiterPosition() {
+			System.out.println("waiter gui goes to position");
+			DoGoToLocation(300, 300);
+			
+		}
 	
 	
 }

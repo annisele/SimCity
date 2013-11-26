@@ -23,6 +23,8 @@ import simcity.buildings.restaurant.four.RestaurantFourSystem;
 import simcity.buildings.restaurant.one.RestaurantOneSystem;
 import simcity.buildings.restaurant.six.RestaurantSixSystem;
 import simcity.buildings.restaurant.three.RestaurantThreeSystem;
+import simcity.buildings.restaurant.two.RestaurantTwoCashierRole;
+import simcity.buildings.restaurant.two.RestaurantTwoCookRole;
 import simcity.buildings.restaurant.two.RestaurantTwoHostRole;
 import simcity.buildings.restaurant.two.RestaurantTwoSystem;
 import simcity.buildings.restaurant.two.RestaurantTwoWaiterRole;
@@ -337,7 +339,24 @@ public class SystemManager {
 		person.startThread();
 		
 	}
-
+	public void addRestaurantTwoCashierHack(String name, String rest) {
+		PersonAgent person = new PersonAgent(name);
+		world.getAnimationPanel().addGui(person.getIdleGui());
+		Role r2Cashier = new RestaurantTwoCashierRole(person,restaurantTwos.get(0));
+		person.addWork(r2Cashier, rest);
+		people.add(person);
+		person.startThread();
+		
+	}
+	public void addRestaurantTwoCookHack(String name, String rest) {
+		PersonAgent person = new PersonAgent(name);
+		world.getAnimationPanel().addGui(person.getIdleGui());
+		Role r2Cook = new RestaurantTwoCookRole(person,restaurantTwos.get(0),15,15,15,15);
+		person.addWork(r2Cook, rest);
+		people.add(person);
+		person.startThread();
+		
+	}
 	public void addRestaurantTwoWaiterHack(String name, String rest) {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());

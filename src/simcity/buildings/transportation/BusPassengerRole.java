@@ -11,8 +11,8 @@ import agent.Agent;
 	public class BusPassengerRole extends Role implements simcity.interfaces.transportation.BusPassenger {
 		
 		BusAgent bus;
-		Location destination;
-		Location startingLocation;
+		int destination;
+		int startingLocation;
 		int xLoc;
 		int yLoc;
 		//PassengerState state = enum{ offBus, waitingForBus, onBus };
@@ -28,10 +28,10 @@ import agent.Agent;
 		}
 	
 
-	public void msgBusTo(Location l) { // from PersonAgent
-		destination = l;
+	public void msgBusTo(int s, int d) { // from PersonAgent
+		destination = d;
 		System.out.println("in msgBusTo in BusPassengerRole");
-		startingLocation = new Location(40, 366);
+		startingLocation = s;
 		event = PassengerEvent.atBusStop;
 		stateChanged();
 	}
@@ -70,10 +70,10 @@ import agent.Agent;
 	
 	
 	private void CallBus() {
-		bus.msgWantBus(this, startingLocation);
+		bus.msgWantBus(this, startingLocation, destination);
 	}
 	private void GetIn() {
-		bus.msgGettingOn(this, destination);
+		bus.msgGettingOn(this);
 
 		// Animation
 		DoDisableGui();

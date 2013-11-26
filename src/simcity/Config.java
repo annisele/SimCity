@@ -28,6 +28,17 @@ public class Config {
 		
 	}
 	
+	public void restaurantMarket() {
+		systems.clear();
+		systems.clearDetailPane();
+		systems.setBackgroundTwo();
+		
+		systems.addRestaurantTwo("Restaurant", 60, 27);
+		systems.addMarket("Market1", 123, 27);
+		
+		
+	}
+	
 	public void busToMarket() {
 		systems.clear();
 		systems.clearDetailPane();
@@ -103,15 +114,20 @@ public class Config {
 				timer.schedule(new TimerTask(){
 					public void run() {
 						systems.addPerson("Levonne");
+						timer.schedule(new TimerTask() {
+							public void run() {
+								//systems.addBankTellerHack("Bank Teller2", "Bank");
+								timer.schedule(new TimerTask() {
+									public void run() {
+										systems.addPerson("Levanne");
+									}
+								}, 500);
+							}
+						}, 500);
 					}
-				}, 4000);
-				timer.schedule(new TimerTask(){
-					public void run() {
-						systems.addPerson("Levonne");
-					}
-				}, 5000);
+				}, 500);
 			}
-		}, 4000);
+		}, 500);
 	}
 
 	public void oneRestaurant() {

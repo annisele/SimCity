@@ -16,7 +16,6 @@ import simcity.interfaces.market.MarketCashier;
 import simcity.interfaces.market.MarketCustomer;
 import simcity.interfaces.market.MarketOrderer;
 import simcity.interfaces.market.MarketPayer;
-import simcity.interfaces.market.MarketWorker;
 
 public class MarketCashierRole extends Role implements MarketCashier {
 	private List<MarketOrder> orders = Collections.synchronizedList(new ArrayList<MarketOrder>());
@@ -25,6 +24,7 @@ public class MarketCashierRole extends Role implements MarketCashier {
 	private enum MarketOrderState {requested, waitingForPayment, paid, filling, found};
 	private Map<String, Double> prices = Collections.synchronizedMap(new HashMap<String, Double>());
 	private Semaphore atDest = new Semaphore(0, true);
+	private int workerIndex = 0;
 	private class MarketOrder {
 		int orderNumber;
 		MarketOrderer deliverRole;
@@ -61,7 +61,9 @@ public class MarketCashierRole extends Role implements MarketCashier {
 
 	@Override
 	public void msgHereIsAnOrder(MarketOrderer mc1, MarketPayer mc2, Map<String, Integer> items) {
-		orders.add(new MarketOrder(orders.size(), mc1, mc2, items, MarketOrderState.requested));
+		synchronized(orders) {
+			orders.add(new MarketOrder(orders.size(), mc1, mc2, items, MarketOrderState.requested));
+		}
 		stateChanged();
 	}
 
@@ -95,29 +97,44 @@ public class MarketCashierRole extends Role implements MarketCashier {
 	}
 
 	public boolean pickAndExecuteAnAction() {
+		MarketOrder order = null;
 		synchronized (orders) {
 			for(MarketOrder o : orders) {
 				if(o.state == MarketOrderState.requested) {
-					SendBill(o);
-					return true;
+					order = o;
+					break;
 				}
 			}
 		}
+		if(order != null) {
+			SendBill(order);
+			return true;
+		}
+		MarketOrder order2 = null;
 		synchronized (orders) {
 			for(MarketOrder o : orders) {
 				if(o.state == MarketOrderState.paid) {
-					FillOrder(o);
-					return true;
+					order2 = o;
+					break;
 				}
 			}
 		}
+		if(order2 != null) {
+			FillOrder(order2);
+			return true;
+		}
+		MarketOrder order3 = null;
 		synchronized (orders) {
 			for(MarketOrder o : orders) {
 				if(o.state == MarketOrderState.found) {
-					DeliverOrder(o);
-					return true;
+					order3 = o;
+					break;
 				}
 			}
+		}
+		if(order3 != null) {
+			DeliverOrder(order3);
+			return true;
 		}
 		return false;
 	}
@@ -146,7 +163,9 @@ public class MarketCashierRole extends Role implements MarketCashier {
 		}
 		else {
 			//hack! need to load balance
-			market.getWorkers().get(0).msgFindOrder(o.orderNumber, o.items);
+			int tempSize = market.getWorkers().size();
+			market.getWorkers().get(workerIndex % tempSize).msgFindOrder(o.orderNumber, o.items);
+			workerIndex++;
 		}
 
 		o.state = MarketOrderState.filling;
@@ -189,7 +208,9 @@ public class MarketCashierRole extends Role implements MarketCashier {
 				market.getTrucks().get(0).msgPleaseDeliverOrder(o.deliverRole, o.items);
 			}
 		}
-		orders.remove(o);
+		synchronized(orders) {
+			orders.remove(o);
+		}
 	}
 
 	@Override

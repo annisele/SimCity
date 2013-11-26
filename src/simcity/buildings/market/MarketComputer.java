@@ -29,7 +29,8 @@ public class MarketComputer {
 	}
 
 	public Map<String, Integer> fillOrder(Map<String, Integer> orders) {
-		
+		return orders;
+		/*
 		Map<String, Integer> toReturn = new HashMap<String, Integer>(); //when we implement returning partial orders, use this
 		
 		Set<String> keys = orders.keySet();
@@ -50,7 +51,7 @@ public class MarketComputer {
 			}
 		}
 		return toReturn;
-		
+		*/
 	}
 
 	public void addMoney(double payment) {

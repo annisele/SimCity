@@ -58,13 +58,19 @@ public class Config {
 		systems.addMarketCashierHack("Mary", "Market");
 		systems.addBus("Buster"); //Take this out if you don't want the bus here
 		systems.addMarketTruck("Market");
-		
+		systems.addPerson("Rebecca");
 		timer.schedule(new TimerTask() {
 			public void run() {
 				systems.addMarketWorkerHack("Bob", "Market");
 				timer.schedule(new TimerTask() {
 					public void run() {
 						systems.addPerson("Rebecca");
+						systems.addMarketWorkerHack("Bill", "Market");
+						timer.schedule(new TimerTask() {
+							public void run() {
+								systems.addPerson("Rebecca");
+							}
+						}, 2000);
 					}
 				}, 2000);
 			}

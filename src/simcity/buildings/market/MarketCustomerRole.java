@@ -33,7 +33,9 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	
 	@Override
 	public void msgBuyStuff(Map<String, Integer> itemsToBuy) {
-		invoices.add(new Invoice(InvoiceState.notSent, itemsToBuy, invoices.size()));
+		synchronized(invoices) {
+			invoices.add(new Invoice(InvoiceState.notSent, itemsToBuy, invoices.size()));
+		}
 		stateChanged();
 	}
 
@@ -68,29 +70,46 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	}
 	
 	public boolean pickAndExecuteAnAction() {
+		Invoice in = null;
 		synchronized (invoices) {
 			for(Invoice i : invoices) {
 				if(i.state == InvoiceState.notSent) {
-					SendOrder(i);
-					return true;
+					in = i;
+					break;
 				}
 			}
 		}
+		if(in != null) {
+			SendOrder(in);
+			return true;
+		}
+		
+		Invoice in2 = null;
 		synchronized (invoices) {
 			for(Invoice i : invoices) {
 				if(i.state == InvoiceState.billed) {
-					PayCashier(i);
-					return true;
+					in2 = i;
+					break;
 				}
 			}
 		}
+		if(in2 != null) {
+			PayCashier(in2);
+			return true;
+		}
+		
+		Invoice in3 = null;
 		synchronized (invoices) {
 			for(Invoice i : invoices) {
 				if(i.state == InvoiceState.delivered) {
-					ReceiveDelivery(i);
-					return true;
+					in3 = i;
+					break;
 				}
 			}
+		}
+		if(in3 != null) {
+			ReceiveDelivery(in3);
+			return true;
 		}
 		return false;
 	}
@@ -122,7 +141,9 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		((MarketCustomerGui) gui).carryItem(true);
 		Map<String, Integer> tempItems = i.items;  
 		i.cashier.msgReceivedOrder();
-		invoices.remove(i);
+		synchronized(invoices) {
+			invoices.remove(i);
+		}
 		person.receiveDelivery(tempItems);
 		msgExitBuilding();
 	}

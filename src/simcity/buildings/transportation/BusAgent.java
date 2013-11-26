@@ -188,15 +188,15 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 	}
 
 	public void atDestination() {
-		  /*
+		  
 		  stopTimer.schedule(new TimerTask() {
               public void run() {
                       atDestination.release();
                       
               }
       },
-     300);*/
-		atDestination.release();
+     300);
+		//atDestination.release();
 	}
 
 	public void setGui(BusGui gui) {

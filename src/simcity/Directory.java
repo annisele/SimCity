@@ -45,7 +45,7 @@ public class Directory {
 	
 	public static Location getBusStop() {
 		
-		return busStopDirectory.get(0);
+		return busStopDirectory.get(3);
 	}
 	
 	public void setWorld(WorldSystem w) {

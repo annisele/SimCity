@@ -28,6 +28,17 @@ public class Config {
 		
 	}
 	
+	public void restaurantMarket() {
+		systems.clear();
+		systems.clearDetailPane();
+		systems.setBackgroundTwo();
+		
+		systems.addRestaurantTwo("Restaurant", 60, 27);
+		systems.addMarket("Market1", 123, 27);
+		
+		
+	}
+	
 	public void busToMarket() {
 		systems.clear();
 		systems.clearDetailPane();

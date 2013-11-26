@@ -1,6 +1,7 @@
 package simcity.buildings.transportation;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +37,8 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 			loaded = true;
 		}
 	
-	    }
+		
+	}
 	
 	public BusAgent(String busname) {
 		this.name = busname; 
@@ -48,13 +50,12 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 		busStops.put(1, stop2);
 		busStops.put(2, stop3);
 		busStops.put(3, stop4);
-		busStopCounter = 0;
-		
+		busStopCounter = 3;
 	}
 		
 	private String name;
 	private BusGui gui;
-	List<MyPassenger> passengers = new ArrayList<MyPassenger>();
+	List<MyPassenger> passengers = Collections.synchronizedList(new ArrayList<MyPassenger>());
 	
 	public static final int NUM_BUSSTOPS = 4;
 	//List<Location> busStops;
@@ -62,15 +63,16 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 	public Semaphore atDestination = new Semaphore(0, true);
 	
 	int busStopCounter;
-	public enum BusState {stopped, driving};
-	public enum BusEvent {loading, arrived};
+	public enum BusState {none, stopped, driving};
+	public enum BusEvent {none, arrived, loaded};
 	
 	BusState state = BusState.stopped;
-	BusEvent event;
+	BusEvent event = BusEvent.none;
 	
 	public void makeBusMove() {		// HACKHACKHACK
-		//stateChanged();
-		Drive();
+		event = BusEvent.loaded;
+		stateChanged();
+		System.out.println("stateChanged from makeBusMove");
 	}
 	
 	public void msgWantBus(BusPassengerRole cp, int s, int d) {
@@ -84,93 +86,109 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 	
 	public void msgGettingOn(BusPassengerRole cp) {
 		//passengers.get(cp).loaded();
-		for (MyPassenger p : passengers) {
-			if (p.role == cp) {
-				p.loaded();
+		synchronized(passengers) {
+			for (MyPassenger p : passengers) {
+				if (p.role == cp) {
+					p.loaded();
+				}
 			}
 		}
 		stateChanged();
 	}
 	
 	public void msgGettingOff(BusPassengerRole cp) {
-		passengers.remove(cp);
+		System.out.println("HERES 5$ WHORE!");
+		synchronized(passengers) {
+			for (MyPassenger p : passengers) {
+				if (p.role == cp) {
+					passengers.remove(cp);
+				}
+			}
+		}
 		stateChanged();
 	}
 
+	public void msgFinishedLoading() {
+		event = BusEvent.loaded;
+		stateChanged();
+	}
+	
 	// from animation
 	public void msgArrived() {
-		//event = BusEvent.arrived;
+		event = BusEvent.arrived;
 		stateChanged();
+		System.out.println("stateChanged from msgArrived");
 	}
 
 	boolean FullyLoaded() {
-		for (MyPassenger p : passengers) {
-			if (p.startLocation == (busStopCounter)) {
-				if (p.loaded == false)
-					return false;
+		synchronized(passengers) {
+			for (MyPassenger p : passengers) {
+				if (p.startLocation == (busStopCounter)) {
+					if (p.loaded == false)
+						return false;
+				}
 			}
+			System.out.println("stateChanged from FullyLoaded");
 		}
-		return true;
+		return true;	
 	}
 	
 	// Scheduler
 	public boolean pickAndExecuteAnAction() {
-		if (passengers.size() == 0) {
-		if (state == BusState.stopped){
-					Drive();
-					state = BusState.driving;
-					return true;
-			}
-		else if (state == BusState.driving){
-			return false;
-		}
-		}
-		else if (passengers.size() > 0) {
-			if (state == BusState.stopped) {	
-				state = BusState.driving;
-				Stop();
-				return true;
-			}
-			else if (state == BusState.driving) {
-				return false;
-			}
-
-
 		
+		if (state == BusState.stopped && event == BusEvent.loaded){
+			System.out.println("Gonna drive cause no ones here");
+			state = BusState.driving;
+			Drive();
+			return true;
+		}
+		if (state == BusState.driving && event == BusEvent.arrived){
+			System.out.println("Just arrived, but no ones here!");
+			state = BusState.stopped;
+			Stop();
+			return true;
+		}
+		if (state == BusState.stopped && event == BusEvent.arrived) {
+			state = BusState.driving;
+			Drive();
+			return true;
+		}
 		
-	}
 		return false;
 	}
 	
 	// Actions
 	private void Drive() {
-		
+		busStopCounter = ((busStopCounter + 1) % 4);
 		DoGoTo(busStops.get(busStopCounter));
 		try {
 			atDestination.acquire();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		} 
-	busStopCounter = ((busStopCounter + 1) % 4);
-		makeBusMove();
+		//busStopCounter = ((busStopCounter + 1) % 4);
+		msgArrived();
 	}
 
 	private void Stop() {
-		for (MyPassenger p : passengers) {
-			if (p.loaded == true && p.destination == busStopCounter) {
-				p.role.msgWeHaveArrived(dir.getBusStop(busStopCounter).getX(), dir.getBusStop(busStopCounter).getY());
-				passengers.remove(p);
+		synchronized(passengers) {
+			for (MyPassenger p : passengers) {
+				if (p.loaded == false && p.startLocation == busStopCounter) {
+					System.out.println("IM GETTING ON BITCH");
+					p.role.msgBusArriving();
+					p.loaded = true;
+		        }
+				if (p.loaded == true && p.destination == busStopCounter) {
+					System.out.println("I CAME!");
+					p.role.msgWeHaveArrived(dir.getBusStop(busStopCounter).getX(), dir.getBusStop(busStopCounter).getY());
+					p.loaded = false;
+					//passengers.remove(p);
+				}		
 			}
-			else if (p.loaded == false && p.startLocation == busStopCounter) {
-				p.role.msgBusArriving();
-				p.loaded = true;
-	            }
 		}
-			//event = BusEvent.loading; 
-			
-			
-		
-		}
+		msgFinishedLoading();
+			//event = BusEvent.loading; 	
+	}
 	
 	
 	private void DoGoTo(Location l) {
@@ -180,14 +198,16 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 	}
 
 	public void atDestination() {
-		  
+		  /*
 		  stopTimer.schedule(new TimerTask() {
               public void run() {
                       atDestination.release();
                       
               }
       },
-     300);
+     300);*/
+		System.out.println("AtDestination");
+		atDestination.release();
 	}
 
 	public void setGui(BusGui gui) {

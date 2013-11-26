@@ -14,6 +14,8 @@ import simcity.SimSystem;
 import simcity.gui.Gui;
 import simcity.gui.bank.BankCustomerGui;
 import simcity.gui.market.MarketCustomerGui;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.bank.*;
 
 public class BankCustomerRole extends Role implements simcity.interfaces.bank.BankCustomer {
@@ -94,7 +96,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	
 	//messages from personagent
 	public void msgDepositMoney(BankSystem b) {
-		person.Do("I need to open an account and deposit money");
+		//person.Do("I need to open an account and deposit money");
 		cashOnHand = 50;
 		accountPassword = "abcdef";
 		amountToProcess = 20;
@@ -104,13 +106,13 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	
 	//messages 
 	public void msgArrivedAtBank() { // from gui
-		person.Do("I'm at bank");
+		//person.Do("I'm at bank");
 		event = Event.arrivedAtBank;
 		stateChanged();
 	}
 
 	public void msgGoToWindow(int windowNumber, BankTeller bt) {
-		person.Do("I'm going to the window to perform bank transaction");
+		//person.Do("I'm going to the window to perform bank transaction");
 		this.windowNumber = windowNumber;
 		this.bt = bt;
 		event = Event.directedToWindow;
@@ -119,9 +121,11 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	
 	// bank teller sends this message to customer after opening an account
 	public void msgHereIsAccountInfo(BankCustomer bc, int accountNumber, double accountBalance) {
-		person.Do("Here is your new account information");
-		person.Do("Accountnumber: " + accountNumber);
-		person.Do("Balance: " + accountBalance);
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankCustomer: " + person.getName(), "My new account number is "+accountNumber+ " and my balance is $"+accountBalance);	
+
+		//person.Do("Here is your new account information");
+		//person.Do("Accountnumber: " + accountNumber);
+		//person.Do("Balance: " + accountBalance);
 		cashOnHand = cashOnHand - accountBalance;
 		event = Event.transactionProcessed;
 		stateChanged();
@@ -129,9 +133,11 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 
 	//bank teller sends this message to customer after withdrawing money
 	public void msgHereIsMoney(BankCustomer bc, int accountNumber, double accountBalance, double amountProcessed) {
-		person.Do("Here is the money that you withdraw");
-		person.Do("Accountnumber: " + accountNumber);
-		person.Do("Balance: " + accountBalance);
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankCustomer: " + person.getName(), "Nice! $"+amountProcessed);	
+		
+		//person.Do("Here is the money that you withdraw");
+		//person.Do("Accountnumber: " + accountNumber);
+		//person.Do("Balance: " + accountBalance);
 		cashOnHand = cashOnHand + amountProcessed;
 		event = Event.transactionProcessed;
 		stateChanged();
@@ -139,14 +145,14 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 
 	// bank teller sends this message to customer if not enough money is withdrawn
 	public void msgNotEnoughMoneyToWithdraw(BankCustomer bc, int accountNumber, double accountBalance, double amountProcessed) {
-		person.Do("Not enough money to withdraw amount");
+		//person.Do("Not enough money to withdraw amount");
 		event = Event.transactionProcessed;
 		stateChanged();
 	}
 	
 	//bank teller sends this message to customer after depositing money
 	public void msgMoneyIsDeposited(BankCustomer bc, int accountNumber, double accountBalance, double amountProcessed) {
-		person.Do("Here is the money that you deposited");
+		//person.Do("Here is the money that you deposited");
 		cashOnHand = cashOnHand - amountProcessed;
 		event = Event.transactionProcessed;
 		stateChanged();
@@ -154,7 +160,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 
 	//bank teller sends this message to customer when the loan is approved
 	 public void msgHereIsYourLoan(BankCustomer bc, int accountNumber, double accountBalance, double amountProcessed) {
-		    System.out.println("Your loan has been approved");
+		   // System.out.println("Your loan has been approved");
 		    cashOnHand = cashOnHand + amountProcessed;
 		    event = Event.transactionProcessed;
 			stateChanged(); 
@@ -162,7 +168,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	 
 	//bank teller sends this message to customer when the loan is not approved
 	 public void msgCannotGrantLoan(BankCustomer bc, int accountNumber, double accountBalance, double loanAmount) {
-		 System.out.println("Your loan is not approved");
+		 //System.out.println("Your loan is not approved");
     	 event = Event.transactionProcessed;
 	     stateChanged(); 
      }
@@ -170,7 +176,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	 // bank teller sends this message when the loan is completely repaid
 	 public void msgLoanIsCompletelyRepaid(BankCustomer bc, int accountNumber, double amountOwed, double amountProcessed, 
 			 double actualPaid) {
-		 System.out.println("Loan repaid!");
+		// System.out.println("Loan repaid!");
 		 cashOnHand = cashOnHand - actualPaid;
 		 event = Event.transactionProcessed;
 		 stateChanged();
@@ -178,7 +184,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	 
 	 // bank teller sends this message when the loan is only partially repaid
 	 public void msgLoanIsPartiallyRepaid(BankCustomer bc, int accountNumber, double amountOwed, double amountProcessed) {
-		 System.out.println("Loan partially repaid");
+		 //System.out.println("Loan partially repaid");
 		 cashOnHand = cashOnHand - amountProcessed;
 		 event = Event.transactionProcessed;
 		 stateChanged();
@@ -186,7 +192,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	 
 	 // bank teller sends this message when rent is successfully paid
 	 public void msgRentIsPaid(BankCustomer bc, int accountNumber, double amountProcessed) {
-		 System.out.println("Rent paid");
+		// System.out.println("Rent paid");
 		 cashOnHand = cashOnHand - amountProcessed;
 		 event = Event.transactionProcessed;
 		 stateChanged();
@@ -194,7 +200,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	 
 	 //bank teller sends this message to customer verification failed
 	 public void msgVerificationFailed() {
-		 System.out.println("Verification failed");
+		// System.out.println("Verification failed");
 		 event = Event.transactionProcessed;
 		 stateChanged();
 	 }
@@ -255,7 +261,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	    		e.printStackTrace();
 	    	}
 	    	
-	    	person.Do("I'm here for bank transaction, host is: "+ bank.getBankHost());
+			AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankCustomer: " + person.getName(), "I'd like to make a transaction!");	
 	    	bank.getBankHost().msgEnteringBank(this);
 		}
 
@@ -267,8 +273,10 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	    		e.printStackTrace();
 	    	}
 		    bt.msgWantToOpenAccount(this, amountToProcess);
-		    person.Do("I want to open account");
-		    person.Do("deposit $100 to open account");
+			AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankCustomer: " + person.getName(), "I wanna open an account!");	
+
+		    //person.Do("I want to open account");
+		    //person.Do("deposit $100 to open account");
 		}
 
 		private void DepositMoney() {
@@ -279,6 +287,8 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	    		e.printStackTrace();
 	    	}
 		    bt.msgWantToDeposit(this, amountToProcess);
+			AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankCustomer: " + person.getName(), "I'd like to deposit money.");	
+
 		    person.Do("I want to deposit money");
 		}
 

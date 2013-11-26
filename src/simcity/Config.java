@@ -28,6 +28,17 @@ public class Config {
 		
 	}
 	
+	public void restaurantMarket() {
+		systems.clear();
+		systems.clearDetailPane();
+		systems.setBackgroundTwo();
+		
+		systems.addRestaurantTwo("Restaurant", 60, 27);
+		systems.addMarket("Market1", 123, 27);
+		
+		
+	}
+	
 	public void busToMarket() {
 		systems.clear();
 		systems.clearDetailPane();
@@ -58,13 +69,19 @@ public class Config {
 		systems.addMarketCashierHack("Mary", "Market");
 		systems.addBus("Buster"); //Take this out if you don't want the bus here
 		systems.addMarketTruck("Market");
-		
+		systems.addPerson("Rebecca");
 		timer.schedule(new TimerTask() {
 			public void run() {
 				systems.addMarketWorkerHack("Bob", "Market");
 				timer.schedule(new TimerTask() {
 					public void run() {
 						systems.addPerson("Rebecca");
+						systems.addMarketWorkerHack("Bill", "Market");
+						timer.schedule(new TimerTask() {
+							public void run() {
+								systems.addPerson("Rebecca");
+							}
+						}, 2000);
 					}
 				}, 2000);
 			}
@@ -99,29 +116,46 @@ public class Config {
 						systems.addPerson("Levonne");
 					}
 				}, 4000);
+				timer.schedule(new TimerTask(){
+					public void run() {
+						systems.addPerson("Levonne");
+					}
+				}, 5000);
 			}
 		}, 4000);
 	}
-	
+
 	public void oneRestaurant() {
 		systems.clear();
 		systems.clearDetailPane();
+
 		
 		systems.setBackgroundOne();
 		systems.addRestaurantTwo("RestaurantTwo", 300, 100);
-		systems.addRestaurantTwoHostHack("Bloke", "RestaurantTwo");
-		
+		systems.addRestaurantTwoHostHack("Host Bloke", "RestaurantTwo");
 		timer.schedule(new TimerTask() {
 			public void run() {
-				systems.addRestaurantTwoWaiterHack("Bob dylan", "RestaurantTwo");
+				systems.addRestaurantTwoCashierHack("Cashier Blob", "RestaurantTwo");
 				timer.schedule(new TimerTask() {
 					public void run() {
-						System.out.println("hi");
-						systems.addPerson("jenny");
+						systems.addRestaurantTwoCookHack("Cook Brute", "RestaurantTwo");
+
+						timer.schedule(new TimerTask() {
+							public void run() {
+								systems.addRestaurantTwoWaiterHack("Waiter Bob dylan", "RestaurantTwo");
+								timer.schedule(new TimerTask() {
+									public void run() {
+										systems.addPerson("jenny");
+									}
+								}, 1000);
+							}
+						}, 1000);
 					}
-				}, 2000);
+				},1000);
 			}
-		}, 2000);
+
+		},1000);
+
 	}
 	
 
@@ -183,11 +217,39 @@ public class Config {
 		
 		systems.addPerson("Tony");
 		systems.setHome("Tony", "HouseOne");
+
+	}
+	
+	public void marketHouseBank() {
+		systems.clear();
+		systems.clearDetailPane();
 		
-		// These are the right-most houses
-		//systems.addHouse("HouseTwo", 402, 27);
-		//systems.addHouse("HouseThree", 402, 110);
-		//systems.addHouse("HouseFour", 402, 189);
+		systems.setBackgroundTwo();
+		
+		systems.addMarket("Market", 60, 140);
+		systems.addHouse("HouseOne", 249, 140);
+		
+		systems.addMarketCashierHack("Mary", "Market");
+		systems.addMarketTruck("Market");
+		
+		timer.schedule(new TimerTask() {
+			public void run() {
+				systems.addMarketWorkerHack("Bob", "Market");
+			}
+		}, 2000);
+		
+		systems.addPerson("Tony");
+		systems.setHome("Tony", "HouseOne");
+		
+		systems.addBank("Bank", 402, 27);
+		systems.addBankHostHack("Kevin", "Bank");
+		systems.addHackedBankAccount(0, 100, "abcdef");
+		timer.schedule(new TimerTask(){
+			public void run() {
+				systems.addBankTellerHack("Bank Teller", "Bank");
+			}
+		}, 4000);
+
 	}
 	
 	public void clearTimer() {
@@ -195,4 +257,5 @@ public class Config {
 		timer.purge();
 	}
 
-}
+	}
+

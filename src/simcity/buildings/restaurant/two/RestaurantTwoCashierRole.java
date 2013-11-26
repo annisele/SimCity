@@ -18,16 +18,19 @@ import simcity.buildings.restaurant.two.RestaurantTwoCashierRole.OrderState;
 import simcity.buildings.restaurant.two.RestaurantTwoCashierRole.mymarket;
 import simcity.buildings.restaurant.two.RestaurantTwoCashierRole.order;
 import simcity.gui.market.MarketCashierGui;
+import simcity.gui.restauranttwo.RestaurantTwoCashierGui;
+import simcity.gui.restauranttwo.RestaurantTwoHostGui;
 import simcity.interfaces.restaurant.two.RestaurantTwoCustomer;
 //import restaurant.interfaces.Market;
 import simcity.interfaces.restaurant.two.RestaurantTwoWaiter;
+import simcity.PersonAgent;
 //import simcity.test.mock.LoggedEvent;
 import simcity.Role;
 import simcity.SimSystem;
 import simcity.buildings.restaurant.one.RestaurantOneCheck.CheckState;
 import simcity.interfaces.restaurant.one.RestaurantOneCustomer;
 
-public class RestaurantTwoCashierRole extends Role {//implements simcity.interfaces.restaurant.one.RestaurantOneCashier {
+public class RestaurantTwoCashierRole extends Role implements simcity.interfaces.restaurant.two.RestaurantTwoCashier{//implements simcity.interfaces.restaurant.one.RestaurantOneCashier {
 
 	
 	 private RestaurantTwoWaiterRole wait;
@@ -89,8 +92,11 @@ public class RestaurantTwoCashierRole extends Role {//implements simcity.interfa
 	}
 	// Messages
 	
-	public RestaurantTwoCashierRole(){
+	public RestaurantTwoCashierRole(PersonAgent p, RestaurantTwoSystem r){
 		super();
+		this.person=p;
+		this.gui=new RestaurantTwoCashierGui(this);
+		this.R2=r;
 		balance=500;
 		Menu.put("chicken",10.99);	
 		Menu.put("steak",15.99);
@@ -190,7 +196,7 @@ public class RestaurantTwoCashierRole extends Role {//implements simcity.interfa
 		}
 		
 	}
-	public void msgHereIsMoney(RestaurantTwoCustomer c, Double m){
+	public void msgHereIsMoney(RestaurantTwoCustomer c, double m){
 		Do("Recieved money from cust");
 		//log.add(new LoggedEvent("Recieved money"));
 		Do("checking payment");
@@ -226,6 +232,7 @@ public class RestaurantTwoCashierRole extends Role {//implements simcity.interfa
            so that table is unoccupied and customer is waiting.
            If so seat him at the table.
 		 */
+		//Do("cahsier state");
 		if(pay_market==true){
 			
 			synchronized(markets){
@@ -346,35 +353,20 @@ public class RestaurantTwoCashierRole extends Role {//implements simcity.interfa
 
 			@Override
 			public void msgEnterBuilding(SimSystem s) {
-				System.out.println("whooo");
+				System.out.println("cashier enters building");
 				// TODO Auto-generated method stub
 				R2 = (RestaurantTwoSystem)s;
-				((MarketCashierGui)gui).DoGoToCenter();
+				((RestaurantTwoCashierGui)gui).DoGoToCenter();
 				try {
 					atDest.acquire();
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 
-				((MarketCashierGui)gui).DoGoToLeftCenter();
-				try {
-					atDest.acquire();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-
-				((MarketCashierGui)gui).DoGoToLeftTop();
-				try {
-					atDest.acquire();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-
-				((MarketCashierGui)gui).DoGoToCashRegister();
-				try {
-					atDest.acquire();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+			
 			}
+
+		
+
+		
 }

@@ -16,15 +16,13 @@ import simcity.interfaces.market.MarketCashier;
 import simcity.interfaces.market.MarketCustomer;
 import simcity.interfaces.market.MarketOrderer;
 import simcity.interfaces.market.MarketPayer;
-import simcity.interfaces.market.MarketWorker;
 
 public class MarketCashierRole extends Role implements MarketCashier {
 	private List<MarketOrder> orders = Collections.synchronizedList(new ArrayList<MarketOrder>());
-	private MarketComputer computer;
 	private MarketSystem market;
 	private enum MarketOrderState {requested, waitingForPayment, paid, filling, found};
-	private Map<String, Double> prices = Collections.synchronizedMap(new HashMap<String, Double>());
 	private Semaphore atDest = new Semaphore(0, true);
+	private int workerIndex = 0;
 	private class MarketOrder {
 		int orderNumber;
 		MarketOrderer deliverRole;
@@ -45,13 +43,6 @@ public class MarketCashierRole extends Role implements MarketCashier {
 	public MarketCashierRole(PersonAgent p) {
 		person = p;
 		this.gui = new MarketCashierGui(this);
-
-		//hack
-		prices.put("chicken", 5.0);
-		prices.put("steak", 10.0);
-
-		//hack?
-		computer = new MarketComputer();
 	}
 
 	@Override
@@ -61,7 +52,9 @@ public class MarketCashierRole extends Role implements MarketCashier {
 
 	@Override
 	public void msgHereIsAnOrder(MarketOrderer mc1, MarketPayer mc2, Map<String, Integer> items) {
-		orders.add(new MarketOrder(orders.size(), mc1, mc2, items, MarketOrderState.requested));
+		synchronized(orders) {
+			orders.add(new MarketOrder(orders.size(), mc1, mc2, items, MarketOrderState.requested));
+		}
 		stateChanged();
 	}
 
@@ -95,29 +88,44 @@ public class MarketCashierRole extends Role implements MarketCashier {
 	}
 
 	public boolean pickAndExecuteAnAction() {
+		MarketOrder order = null;
 		synchronized (orders) {
 			for(MarketOrder o : orders) {
 				if(o.state == MarketOrderState.requested) {
-					SendBill(o);
-					return true;
+					order = o;
+					break;
 				}
 			}
 		}
+		if(order != null) {
+			SendBill(order);
+			return true;
+		}
+		MarketOrder order2 = null;
 		synchronized (orders) {
 			for(MarketOrder o : orders) {
 				if(o.state == MarketOrderState.paid) {
-					FillOrder(o);
-					return true;
+					order2 = o;
+					break;
 				}
 			}
 		}
+		if(order2 != null) {
+			FillOrder(order2);
+			return true;
+		}
+		MarketOrder order3 = null;
 		synchronized (orders) {
 			for(MarketOrder o : orders) {
 				if(o.state == MarketOrderState.found) {
-					DeliverOrder(o);
-					return true;
+					order3 = o;
+					break;
 				}
 			}
+		}
+		if(order3 != null) {
+			DeliverOrder(order3);
+			return true;
 		}
 		return false;
 	}
@@ -127,11 +135,12 @@ public class MarketCashierRole extends Role implements MarketCashier {
 
 		Set<String> keys = o.items.keySet();
 		for (String key : keys) {
-			o.payment += o.items.get(key) * prices.get(key);
+			o.payment += o.items.get(key) * market.getComputer().getPrices().get(key);
 		}
 
 		//hack!!
-		o.payment = 0;
+		//o.payment = 0;
+		Do("Charging: " + o.payment);
 		o.payRole.msgPleasePay(this, o.payment, o.orderNumber);
 		o.state = MarketOrderState.waitingForPayment;
 	}
@@ -139,14 +148,16 @@ public class MarketCashierRole extends Role implements MarketCashier {
 	//errors - copied straight from design docs
 	private void FillOrder(MarketOrder o) {
 		person.Do("Asking a worker to fill order.");
-		computer.addMoney(o.payment);
+		market.getComputer().addMoney(o.payment);
 		//.getNext() is a stub for load balancing
 		if(market.getWorkers().isEmpty()) {
 			System.out.println("No workers to collect order.");
 		}
 		else {
 			//hack! need to load balance
-			market.getWorkers().get(0).msgFindOrder(o.orderNumber, o.items);
+			int tempSize = market.getWorkers().size();
+			market.getWorkers().get(workerIndex % tempSize).msgFindOrder(o.orderNumber, o.items);
+			workerIndex++;
 		}
 
 		o.state = MarketOrderState.filling;
@@ -189,7 +200,9 @@ public class MarketCashierRole extends Role implements MarketCashier {
 				market.getTrucks().get(0).msgPleaseDeliverOrder(o.deliverRole, o.items);
 			}
 		}
-		orders.remove(o);
+		synchronized(orders) {
+			orders.remove(o);
+		}
 	}
 
 	@Override

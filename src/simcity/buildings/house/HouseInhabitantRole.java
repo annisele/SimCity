@@ -1,5 +1,6 @@
 package simcity.buildings.house;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,8 +24,8 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 	enum HouseInhabitantEvent { Hungry, ReadyToSleep, None } 
 	HouseInhabitantState state = HouseInhabitantState.Bored;
 	HouseInhabitantEvent event = HouseInhabitantEvent.None;
-	private Map <String, Integer > foodStock = new HashMap<String,Integer>();
-	private Map <String, Integer > foodToBuy = new HashMap<String,Integer>();
+	private Map <String, Integer > foodStock = Collections.synchronizedMap(new HashMap<String,Integer>());
+	private Map <String, Integer > foodToBuy = Collections.synchronizedMap(new HashMap<String,Integer>());
 	private boolean marketScheduled = false;
 	
 	private Semaphore atDest = new Semaphore(0, true);
@@ -39,10 +40,12 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 	public HouseInhabitantRole(PersonAgent p){
 		this.person = p;
 		this.gui = new HouseInhabitantGui(this);
-		foodStock.put("steak", 1);
-		foodStock.put("chicken", 1);
-		foodStock.put("pizza", 1);
-		foodStock.put("salad", 1);
+		synchronized (foodStock) {
+			foodStock.put("steak", 1);
+			foodStock.put("chicken", 1);
+			foodStock.put("pizza", 1);
+			foodStock.put("salad", 1);
+		}
 	}
 	
 	@Override
@@ -64,10 +67,13 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 	@Override
 	public boolean pickAndExecuteAnAction() {
 		// TODO Auto-generated method stub
-		if (event == HouseInhabitantEvent.Hungry){
+		
+		if (event == HouseInhabitantEvent.Hungry && state == HouseInhabitantState.Bored){
+			state = HouseInhabitantState.Eating;
 			Cook();
 		}
-		else if (event == HouseInhabitantEvent.ReadyToSleep){
+		else if (event == HouseInhabitantEvent.ReadyToSleep && state == HouseInhabitantState.Bored){
+			state = HouseInhabitantState.Sleeping;
 			Sleep();
 		}
 		return false;
@@ -80,27 +86,31 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 		DoGoToKitchen();
 		DoGoToFridge();
 		
-		List<String> keys = new ArrayList<String>(foodStock.keySet());
-		String choice = keys.get( rand.nextInt(keys.size()) );
-		Integer quantity = foodStock.get(choice);
+		String choice = "";
 		boolean needToBuy = false;
 		
-		if (quantity > 0) {
-			// Pick your random food if you have any
-			foodStock.put(choice, (quantity-1));
-			if (quantity < FOODTHRESHOLD && !marketScheduled) 
-				needToBuy = true;
-		} else {
-			choice = "";
-			for (String k : keys) {
-				if (foodStock.get(k) > 0) {
-					// Pick this food
-					foodStock.put(choice, (quantity-1));
-					choice = k;
-				}
-				if (foodStock.get(k) < FOODTHRESHOLD && !marketScheduled) {
-					// Add them to a list of things to buy
+		synchronized (foodStock) {
+			List<String> keys = new ArrayList<String>(foodStock.keySet());
+			choice = keys.get( rand.nextInt(keys.size()) );
+			Integer quantity = foodStock.get(choice);
+			
+			if (quantity > 0) {
+				// Pick your random food if you have any
+				foodStock.put(choice, (quantity-1));
+				if (quantity < FOODTHRESHOLD && !marketScheduled) 
 					needToBuy = true;
+			} else {
+				choice = "";
+				for (String k : keys) {
+					if (foodStock.get(k) > 0) {
+						// Pick this food
+						foodStock.put(choice, (quantity-1));
+						choice = k;
+					}
+					if (foodStock.get(k) < FOODTHRESHOLD && !marketScheduled) {
+						// Add them to a list of things to buy
+						needToBuy = true;
+					}
 				}
 			}
 		}
@@ -108,8 +118,10 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 			// We're out of all food
 		}
 		if (needToBuy == true && marketScheduled == false) {
-			person.Do("I just scheduled an event to go to the market");
-			person.scheduleEvent(EventType.GoToMarket);
+			if (person.scheduleEvent(EventType.GoToMarket))
+				person.Do("I just scheduled an event to go to the market");
+			else
+				person.Do("There aren't any markets to get food from.  Oh well.");
 			marketScheduled = true;
 		}
 		
@@ -147,6 +159,10 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 		((HouseInhabitantGui)gui).DoEatFood();
 		Do("That was great. Wow. Such noms");
 		DoGetUpFromTable();
+		
+		state = HouseInhabitantState.Eating;
+		event = HouseInhabitantEvent.None;
+		
 		msgExitBuilding();
 		
 		//msgExitBuilding();
@@ -174,14 +190,16 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 		//gui leaves bed
 		Do("I'm up! I'm awake!");
 		state = HouseInhabitantState.Bored;
-		if (event == HouseInhabitantEvent.ReadyToSleep)
-			event = HouseInhabitantEvent.None;
+		event = HouseInhabitantEvent.None;
 		msgNeedToEat();
 	}
 
 	public Map<String, Integer> getListToBuy() {
-		Map<String, Integer> list = foodToBuy;
-		foodToBuy.clear();
+		Map<String, Integer> list = null;
+		synchronized (foodToBuy) {
+			list = foodToBuy;
+			foodToBuy.clear();
+		}
 		return list;
 	}
 	

@@ -2,8 +2,10 @@ package simcity.buildings.market;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.Semaphore;
 
 import simcity.PersonAgent;
@@ -12,7 +14,6 @@ import simcity.SimSystem;
 import simcity.gui.market.MarketCustomerGui;
 import simcity.interfaces.market.MarketCashier;
 import simcity.interfaces.market.MarketCustomer;
-import simcity.interfaces.market.MarketPayer;
 
 public class MarketCustomerRole extends Role implements MarketCustomer {
 
@@ -20,6 +21,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	private enum InvoiceState {notSent, expected, requested, billed, paid, delivered};
 	private MarketSystem market;
 	private Semaphore atDest = new Semaphore(0, true);
+	private Map<String, Boolean> marketsStock = Collections.synchronizedMap(new HashMap<String, Boolean>());
 	
 	public MarketCustomerRole(PersonAgent p) {
 		person = p;
@@ -33,7 +35,9 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	
 	@Override
 	public void msgBuyStuff(Map<String, Integer> itemsToBuy) {
-		invoices.add(new Invoice(InvoiceState.notSent, itemsToBuy, invoices.size()));
+		synchronized(invoices) {
+			invoices.add(new Invoice(InvoiceState.notSent, itemsToBuy, invoices.size()));
+		}
 		stateChanged();
 	}
 
@@ -44,6 +48,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		synchronized (invoices) {
 			for(Invoice i : invoices) {
 				if(i.state == InvoiceState.expected && i.payment == payment) {
+					Do("inside msg if");
 					i.state = InvoiceState.billed;
 					i.cashier = c;
 					i.orderNumber = orderNum;
@@ -68,29 +73,51 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	}
 	
 	public boolean pickAndExecuteAnAction() {
+		Invoice in = null;
 		synchronized (invoices) {
 			for(Invoice i : invoices) {
 				if(i.state == InvoiceState.notSent) {
-					SendOrder(i);
-					return true;
+					in = i;
+					break;
 				}
 			}
 		}
+		if(in != null) {
+			SendOrder(in);
+			return true;
+		}
+		
+		Invoice in2 = null;
+		Do("before billed");
 		synchronized (invoices) {
+			Do("inside synch");
 			for(Invoice i : invoices) {
+				Do("inside if! " + i.state);
 				if(i.state == InvoiceState.billed) {
-					PayCashier(i);
-					return true;
+					in2 = i;
+					Do("billed scheduler");
+					break;
 				}
 			}
 		}
+		if(in2 != null) {
+			PayCashier(in2);
+			Do("call pay cashier");
+			return true;
+		}
+		
+		Invoice in3 = null;
 		synchronized (invoices) {
 			for(Invoice i : invoices) {
 				if(i.state == InvoiceState.delivered) {
-					ReceiveDelivery(i);
-					return true;
+					in3 = i;
+					break;
 				}
 			}
+		}
+		if(in3 != null) {
+			ReceiveDelivery(in3);
+			return true;
 		}
 		return false;
 	}
@@ -107,9 +134,11 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		this.person.money -= i.payment;
+		Do("paying cashier customer");
+		person.subtractMoney(i.payment);
 		i.cashier.msgHereIsPayment(i.payment, i.orderNumber);
 		i.state = InvoiceState.paid;
+		Do("done with paying");
 	}
 
 	private void ReceiveDelivery(Invoice i) {
@@ -122,7 +151,9 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		((MarketCustomerGui) gui).carryItem(true);
 		Map<String, Integer> tempItems = i.items;  
 		i.cashier.msgReceivedOrder();
-		invoices.remove(i);
+		synchronized(invoices) {
+			invoices.remove(i);
+		}
 		person.receiveDelivery(tempItems);
 		msgExitBuilding();
 	}
@@ -144,6 +175,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 
 	@Override
 	public void msgEnterBuilding(SimSystem s) {
+		
 		market = (MarketSystem)s;
 		((MarketCustomerGui)gui).DoGoToCashier();
 		try {
@@ -166,8 +198,12 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 			state = s;
 			orderNumber = num;
 			
-			//hack!!
-			payment = 0;
+			Set<String> keys = items.keySet();
+			for (String key : keys) {
+				if(market.getComputer().getPrices().containsKey(key)) {
+					payment += market.getComputer().getPrices().get(key);
+				}
+			}
 		}
 	}
 

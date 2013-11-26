@@ -64,6 +64,7 @@ public class Gui {
 	}
 
 	public void DoGoToLocation(int x, int y) {
+		//System.out.println("going somewhoere");
 		xDest = x;
 		yDest = y;
 		atDestNow = false;

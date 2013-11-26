@@ -29,6 +29,7 @@ private RestaurantTwoHost host;
 private RestaurantTwoCook cook;
 private RestaurantTwoCashier cashier;
 private RestaurantTwoSystem R2;
+private RestaurantTwoComputer computer;
 private Semaphore atDest = new Semaphore(0, true);
 private boolean Dest=false;
 enum CustomerState{
@@ -65,7 +66,7 @@ class mycustomer {
 
 	
 
-	public RestaurantTwoWaiterRole(PersonAgent p,RestaurantTwoSystem r) {
+	public RestaurantTwoWaiterRole(PersonAgent p,RestaurantTwoSystem r, RestaurantTwoComputer r2comp) {
 		
 		
 		Menu.put("chicken",10.99);	
@@ -75,6 +76,7 @@ class mycustomer {
 		this.person = p;
 		this.R2=r;
 		this.gui = new RestaurantTwoWaiterGui(this);
+		this.computer=r2comp;
 		spot=0;
 		
 	}

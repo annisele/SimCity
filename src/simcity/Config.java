@@ -235,6 +235,56 @@ public class Config {
 		}, 4000);
 
 	}
+	public void MarketBankRestaurant(){
+		systems.clear();
+		systems.clearDetailPane();
+
+		
+		systems.setBackgroundOne();
+		systems.addRestaurantTwo("RestaurantTwo", 300, 100);
+		systems.addRestaurantTwoHostHack("Host Bloke", "RestaurantTwo");
+		systems.addMarket("Market", 60, 140);
+		systems.addBank("Bank", 402, 27);
+		systems.addMarketCashierHack("Mary", "Market");
+		systems.addMarketTruck("Market");
+		
+		timer.schedule(new TimerTask() {
+			public void run() {
+				systems.addRestaurantTwoCashierHack("Cashier Blob", "RestaurantTwo");
+				timer.schedule(new TimerTask() {
+					public void run() {
+						systems.addRestaurantTwoCookHack("Cook Brute", "RestaurantTwo");
+
+						timer.schedule(new TimerTask() {
+							public void run() {
+								systems.addRestaurantTwoWaiterHack("Waiter Bob dylan", "RestaurantTwo");
+								timer.schedule(new TimerTask() {
+									public void run() {
+										systems.addPerson("jenny");
+									}
+								}, 1000);
+							}
+						}, 1000);
+					}
+				},1000);
+			}
+
+		},1000);
+
+		timer.schedule(new TimerTask() {
+			public void run() {
+				systems.addMarketWorkerHack("Bob", "Market");
+			}
+		}, 1000);
+		systems.addBank("Bank", 402, 27);
+		systems.addBankHostHack("Kevin", "Bank");
+		systems.addHackedBankAccount(0, 100, "abcdef");
+		timer.schedule(new TimerTask(){
+			public void run() {
+				systems.addBankTellerHack("Bank Teller", "Bank");
+			}
+		}, 1000);
+	}
 	
 	public void clearTimer() {
 		timer.cancel();

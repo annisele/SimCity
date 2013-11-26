@@ -8,9 +8,9 @@ public class RestaurantTwoSharedDataWaiterRole extends RestaurantTwoWaiterRole  
 
 		private RestaurantTwoOrderWheel orderWheel;
 
-	    public RestaurantTwoSharedDataWaiterRole(PersonAgent person, RestaurantTwoSystem R2, RestaurantTwoOrderWheel orderWheel) 
+	    public RestaurantTwoSharedDataWaiterRole(PersonAgent person, RestaurantTwoSystem R2, RestaurantTwoComputer c, RestaurantTwoOrderWheel orderWheel) 
 	    {
-	            super(person, R2);
+	            super(person, R2, c);
 	            
 	            this.orderWheel = orderWheel;
 	    }

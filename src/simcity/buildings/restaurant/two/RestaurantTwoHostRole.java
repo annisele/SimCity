@@ -25,9 +25,7 @@ public class RestaurantTwoHostRole extends Role implements simcity.interfaces.re
 	//with List semantics.
 	public int waiternum;
 	private Semaphore atDest = new Semaphore(0, true);
-	public Map<Integer,Boolean> waitingSpots= new HashMap<Integer, Boolean>();
-	public Map<Integer,Boolean> waiterSpots= new HashMap<Integer, Boolean>();
-	
+
 	public List<RestaurantTwoCustomer> waitingCustomers
 	= Collections.synchronizedList(new ArrayList<RestaurantTwoCustomer>());
 	public List<RestaurantTwoWaiter> waiters
@@ -43,16 +41,7 @@ public class RestaurantTwoHostRole extends Role implements simcity.interfaces.re
 
 	public RestaurantTwoHostRole(PersonAgent person, RestaurantTwoSystem r) {
 		super();
-		waitingSpots.put(0,false);
-		waitingSpots.put(1,false);
-		waitingSpots.put(2,false);
-		waitingSpots.put(3,false);
-		waiterSpots.put(0,false);
-		waiterSpots.put(1,false);
-		waiterSpots.put(2,false);
-		waiterSpots.put(3,false);
-		waiterSpots.put(4,false);
-		waiterSpots.put(5,false);
+		
 		this.person = person;
 		this.gui = new RestaurantTwoHostGui(this);
 		this.R2=r;

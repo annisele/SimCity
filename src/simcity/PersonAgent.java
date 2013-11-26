@@ -462,6 +462,39 @@ public class PersonAgent extends Agent implements Person {
 		}
 	}
 	
+	int getClosestStop(String dest) {
+		Role eventR = null;
+		for (Role r : myRoles) {
+			if (r instanceof Pedestrian) {
+				eventR = r;
+				
+			}
+		}
+		int minLocation = 1000;
+		int minStop = 10;
+	   int stopzerodist = (int)Math.sqrt(((Directory.getBusStop(0).getX()-Directory.getLocation(dest).getX())^2 + (Directory.getBusStop(0).getY()-Directory.getLocation(dest).getY())^2));
+		int stoponedist = (int)Math.sqrt(((Directory.getBusStop(1).getX()-Directory.getLocation(dest).getX())^2 + (Directory.getBusStop(1).getY()-Directory.getLocation(dest).getY())^2));
+		int stoptwodist = (int)Math.sqrt(((Directory.getBusStop(2).getX()-Directory.getLocation(dest).getX())^2 + (Directory.getBusStop(2).getY()-Directory.getLocation(dest).getY())^2));
+	  int stopthreedist = (int)Math.sqrt(((Directory.getBusStop(3).getX()-Directory.getLocation(dest).getX())^2 + (Directory.getBusStop(3).getY()-Directory.getLocation(dest).getY())^2));
+		if (stopzerodist < minLocation) {
+			minLocation = stopzerodist;
+			minStop = 0; 
+		}
+		if (stoponedist < minLocation) {
+			minLocation = stoponedist;
+			minStop = 1;
+		}
+		if (stoptwodist < minLocation) {
+			minLocation = stoptwodist;
+			minStop = 2;
+		}
+		if (stopthreedist < minLocation) {
+			minLocation = stopthreedist;
+			minStop = 3;
+		}
+		return minStop;
+	}
+	
 	
 			
 			
@@ -497,7 +530,7 @@ public class PersonAgent extends Agent implements Person {
 				currentRole = r;
 				//Location l = new Location(40, 67);
 				((BusPassengerRole) r).setBus(bus);
-				((BusPassengerRole) r).msgBusTo(chooseTransportation(currentEvent.buildingName), 3);
+				((BusPassengerRole) r).msgBusTo(chooseTransportation(currentEvent.buildingName), getClosestStop(currentEvent.buildingName));
 				idleGui.setLocation(r.getGui().getLocation());	
 			}
 		}

@@ -304,13 +304,13 @@ Do("OK ORDERED");
      private void goToRestaurant() {
              Do("Going to restaurant");
              //Do("spots:"+((RestaurantTwoHostRole)host).waitingSpots.entrySet());
-             if(((RestaurantTwoHostRole)host).waitingSpots.containsValue(false)){
-                     synchronized(((RestaurantTwoHostRole)host).waitingSpots){
-                     for(Entry<Integer, Boolean> entry : ((RestaurantTwoHostRole)host).waitingSpots.entrySet()){
+             if(R2.waitingSpots.containsValue(false)){
+                     synchronized(R2.waitingSpots){
+                     for(Entry<Integer, Boolean> entry : R2.waitingSpots.entrySet()){
                              if(entry.getValue()==false){
                                      waitingPosition=entry.getKey();
                                      //Do("waiting pos: "+entry.getKey());
-                                     ((RestaurantTwoHostRole)host).waitingSpots.put(waitingPosition, true);
+                                     R2.waitingSpots.put(waitingPosition, true);
                                      ((RestaurantTwoCustomerGui)gui).DoGoToRestaurant(waitingPosition);
                                      ((RestaurantTwoHostRole)host).msgIWantFood(this);
                                      break;
@@ -329,7 +329,7 @@ Do("OK ORDERED");
      private void SitDown() {
              Do("Being seated. Going to table");
              ((RestaurantTwoCustomerGui)gui).DoGoToSeat(tnum);//hack; only osne table
-             ((RestaurantTwoHostRole)host).waitingSpots.put(waitingPosition, false);
+             R2.waitingSpots.put(waitingPosition, false);
              try {
          		atDest.acquire();
          	} catch (InterruptedException e) {
@@ -341,7 +341,7 @@ Do("OK ORDERED");
      }
      private void LookingAtMenu(){
              Do("Looking at Menu");
-             Do("MENU: "+ ((RestaurantTwoCookRole)cook).Menu.entrySet());
+             Do("MENU: "+ cook.getMenu().entrySet());
              timer.schedule(new TimerTask(){
                      Object cookie = 1;
                      public void run() {
@@ -360,7 +360,7 @@ Do("OK ORDERED");
                      while(true){
 
                              Random g = new Random();
-                             Object[] values =((RestaurantTwoCookRole)cook).Menu.values().toArray();
+                             Object[] values =cook.getMenu().values().toArray();
                              Double r_val = (Double) values[g.nextInt(values.length)];
                              Do("making choice: "+r_val);
                              Do("cash: "+cashmoney);

@@ -6,9 +6,12 @@ import simcity.buildings.bank.BankHostRole;
 import simcity.buildings.market.MarketCashierRole;
 import simcity.gui.SimCityGui;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.swing.JPanel;
 
@@ -42,13 +45,30 @@ public class RestaurantTwoSystem extends SimSystem {
 	private RestaurantTwoOrderWheel owheel;
 	private RestaurantTwoHost host;
 	private RestaurantTwoCook cook;
+	private RestaurantTwoComputer computer;
 	private RestaurantTwoCashier cashier;
+	public Map<Integer,Boolean> waitingSpots= new HashMap<Integer, Boolean>();
+	public Map<Integer,Boolean> waiterSpots= new HashMap<Integer, Boolean>();
 
-	public RestaurantTwoSystem(SimCityGui scgui) {
+
+	public RestaurantTwoSystem(SimCityGui scgui,RestaurantTwoComputer c) {
 		super(scgui);
 		super.setAnimationPanel(new RestaurantTwoAnimationPanel());
 		super.setControlPanel(new RestaurantTwoControlPanel());
 		this.owheel = new RestaurantTwoOrderWheel();
+		this.computer=c;
+		waitingSpots.put(0,false);
+		waitingSpots.put(1,false);
+		waitingSpots.put(2,false);
+		waitingSpots.put(3,false);
+		waiterSpots.put(0,false);
+		waiterSpots.put(1,false);
+		waiterSpots.put(2,false);
+		waiterSpots.put(3,false);
+		waiterSpots.put(4,false);
+		waiterSpots.put(5,false);
+	
+	
 	}
 
 	public RestaurantTwoHost getR2Host() {
@@ -85,6 +105,20 @@ public class RestaurantTwoSystem extends SimSystem {
 			((RestaurantTwoWaiter) role).setHost(host);
 			((RestaurantTwoWaiter) role).setCashier(cashier);
 			((RestaurantTwoWaiter) role).setCook(cook);
+			if(waiterSpots.containsValue(false)){
+				synchronized(waiterSpots){
+					
+				for(Entry<Integer, Boolean> entry : waiterSpots.entrySet()){
+						if(entry.getValue()==false){
+							((RestaurantTwoWaiter) role).setSpot(entry.getKey());
+						//g.Start(entry.getKey());
+						waiterSpots.put(entry.getKey(), true);
+		
+						break;
+					}
+				}
+				}
+			}
 			host.addWaiter((RestaurantTwoWaiter) role);
 			waiters.add((RestaurantTwoWaiter) role);
 		}

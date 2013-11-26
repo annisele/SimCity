@@ -264,7 +264,7 @@ public class Config {
 		systems.clearDetailPane();
 
 		
-		systems.setBackgroundOne();
+		systems.setBackgroundTwo();
 		systems.addRestaurantTwo("RestaurantTwo", 300, 100);
 		systems.addRestaurantTwoHostHack("Host Bloke", "RestaurantTwo");
 		systems.addMarket("Market", 60, 140);

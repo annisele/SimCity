@@ -118,6 +118,9 @@ public class SystemManager {
 		if (name.equalsIgnoreCase("Rebecca")) {
 			person.goToMarketNow();
 		}
+		if(name.equalsIgnoreCase("Josh")) {
+			person.busToMarketNow();
+		}
 		if (name == "Levonne") {
 			person.goToBankNow();
 		}

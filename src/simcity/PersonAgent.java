@@ -47,7 +47,7 @@ public class PersonAgent extends Agent implements Person {
 	private Role currentRole = null;
 	private Event currentEvent = null;
 	private Timer timer = new Timer();
-	public enum EventType { Eat, GoToMarket,EatAtRestaurant, DepositMoney, WithdrawMoney, GetALoan, PayRent, Sleep, Work };
+	public enum EventType { Eat, GoToMarket, BusToMarket, EatAtRestaurant, DepositMoney, WithdrawMoney, GetALoan, PayRent, Sleep, Work };
 	private IdlePersonGui idleGui;
 	BusAgent bus;
 	public double money = 40;
@@ -147,6 +147,39 @@ public class PersonAgent extends Agent implements Person {
 	public void scheduleEvent(EventType t) {
 		Event e;
 		if(t == EventType.GoToMarket) {
+			List<String> markets = Directory.getMarkets();
+			int index = rand.nextInt(markets.size());
+			String buildingName = markets.get(index);
+			List<Step> steps = new ArrayList<Step>();
+			steps.add(new Step("exitBuilding", this));
+			steps.add(new Step("goTo", this));
+			steps.add(new Step("enterBuilding", this));
+			Role eventR = null;
+				for(Role r : myRoles) {
+				if(r instanceof MarketCustomer) {
+					eventR = r;
+				}
+			} 
+			
+			HouseInhabitantRole house = null;
+			for(Role r : myRoles) {
+				if(r instanceof HouseInhabitantRole) {
+					house = (HouseInhabitantRole) r;
+				}
+			}  
+			
+			((MarketCustomer)eventR).msgBuyStuff(house.getListToBuy());
+			//hack
+			Map<String, Integer> itemsHack = new HashMap<String, Integer>();
+			itemsHack.put("chicken", 1);
+			//((MarketCustomer)eventR).msgBuyStuff(itemsHack);
+			
+			e = new Event(buildingName, eventR, 120, -1, true, steps, t);
+			//Do("GoToMarket is scheduled, which has "+steps.size()+" steps");
+			insertEvent(e);
+			stateChanged();
+		}
+		if(t == EventType.BusToMarket) {
 			List<String> markets = Directory.getMarkets();
 			int index = rand.nextInt(markets.size());
 			String buildingName = markets.get(index);
@@ -386,7 +419,6 @@ public class PersonAgent extends Agent implements Person {
 				currentRole = r;
 				Directory.getWorld().getAnimationPanel().addGui(currentRole.getGui());
 			}
-			
 		}
 		Location loc = Directory.getLocation(currentEvent.buildingName);
 		Do(currentEvent.buildingName + ", " + loc.getX() + ", " + loc.getY());
@@ -536,6 +568,10 @@ public class PersonAgent extends Agent implements Person {
 	//Test event
 	public void goToMarketNow() {
 		this.scheduleEvent(EventType.GoToMarket);
+	}
+	
+	public void busToMarketNow() {
+		this.scheduleEvent(EventType.BusToMarket);
 	}
 
 	public void goToBankNow() {

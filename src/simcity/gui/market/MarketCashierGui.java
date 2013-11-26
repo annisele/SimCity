@@ -1,6 +1,5 @@
 package simcity.gui.market;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 
@@ -21,6 +20,7 @@ public class MarketCashierGui extends Gui {
 	private final int ITEM_COUNTER_X = 50;
 	private final int ITEM_COUNTER_Y = 160;
 	private int numCounterItems = 0;
+	private boolean carry = false;
 	
 	private ImageIcon i = new ImageIcon("res/market/item.png");
 	private Image img = i.getImage();
@@ -49,6 +49,9 @@ public class MarketCashierGui extends Gui {
 		if(numCounterItems > 0) {
 			g.drawImage(itemimage, ITEM_COUNTER_X, ITEM_COUNTER_Y, null);
 		}
+		if(carry) {
+			g.drawImage(itemimage, getX(), getY() + 30, null);
+		}
 	}
 	
 	public void DoGoToCashRegister() {
@@ -69,5 +72,9 @@ public class MarketCashierGui extends Gui {
 	
 	public void DoGoToCounter() {
 		DoGoToLocation(COUNTER_X, COUNTER_Y);
+	}
+	
+	public void carryItem(boolean c) {
+		carry = c;
 	}
 }

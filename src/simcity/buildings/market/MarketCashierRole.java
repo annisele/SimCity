@@ -25,7 +25,6 @@ public class MarketCashierRole extends Role implements MarketCashier {
 	private enum MarketOrderState {requested, waitingForPayment, paid, filling, found};
 	private Map<String, Double> prices = Collections.synchronizedMap(new HashMap<String, Double>());
 	private Semaphore atDest = new Semaphore(0, true);
-	private int numObjectsOnCounter = 0;
 	private class MarketOrder {
 		int orderNumber;
 		MarketOrderer deliverRole;
@@ -92,7 +91,7 @@ public class MarketCashierRole extends Role implements MarketCashier {
 	}
 	
 	public void msgReceivedOrder() {
-		((MarketCashierGui) gui).removeItemFromCounter();
+		((MarketCashierGui) gui).carryItem(false);
 	}
 
 	public boolean pickAndExecuteAnAction() {
@@ -156,20 +155,23 @@ public class MarketCashierRole extends Role implements MarketCashier {
 	//errors - copied straight from design docs
 	private void DeliverOrder(MarketOrder o) {
 
+		
 		((MarketCashierGui)gui).DoGoToCounter();
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-
+		((MarketCashierGui) gui).removeItemFromCounter();
+		((MarketCashierGui) gui).carryItem(true);
+		
 		((MarketCashierGui)gui).DoGoToCashRegister();
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-
+		
 		person.Do("Giving items to customer");
 		//.getNext() is a stub for load balancing
 		if(o.deliverRole instanceof MarketCustomer) {

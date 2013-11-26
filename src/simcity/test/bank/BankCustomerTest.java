@@ -19,6 +19,28 @@ public class BankCustomerTest extends TestCase {
 	 * This method is run before each test. You can use it to instantiate the class variables
 	 * for your role and mocks, etc.
 	 */
+	@Override
+	public void setUp() throws Exception{
+		super.setUp();
+		//bankCustomer = new BankCustomerRole();
+		//bankHost = new MockBankHost();
+		//bankHost = new MockBankHost();	
+	}
 	
+	public void testOneNormalCustomerOpenAccountScenario() {
+		
+	}
+	public void testOneNormalCustomerDepositMoneyScenario() {
+		
+	}
+	public void testOneNormalCustomerWithdrawMoneyForCustomerScenario() {
+		
+	}
+	public void testOneNormalPayRentToLandlordScenario() {
+		
+	}
+	public void testOneNormalCustomerGetLoanScenario() {
+		
+	}
 	
 }

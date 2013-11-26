@@ -1,6 +1,9 @@
 package simcity.buildings.house;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
@@ -14,17 +17,23 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 
 	HouseSystem house;
 	Timer timer = new Timer();
+	Random rand = new Random();
 	enum HouseInhabitantState { Eating, Sleeping, Bored } 
 	enum HouseInhabitantEvent { Hungry, ReadyToSleep, None } 
-	HouseInhabitantState state;
-	HouseInhabitantEvent event;
-	private Map <String , Integer > foodStock= new HashMap<String,Integer>();
-	private int sleepTime = 4000;
-	private int cookTime = 6000;
-	private int eatTime = 4000;
+	HouseInhabitantState state = HouseInhabitantState.Bored;
+	HouseInhabitantEvent event = HouseInhabitantEvent.None;
+	private Map <String , Integer > foodStock = new HashMap<String,Integer>();
+	private Map <String , Integer > foodToBuy = new HashMap<String,Integer>();
 	
 	
 	private Semaphore atDest = new Semaphore(0, true);
+	
+	
+	private final int SLEEPTIME = 4000;
+	private final int COOKTIME = 6000;
+	private final int EATTIME = 4000;
+	private final int FOODSTOCK = 3;
+	private final int FOODTHRESHOLD = 2;
 	
 	
 	public HouseInhabitantRole(PersonAgent p){
@@ -70,6 +79,36 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 		person.Do("I'm hungry, I should eat");
 		DoGoToKitchen();
 		DoGoToFridge();
+		
+		List<String> keys = new ArrayList<String>(foodStock.keySet());
+		String choice = keys.get( rand.nextInt(keys.size()) );
+		Integer quantity = foodStock.get(choice);
+		
+		if (quantity > 0) {
+			// Pick your random food if you have any
+			foodStock.put(choice, (quantity-1));
+			if (quantity < FOODTHRESHOLD) 
+				foodToBuy.put(choice, FOODSTOCK);
+		} else {
+			choice = "";
+			for (String k : keys) {
+				if (foodStock.get(k) > 0) {
+					// Pick this food
+					foodStock.put(choice, (quantity-1));
+					choice = k;
+				}
+				if (foodStock.get(k) < FOODTHRESHOLD) {
+					// Add them to a list of things to buy
+					foodToBuy.put(k, FOODSTOCK);
+				}
+			}
+		}
+		if (choice == "") {
+			// We're out of all food
+		}
+		
+		person.Do("I'm going to eat "+choice);
+		
 		((HouseInhabitantGui)gui).DoHoldFood();
 		DoGoToStove();
 		((HouseInhabitantGui)gui).DoFoodOnStove();
@@ -81,21 +120,8 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
                     Eat();
                     //stateChanged();
             }
-		}, cookTime); //or whatever time is fine
+		}, COOKTIME); //or whatever time is fine
 		
-		/*
-		if (person.money < 100)
-		     timer.schedule(new TimerTask(){
-                 Object cookie = 1;
-                 
-                 public void run() {
-                         
-                         //("cooking");
-                         // add gui events to "got to the kitcen and make food" 
-                         stateChanged();
-                 }
-         }, 3000); //or whatever time is fine
-		else LeaveForRestaurant();*/
 	}
 	
 	private void Eat() {
@@ -108,7 +134,7 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
             public void run() {
                     DoneEating();
             }
-		}, eatTime); //or whatever time is fine
+		}, EATTIME); //or whatever time is fine
 	}
 	
 	private void DoneEating() {
@@ -136,7 +162,7 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
                     WakeUp();
                     //stateChanged();
             }
-		}, sleepTime); //or whatever time is fine
+		}, SLEEPTIME); //or whatever time is fine
 	}
 	
 	private void WakeUp(){
@@ -283,6 +309,7 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 	
 	@Override
 	public void clear() {
+		
 		timer.cancel();
 		timer.purge();
 	}

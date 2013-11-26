@@ -204,6 +204,8 @@ public class SystemManager {
 	
 	public void addRestaurantTwo(String name, int xLoc, int yLoc) {
 		//restaurantTwos.add(new RestaurantTwoSystem(simcity));
+		List<String> markets = Directory.getMarkets();
+		R2comp.addMarket(markets);
 		RestaurantTwoSystem temp = new RestaurantTwoSystem(simcity,R2comp);
 		temp.setName(name);
 		restaurantTwos.add(temp);

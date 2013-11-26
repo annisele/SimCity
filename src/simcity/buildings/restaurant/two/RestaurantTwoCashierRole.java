@@ -16,9 +16,11 @@ import simcity.buildings.restaurant.two.RestaurantTwoCustomerRole;
 import simcity.buildings.restaurant.two.RestaurantTwoWaiterRole;
 import simcity.gui.restauranttwo.RestaurantTwoCashierGui;
 import simcity.gui.restauranttwo.RestaurantTwoHostGui;
+import simcity.interfaces.market.MarketCashier;
 import simcity.interfaces.restaurant.two.RestaurantTwoCustomer;
 //import restaurant.interfaces.Market;
 import simcity.interfaces.restaurant.two.RestaurantTwoWaiter;
+import simcity.Directory;
 import simcity.PersonAgent;
 //import simcity.test.mock.LoggedEvent;
 import simcity.Role;
@@ -31,6 +33,7 @@ public class RestaurantTwoCashierRole extends Role implements simcity.interfaces
 	private RestaurantTwoCustomer cust;
 	private RestaurantTwoSystem R2;
 	private RestaurantTwoComputer computer;
+	private MarketCashier marketCashier;
 	private Semaphore atDest = new Semaphore(0, true);
 
 	
@@ -107,66 +110,68 @@ public class RestaurantTwoCashierRole extends Role implements simcity.interfaces
    }
            return 0;
    }
-	
-	public void msgHereIsBill(MarketSystem m, Double p){
+	/*msgPleasePay(marketcashier,double payment, order num)
+	 */
+	 
+	public void msgPLeasePay( String n, Double p,int num){
 		double temp=0;
-		
 		Do("Recieved bill from market");
-		
+
 		//log.add(new LoggedEvent("Recieved bill"));
 		if(computer.getMoney()>=p){
 
 			synchronized(computer.markets){
-	
-			for(int i=0; i<computer.markets.size();i++){
-		
-				if(computer.markets.get(i).m==m){
-					computer.subtractMoney(p);
-		
-		temp=p;
-		DecimalFormat fr =new DecimalFormat("##.00");
-		String formate=fr.format(temp);
-		try {
-			computer.markets.get(i).bill=(Double)fr.parse(formate);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		pay_market=true;
-		Do(m.getName()+" is paying "+computer.markets.get(i).bill+" in full.");
-		stateChanged();
-		}
-			}
+
+				for(int i=0; i<computer.markets.size();i++){
+
+					if(computer.markets.get(i).name.equals(n)){
+						computer.markets.get(i).ordernum=num;
+						computer.subtractMoney(p);
+
+						temp=p;
+						DecimalFormat fr =new DecimalFormat("##.00");
+						String formate=fr.format(temp);
+						try {
+							computer.markets.get(i).bill=(Double)fr.parse(formate);
+						} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
+						pay_market=true;
+						Do("Paying "+computer.markets.get(i).bill+" in full.");
+						stateChanged();
+					}
+				}
 			}
 		}
 		else{
 
 			synchronized(computer.markets){
-			for(int j=0; j<computer.markets.size();j++){
-				if(computer.markets.get(j).m==m){
-					Do("CURRENT BAL: "+computer.getMoney());
-					temp= p-computer.getMoney();
-					DecimalFormat f =new DecimalFormat("##.00");
-					String formate=f.format(temp);
-					try {
-						computer.markets.get(j).bill=(Double)f.parse(formate);
-					} catch (ParseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+				for(int j=0; j<computer.markets.size();j++){
+					if(computer.markets.get(j).name.equals(n)){
+						Do("CURRENT BAL: "+computer.getMoney());
+						temp= p-computer.getMoney();
+						DecimalFormat f =new DecimalFormat("##.00");
+						String formate=f.format(temp);
+						try {
+							computer.markets.get(j).bill=(Double)f.parse(formate);
+						} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						computer.markets.get(j).debt= computer.markets.get(j).bill;
+						Do("Cashier is in debt!");
+						Do("Cashier owes $"+computer.markets.get(j).debt);
+						temp= computer.getMoney();
+						computer.subtractMoney(temp);
+						in_debt=true;
+						stateChanged();
 					}
-					computer.markets.get(j).debt= computer.markets.get(j).bill;
-			Do("Cashier is in debt!");
-			Do("Cashier owes $"+computer.markets.get(j).debt);
-			temp= computer.getMoney();
-			computer.subtractMoney(temp);
-			in_debt=true;
-			stateChanged();
-			}
-			}
+				}
 			}
 		}
-		
+
 	}
 	public void msgHereIsMoney(RestaurantTwoCustomer c, double m){
 		Do("Recieved money from cust");
@@ -210,7 +215,7 @@ public class RestaurantTwoCashierRole extends Role implements simcity.interfaces
 			synchronized(computer.markets){
 				for(int i=0; i<computer.markets.size();i++){
 					if(computer.markets.get(i).bill>0){
-						sendMoney(computer.markets.get(i).name);
+						sendMoney(computer.markets.get(i).name,computer.markets.get(i).bill,computer.markets.get(i).ordernum );
 						return true;
 					}
 				}
@@ -219,37 +224,38 @@ public class RestaurantTwoCashierRole extends Role implements simcity.interfaces
 
 		if(!computer.owed_markets.isEmpty()){
 			if(computer.checkMarket() != null){
-				sendMoney(computer.checkMarket());
-			}
-		}
+				String mName=computer.checkMarket();
+				for(int j=0; j<computer.markets.size();j++){
+					if(computer.markets.get(j).name.equals(mName)){
 
+						sendMoney(mName,computer.markets.get(j).bill,computer.markets.get(j).ordernum);
+					}
+				}
+			}
+		}
 		synchronized(cashiers_list){  
-		for (order o : cashiers_list) {
-			if (o.state == OrderState.adding) {
-				Do("adding");
-				CreateCheck(o);
-				return true;
+			for (order o : cashiers_list) {
+				if (o.state == OrderState.adding) {
+					Do("adding");
+					CreateCheck(o);
+					return true;
+				}
+
+				if (o.state == OrderState.paid) {
+					paid(o.cust);
+					cashiers_list.remove(o);
+					return true;
+				}
+
+				if (o.state == OrderState.indebt) {
+
+					KeepTrack(o);
+					cashiers_list.remove(o);
+					return true;
+				}
 			}
-			
-			if (o.state == OrderState.paid) {
-				paid(o.cust);
-				cashiers_list.remove(o);
-				return true;
-			}
-			
-			if (o.state == OrderState.indebt) {
-				
-				KeepTrack(o);
-				cashiers_list.remove(o);
-				return true;
-			}
+
 		}
-		
-		}
-		
-		
-		
-		
 		return false;
 	}
 
@@ -274,7 +280,8 @@ public class RestaurantTwoCashierRole extends Role implements simcity.interfaces
 	private void paid(RestaurantTwoCustomer c){
 		c.msgGoodbye();
 	}
-	private void sendMoney(String market){
+	private void sendMoney(String market, double bill, int num){
+		((MarketSystem)Directory.getSystem(market)).getCashier().msgHereIsPayment(bill, num);
 	//	m.msgHereIsMoney(b);
 		pay_market=false;
 		Do("Money has been sent to market");

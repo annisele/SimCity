@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import simcity.Directory;
 import simcity.buildings.market.MarketSystem;
 import simcity.buildings.restaurant.two.RestaurantTwoCashierRole.order;
 
@@ -23,6 +24,7 @@ public class RestaurantTwoComputer {
 	
 	
 	public RestaurantTwoComputer( int st, int ch, int sa, int pi) {
+		List<String> markets = Directory.getMarkets();
 		inventory= new Inventory(st,ch,sa,pi);
 		Menu.put("chicken",10.99);	
 		Menu.put("steak",15.99);
@@ -63,11 +65,12 @@ public class RestaurantTwoComputer {
 		public double bill=0;
 		MarketSystem m;
 		public String name;
+		public int ordernum=0;
 		public double debt=0;
 		
-		mymarket(MarketSystem market){
-			m =market;
-			name= market.getName();
+		mymarket(String n){
+			
+			name= n;
 		}
 	}
 	protected String checkMarket(){
@@ -132,8 +135,13 @@ public class RestaurantTwoComputer {
 	protected void subtractMoney(double payment) {
 		balance -= payment;
 	}
-	public void addMarket(MarketSystem m){
-		mymarket temp= new mymarket(m);
+	public String getMarket(){
+		return markets.get(0).name;
+	}
+	public void addMarket(List<String> m){
+		for(String mark:m){
+		mymarket temp= new mymarket(mark);
 		markets.add(temp);
+		}
 	}
 }

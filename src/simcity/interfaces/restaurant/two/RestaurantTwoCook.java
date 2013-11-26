@@ -5,8 +5,9 @@ import java.util.Map;
 import simcity.SimSystem;
 import simcity.buildings.restaurant.two.RestaurantTwoOrderWheel;
 import simcity.interfaces.GuiPartner;
+import simcity.interfaces.market.MarketOrderer;
 
-public interface RestaurantTwoCook extends GuiPartner{
+public interface RestaurantTwoCook extends GuiPartner, MarketOrderer{
 	abstract void enterBuilding(SimSystem s);
 
 	abstract void hack_chicken();

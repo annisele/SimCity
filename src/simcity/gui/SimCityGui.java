@@ -1,22 +1,30 @@
 package simcity.gui;
 
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Iterator;
+import java.util.Map;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JSplitPane;
+import javax.swing.JTextArea;
 
 import simcity.Config;
 import simcity.SystemManager;
-import simcity.WorldSystem;
-import simcity.buildings.market.MarketSystem;
-import simcity.buildings.restaurant.one.RestaurantOneSystem;
-import simcity.gui.market.MarketAnimationPanel;
-import simcity.gui.restaurantone.RestaurantOneAnimationPanel;
-import simcity.gui.transportation.PedestrianGui;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
+import simcity.gui.trace.TracePanel;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.List;
+/***
+ * TRACE PANEL ISSUES - take out transparency, all guis need to override size (default
+ * is 20)
+ */
+
 
 /****************************
  * SimCityGui - The entire window which contains a world panel, detail panel
@@ -29,17 +37,13 @@ public class SimCityGui extends JFrame implements ActionListener {
 	
 	// Panel on the right
 	private JPanel menuPanel = new JPanel();
-	
-	// Panels for each view and console
-	//	private JPanel viewWorldPanel = new WorldAnimationPanel();
-	//	private JPanel viewDetailPanel = new MarketAnimationPanel(); //new AnimationPanel();
+	TracePanel worldTracePanel = new TracePanel();
+	TracePanel detailTracePanel = new TracePanel();
+
 	
 	// But this is really a panel
 	private AnimationPanel viewWorldPanel;
-	//private AnimationPanel viewDetailPanel;
 	private JPanel viewDetailPanel;
-	private JTextArea consoleWorld = new JTextArea();
-	private JTextArea consoleDetail = new JTextArea();
 	private JSplitPane splitPaneWorld;
 	private JSplitPane splitPaneDetail;
 	
@@ -73,15 +77,32 @@ public class SimCityGui extends JFrame implements ActionListener {
 		menuPanel.add(controlPanel);
 		
 		// Setup the two views and consoles
-		consoleWorld.setEnabled(false);
-		consoleDetail.setEnabled(false);
-		splitPaneWorld = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
-                viewWorldPanel, consoleWorld);
-		splitPaneWorld.setResizeWeight(0.7);
-		splitPaneDetail = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
-                viewDetailPanel, consoleDetail);
-		splitPaneDetail.setResizeWeight(0.7);
 		
+		//viewWorldPanel.setMinimumSize(minimumSize);
+		splitPaneWorld = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
+                viewWorldPanel, worldTracePanel);
+		splitPaneWorld.setResizeWeight(0.83);
+		splitPaneDetail = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
+                viewDetailPanel, detailTracePanel);
+		splitPaneDetail.setResizeWeight(0.83);
+		viewWorldPanel.setMaximumSize(new Dimension(400, 400));
+		viewDetailPanel.setMaximumSize(new Dimension(400, 400));
+		
+		worldTracePanel.setMinimumSize(new Dimension(200, 208));
+		detailTracePanel.setMinimumSize(new Dimension(200, 208));
+		//splitPaneWorld.setResizeWeight(0.0);
+		//splitPaneDetail.setResizableWithParent(viewDetailPanel, Boolean.FALSE);
+		
+		//trace panels
+		AlertLog.getInstance().addAlertListener(worldTracePanel);
+		AlertLog.getInstance().addAlertListener(detailTracePanel);
+		detailTracePanel.showAlertsWithTag(AlertTag.MARKET_CASHIER);
+		detailTracePanel.showAlertsWithTag(AlertTag.MARKET_WORKER);
+		detailTracePanel.showAlertsWithTag(AlertTag.MARKET_CUSTOMER);
+		worldTracePanel.showAlertsWithTag(AlertTag.PEDESTRIAN);
+		worldTracePanel.showAlertsWithTag(AlertTag.WORLD);
+		worldTracePanel.showAlertsWithTag(AlertTag.IDLE_PERSON);
+
 		// Add it all to the main pane
 		fullPane.setLayout(twoGridLayout);
 		fullPane.add(splitPaneWorld);
@@ -90,19 +111,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 		setLayout(new BorderLayout());
         add(menuPanel, BorderLayout.EAST);
         add(fullPane, BorderLayout.CENTER);
-
-       
         
-	}
-	public void setCards(Map<String, JPanel> panels) {
-		Iterator it = panels.entrySet().iterator();
-		while (it.hasNext()) {
-			Map.Entry<String, JPanel> item = (Map.Entry<String, JPanel>)it.next();
-			String name = item.getKey();
-			JPanel tempCard = item.getValue();
-		    viewDetailPanel.add(tempCard, name);
-		}
-		System.out.println("We have "+panels.entrySet().size()+" cards");
 	}
 	
 	public ControlPanel getControlPanel() {
@@ -152,7 +161,8 @@ public class SimCityGui extends JFrame implements ActionListener {
 	  SimCityGui gui = new SimCityGui();
       gui.setTitle("SimCity Team 14");
       
-      gui.setResizable(true);
+      
+      gui.setResizable(false);
       gui.setSize(1250, 700);
       gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       gui.setVisible(true);

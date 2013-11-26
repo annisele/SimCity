@@ -5,13 +5,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import simcity.gui.AnimationPanel;
-import simcity.gui.ControlPanel;
-import simcity.gui.SimCityGui;
-import simcity.Directory;
 import simcity.Role;
+import simcity.gui.SimCityGui;
 import simcity.gui.market.MarketAnimationPanel;
-import simcity.gui.market.MarketCashierGui;
 import simcity.gui.market.MarketControlPanel;
 import simcity.interfaces.market.MarketCashier;
 import simcity.interfaces.market.MarketCustomer;
@@ -56,8 +52,20 @@ public class MarketSystem extends simcity.SimSystem {
 		return cashier;
 	}
 	
+	public List<MarketTruck> getTrucks() {
+		return trucks;
+	}
+	
+	public List<MarketWorker> getWorkers() {
+		return workers;
+	}
+	
 	public MarketComputer getComputer() {
 		return computer;
+	}
+	
+	public void addTruck(MarketTruck t) {
+		trucks.add(t);
 	}
 	
 	@Override
@@ -68,10 +76,6 @@ public class MarketSystem extends simcity.SimSystem {
 		}
 		else if(role instanceof MarketWorker) {
 			workers.add((MarketWorker) role);
-			((MarketCashierRole) cashier).addWorker((MarketWorker) role);
-		}
-		else if(role instanceof MarketTruck) {
-			trucks.add((MarketTruck) role);
 		}
 		else if(role instanceof MarketCashier) {
 			cashier = (MarketCashier) role;

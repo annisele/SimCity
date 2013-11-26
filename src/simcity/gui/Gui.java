@@ -10,14 +10,15 @@ import simcity.interfaces.GuiPartner;
 public class Gui {
 
 	protected GuiPartner role;
-	private int x = 240;
-	private int y = 460;
-	private int xDest = 240;
-	private int yDest = 460;
-	protected int SIZE = 20;
-	private int EXIT_X = 235;
-	private int EXIT_Y = 454;
-	private boolean atDestNow = false;
+	protected int x = 240;
+	protected int y = 460;
+	protected int xDest = 240;
+	protected int yDest = 460;
+	protected int size_x = 40;
+	protected int size_y = 40;
+	private final int EXIT_X = 235;
+	private final int EXIT_Y = 454;
+	protected boolean atDestNow = false;
 
 	public void updatePosition() {
 		//role is null when idle gui should be drawn
@@ -47,15 +48,15 @@ public class Gui {
 
 	public void draw(Graphics2D g) {
 		g.setColor(Color.BLACK);
-		g.fillRect(x, y, SIZE, SIZE);
+		g.fillRect(x, y, size_x, size_y);
 	}
 	public boolean isPresent() {
 		return true;
 	}
 
 	public boolean contains(Point point) {
-		if(point.getX() >= x && point.getX() <= x + SIZE) {
-			if(point.y >= y && point.y <= y + SIZE) {
+		if(point.getX() >= x && point.getX() <= x + size_x) {
+			if(point.y >= y && point.y <= y + size_y) {
 				return true;
 			}
 		}

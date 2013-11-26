@@ -3,7 +3,6 @@ package simcity.interfaces.market;
 import java.util.Map;
 
 import simcity.SimSystem;
-import simcity.buildings.market.MarketCashierRole;
 import simcity.interfaces.GuiPartner;
 
 public interface MarketCustomer extends GuiPartner, MarketOrderer, MarketPayer {

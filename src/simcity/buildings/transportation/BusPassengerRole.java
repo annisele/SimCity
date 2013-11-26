@@ -11,8 +11,8 @@ import agent.Agent;
 	public class BusPassengerRole extends Role implements simcity.interfaces.transportation.BusPassenger {
 		
 		BusAgent bus;
-		Location destination;
-		Location startingLocation;
+		int destination;
+		int startingLocation;
 		int xLoc;
 		int yLoc;
 		//PassengerState state = enum{ offBus, waitingForBus, onBus };
@@ -28,8 +28,9 @@ import agent.Agent;
 		}
 	
 
-	public void msgBusTo(Location l) { // from PersonAgent
-		destination = l;
+	public void msgBusTo(int s, int d) { // from PersonAgent
+		destination = d;
+		startingLocation = s;
 		event = PassengerEvent.atBusStop;
 		stateChanged();
 	}
@@ -41,8 +42,7 @@ import agent.Agent;
 	
 	public void msgWeHaveArrived(int x, int y) { // from BusAgent
 		event = PassengerEvent.busStopping;
-		xLoc = x;
-		yLoc = y;
+		person.setPedestrianRoleLocation(x, y);
 		stateChanged();
 	} 
 	
@@ -67,10 +67,10 @@ import agent.Agent;
 	
 	
 	private void CallBus() {
-		bus.msgWantBus(this, startingLocation);
+		bus.msgWantBus(this, startingLocation, destination);
 	}
 	private void GetIn() {
-		bus.msgGettingOn(this, destination);
+		bus.msgGettingOn(this);
 
 		// Animation
 		DoDisableGui();
@@ -78,7 +78,7 @@ import agent.Agent;
 	
 	private void GetOut() {
 		bus.msgGettingOff(this);
-
+		person.roleFinished();
 		// Animation
 		DoRedrawAt(xLoc, yLoc);
 		//WHAT DOES ENABLED EVEN MEAN??? ASK CB or something
@@ -94,6 +94,8 @@ import agent.Agent;
 		//Animation
 	}
 
+	
+	
 	@Override
 	public void msgExitBuilding() {
 		// TODO Auto-generated method stub
@@ -110,6 +112,10 @@ import agent.Agent;
 	public void msgEnterBuilding(SimSystem s) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public void setBus(BusAgent b) {
+		bus = b;
 	}
 	
 	

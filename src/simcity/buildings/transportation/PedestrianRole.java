@@ -31,14 +31,16 @@ public class PedestrianRole extends Role implements simcity.interfaces.transport
 		
 	}
 	
+	public void msgArrivedAtLocationFromBus(int x, int y) {
+		this.gui.setLocation(x, y);
+	}
+	
 	// Scheduler
 	public boolean pickAndExecuteAnAction() {
-		//person.Do("PedRole's pick and execute is being called");
-		//person.Do("destinationList has a a size of: "+destinationList.size());
 		if(!destinationList.isEmpty()) {
 			GoToDestination(destinationList.get(0));
+			destinationList.remove(0);
 		}
-		//person.Do("PedRole is about to return false");
 		return false;
 	}
 	

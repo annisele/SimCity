@@ -1,16 +1,25 @@
 package simcity.gui;
 
-import java.awt.*;
-
-import simcity.Clock;
-import simcity.gui.transportation.BusGui;
-
-import java.awt.event.*;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.ArrayList;
 
-import javax.swing.*;
+import javax.swing.JPanel;
+import javax.swing.Timer;
+
+import simcity.gui.market.MarketCashierGui;
+import simcity.gui.market.MarketCustomerGui;
+import simcity.gui.market.MarketWorkerGui;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
+import simcity.gui.transportation.BusGui;
 
 public class AnimationPanel extends JPanel implements ActionListener{
 
@@ -62,12 +71,23 @@ public class AnimationPanel extends JPanel implements ActionListener{
 
 			@Override
 			public void mouseClicked(MouseEvent me) {
-				// super.mouseClicked(me);
 				for (Gui g : guis) {
 					if (g.contains(me.getPoint()) && g.isPresent()) {//check if mouse is clicked within shape
 
 						//we can either just print out the object class name
 						System.out.println("Clicked a "+g.getClass().getName());
+						if(g instanceof MarketCashierGui) {
+							AlertLog.getInstance().logInfo(AlertTag.MARKET_CASHIER, "Mouse", "You clicked a " + g.getClass().getSimpleName() + "!");
+						}
+						else if(g instanceof MarketCustomerGui) {
+							AlertLog.getInstance().logInfo(AlertTag.MARKET_CUSTOMER, "Mouse", "You clicked a " + g.getClass().getSimpleName() + "!");
+						}
+						else if(g instanceof MarketWorkerGui) {
+							AlertLog.getInstance().logInfo(AlertTag.MARKET_WORKER, "Mouse", "You clicked a " + g.getClass().getSimpleName() + "!");
+						}
+						else if(g instanceof IdlePersonGui) {
+							AlertLog.getInstance().logInfo(AlertTag.IDLE_PERSON, "Mouse", "You clicked a " + g.getClass().getSimpleName() + "!");
+						}
 
 						//controlPanel.updateSelected(g.getPerson());
 
@@ -78,7 +98,8 @@ public class AnimationPanel extends JPanel implements ActionListener{
 					if (g.contains(me.getPoint())) {//check if mouse is clicked within shape
 
 						//if (controlPanel == null)
-						//System.out.println("The buildingGui's animationPanel is null!");
+						AlertLog.getInstance().logInfo(AlertTag.WORLD, "Mouse", "You clicked a " + g.getClass().getSimpleName() + "!");
+
 						if (simCityGui != null) {
 							simCityGui.changeDetailPane(g.getSystem().getAnimationPanel());
 
@@ -136,26 +157,8 @@ public class AnimationPanel extends JPanel implements ActionListener{
 				}
 			}
 		}
-		
-		/*synchronized(busGuis) {
-			for (BusGui bg : busGuis) {
-				if (bg.isPresent()) {
-					bg.updatePosition();
-				}
-			}
-		} */
-		
-	/*	synchronized(busGuis) {
-			for(BusGui bg : busGuis) {
-				if (bg.isPresent()) {
-					bg.draw((Graphics2D)g);
-				}
-			}
-		} */
-
-		//repaint();
 	}
-	
+
 	public void updateGuis() {
 		synchronized(guis) {
 			for (Gui gui : guis) {
@@ -165,14 +168,6 @@ public class AnimationPanel extends JPanel implements ActionListener{
 				}
 			}
 		}
-		/*synchronized(busGuis) {
-			for (BusGui bg : busGuis) {
-				
-				if (bg.isPresent()) {
-					//bg.updatePosition();
-				}
-			}
-		} */
 	}
 
 	public void addGui(Gui gui) {
@@ -187,7 +182,7 @@ public class AnimationPanel extends JPanel implements ActionListener{
 	public void addBuilding(BuildingGui b) {
 		buildingGuis.add(b);
 	}
-	
+
 	public void addBus(BusGui g) {
 		busGuis.add(g);
 	}
@@ -204,7 +199,7 @@ public class AnimationPanel extends JPanel implements ActionListener{
 		simCityGui = scg;
 
 	}
-	
+
 	public SimCityGui getSimCityGui() {
 		return simCityGui;
 	}

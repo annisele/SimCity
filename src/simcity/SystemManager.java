@@ -1,7 +1,11 @@
 
 package simcity;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.swing.JPanel;
 
@@ -12,6 +16,7 @@ import simcity.buildings.bank.BankTellerRole;
 import simcity.buildings.house.HouseSystem;
 import simcity.buildings.market.MarketCashierRole;
 import simcity.buildings.market.MarketSystem;
+import simcity.buildings.market.MarketTruckAgent;
 import simcity.buildings.market.MarketWorkerRole;
 import simcity.buildings.restaurant.five.RestaurantFiveSystem;
 import simcity.buildings.restaurant.four.RestaurantFourSystem;
@@ -25,11 +30,10 @@ import simcity.buildings.restaurant.two.RestaurantTwoSystem;
 import simcity.buildings.restaurant.two.RestaurantTwoWaiterRole;
 import simcity.buildings.transportation.BusAgent;
 import simcity.buildings.transportation.TransportationSystem;
-import simcity.gui.Gui;
-import simcity.gui.SimCityGui;
+import simcity.gui.WorldAnimationPanel;
 import simcity.gui.BuildingGui;
+import simcity.gui.SimCityGui;
 import simcity.gui.transportation.BusGui;
-import simcity.interfaces.market.MarketCashier;
 
 public class SystemManager {
 	
@@ -46,7 +50,7 @@ public class SystemManager {
 	List<RestaurantFiveSystem> restaurantFives = new ArrayList<RestaurantFiveSystem>();
 	List<RestaurantSixSystem> restaurantSixes = new ArrayList<RestaurantSixSystem>();
 	List<TransportationSystem> transportations = new ArrayList<TransportationSystem>();
-	
+	BusAgent bus;
 	List<BuildingGui> buildings = new ArrayList<BuildingGui>();
 	List<BusGui> busGuis = Collections.synchronizedList(new ArrayList<BusGui>());
 	List<PersonAgent> people = new ArrayList<PersonAgent>();
@@ -55,11 +59,18 @@ public class SystemManager {
 		simcity = g;
 		world = new WorldSystem(simcity);//simcity.getWorld();
 		dir.setWorld(world);
+		dir.makeBusStops();
 	}
 	
 	public void clear() {
+		
+		for (BusGui b : busGuis) {
+			b.clear();
+		}
+		world.clear();
 		world.getAnimationPanel().clear();
 		
+		dir.clear();
 		markets.clear();
 		banks.clear();
 		houses.clear();
@@ -73,6 +84,9 @@ public class SystemManager {
 		busGuis.clear();
 		buildings.clear();
 		people.clear();
+		
+		Clock.reset();
+		
 	}
 	
 	public void getContact(SimSystem s) {
@@ -85,15 +99,29 @@ public class SystemManager {
 		}
 	}
 	
+	public void setBackgroundOne() {
+		WorldAnimationPanel w = (WorldAnimationPanel)world.getAnimationPanel();
+		w.setBackgroundOne();
+	}
+	
+	public void setBackgroundTwo() {
+		WorldAnimationPanel w = (WorldAnimationPanel)world.getAnimationPanel();
+		w.setBackgroundTwo();
+	}
+	
 	public void addPerson(String name) {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());
+
+		person.setBus(bus);
 		//people.add(person);
 		
 		//hacks
-
 		if (name.equalsIgnoreCase("Rebecca")) {
 			person.goToMarketNow();
+		}
+		if(name.equalsIgnoreCase("Josh")) {
+			person.busToMarketNow();
 		}
 		if (name == "Levonne") {
 			person.goToBankNow();
@@ -101,12 +129,12 @@ public class SystemManager {
 		if (name == "jenny") {
 			person.goToRestaurantTwoNow();
 		}
-		
 		people.add(person);
 		person.startThread();
 		
 		
 	}
+	
 	
 	public void addMarket(String name, int xLoc, int yLoc) {
 		MarketSystem temp = new MarketSystem(simcity);
@@ -148,7 +176,8 @@ public class SystemManager {
 		transportations.add(temp);
 		Location loc = new Location(100, 400);
 		dir.add(name, EntryType.Bus, loc, temp);
-		BusAgent bus = new BusAgent(name);
+		bus = new BusAgent(name);
+		bus.setDirectory(dir);
 		BusGui tbg = new BusGui(bus);
 		bus.setGui(tbg);
 		world.getAnimationPanel().addBus(tbg);
@@ -251,38 +280,15 @@ public class SystemManager {
 		return world;
 	}
 	
-	public void setCards() {
-		Map<String, JPanel> panels = new HashMap<String, JPanel>();
-		for(RestaurantOneSystem r : restaurantOnes) {
-			panels.put(r.getName(), r.getAnimationPanel());
-		}
-		for(MarketSystem m : markets) {
-			panels.put(m.getName(), m.getAnimationPanel());
-		}
-		for(BankSystem b : banks) {
-			panels.put(b.getName(), b.getAnimationPanel());
-		}
-		
-		simcity.setCards(panels);
-	}
-	
-	public Map<String, JPanel> getCards() {
-		Map<String, JPanel> marketPanels = new HashMap<String, JPanel>();
-		
-		for(RestaurantOneSystem r : restaurantOnes) {
-			marketPanels.put(r.getName(), r.getAnimationPanel());
-		}
-		for(MarketSystem m : markets) {
-			marketPanels.put(m.getName(), m.getAnimationPanel());
-		}
-		for(BankSystem b : banks) {
-			marketPanels.put(b.getName(), b.getAnimationPanel());
-		}
-		return marketPanels;
-	}
-	
 	public void clearDetailPane() {
 		simcity.clearDetailPane();
+	}
+	
+	public void addMarketTruck(String market) {
+		MarketTruckAgent t = new MarketTruckAgent(Directory.getSystem(market));
+		((MarketSystem) Directory.getSystem(market)).addTruck(t);
+		t.startThread();
+		world.getAnimationPanel().addGui(t.getGui());
 	}
 
 	public void addMarketCashierHack(String name, String market) {
@@ -320,6 +326,10 @@ public class SystemManager {
 		person.startThread();
 	}
 
+	public void addHackedBankAccount(int accountNumber, double accountBalance, String password) {
+		banks.get(0).getBankComputer().addHackedBankAccount(accountNumber, accountBalance, password);
+	}
+	
 	public void addRestaurantTwoHostHack(String name, String rest) {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());
@@ -354,6 +364,10 @@ public class SystemManager {
 		person.addWork(r2Waiter, rest);
 		people.add(person);
 		person.startThread();
+	}
+	
+	public BusAgent getBus() {
+		return bus;
 	}
 
 	

@@ -16,14 +16,15 @@ public class Clock {
 	time worldTime= new time(0, 0);
 	
 	public Clock() {
+		
 	}
 	
 	public static long getTime() {
 		currentTime = (System.currentTimeMillis() - startTime) / 1000;
 		return currentTime;
 	}
-	
-	public void updateWorldTime(){
+		
+	public static String getDisplayTime(){
 		int hr = 0, mn = 0, d = 0;
 		currentTime = (System.currentTimeMillis() - startTime) / 1000;
 		if(currentTime > 60){
@@ -37,8 +38,11 @@ public class Clock {
 		else{
 			mn = (int)currentTime;
 		}
-		worldTime.day = d;
-		worldTime.hour = hr;
-		worldTime.min = mn;
+		
+		return (hr + ":" + mn);
+	}
+	
+	public static void reset() {
+		startTime = System.currentTimeMillis();
 	}
 }

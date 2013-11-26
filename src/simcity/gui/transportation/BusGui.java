@@ -13,7 +13,7 @@ public class BusGui extends Gui {
 
 	private BusAgent busagent;
 
-	private int x = 55;
+	private int x = 10;
 	private int y = 67;
 	private int xDest;
 	private int yDest;
@@ -50,10 +50,8 @@ public class BusGui extends Gui {
 		} */
 		if (((x == (xDest)) || (x == (xDest+1))) && ((y == (yDest)) || (y == (yDest+1)))) {
 			if (atDestNow == false) {
-				
 				busagent.atDestination();
 				atDestNow = true;
-				
 			}
 		} 
 	}
@@ -73,6 +71,10 @@ public class BusGui extends Gui {
 
 	public void setBusAgent(BusAgent bus) {
 		this.busagent = bus;
+	}
+	
+	public void clear() {
+		busagent.clear();
 	}
 	
 }

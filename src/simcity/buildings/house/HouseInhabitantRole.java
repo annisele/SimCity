@@ -1,32 +1,51 @@
 package simcity.buildings.house;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
 import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
+import simcity.PersonAgent.EventType;
 import simcity.gui.house.HouseInhabitantGui;
-import simcity.gui.market.MarketCustomerGui;
 
 public class HouseInhabitantRole extends Role implements simcity.interfaces.house.HouseInhabitant {
 
 	HouseSystem house;
+	Timer timer = new Timer();
+	Random rand = new Random();
 	enum HouseInhabitantState { Eating, Sleeping, Bored } 
 	enum HouseInhabitantEvent { Hungry, ReadyToSleep, None } 
-	HouseInhabitantState state;
-	HouseInhabitantEvent event;
-	private Map <String , Integer > foodStock= new HashMap<String,Integer>();
-	private int sleepTime;
-	Timer sleeptimer = new Timer();
-	Timer cooktimer = new Timer();
+	HouseInhabitantState state = HouseInhabitantState.Bored;
+	HouseInhabitantEvent event = HouseInhabitantEvent.None;
+	private Map <String, Integer > foodStock = Collections.synchronizedMap(new HashMap<String,Integer>());
+	private Map <String, Integer > foodToBuy = Collections.synchronizedMap(new HashMap<String,Integer>());
+	private boolean marketScheduled = false;
 	
 	private Semaphore atDest = new Semaphore(0, true);
+	
+	private final int SLEEPTIME = 4000;
+	private final int COOKTIME = 6000;
+	private final int EATTIME = 4000;
+	private final int FOODSTOCK = 3;
+	private final int FOODTHRESHOLD = 2;
 	
 	
 	public HouseInhabitantRole(PersonAgent p){
 		this.person = p;
 		this.gui = new HouseInhabitantGui(this);
-		sleepTime = 4000;
+		synchronized (foodStock) {
+			foodStock.put("steak", 1);
+			foodStock.put("chicken", 1);
+			foodStock.put("pizza", 1);
+			foodStock.put("salad", 1);
+		}
 	}
 	
 	@Override
@@ -48,40 +67,105 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 	@Override
 	public boolean pickAndExecuteAnAction() {
 		// TODO Auto-generated method stub
-		if (state == HouseInhabitantState.Bored && event == HouseInhabitantEvent.Hungry){
+		
+		if (event == HouseInhabitantEvent.Hungry && state == HouseInhabitantState.Bored){
+			state = HouseInhabitantState.Eating;
 			Cook();
-			return true;
 		}
-		else if (state == HouseInhabitantState.Bored && event == HouseInhabitantEvent.ReadyToSleep){
+		else if (event == HouseInhabitantEvent.ReadyToSleep && state == HouseInhabitantState.Bored){
+			state = HouseInhabitantState.Sleeping;
 			Sleep();
-			return false;
 		}
-
 		return false;
 	}	
-
+	
+	// Actions
 	private void Cook() {
+		event = HouseInhabitantEvent.None;
 		person.Do("I'm hungry, I should eat");
 		DoGoToKitchen();
 		DoGoToFridge();
-		DoGoToStove();
-		DoGoToTable();
 		
+		String choice = "";
+		boolean needToBuy = false;
+		
+		synchronized (foodStock) {
+			List<String> keys = new ArrayList<String>(foodStock.keySet());
+			choice = keys.get( rand.nextInt(keys.size()) );
+			Integer quantity = foodStock.get(choice);
+			
+			if (quantity > 0) {
+				// Pick your random food if you have any
+				foodStock.put(choice, (quantity-1));
+				if (quantity < FOODTHRESHOLD && !marketScheduled) 
+					needToBuy = true;
+			} else {
+				choice = "";
+				for (String k : keys) {
+					if (foodStock.get(k) > 0) {
+						// Pick this food
+						foodStock.put(choice, (quantity-1));
+						choice = k;
+					}
+					if (foodStock.get(k) < FOODTHRESHOLD && !marketScheduled) {
+						// Add them to a list of things to buy
+						needToBuy = true;
+					}
+				}
+			}
+		}
+		if (choice == "") {
+			// We're out of all food
+		}
+		if (needToBuy == true && marketScheduled == false) {
+			if (person.scheduleEvent(EventType.GoToMarket))
+				person.Do("I just scheduled an event to go to the market");
+			else
+				person.Do("There aren't any markets to get food from.  Oh well.");
+			marketScheduled = true;
+		}
+		
+		person.Do("I'm going to eat "+choice);
+		
+		((HouseInhabitantGui)gui).DoHoldFood();
+		DoGoToStove();
+		((HouseInhabitantGui)gui).DoFoodOnStove();
+		
+		person.Do("Wow cooking is so much fun");
+		
+		timer.schedule(new TimerTask(){            
+            public void run() {
+                    Eat();
+                    //stateChanged();
+            }
+		}, COOKTIME); //or whatever time is fine
+		
+	}
+	
+	private void Eat() {
+		Do("Food looks ready!");
+		((HouseInhabitantGui)gui).DoHoldFood();
+		DoGoToTable();
+		((HouseInhabitantGui)gui).DoFoodOnTable();
+		
+		timer.schedule(new TimerTask(){            
+            public void run() {
+                    DoneEating();
+            }
+		}, EATTIME); //or whatever time is fine
+	}
+	
+	private void DoneEating() {
+		((HouseInhabitantGui)gui).DoEatFood();
+		Do("That was great. Wow. Such noms");
 		DoGetUpFromTable();
+		
+		state = HouseInhabitantState.Eating;
+		event = HouseInhabitantEvent.None;
+		
 		msgExitBuilding();
-		if (person.money < 100)
-		     cooktimer.schedule(new TimerTask(){
-                 Object cookie = 1;
-                 
-                 public void run() {
-                         
-                         //("cooking");
-                         // add gui events to "got to the kitcen and make food" 
-                         stateChanged();
-                 }
-         }, 3000); //or whatever time is fine
-		else LeaveForRestaurant();
-
+		
+		//msgExitBuilding();
 	}
 
 	private void LeaveForRestaurant() {
@@ -89,34 +173,34 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 		
 	}
 
-
 	private void Sleep() {
 		DoGoToBed();
 		person.Do("I'm going to sleep...");
-		state = HouseInhabitantState.Sleeping;
+		//state = HouseInhabitantState.Sleeping;
 		
-		sleeptimer.schedule(new TimerTask(){            
+		timer.schedule(new TimerTask(){            
             public void run() {
                     WakeUp();
-                    stateChanged();
+                    //stateChanged();
             }
-		}, sleepTime); //or whatever time is fine
+		}, SLEEPTIME); //or whatever time is fine
 	}
 	
 	private void WakeUp(){
 		//gui leaves bed
 		Do("I'm up! I'm awake!");
 		state = HouseInhabitantState.Bored;
-		if (event == HouseInhabitantEvent.ReadyToSleep)
-			event = HouseInhabitantEvent.None;
+		event = HouseInhabitantEvent.None;
 		msgNeedToEat();
-		
 	}
 
-
 	public Map<String, Integer> getListToBuy() {
-		//clear list!!!!
-		return null;
+		Map<String, Integer> list = null;
+		synchronized (foodToBuy) {
+			list = foodToBuy;
+			foodToBuy.clear();
+		}
+		return list;
 	}
 	
 	// Animation
@@ -228,8 +312,7 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 		}
 		house.exitBuilding(this);
 		person.roleFinished();
-		person.isIdle();
-		
+		//stateChanged();
 	}
 
 	@Override
@@ -243,6 +326,13 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 		}
 		state = HouseInhabitantState.Bored;
 		
+	}
+	
+	@Override
+	public void clear() {
+		
+		timer.cancel();
+		timer.purge();
 	}
 
 }

@@ -7,6 +7,9 @@ public class Directory {
 	private static WorldSystem world;
 	public static enum EntryType {Market, Restaurant, Bank, House, Bus};
 	private static Map<String, Entry> directory = new HashMap<String, Entry>(); //maps names to entries
+	private static Map<Integer, Location>busStopDirectory = new HashMap<Integer, Location>();
+
+	
 	
 	private class Entry {
 		String name;
@@ -18,8 +21,24 @@ public class Directory {
 			//shifting location so people enter through the door
 			location = new Location(l.getX() + 22, l.getY() + 50);
 			type = t;
-			system = s;
+			system = s; 
 		}
+	}
+	
+	public void makeBusStops() {
+		Location stop0 = new Location(40, 67);
+		Location stop1 = new Location(380, 67);
+		Location stop2 = new Location(380, 366);
+		Location stop3 = new Location(40, 366);
+		busStopDirectory.put(0, stop0);
+		busStopDirectory.put(1, stop1);
+		busStopDirectory.put(2, stop2);
+		busStopDirectory.put(3, stop3);	
+	}
+	
+	public static Location getBusStop(int bsc) {
+		
+		return busStopDirectory.get(bsc);
 	}
 	
 	public void setWorld(WorldSystem w) {
@@ -71,5 +90,9 @@ public class Directory {
 	public void add(String n, EntryType t, Location l, SimSystem s){
 		Entry temp = new Entry(l, t, s);
 		directory.put(n, temp);
+	}
+	
+	public void clear() {
+		directory.clear();
 	}
 }

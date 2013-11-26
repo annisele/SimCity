@@ -84,7 +84,6 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 		amountToProcess = 20;
 		transactionType = TransactionType.openAccount;
 		bank = b;
-		//stateChanged();
 	}
 	
 	//messages 
@@ -105,6 +104,8 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	// bank teller sends this message to customer after opening an account
 	public void msgHereIsAccountInfo(BankCustomer bc, int accountNumber, double accountBalance) {
 		person.Do("Here is your new account information");
+		person.Do("Accountnumber: " + accountNumber);
+		person.Do("Balance: " + accountBalance);
 		cashOnHand = cashOnHand - accountBalance;
 		event = Event.transactionProcessed;
 		stateChanged();
@@ -113,6 +114,8 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	//bank teller sends this message to customer after withdrawing money
 	public void msgHereIsMoney(BankCustomer bc, int accountNumber, double accountBalance, double amountProcessed) {
 		person.Do("Here is the money that you withdraw");
+		person.Do("Accountnumber: " + accountNumber);
+		person.Do("Balance: " + accountBalance);
 		cashOnHand = cashOnHand + amountProcessed;
 		event = Event.transactionProcessed;
 		stateChanged();
@@ -183,8 +186,8 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	//scheduler
 	public boolean pickAndExecuteAnAction() {
 
-		person.Do("In sched, state is: "+state);
-		person.Do("event is: "+event);
+		//person.Do("In sched, state is: "+state);
+		//person.Do("event is: "+event);
 	 	// person isn't doing anything, then arrives at bank
 		if (state == State.none && event == Event.arrivedAtBank){
 			InformBankHostOfArrival();
@@ -217,15 +220,13 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 		    return true;
 		}
 
-		// person receives
+		// person leaves the bank after completing bank transaction
 		if (state == State.goingToWindow && event == Event.transactionProcessed) {
 			state = State.leaving;
 		    InformBankHostOfDeparture();
 		    return true;
 		}
 		
-		System.out.println("No scheduler rule fired, should not happen in FSM, event="+event+" state="+ state);
-
 		return false;
 	}
 
@@ -240,14 +241,6 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	    	
 	    	person.Do("I'm here for bank transaction, host is: "+ bank.getBankHost());
 	    	bank.getBankHost().msgEnteringBank(this);
-	    	/*
-	    	((BankCustomerGui)gui).DoGoToBankTeller(3);
-
-			try {
-	    		atDest.acquire();
-	    	} catch (InterruptedException e) {
-	    		e.printStackTrace();
-	    	}*/
 		}
 
 		private void OpenAccount() {
@@ -303,7 +296,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	    		e.printStackTrace();
 	    	}
 		    bt.msgWantToPayLoan(this, amountToProcess);
-		    System.out.println("Bank customer wants to get loan");
+		    System.out.println("I want to get loan");
 		}
 		
 		private void PayRent() {
@@ -314,7 +307,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	    		e.printStackTrace();
 	    	}
 		    bt.msgWantToPayRent(this, amountToProcess);
-		    System.out.println("Bank customer wants to get loan");
+		    System.out.println("I want to pay $10 rent");
 		}
 		
 		private void InformBankHostOfDeparture() {
@@ -326,6 +319,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	    	}
 		    bank.getBankHost().msgLeavingBank(windowNumber);
 		    System.out.println("Bank host, I'm leaving the bank now");
+		    msgExitBuilding();
 		}
 
 		public void msgExitBuilding() {
@@ -338,7 +332,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 			}
 			bank.exitBuilding(this);
 			person.roleFinished();
-			person.isIdle();
+			
 		}
 		public void msgEnterBuilding(SimSystem s) {
 			bank = (BankSystem)s;
@@ -351,9 +345,24 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 			cashOnHand = 50;
 			accountPassword = "abcdef";
 			amountToProcess = 20;
-			transactionType = TransactionType.openAccount;
-			bank = b;
-			stateChanged();
-			
+			transactionType = TransactionType.withdrawMoney;
+			bank = b;	
 		}
+		public void msgPayRent(BankSystem b) {
+			System.out.println("I need to pay rent");
+			cashOnHand = 50;
+			accountPassword = "abcdef";
+			amountToProcess = 10;
+			transactionType = TransactionType.payRent;
+			bank = b;	
+		}
+		public void msgGetLoan(BankSystem b) {
+			System.out.println("I need to get a loan");
+			cashOnHand = 50;
+			accountPassword = "abcdef";
+			amountToProcess = 100;
+			transactionType = TransactionType.loanMoney;
+			bank = b;
+		}
+		
 }

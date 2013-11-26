@@ -1,10 +1,7 @@
 package simcity;
 
-import java.util.*;
-
-import simcity.gui.AnimationPanel;
-import simcity.gui.BuildingGui;
-import simcity.gui.transportation.PedestrianGui;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Config {
 	
@@ -14,15 +11,12 @@ public class Config {
 	public Config(SystemManager s) {
 		systems = s;
 	}
-	
-	public void persons(){
-		
-	}
-	
+
 	public void threeBuildings() {
 		systems.clear();
 		systems.clearDetailPane();
 		
+		systems.setBackgroundOne();
 		systems.addMarket("Market", 100, 100);
 		//systems.addRestaurantTwo("RestaurantTwo", 300, 100);
 		systems.addRestaurantOne("RestaurantOne", 300, 100);
@@ -34,21 +28,49 @@ public class Config {
 		
 	}
 	
-	public void oneMarket() {
+	public void busToMarket() {
 		systems.clear();
 		systems.clearDetailPane();
-		
+		systems.setBackgroundOne();
 		systems.addMarket("Market", 100, 100);
 		systems.addMarketCashierHack("Mary", "Market");
 		systems.addBus("Buster"); //Take this out if you don't want the bus here
-
+		systems.addMarketTruck("Market");
 		
 		timer.schedule(new TimerTask() {
 			public void run() {
 				systems.addMarketWorkerHack("Bob", "Market");
 				timer.schedule(new TimerTask() {
 					public void run() {
+						systems.addPerson("Josh");
+					}
+				}, 2000);
+			}
+		}, 2000);
+	}
+	
+	public void oneMarket() {
+		systems.clear();
+		systems.clearDetailPane();
+		
+		systems.setBackgroundOne();
+		systems.addMarket("Market", 100, 100);
+		systems.addMarketCashierHack("Mary", "Market");
+		systems.addBus("Buster"); //Take this out if you don't want the bus here
+		systems.addMarketTruck("Market");
+		systems.addPerson("Rebecca");
+		timer.schedule(new TimerTask() {
+			public void run() {
+				systems.addMarketWorkerHack("Bob", "Market");
+				timer.schedule(new TimerTask() {
+					public void run() {
 						systems.addPerson("Rebecca");
+						systems.addMarketWorkerHack("Bill", "Market");
+						timer.schedule(new TimerTask() {
+							public void run() {
+								systems.addPerson("Rebecca");
+							}
+						}, 2000);
 					}
 				}, 2000);
 			}
@@ -60,6 +82,7 @@ public class Config {
 		systems.clear();
 		systems.clearDetailPane();
 		
+		systems.setBackgroundOne();
 		systems.addHouse("HouseOne", 100, 100);
 		//systems.addPerson("Homie"); // This guy will live in the house, hence his name
 		systems.addPerson("Homie");
@@ -70,12 +93,13 @@ public class Config {
 		systems.clear();
 		systems.clearDetailPane();
 		
+		systems.setBackgroundOne();
 		systems.addBank("Bank", 100, 300);
 		systems.addBankHostHack("Kevin", "Bank");
-		
+		systems.addHackedBankAccount(0, 100, "abcdef");
 		timer.schedule(new TimerTask(){
 			public void run() {
-				systems.addBankTellerHack("Key", "Bank");
+				systems.addBankTellerHack("Bank Teller", "Bank");
 				timer.schedule(new TimerTask(){
 					public void run() {
 						systems.addPerson("Levonne");
@@ -88,7 +112,12 @@ public class Config {
 	public void oneRestaurant() {
 		systems.clear();
 		systems.clearDetailPane();
+<<<<<<< HEAD
 
+=======
+		
+		systems.setBackgroundOne();
+>>>>>>> 4880db936130a39ade0b3a757d70ed6fd20a5add
 		systems.addRestaurantTwo("RestaurantTwo", 300, 100);
 		systems.addRestaurantTwoHostHack("Host Bloke", "RestaurantTwo");
 		timer.schedule(new TimerTask() {
@@ -111,7 +140,111 @@ public class Config {
 					}
 				},1000);
 			}
+<<<<<<< HEAD
 		},1000);
+=======
+		}, 2000);
+	}
+	
+
+	public void fullCity() {
+		systems.clear();
+		systems.clearDetailPane();
+		
+		systems.setBackgroundTwo();
+		
+		// Top row
+		systems.addHouse("HouseSOne", 60, 27);
+		systems.addHouse("HouseSOne", 123, 27);
+		systems.addHouse("HouseSOne", 186, 27);
+		systems.addHouse("HouseSOne", 249, 27);
+		systems.addHouse("HouseSOne", 312, 27);
+		
+		// These are the right-most houses
+		systems.addHouse("HouseSOne", 402, 27);
+		systems.addHouse("HouseSOne", 402, 110);
+		systems.addHouse("HouseSOne", 402, 189);
+		
+		// Second row
+		systems.addHouse("HouseSOne", 60, 140);
+		systems.addHouse("HouseSOne", 123, 140);
+		systems.addHouse("HouseSOne", 186, 140);
+		systems.addHouse("HouseSOne", 249, 140);
+		
+		// Third row
+		systems.addHouse("HouseSOne", 60, 250);
+		systems.addHouse("HouseSOne", 123, 250);
+		systems.addMarket("MarketOne", 186, 250);
+		systems.addRestaurantTwo("RestaurantTwo", 249, 250);
+
+		// Fourth row
+		systems.addBank("BankOne", 60, 333);
+		systems.addHouse("HouseSOne", 123, 333);
+		systems.addHouse("HouseSOne", 186, 333);
+		systems.addHouse("HouseSOne", 249, 333);
+		
+	}
+	
+	public void oneMarketOneHouse() {
+		systems.clear();
+		systems.clearDetailPane();
+		
+		systems.setBackgroundTwo();
+		
+		systems.addMarket("Market", 60, 140);
+		systems.addHouse("HouseOne", 249, 140);
+		
+		systems.addMarketCashierHack("Mary", "Market");
+		systems.addMarketTruck("Market");
+		
+		timer.schedule(new TimerTask() {
+			public void run() {
+				systems.addMarketWorkerHack("Bob", "Market");
+			}
+		}, 2000);
+		
+		systems.addPerson("Tony");
+		systems.setHome("Tony", "HouseOne");
+
+	}
+	
+	public void marketHouseBank() {
+		systems.clear();
+		systems.clearDetailPane();
+		
+		systems.setBackgroundTwo();
+		
+		systems.addMarket("Market", 60, 140);
+		systems.addHouse("HouseOne", 249, 140);
+		
+		systems.addMarketCashierHack("Mary", "Market");
+		systems.addMarketTruck("Market");
+		
+		timer.schedule(new TimerTask() {
+			public void run() {
+				systems.addMarketWorkerHack("Bob", "Market");
+			}
+		}, 2000);
+		
+		systems.addPerson("Tony");
+		systems.setHome("Tony", "HouseOne");
+		
+		systems.addBank("Bank", 402, 27);
+		systems.addBankHostHack("Kevin", "Bank");
+		systems.addHackedBankAccount(0, 100, "abcdef");
+		timer.schedule(new TimerTask(){
+			public void run() {
+				systems.addBankTellerHack("Bank Teller", "Bank");
+			}
+		}, 4000);
+
+	}
+	
+	public void clearTimer() {
+		timer.cancel();
+		timer.purge();
+	}
+>>>>>>> 4880db936130a39ade0b3a757d70ed6fd20a5add
 
 	}
 }

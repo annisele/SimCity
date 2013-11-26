@@ -29,7 +29,7 @@ public class Clock {
 		String day = "";
 		currentTime = (System.currentTimeMillis() - startTime) / 1000;
 		m = (int)((currentTime % 6)*10);
-		h = (int)((currentTime / 6)%24);
+		h = (int)((currentTime / 6)%24+1);
 		d = (int)((currentTime / (6*24))%7);
 		
 		if (d == 0) day = "MON";
@@ -40,7 +40,16 @@ public class Clock {
 		else if (d == 5) day = "SAT";
 		else if (d == 6) day = "SUN";
 		
-		return (day + "  "+ h + ":" + m);
+		String min = ""+m;
+		String hr = ""+h;
+		if (m == 0)
+			min = "00";
+		if (h < 10)
+			hr = "0"+h;
+		
+		String time = (day + "  "+ hr + ":" + min);
+		
+		return time;
 	}
 	
 	public static void reset() {

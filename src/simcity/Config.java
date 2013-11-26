@@ -162,11 +162,39 @@ public class Config {
 		
 		systems.addPerson("Tony");
 		systems.setHome("Tony", "HouseOne");
+
+	}
+	
+	public void marketHouseBank() {
+		systems.clear();
+		systems.clearDetailPane();
 		
-		// These are the right-most houses
-		//systems.addHouse("HouseTwo", 402, 27);
-		//systems.addHouse("HouseThree", 402, 110);
-		//systems.addHouse("HouseFour", 402, 189);
+		systems.setBackgroundTwo();
+		
+		systems.addMarket("Market", 60, 140);
+		systems.addHouse("HouseOne", 249, 140);
+		
+		systems.addMarketCashierHack("Mary", "Market");
+		systems.addMarketTruck("Market");
+		
+		timer.schedule(new TimerTask() {
+			public void run() {
+				systems.addMarketWorkerHack("Bob", "Market");
+			}
+		}, 2000);
+		
+		systems.addPerson("Tony");
+		systems.setHome("Tony", "HouseOne");
+		
+		systems.addBank("Bank", 402, 27);
+		systems.addBankHostHack("Kevin", "Bank");
+		systems.addHackedBankAccount(0, 100, "abcdef");
+		timer.schedule(new TimerTask(){
+			public void run() {
+				systems.addBankTellerHack("Bank Teller", "Bank");
+			}
+		}, 4000);
+
 	}
 	
 	public void clearTimer() {

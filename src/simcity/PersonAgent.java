@@ -41,16 +41,21 @@ import agent.Agent;
 public class PersonAgent extends Agent implements Person {
 
 	private Random rand = new Random();
-	private String name;
+	private Timer timer = new Timer();
+	
 	private List<Role> myRoles = new ArrayList<Role>();
 	private List<Event> eventList = new ArrayList<Event>();
-	private Role currentRole = null;
-	private Event currentEvent = null;
-	private Timer timer = new Timer();
-	public enum EventType { Eat, GoToMarket,EatAtRestaurant, DepositMoney, WithdrawMoney, GetALoan, PayRent, Sleep, Work };
 	private IdlePersonGui idleGui;
 	BusAgent bus;
-	public double money = 40;
+	private Role currentRole = null;
+	private Event currentEvent = null;
+	
+	public enum EventType { Eat, GoToMarket,EatAtRestaurant, DepositMoney, WithdrawMoney, GetALoan, PayRent, Sleep, Work };
+	
+	private String name;
+	public double money = 10;
+	private double withdrawThreshold = 5; // if money is less than this, we will try to withdraw
+	private double depositThreshold = 15; // if money is higher than this, we will try to deposit
 	private String home;
 	private String workBuilding;
 	private Role workRole;
@@ -291,7 +296,6 @@ public class PersonAgent extends Agent implements Person {
 			//hack
 			((BankCustomer)eventR).msgGetLoan((BankSystem)(Directory.getSystem(buildingName)));
 			e = new Event(buildingName, eventR, 120, -1, true, steps, t);
-			
 			
 			insertEvent(e);
 			stateChanged();

@@ -388,6 +388,7 @@ public class PersonAgent extends Agent implements Person {
 			
 		}
 		Location loc = Directory.getLocation(currentEvent.buildingName);
+		Do(currentEvent.buildingName + ", " + loc.getX() + ", " + loc.getY());
 		//Do("Location is: "+loc.getX()+", "+loc.getY());
 		//Do("PedRole is being given a destination!");
 		((PedestrianRole)currentRole).addDestination(loc);

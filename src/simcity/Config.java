@@ -116,29 +116,46 @@ public class Config {
 						systems.addPerson("Levonne");
 					}
 				}, 4000);
+				timer.schedule(new TimerTask(){
+					public void run() {
+						systems.addPerson("Levonne");
+					}
+				}, 5000);
 			}
 		}, 4000);
 	}
-	
+
 	public void oneRestaurant() {
 		systems.clear();
 		systems.clearDetailPane();
+
 		
 		systems.setBackgroundOne();
 		systems.addRestaurantTwo("RestaurantTwo", 300, 100);
-		systems.addRestaurantTwoHostHack("Bloke", "RestaurantTwo");
-		
+		systems.addRestaurantTwoHostHack("Host Bloke", "RestaurantTwo");
 		timer.schedule(new TimerTask() {
 			public void run() {
-				systems.addRestaurantTwoWaiterHack("Bob dylan", "RestaurantTwo");
+				systems.addRestaurantTwoCashierHack("Cashier Blob", "RestaurantTwo");
 				timer.schedule(new TimerTask() {
 					public void run() {
-						System.out.println("hi");
-						systems.addPerson("jenny");
+						systems.addRestaurantTwoCookHack("Cook Brute", "RestaurantTwo");
+
+						timer.schedule(new TimerTask() {
+							public void run() {
+								systems.addRestaurantTwoWaiterHack("Waiter Bob dylan", "RestaurantTwo");
+								timer.schedule(new TimerTask() {
+									public void run() {
+										systems.addPerson("jenny");
+									}
+								}, 1000);
+							}
+						}, 1000);
 					}
-				}, 2000);
+				},1000);
 			}
-		}, 2000);
+
+		},1000);
+
 	}
 	
 
@@ -240,4 +257,5 @@ public class Config {
 		timer.purge();
 	}
 
-}
+	}
+

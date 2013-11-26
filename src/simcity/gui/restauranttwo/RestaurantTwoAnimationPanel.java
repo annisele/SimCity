@@ -42,11 +42,12 @@ public class RestaurantTwoAnimationPanel extends AnimationPanel implements Actio
 
 	public void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D)g;
-		g2.setColor(Color.LIGHT_GRAY);
-		g2.fillRect(0, 0, this.getWidth(), this.getHeight());
 		
 		g2.drawImage(r2image, 0,0, null); 
-
+		g2.setColor(Color.BLACK);
+        g2.fillRect(380, 380, 20,60);
+        g2.setColor(Color.BLACK);
+        g2.fillRect(50, 100, 60,20);
 		/*
 		Color tableColor = new Color(200, 200, 200);
 
@@ -104,11 +105,13 @@ public class RestaurantTwoAnimationPanel extends AnimationPanel implements Actio
 		g2.drawImage(tableimage,200, 300, null);
 		g2.drawImage(tableimage,300, 300, null);
 		*/
+        
 		super.paintComponent(g);
+	//	 super.paintComponent(g2);
 	}
 
 	public void addGui(Gui g) {
-		//System.out.println("here: "+g);
+		System.out.println("here: "+g);
 		guis.add(g);
 	}
 

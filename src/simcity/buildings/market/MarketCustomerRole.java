@@ -175,6 +175,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 
 	@Override
 	public void msgEnterBuilding(SimSystem s) {
+		
 		market = (MarketSystem)s;
 		((MarketCustomerGui)gui).DoGoToCashier();
 		try {

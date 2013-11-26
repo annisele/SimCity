@@ -19,20 +19,23 @@ public class RestaurantTwoCustomerGui extends Gui{
 	
 	private boolean isPresent = false;
 	private boolean isHungry = false;
+	private final int CASHIER_X = 209;
+	private final int CASHIER_Y = 299;
 
 	//private HostAgent host;
 	//RestaurantGui gui;
 	private ImageIcon ii = new ImageIcon("res/person/persondownbig.png");
-	private Image img = ii.getImage();
+	private Image imgu = ii.getImage();
+	Image img = imgu.getScaledInstance(30, 35,  java.awt.Image.SCALE_SMOOTH); 
 
-	private int xPos, yPos;
-	private int xDestination, yDestination;
+//	private int xPos, yPos;
+	//private int xDestination, yDestination;
 	private enum Command {noCommand, GoToSeat, GoToRestaurant,LeaveRestaurant};
 	private Command command=Command.noCommand;
 	public static final int xTable = 100;
-	public static final int yTable = 150;
-	public static final int customer_rectsize =20;
-
+	public static final int yTable = 250;
+	//public static final int customer_rectsize =20;
+	
 	public RestaurantTwoCustomerGui(RestaurantTwoCustomer c){ //HostAgent m) {
 		role=c;
 		/*role = c;
@@ -45,7 +48,7 @@ public class RestaurantTwoCustomerGui extends Gui{
 		//maitreD = m;
 		//this.gui = gui;
 	}
-
+/*
 	public void updatePosition() {
 		if (xPos < xDestination)
 			xPos++;
@@ -71,13 +74,13 @@ public class RestaurantTwoCustomerGui extends Gui{
 			command=Command.noCommand;
 		}
 	}
-
+*/
 	public void draw(Graphics2D g) {
 		//g.setColor(Color.GREEN);
 		//g.fillRect(xPos, yPos, customer_rectsize, customer_rectsize);
 		g.drawImage(img, getX(), getY(), null); 
 	}
-
+/*
 	public boolean isPresent() {
 		return isPresent;
 	}
@@ -92,31 +95,32 @@ public class RestaurantTwoCustomerGui extends Gui{
 
 	public void setPresent(boolean p) {
 		isPresent = p;
+	}*/
+	public void DoGoToCashier() {
+		//System.out.println("cust gui goes to position");
+		DoGoToLocation(60, 100);
 	}
-
 	public void DoGoToSeat(int seatnumber) {//later you will map seatnumber to table coordinates.
+		DoGoToLocation(seatnumber*100, yTable);
 		
-		xDestination = seatnumber*100;
-		yDestination = yTable;
 		command = Command.GoToSeat;
 	}
 	public void DoGoToRestaurant(int i) {//later you will map seatnumber to table coordinates.
-		
-					xDestination = i*25;
-					yDestination = 1;
+		System.out.println("going to my waiting spot");
+		DoGoToLocation( i*25,350);
+				
 					
 					command = Command.GoToRestaurant;
 					
 
 	}
 	public void DoLeaveToPay() {
-		xDestination = 100;
-		yDestination = -40;
+		DoGoToLocation( 100,-40);
+		
 		command = Command.LeaveRestaurant;
 	}
 	public void DoExitRestaurant() {
-		xDestination = 300;
-		yDestination = -40;
+		DoGoToLocation( 300,-40);
 		command = Command.noCommand;
 	}
 	

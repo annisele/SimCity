@@ -19,6 +19,7 @@ public abstract class Agent {
      * the agent to do something.
      */
     public void stateChanged() {
+    	//System.out.println("state");
         stateChange.release();
     }
 

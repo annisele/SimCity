@@ -1,7 +1,6 @@
 package simcity.test.bank;
 
-import junit.framework.TestCase;
-import simcity.PersonAgent;
+import junit.framework.*;
 import simcity.buildings.bank.BankSystem;
 import simcity.buildings.bank.BankTellerRole;
 import simcity.gui.SimCityGui;

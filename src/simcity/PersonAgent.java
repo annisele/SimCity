@@ -560,13 +560,6 @@ public class PersonAgent extends Agent implements Person {
 		stateChanged();
 	}
 
-	public void waitForTransport() {
-		for (Role r : myRoles) {
-			if (r instanceof Pedestrian) {
-				idleGui.setLocation(r.getGui().getLocation());
-			}
-		}
-	}
 
 	public void roleFinished() {
 		//Do("Role is finished");

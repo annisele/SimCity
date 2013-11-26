@@ -20,8 +20,8 @@ public interface BankCustomer extends GuiPartner {
 	public abstract void msgRentIsPaid(BankCustomer bc, int accountNumber, double amountProcessed);
 	public abstract void msgVerificationFailed();
 	
-	public abstract void msgExitBuilding();
-	public abstract void msgEnterBuilding(SimSystem s);
+	public abstract void exitBuilding();
+	public abstract void enterBuilding(SimSystem s);
 	public abstract void msgWithdrawMoney(BankSystem b);
 	public abstract void msgDepositMoney(BankSystem b);
 	public abstract void msgPayRent(BankSystem b);

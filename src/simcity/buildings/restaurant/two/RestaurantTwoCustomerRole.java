@@ -531,7 +531,7 @@ Do("OK ORDERED");
 
  
 	@Override
-	public void msgExitBuilding() {
+	public void exitBuilding() {
 		// TODO Auto-generated method stub
 		
 	}
@@ -539,7 +539,7 @@ Do("OK ORDERED");
 
 
 	@Override
-	public void msgEnterBuilding(SimSystem s) {
+	public void enterBuilding(SimSystem s) {
 		Do("cust enter building");
 		R2 = (RestaurantTwoSystem)s;
 		((RestaurantTwoCustomerGui)gui).DoGoToCashier();

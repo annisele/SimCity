@@ -63,13 +63,13 @@ public class MockBankTeller extends Mock implements BankTeller {
 	}
 
 	@Override
-	public void msgExitBuilding() {
+	public void exitBuilding() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void msgEnterBuilding(SimSystem s) {
+	public void enterBuilding(SimSystem s) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -84,6 +84,12 @@ public class MockBankTeller extends Mock implements BankTeller {
 	public String getName() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void msgGoToThisWindow(int windowNumber) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

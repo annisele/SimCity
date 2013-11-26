@@ -602,8 +602,13 @@ public class PersonAgent extends Agent implements Person {
 	}
 
 	public void receiveDelivery(Map<String, Integer> tempItems) {
-		// TODO Auto-generated method stub
-
+		HouseInhabitantRole h = null;
+		for(Role r : myRoles) {
+			if(r instanceof HouseInhabitantRole) {
+				h = (HouseInhabitantRole) r;
+			}
+		}  
+		h.addItems(tempItems);
 	}
 
 	public void addWork(Role r, String building) {

@@ -203,6 +203,23 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 		return list;
 	}
 	
+	public void addItems(Map<String, Integer> items) {
+		synchronized (foodStock) {
+			Map<String, Integer> newList = new HashMap<String, Integer>();
+	        newList.putAll(foodStock);
+	        
+	        for (String key : items.keySet()) {
+	            Integer value = newList.get(key);
+	            if (value != null) {
+	                Integer newValue = value + items.get(key);
+	                newList.put(key, newValue);
+	            } else {
+	                newList.put(key, items.get(key));
+	            }
+	        }
+		}
+	}
+	
 	// Animation
 	public void DoGoToBed() {
 		((HouseInhabitantGui)gui).DoGoToLiving();

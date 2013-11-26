@@ -1,5 +1,6 @@
 package simcity.gui;
 
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -40,7 +41,7 @@ public class ControlPanel extends JPanel implements ActionListener {
 	//pause and clock elements
 	private JPanel pauseAndTime = new JPanel();
 	private JButton pauseB = new JButton("Pause");
-	private JTextField clockDisplay = new JTextField("", 6);
+	private JTextField clockDisplay = new JTextField("", 10);
 	private Timer timer = new Timer();
 
 	
@@ -131,7 +132,10 @@ public class ControlPanel extends JPanel implements ActionListener {
 		pauseB.addActionListener(this);
 		clockDisplay.setText("0:00");
 		//clockDisplay.
+		clockDisplay.setBackground(Color.WHITE);
+		clockDisplay.setDisabledTextColor(Color.BLACK);
 		clockDisplay.setEnabled(false);
+		
 		//.addActionListener(this);
 		pauseAndTime.setLayout(new FlowLayout());
 		pauseAndTime.add(clockDisplay);

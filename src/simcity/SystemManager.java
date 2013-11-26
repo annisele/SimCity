@@ -61,7 +61,6 @@ public class SystemManager {
 		simcity = g;
 		world = new WorldSystem(simcity);//simcity.getWorld();
 		dir.setWorld(world);
-		dir.makeBusStops();
 	}
 	
 	public void clear() {
@@ -104,11 +103,14 @@ public class SystemManager {
 	public void setBackgroundOne() {
 		WorldAnimationPanel w = (WorldAnimationPanel)world.getAnimationPanel();
 		w.setBackgroundOne();
-	}
+		dir.makeBusStops1();
+
+	} 
 	
 	public void setBackgroundTwo() {
 		WorldAnimationPanel w = (WorldAnimationPanel)world.getAnimationPanel();
 		w.setBackgroundTwo();
+		dir.makeBusStops2();
 	}
 	
 	public void addPerson(String name) {

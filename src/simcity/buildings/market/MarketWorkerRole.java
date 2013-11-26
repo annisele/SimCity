@@ -11,6 +11,8 @@ import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
 import simcity.gui.market.MarketWorkerGui;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.market.MarketWorker;
 
 public class MarketWorkerRole extends Role implements MarketWorker {
@@ -31,7 +33,6 @@ public class MarketWorkerRole extends Role implements MarketWorker {
 
 	@Override
 	public void msgFindOrder(int orderNum, Map<String, Integer> itemsList) {         
-		person.Do("Received msgFindOrder");
 		synchronized(orders) {
 			orders.add(new WorkerOrder(orderNum, itemsList));
 		}
@@ -48,15 +49,14 @@ public class MarketWorkerRole extends Role implements MarketWorker {
 	}
 
 	private void FindAndDeliverOrder(WorkerOrder o) {
-		Do("Find and Deliver action!");
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(market.getName()), "MarketWorker: " + person.getName(), "Collecting order.");
 		collectItemsAnimation();
-
 		o.itemsToFind = market.getComputer().fillOrder(o.itemsToFind); //gets full order from system
 		if(o.itemsToFind != null) {
 			market.getCashier().msgOrderFound(o.orderNumber);
 		}
 		else {
-			System.out.println("Cannot fulfill order.");
+			AlertLog.getInstance().logError(AlertTag.valueOf(market.getName()), "MarketCashier: " + person.getName(), "Computer returned null when trying to fill order.");		
 		}
 		synchronized(orders) {
 			orders.remove(o);
@@ -79,7 +79,7 @@ public class MarketWorkerRole extends Role implements MarketWorker {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
+
 		((MarketWorkerGui)gui).DoGoToShelfOneArea();
 		try {
 			atDest.acquire();
@@ -135,7 +135,7 @@ public class MarketWorkerRole extends Role implements MarketWorker {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		person.Do("Leaving market.");
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(market.getName()), "MarketWorker: " + person.getName(), "Leaving market.");
 		market.exitBuilding(this);
 		person.roleFinished();
 	}
@@ -143,6 +143,7 @@ public class MarketWorkerRole extends Role implements MarketWorker {
 	@Override
 	public void enterBuilding(SimSystem s) {
 		market = (MarketSystem)s;
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(market.getName()), "MarketWorker: " + person.getName(), "Entering market.");
 		((MarketWorkerGui)gui).DoGoToCenter();
 		try {
 			atDest.acquire();

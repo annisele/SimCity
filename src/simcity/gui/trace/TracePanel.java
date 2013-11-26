@@ -270,4 +270,9 @@ public class TracePanel extends JScrollPane implements AlertListener {
 		addNewAlert(alert);
 	}
 
+
+	public void hideAllAlerts() {
+		visibleTags = Collections.synchronizedSet(EnumSet.noneOf(AlertTag.class));
+	}
+
 }

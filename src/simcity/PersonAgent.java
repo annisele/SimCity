@@ -453,48 +453,39 @@ public class PersonAgent extends Agent implements Person {
 		}
 		
 		PedestrianRole tempR = (PedestrianRole)eventR;
-		int buildingdist = (int)Math.sqrt(((Directory.getLocation(dest).getX()-tempR.getGui().getX())^2 + (Directory.getLocation(dest).getX()-tempR.getGui().getX())^2) );
+		//int buildingdist = 4000;
+		int btempX = Directory.getLocation(dest).getX()-tempR.getGui().getX();
+		int btempY = Directory.getLocation(dest).getY()-tempR.getGui().getY();
+		double tempX2 = Math.pow(btempX, 2);
+		double tempY2 = Math.pow(btempY, 2);
+		double buildingdist = Math.sqrt(tempX2 + tempY2);
+		//int buildingdist = (int)Math.sqrt(((Directory.getLocation(dest).getX()-tempR.getGui().getX())^2 + (Directory.getLocation(dest).getX()-tempR.getGui().getX())^2) );
 		if (minLocation < buildingdist) {
-			System.out.println("Transit");
 			return minStop;
 		}
 		else {
-			System.out.println("Walk");
 			return 10;
 		}
 	}
 	
 	int getClosestStop(String dest) {
-		Role eventR = null;
-		for (Role r : myRoles) {
-			if (r instanceof Pedestrian) {
-				eventR = r;
-				
+		double minLocation = 10000;
+		int minStop = 10;
+		
+		for (int i=0; i<4; i++) {
+			int tempX = Directory.getBusStop(i).getX()-Directory.getLocation(dest).getX();
+			double tempX2 = Math.pow(tempX, 2);
+			int tempY = Directory.getBusStop(i).getY()-Directory.getLocation(dest).getY();
+			double tempY2 = Math.pow(tempY, 2);
+			double tempXY = tempX2 + tempY2;
+			double tempLocation = Math.sqrt(tempXY);
+			if (minLocation > tempLocation) {
+				minLocation = tempLocation;
+				minStop = i;
 			}
 		}
-		int minLocation = 1000;
-		int minStop = 10;
-	   int stopzerodist = (int)Math.sqrt(((Directory.getBusStop(0).getX()-Directory.getLocation(dest).getX())^2 + (Directory.getBusStop(0).getY()-Directory.getLocation(dest).getY())^2));
-		int stoponedist = (int)Math.sqrt(((Directory.getBusStop(1).getX()-Directory.getLocation(dest).getX())^2 + (Directory.getBusStop(1).getY()-Directory.getLocation(dest).getY())^2));
-		int stoptwodist = (int)Math.sqrt(((Directory.getBusStop(2).getX()-Directory.getLocation(dest).getX())^2 + (Directory.getBusStop(2).getY()-Directory.getLocation(dest).getY())^2));
-	  int stopthreedist = (int)Math.sqrt(((Directory.getBusStop(3).getX()-Directory.getLocation(dest).getX())^2 + (Directory.getBusStop(3).getY()-Directory.getLocation(dest).getY())^2));
-		if (stopzerodist < minLocation) {
-			minLocation = stopzerodist;
-			minStop = 0; 
-		}
-		if (stoponedist < minLocation) {
-			minLocation = stoponedist;
-			minStop = 1;
-		}
-		if (stoptwodist < minLocation) {
-			minLocation = stoptwodist;
-			minStop = 2;
-		}
-		if (stopthreedist < minLocation) {
-			minLocation = stopthreedist;
-			minStop = 3;
-		}
 		return minStop;
+		
 	}
 	
 	

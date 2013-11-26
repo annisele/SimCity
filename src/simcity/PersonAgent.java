@@ -27,6 +27,7 @@ import simcity.interfaces.market.MarketCustomer;
 import simcity.interfaces.restaurant.two.RestaurantTwoCustomer;
 import simcity.interfaces.transportation.Pedestrian;
 import agent.Agent;
+import simcity.buildings.transportation.BusAgent;;
 
 
 
@@ -428,28 +429,23 @@ public class PersonAgent extends Agent implements Person {
 				
 			}
 		}
-		int minLocation = 1000;
+
+		double minLocation = 1000;
 		int minStop = 10;
-		int stopzerodist = (int)Math.sqrt(((Directory.getBusStop(0).getX()-eventR.getGui().getX())^2 + (Directory.getBusStop(0).getY()-eventR.getGui().getY())^2));
-		int stoponedist = (int)Math.sqrt(((Directory.getBusStop(1).getX()-eventR.getGui().getX())^2 + (Directory.getBusStop(1).getY()-eventR.getGui().getY())^2));
-		int stoptwodist = (int)Math.sqrt(((Directory.getBusStop(2).getX()-eventR.getGui().getX())^2 + (Directory.getBusStop(2).getY()-eventR.getGui().getY())^2));
-		int stopthreedist = (int)Math.sqrt(((Directory.getBusStop(3).getX()-eventR.getGui().getX())^2 + (Directory.getBusStop(3).getY()-eventR.getGui().getY())^2));
-		if (stopzerodist < minLocation) {
-			minLocation = stopzerodist;
-			minStop = 0; 
+		
+		for (int i=0; i<4; i++) {
+			int tempX = Directory.getBusStop(i).getX()-eventR.getGui().getX();
+			double tempX2 = Math.pow(tempX, 2);
+			int tempY = Directory.getBusStop(i).getY()-eventR.getGui().getY();
+			double tempY2 = Math.pow(tempY, 2);
+			double tempXY = tempX2 + tempY2;
+			double tempLocation = Math.sqrt(tempXY);
+			if (minLocation > tempLocation) {
+				minLocation = tempLocation;
+				minStop = i;
+			}
 		}
-		if (stoponedist < minLocation) {
-			minLocation = stoponedist;
-			minStop = 1;
-		}
-		if (stoptwodist < minLocation) {
-			minLocation = stoptwodist;
-			minStop = 2;
-		}
-		if (stopthreedist < minLocation) {
-			minLocation = stopthreedist;
-			minStop = 3;
-		}
+		
 		PedestrianRole tempR = (PedestrianRole)eventR;
 		int buildingdist = (int)Math.sqrt(((Directory.getLocation(dest).getX()-tempR.getGui().getX())^2 + (Directory.getLocation(dest).getX()-tempR.getGui().getX())^2) );
 		if (minLocation < buildingdist) {

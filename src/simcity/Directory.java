@@ -37,7 +37,6 @@ public class Directory {
 	}
 	
 	public static Location getBusStop(int bsc) {
-		
 		return busStopDirectory.get(bsc);
 	}
 	

@@ -31,7 +31,6 @@ public class MarketWorkerGui extends Gui {
 	
 	ImageIcon ii = new ImageIcon("res/person/bluepersondownbig.png");
 	Image workerimage = ii.getImage();
-	//Image workerimage = img.getScaledInstance(70, 62,  java.awt.Image.SCALE_SMOOTH); 
 
 	public MarketWorkerGui(MarketWorker m) {
 		role = m;
@@ -39,10 +38,10 @@ public class MarketWorkerGui extends Gui {
 
 	@Override
 	public void draw(Graphics2D g) {
+		g.drawImage(workerimage, getX(), getY(), null);
 		if(carrying) {
 			g.drawImage(itemimage, getX(), getY() + 30, null);
 		}
-		g.drawImage(workerimage, getX(), getY(), null);
 	}
 	
 	public void DoGoToShelfOneArea() {

@@ -45,11 +45,10 @@ public class MarketCashierGui extends Gui {
 
 	@Override
 	public void draw(Graphics2D g) {
+		g.drawImage(cashierimage, getX(), getY(), null);
 		if(numCounterItems > 0) {
 			g.drawImage(itemimage, ITEM_COUNTER_X, ITEM_COUNTER_Y, null);
-			//g.fillRect(ITEM_COUNTER_X, ITEM_COUNTER_Y, 20, 20);
 		}
-		g.drawImage(cashierimage, getX(), getY(), null);
 	}
 	
 	public void DoGoToCashRegister() {

@@ -28,10 +28,10 @@ public class MarketCustomerGui extends Gui {
 
 	@Override
 	public void draw(Graphics2D g) {
+		g.drawImage(img, getX(), getY(), null); 
 		if(carry) {
 			g.drawImage(itemimage, getX(), getY() + 30, null);
 		}
-		g.drawImage(img, getX(), getY(), null); 
 	}
 
 	public void carryItem(boolean c) {

@@ -446,7 +446,6 @@ public class PersonAgent extends Agent implements Person {
 			double tempY2 = Math.pow(tempY, 2);
 			double tempXY = tempX2 + tempY2;
 			double tempLocation = Math.sqrt(tempXY);
-			System.out.println("tempLocation is " + tempLocation);
 			if (minLocation > tempLocation) {
 				minLocation = tempLocation;
 				minStop = i;
@@ -462,13 +461,9 @@ public class PersonAgent extends Agent implements Person {
 		double buildingdist = Math.sqrt(tempX2 + tempY2);
 		//int buildingdist = (int)Math.sqrt(((Directory.getLocation(dest).getX()-tempR.getGui().getX())^2 + (Directory.getLocation(dest).getX()-tempR.getGui().getX())^2) );
 		if (minLocation < buildingdist) {
-			System.out.println("Transit");
-			System.out.println(minStop);
 			return minStop;
 		}
 		else {
-			System.out.println("Walk");
-			System.out.println(buildingdist);
 			return 10;
 		}
 	}
@@ -484,7 +479,6 @@ public class PersonAgent extends Agent implements Person {
 			double tempY2 = Math.pow(tempY, 2);
 			double tempXY = tempX2 + tempY2;
 			double tempLocation = Math.sqrt(tempXY);
-			System.out.println("tempLocation is " + tempLocation);
 			if (minLocation > tempLocation) {
 				minLocation = tempLocation;
 				minStop = i;

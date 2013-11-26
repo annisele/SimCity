@@ -115,6 +115,7 @@ public class BankSystem extends simcity.SimSystem{
 		return windowLookup;
 	}
 	
+	
 	public boolean msgEnterBuilding(Role role) {
 		animationPanel.addGui(role.getGui());
 		if(role instanceof BankCustomerRole) {

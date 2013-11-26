@@ -32,13 +32,13 @@ public class Clock {
 		h = (int)((currentTime / 6)%24);
 		d = (int)((currentTime / (6*24))%7);
 		
-		if (d == 1) day = "MON";
-		else if (d == 2) day = "TUE";
-		else if (d == 3) day = "WED";
-		else if (d == 4) day = "THU";
-		else if (d == 5) day = "FRI";
-		else if (d == 6) day = "SAT";
-		else if (d == 7) day = "SUN";
+		if (d == 0) day = "MON";
+		else if (d == 1) day = "TUE";
+		else if (d == 2) day = "WED";
+		else if (d == 3) day = "THU";
+		else if (d == 4) day = "FRI";
+		else if (d == 5) day = "SAT";
+		else if (d == 6) day = "SUN";
 		
 		return (day + "  "+ h + ":" + m);
 	}

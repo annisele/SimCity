@@ -133,7 +133,7 @@ public class MarketCashierRole extends Role implements MarketCashier {
 	}
 
 	private void SendBill(MarketOrder o) {
-		AlertLog.getInstance().logMessage(AlertTag.valueOf(market.getName()), "MarketCashier", "Here is your bill.");
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(market.getName()), "MarketCashier: " + person.getName(), "Here is your bill.");
 
 		Set<String> keys = o.items.keySet();
 		for (String key : keys) {
@@ -141,16 +141,16 @@ public class MarketCashierRole extends Role implements MarketCashier {
 		}
 
 		Do("Charging: " + o.payment);
-		o.payRole.msgPleasePay(this, o.payment, o.orderNumber);
+		o.payRole.msgPleasePay(market.getName(), o.payment, o.orderNumber);
 		o.state = MarketOrderState.waitingForPayment;
 	}
 
 	private void FillOrder(MarketOrder o) {
-		AlertLog.getInstance().logMessage(AlertTag.valueOf(market.getName()), "MarketCashier", "Told a worker to fill your order.");
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(market.getName()), "MarketCashier: " + person.getName(), "Told a worker to fill your order.");
 		market.getComputer().addMoney(o.payment);
 		if(market.getWorkers().isEmpty()) {
 			System.out.println("No workers to collect order.");
-			AlertLog.getInstance().logError(AlertTag.valueOf(market.getName()), "MarketCashier", "No workers to collect your order.");
+			AlertLog.getInstance().logError(AlertTag.valueOf(market.getName()), "MarketCashier: " + person.getName(), "No workers to collect your order.");
 		}
 		else {
 			int tempSize = market.getWorkers().size();
@@ -179,15 +179,15 @@ public class MarketCashierRole extends Role implements MarketCashier {
 		}
 		
 		if(o.deliverRole instanceof MarketCustomer) {
-			AlertLog.getInstance().logMessage(AlertTag.valueOf(market.getName()), "MarketCashier", "Here are your items.");
-			o.deliverRole.msgDeliveringOrder(o.items, 0.0); //msgHereAreItems
+			AlertLog.getInstance().logMessage(AlertTag.valueOf(market.getName()), "MarketCashier: " + person.getName(), "Here are your items.");
+			o.deliverRole.msgHereAreItems(o.items, 0.0);
 		}
 		else {
 			//o.deliverRole.msgOrderWillBeDelivered(o.items);
 			if(market.getTrucks().isEmpty()) {
-				AlertLog.getInstance().logError(AlertTag.valueOf(market.getName()), "MarketCashier", "No trucks to deliver order.");			}
+				AlertLog.getInstance().logError(AlertTag.valueOf(market.getName()), "MarketCashier: " + person.getName(), "No trucks to deliver order.");			}
 			else {
-				AlertLog.getInstance().logMessage(AlertTag.valueOf(market.getName()), "MarketCashier", "Assigning delivery to a market delivery truck.");
+				AlertLog.getInstance().logMessage(AlertTag.valueOf(market.getName()), "MarketCashier: " + person.getName(), "Assigning delivery to a market delivery truck.");
 				int tempSize = market.getTrucks().size();
 				market.getTrucks().get(truckIndex % tempSize).msgPleaseDeliverOrder(o.deliverRole, o.items);
 				truckIndex++;
@@ -227,7 +227,7 @@ public class MarketCashierRole extends Role implements MarketCashier {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		AlertLog.getInstance().logMessage(AlertTag.valueOf(market.getName()), "MarketCashier", "Leaving the market.");
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(market.getName()), "MarketCashier: " + person.getName(), "Leaving the market.");
 		market.exitBuilding(this);
 		person.roleFinished();
 	}
@@ -235,7 +235,7 @@ public class MarketCashierRole extends Role implements MarketCashier {
 	@Override
 	public void enterBuilding(SimSystem s) {
 		market = (MarketSystem)s;
-		AlertLog.getInstance().logMessage(AlertTag.valueOf(market.getName()), "MarketCashier", "Entering the market.");
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(market.getName()), "MarketCashier: " + person.getName(), "Entering the market.");
 		((MarketCashierGui)gui).DoGoToCenter();
 		try {
 			atDest.acquire();

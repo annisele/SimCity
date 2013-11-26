@@ -49,14 +49,14 @@ public class MarketWorkerRole extends Role implements MarketWorker {
 	}
 
 	private void FindAndDeliverOrder(WorkerOrder o) {
-		AlertLog.getInstance().logMessage(AlertTag.valueOf(market.getName()), "MarketWorker", "Collecting order.");
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(market.getName()), "MarketWorker: " + person.getName(), "Collecting order.");
 		collectItemsAnimation();
 		o.itemsToFind = market.getComputer().fillOrder(o.itemsToFind); //gets full order from system
 		if(o.itemsToFind != null) {
 			market.getCashier().msgOrderFound(o.orderNumber);
 		}
 		else {
-			AlertLog.getInstance().logError(AlertTag.valueOf(market.getName()), "MarketCashier", "Computer returned null when trying to fill order.");		
+			AlertLog.getInstance().logError(AlertTag.valueOf(market.getName()), "MarketCashier: " + person.getName(), "Computer returned null when trying to fill order.");		
 		}
 		synchronized(orders) {
 			orders.remove(o);
@@ -135,7 +135,7 @@ public class MarketWorkerRole extends Role implements MarketWorker {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		AlertLog.getInstance().logMessage(AlertTag.valueOf(market.getName()), "MarketWorker", "Leaving market.");
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(market.getName()), "MarketWorker: " + person.getName(), "Leaving market.");
 		market.exitBuilding(this);
 		person.roleFinished();
 	}
@@ -143,7 +143,7 @@ public class MarketWorkerRole extends Role implements MarketWorker {
 	@Override
 	public void enterBuilding(SimSystem s) {
 		market = (MarketSystem)s;
-		AlertLog.getInstance().logMessage(AlertTag.valueOf(market.getName()), "MarketWorker", "Entering market.");
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(market.getName()), "MarketWorker: " + person.getName(), "Entering market.");
 		((MarketWorkerGui)gui).DoGoToCenter();
 		try {
 			atDest.acquire();

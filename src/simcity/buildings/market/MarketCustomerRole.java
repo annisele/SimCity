@@ -105,6 +105,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	}
 
 	private void PayCashier() {
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(market.getName()), "MarketCustomer: " + person.getName(), "Here is the money I owe for my items.");
 		((MarketCustomerGui)gui).DoGoToCashier();
 		try {
 			atDest.acquire();

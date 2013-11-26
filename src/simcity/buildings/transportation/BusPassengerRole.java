@@ -79,7 +79,7 @@ import agent.Agent;
 	
 	private void GetOut() {
 		bus.msgGettingOff(this);
-
+		person.roleFinished();
 		// Animation
 		DoRedrawAt(xLoc, yLoc);
 		//WHAT DOES ENABLED EVEN MEAN??? ASK CB or something
@@ -95,6 +95,8 @@ import agent.Agent;
 		//Animation
 	}
 
+	
+	
 	@Override
 	public void msgExitBuilding() {
 		// TODO Auto-generated method stub

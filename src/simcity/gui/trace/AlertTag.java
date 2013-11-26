@@ -30,5 +30,11 @@ public enum AlertTag {
 	HOUSE1,
 	HOUSE2,
 	HOUSE3,
-	HOUSE4
+	HOUSE4,
+	HOUSE5,
+	HOUSE6,
+	HOUSE7,
+	HOUSE8,
+	HOUSE9,
+	HOUSE10
 }

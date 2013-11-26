@@ -89,6 +89,10 @@ public class SimCityGui extends JFrame implements ActionListener {
         add(fullPane, BorderLayout.CENTER);
 	}
 	
+	public void actionPerformed(ActionEvent e) {
+		
+	}
+	
 	public void setWorldErrorTrace(boolean set) {
 		if(set) {
 			worldTracePanel.showAlertsWithLevel(AlertLevel.ERROR);
@@ -134,25 +138,28 @@ public class SimCityGui extends JFrame implements ActionListener {
 		}
 	}
 	
-	public ControlPanel getControlPanel() {
-		return controlPanel;
-	}
-	
-	public TracePanel getDetailTracePanel() {
-		return detailTracePanel;
-	}
-	
 	public void setControlPanel(JPanel cp) {
 		controlPanel.setSelectedPanel(cp);
 		//System.out.println("Changing the control panel");
+	}
+	
+	public ControlPanel getControlPanel() {
+		return controlPanel;
 	}
 	
 	public JPanel getDetailPane() {
 		return viewDetailPanel;
 	}
 	
-	public void actionPerformed(ActionEvent e) {
+	public TracePanel getDetailTracePanel() {
+		return detailTracePanel;
+	}
 	
+	public void clearTracePanels() {
+	//	worldTracePanel = new TracePanel();
+		//detailTracePanel = new TracePanel();
+//		detailTracePanel.
+		//worldTracePanel.removeAll();
 	}
 	
 	public void clearDetailPane() {

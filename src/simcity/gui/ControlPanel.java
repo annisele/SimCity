@@ -34,17 +34,17 @@ import simcity.Config;
  * 
  */
 public class ControlPanel extends JPanel implements ActionListener {
-	
+
 	private SimCityGui simCityGui;
 	private Config config;
-	
+
 	//pause and clock elements
 	private JPanel pauseAndTime = new JPanel();
 	private JButton pauseB = new JButton("Pause");
 	private JTextField clockDisplay = new JTextField("", 10);
 	private Timer timer = new Timer();
 
-	
+
 	//config panel elements
 	private JPanel configPanel = new JPanel();
 	private JComboBox configDropdown;
@@ -54,7 +54,7 @@ public class ControlPanel extends JPanel implements ActionListener {
 	//tab elements
 	private JTabbedPane tabPane = new JTabbedPane();
 	private JPanel bottomSpace = new JPanel();
-	
+
 	//settingsTab (Settings) elements
 	private JPanel settingsTab = new JPanel();
 	private JSlider globalSpeed = new JSlider();
@@ -65,19 +65,19 @@ public class ControlPanel extends JPanel implements ActionListener {
 	private JLabel worldConsoleLabel = new JLabel("<html><u><b>World Console</b></u></html>");
 	private JLabel zoomConsoleLabel = new JLabel("<html><u><b>Zoom Console</b></u></html>");
 	private JPanel topPanel = new JPanel();
-		//logTab: errors elements
+	//logTab: errors elements
 	private JLabel errorsLabel = new JLabel("<html><b>Errors:</b></html>");
 	private JRadioButton outsideErrors = new JRadioButton("Outside");
 	private JRadioButton allErrors = new JRadioButton("All");
 	private JRadioButton noErrors = new JRadioButton("None");
 	private JPanel errorButtonsPanel = new JPanel();
-		//logTab: communication elements
+	//logTab: communication elements
 	private JPanel commPanel = new JPanel();
 	private JLabel commLabel = new JLabel("<html><b>Communication:</b></html>");
 	private JCheckBox pedestrian = new JCheckBox("Pedestrians");
 	private JCheckBox busPass = new JCheckBox("Bus Passengers");
 	private JCheckBox carPass = new JCheckBox("Car Passengers");
-		//logTab: print role switches or not
+	//logTab: print role switches or not
 	private JPanel roleSwitchPanel = new JPanel();
 	private JLabel roleSwitch = new JLabel("<html><b>Role Switches:</b></html>");
 	private JCheckBox roleSwitchCB = new JCheckBox();
@@ -86,29 +86,39 @@ public class ControlPanel extends JPanel implements ActionListener {
 	private JPanel zoomErrorsPanel = new JPanel();
 	private JLabel errors2Label = new JLabel("<html><b>Errors:</b></html>");
 	private JCheckBox errorsCB = new JCheckBox();
-		//logTab: communication zoom elements
+	//logTab: communication zoom elements
 	private JPanel comm2Panel = new JPanel();
 	private JLabel comm2Label = new JLabel("<html><b>Communication:</b></html>");
 	private JCheckBox commCB = new JCheckBox();
-		//logTab: role switching zoom elements
+	//logTab: role switching zoom elements
 	private JPanel roleSwitch2Panel = new JPanel();
 	private JLabel roleSwitch2 = new JLabel("<html><b>Role Switches:</b></html>");
 	private JCheckBox roleSwitch2CB = new JCheckBox();
-	
+
 	//selectTab - controls the building or person selected
 	private JPanel selectTab = new JPanel();
-	
+
 	//eventsTab - global events
 	private JPanel eventsTab = new JPanel();
 	private JButton earthquake = new JButton("Earthquake");
 	private JButton fire = new JButton("Fire (In Selected Building)");
-	
-	
+
+
+	//NEW log tab stuff
+	private JCheckBox worldErrors = new JCheckBox("Show World Errors");
+	private JCheckBox worldMessages = new JCheckBox("Show World Messages");
+	private JCheckBox buildingErrors = new JCheckBox("Show Building Errors");
+	private JCheckBox buildingMessages = new JCheckBox("Show Building Messages");
+	private JCheckBox worldInfo = new JCheckBox("Show World Info");
+
+
+
+
 	public ControlPanel(SimCityGui gui, Config c) {
 		simCityGui = gui;
 		config = c;
 		setLayout(new BoxLayout((Container) this, BoxLayout.Y_AXIS));
-		
+
 		//config panel
 		configStrings[0] = "Three Buildings";
 		configStrings[1] = "One Market";
@@ -127,7 +137,7 @@ public class ControlPanel extends JPanel implements ActionListener {
 		configPanel.add(load);
 		configPanel.setPreferredSize(new Dimension(this.getWidth(), 100));
 		add(configPanel);
-		
+
 		//pause and time panel
 		pauseB.addActionListener(this);
 		clockDisplay.setText("0:00");
@@ -135,7 +145,7 @@ public class ControlPanel extends JPanel implements ActionListener {
 		clockDisplay.setBackground(Color.WHITE);
 		clockDisplay.setDisabledTextColor(Color.BLACK);
 		clockDisplay.setEnabled(false);
-		
+
 		//.addActionListener(this);
 		pauseAndTime.setLayout(new FlowLayout());
 		pauseAndTime.add(clockDisplay);
@@ -147,16 +157,35 @@ public class ControlPanel extends JPanel implements ActionListener {
 				clockDisplay.setText(Clock.getDisplayTime());
 			}
 		}), 0, 1000);
-		
+
 		tabPane.setPreferredSize(new Dimension(300, 650));
-		
+
 		//settingsTab (Settings)
 		settingsTab.setLayout(new FlowLayout());
 		globalSpeedLabel.setAlignmentX(CENTER_ALIGNMENT);
 		settingsTab.add(globalSpeedLabel);
 		settingsTab.add(globalSpeed);
-		
+
 		//Log tab world section
+		worldErrors.addActionListener(this);
+		worldMessages.addActionListener(this);
+		worldInfo.addActionListener(this);
+		buildingErrors.addActionListener(this);
+		buildingMessages.addActionListener(this);
+
+		worldInfo.setSelected(true);
+		worldErrors.setSelected(true);
+		worldMessages.setSelected(true);
+		buildingErrors.setSelected(true);
+		buildingMessages.setSelected(true);
+
+		logTab.add(worldErrors);
+		logTab.add(worldMessages);
+		logTab.add(worldInfo);
+		logTab.add(buildingErrors);
+		logTab.add(buildingMessages);
+
+
 		logTab.setLayout(new FlowLayout());
 		topPanel.setLayout(new GridLayout(3, 1));
 		worldConsoleLabel.setAlignmentX(CENTER_ALIGNMENT);
@@ -165,8 +194,8 @@ public class ControlPanel extends JPanel implements ActionListener {
 		topPanel.add(worldConsoleLabel);
 		topPanel.add(new JLabel());
 		topPanel.add(errorsLabel);
-		logTab.add(topPanel);
-		
+		//logTab.add(topPanel);
+
 		//log tab world errors section
 		allErrors.setSelected(false);
 		allErrors.addActionListener(this);
@@ -177,8 +206,8 @@ public class ControlPanel extends JPanel implements ActionListener {
 		errorButtonsPanel.add(outsideErrors);
 		errorButtonsPanel.add(allErrors);
 		errorButtonsPanel.add(noErrors);
-		logTab.add(errorButtonsPanel);
-		
+		//logTab.add(errorButtonsPanel);
+
 		//log tab world communications section
 		commPanel.setLayout(new GridLayout(4, 1));
 		commPanel.add(commLabel);
@@ -191,66 +220,66 @@ public class ControlPanel extends JPanel implements ActionListener {
 		commPanel.add(pedestrian);
 		commPanel.add(busPass);
 		commPanel.add(carPass);
-		logTab.add(commPanel);
-		
+		//logTab.add(commPanel);
+
 		//log tab role switching
 		roleSwitchCB.setSelected(true);
 		roleSwitchCB.addActionListener(this);
 		roleSwitchPanel.add(roleSwitch);
 		roleSwitchPanel.add(roleSwitchCB);
-		logTab.add(roleSwitchPanel);
-		
+		//logTab.add(roleSwitchPanel);
+
 		//log tab zoom section
 		zoomPanel.setLayout(new GridLayout(5, 1));
 		zoomConsoleLabel.setAlignmentX(CENTER_ALIGNMENT); //someone help me center this!!
 		zoomConsoleLabel.setFont(new Font("Arial", Font.BOLD, 16));
 		zoomPanel.add(zoomConsoleLabel);
-		
+
 		//log tab zoom errors
 		errorsCB.setSelected(true);
 		errorsCB.addActionListener(this);
 		zoomErrorsPanel.add(errors2Label);
 		zoomErrorsPanel.add(errorsCB);
 		zoomPanel.add(zoomErrorsPanel);
-		
+
 		//log tab zoom communication section
 		commCB.setSelected(true);
 		commCB.addActionListener(this);
 		comm2Panel.add(comm2Label);
 		comm2Panel.add(commCB);
 		zoomPanel.add(comm2Panel);
-		
+
 		//log tab zoom console role switching
 		roleSwitch2CB.setSelected(true);
 		roleSwitch2Panel.add(roleSwitch2);
 		roleSwitch2Panel.add(roleSwitch2CB);
 		zoomPanel.add(roleSwitch2Panel);
-		logTab.add(zoomPanel);
-		
+		//logTab.add(zoomPanel);
+
 		//selectTab
 		selectTab.setLayout(new GridLayout(15, 1));
-		
+
 		//eventsTab
 		eventsTab.setLayout(new GridLayout(15, 1, 50, 500));
 		earthquake.addActionListener(this);
 		fire.addActionListener(this);
 		eventsTab.add(earthquake);
 		eventsTab.add(fire);
-		
+
 		tabPane.addTab("Selected", selectTab);
-		tabPane.addTab("Settings", settingsTab);
+		//	tabPane.addTab("Settings", settingsTab);
 		tabPane.addTab("Log", logTab);
-		tabPane.addTab("Events", eventsTab);
-		
+		//	tabPane.addTab("Events", eventsTab);
+
 		add(tabPane);
-		
+
 		bottomSpace.setPreferredSize(new Dimension(this.getWidth(), 50));
 		add(bottomSpace);
 	}
-	
-	
 
-	
+
+
+
 	public void actionPerformed(ActionEvent e) {
 		//NEED TO RESET WORLD WHEN LOAD IS PRESSED
 		//when load button is pressed
@@ -279,6 +308,24 @@ public class ControlPanel extends JPanel implements ActionListener {
 				config.MarketBankRestaurant();
 			}
 		}
+		//when log buttons are pressed
+		else if(e.getSource() == worldErrors) {
+			//turn on world errors based on if checkbox is selected
+			simCityGui.setWorldErrorTrace(worldErrors.isSelected());
+		}
+		else if(e.getSource() == worldMessages) {
+			simCityGui.setWorldMessageTrace(worldMessages.isSelected());
+		}
+		else if(e.getSource() == worldInfo) {
+			simCityGui.setWorldInfoTrace(worldInfo.isSelected());
+		}
+		else if(e.getSource() == buildingErrors) {
+			simCityGui.setDetailErrorTrace(buildingErrors.isSelected());
+		}
+		else if(e.getSource() == buildingMessages) {
+			simCityGui.setDetailMessageTrace(buildingMessages.isSelected());
+		}
+
 		//when pause button is pressed
 		else if(e.getSource() == pauseB) {
 			if(pauseB.getText().equals("Pause")) {
@@ -312,49 +359,49 @@ public class ControlPanel extends JPanel implements ActionListener {
 		}
 		//world console communication check boxes
 		else if(e.getSource() == pedestrian) {
-			
+
 		}
 		else if(e.getSource() == busPass) {
-			
+
 		}
 		else if(e.getSource() == carPass) {
-			
+
 		}
 		//world role switch check box
 		else if(e.getSource() == roleSwitchCB) {
-			
+
 		}
 		//zoom role switch check box
 		else if(e.getSource() == roleSwitch2CB) {
-			
+
 		}
 		//zoom errors check box
 		else if(e.getSource() == errorsCB) {
-			
+
 		}
 		//zoom communication check box
 		else if(e.getSource() == commCB) {
-			
+
 		}
 		//earthquake button in events tab
 		else if(e.getSource() == earthquake) {
-			
+
 		}
 		//fire button in events tab
 		else if(e.getSource() == fire) {
-			
+
 		}
 	}
-	
+
 	public void setSelectedPanel(JPanel panel) {
 		selectTab.removeAll();
 		selectTab.updateUI();
 		selectTab.add(panel);
 	}
-	
+
 	public void updateSelected(BuildingGui b) {
 
-		
+
 	}
-	
+
 }

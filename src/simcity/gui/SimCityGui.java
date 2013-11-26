@@ -13,6 +13,7 @@ import javax.swing.JSplitPane;
 
 import simcity.Config;
 import simcity.SystemManager;
+import simcity.gui.trace.AlertLevel;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
 import simcity.gui.trace.TracePanel;
@@ -86,6 +87,51 @@ public class SimCityGui extends JFrame implements ActionListener {
 		setLayout(new BorderLayout());
         add(menuPanel, BorderLayout.EAST);
         add(fullPane, BorderLayout.CENTER);
+	}
+	
+	public void setWorldErrorTrace(boolean set) {
+		if(set) {
+			worldTracePanel.showAlertsWithLevel(AlertLevel.ERROR);
+		}
+		else {
+			worldTracePanel.hideAlertsWithLevel(AlertLevel.ERROR);
+		}
+	}
+	
+	public void setWorldMessageTrace(boolean set) {
+		if(set) {
+			worldTracePanel.showAlertsWithLevel(AlertLevel.MESSAGE);
+		}
+		else {
+			worldTracePanel.hideAlertsWithLevel(AlertLevel.MESSAGE);
+		}
+	}
+	
+	public void setWorldInfoTrace(boolean set) {
+		if(set) {
+			worldTracePanel.showAlertsWithLevel(AlertLevel.INFO);
+		}
+		else {
+			worldTracePanel.hideAlertsWithLevel(AlertLevel.INFO);
+		}
+	}
+	
+	public void setDetailErrorTrace(boolean set) {
+		if(set) {
+			detailTracePanel.showAlertsWithLevel(AlertLevel.ERROR);
+		}
+		else {
+			detailTracePanel.hideAlertsWithLevel(AlertLevel.ERROR);
+		}
+	}
+	
+	public void setDetailMessageTrace(boolean set) {
+		if(set) {
+			detailTracePanel.showAlertsWithLevel(AlertLevel.MESSAGE);
+		}
+		else {
+			detailTracePanel.hideAlertsWithLevel(AlertLevel.MESSAGE);
+		}
 	}
 	
 	public ControlPanel getControlPanel() {

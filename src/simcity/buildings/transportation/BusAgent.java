@@ -42,14 +42,26 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 	
 	public BusAgent(String busname) {
 		this.name = busname; 
-		Location stop1 = new Location(68, 67);
-		Location stop2 = new Location(370, 67);
-		Location stop3 = new Location(370, 366);
-		Location stop4 = new Location(68, 366);
-		busStops.put(0, stop1);
-		busStops.put(1, stop2);
-		busStops.put(2, stop3);
-		busStops.put(3, stop4);
+		if (name == "Buster") {
+			Location stop1 = new Location(68, 67);
+			Location stop2 = new Location(370, 67);
+			Location stop3 = new Location(370, 366);
+			Location stop4 = new Location(68, 366);
+			busStops.put(0, stop1);
+			busStops.put(1, stop2);
+			busStops.put(2, stop3);
+			busStops.put(3, stop4);
+		}
+		else if (name == "Busta") {
+			Location stop1 = new Location(15, 108);
+			Location stop2 = new Location(336, 108);
+			Location stop3 = new Location(336, 405);
+			Location stop4 = new Location(15, 405);
+			busStops.put(0, stop1);
+			busStops.put(1, stop2);
+			busStops.put(2, stop3);
+			busStops.put(3, stop4);
+		}
 		busStopCounter = 3;
 	}
 		

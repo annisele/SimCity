@@ -11,6 +11,7 @@ import simcity.interfaces.GuiPartner;
 
 public interface BankTeller extends GuiPartner {
 	public abstract void atDestination();
+	public abstract void msgGoToThisWindow(int windowNumber);
 	public abstract void msgWantToOpenAccount(BankCustomer bc, double amountToProcess);
 	public abstract void msgWantToDeposit(BankCustomer bc, double amountToProcess);
 	public abstract void msgWantToWithdraw(BankCustomer bc, double amountToProcess);

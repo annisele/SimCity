@@ -873,4 +873,12 @@ public class PersonAgent extends Agent implements Person {
 			}
 		}  
 	}
+	
+	public Role getCurrentRole() {
+		return currentRole;
+	}
+	
+	public void setCurrentRole(Role r) {
+		this.currentRole = r;
+	}
 }

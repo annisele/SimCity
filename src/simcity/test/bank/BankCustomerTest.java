@@ -37,6 +37,7 @@ public class BankCustomerTest extends TestCase {
 		bankCustomer.setCashOnHand(100.00);
 		bankCustomer.setAmountToProcess(100.00);
 		bankCustomer.setTransactionType(TransactionType.openAccount);
+		person.setCurrentRole(bankCustomer);
 	
 		// check setup postconditions
 		assertEquals("BankCustomer password should be abcde", bankCustomer.getPassword(), "abcde");
@@ -45,6 +46,7 @@ public class BankCustomerTest extends TestCase {
 		assertEquals("BankCustomer transaction type should be openAccount", bankCustomer.getTransactionType(), TransactionType.openAccount);
 		assertEquals("BankCustomer state should be none", bankCustomer.getState(), State.none);
 		assertEquals("BankCustomer event should be none", bankCustomer.getEvent(), Event.none);
+		assertEquals("PersonAgent current role should be BankCustomerRole", person.getCurrentRole(), bankCustomer);
 		
 		// step 1 - customer enters building, sets its banksystem, then messages itself that it has arrived
 		bankCustomer.enterBuilding(bankSystem);
@@ -55,7 +57,8 @@ public class BankCustomerTest extends TestCase {
 		assertEquals("BankCustomer bank system should be bankSystem", bankCustomer.getBankSystem(), bankSystem);
 		
 		// step 2 - call scheduler
-		assertTrue("BankCustomer scheduler should return true", bankCustomer.pickAndExecuteAnAction());
+		bankCustomer.stateChanged();
+		assertTrue("BankCustomer scheduler should return true", person.pickAndExecuteAnAction());
 		
 		// check step2 postconditions
 		assertEquals("BankCustomer state should be waitingAtBank", bankCustomer.getState(), State.waitingAtBank);

@@ -15,4 +15,6 @@ public interface RestaurantTwoCashier extends GuiPartner{
 	abstract void msgCustomerOrder(
 			RestaurantTwoWaiter restaurantTwoWaiterRole,
 			RestaurantTwoCustomer c, int table_num, String choice);
+
+	double msgGetCheck(RestaurantTwoCustomer c);
 }

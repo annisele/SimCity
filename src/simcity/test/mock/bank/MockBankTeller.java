@@ -85,6 +85,12 @@ public class MockBankTeller extends Mock implements BankTeller {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public void msgGoToThisWindow(int windowNumber) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 }

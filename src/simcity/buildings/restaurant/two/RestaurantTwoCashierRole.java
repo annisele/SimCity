@@ -14,10 +14,6 @@ import java.util.concurrent.Semaphore;
 import simcity.buildings.market.MarketSystem;
 import simcity.buildings.restaurant.two.RestaurantTwoCustomerRole;
 import simcity.buildings.restaurant.two.RestaurantTwoWaiterRole;
-import simcity.buildings.restaurant.two.RestaurantTwoCashierRole.OrderState;
-import simcity.buildings.restaurant.two.RestaurantTwoCashierRole.mymarket;
-import simcity.buildings.restaurant.two.RestaurantTwoCashierRole.order;
-import simcity.gui.market.MarketCashierGui;
 import simcity.gui.restauranttwo.RestaurantTwoCashierGui;
 import simcity.gui.restauranttwo.RestaurantTwoHostGui;
 import simcity.interfaces.restaurant.two.RestaurantTwoCustomer;
@@ -27,37 +23,21 @@ import simcity.PersonAgent;
 //import simcity.test.mock.LoggedEvent;
 import simcity.Role;
 import simcity.SimSystem;
-import simcity.buildings.restaurant.one.RestaurantOneCheck.CheckState;
-import simcity.interfaces.restaurant.one.RestaurantOneCustomer;
 
 public class RestaurantTwoCashierRole extends Role implements simcity.interfaces.restaurant.two.RestaurantTwoCashier{//implements simcity.interfaces.restaurant.one.RestaurantOneCashier {
 
 	
-	 private RestaurantTwoWaiterRole wait;
+	 private RestaurantTwoWaiter wait;
 	private RestaurantTwoCustomer cust;
 	private RestaurantTwoSystem R2;
+	private RestaurantTwoComputer computer;
 	private Semaphore atDest = new Semaphore(0, true);
-	public double balance;
-	public List<mymarket> markets
-	= Collections.synchronizedList(new ArrayList<mymarket>());
-	public class mymarket{
-		public double bill=0;
-		MarketSystem m;
-		public String name;
-		public double debt=0;
-		
-		mymarket(MarketSystem market){
-			m =market;
-			name= market.getName();
-		}
-	}
+
+	
 	private boolean in_debt=false;
 	private boolean pay_market=false;
 	public List<order> cashiers_list
 	= Collections.synchronizedList(new LinkedList<order>());
-	public List<order> bad_orders
-	= Collections.synchronizedList(new ArrayList<order>());
-	private Map<String,Double> Menu= Collections.synchronizedMap (new HashMap<String, Double>());
 	public class order{
 		int cost;
 		String choice;
@@ -92,34 +72,33 @@ public class RestaurantTwoCashierRole extends Role implements simcity.interfaces
 	}
 	// Messages
 	
-	public RestaurantTwoCashierRole(PersonAgent p, RestaurantTwoSystem r){
+	public RestaurantTwoCashierRole(PersonAgent p, RestaurantTwoSystem r, RestaurantTwoComputer r2comp){
 		super();
 		this.person=p;
 		this.gui=new RestaurantTwoCashierGui(this);
 		this.R2=r;
-		balance=500;
-		Menu.put("chicken",10.99);	
-		Menu.put("steak",15.99);
-		Menu.put("salad",5.99);
-		Menu.put("pizza",8.99);
+		this.computer=r2comp;
+		
+		
 		
 	}
 	public void modBalance(double b){
-		balance=b;
-		Do(""+balance);
+		//hack
+		computer.balance=b;
+		Do("mod balence: "+computer.balance);
 	}
-	/*
-	@Override
-   public void msgCustomerOrder(Waiter w,Customer c,int t, String ch) {
-           Do("Recieved "+c.getCustomerName()+"'s "+ch+" order");
+	
+
+   public void msgCustomerOrder(RestaurantTwoWaiter w,RestaurantTwoCustomer c,int t, String ch) {
+           Do("Recieved "+c+"'s "+ch+" order");
            order o= new order(w, c,t,ch);
            o.state= OrderState.adding;
            Do("order: "+o.choice+" cust: "+o.cust);
            cashiers_list.add(o);
            stateChanged();
    }
-   @Override
-   public double msgGetCheck(Customer c){
+  
+   public double msgGetCheck(RestaurantTwoCustomer c){
            Do("Giving check to waiter");
            for(order current: cashiers_list){
                    if(current.cust==c){
@@ -128,14 +107,6 @@ public class RestaurantTwoCashierRole extends Role implements simcity.interfaces
    }
            return 0;
    }
-	*/public void msgCustomerOrder(RestaurantTwoWaiter w, RestaurantTwoCustomer c,int t, String ch) {
-		//Do("Recieved "+((RestaurantTwoCustomerRole) c).getCustomerName()+"'s "+ch+" order");
-		//log.add(new LoggedEvent("Recieved order"));
-		order o= new order(w, c, t,ch);
-		cashiers_list.add(o);
-		
-		stateChanged();
-	}
 	
 	public void msgHereIsBill(MarketSystem m, Double p){
 		double temp=0;
@@ -143,27 +114,27 @@ public class RestaurantTwoCashierRole extends Role implements simcity.interfaces
 		Do("Recieved bill from market");
 		
 		//log.add(new LoggedEvent("Recieved bill"));
-		if(balance>=p){
+		if(computer.getMoney()>=p){
 
-			synchronized(markets){
+			synchronized(computer.markets){
 	
-			for(int i=0; i<markets.size();i++){
+			for(int i=0; i<computer.markets.size();i++){
 		
-				if(markets.get(i).m==m){
-		balance-=p;
+				if(computer.markets.get(i).m==m){
+					computer.subtractMoney(p);
 		
 		temp=p;
 		DecimalFormat fr =new DecimalFormat("##.00");
 		String formate=fr.format(temp);
 		try {
-			markets.get(i).bill=(Double)fr.parse(formate);
+			computer.markets.get(i).bill=(Double)fr.parse(formate);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		pay_market=true;
-		Do(m.getName()+" has been paid "+markets.get(i).bill+" in full.");
+		Do(m.getName()+" is paying "+computer.markets.get(i).bill+" in full.");
 		stateChanged();
 		}
 			}
@@ -171,23 +142,24 @@ public class RestaurantTwoCashierRole extends Role implements simcity.interfaces
 		}
 		else{
 
-			synchronized(markets){
-			for(int j=0; j<markets.size();j++){
-				if(markets.get(j).m==m){
-					Do(""+balance);
-					temp= p-balance;
+			synchronized(computer.markets){
+			for(int j=0; j<computer.markets.size();j++){
+				if(computer.markets.get(j).m==m){
+					Do("CURRENT BAL: "+computer.getMoney());
+					temp= p-computer.getMoney();
 					DecimalFormat f =new DecimalFormat("##.00");
 					String formate=f.format(temp);
 					try {
-						markets.get(j).bill=(Double)f.parse(formate);
+						computer.markets.get(j).bill=(Double)f.parse(formate);
 					} catch (ParseException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					markets.get(j).debt= markets.get(j).bill;
+					computer.markets.get(j).debt= computer.markets.get(j).bill;
 			Do("Cashier is in debt!");
-			Do("Cashier owes $"+markets.get(j).debt);
-			balance=0;
+			Do("Cashier owes $"+computer.markets.get(j).debt);
+			temp= computer.getMoney();
+			computer.subtractMoney(temp);
 			in_debt=true;
 			stateChanged();
 			}
@@ -205,14 +177,14 @@ public class RestaurantTwoCashierRole extends Role implements simcity.interfaces
 			if(current.cust==c){
 				if(current.payment==m){
 					current.state= OrderState.paid;
-					balance+=m;
+					computer.addMoney(m);
 					Do("Customer has paid in full");
 					stateChanged();
 				}
 				else{
 					Do("wrong amount");
 				current.state= OrderState.indebt;
-				balance+=m;
+				computer.addMoney(m);
 				current.debt=current.payment-m;
 				stateChanged();
 				}
@@ -234,35 +206,23 @@ public class RestaurantTwoCashierRole extends Role implements simcity.interfaces
 		 */
 		//Do("cahsier state");
 		if(pay_market==true){
-			
-			synchronized(markets){
-			for(int i=0; i<markets.size();i++){
-				if(markets.get(i).bill>0){
-		//sentMoney(markets.get(i).m,markets.get(i).bill);
-		return true;
-		}
-		}
-		}
-		}
-		if(in_debt==true){
-			synchronized(markets){
-		for(mymarket m: markets){
-			if(m.debt>0){
-				if(balance>m.debt){
-					balance-=m.debt;
-					Do("$"+m.debt+" has been paid to "+m.name);
-					in_debt=false;
-					pay_market=true;
-					return true;
-				}
-				if(balance<=m.debt){
-					//Do("$$");
+
+			synchronized(computer.markets){
+				for(int i=0; i<computer.markets.size();i++){
+					if(computer.markets.get(i).bill>0){
+						sendMoney(computer.markets.get(i).name);
+						return true;
+					}
 				}
 			}
+		}
+
+		if(!computer.owed_markets.isEmpty()){
+			if(computer.checkMarket() != null){
+				sendMoney(computer.checkMarket());
 			}
 		}
-		}
-		
+
 		synchronized(cashiers_list){  
 		for (order o : cashiers_list) {
 			if (o.state == OrderState.adding) {
@@ -280,6 +240,7 @@ public class RestaurantTwoCashierRole extends Role implements simcity.interfaces
 			if (o.state == OrderState.indebt) {
 				
 				KeepTrack(o);
+				cashiers_list.remove(o);
 				return true;
 			}
 		}
@@ -297,7 +258,13 @@ public class RestaurantTwoCashierRole extends Role implements simcity.interfaces
 	
 	private void CreateCheck(order o){
 		//cust.msgTEST();
-	o.payment=Menu.get(o.choice);
+		 try {
+	o.payment=computer.Menu.get(o.choice);
+		 }
+	catch (NullPointerException e) {
+			e.printStackTrace();
+			
+		}
 	Do("creating $"+o.payment+" check for "+o.cust);
 	o.waiter.msgHereIsCheck(o.table,o.payment);
 	o.state= OrderState.waiting;
@@ -307,12 +274,13 @@ public class RestaurantTwoCashierRole extends Role implements simcity.interfaces
 	private void paid(RestaurantTwoCustomer c){
 		c.msgGoodbye();
 	}
-	private void sentMoney(MarketSystem m, double b){
-		//m.msgHereIsMoney(b);
+	private void sendMoney(String market){
+	//	m.msgHereIsMoney(b);
 		pay_market=false;
+		Do("Money has been sent to market");
 	}
 	private void KeepTrack(order o){
-		bad_orders.add(o);
+		computer.bad_orders.add(o);
 		Do("Customer "+ o.cust+ "is in debt");
 		
 	}
@@ -329,13 +297,10 @@ public class RestaurantTwoCashierRole extends Role implements simcity.interfaces
 
 	//utilities
 	
-	public void addMarket(MarketSystem m){
-		mymarket temp= new mymarket(m);
-		markets.add(temp);
-	}
+	
 	
 	public void printMarket() {
-		System.out.println("her "+ markets.size());
+		//System.out.println("her "+ markets.size());
 	}
 	
 

@@ -36,6 +36,9 @@ public class BankHostRole extends Role implements BankHost {
 	public List getCustomers() {
 		return customers;
 	}
+	public List getBankTellers() {
+		return waitingBankTellers;
+	}
 	// constructor
 	public BankHostRole (PersonAgent p) {
 		person = p;
@@ -205,5 +208,15 @@ public class BankHostRole extends Role implements BankHost {
 	@Override
 	public void atDestination() {
 		atBank.release();
+	}
+	@Override
+	public void msgExitBuilding() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void msgEnterBuilding(SimSystem s) {
+		// TODO Auto-generated method stub
+		
 	}
 }

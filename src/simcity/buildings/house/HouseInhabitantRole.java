@@ -11,6 +11,7 @@ import java.util.concurrent.Semaphore;
 import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
+import simcity.PersonAgent.EventType;
 import simcity.gui.house.HouseInhabitantGui;
 
 public class HouseInhabitantRole extends Role implements simcity.interfaces.house.HouseInhabitant {
@@ -24,6 +25,7 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 	HouseInhabitantEvent event = HouseInhabitantEvent.None;
 	private Map <String, Integer > foodStock = new HashMap<String,Integer>();
 	private Map <String, Integer > foodToBuy = new HashMap<String,Integer>();
+	private boolean marketScheduled = false;
 	
 	private Semaphore atDest = new Semaphore(0, true);
 	
@@ -81,12 +83,13 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 		List<String> keys = new ArrayList<String>(foodStock.keySet());
 		String choice = keys.get( rand.nextInt(keys.size()) );
 		Integer quantity = foodStock.get(choice);
+		boolean needToBuy = false;
 		
 		if (quantity > 0) {
 			// Pick your random food if you have any
 			foodStock.put(choice, (quantity-1));
-			if (quantity < FOODTHRESHOLD) 
-				foodToBuy.put(choice, FOODSTOCK);
+			if (quantity < FOODTHRESHOLD && !marketScheduled) 
+				needToBuy = true;
 		} else {
 			choice = "";
 			for (String k : keys) {
@@ -95,14 +98,19 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 					foodStock.put(choice, (quantity-1));
 					choice = k;
 				}
-				if (foodStock.get(k) < FOODTHRESHOLD) {
+				if (foodStock.get(k) < FOODTHRESHOLD && !marketScheduled) {
 					// Add them to a list of things to buy
-					foodToBuy.put(k, FOODSTOCK);
+					needToBuy = true;
 				}
 			}
 		}
 		if (choice == "") {
 			// We're out of all food
+		}
+		if (needToBuy == true && marketScheduled == false) {
+			person.Do("I just scheduled an event to go to the market");
+			person.scheduleEvent(EventType.GoToMarket);
+			marketScheduled = true;
 		}
 		
 		person.Do("I'm going to eat "+choice);
@@ -139,8 +147,9 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 		((HouseInhabitantGui)gui).DoEatFood();
 		Do("That was great. Wow. Such noms");
 		DoGetUpFromTable();
-		
 		msgExitBuilding();
+		
+		//msgExitBuilding();
 	}
 
 	private void LeaveForRestaurant() {
@@ -285,8 +294,7 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 		}
 		house.exitBuilding(this);
 		person.roleFinished();
-		person.isIdle();
-		
+		//stateChanged();
 	}
 
 	@Override

@@ -6,6 +6,7 @@ import simcity.SimSystem;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
 import simcity.gui.transportation.BusPassengerGui;
+import simcity.interfaces.Person;
 
 public class BusPassengerRole extends Role implements simcity.interfaces.transportation.BusPassenger {
 

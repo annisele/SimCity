@@ -106,5 +106,9 @@ public class PedestrianRole extends Role implements simcity.interfaces.transport
 	private void DoGoTo(Location loc)  {
 	//pedestrianGui.DoWalkTo...
 	}*/
+	
+	public Location getNextLocation() {
+		return destinationList.get(0);
+	}
 
 }

@@ -154,6 +154,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	@Override
 	public void enterBuilding(SimSystem s) {
 		market = (MarketSystem)s;
+		
 		//hack!
 		itemsToBuy = new HashMap<String, Integer>();
 		itemsToBuy.put("chicken", 2);

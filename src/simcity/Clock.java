@@ -25,21 +25,22 @@ public class Clock {
 	}
 		
 	public static String getDisplayTime(){
-		int hr = 0, mn = 0, d = 0;
+		int h = 0, m = 0, d = 0;
+		String day = "";
 		currentTime = (System.currentTimeMillis() - startTime) / 1000;
-		if(currentTime > 60){
-			hr = (int)currentTime / 60;
-			if (hr > 24){
-				d = hr / 24;
-				hr = hr % 24;
-			}
-			mn = (int)currentTime % 60;
-		}
-		else{
-			mn = (int)currentTime;
-		}
+		m = (int)((currentTime % 6)*10);
+		h = (int)((currentTime / 6)%24);
+		d = (int)((currentTime / (6*24))%7);
 		
-		return (hr + ":" + mn);
+		if (d == 1) day = "MON";
+		else if (d == 2) day = "TUE";
+		else if (d == 3) day = "WED";
+		else if (d == 4) day = "THU";
+		else if (d == 5) day = "FRI";
+		else if (d == 6) day = "SAT";
+		else if (d == 7) day = "SUN";
+		
+		return (day + "  "+ h + ":" + m);
 	}
 	
 	public static void reset() {

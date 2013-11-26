@@ -9,19 +9,25 @@ import junit.framework.*;
 public class BankHostTest extends TestCase {
 	BankHostRole host;
 	MockBankTeller bankTeller;
-	MockBankCustomer bankCustomer;
+	MockBankCustomer bc;
 	
 	public void setUp() throws Exception {
 		super.setUp();
 		host = new BankHostRole(null);
 		bankTeller = new MockBankTeller("bank teller");
-		bankCustomer = new MockBankCustomer("bank customer");		
+		bc = new MockBankCustomer("bank customer");		
 	}
 	
 	public void testOneCustomerEnterBank() {
 		System.out.println("TEST ONE CUSTOMER ENTER BANK");
 
-		assertTrue("Cashier should have 0 bills in it. It doesn't.",host.customers.isEmpty());		
+		assertTrue("Cashier should have 0 bills in it. It doesn't.",host.getCustomers().isEmpty());		
+		host.msgEnteringBank(bc);
+		host.pickAndExecuteAnAction();
+		assertEquals("Bank host should have an empty event log before the BankHost's GoToWindow is called. Instead, the Cashier's event log reads:"
+				+ host.log.toString(), 0, host.log.size());
+		assertFalse(host.getCustomers().isEmpty());
+		
 		
 	}
 	public void testOneBankTellerEnterBank() {

@@ -72,7 +72,6 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 	public void makeBusMove() {		// HACKHACKHACK
 		event = BusEvent.loaded;
 		stateChanged();
-		System.out.println("stateChanged from makeBusMove");
 	}
 	
 	public void msgWantBus(BusPassengerRole cp, int s, int d) {
@@ -80,7 +79,6 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 		temp.loaded = false;
 		passengers.add(temp);
 		
-		System.out.println("In msgWantBus in BusAgent");
 		stateChanged();
 	}
 	
@@ -97,7 +95,6 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 	}
 	
 	public void msgGettingOff(BusPassengerRole cp) {
-		System.out.println("HERES 5$ WHORE!");
 		synchronized(passengers) {
 			for (MyPassenger p : passengers) {
 				if (p.role == cp) {
@@ -117,7 +114,6 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 	public void msgArrived() {
 		event = BusEvent.arrived;
 		stateChanged();
-		System.out.println("stateChanged from msgArrived");
 	}
 
 	boolean FullyLoaded() {
@@ -128,7 +124,6 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 						return false;
 				}
 			}
-			System.out.println("stateChanged from FullyLoaded");
 		}
 		return true;	
 	}
@@ -136,13 +131,11 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 	// Scheduler
 	public boolean pickAndExecuteAnAction() {
 		if (state == BusState.stopped && event == BusEvent.loaded){
-			System.out.println("Gonna drive cause no ones here");
 			state = BusState.driving;
 			Drive();
 			return true;
 		}
 		if (state == BusState.driving && event == BusEvent.arrived){
-			System.out.println("Just arrived, but no ones here!");
 			state = BusState.stopped;
 			Stop();
 			return true;
@@ -173,12 +166,10 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 		synchronized(passengers) {
 			for (MyPassenger p : passengers) {
 				if (p.loaded == false && p.startLocation == busStopCounter) {
-					System.out.println("IM GETTING ON BITCH");
 					p.role.msgBusArriving();
 					p.loaded = true;
 		        }
 				if (p.loaded == true && p.destination == busStopCounter) {
-					System.out.println("I CAME!");
 					p.role.msgWeHaveArrived(dir.getBusStop(busStopCounter).getX(), dir.getBusStop(busStopCounter).getY());
 					p.loaded = false;
 					//passengers.remove(p);
@@ -205,7 +196,6 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
               }
       },
      300);*/
-		System.out.println("AtDestination");
 		atDestination.release();
 	}
 

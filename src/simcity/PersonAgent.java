@@ -185,10 +185,10 @@ public class PersonAgent extends Agent implements Person {
 			String buildingName = markets.get(index);
 			List<Step> steps = new ArrayList<Step>();
 			steps.add(new Step("exitBuilding", this));
-			steps.add(new Step("goTo", this));
-			steps.add(new Step("enterBuilding", this));
-			//steps.add(new Step("goToBusStop", this));
-			//steps.add(new Step("waitForBus", this));
+			//steps.add(new Step("goTo", this));
+			//steps.add(new Step("enterBuilding", this));
+			steps.add(new Step("goToBusStop", this));
+			steps.add(new Step("waitForBus", this));
 
 			//waitForTransport();
 			//steps.add(new Step("goTo", this));
@@ -392,7 +392,6 @@ public class PersonAgent extends Agent implements Person {
 				Directory.getWorld().getAnimationPanel().addGui(currentRole.getGui());
 		}
 	}
-		Do("At Bus Stop");
 		Location loc = Directory.getBusStop(3);
 		((PedestrianRole)currentRole).addDestination(loc);
 		//waitForTransport();

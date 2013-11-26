@@ -97,7 +97,7 @@ import agent.Agent;
 	
 	
 	@Override
-	public void msgExitBuilding() {
+	public void exitBuilding() {
 		// TODO Auto-generated method stub
 		
 	}
@@ -109,7 +109,7 @@ import agent.Agent;
 	}
 
 	@Override
-	public void msgEnterBuilding(SimSystem s) {
+	public void enterBuilding(SimSystem s) {
 		// TODO Auto-generated method stub
 		
 	}

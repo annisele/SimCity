@@ -163,7 +163,7 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 		state = HouseInhabitantState.Eating;
 		event = HouseInhabitantEvent.None;
 		
-		msgExitBuilding();
+		exitBuilding();
 		
 		//msgExitBuilding();
 	}
@@ -319,7 +319,7 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 	}
 
 	@Override
-	public void msgExitBuilding() {
+	public void exitBuilding() {
 		person.Do("Leaving the house.");
 		gui.DoExitBuilding();
 		try {
@@ -333,7 +333,7 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 	}
 
 	@Override
-	public void msgEnterBuilding(SimSystem s) {
+	public void enterBuilding(SimSystem s) {
 		house = (HouseSystem)s;
 		((HouseInhabitantGui)gui).DoGoToLiving();
 		try {

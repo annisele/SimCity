@@ -16,8 +16,8 @@ public abstract class Role  {
 	
 	public abstract boolean pickAndExecuteAnAction();
 	
-	public abstract void msgExitBuilding();
-	public abstract void msgEnterBuilding(SimSystem s);
+	public abstract void exitBuilding();
+	public abstract void enterBuilding(SimSystem s);
 	 
 	public boolean active = false;
 

@@ -169,6 +169,7 @@ public class Config {
 		systems.clearDetailPane();
 		
 		systems.setBackgroundTwo();
+		systems.addBus("Busta");
 		
 		// Top row
 		systems.addHouse("HouseSOne", 60, 27);

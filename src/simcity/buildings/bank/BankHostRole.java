@@ -167,26 +167,24 @@ public class BankHostRole extends Role implements BankHost {
 	private void tellTellerToGoToAppropriateWindow(BankTeller bt) {
 		bank.findUnreadyWindowAndSendBankTeller(bt);
 		int tempWindowNumber = bank.getTellerWindow();
-		AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankHost: " + person.getName(), "Bank");		
-		//System.out.println("tempWindowNumber = " + tempWindowNumber);
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankHost: " + person.getName(), "Teller! Go to window "+tempWindowNumber);		
 		bt.msgGoToThisWindow(tempWindowNumber);
 		bank.reinitializeTellerWindow();
 		waitingBankTellers.remove(bt);
 	}
 	
 	private void tellCustomerToGoToWindow(BankCustomer bc, BankWindow window) {
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankHost: " + person.getName(), "Please head to window "+window.getWindowNumber());		
+		((BankCustomer) customers.get(0)).msgGoToWindow(window.getWindowNumber(), window.getBankTeller());
 		
-			person.Do("Please go to the available window");
-			((BankCustomer) customers.get(0)).msgGoToWindow(window.getWindowNumber(), window.getBankTeller());
-			
-			window.setOccupant(bc);
+		window.setOccupant(bc);
 		
 		customers.remove(bc);
 	}
 	
 	// utility functions
 	public void exitBuilding() {
-		person.Do("Leaving bank");
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankHost: " + person.getName(), "Leaving the bank");		
 		gui.DoExitBuilding();
 		try {
 			atBank.acquire();
@@ -201,7 +199,10 @@ public class BankHostRole extends Role implements BankHost {
 
 	@Override
 	public void enterBuilding(SimSystem s) {
+			
+
 		bank = (BankSystem)s;
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankHost: " + person.getName(), "Entering the bank");	
 		((BankHostGui)gui).DoGoToHostPosition();
 	}
 	

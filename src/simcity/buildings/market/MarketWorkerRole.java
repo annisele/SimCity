@@ -20,6 +20,15 @@ public class MarketWorkerRole extends Role implements MarketWorker {
 	private List<WorkerOrder> orders = Collections.synchronizedList(new ArrayList<WorkerOrder>());
 	private Semaphore atDest = new Semaphore(0, true);
 	Timer timer = new Timer();
+	private class WorkerOrder {
+		int orderNumber;
+		Map<String, Integer> itemsToFind;
+
+		WorkerOrder(int oNum, Map<String, Integer> items) {
+			orderNumber = oNum;
+			itemsToFind = items;
+		}
+	}
 
 	public MarketWorkerRole(PersonAgent p) {
 		person = p;
@@ -113,17 +122,6 @@ public class MarketWorkerRole extends Role implements MarketWorker {
 			atDest.acquire();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
-		}
-	}
-
-	private class WorkerOrder {
-
-		int orderNumber;
-		Map<String, Integer> itemsToFind;
-
-		WorkerOrder(int oNum, Map<String, Integer> items) {
-			orderNumber = oNum;
-			itemsToFind = items;
 		}
 	}
 

@@ -33,14 +33,15 @@ public class BankHostTest extends TestCase {
 				+ host.log.toString(), 0, host.log.size());
 		host.msgEnteringBank(bc);
 		assertFalse("MockBankCustomer should have received msgGoToWindow.", bc.log.containsString("I'm going to the window to perform bank transaction"));
-		//host.pickAndExecuteAnAction();
+		host.pickAndExecuteAnAction();
+		assertFalse(host.getCustomers().isEmpty());
 		
-		//assertEquals(
-		//		"MockBankCustomer should have an empty event log after the BankHost's scheduler is called for the first time. Instead, the MockCustomer's event log reads: "
-		//				+ bc.log.toString(), 0, bc.log.size());
+		assertEquals(
+				"MockBankCustomer should have an empty event log after the BankHost's scheduler is called for the first time. Instead, the MockCustomer's event log reads: "
+						+ bc.log.toString(), 0, bc.log.size());
 				
 		//assertTrue("MockBankCustomer should have received msgGoToWindow.", bc.log.containsString("I'm going to the window to perform bank transaction"));
-		assertFalse(host.getCustomers().isEmpty());
+		
 	}
 	public void testOneBankTellerEnterBank() {
 		System.out.println("TEST ONE BANK TELLER ENTER BANK");

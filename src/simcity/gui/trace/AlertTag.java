@@ -13,15 +13,20 @@ package simcity.gui.trace;
  *
  */
 public enum AlertTag {
-	PEDESTRIAN,
-	IDLE_PERSON,
 	WORLD,
-	MARKET_CASHIER,
-	MARKET_WORKER,
-	MARKET_CUSTOMER,
-	BANK_TELLER,
-	BANK_CUSTOMER,
+	MARKET1,
+	MARKET2,
+	MARKET3,
+	BANK1,
+	BANK2,
+	BANK3,
 	BUS_STOP,
-	RESTAURANT,		//For the demo code where you make a new restaurant
-	BANK,			//For the demo code where you make a new bank
+	RESTAURANT1,		
+	RESTAURANT2,
+	RESTAURANT3,
+	RESTAURANT4,		
+	RESTAURANT5,
+	RESTAURANT6,
+	HOUSE1,
+	HOUSE2
 }

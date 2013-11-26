@@ -17,11 +17,11 @@ public class Config {
 		systems.clearDetailPane();
 		
 		systems.setBackgroundOne();
-		systems.addMarket("Market", 100, 100);
+		systems.addMarket("MARKET1", 100, 100);
 		//systems.addRestaurantTwo("RestaurantTwo", 300, 100);
-		systems.addRestaurantOne("RestaurantOne", 300, 100);
-		systems.addBank("Bank", 100, 300);
-		systems.addHouse("House of the Lord", 300, 300);
+		systems.addRestaurantOne("RESTAURANT2", 300, 100);
+		systems.addBank("BANK1", 100, 300);
+		systems.addHouse("HOUSE1", 300, 300);
 		systems.addPerson("Mark");
 
 		systems.addBus("Buster");
@@ -33,8 +33,8 @@ public class Config {
 		systems.clearDetailPane();
 		systems.setBackgroundTwo();
 		
-		systems.addRestaurantTwo("Restaurant", 60, 27);
-		systems.addMarket("Market1", 123, 27);
+		systems.addRestaurantTwo("RESTAURANT2", 60, 27);
+		systems.addMarket("MARKET1", 123, 27);
 		
 		
 	}
@@ -43,14 +43,14 @@ public class Config {
 		systems.clear();
 		systems.clearDetailPane();
 		systems.setBackgroundOne();
-		systems.addMarket("Market", 100, 100);
-		systems.addMarketCashierHack("Mary", "Market");
+		systems.addMarket("MARKET2", 100, 100);
+		systems.addMarketCashierHack("Mary", "MARKET2");
 		systems.addBus("Buster"); //Take this out if you don't want the bus here
-		systems.addMarketTruck("Market");
+		systems.addMarketTruck("MARKET2");
 		
 		timer.schedule(new TimerTask() {
 			public void run() {
-				systems.addMarketWorkerHack("Bob", "Market");
+				systems.addMarketWorkerHack("Bob", "MARKET2");
 				timer.schedule(new TimerTask() {
 					public void run() {
 						systems.addPerson("Josh");
@@ -65,14 +65,14 @@ public class Config {
 		systems.clearDetailPane();
 		
 		systems.setBackgroundOne();
-		systems.addMarket("Market", 100, 100);
-		systems.addMarketCashierHack("Mary", "Market");
+		systems.addMarket("MARKET1", 100, 100);
+		systems.addMarketCashierHack("Mary", "MARKET1");
 		systems.addBus("Buster"); //Take this out if you don't want the bus here
-		systems.addMarketTruck("Market");
+		systems.addMarketTruck("MARKET1");
 		//systems.addPerson("Rebecca");
 		timer.schedule(new TimerTask() {
 			public void run() {
-				systems.addMarketWorkerHack("Bob", "Market");
+				systems.addMarketWorkerHack("Bob", "MARKET1");
 				timer.schedule(new TimerTask() {
 					public void run() {
 						//systems.addPerson("Rebecca");
@@ -94,10 +94,10 @@ public class Config {
 		systems.clearDetailPane();
 		
 		systems.setBackgroundOne();
-		systems.addHouse("HouseOne", 100, 100);
+		systems.addHouse("HOUSE1", 100, 100);
 		//systems.addPerson("Homie"); // This guy will live in the house, hence his name
 		systems.addPerson("Homie");
-		systems.setHome("Homie", "HouseOne");
+		systems.setHome("Homie", "HOUSE1");
 	}
 	
 	public void oneBank() {
@@ -105,12 +105,12 @@ public class Config {
 		systems.clearDetailPane();
 		
 		systems.setBackgroundOne();
-		systems.addBank("Bank", 100, 300);
-		systems.addBankHostHack("Kevin", "Bank");
+		systems.addBank("BANK1", 100, 300);
+		systems.addBankHostHack("Kevin", "BANK1");
 		systems.addHackedBankAccount(0, 100, "abcdef");
 		timer.schedule(new TimerTask(){
 			public void run() {
-				systems.addBankTellerHack("Bank Teller", "Bank");
+				systems.addBankTellerHack("Bank Teller", "BANK1");
 				timer.schedule(new TimerTask(){
 					public void run() {
 						systems.addPerson("Levonne");
@@ -136,18 +136,18 @@ public class Config {
 
 		
 		systems.setBackgroundOne();
-		systems.addRestaurantTwo("RestaurantTwo", 300, 100);
-		systems.addRestaurantTwoHostHack("Host Bloke", "RestaurantTwo");
+		systems.addRestaurantTwo("RESTAURANT2", 300, 100);
+		systems.addRestaurantTwoHostHack("Host Bloke", "RESTAURANT2");
 		timer.schedule(new TimerTask() {
 			public void run() {
-				systems.addRestaurantTwoCashierHack("Cashier Blob", "RestaurantTwo");
+				systems.addRestaurantTwoCashierHack("Cashier Blob", "RESTAURANT2");
 				timer.schedule(new TimerTask() {
 					public void run() {
-						systems.addRestaurantTwoCookHack("Cook Brute", "RestaurantTwo");
+						systems.addRestaurantTwoCookHack("Cook Brute", "RESTAURANT2");
 
 						timer.schedule(new TimerTask() {
 							public void run() {
-								systems.addRestaurantTwoWaiterHack("Waiter Bob dylan", "RestaurantTwo");
+								systems.addRestaurantTwoWaiterHack("Waiter Bob dylan", "RESTAURANT2");
 								timer.schedule(new TimerTask() {
 									public void run() {
 										systems.addPerson("jenny");
@@ -208,20 +208,20 @@ public class Config {
 		
 		systems.setBackgroundTwo();
 		
-		systems.addMarket("Market", 60, 140);
-		systems.addHouse("HouseOne", 249, 140);
+		systems.addMarket("MARKET1", 60, 140);
+		systems.addHouse("HOUSE1", 249, 140);
 		
-		systems.addMarketCashierHack("Mary", "Market");
-		systems.addMarketTruck("Market");
+		systems.addMarketCashierHack("Mary", "MARKET1");
+		systems.addMarketTruck("MARKET1");
 		
 		timer.schedule(new TimerTask() {
 			public void run() {
-				systems.addMarketWorkerHack("Bob", "Market");
+				systems.addMarketWorkerHack("Bob", "MARKET1");
 			}
 		}, 2000);
 		
 		systems.addPerson("Tony");
-		systems.setHome("Tony", "HouseOne");
+		systems.setHome("Tony", "HOUSE1");
 
 	}
 	
@@ -231,27 +231,27 @@ public class Config {
 		
 		systems.setBackgroundTwo();
 		
-		systems.addMarket("Market", 60, 140);
-		systems.addHouse("HouseOne", 249, 140);
+		systems.addMarket("MARKET1", 60, 140);
+		systems.addHouse("HOUSE1", 249, 140);
 		
-		systems.addMarketCashierHack("Mary", "Market");
-		systems.addMarketTruck("Market");
+		systems.addMarketCashierHack("Mary", "MARKET1");
+		systems.addMarketTruck("MARKET1");
 		
 		timer.schedule(new TimerTask() {
 			public void run() {
-				systems.addMarketWorkerHack("Bob", "Market");
+				systems.addMarketWorkerHack("Bob", "MARKET1");
 			}
 		}, 2000);
 		
 		systems.addPerson("Tony");
-		systems.setHome("Tony", "HouseOne");
+		systems.setHome("Tony", "HOUSE1");
 		
-		systems.addBank("Bank", 402, 27);
-		systems.addBankHostHack("Kevin", "Bank");
+		systems.addBank("BANK1", 402, 27);
+		systems.addBankHostHack("Kevin", "BANK1");
 		systems.addHackedBankAccount(0, 100, "abcdef");
 		timer.schedule(new TimerTask(){
 			public void run() {
-				systems.addBankTellerHack("Bank Teller", "Bank");
+				systems.addBankTellerHack("Bank Teller", "BANK1");
 			}
 		}, 4000);
 

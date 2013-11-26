@@ -49,8 +49,20 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
 	    
 	    if (background == roadimage) {
 	    	g2.drawImage(background, 40, 32, null);
+	    	g2.setColor(Color.RED);
+	    	g2.fillRect(55, 65, 15, 30);
+	    	g2.fillRect(395, 65, 15, 30);
+	    	g2.fillRect(395, 364, 15, 30);
+	    	g2.fillRect(55, 364, 15, 30);
+
+	    	
 	    } else if (background == cityimg) {
 	    	g2.drawImage(background, 0, 0, null);
+	    	g2.setColor(Color.RED);
+	    	g2.fillRect(0, 106, 13, 30);
+	    	g2.fillRect(364, 106, 13, 30);
+	    	g2.fillRect(364, 410, 13, 30);
+	    	g2.fillRect(0, 410, 13, 30);
 	    }
     
         for(BuildingGui b : buildingGuis) {

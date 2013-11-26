@@ -66,6 +66,8 @@ public class MockBusPassenger implements BusPassenger {
 	@Override
 	public void CallBus() {
 		// TODO Auto-generated method stub
+		log.add(new LoggedEvent("Method CallBus()"));
+
 		bus.msgWantBus(this, startingLocation, destination);
 
 		
@@ -74,19 +76,25 @@ public class MockBusPassenger implements BusPassenger {
 	@Override
 	public void GetIn() {
 		// TODO Auto-generated method stub
+		log.add(new LoggedEvent("Method GetIn()"));
+
+        bus.msgGettingOn(this);
+
 		
 	}
 
 	@Override
 	public void GetOut() {
 		// TODO Auto-generated method stub
+		log.add(new LoggedEvent("Method GetOut()"));
+		bus.msgGettingOff(this);
 		
 	}
 
 	@Override
 	public void setBus(BusAgent b) {
 		// TODO Auto-generated method stub
-		
+		bus = b;
 	}
 	
 }

@@ -214,6 +214,12 @@ public class MockBankCustomer extends Mock implements BankCustomer {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public BankSystem getBankSystem() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }
 

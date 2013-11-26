@@ -52,7 +52,14 @@ public class BankCustomerTest extends TestCase {
 		// check step1 postconditions
 		assertEquals("BankCustomer state should be none", bankCustomer.getState(), State.none);
 		assertEquals("BankCustomer event should be arrivedAtBank", bankCustomer.getEvent(), Event.arrivedAtBank);
-		assertEquals("BankCustomer bank system should be bankSystem", )
+		assertEquals("BankCustomer bank system should be bankSystem", bankCustomer.getBankSystem(), bankSystem);
+		
+		// step 2 - call scheduler
+		assertTrue("BankCustomer scheduler should return true", bankCustomer.pickAndExecuteAnAction());
+		
+		// check step2 postconditions
+		assertEquals("BankCustomer state should be waitingAtBank", bankCustomer.getState(), State.waitingAtBank);
+		assertEquals("BankCustomer event should be arrivedAtBank", bankCustomer.getEvent(), Event.arrivedAtBank);
 		
 	}
 	

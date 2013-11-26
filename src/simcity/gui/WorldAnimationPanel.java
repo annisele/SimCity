@@ -24,8 +24,7 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
     Image img = ii.getImage();
     Image roadimage = img.getScaledInstance(388, 400,  java.awt.Image.SCALE_SMOOTH); 
     ImageIcon ii2 = new ImageIcon("res/citygui/simcitymap2.png");
-    Image img2 = ii2.getImage();
-    Image cityimg = img2.getScaledInstance(470, 451,  java.awt.Image.SCALE_SMOOTH); 
+    Image cityimg = ii2.getImage();
     Image background = null;
 
     

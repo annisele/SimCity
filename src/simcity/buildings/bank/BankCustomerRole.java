@@ -84,7 +84,6 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 		amountToProcess = 20;
 		transactionType = TransactionType.openAccount;
 		bank = b;
-		//stateChanged();
 	}
 	
 	//messages 
@@ -187,8 +186,8 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	//scheduler
 	public boolean pickAndExecuteAnAction() {
 
-		person.Do("In sched, state is: "+state);
-		person.Do("event is: "+event);
+		//person.Do("In sched, state is: "+state);
+		//person.Do("event is: "+event);
 	 	// person isn't doing anything, then arrives at bank
 		if (state == State.none && event == Event.arrivedAtBank){
 			InformBankHostOfArrival();
@@ -297,7 +296,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	    		e.printStackTrace();
 	    	}
 		    bt.msgWantToPayLoan(this, amountToProcess);
-		    System.out.println("Bank customer wants to get loan");
+		    System.out.println("I want to get loan");
 		}
 		
 		private void PayRent() {
@@ -308,7 +307,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	    		e.printStackTrace();
 	    	}
 		    bt.msgWantToPayRent(this, amountToProcess);
-		    System.out.println("Bank customer wants to pay $10 rent");
+		    System.out.println("I want to pay $10 rent");
 		}
 		
 		private void InformBankHostOfDeparture() {
@@ -348,8 +347,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 			accountPassword = "abcdef";
 			amountToProcess = 20;
 			transactionType = TransactionType.withdrawMoney;
-			bank = b;
-			//stateChanged();	
+			bank = b;	
 		}
 		public void msgPayRent(BankSystem b) {
 			System.out.println("I need to pay rent");
@@ -357,8 +355,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 			accountPassword = "abcdef";
 			amountToProcess = 10;
 			transactionType = TransactionType.payRent;
-			bank = b;
-			//stateChanged();	
+			bank = b;	
 		}
 		public void msgGetLoan(BankSystem b) {
 			System.out.println("I need to get a loan");
@@ -367,7 +364,6 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 			amountToProcess = 100;
 			transactionType = TransactionType.loanMoney;
 			bank = b;
-			//stateChanged();	
 		}
 		
 }

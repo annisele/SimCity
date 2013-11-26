@@ -11,13 +11,13 @@ public class HouseComputer {
 	
 
 	// constructor
-public HouseComputer() {
-		
+	public HouseComputer() {
+			
 		
 	}
 
 	// functions
-public void setInventory(Map<String, Integer> map) {
-	inventory = map;
-}
+	public void setInventory(Map<String, Integer> map) {
+		inventory = map;
+	}
 }	

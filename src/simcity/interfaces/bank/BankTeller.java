@@ -17,6 +17,7 @@ public interface BankTeller extends GuiPartner {
 	public abstract void msgWantALoan(BankCustomer bc, double amountToProcess);
 	public abstract void msgWantToPayLoan(BankCustomer bc, double amountToProcess);
 	public abstract void msgWantToPayRent(BankCustomer bc, double amountToProcess);
+	public abstract void msgTransactionProcessed();
 	
 	public abstract String getName();
 	public abstract void setName(String name);

@@ -16,7 +16,7 @@ public class Config {
 		systems.clear();
 		systems.clearDetailPane();
 		
-		
+		systems.setBackgroundOne();
 		systems.addMarket("Market", 100, 100);
 		//systems.addRestaurantTwo("RestaurantTwo", 300, 100);
 		systems.addRestaurantOne("RestaurantOne", 300, 100);
@@ -32,6 +32,7 @@ public class Config {
 		systems.clear();
 		systems.clearDetailPane();
 		
+		systems.setBackgroundOne();
 		systems.addMarket("Market", 100, 100);
 		systems.addMarketCashierHack("Mary", "Market");
 		systems.addBus("Buster"); //Take this out if you don't want the bus here
@@ -54,6 +55,7 @@ public class Config {
 		systems.clear();
 		systems.clearDetailPane();
 		
+		systems.setBackgroundOne();
 		systems.addHouse("HouseOne", 100, 100);
 		//systems.addPerson("Homie"); // This guy will live in the house, hence his name
 		systems.addPerson("Homie");
@@ -64,6 +66,7 @@ public class Config {
 		systems.clear();
 		systems.clearDetailPane();
 		
+		systems.setBackgroundOne();
 		systems.addBank("Bank", 100, 300);
 		systems.addBankHostHack("Kevin", "Bank");
 		systems.addHackedBankAccount(0, 100, "abcdef");
@@ -83,6 +86,7 @@ public class Config {
 		systems.clear();
 		systems.clearDetailPane();
 		
+		systems.setBackgroundOne();
 		systems.addRestaurantTwo("RestaurantTwo", 300, 100);
 		systems.addRestaurantTwoHostHack("Bloke", "RestaurantTwo");
 		
@@ -103,6 +107,38 @@ public class Config {
 	public void fullCity() {
 		systems.clear();
 		systems.clearDetailPane();
+		
+		// Top row
+		systems.addHouse("HouseSOne", 60, 27);
+		systems.addHouse("HouseSOne", 123, 27);
+		systems.addHouse("HouseSOne", 186, 27);
+		systems.addHouse("HouseSOne", 249, 27);
+		systems.addHouse("HouseSOne", 312, 27);
+		
+		// These are the right-most houses
+		systems.addHouse("HouseSOne", 402, 27);
+		systems.addHouse("HouseSOne", 402, 110);
+		systems.addHouse("HouseSOne", 402, 189);
+		
+		// Second row
+		systems.addHouse("HouseSOne", 60, 140);
+		systems.addHouse("HouseSOne", 123, 140);
+		systems.addHouse("HouseSOne", 186, 140);
+		systems.addHouse("HouseSOne", 249, 140);
+		
+		// Third row
+		systems.addHouse("HouseSOne", 60, 250);
+		systems.addHouse("HouseSOne", 123, 250);
+		systems.addMarket("MarketOne", 186, 250);
+		systems.addRestaurantTwo("RestaurantTwo", 249, 250);
+
+		// Fourth row
+		systems.addBank("BankOne", 60, 333);
+		systems.addHouse("HouseSOne", 123, 333);
+		systems.addHouse("HouseSOne", 186, 333);
+		systems.addHouse("HouseSOne", 249, 333);
+		
+		systems.setBackgroundTwo();
 		
 	}
 	

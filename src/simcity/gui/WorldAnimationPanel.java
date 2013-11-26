@@ -19,11 +19,15 @@ import simcity.gui.transportation.BusGui;
 public class WorldAnimationPanel extends AnimationPanel implements ActionListener {
 	
 	protected List<BusGui> busGuis = Collections.synchronizedList(new ArrayList<BusGui>());
-	
-	ImageIcon ii = new ImageIcon("res/citygui/basicroad.png");
+	    
+    ImageIcon ii = new ImageIcon("res/citygui/basicroad.png");
     Image img = ii.getImage();
     Image roadimage = img.getScaledInstance(388, 400,  java.awt.Image.SCALE_SMOOTH); 
+    ImageIcon ii2 = new ImageIcon("res/citygui/simcitymap2.png");
+    Image cityimg = ii2.getImage();
+    Image background = null;
 
+    
 	public WorldAnimationPanel() {//SimCityGui sc) {
 		super();
 	}
@@ -42,11 +46,13 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
         //Clear the screen by painting a rectangle the size of the frame
 		g2.setColor(Color.LIGHT_GRAY);
 	    g2.fillRect(0, 0, this.getWidth(), this.getHeight());
-	 //   g2.drawImage(roadimage, 40,32, null);
 	    
-        //here is the building gui
-	    g2.setColor(Color.BLUE);
-	    
+	    if (background == roadimage) {
+	    	g2.drawImage(background, 40, 32, null);
+	    } else if (background == cityimg) {
+	    	g2.drawImage(background, 0, 0, null);
+	    }
+    
         for(BuildingGui b : buildingGuis) {
         	b.draw((Graphics2D)g);
         	if ((JPanel)b.getSystem().getAnimationPanel() != super.getSimCityGui().getDetailPane()) {
@@ -70,21 +76,20 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
 				}
 			}
 		}
-        
-        /*
-        for (BusGui b : busGuis) {
-        	//System.out.println("I should have one busGui");
-        	if (b.isPresent()) {
-				b.updatePosition();
-			}
-        	b.draw((Graphics2D)g);
-        }*/
-        
+
         super.paintComponent(g);
 		
        
 	}
 	
+	public void setBackgroundOne() {
+    	background = roadimage;
+    }
+    
+    public void setBackgroundTwo() {
+    	background = cityimg;
+    }
+    
 	public void addGui(Gui g) {
 		guis.add(g);
 	}

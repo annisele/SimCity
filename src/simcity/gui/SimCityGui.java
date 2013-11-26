@@ -39,13 +39,10 @@ public class SimCityGui extends JFrame implements ActionListener {
 	private JPanel menuPanel = new JPanel();
 	TracePanel worldTracePanel = new TracePanel();
 	TracePanel detailTracePanel = new TracePanel();
-	// Panels for each view and console
-	//	private JPanel viewWorldPanel = new WorldAnimationPanel();
-	//	private JPanel viewDetailPanel = new MarketAnimationPanel(); //new AnimationPanel();
+
 	
 	// But this is really a panel
 	private AnimationPanel viewWorldPanel;
-	//private AnimationPanel viewDetailPanel;
 	private JPanel viewDetailPanel;
 	private JSplitPane splitPaneWorld;
 	private JSplitPane splitPaneDetail;
@@ -106,9 +103,6 @@ public class SimCityGui extends JFrame implements ActionListener {
 		worldTracePanel.showAlertsWithTag(AlertTag.WORLD);
 		worldTracePanel.showAlertsWithTag(AlertTag.IDLE_PERSON);
 
-
-
-		
 		// Add it all to the main pane
 		fullPane.setLayout(twoGridLayout);
 		fullPane.add(splitPaneWorld);
@@ -117,19 +111,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 		setLayout(new BorderLayout());
         add(menuPanel, BorderLayout.EAST);
         add(fullPane, BorderLayout.CENTER);
-
-       
         
-	}
-	public void setCards(Map<String, JPanel> panels) {
-		Iterator it = panels.entrySet().iterator();
-		while (it.hasNext()) {
-			Map.Entry<String, JPanel> item = (Map.Entry<String, JPanel>)it.next();
-			String name = item.getKey();
-			JPanel tempCard = item.getValue();
-		    viewDetailPanel.add(tempCard, name);
-		}
-		System.out.println("We have "+panels.entrySet().size()+" cards");
 	}
 	
 	public ControlPanel getControlPanel() {

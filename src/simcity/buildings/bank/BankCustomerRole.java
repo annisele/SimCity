@@ -70,12 +70,40 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 		return accountNumber;
 	}
 	
+	public void setAccountNumber(int accountNumber) {
+		this.accountNumber = accountNumber;
+	}
+	
 	public String getPassword() {
 		return accountPassword;
 	}
 	
+	public void setPassword(String password) {
+		this.accountPassword = password;
+	}
+	
+	public double getCashOnHand() {
+		return cashOnHand;
+	}
+	
+	public void setCashOnHand(double cash) {
+		this.cashOnHand = cash;
+	}
+	
+	public double getAmountToProcess() {
+		return amountToProcess;
+	}
+	
+	public void setAmountToProcess(double amount) {
+		this.amountToProcess = amount;
+	}
+	
 	public int getLandlordAccountNumber() {
 		return landlordAccountNumber;
+	}
+	
+	public void setLandlordAccountNumber(int landlordNumber) {
+		this.landlordAccountNumber = landlordNumber;
 	}
 	
 	public TransactionType getTransactionType() {
@@ -92,6 +120,10 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	
 	public Event getEvent() {
 		return event;
+	}
+	
+	public BankSystem getBankSystem() {
+		return bank;
 	}
 	
 	//messages from personagent

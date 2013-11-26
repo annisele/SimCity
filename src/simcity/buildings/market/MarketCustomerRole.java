@@ -14,7 +14,6 @@ import simcity.SimSystem;
 import simcity.gui.market.MarketCustomerGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
-import simcity.interfaces.market.MarketCashier;
 import simcity.interfaces.market.MarketCustomer;
 
 public class MarketCustomerRole extends Role implements MarketCustomer {
@@ -84,7 +83,6 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	
 	public boolean pickAndExecuteAnAction() {
 		if(itemsToBuy != null && state == CustomerState.doingNothing) {
-			System.out.println(state);
 			SendOrder();
 			return true;
 		}

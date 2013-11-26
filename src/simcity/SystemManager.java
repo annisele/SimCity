@@ -110,6 +110,7 @@ public class SystemManager {
 	public void addPerson(String name) {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());
+
 		person.setBus(bus);
 		//people.add(person);
 		

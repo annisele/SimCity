@@ -346,6 +346,8 @@ public class PersonAgent extends Agent implements Person {
 	//so this only needs to prep the person to walk somewhere by changing it to pedestrian
 	public void exitBuilding() {
 		//Do("exitBuilding step is called");
+		if (currentRole != null)
+			currentRole.msgExitBuilding();
 		stateChanged();
 	}
 	

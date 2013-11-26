@@ -6,13 +6,10 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Iterator;
-import java.util.Map;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
-import javax.swing.JTextArea;
 
 import simcity.Config;
 import simcity.SystemManager;
@@ -37,8 +34,8 @@ public class SimCityGui extends JFrame implements ActionListener {
 	
 	// Panel on the right
 	private JPanel menuPanel = new JPanel();
-	TracePanel worldTracePanel = new TracePanel();
-	TracePanel detailTracePanel = new TracePanel();
+	private TracePanel worldTracePanel = new TracePanel();
+	private TracePanel detailTracePanel = new TracePanel();
 
 	
 	// But this is really a panel
@@ -96,12 +93,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 		//trace panels
 		AlertLog.getInstance().addAlertListener(worldTracePanel);
 		AlertLog.getInstance().addAlertListener(detailTracePanel);
-		detailTracePanel.showAlertsWithTag(AlertTag.MARKET_CASHIER);
-		detailTracePanel.showAlertsWithTag(AlertTag.MARKET_WORKER);
-		detailTracePanel.showAlertsWithTag(AlertTag.MARKET_CUSTOMER);
-		worldTracePanel.showAlertsWithTag(AlertTag.PEDESTRIAN);
 		worldTracePanel.showAlertsWithTag(AlertTag.WORLD);
-		worldTracePanel.showAlertsWithTag(AlertTag.IDLE_PERSON);
 
 		// Add it all to the main pane
 		fullPane.setLayout(twoGridLayout);
@@ -116,6 +108,10 @@ public class SimCityGui extends JFrame implements ActionListener {
 	
 	public ControlPanel getControlPanel() {
 		return controlPanel;
+	}
+	
+	public TracePanel getDetailTracePanel() {
+		return detailTracePanel;
 	}
 	
 	public void setControlPanel(JPanel cp) {

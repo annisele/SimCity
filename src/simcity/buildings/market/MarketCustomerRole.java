@@ -12,6 +12,8 @@ import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
 import simcity.gui.market.MarketCustomerGui;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.market.MarketCashier;
 import simcity.interfaces.market.MarketCustomer;
 
@@ -47,9 +49,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	}
 
 	@Override
-	public void msgPleasePay(MarketCashier c, double payRequested, int orderNum) {
-		person.Do("Received msgPleasePay");
-	
+	public void msgPleasePay(String marketName, double payRequested, int orderNum) {	
 		orderNumber = orderNum;
 		payment = 0;
 		
@@ -62,14 +62,13 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 			state = CustomerState.billed;
 		}
 		else {
-			Do("You billed me too much!");
+			AlertLog.getInstance().logError(AlertTag.valueOf(market.getName()), "MarketCustomer: " + person.getName() , "You billed me for more than I bought.");
 		}
 		stateChanged();
 	}
 
 	@Override
-	public void msgDeliveringOrder(Map<String, Integer> itemsToDeliver, double ch) {
-		person.Do("Received msgDeliveringOrder");
+	public void msgHereAreItems(Map<String, Integer> itemsToDeliver, double ch) {
 		itemsDelivered = itemsToDeliver;
 		change = ch;
 		state = CustomerState.delivered;
@@ -102,6 +101,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	}
 
 	private void SendOrder() {
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(market.getName()), "MarketCustomer: " + person.getName(), "Here is my order.");
 		market.getCashier().msgHereIsAnOrder(this, this, itemsToBuy);
 		state = CustomerState.orderSent;
 	}
@@ -119,6 +119,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	}
 
 	private void ReceiveDelivery() {
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(market.getName()), "MarketCustomer: " + person.getName(), "Thanks for the stuff!");
 		((MarketCustomerGui)gui).DoGoToCashier();
 		try {
 			atDest.acquire();
@@ -139,7 +140,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 
 	@Override
 	public void exitBuilding() {
-		person.Do("Leaving market.");
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(market.getName()), "MarketCustomer: " + person.getName(), "Leaving the market.");
 		gui.DoExitBuilding();
 		try {
 			atDest.acquire();
@@ -154,7 +155,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	@Override
 	public void enterBuilding(SimSystem s) {
 		market = (MarketSystem)s;
-		
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(market.getName()), "MarketCustomer: " + person.getName(), "Entering the market.");
 		//hack!
 		itemsToBuy = new HashMap<String, Integer>();
 		itemsToBuy.put("chicken", 2);

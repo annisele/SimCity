@@ -31,6 +31,10 @@ public class PedestrianRole extends Role implements simcity.interfaces.transport
 		
 	}
 	
+	public void msgArrivedAtLocationFromBus(int x, int y) {
+		this.gui.setLocation(x, y);
+	}
+	
 	// Scheduler
 	public boolean pickAndExecuteAnAction() {
 		if(!destinationList.isEmpty()) {

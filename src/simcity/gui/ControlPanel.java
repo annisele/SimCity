@@ -265,6 +265,8 @@ public class ControlPanel extends JPanel implements ActionListener {
 				config.fullCity();
 			} else if(selection.equals(configStrings[6])) {
 				config.oneMarketOneHouse();
+			} else if(selection.equals(configStrings[7])) {
+				config.busToMarket();
 			}
 		}
 		//when pause button is pressed

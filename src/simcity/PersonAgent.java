@@ -184,14 +184,16 @@ public class PersonAgent extends Agent implements Person {
 			String buildingName = markets.get(index);
 			List<Step> steps = new ArrayList<Step>();
 			steps.add(new Step("exitBuilding", this));
+			//steps.add(new Step("goTo", this));
+			//steps.add(new Step("enterBuilding", this));
+			steps.add(new Step("goToBusStop", this));
+			steps.add(new Step("waitForBus", this));
 			steps.add(new Step("goTo", this));
 			steps.add(new Step("enterBuilding", this));
-			//steps.add(new Step("goToBusStop", this));
-			//steps.add(new Step("waitForBus", this));
 			//waitForTransport();
 			//steps.add(new Step("goTo", this));
 			
-		/*	if (chooseTransportation() == 0) {
+			/*if (chooseTransportation() == 0) {
 			steps.add(new Step("goTo", this));
 			}
 			else {
@@ -390,7 +392,6 @@ public class PersonAgent extends Agent implements Person {
 				Directory.getWorld().getAnimationPanel().addGui(currentRole.getGui());
 		}
 	}
-		Do("At Bus Stop");
 		Location loc = Directory.getBusStop(3);
 		((PedestrianRole)currentRole).addDestination(loc);
 		//waitForTransport();
@@ -403,7 +404,7 @@ public class PersonAgent extends Agent implements Person {
 				currentRole = r;
 				//Location l = new Location(40, 67);
 				((BusPassengerRole) r).setBus(bus);
-				((BusPassengerRole) r).msgBusTo(3, 1);
+				((BusPassengerRole) r).msgBusTo(3, 0);
 				idleGui.setLocation(r.getGui().getLocation());	
 			}
 		}
@@ -739,5 +740,14 @@ public class PersonAgent extends Agent implements Person {
 	
 	public void setBus(BusAgent b) {
 		bus = b;
+	}
+
+	public void setPedestrianRoleLocation(int x, int y) {
+		for(Role r : myRoles) {
+			if(r instanceof PedestrianRole) {
+				PedestrianRole tempR = (PedestrianRole)r;
+				tempR.msgArrivedAtLocationFromBus(x, y);
+			}
+		}  
 	}
 }

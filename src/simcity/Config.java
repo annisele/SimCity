@@ -103,6 +103,7 @@ public class Config {
 		}, 2000);
 	}
 	
+
 	public void fullCity() {
 		systems.clear();
 		systems.clearDetailPane();

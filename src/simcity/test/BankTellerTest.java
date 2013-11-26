@@ -1,6 +1,7 @@
-package simcity.test.bank;
+package simcity.test;
 
 import simcity.buildings.bank.BankTellerRole;
+import simcity.test.mock.*;
 import junit.framework.*;
 /**
  * 
@@ -26,20 +27,20 @@ public class BankTellerTest extends TestCase {
 		//bankCustomer = new MockBankCustomer();	
 	}
 	
-	public void testOneNormalOpenAccountForCustomerScenario() {
+	public void testMsgWatToOpenAccount() {
+		System.out.println("TEST ONE CUSTOMER OPEN ACCOUNT");
 		
 	}
 	public void testOneNormalDepositMoneyForCustomerScenario() {
-		
+		System.out.println("TEST ONE CUSTOMER DEPOSIT MONEY");
 	}
 	public void testOneNormalWithdrawMoneyForCustomerScenario() {
-		
+		System.out.println("TEST ONE CUSTOMER WITHDRAW MONEY");
 	}
 	public void testOneNormalCustomerPayRentScenario() {
-		
+		System.out.println("TEST ONE CUSTOMER PAY RENT");
 	}
 	public void testOneNormalGiveLoanToCustomerScenario() {
-		
+		System.out.println("TEST ONE CUSTOMER GIVE LOAN");
 	}
-	
 }

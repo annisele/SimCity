@@ -17,6 +17,8 @@ import simcity.buildings.market.MarketCustomerRole;
 import simcity.buildings.restaurant.five.RestaurantFiveCustomerRole;
 import simcity.buildings.restaurant.four.RestaurantFourCustomerRole;
 import simcity.buildings.restaurant.two.RestaurantTwoCustomerRole;
+import simcity.buildings.transportation.BusAgent;
+import simcity.buildings.transportation.BusPassengerRole;
 import simcity.buildings.transportation.PedestrianRole;
 import simcity.gui.IdlePersonGui;
 import simcity.interfaces.Person;
@@ -46,7 +48,7 @@ public class PersonAgent extends Agent implements Person {
 	private Timer timer = new Timer();
 	public enum EventType { Eat, GoToMarket,EatAtRestaurant, DepositMoney, WithdrawMoney, GetALoan, PayRent, Sleep, Work };
 	private IdlePersonGui idleGui;
-
+	BusAgent bus;
 	public double money = 40;
 	private String home;
 	private String workBuilding;
@@ -59,6 +61,7 @@ public class PersonAgent extends Agent implements Person {
 		HouseInhabitantRole h = new HouseInhabitantRole(this);
 		MarketCustomerRole m = new MarketCustomerRole(this);
 		BankCustomerRole b = new BankCustomerRole(this);
+		BusPassengerRole bp = new BusPassengerRole(this);
 		//RestaurantOneCustomerRole r1 = new RestaurantOneCustomerRole(this);
 		RestaurantTwoCustomerRole r2 = new RestaurantTwoCustomerRole(this);
 		//RestaurantThreeCustomerRole r3 = new RestaurantThreeCustomerRole(this);
@@ -69,6 +72,8 @@ public class PersonAgent extends Agent implements Person {
 		myRoles.add(h);
 		myRoles.add(m);
 		myRoles.add(b);
+		myRoles.add(bp);
+		//myRoles.add(r2);
 		myRoles.add(r2);
 
 		myRoles.add(r4);
@@ -132,6 +137,11 @@ public class PersonAgent extends Agent implements Person {
 			}
 		}, waitTime);
 	}
+	
+	private int chooseTransportation() {
+		 int randchoice = (int)((Math.random()*100)%2);
+		 return randchoice;
+	}
 
 	public void scheduleEvent(EventType t) {
 		Event e;
@@ -143,18 +153,34 @@ public class PersonAgent extends Agent implements Person {
 			steps.add(new Step("exitBuilding", this));
 			steps.add(new Step("goTo", this));
 			steps.add(new Step("enterBuilding", this));
+
+			//steps.add(new Step("goToBusStop", this));
+			//steps.add(new Step("waitForBus", this));
+			//waitForTransport();
+			//steps.add(new Step("goTo", this));
+			
+		/*	if (chooseTransportation() == 0) {
+			steps.add(new Step("goTo", this));
+			}
+			else {
+				steps.add(new Step("goToBusStop", this)); */
+		//HERE NEXT TO FIX	steps.add(new Step())
+				//steps.add(new Step("goTo", this));
+			//} 
+			//steps.add(new Step("enterBuilding", this));
 			Role eventR = null;
-			for(Role r : myRoles) {
+				for(Role r : myRoles) {
 				if(r instanceof MarketCustomer) {
 					eventR = r;
 				}
-			}
+			} 
+			
 			HouseInhabitantRole house = null;
 			for(Role r : myRoles) {
 				if(r instanceof HouseInhabitantRole) {
 					house = (HouseInhabitantRole) r;
 				}
-			}
+			}  
 			
 			//((MarketCustomer)eventR).msgBuyStuff(house.getListToBuy(), (MarketSystem)(Directory.getSystem(buildingName)));
 			//hack
@@ -322,6 +348,34 @@ public class PersonAgent extends Agent implements Person {
 		//Do("exitBuilding step is called");
 		stateChanged();
 	}
+	
+	public void goToBusStop() {
+		for(Role r : myRoles) {
+			if(r instanceof Pedestrian) {
+				currentRole = r;
+				Directory.getWorld().getAnimationPanel().addGui(currentRole.getGui());
+		}
+	}
+		Do("At Bus Stop");
+		Location loc = Directory.getBusStop(3);
+		System.out.println("In DoGoToBusStop");
+		((PedestrianRole)currentRole).addDestination(loc);
+		//waitForTransport();
+		stateChanged();
+	}
+	
+	public void waitForBus() {
+		System.out.println("In Wait for bus");
+		for (Role r : myRoles) {
+			if(r instanceof BusPassengerRole) {
+				currentRole = r;
+				//Location l = new Location(40, 67);
+				((BusPassengerRole) r).setBus(bus);
+				((BusPassengerRole) r).msgBusTo(3, 1);
+				idleGui.setLocation(r.getGui().getLocation());	
+			}
+		}
+	}
 
 	//later, add bus and car options
 	public void goTo() {
@@ -331,6 +385,7 @@ public class PersonAgent extends Agent implements Person {
 				currentRole = r;
 				Directory.getWorld().getAnimationPanel().addGui(currentRole.getGui());
 			}
+			
 		}
 		Location loc = Directory.getLocation(currentEvent.buildingName);
 		//Do("Location is: "+loc.getX()+", "+loc.getY());
@@ -352,6 +407,15 @@ public class PersonAgent extends Agent implements Person {
 			scheduleEvent(currentEvent.type); //maybe change this?
 		}
 		stateChanged();
+	}
+	
+	public void waitForTransport() {
+		System.out.println("In Wait for Transport");
+		for (Role r : myRoles) {
+			if (r instanceof Pedestrian) {
+				idleGui.setLocation(r.getGui().getLocation());
+			}
+		}
 	}
 
 	public void roleFinished() {
@@ -637,4 +701,10 @@ public class PersonAgent extends Agent implements Person {
 		timer.cancel();
 		timer.purge();
 	}
+	
+	public void setBus(BusAgent b) {
+		bus = b;
+		System.out.println("In PersonAgent, we have a bus " + bus.getName());
+	}
+
 }

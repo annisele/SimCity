@@ -11,8 +11,8 @@ import agent.Agent;
 	public class BusPassengerRole extends Role implements simcity.interfaces.transportation.BusPassenger {
 		
 		BusAgent bus;
-		Location destination;
-		Location startingLocation;
+		int destination;
+		int startingLocation;
 		int xLoc;
 		int yLoc;
 		//PassengerState state = enum{ offBus, waitingForBus, onBus };
@@ -28,8 +28,10 @@ import agent.Agent;
 		}
 	
 
-	public void msgBusTo(Location l) { // from PersonAgent
-		destination = l;
+	public void msgBusTo(int s, int d) { // from PersonAgent
+		destination = d;
+		System.out.println("in msgBusTo in BusPassengerRole");
+		startingLocation = s;
 		event = PassengerEvent.atBusStop;
 		stateChanged();
 	}
@@ -49,6 +51,7 @@ import agent.Agent;
 	public boolean pickAndExecuteAnAction() {
 	if ((state == PassengerState.offBus) && (event == PassengerEvent.atBusStop)) {
 			state = PassengerState.waitingForBus;
+			System.out.println("In BusPassengerRole, waiting for bus");
 			CallBus();
 			return true;
 	}
@@ -67,10 +70,10 @@ import agent.Agent;
 	
 	
 	private void CallBus() {
-		bus.msgWantBus(this, startingLocation);
+		bus.msgWantBus(this, startingLocation, destination);
 	}
 	private void GetIn() {
-		bus.msgGettingOn(this, destination);
+		bus.msgGettingOn(this);
 
 		// Animation
 		DoDisableGui();
@@ -110,6 +113,11 @@ import agent.Agent;
 	public void msgEnterBuilding(SimSystem s) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public void setBus(BusAgent b) {
+		bus = b;
+		System.out.println("In BusPassengerRole We have a bus " + bus.getName());
 	}
 	
 	

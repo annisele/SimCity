@@ -15,6 +15,7 @@ public class IdlePersonGui extends Gui {
 	ImageIcon ii = new ImageIcon("res/person/persondown.png");
 	Image img = ii.getImage();
 	Image personimage = img.getScaledInstance(17, 17,  java.awt.Image.SCALE_SMOOTH); 
+	boolean waiting = false;
 	
 	public IdlePersonGui(PersonAgent p) {
 		person = p;
@@ -31,7 +32,15 @@ public class IdlePersonGui extends Gui {
 
 	@Override
 	public boolean isPresent() {
-		return person.isIdle();
+		return (person.isIdle() || waiting);
+	}
+	
+	public void startWaiting() {
+		waiting = true;
+	}
+	
+	public void stopWaiting() {
+		waiting = false;
 	}
 
 }

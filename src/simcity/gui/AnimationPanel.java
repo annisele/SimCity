@@ -76,17 +76,18 @@ public class AnimationPanel extends JPanel implements ActionListener{
 
 						//we can either just print out the object class name
 						System.out.println("Clicked a "+g.getClass().getName());
+						
 						if(g instanceof MarketCashierGui) {
-							AlertLog.getInstance().logInfo(AlertTag.MARKET_CASHIER, "Mouse", "You clicked a " + g.getClass().getSimpleName() + "!");
+						//	AlertLog.getInstance().logInfo(AlertTag.MARKET_CASHIER, "Mouse", "You clicked a " + g.getClass().getSimpleName() + "!");
 						}
 						else if(g instanceof MarketCustomerGui) {
-							AlertLog.getInstance().logInfo(AlertTag.MARKET_CUSTOMER, "Mouse", "You clicked a " + g.getClass().getSimpleName() + "!");
+							//AlertLog.getInstance().logInfo(AlertTag.MARKET_CUSTOMER, "Mouse", "You clicked a " + g.getClass().getSimpleName() + "!");
 						}
 						else if(g instanceof MarketWorkerGui) {
-							AlertLog.getInstance().logInfo(AlertTag.MARKET_WORKER, "Mouse", "You clicked a " + g.getClass().getSimpleName() + "!");
+							//AlertLog.getInstance().logInfo(AlertTag.MARKET_WORKER, "Mouse", "You clicked a " + g.getClass().getSimpleName() + "!");
 						}
 						else if(g instanceof IdlePersonGui) {
-							AlertLog.getInstance().logInfo(AlertTag.IDLE_PERSON, "Mouse", "You clicked a " + g.getClass().getSimpleName() + "!");
+							//AlertLog.getInstance().logInfo(AlertTag.IDLE_PERSON, "Mouse", "You clicked a " + g.getClass().getSimpleName() + "!");
 						}
 
 						//controlPanel.updateSelected(g.getPerson());
@@ -102,7 +103,8 @@ public class AnimationPanel extends JPanel implements ActionListener{
 
 						if (simCityGui != null) {
 							simCityGui.changeDetailPane(g.getSystem().getAnimationPanel());
-
+							simCityGui.getDetailTracePanel().hideAllAlerts();
+							simCityGui.getDetailTracePanel().showAlertsWithTag(AlertTag.valueOf(g.getSystem().getName()));
 							if (g.getSystem().getControlPanel() == null) {
 								System.out.println("We don't have a controlPanel for this building!");
 

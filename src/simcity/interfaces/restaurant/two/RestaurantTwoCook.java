@@ -1,5 +1,7 @@
 package simcity.interfaces.restaurant.two;
 
+import java.util.Map;
+
 import simcity.SimSystem;
 import simcity.buildings.restaurant.two.RestaurantTwoOrderWheel;
 import simcity.interfaces.GuiPartner;
@@ -17,5 +19,7 @@ public interface RestaurantTwoCook extends GuiPartner{
 			int table_num, String choice);
 
 	abstract void setOrderWheel(RestaurantTwoOrderWheel owheel);
+
+	abstract Map<String, Double> getMenu();
 
 }

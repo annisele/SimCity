@@ -16,6 +16,7 @@ public class Directory {
 		Location location;
 		EntryType type;
 		SimSystem system;
+		
 
 		Entry(Location l, EntryType t, SimSystem s) {
 			//shifting location so people enter through the door

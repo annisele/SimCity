@@ -41,7 +41,7 @@ public class ControlPanel extends JPanel implements ActionListener {
 	//pause and clock elements
 	private JPanel pauseAndTime = new JPanel();
 	private JButton pauseB = new JButton("Pause");
-	private JTextField clockDisplay = new JTextField("", 6);
+	private JTextField clockDisplay = new JTextField("", 10);
 	private Timer timer = new Timer();
 
 	

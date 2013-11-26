@@ -152,18 +152,11 @@ public class PersonAgent extends Agent implements Person {
 			String buildingName = markets.get(index);
 			List<Step> steps = new ArrayList<Step>();
 			steps.add(new Step("exitBuilding", this));
-<<<<<<< HEAD
-			//steps.add(new Step("goTo", this));
-			//steps.add(new Step("enterBuilding", this));
-
-			steps.add(new Step("goToBusStop", this));
-			steps.add(new Step("waitForBus", this));
-=======
 			steps.add(new Step("goTo", this));
 			steps.add(new Step("enterBuilding", this));
 			//steps.add(new Step("goToBusStop", this));
 			//steps.add(new Step("waitForBus", this));
->>>>>>> d9223246e94a3eeb2e65b8f1f64a6cd8da0cf80c
+
 			//waitForTransport();
 			//steps.add(new Step("goTo", this));
 			

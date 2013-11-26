@@ -11,6 +11,7 @@ import simcity.gui.Gui;
 import simcity.gui.bank.BankCustomerGui;
 import simcity.gui.bank.BankTellerGui;
 import simcity.interfaces.bank.*;
+import simcity.test.mock.EventLog;
 
 public class BankTellerRole extends Role implements simcity.interfaces.bank.BankTeller {
 
@@ -29,7 +30,7 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 	// utility variables
 	private Semaphore atDest = new Semaphore(0, true);
 	private Timer timer = new Timer();
-
+	public  EventLog log = new EventLog();
 	public enum tellerWindowState {none, directed, atWindow};
 	public enum transactionType {none, openAccount, depositMoney, withdrawMoney, loanMoney, payLoan, payRent};	// type of transaction from customer
 	public enum transactionState {none, processing, processed, done};											// transaction state
@@ -40,7 +41,12 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 		this.gui = new BankTellerGui(this);
 		this.bankSystem = bank;
 	}
-
+	public List getCustomers() {
+		return customers;
+	}
+	public List getCustomerInDebt() {
+		return debtCustomers;
+	}
 	// utility function
 	public void atDestination() {
     	atDest.release();

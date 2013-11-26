@@ -229,8 +229,6 @@ public class ControlPanel extends JPanel implements ActionListener {
 		eventsTab.add(earthquake);
 		eventsTab.add(fire);
 		
-		
-		
 		tabPane.addTab("Selected", selectTab);
 		tabPane.addTab("Settings", settingsTab);
 		tabPane.addTab("Log", logTab);
@@ -261,7 +259,7 @@ public class ControlPanel extends JPanel implements ActionListener {
 				config.oneBank();
 			} else if(selection.equals(configStrings[4])) {
 				config.oneHouse();
-			} else if(selection.equals(configStrings[4])) {
+			} else if(selection.equals(configStrings[5])) {
 				config.fullCity();
 			}
 		}

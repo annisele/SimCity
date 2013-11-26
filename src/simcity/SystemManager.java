@@ -28,6 +28,7 @@ import simcity.buildings.restaurant.two.RestaurantTwoSystem;
 import simcity.buildings.restaurant.two.RestaurantTwoWaiterRole;
 import simcity.buildings.transportation.BusAgent;
 import simcity.buildings.transportation.TransportationSystem;
+import simcity.gui.WorldAnimationPanel;
 import simcity.gui.BuildingGui;
 import simcity.gui.SimCityGui;
 import simcity.gui.transportation.BusGui;
@@ -93,6 +94,16 @@ public class SystemManager {
 				}
 			}
 		}
+	}
+	
+	public void setBackgroundOne() {
+		WorldAnimationPanel w = (WorldAnimationPanel)world.getAnimationPanel();
+		w.setBackgroundOne();
+	}
+	
+	public void setBackgroundTwo() {
+		WorldAnimationPanel w = (WorldAnimationPanel)world.getAnimationPanel();
+		w.setBackgroundTwo();
 	}
 	
 	public void addPerson(String name) {
@@ -259,36 +270,6 @@ public class SystemManager {
 	
 	public WorldSystem getWorld() {
 		return world;
-	}
-	
-	public void setCards() {
-		Map<String, JPanel> panels = new HashMap<String, JPanel>();
-		for(RestaurantOneSystem r : restaurantOnes) {
-			panels.put(r.getName(), r.getAnimationPanel());
-		}
-		for(MarketSystem m : markets) {
-			panels.put(m.getName(), m.getAnimationPanel());
-		}
-		for(BankSystem b : banks) {
-			panels.put(b.getName(), b.getAnimationPanel());
-		}
-		
-		simcity.setCards(panels);
-	}
-	
-	public Map<String, JPanel> getCards() {
-		Map<String, JPanel> marketPanels = new HashMap<String, JPanel>();
-		
-		for(RestaurantOneSystem r : restaurantOnes) {
-			marketPanels.put(r.getName(), r.getAnimationPanel());
-		}
-		for(MarketSystem m : markets) {
-			marketPanels.put(m.getName(), m.getAnimationPanel());
-		}
-		for(BankSystem b : banks) {
-			marketPanels.put(b.getName(), b.getAnimationPanel());
-		}
-		return marketPanels;
 	}
 	
 	public void clearDetailPane() {

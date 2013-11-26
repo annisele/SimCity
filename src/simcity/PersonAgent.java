@@ -144,10 +144,14 @@ public class PersonAgent extends Agent implements Person {
 		 return randchoice;
 	}
 
-	public void scheduleEvent(EventType t) {
+	public boolean scheduleEvent(EventType t) {
 		Event e;
 		if(t == EventType.GoToMarket) {
+			
 			List<String> markets = Directory.getMarkets();
+			if (markets.size() == 0) {
+				return false;
+			}
 			int index = rand.nextInt(markets.size());
 			String buildingName = markets.get(index);
 			List<Step> steps = new ArrayList<Step>();
@@ -192,6 +196,7 @@ public class PersonAgent extends Agent implements Person {
 			//Do("GoToMarket is scheduled, which has "+steps.size()+" steps");
 			insertEvent(e);
 			stateChanged();
+			
 		}
 		if(t == EventType.EatAtRestaurant) {
 			List<String> restaurants = Directory.getRestaurants();
@@ -340,6 +345,7 @@ public class PersonAgent extends Agent implements Person {
 			insertEvent(e);
 			stateChanged();
 		}
+		return true;
 	}
 
 	//this assumes after roles are done, they go stand outside the building

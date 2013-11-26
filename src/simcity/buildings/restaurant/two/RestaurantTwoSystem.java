@@ -39,6 +39,7 @@ public class RestaurantTwoSystem extends SimSystem {
 	// public RestaurantControlPanel controlPanel;
 	private List<RestaurantTwoCustomer> customers = new ArrayList<RestaurantTwoCustomer>();
 	private List<RestaurantTwoWaiter> waiters = new ArrayList<RestaurantTwoWaiter>();
+	private RestaurantTwoOrderWheel owheel;
 	private RestaurantTwoHost host;
 	private RestaurantTwoCook cook;
 	private RestaurantTwoCashier cashier;
@@ -47,35 +48,45 @@ public class RestaurantTwoSystem extends SimSystem {
 		super(scgui);
 		super.setAnimationPanel(new RestaurantTwoAnimationPanel());
 		super.setControlPanel(new RestaurantTwoControlPanel());
+		this.owheel = new RestaurantTwoOrderWheel();
 	}
 
 	public RestaurantTwoHost getR2Host() {
 		return host;
 	}
-	
+	/*
 	public void setRestaurantTwoHost(RestaurantTwoHostRole h) {
 		this.host = h;
 		RestaurantTwoHostGui hostGui = new RestaurantTwoHostGui(h);
 		animationPanel.addGui(hostGui);
 	}
-
+*/
 	public boolean msgEnterBuilding(Role role) {
 
-		System.out.println("gui: "+role.getGui());
-
 		//System.out.println("gui: "+role.getGui());
-		System.out.println("the role has a gui: "+role.getGui());
+		//System.out.println("the role "+role+" has a gui: "+role.getGui());
 
 		animationPanel.addGui(role.getGui());
 		if(role instanceof RestaurantTwoCustomer) {
+			((RestaurantTwoCustomer) role).setHost(host);
+			((RestaurantTwoCustomer) role).setCashier(cashier);
+			((RestaurantTwoCustomer) role).setCook(cook);
 			customers.add((RestaurantTwoCustomer) role);
 		}
 		else if(role instanceof RestaurantTwoHost) {
 			host = (RestaurantTwoHost) role;
 		}
+		else if(role instanceof RestaurantTwoCook) {
+			((RestaurantTwoCook)role).setOrderWheel(owheel);
+			cook = (RestaurantTwoCook) role;
+		}
 		else if(role instanceof RestaurantTwoWaiter) {
+			
+			((RestaurantTwoWaiter) role).setHost(host);
+			((RestaurantTwoWaiter) role).setCashier(cashier);
+			((RestaurantTwoWaiter) role).setCook(cook);
+			host.addWaiter((RestaurantTwoWaiter) role);
 			waiters.add((RestaurantTwoWaiter) role);
-			((RestaurantTwoHostRole) host).addWaiter((RestaurantTwoWaiter) role);
 		}
 		
 		else if(role instanceof RestaurantTwoCashier) {

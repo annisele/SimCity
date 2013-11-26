@@ -10,9 +10,9 @@ public interface RestaurantTwoCustomer extends GuiPartner{
 	public abstract void setWaiter(RestaurantTwoWaiter waitr);
 	
 	
-	public abstract void setHost(RestaurantTwoHostRole host);
-	public abstract void setCook(RestaurantTwoCookRole cook);
-	public abstract void setCashier(RestaurantTwoCashierRole cashier);
+	public abstract void setHost(RestaurantTwoHost host);
+	public abstract void setCook(RestaurantTwoCook cook);
+	public abstract void setCashier(RestaurantTwoCashier cashier);
 	
 public abstract void hack_chicken();
 	
@@ -49,5 +49,10 @@ public abstract void msgGoodbye() ;
 
 abstract void msgEnterBuilding(SimSystem s);
 public abstract void msgArrivedAtRestaurant();
+
+
+public abstract String getName();
+
+
 
 }

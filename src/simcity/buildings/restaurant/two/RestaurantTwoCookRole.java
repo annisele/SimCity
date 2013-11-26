@@ -12,22 +12,27 @@ import java.util.TimerTask;
 
 
 
+
+import java.util.concurrent.Semaphore;
+
 import simcity.buildings.market.MarketSystem;
 //import restaurant.MarketAgent;
 import simcity.buildings.restaurant.two.*;
 import simcity.gui.restauranttwo.*;
 import simcity.interfaces.restaurant.two.*;
+import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
 import simcity.gui.restaurantone.RestaurantOneCookGui;
 import simcity.interfaces.restaurant.two.RestaurantTwoWaiter;
 
-public class RestaurantTwoCookRole extends Role {
+public class RestaurantTwoCookRole extends Role implements simcity.interfaces.restaurant.two.RestaurantTwoCook{
 
 	//Initially had explicit variables for this- Changed that after v2.1 submission
     //Am now using a map
 	private RestaurantTwoWaiter waiter;
 	private RestaurantTwoSystem R2;
+	private Semaphore atDest = new Semaphore(0, true);
 	//private WaiterAgent waiter;
 	private static int num_items =10;
 	public List<MarketSystem> markets
@@ -80,28 +85,32 @@ public class RestaurantTwoCookRole extends Role {
 	String name;
 	private boolean cooking=false;
 	private int c_market=0;
-	public RestaurantTwoCookGui cookGui;
+
 	
 	public void setWaiter(RestaurantTwoWaiter waitr) {
 		this.waiter = waitr;
 	}
-	public void setGui(RestaurantTwoCookGui g) {
-		cookGui = g;
+	public void setOrderWheel(RestaurantTwoOrderWheel wheel) {
+		this.orderWheel= wheel;
 	}
+
 	// Messages
 	
-	public RestaurantTwoCookRole(int st,int ch,int sa,int pi, RestaurantTwoOrderWheel od){
+	public RestaurantTwoCookRole(PersonAgent p, RestaurantTwoSystem r, int st,int ch,int sa,int pi){
 		super();
+		this.person=p;
 		v= new inventory(st,ch,sa,pi);
-		this.name="Cook";
+		this.gui = new RestaurantTwoCookGui(this);
+		this.R2=r;
 		cooking=false;
-	Menu.put("chicken",10.99);	
+		Menu.put("chicken",10.99);	
 		Menu.put("steak",15.99);
 		Menu.put("salad",5.99);
 		Menu.put("pizza",8.99);
-		this.orderWheel= od;
+		//this.orderWheel= od;
 		
 	}
+
 	public String getName() {
 		return name;
 	}
@@ -178,6 +187,7 @@ public class RestaurantTwoCookRole extends Role {
 	 * @return 
 	 */
 	public boolean pickAndExecuteAnAction() {
+		//Do("cook state");
 		/* Think of this next rule as:
             Does there exist a table and customer,
             so that table is unoccupied and customer is waiting.
@@ -305,7 +315,7 @@ public class RestaurantTwoCookRole extends Role {
 	    }
 	private void CookIt(order o){
 		Do(""+o.choice);
-		cookGui.Prep();
+		((RestaurantTwoCookGui)gui).Prep();
 		//RestaurantTwocookGui.setText(o.choice);
 		num=find(o);
 		timer.schedule(new TimerTask(){
@@ -332,7 +342,7 @@ public class RestaurantTwoCookRole extends Role {
 	}
 	
 	private void PlateIt(order o){
-		cookGui.Plate();
+		((RestaurantTwoCookGui)gui).Plate();
 		setWaiter(o.w);
 		Do("done plating");
 		//RestaurantTwocookGui.setText("");
@@ -387,6 +397,9 @@ public class RestaurantTwoCookRole extends Role {
 	
 
 	//utilities
+	public void atDestination() {
+		atDest.release();
+	}
 
 public void addMarket(MarketSystem m){
 	markets.add(m);
@@ -399,7 +412,16 @@ public void addMarket(MarketSystem m){
 	
 	@Override
 	public void msgEnterBuilding(SimSystem s) {
+		System.out.println("cook enters building");
 		// TODO Auto-generated method stub
+		R2 = (RestaurantTwoSystem)s;
+		((RestaurantTwoCookGui)gui).DoGoToPosition();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		
 	}
+
 }

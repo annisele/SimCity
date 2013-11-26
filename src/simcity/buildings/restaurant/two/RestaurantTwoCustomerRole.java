@@ -26,16 +26,15 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
      private String  choice;
      private int hungerLevel = 5;        // determines length of meal
      Timer timer = new Timer();
-     private RestaurantTwoCustomerGui customerGui;
-     private RestaurantTwoOrderWheel OrderWheel= new RestaurantTwoOrderWheel(); 
+      private RestaurantTwoOrderWheel OrderWheel= new RestaurantTwoOrderWheel(); 
  	private Semaphore atDest = new Semaphore(0, true);
 
      // agent correspondents
      
-     private RestaurantTwoHostRole host;
+     private RestaurantTwoHost host;
      private RestaurantTwoWaiter waiter;
-     private RestaurantTwoCashierRole cashier;
-     private RestaurantTwoCookRole cook;
+     private RestaurantTwoCashier cashier;
+     private RestaurantTwoCook cook;
      
      private RestaurantTwoSystem R2;
      private boolean hack_c=false;
@@ -59,12 +58,13 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
 
 
      public RestaurantTwoCustomerRole(PersonAgent p){
-    	 	System.out.println("Person is: "+p);
+    	 	//Do("Cust Person is: ");
             person = p;
 
-            
+            Do("LOOK: "+p);
             this.gui = new RestaurantTwoCustomerGui(this);
-             /*
+            //System.out.println("Cust Person gui is: "+gui);
+             
              lowestprice=6;
              double temp= 5+(double)(Math.random()*(15));
              DecimalFormat f =new DecimalFormat("##.00");
@@ -75,9 +75,9 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
 					} catch (java.text.ParseException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
-					}*/
+					}
           
-            // Do("$$$= "+cashmoney);
+            Do("$$$= "+cashmoney);
            //  customer_check=0;
      }
 
@@ -87,13 +87,13 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
      public void setWaiter(RestaurantTwoWaiter waitr) {
              this.waiter = waitr;
      }
-     public void setHost(RestaurantTwoHostRole host) {
+     public void setHost(RestaurantTwoHost host) {
              this.host = host;
      }
-     public void setCook(RestaurantTwoCookRole cook) {
+     public void setCook(RestaurantTwoCook cook) {
              this.cook = cook;
      }
-     public void setCashier(RestaurantTwoCashierRole cashier) {
+     public void setCashier(RestaurantTwoCashier cashier) {
              this.cashier = cashier;
      }
      
@@ -184,6 +184,7 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
      public void msgGoodbye() {
              Do("Goodbye");
              event = AgentEvent.doneLeaving;
+             
              stateChanged();
              
      }
@@ -201,7 +202,7 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
       */
      public boolean pickAndExecuteAnAction() {
              //        CustomerAgent is a finite state machine
-
+//Do("cust state");
              if (state == AgentState.DoingNothing && event == AgentEvent.gotHungry ){
                      state = AgentState.WaitingInRestaurant;
                      goToRestaurant();
@@ -244,7 +245,7 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
 
              if (state ==  AgentState.WaitingForWaiter && event == AgentEvent.ordered){
                      state = AgentState.WaitingForFood;
-
+Do("OK ORDERED");
                      if (hack_c==true){
                              Order("chicken");
                      }
@@ -253,6 +254,7 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
                      }
                      if(hack_st==false&&hack_c==false){
                              Order(choice);
+                            // Do("OK ORDERED REALLY");
                      }
                      return true;
 
@@ -301,14 +303,16 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
 
      private void goToRestaurant() {
              Do("Going to restaurant");
-             if(host.waitingSpots.containsValue(false)){
-                     synchronized(host.waitingSpots){
-                     for(Entry<Integer, Boolean> entry : host.waitingSpots.entrySet()){
+             //Do("spots:"+((RestaurantTwoHostRole)host).waitingSpots.entrySet());
+             if(((RestaurantTwoHostRole)host).waitingSpots.containsValue(false)){
+                     synchronized(((RestaurantTwoHostRole)host).waitingSpots){
+                     for(Entry<Integer, Boolean> entry : ((RestaurantTwoHostRole)host).waitingSpots.entrySet()){
                              if(entry.getValue()==false){
                                      waitingPosition=entry.getKey();
-                                     host.waitingSpots.put(waitingPosition, true);
-                                     customerGui.DoGoToRestaurant(waitingPosition);
-                                     host.msgIWantFood(this);
+                                     //Do("waiting pos: "+entry.getKey());
+                                     ((RestaurantTwoHostRole)host).waitingSpots.put(waitingPosition, true);
+                                     ((RestaurantTwoCustomerGui)gui).DoGoToRestaurant(waitingPosition);
+                                     ((RestaurantTwoHostRole)host).msgIWantFood(this);
                                      break;
                              }
                      }
@@ -324,12 +328,20 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
 
      private void SitDown() {
              Do("Being seated. Going to table");
-             customerGui.DoGoToSeat(tnum);//hack; only osne table
-             host.waitingSpots.put(waitingPosition, false);
+             ((RestaurantTwoCustomerGui)gui).DoGoToSeat(tnum);//hack; only osne table
+             ((RestaurantTwoHostRole)host).waitingSpots.put(waitingPosition, false);
+             try {
+         		atDest.acquire();
+         	} catch (InterruptedException e) {
+         		e.printStackTrace();
+         	}
+             event = AgentEvent.seated;
+             stateChanged();
+     
      }
      private void LookingAtMenu(){
              Do("Looking at Menu");
-             Do("MENU: "+ cook.Menu.entrySet());
+             Do("MENU: "+ ((RestaurantTwoCookRole)cook).Menu.entrySet());
              timer.schedule(new TimerTask(){
                      Object cookie = 1;
                      public void run() {
@@ -348,7 +360,7 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
                      while(true){
 
                              Random g = new Random();
-                             Object[] values =cook.Menu.values().toArray();
+                             Object[] values =((RestaurantTwoCookRole)cook).Menu.values().toArray();
                              Double r_val = (Double) values[g.nextInt(values.length)];
                              Do("making choice: "+r_val);
                              Do("cash: "+cashmoney);
@@ -407,8 +419,9 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
              return choice;
      }
      private void Order (String ch){
-             Do("Order "+ch);
+             Do("I AM ORDERING Order "+ch);
              waiter.msgHereIsMyChoice(this, ch);
+             
      }
      private void Reorder(){
              Do("reordering ");
@@ -421,9 +434,9 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
              String c= g_choice();
              Do("here"+ g_choice());
              if(c.equals("not ordering")){
-                     Do("here");
+            	 	state=AgentState.Leaving;
                      Leave();
-                     state=AgentState.Leaving;
+                     
                      stateChanged();
              }
              else{
@@ -456,8 +469,15 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
      }
      private void LeaveToPay() {
              Do("Leaving to pay.");
-             customerGui.DoLeaveToPay();
-             
+             ((RestaurantTwoCustomerGui)gui).DoGoToCashier();
+             try {
+     			atDest.acquire();
+     		} catch (InterruptedException e) {
+     			e.printStackTrace();
+     		}
+             event = AgentEvent.Leaving;
+             stateChanged();
+     
      }
      private void AtCashiers(){
              Do("At cashiers");
@@ -467,15 +487,20 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
              cashmoney-=customer_check;
              //Do("$: "+cashmoney);
              host.msgLeavingTable(this);
+             ((RestaurantTwoCustomerGui)gui).DoExitRestaurant();
+             
              
      }
      private void Leave(){
              if(state==AgentState.Storming){
              waiter.msgCustLeave(this);
              host.msgLeavingTable(this);
-             }
              event=AgentEvent.doneLeaving;
-             customerGui.DoExitRestaurant();
+             }
+             if(state==AgentState.Leaving){
+             event=AgentEvent.doneLeaving;
+             }
+             ((RestaurantTwoCustomerGui)gui).DoExitRestaurant();
              Do("Has left");
      }
      // Accessors, etc.
@@ -502,14 +527,9 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
              return "customer " + person.getName();
      }
 
-     public void setGui(RestaurantTwoCustomerGui g) {
-             customerGui = g;
-     }
+   
 
-     public RestaurantTwoCustomerGui getGui() {
-             return customerGui;
-     }
-
+ 
 	@Override
 	public void msgExitBuilding() {
 		// TODO Auto-generated method stub
@@ -520,14 +540,15 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
 
 	@Override
 	public void msgEnterBuilding(SimSystem s) {
-		System.out.println("wasdooo");
+		Do("cust enter building");
 		R2 = (RestaurantTwoSystem)s;
-		((RestaurantTwoCustomerGui)gui).DoGoToRestaurant(10);
+		((RestaurantTwoCustomerGui)gui).DoGoToCashier();
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		gotHungry();
 		
 	}
 
@@ -536,6 +557,9 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
 		// TODO Auto-generated method stub
 		atDest.release();
 	}
+
+	
+
 
 	
 

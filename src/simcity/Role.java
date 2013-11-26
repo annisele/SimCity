@@ -10,6 +10,7 @@ public abstract class Role  {
 	protected Gui gui;
 	
 	public void stateChanged() {  
+	//	System.out.println("skdjfhkjsdh: "+person);
 		person.stateChanged(); 
 	}
 	

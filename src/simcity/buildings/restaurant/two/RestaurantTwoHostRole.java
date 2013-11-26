@@ -28,8 +28,8 @@ public class RestaurantTwoHostRole extends Role implements simcity.interfaces.re
 	public Map<Integer,Boolean> waitingSpots= new HashMap<Integer, Boolean>();
 	public Map<Integer,Boolean> waiterSpots= new HashMap<Integer, Boolean>();
 	
-	public List<RestaurantTwoCustomerRole> waitingCustomers
-	= Collections.synchronizedList(new ArrayList<RestaurantTwoCustomerRole>());
+	public List<RestaurantTwoCustomer> waitingCustomers
+	= Collections.synchronizedList(new ArrayList<RestaurantTwoCustomer>());
 	public List<RestaurantTwoWaiter> waiters
 	= Collections.synchronizedList(new ArrayList<RestaurantTwoWaiter>());
 	public Collection<Table> tables;
@@ -91,14 +91,15 @@ public class RestaurantTwoHostRole extends Role implements simcity.interfaces.re
 	public void msgRestate(RestaurantTwoWaiter w){
 		waiters.add(w);
 	}
-	public void msgIWantFood(RestaurantTwoCustomerRole cust) {
+	public void msgIWantFood(RestaurantTwoCustomer cust) {
+		Do("Recieved msg I want food");
 		waitingCustomers.add(cust);
 		stateChanged();
 		Do(cust.getName());
 	
 	}
 
-	public void msgLeavingTable(RestaurantTwoCustomerRole cust) {
+	public void msgLeavingTable(RestaurantTwoCustomer cust) {
 		synchronized(tables){
 		for(Table t:tables){
 			if(t.getOccupant()==cust){
@@ -147,7 +148,7 @@ public class RestaurantTwoHostRole extends Role implements simcity.interfaces.re
 
 	// Actions
 
-	private void assignWaiter(RestaurantTwoCustomerRole customer,  Table t) {
+	private void assignWaiter(RestaurantTwoCustomer customer,  Table t) {
 		//msgsitattable to waiter include tablenum 
 		Do("assign "+currentwaiter);
 		
@@ -173,25 +174,25 @@ public class RestaurantTwoHostRole extends Role implements simcity.interfaces.re
 	public void addWaiter(RestaurantTwoWaiter we){
 		
 		waiters.add(we);
-		Do("added "+waiters.size());
+		Do("added waiter "+waiters.size());
 	}
 	private class Table {
-		RestaurantTwoCustomerRole occupiedBy;
+		RestaurantTwoCustomer occupiedBy;
 		int tableNumber;
 
 		Table(int tableNumber) {
 			this.tableNumber = tableNumber;
 		}
 
-		void setOccupant(RestaurantTwoCustomerRole cust) {
-			occupiedBy = cust;
+		void setOccupant(RestaurantTwoCustomer customer) {
+			occupiedBy = customer;
 		}
 
 		void setUnoccupied() {
 			occupiedBy = null;
 		}
 
-		RestaurantTwoCustomerRole getOccupant() {
+		RestaurantTwoCustomer getOccupant() {
 			return occupiedBy;
 		}
 
@@ -216,7 +217,7 @@ public class RestaurantTwoHostRole extends Role implements simcity.interfaces.re
 
 	@Override
 	public void msgEnterBuilding(SimSystem s) {
-		System.out.println("wdhooo");
+		Do("host enters building");
 		R2 = (RestaurantTwoSystem)s;
 		((RestaurantTwoHostGui)gui).DoGoToHostPosition();
 		try {
@@ -231,6 +232,8 @@ public class RestaurantTwoHostRole extends Role implements simcity.interfaces.re
 	public void atDestination() {
 		atDest.release();
 	}
+
+	
 
 
 }

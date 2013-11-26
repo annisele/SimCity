@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 /************************
- * Market System - Holds the inventory of the market.
+ * Market System - Holds the inventory and money of the market.
  * @author rebeccahao
  *
  */
@@ -15,7 +15,6 @@ public class MarketComputer {
 	private Map<String, Integer> inventory = Collections.synchronizedMap(new HashMap<String, Integer>());
 	private double money = 400;
 	private Map<String, Double> prices = Collections.synchronizedMap(new HashMap<String, Double>());
-
 	
 	public MarketComputer() {
 		
@@ -66,6 +65,10 @@ public class MarketComputer {
 
 	public void addMoney(double payment) {
 		money += payment;
+	}
+	
+	public double getMoney() {
+		return money;
 	}
 
 }

@@ -139,9 +139,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		}
 		((MarketCustomerGui) gui).carryItem(false);
 		market.exitBuilding(this);
-		person.roleFinished();
-		person.isIdle();
-		
+		person.roleFinished();		
 	}
 
 	@Override

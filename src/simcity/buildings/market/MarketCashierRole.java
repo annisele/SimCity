@@ -222,8 +222,6 @@ public class MarketCashierRole extends Role implements MarketCashier {
 		person.Do("Leaving market.");
 		market.exitBuilding(this);
 		person.roleFinished();
-		person.isIdle();
-
 	}
 
 	@Override

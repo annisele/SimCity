@@ -128,8 +128,15 @@ public class MarketWorkerRole extends Role implements MarketWorker {
 
 	@Override
 	public void msgExitBuilding() {
-		// TODO Auto-generated method stub
-
+		gui.DoExitBuilding();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		person.Do("Leaving market.");
+		market.exitBuilding(this);
+		person.roleFinished();
 	}
 
 	@Override

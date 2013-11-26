@@ -14,6 +14,7 @@ import simcity.buildings.bank.BankCustomerRole;
 import simcity.buildings.bank.BankSystem;
 import simcity.buildings.house.HouseInhabitantRole;
 import simcity.buildings.market.MarketCustomerRole;
+import simcity.buildings.market.MarketSystem;
 import simcity.buildings.restaurant.five.RestaurantFiveCustomerRole;
 import simcity.buildings.restaurant.four.RestaurantFourCustomerRole;
 import simcity.buildings.restaurant.two.RestaurantTwoCustomerRole;
@@ -181,11 +182,11 @@ public class PersonAgent extends Agent implements Person {
 				}
 			}  
 			
-			//((MarketCustomer)eventR).msgBuyStuff(house.getListToBuy(), (MarketSystem)(Directory.getSystem(buildingName)));
+			((MarketCustomer)eventR).msgBuyStuff(house.getListToBuy());
 			//hack
 			Map<String, Integer> itemsHack = new HashMap<String, Integer>();
 			itemsHack.put("chicken", 1);
-			((MarketCustomer)eventR).msgBuyStuff(itemsHack);
+			//((MarketCustomer)eventR).msgBuyStuff(itemsHack);
 			
 			e = new Event(buildingName, eventR, 120, -1, true, steps, t);
 			//Do("GoToMarket is scheduled, which has "+steps.size()+" steps");

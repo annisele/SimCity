@@ -149,7 +149,7 @@ public class Config {
 		systems.setBackgroundTwo();
 		
 		systems.addMarket("Market", 60, 140);
-		systems.addHouse("House", 249, 140);
+		systems.addHouse("HouseOne", 249, 140);
 		
 		systems.addMarketCashierHack("Mary", "Market");
 		systems.addMarketTruck("Market");
@@ -159,6 +159,9 @@ public class Config {
 				systems.addMarketWorkerHack("Bob", "Market");
 			}
 		}, 2000);
+		
+		systems.addPerson("Tony");
+		systems.setHome("Tony", "HouseOne");
 		
 		// These are the right-most houses
 		//systems.addHouse("HouseTwo", 402, 27);

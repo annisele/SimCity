@@ -202,8 +202,10 @@ public class BankHostRole extends Role implements BankHost {
 			
 
 		bank = (BankSystem)s;
+		System.out.println(AlertTag.valueOf(bank.getName()));
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankHost: " + person.getName(), "Entering the bank");	
 		((BankHostGui)gui).DoGoToHostPosition();
+		
 	}
 	
 	public void addBankTeller(BankTeller b) {

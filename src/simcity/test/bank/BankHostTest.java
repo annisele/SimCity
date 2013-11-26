@@ -16,13 +16,16 @@ public class BankHostTest extends TestCase {
 	PersonAgent p = new PersonAgent("PersonAgent");
 	SimCityGui scg = new SimCityGui();
 	BankSystem bank = new BankSystem(scg);
+
 	
 	public void setUp() throws Exception {
 		super.setUp();
+		bank.setName("BANK1");
 		host = new BankHostRole(p);
 		host.enterBuilding(bank);
 		bt = new MockBankTeller("bank teller");
-		bc = new MockBankCustomer("bank customer");		
+		bc = new MockBankCustomer("bank customer");
+	
 	}
 	
 	public void testOneCustomerEnterBank() {
@@ -33,7 +36,8 @@ public class BankHostTest extends TestCase {
 				+ host.log.toString(), 0, host.log.size());
 		host.msgEnteringBank(bc);
 		assertFalse("MockBankCustomer should have received msgGoToWindow.", bc.log.containsString("I'm going to the window to perform bank transaction"));
-		host.pickAndExecuteAnAction();
+		
+		//host.pickAndExecuteAnAction();
 		assertFalse(host.getCustomers().isEmpty());
 		
 		assertEquals(

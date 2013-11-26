@@ -45,7 +45,7 @@ public class CarAgent extends Role implements simcity.interfaces.transportation.
 		
 	}
 	@Override
-	public void msgExitBuilding() {
+	public void exitBuilding() {
 		// TODO Auto-generated method stub
 		
 	}
@@ -56,7 +56,7 @@ public class CarAgent extends Role implements simcity.interfaces.transportation.
 		
 	}
 	@Override
-	public void msgEnterBuilding(SimSystem s) {
+	public void enterBuilding(SimSystem s) {
 		// TODO Auto-generated method stub
 		
 	}

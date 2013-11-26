@@ -180,7 +180,7 @@ public class BankHostRole extends Role implements BankHost {
 	}
 	
 	// utility functions
-	public void msgExitBuilding() {
+	public void exitBuilding() {
 		person.Do("Leaving bank");
 		gui.DoExitBuilding();
 		try {
@@ -195,7 +195,7 @@ public class BankHostRole extends Role implements BankHost {
 	}
 
 	@Override
-	public void msgEnterBuilding(SimSystem s) {
+	public void enterBuilding(SimSystem s) {
 		bank = (BankSystem)s;
 		((BankHostGui)gui).DoGoToHostPosition();
 	}

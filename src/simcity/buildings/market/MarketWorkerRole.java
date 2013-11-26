@@ -128,7 +128,7 @@ public class MarketWorkerRole extends Role implements MarketWorker {
 	}
 
 	@Override
-	public void msgExitBuilding() {
+	public void exitBuilding() {
 		gui.DoExitBuilding();
 		try {
 			atDest.acquire();
@@ -141,7 +141,7 @@ public class MarketWorkerRole extends Role implements MarketWorker {
 	}
 
 	@Override
-	public void msgEnterBuilding(SimSystem s) {
+	public void enterBuilding(SimSystem s) {
 		market = (MarketSystem)s;
 		((MarketWorkerGui)gui).DoGoToCenter();
 		try {

@@ -152,7 +152,7 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 	}
 	
 	// Actions
-	private void Drive() {
+	public void Drive() {
 		busStopCounter = ((busStopCounter + 1) % 4);
 		DoGoTo(busStops.get(busStopCounter));
 		try {
@@ -164,7 +164,7 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 		msgArrived();
 	}
 
-	private void Stop() {
+	public void Stop() {
 		synchronized(passengers) {
 			for (MyPassenger p : passengers) {
 				if (p.loaded == false && p.startLocation == busStopCounter) {
@@ -183,7 +183,7 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 	}
 	
 	
-	private void DoGoTo(Location l) {
+	public void DoGoTo(Location l) {
 		//Animation
 		//Wait a few Seconds
 		gui.DoGoToStop(l.getX(), l.getY());

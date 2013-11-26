@@ -297,7 +297,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	    		e.printStackTrace();
 	    	}
 		    bt.msgWantToPayLoan(this, amountToProcess);
-		    System.out.println("Bank customer wants to get loan");
+		    System.out.println("I want to get loan");
 		}
 		
 		private void PayRent() {
@@ -308,7 +308,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	    		e.printStackTrace();
 	    	}
 		    bt.msgWantToPayRent(this, amountToProcess);
-		    System.out.println("Bank customer wants to pay $10 rent");
+		    System.out.println("I want to pay $10 rent");
 		}
 		
 		private void InformBankHostOfDeparture() {

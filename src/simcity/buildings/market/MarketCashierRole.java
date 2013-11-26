@@ -2,7 +2,6 @@ package simcity.buildings.market;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -52,6 +51,7 @@ public class MarketCashierRole extends Role implements MarketCashier {
 
 	@Override
 	public void msgHereIsAnOrder(MarketOrderer mc1, MarketPayer mc2, Map<String, Integer> items) {
+		Do("here is an order msg");
 		synchronized(orders) {
 			orders.add(new MarketOrder(orders.size(), mc1, mc2, items, MarketOrderState.requested));
 		}
@@ -186,7 +186,7 @@ public class MarketCashierRole extends Role implements MarketCashier {
 		person.Do("Giving items to customer");
 		//.getNext() is a stub for load balancing
 		if(o.deliverRole instanceof MarketCustomer) {
-			o.deliverRole.msgDeliveringOrder(o.items);
+			o.deliverRole.msgDeliveringOrder(o.items, 0.0);
 		}
 		else {
 			//o.deliverRole.msgOrderWillBeDelivered(o.items);
@@ -206,7 +206,7 @@ public class MarketCashierRole extends Role implements MarketCashier {
 	}
 
 	@Override
-	public void msgExitBuilding() {
+	public void exitBuilding() {
 		((MarketCashierGui)gui).DoGoToLeftTop();
 		try {
 			atDest.acquire();
@@ -240,7 +240,7 @@ public class MarketCashierRole extends Role implements MarketCashier {
 	}
 
 	@Override
-	public void msgEnterBuilding(SimSystem s) {
+	public void enterBuilding(SimSystem s) {
 		market = (MarketSystem)s;
 		((MarketCashierGui)gui).DoGoToCenter();
 		try {

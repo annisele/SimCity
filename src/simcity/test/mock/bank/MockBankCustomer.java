@@ -93,13 +93,13 @@ public class MockBankCustomer extends Mock implements BankCustomer {
 	}
 
 	@Override
-	public void msgExitBuilding() {
+	public void exitBuilding() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void msgEnterBuilding(SimSystem s) {
+	public void enterBuilding(SimSystem s) {
 		// TODO Auto-generated method stub
 		
 	}

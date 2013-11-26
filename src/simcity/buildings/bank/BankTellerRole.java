@@ -404,7 +404,7 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 	    msgExitBuilding();
 	}
 	*/
-	public void msgExitBuilding() {
+	public void exitBuilding() {
 		person.Do("Leaving bank.");
 		gui.DoExitBuilding();
 		try {
@@ -416,7 +416,7 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 		person.roleFinished();
 		
 	}
-	public void msgEnterBuilding(SimSystem s) {
+	public void enterBuilding(SimSystem s) {
 		bankSystem = (BankSystem) s;
 		((BankTellerGui)gui).DoGoToHost();
 		try {

@@ -21,7 +21,7 @@ public interface BankTeller extends GuiPartner {
 	
 	public abstract String getName();
 	public abstract void setName(String name);
-	public abstract void msgExitBuilding();
-	public abstract void msgEnterBuilding(SimSystem s);
+	public abstract void exitBuilding();
+	public abstract void enterBuilding(SimSystem s);
 	public abstract void setHost(BankHostRole b);
 }

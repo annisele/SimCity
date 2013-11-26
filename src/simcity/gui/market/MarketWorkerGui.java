@@ -1,5 +1,6 @@
 package simcity.gui.market;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 
@@ -22,10 +23,14 @@ public class MarketWorkerGui extends Gui {
 	private final int HOME_Y = 225;
 	private final int CENTER_X = 115;	
 	private final int CENTER_Y = 225;
+	private boolean carrying = false;
+	
+	ImageIcon i = new ImageIcon("res/market/item.png");
+	private Image img = i.getImage();
+	private Image itemimage = img.getScaledInstance(18, 18, java.awt.Image.SCALE_SMOOTH);
 	
 	ImageIcon ii = new ImageIcon("res/person/bluepersondownbig.png");
 	Image workerimage = ii.getImage();
-	//Image workerimage = img.getScaledInstance(70, 62,  java.awt.Image.SCALE_SMOOTH); 
 
 	public MarketWorkerGui(MarketWorker m) {
 		role = m;
@@ -34,6 +39,9 @@ public class MarketWorkerGui extends Gui {
 	@Override
 	public void draw(Graphics2D g) {
 		g.drawImage(workerimage, getX(), getY(), null);
+		if(carrying) {
+			g.drawImage(itemimage, getX(), getY() + 30, null);
+		}
 	}
 	
 	public void DoGoToShelfOneArea() {
@@ -45,6 +53,7 @@ public class MarketWorkerGui extends Gui {
 	}
 	
 	public void DoGoToShelfTwo() {
+		carrying = true;
 		DoGoToLocation(SHELF_TWO_X, SHELF_TWO_Y);
 	}
 	
@@ -53,6 +62,7 @@ public class MarketWorkerGui extends Gui {
 	}
 	
 	public void DoGoToHomePosition() {
+		carrying = false;
 		DoGoToLocation(HOME_X, HOME_Y);
 	}
 	

@@ -25,6 +25,7 @@ public class MarketCashierRole extends Role implements MarketCashier {
 	private enum MarketOrderState {requested, waitingForPayment, paid, filling, found};
 	private Map<String, Double> prices = Collections.synchronizedMap(new HashMap<String, Double>());
 	private Semaphore atDest = new Semaphore(0, true);
+	private int numObjectsOnCounter = 0;
 	private class MarketOrder {
 		int orderNumber;
 		MarketOrderer deliverRole;
@@ -79,6 +80,7 @@ public class MarketCashierRole extends Role implements MarketCashier {
 
 	@Override
 	public void msgOrderFound(int orderNum) {
+		((MarketCashierGui) gui).addItemToCounter();
 		synchronized (orders) {
 			for(MarketOrder o : orders) {
 				if(o.orderNumber == orderNum) {
@@ -87,6 +89,10 @@ public class MarketCashierRole extends Role implements MarketCashier {
 			}
 		}
 		stateChanged();
+	}
+	
+	public void msgReceivedOrder() {
+		((MarketCashierGui) gui).removeItemFromCounter();
 	}
 
 	public boolean pickAndExecuteAnAction() {
@@ -216,8 +222,6 @@ public class MarketCashierRole extends Role implements MarketCashier {
 		person.Do("Leaving market.");
 		market.exitBuilding(this);
 		person.roleFinished();
-		person.isIdle();
-
 	}
 
 	@Override

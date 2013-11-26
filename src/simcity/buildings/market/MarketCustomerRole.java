@@ -119,7 +119,9 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		Map<String, Integer> tempItems = i.items;       
+		((MarketCustomerGui) gui).carryItem(true);
+		Map<String, Integer> tempItems = i.items;  
+		i.cashier.msgReceivedOrder();
 		invoices.remove(i);
 		person.receiveDelivery(tempItems);
 		msgExitBuilding();
@@ -135,10 +137,9 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		((MarketCustomerGui) gui).carryItem(false);
 		market.exitBuilding(this);
-		person.roleFinished();
-		person.isIdle();
-		
+		person.roleFinished();		
 	}
 
 	@Override

@@ -110,12 +110,11 @@ public class SystemManager {
 	public void addPerson(String name) {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());
-		System.out.println(this.bus.getName());
+
 		person.setBus(bus);
 		//people.add(person);
 		
 		//hacks
-
 		if (name.equalsIgnoreCase("Rebecca")) {
 			person.goToMarketNow();
 		}

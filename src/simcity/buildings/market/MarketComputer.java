@@ -1,8 +1,9 @@
 package simcity.buildings.market;
 
-import java.util.*;
-
-import simcity.interfaces.market.MarketCashier;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 /************************
  * Market System - Holds the inventory of the market.
@@ -12,12 +13,15 @@ import simcity.interfaces.market.MarketCashier;
 public class MarketComputer {
 
 	private Map<String, Integer> inventory = Collections.synchronizedMap(new HashMap<String, Integer>());
+	private double money = 400;
 	
 	public MarketComputer() {
 		
 		//hack
-		inventory.put("chicken", 20);
-		inventory.put("steak", 30);
+		inventory.put("chicken", 60);
+		inventory.put("steak", 100);
+		inventory.put("salad", 40);
+		inventory.put("pizza", 50);
 	}
 	
 	public void setInventory(Map<String, Integer> map) {
@@ -26,45 +30,31 @@ public class MarketComputer {
 
 	public Map<String, Integer> fillOrder(Map<String, Integer> orders) {
 		
-		//hack!!!
-		return orders;
-		
-		/*
-		Iterator it = orders.entrySet().iterator();
 		Map<String, Integer> toReturn = new HashMap<String, Integer>(); //when we implement returning partial orders, use this
-
-		//synchronize so that only one worker can access at a time
-		synchronized(orders) {
-			//loop through requested list of orders
-			while (it.hasNext()) {
-				String key = (String)it.next(); //getting the item name
-				if(inventory.containsKey(key)) {
-					//make sure the inventory has more or the same number of that item
-					//.get(key) returns the value, or amount of the key item
-					if(inventory.get(key) >= orders.get(key)) {
-						toReturn.put(key, orders.get(key)); //if there is enough in inventory, puts the 
-
-						//removes map item and puts a new map item with same key/name, 
-						//and the decreased amount/value (essentially removes items from inventory)
-						int oldAmount = inventory.remove(key);
-						inventory.put(key, oldAmount - orders.get(key));
-					}
-					else {
-						return null; //for now will return null whenever full order can't be filled
-					}
+		
+		Set<String> keys = orders.keySet();
+		for (String key : keys) {
+			if(inventory.containsKey(key)) {
+				//make sure the inventory has enough of that item
+				if(inventory.get(key) >= orders.get(key)) {
+					toReturn.put(key, orders.get(key));
+					
+					//removes map item and puts a new map item with same key/name, 
+					//and the decreased amount/value (essentially removes items from inventory)
+					int oldAmount = inventory.remove(key);
+					inventory.put(key, oldAmount - orders.get(key));
 				}
-
-				it.remove(); // avoids a ConcurrentModificationException
+				else {
+					return null; //change this later, returns null when can't complete order
+				}
 			}
-			return toReturn; //return the completely filled order
 		}
-		*/
+		return toReturn;
+		
 	}
 
 	public void addMoney(double payment) {
-		// TODO Auto-generated method stub
-		
+		money += payment;
 	}
-
 
 }

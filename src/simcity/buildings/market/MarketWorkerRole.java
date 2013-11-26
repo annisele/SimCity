@@ -51,14 +51,12 @@ public class MarketWorkerRole extends Role implements MarketWorker {
 
 		collectItemsAnimation();
 
-		if(market.getComputer() == null) System.out.println("computer null");
-		if(o == null) System.out.println("order is null");
 		o.itemsToFind = market.getComputer().fillOrder(o.itemsToFind); //gets full order from system
 		if(o.itemsToFind != null) {
 			market.getCashier().msgOrderFound(o.orderNumber);
 		}
 		else {
-			//deal with this later, if system can't fill complete or any of order
+			System.out.println("Cannot fulfill order.");
 		}
 
 		((MarketWorkerGui)gui).DoGoToHomePosition();
@@ -130,8 +128,15 @@ public class MarketWorkerRole extends Role implements MarketWorker {
 
 	@Override
 	public void msgExitBuilding() {
-		// TODO Auto-generated method stub
-
+		gui.DoExitBuilding();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		person.Do("Leaving market.");
+		market.exitBuilding(this);
+		person.roleFinished();
 	}
 
 	@Override

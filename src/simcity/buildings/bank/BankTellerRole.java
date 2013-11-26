@@ -412,10 +412,9 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
-		person.roleFinished();
-		person.isIdle();
 		bankSystem.exitBuilding(this);
+		person.roleFinished();
+		
 	}
 	public void msgEnterBuilding(SimSystem s) {
 		bankSystem = (BankSystem) s;

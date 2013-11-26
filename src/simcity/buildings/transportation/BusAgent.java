@@ -135,7 +135,6 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 	
 	// Scheduler
 	public boolean pickAndExecuteAnAction() {
-		
 		if (state == BusState.stopped && event == BusEvent.loaded){
 			System.out.println("Gonna drive cause no ones here");
 			state = BusState.driving;

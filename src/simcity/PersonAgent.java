@@ -14,6 +14,7 @@ import simcity.buildings.bank.BankCustomerRole;
 import simcity.buildings.bank.BankSystem;
 import simcity.buildings.house.HouseInhabitantRole;
 import simcity.buildings.market.MarketCustomerRole;
+import simcity.buildings.market.MarketSystem;
 import simcity.buildings.restaurant.five.RestaurantFiveCustomerRole;
 import simcity.buildings.restaurant.four.RestaurantFourCustomerRole;
 import simcity.buildings.restaurant.two.RestaurantTwoCustomerRole;
@@ -151,11 +152,18 @@ public class PersonAgent extends Agent implements Person {
 			String buildingName = markets.get(index);
 			List<Step> steps = new ArrayList<Step>();
 			steps.add(new Step("exitBuilding", this));
+<<<<<<< HEAD
 			//steps.add(new Step("goTo", this));
 			//steps.add(new Step("enterBuilding", this));
 
 			steps.add(new Step("goToBusStop", this));
 			steps.add(new Step("waitForBus", this));
+=======
+			steps.add(new Step("goTo", this));
+			steps.add(new Step("enterBuilding", this));
+			//steps.add(new Step("goToBusStop", this));
+			//steps.add(new Step("waitForBus", this));
+>>>>>>> d9223246e94a3eeb2e65b8f1f64a6cd8da0cf80c
 			//waitForTransport();
 			//steps.add(new Step("goTo", this));
 			
@@ -182,11 +190,11 @@ public class PersonAgent extends Agent implements Person {
 				}
 			}  
 			
-			//((MarketCustomer)eventR).msgBuyStuff(house.getListToBuy(), (MarketSystem)(Directory.getSystem(buildingName)));
+			((MarketCustomer)eventR).msgBuyStuff(house.getListToBuy());
 			//hack
 			Map<String, Integer> itemsHack = new HashMap<String, Integer>();
 			itemsHack.put("chicken", 1);
-			((MarketCustomer)eventR).msgBuyStuff(itemsHack);
+			//((MarketCustomer)eventR).msgBuyStuff(itemsHack);
 			
 			e = new Event(buildingName, eventR, 120, -1, true, steps, t);
 			//Do("GoToMarket is scheduled, which has "+steps.size()+" steps");
@@ -346,6 +354,8 @@ public class PersonAgent extends Agent implements Person {
 	//so this only needs to prep the person to walk somewhere by changing it to pedestrian
 	public void exitBuilding() {
 		//Do("exitBuilding step is called");
+		if (currentRole != null)
+			currentRole.msgExitBuilding();
 		stateChanged();
 	}
 	
@@ -358,14 +368,12 @@ public class PersonAgent extends Agent implements Person {
 	}
 		Do("At Bus Stop");
 		Location loc = Directory.getBusStop(3);
-		System.out.println("In DoGoToBusStop");
 		((PedestrianRole)currentRole).addDestination(loc);
 		//waitForTransport();
 		stateChanged();
 	}
 	
 	public void waitForBus() {
-		System.out.println("In Wait for bus");
 		for (Role r : myRoles) {
 			if(r instanceof BusPassengerRole) {
 				currentRole = r;
@@ -388,6 +396,7 @@ public class PersonAgent extends Agent implements Person {
 			
 		}
 		Location loc = Directory.getLocation(currentEvent.buildingName);
+		Do(currentEvent.buildingName + ", " + loc.getX() + ", " + loc.getY());
 		//Do("Location is: "+loc.getX()+", "+loc.getY());
 		//Do("PedRole is being given a destination!");
 		((PedestrianRole)currentRole).addDestination(loc);
@@ -410,7 +419,6 @@ public class PersonAgent extends Agent implements Person {
 	}
 	
 	public void waitForTransport() {
-		System.out.println("In Wait for Transport");
 		for (Role r : myRoles) {
 			if (r instanceof Pedestrian) {
 				idleGui.setLocation(r.getGui().getLocation());
@@ -704,7 +712,5 @@ public class PersonAgent extends Agent implements Person {
 	
 	public void setBus(BusAgent b) {
 		bus = b;
-		System.out.println("In PersonAgent, we have a bus " + bus.getName());
 	}
-
 }

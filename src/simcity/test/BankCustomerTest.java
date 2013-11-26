@@ -32,17 +32,27 @@ public class BankCustomerTest extends TestCase {
 	}
 	
 	public void testOpenAccount() {
-		// setup - customer enters building (sets banksystem) and sends message to itself that it has arrived
-		// also sets up transaction type
-		bankCustomer.enterBuilding(bankSystem);
+		// setup
+		bankCustomer.setPassword("abcde");
+		bankCustomer.setCashOnHand(100.00);
+		bankCustomer.setAmountToProcess(100.00);
 		bankCustomer.setTransactionType(TransactionType.openAccount);
+	
+		// check setup postconditions
+		assertEquals("BankCustomer password should be abcde", bankCustomer.getPassword(), "abcde");
+		assertEquals("BankCustomer cash on hand should be 100", bankCustomer.getCashOnHand(), 100.00);
+		assertEquals("BankCustomer amount to process should be 100", bankCustomer.getAmountToProcess(), 100.00);
+		assertEquals("BankCustomer transaction type should be openAccount", bankCustomer.getTransactionType(), TransactionType.openAccount);
+		assertEquals("BankCustomer state should be none", bankCustomer.getState(), State.none);
+		assertEquals("BankCustomer event should be none", bankCustomer.getEvent(), Event.none);
 		
-		// check step1 preconditions
+		// step 1 - customer enters building, sets its banksystem, then messages itself that it has arrived
+		bankCustomer.enterBuilding(bankSystem);
+		
+		// check step1 postconditions
 		assertEquals("BankCustomer state should be none", bankCustomer.getState(), State.none);
 		assertEquals("BankCustomer event should be arrivedAtBank", bankCustomer.getEvent(), Event.arrivedAtBank);
-		assertEquals("BankCustomer transaction type should be openAccount", bankCustomer.getTransactionType(), TransactionType.openAccount);
-		
-		
+		assertEquals("BankCustomer bank system should be bankSystem", )
 		
 	}
 	

@@ -178,6 +178,42 @@ public class MockBankCustomer extends Mock implements BankCustomer {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void setAccountNumber(int accountNumber) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public double getCashOnHand() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setCashOnHand(double cash) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public double getAmountToProcess() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setAmountToProcess(double amount) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setLandlordAccountNumber(int landlordNumber) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }
 

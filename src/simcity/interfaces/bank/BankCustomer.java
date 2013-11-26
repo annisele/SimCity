@@ -15,6 +15,10 @@ public abstract interface BankCustomer extends GuiPartner {
 	public abstract int getAccountNumber();
 	public abstract String getPassword();
 	public abstract int getLandlordAccountNumber();
+	public abstract TransactionType getTransactionType();
+	public abstract State getState();
+	public abstract Event getEvent();
+	public abstract void setTransactionType(TransactionType tt);
 	public abstract void msgDepositMoney(BankSystem b);
 	public abstract void msgArrivedAtBank();
 	public abstract void msgGoToWindow(int windowNumber, BankTeller bt);

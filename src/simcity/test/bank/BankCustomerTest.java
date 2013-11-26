@@ -10,6 +10,8 @@ import simcity.buildings.bank.BankSystem;
 import simcity.gui.SimCityGui;
 import simcity.test.bank.mock.MockBankHost;
 import simcity.test.bank.mock.MockBankTeller;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 
 public class BankCustomerTest extends TestCase {
 	
@@ -29,6 +31,7 @@ public class BankCustomerTest extends TestCase {
 		scg = new SimCityGui();
 		bankSystem = new BankSystem(scg);
 		bankSystem.setBankHost(bankHost);
+		bankSystem.setName("banksystem");
 	}
 	
 	public void testOpenAccount() {
@@ -63,6 +66,7 @@ public class BankCustomerTest extends TestCase {
 		// check step2 postconditions
 		assertEquals("BankCustomer state should be waitingAtBank", bankCustomer.getState(), State.waitingAtBank);
 		assertEquals("BankCustomer event should be arrivedAtBank", bankCustomer.getEvent(), Event.arrivedAtBank);
+		assertEquals("BankCustomer ");
 		
 	}
 	

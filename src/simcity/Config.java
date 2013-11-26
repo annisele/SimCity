@@ -98,6 +98,7 @@ public class Config {
 		//systems.addPerson("Homie"); // This guy will live in the house, hence his name
 		systems.addPerson("Homie");
 		systems.setHome("Homie", "HouseOne");
+		
 	}
 	
 	public void oneBank() {
@@ -176,7 +177,7 @@ public class Config {
 		systems.addHouse("HouseSOne", 123, 27);
 		systems.addHouse("HouseSOne", 186, 27);
 		systems.addHouse("HouseSOne", 249, 27);
-		systems.addHouse("HouseSOne", 312, 27);
+		systems.addHouse("HouseSOne", 312, 27); 
 		
 		// These are the right-most houses
 		systems.addHouse("HouseSOne", 402, 27);
@@ -187,7 +188,7 @@ public class Config {
 		systems.addHouse("HouseSOne", 60, 140);
 		systems.addHouse("HouseSOne", 123, 140);
 		systems.addHouse("HouseSOne", 186, 140);
-		systems.addHouse("HouseSOne", 249, 140);
+		systems.addHouse("HouseSOne", 249, 140); 
 		
 		// Third row
 		systems.addHouse("HouseSOne", 60, 250);

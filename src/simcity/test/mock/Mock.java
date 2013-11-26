@@ -1,27 +1,57 @@
 package simcity.test.mock;
 
-import simcity.test.mock.EventLog;
+import java.text.DateFormat;
+import java.util.Date;
 
 /**
- * This is the base class for all mocks.
+ * Represents a single LoggedEvent. A LoggedEvent is a textual message, and the
+ * time at which the event occured.
  *
  * @author Levonne Key
  *
  */
 public class Mock {
-	private String name;
 
-	public Mock(String name) {
-		this.name = name;
+	/**
+	 * Represents the date and time at which the event occurred. This is useful
+	 * when you need to order events in chronological order.
+	 */
+	private Date timestamp;
+
+	/**
+	 * This is the body of the message. This might read something like:
+	 * msgSitCustomerAtTable called with Customer Jim at table 3.
+	 */
+	private String message;
+
+	/**
+	 * @param message
+	 */
+	public Mock(String message) {
+		timestamp = new Date();
+		this.message = message;
 	}
 
-	public String getName() {
-		return name;
+	/**
+	 * @return the timestamp
+	 */
+	public Date getTimestamp() {
+		return timestamp;
 	}
-	public EventLog log = new EventLog();
+
+	/**
+	 * @return the message
+	 */
+	public String getMessage() {
+		return message;
+	}
 
 	public String toString() {
-		return this.getClass().getName() + ": " + name;
+		StringBuilder sb = new StringBuilder();
+		sb.append(DateFormat.getTimeInstance().format(timestamp));
+		sb.append(": ");
+		sb.append(message);
+		return sb.toString();
 	}
 
 }

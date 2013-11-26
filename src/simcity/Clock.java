@@ -24,13 +24,11 @@ public class Clock {
 		return currentTime;
 	}
 		
-	public static String getDisplayTime(){
-		int h = 0, m = 0, d = 0;
+	public static String getDay() {
+		int d = 0;
 		String day = "";
 		currentTime = (System.currentTimeMillis() - startTime) / 1000;
-		
-		m = (int)((currentTime % 6)*10);
-		h = (int)(((currentTime / 6)+5)%24+1);
+
 		d = (int)((currentTime / (6*24))%7);
 		
 		if (d == 0) day = "MON";
@@ -41,6 +39,25 @@ public class Clock {
 		else if (d == 5) day = "SAT";
 		else if (d == 6) day = "SUN";
 		
+		return day;
+	}
+	
+	public static int getHour() {
+		int h = 0;
+		currentTime = (System.currentTimeMillis() - startTime) / 1000;
+		
+		h = (int)(((currentTime / 6)+5)%24+1);
+
+		return h;
+	}
+	
+	public static String getDisplayTime(){
+		int h = 0, m = 0;
+		currentTime = (System.currentTimeMillis() - startTime) / 1000;
+		
+		m = (int)((currentTime % 6)*10);
+		h = (int)(((currentTime / 6)+5)%24+1);
+		
 		String min = ""+m;
 		String hr = ""+h;
 		String ampm = "am";
@@ -49,13 +66,8 @@ public class Clock {
 			min = "00";
 		if (h > 12) //{
 			ampm = "pm";
-			//hi = h - 11;
-		//}
-
-		//hr = ""+hi;
 		
-		
-		String time = (day + "  "+ h + ":" + min + "  " + ampm);
+		String time = (getDay() + "  "+ h + ":" + min + "  " + ampm);
 		
 		return time;
 	}

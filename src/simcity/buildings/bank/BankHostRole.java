@@ -12,6 +12,8 @@ import simcity.Role;
 import simcity.SimSystem;
 import simcity.buildings.bank.BankHostRole.BankWindow;
 import simcity.gui.bank.BankHostGui;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.bank.BankCustomer;
 import simcity.interfaces.bank.BankHost;
 import simcity.interfaces.bank.BankTeller;
@@ -105,13 +107,15 @@ public class BankHostRole extends Role implements BankHost {
 	
 	//messages
 	public void msgEnteringBank(BankCustomer bc) {
-		person.Do("Bank customer is entering the bank");
+		//person.Do("Bank customer is entering the bank");
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankHost: " + person.getName(), "Bank customer is entering the bank");
 		customers.add(bc);
 		stateChanged();
 	}
 	
 	public void msgLeavingBank(int windowNumber) {
-		person.Do("Bank customer is leaving the bank");
+		//person.Do("Bank customer is leaving the bank");
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankHost: " + person.getName(), "Bank customer is leaving the bank");
 		bank.setWindowAvailable(windowNumber);
 		stateChanged();
 	}
@@ -163,7 +167,8 @@ public class BankHostRole extends Role implements BankHost {
 	private void tellTellerToGoToAppropriateWindow(BankTeller bt) {
 		bank.findUnreadyWindowAndSendBankTeller(bt);
 		int tempWindowNumber = bank.getTellerWindow();
-		System.out.println("tempWindowNumber = " + tempWindowNumber);
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankHost: " + person.getName(), "Bank");		
+		//System.out.println("tempWindowNumber = " + tempWindowNumber);
 		bt.msgGoToThisWindow(tempWindowNumber);
 		bank.reinitializeTellerWindow();
 		waitingBankTellers.remove(bt);

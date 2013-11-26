@@ -17,12 +17,6 @@ import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
 import simcity.gui.trace.TracePanel;
 
-/***
- * TRACE PANEL ISSUES - take out transparency, all guis need to override size (default
- * is 20)
- */
-
-
 /****************************
  * SimCityGui - The entire window which contains a world panel, detail panel
  *  to display what the user is zoomed in on, consoles for both, and a 
@@ -37,13 +31,11 @@ public class SimCityGui extends JFrame implements ActionListener {
 	private TracePanel worldTracePanel = new TracePanel();
 	private TracePanel detailTracePanel = new TracePanel();
 
-	
 	// But this is really a panel
 	private AnimationPanel viewWorldPanel;
 	private JPanel viewDetailPanel;
 	private JSplitPane splitPaneWorld;
 	private JSplitPane splitPaneDetail;
-	
 	
 	private Config config;
 	private SystemManager systemManager;
@@ -55,19 +47,13 @@ public class SimCityGui extends JFrame implements ActionListener {
 	private ControlPanel controlPanel;
 	
 	public SimCityGui() {
+		
 		systemManager = new SystemManager(this);
         config = new Config(systemManager);
                 
-       // viewDetailPanel = new EmptyAnimationPanel();
         viewDetailPanel = new JPanel(new CardLayout());
         viewWorldPanel = systemManager.getWorld().getAnimationPanel();
-        //systemManager.getWorld().setAnimationPanel();
-        //
-        // I'm thinking we don't need to initialize this DetailPane.  Maybe we'll initialize it to some default thing
-        // When someone clicks on a building (after loading them), this DetailPane will show that building
-        //
-        //viewDetailPanel = systemManager.getRestaurantOne(0).getAnimationPanel();
-        
+  
 		controlPanel  = new ControlPanel(this, config);
 		menuPanel.setPreferredSize(new Dimension(300, 700));
 		controlPanel.setPreferredSize(new Dimension(300, 700));
@@ -75,7 +61,6 @@ public class SimCityGui extends JFrame implements ActionListener {
 		
 		// Setup the two views and consoles
 		
-		//viewWorldPanel.setMinimumSize(minimumSize);
 		splitPaneWorld = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
                 viewWorldPanel, worldTracePanel);
 		splitPaneWorld.setResizeWeight(0.83);
@@ -87,10 +72,8 @@ public class SimCityGui extends JFrame implements ActionListener {
 		
 		worldTracePanel.setMinimumSize(new Dimension(200, 208));
 		detailTracePanel.setMinimumSize(new Dimension(200, 208));
-		//splitPaneWorld.setResizeWeight(0.0);
-		//splitPaneDetail.setResizableWithParent(viewDetailPanel, Boolean.FALSE);
 		
-		//trace panels
+		// Trace panels
 		AlertLog.getInstance().addAlertListener(worldTracePanel);
 		AlertLog.getInstance().addAlertListener(detailTracePanel);
 		worldTracePanel.showAlertsWithTag(AlertTag.WORLD);
@@ -103,7 +86,6 @@ public class SimCityGui extends JFrame implements ActionListener {
 		setLayout(new BorderLayout());
         add(menuPanel, BorderLayout.EAST);
         add(fullPane, BorderLayout.CENTER);
-        
 	}
 	
 	public ControlPanel getControlPanel() {
@@ -136,23 +118,12 @@ public class SimCityGui extends JFrame implements ActionListener {
 		if (a == null) {
 			System.out.println("You clicked on something that made us want to change the DetailPane, but the supplied panel is null!");
 		} else {
-			//viewDetailPanel = a;
-			//CardLayout c = (CardLayout)(((Container) cards).getLayout());
-		  //  c.show((Container) cards, a.getName());
-			//viewDetailPanel = new JPanel(new CardLayout());
-			
-			// This works, but is hack-ish
 			viewDetailPanel.removeAll();
 			viewDetailPanel.updateUI();
 			viewDetailPanel.add(a, "name");
-
-			//CardLayout c = (CardLayout) viewDetailPanel.getLayout();
-			//c.show(viewDetailPanel, a.getName());			
-			//System.out.println("Changing the detail panel to "+a.getClass().getName());
 		}
 	}
 	
-	  
 	public static void main(String[] args) {
 	  SimCityGui gui = new SimCityGui();
       gui.setTitle("SimCity Team 14");
@@ -163,10 +134,4 @@ public class SimCityGui extends JFrame implements ActionListener {
       gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       gui.setVisible(true);
 	}
-  
-	/*public WorldSystem getWorld() {
-		return wp;
-	}*/
-	
-	  
 }

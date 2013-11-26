@@ -6,6 +6,7 @@ import simcity.SimSystem;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
 import simcity.gui.transportation.BusPassengerGui;
+import simcity.interfaces.Person;
 
 public class BusPassengerRole extends Role implements simcity.interfaces.transportation.BusPassenger {
 
@@ -63,21 +64,28 @@ public class BusPassengerRole extends Role implements simcity.interfaces.transpo
 	}
 
 
-	private void CallBus() {
+	public void CallBus() {
 		AlertLog.getInstance().logMessage(AlertTag.WORLD, "BusPassenger: " + person.getName(), "Waiting at bus stop.");
 		bus.msgWantBus(this, startingLocation, destination);
 	}
 	
-	private void GetIn() {
+	public void GetIn() {
 		AlertLog.getInstance().logMessage(AlertTag.WORLD, "BusPassenger: " + person.getName(), "Getting on the bus!");
 		bus.msgGettingOn(this);
+
 	}
 
-	private void GetOut() {
+	public void GetOut() {
 		AlertLog.getInstance().logMessage(AlertTag.WORLD, "BusPassenger: " + person.getName(), "Getting off the bus.");
 		bus.msgGettingOff(this);
 		person.roleFinished();
+		// Animation
+		//WHAT DOES ENABLED EVEN MEAN??? ASK CB or something
+	//	Enabled = false;
 	}
+	
+
+
 
 	@Override
 	public void exitBuilding() {

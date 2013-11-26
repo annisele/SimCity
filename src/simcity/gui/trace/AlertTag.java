@@ -43,5 +43,12 @@ public enum AlertTag {
 	HOUSE14,
 	HOUSE15,
 	HOUSE16,
+<<<<<<< HEAD
 	HOUSE17
+=======
+	HOUSE17,
+	HOUSE18,
+	HOUSE19,
+	HOUSE20
+>>>>>>> dc45ad12b5b0ee3207557a80b18ca0fc2ba204c4
 }

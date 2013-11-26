@@ -49,6 +49,7 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
 	    
 	    if (background == roadimage) {
 	    	g2.drawImage(background, 40, 32, null);
+
 	    } else if (background == cityimg) {
 	    	g2.drawImage(background, 0, 0, null);
 	    }

@@ -70,6 +70,7 @@ public class SystemManager {
 		}
 		world.clear();
 		world.getAnimationPanel().clear();
+		world.simCityGui.clearTracePanels();
 		
 		dir.clear();
 		markets.clear();

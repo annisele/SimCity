@@ -330,10 +330,9 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			
-			person.roleFinished();
-			person.isIdle();
 			bank.exitBuilding(this);
+			person.roleFinished();
+			
 		}
 		public void msgEnterBuilding(SimSystem s) {
 			bank = (BankSystem)s;

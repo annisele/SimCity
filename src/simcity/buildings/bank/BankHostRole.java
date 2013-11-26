@@ -163,7 +163,7 @@ public class BankHostRole extends Role implements BankHost {
 		}
 		bank.exitBuilding(this);
 		person.roleFinished();
-		person.isIdle();
+
 		
 	}
 

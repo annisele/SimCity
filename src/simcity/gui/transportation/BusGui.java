@@ -26,6 +26,15 @@ public class BusGui extends Gui {
 
 	public BusGui(BusAgent bus) {
 		this.busagent = bus;
+		if (busagent.getName().equals("Buster")) {
+			x = 10;
+			y = 67;
+		}
+		if (busagent.getName().equals("Busta")) {
+			x = 20;
+			y = 108;
+		}
+		
 	}
 	
 	public void updatePosition() {

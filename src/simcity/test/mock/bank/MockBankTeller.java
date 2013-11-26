@@ -1,5 +1,7 @@
 package simcity.test.mock.bank;
 
+import java.util.List;
+
 import simcity.SimSystem;
 import simcity.buildings.bank.BankHostRole;
 import simcity.interfaces.*;
@@ -90,6 +92,18 @@ public class MockBankTeller extends Mock implements BankTeller {
 	public void msgGoToThisWindow(int windowNumber) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public List getCustomers() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List getCustomerInDebt() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

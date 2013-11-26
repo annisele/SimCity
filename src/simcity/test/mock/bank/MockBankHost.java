@@ -3,6 +3,7 @@ package simcity.test.mock.bank;
 import simcity.SimSystem;
 import simcity.buildings.bank.BankCustomerRole;
 import simcity.buildings.bank.BankTellerRole;
+import simcity.interfaces.bank.BankCustomer;
 import simcity.interfaces.bank.BankHost;
 import simcity.interfaces.bank.BankTeller;
 import simcity.test.mock.EventLog;
@@ -23,20 +24,8 @@ public class MockBankHost extends Mock implements BankHost {
 	}
 
 	@Override
-	public void msgEnteringBank(BankCustomerRole bc) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void msgLeavingBank(int windowNumber) {
 		log.add(new LoggedEvent("Received message msgLeavingBank from bank customer " + windowNumber));
-		
-	}
-
-	@Override
-	public void msgImReadyToWork(BankTellerRole bt) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -54,6 +43,30 @@ public class MockBankHost extends Mock implements BankHost {
 
 	@Override
 	public void addBankTeller(BankTeller b) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgEnteringBank(BankCustomer bc) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgImReadyToWork(BankTeller bt) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgExitBuilding() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgEnterBuilding(SimSystem s) {
 		// TODO Auto-generated method stub
 		
 	}

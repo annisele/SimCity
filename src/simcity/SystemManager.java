@@ -24,6 +24,7 @@ import simcity.buildings.restaurant.one.RestaurantOneSystem;
 import simcity.buildings.restaurant.six.RestaurantSixSystem;
 import simcity.buildings.restaurant.three.RestaurantThreeSystem;
 import simcity.buildings.restaurant.two.RestaurantTwoCashierRole;
+import simcity.buildings.restaurant.two.RestaurantTwoComputer;
 import simcity.buildings.restaurant.two.RestaurantTwoCookRole;
 import simcity.buildings.restaurant.two.RestaurantTwoHostRole;
 import simcity.buildings.restaurant.two.RestaurantTwoSystem;
@@ -50,6 +51,7 @@ public class SystemManager {
 	List<RestaurantFiveSystem> restaurantFives = new ArrayList<RestaurantFiveSystem>();
 	List<RestaurantSixSystem> restaurantSixes = new ArrayList<RestaurantSixSystem>();
 	List<TransportationSystem> transportations = new ArrayList<TransportationSystem>();
+	RestaurantTwoComputer R2comp =new RestaurantTwoComputer(15,15,15,15);
 	BusAgent bus;
 	List<BuildingGui> buildings = new ArrayList<BuildingGui>();
 	List<BusGui> busGuis = Collections.synchronizedList(new ArrayList<BusGui>());
@@ -59,7 +61,6 @@ public class SystemManager {
 		simcity = g;
 		world = new WorldSystem(simcity);//simcity.getWorld();
 		dir.setWorld(world);
-		dir.makeBusStops();
 	}
 	
 	public void clear() {
@@ -102,11 +103,14 @@ public class SystemManager {
 	public void setBackgroundOne() {
 		WorldAnimationPanel w = (WorldAnimationPanel)world.getAnimationPanel();
 		w.setBackgroundOne();
-	}
+		dir.makeBusStops1();
+
+	} 
 	
 	public void setBackgroundTwo() {
 		WorldAnimationPanel w = (WorldAnimationPanel)world.getAnimationPanel();
 		w.setBackgroundTwo();
+		dir.makeBusStops2();
 	}
 	
 	public void addPerson(String name) {
@@ -202,7 +206,7 @@ public class SystemManager {
 	
 	public void addRestaurantTwo(String name, int xLoc, int yLoc) {
 		//restaurantTwos.add(new RestaurantTwoSystem(simcity));
-		RestaurantTwoSystem temp = new RestaurantTwoSystem(simcity);
+		RestaurantTwoSystem temp = new RestaurantTwoSystem(simcity,R2comp);
 		temp.setName(name);
 		restaurantTwos.add(temp);
 		BuildingGui building = new BuildingGui(temp, "RestaurantTwo", xLoc, yLoc);
@@ -345,7 +349,7 @@ public class SystemManager {
 	public void addRestaurantTwoCashierHack(String name, String rest) {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());
-		Role r2Cashier = new RestaurantTwoCashierRole(person,restaurantTwos.get(0));
+		Role r2Cashier = new RestaurantTwoCashierRole(person,restaurantTwos.get(0),R2comp);
 		person.addWork(r2Cashier, rest);
 		people.add(person);
 		person.startThread();
@@ -354,7 +358,7 @@ public class SystemManager {
 	public void addRestaurantTwoCookHack(String name, String rest) {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());
-		Role r2Cook = new RestaurantTwoCookRole(person,restaurantTwos.get(0),15,15,15,15);
+		Role r2Cook = new RestaurantTwoCookRole(person,restaurantTwos.get(0),R2comp);
 		person.addWork(r2Cook, rest);
 		people.add(person);
 		person.startThread();
@@ -363,7 +367,7 @@ public class SystemManager {
 	public void addRestaurantTwoWaiterHack(String name, String rest) {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());
-		Role r2Waiter = new RestaurantTwoWaiterRole(person,restaurantTwos.get(0));
+		Role r2Waiter = new RestaurantTwoWaiterRole(person,restaurantTwos.get(0),R2comp);
 		person.addWork(r2Waiter, rest);
 		people.add(person);
 		person.startThread();

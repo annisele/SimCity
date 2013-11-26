@@ -16,6 +16,7 @@ public class Directory {
 		Location location;
 		EntryType type;
 		SimSystem system;
+		
 
 		Entry(Location l, EntryType t, SimSystem s) {
 			//shifting location so people enter through the door
@@ -25,8 +26,19 @@ public class Directory {
 		}
 	}
 	
-	public void makeBusStops() {
+	public void makeBusStops1() {
 		Location stop0 = new Location(40, 67);
+		Location stop1 = new Location(380, 67);
+		Location stop2 = new Location(380, 366);
+		Location stop3 = new Location(40, 366);
+		busStopDirectory.put(0, stop0);
+		busStopDirectory.put(1, stop1);
+		busStopDirectory.put(2, stop2);
+		busStopDirectory.put(3, stop3);	
+	}
+	
+	public void makeBusStops2() {
+		Location stop0 = new Location(20, 67);
 		Location stop1 = new Location(380, 67);
 		Location stop2 = new Location(380, 366);
 		Location stop3 = new Location(40, 366);

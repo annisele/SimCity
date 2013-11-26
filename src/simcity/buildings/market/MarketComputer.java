@@ -14,23 +14,33 @@ public class MarketComputer {
 
 	private Map<String, Integer> inventory = Collections.synchronizedMap(new HashMap<String, Integer>());
 	private double money = 400;
+	private Map<String, Double> prices = Collections.synchronizedMap(new HashMap<String, Double>());
+
 	
 	public MarketComputer() {
 		
-		//hack
 		inventory.put("chicken", 60);
 		inventory.put("steak", 100);
 		inventory.put("salad", 40);
 		inventory.put("pizza", 50);
+		
+		prices.put("chicken", 7.0);
+		prices.put("steak", 7.0);
+		prices.put("salad", 7.0);
+		prices.put("pizza", 7.0);
+		
 	}
 	
 	public void setInventory(Map<String, Integer> map) {
 		inventory = map;
 	}
+	
+	public Map<String, Double> getPrices() {
+		return prices;
+	}
 
 	public Map<String, Integer> fillOrder(Map<String, Integer> orders) {
-		return orders;
-		/*
+		
 		Map<String, Integer> toReturn = new HashMap<String, Integer>(); //when we implement returning partial orders, use this
 		
 		Set<String> keys = orders.keySet();
@@ -51,7 +61,7 @@ public class MarketComputer {
 			}
 		}
 		return toReturn;
-		*/
+		
 	}
 
 	public void addMoney(double payment) {

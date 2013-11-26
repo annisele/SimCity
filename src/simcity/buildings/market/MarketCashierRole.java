@@ -19,10 +19,8 @@ import simcity.interfaces.market.MarketPayer;
 
 public class MarketCashierRole extends Role implements MarketCashier {
 	private List<MarketOrder> orders = Collections.synchronizedList(new ArrayList<MarketOrder>());
-	private MarketComputer computer;
 	private MarketSystem market;
 	private enum MarketOrderState {requested, waitingForPayment, paid, filling, found};
-	private Map<String, Double> prices = Collections.synchronizedMap(new HashMap<String, Double>());
 	private Semaphore atDest = new Semaphore(0, true);
 	private int workerIndex = 0;
 	private class MarketOrder {
@@ -45,13 +43,6 @@ public class MarketCashierRole extends Role implements MarketCashier {
 	public MarketCashierRole(PersonAgent p) {
 		person = p;
 		this.gui = new MarketCashierGui(this);
-
-		//hack
-		prices.put("chicken", 5.0);
-		prices.put("steak", 10.0);
-
-		//hack?
-		computer = new MarketComputer();
 	}
 
 	@Override
@@ -144,11 +135,12 @@ public class MarketCashierRole extends Role implements MarketCashier {
 
 		Set<String> keys = o.items.keySet();
 		for (String key : keys) {
-			o.payment += o.items.get(key) * prices.get(key);
+			o.payment += o.items.get(key) * market.getComputer().getPrices().get(key);
 		}
 
 		//hack!!
-		o.payment = 0;
+		//o.payment = 0;
+		Do("Charging: " + o.payment);
 		o.payRole.msgPleasePay(this, o.payment, o.orderNumber);
 		o.state = MarketOrderState.waitingForPayment;
 	}
@@ -156,7 +148,7 @@ public class MarketCashierRole extends Role implements MarketCashier {
 	//errors - copied straight from design docs
 	private void FillOrder(MarketOrder o) {
 		person.Do("Asking a worker to fill order.");
-		computer.addMoney(o.payment);
+		market.getComputer().addMoney(o.payment);
 		//.getNext() is a stub for load balancing
 		if(market.getWorkers().isEmpty()) {
 			System.out.println("No workers to collect order.");

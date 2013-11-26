@@ -23,7 +23,7 @@ public class BankHostRole extends Role implements BankHost {
 	// set in Bank
 	//private List<BankWindow> windows = Collections.synchronizedList(new ArrayList<BankWindow>());
 	private BankWindow availableWindow;
-	private List<BankTeller> bankTellers = Collections.synchronizedList(new ArrayList<BankTeller>());
+	private List<BankTeller> waitingBankTellers = Collections.synchronizedList(new ArrayList<BankTeller>());
 	private List<BankCustomerRole> customers = Collections.synchronizedList(new ArrayList<BankCustomerRole>());
 	
 	// utility variables
@@ -79,6 +79,11 @@ public class BankHostRole extends Role implements BankHost {
 			bankTellerPresent = true;
 		}	
 
+		public void removeBankTeller() {
+			this.bankTeller = null;
+			bankTellerPresent = false;
+		}
+		
 		public boolean isOccupied() {
 			return occupied;
 		}
@@ -103,7 +108,7 @@ public class BankHostRole extends Role implements BankHost {
 	}
 	
 	public void msgImReadyToWork(BankTellerRole bt) {
-		bankTellers.add(bt);
+		waitingBankTellers.add(bt);
 		stateChanged();
 	}
 	
@@ -121,9 +126,10 @@ public class BankHostRole extends Role implements BankHost {
 			}
 		}
 		*/
-		synchronized(bankTellers) {
-			if (!bankTellers.isEmpty()) {
-				bank.findUnreadyWindowAndSendBankTeller(bankTellers.get(0));
+		synchronized(waitingBankTellers) {
+			if (!waitingBankTellers.isEmpty()) {
+				tellTellerToGoToAppropriateWindow(waitingBankTellers.get(0));
+				return true;
 			}
 		}
 		
@@ -136,12 +142,22 @@ public class BankHostRole extends Role implements BankHost {
 				bank.reinitializeAvailableWindow();
 				tellCustomerToGoToWindow(customers.get(0), availableWindow);
 				availableWindow = null;
+				return true;
 			}
 		}
 		return false;
 	}
 	
 	//actions
+	private void tellTellerToGoToAppropriateWindow(BankTeller bt) {
+		bank.findUnreadyWindowAndSendBankTeller(bt);
+		int tempWindowNumber = bank.getTellerWindow();
+		System.out.println("tempWindowNumber = " + tempWindowNumber);
+		bt.msgGoToThisWindow(tempWindowNumber);
+		bank.reinitializeTellerWindow();
+		waitingBankTellers.remove(bt);
+	}
+	
 	private void tellCustomerToGoToWindow(BankCustomerRole bc, BankWindow window) {
 		
 			person.Do("Please go to the available window");
@@ -174,7 +190,7 @@ public class BankHostRole extends Role implements BankHost {
 	}
 	
 	public void addBankTeller(BankTeller b) {
-		bankTellers.add(b);
+		waitingBankTellers.add(b);
 		((BankTellerRole) b).setHost(this);
 	}
 

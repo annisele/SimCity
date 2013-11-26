@@ -22,7 +22,8 @@ public class BankSystem extends simcity.SimSystem{
 	private List<BankTeller> bankTellers = Collections.synchronizedList(new ArrayList<BankTeller>());
 	private List<BankWindow> windows = Collections.synchronizedList(new ArrayList<BankWindow>());
 	private BankWindow windowLookup;
-	private BankWindow availableWindow;
+	private BankWindow availableWindow; // for bank customer determination purposes;
+	private int tellerWindow = 100; // for bank teller determination purposes
 	
 	private static final int NUM_BANKWINDOWS = 3;
 	
@@ -73,16 +74,29 @@ public class BankSystem extends simcity.SimSystem{
 		synchronized(windows) {
 			for (BankWindow window : windows) {
 				if (!window.isReadyToServe()) {
+					System.out.println("Send to window " + window.getWindowNumber());
 					window.setBankTeller(bt);
+					tellerWindow = window.getWindowNumber();
+					return;
 				}
 			}
 		}
 	}
 	
+	public int getTellerWindow() {
+		return tellerWindow;
+	}
+	
+	public void reinitializeTellerWindow() {
+		this.tellerWindow = 100;
+	}
+	
 	public void setWindowAvailable(int windowNumber) {
 		synchronized(windows) {
 			for (BankWindow window : windows) {
-				window.setUnoccupied();
+				if (window.getWindowNumber() == windowNumber) {
+					window.setUnoccupied();
+				}
 			}
 		}
 	}

@@ -103,10 +103,20 @@ public class Config {
 				timer.schedule(new TimerTask(){
 					public void run() {
 						systems.addPerson("Levonne");
+						timer.schedule(new TimerTask() {
+							public void run() {
+								//systems.addBankTellerHack("Bank Teller2", "Bank");
+								timer.schedule(new TimerTask() {
+									public void run() {
+										systems.addPerson("Levanne");
+									}
+								}, 500);
+							}
+						}, 500);
 					}
-				}, 4000);
+				}, 500);
 			}
-		}, 4000);
+		}, 500);
 	}
 
 	public void oneRestaurant() {

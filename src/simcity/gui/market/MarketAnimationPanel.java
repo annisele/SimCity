@@ -10,7 +10,6 @@ import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 
 import simcity.gui.AnimationPanel;
-import simcity.gui.Gui;
 
 
 /****************
@@ -43,10 +42,6 @@ public class MarketAnimationPanel extends AnimationPanel implements ActionListen
 		g2.drawImage(marketimage, 0,0, null); 
 
 		super.paintComponent(g);
-	}
-
-	public void addGui(Gui g) {
-		guis.add(g);
 	}
 
 }

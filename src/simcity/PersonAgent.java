@@ -704,7 +704,5 @@ public class PersonAgent extends Agent implements Person {
 	
 	public void setBus(BusAgent b) {
 		bus = b;
-		System.out.println("In PersonAgent, we have a bus " + bus.getName());
 	}
-
 }

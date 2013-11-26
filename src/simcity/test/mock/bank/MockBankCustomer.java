@@ -1,6 +1,9 @@
 package simcity.test.mock.bank;
 
 import simcity.SimSystem;
+import simcity.buildings.bank.BankCustomerRole.Event;
+import simcity.buildings.bank.BankCustomerRole.State;
+import simcity.buildings.bank.BankCustomerRole.TransactionType;
 import simcity.buildings.bank.BankSystem;
 import simcity.interfaces.*;
 import simcity.interfaces.bank.BankCustomer;
@@ -148,6 +151,30 @@ public class MockBankCustomer extends Mock implements BankCustomer {
 
 	@Override
 	public void msgGetLoan(BankSystem b) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public TransactionType getTransactionType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public State getState() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Event getEvent() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setTransactionType(TransactionType tt) {
 		// TODO Auto-generated method stub
 		
 	}

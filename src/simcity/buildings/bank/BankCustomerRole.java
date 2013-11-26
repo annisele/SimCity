@@ -76,6 +76,22 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 		return landlordAccountNumber;
 	}
 	
+	public TransactionType getTransactionType() {
+		return transactionType;
+	}
+	
+	public void setTransactionType(TransactionType tt) {
+		this.transactionType = tt;
+	}
+	
+	public State getState() {
+		return state;
+	}
+	
+	public Event getEvent() {
+		return event;
+	}
+	
 	//messages from personagent
 	public void msgDepositMoney(BankSystem b) {
 		person.Do("I need to open an account and deposit money");

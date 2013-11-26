@@ -73,26 +73,17 @@ import agent.Agent;
 		bus.msgGettingOn(this);
 
 		// Animation
-		DoDisableGui();
 	}
 	
 	private void GetOut() {
 		bus.msgGettingOff(this);
 		person.roleFinished();
 		// Animation
-		DoRedrawAt(xLoc, yLoc);
 		//WHAT DOES ENABLED EVEN MEAN??? ASK CB or something
 	//	Enabled = false;
 	}
 	
-	private void DoRedrawAt(int x, int y) {
-		//Animation
-	}
-	
-	private void DoDisableGui() {
-		
-		//Animation
-	}
+
 
 	
 	

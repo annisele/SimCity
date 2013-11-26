@@ -28,5 +28,7 @@ public enum AlertTag {
 	RESTAURANT5,
 	RESTAURANT6,
 	HOUSE1,
-	HOUSE2
+	HOUSE2,
+	HOUSE3,
+	HOUSE4
 }

@@ -112,12 +112,9 @@ public class Config {
 	public void oneRestaurant() {
 		systems.clear();
 		systems.clearDetailPane();
-<<<<<<< HEAD
 
-=======
 		
 		systems.setBackgroundOne();
->>>>>>> 4880db936130a39ade0b3a757d70ed6fd20a5add
 		systems.addRestaurantTwo("RestaurantTwo", 300, 100);
 		systems.addRestaurantTwoHostHack("Host Bloke", "RestaurantTwo");
 		timer.schedule(new TimerTask() {
@@ -140,10 +137,9 @@ public class Config {
 					}
 				},1000);
 			}
-<<<<<<< HEAD
+
 		},1000);
-=======
-		}, 2000);
+
 	}
 	
 
@@ -244,7 +240,6 @@ public class Config {
 		timer.cancel();
 		timer.purge();
 	}
->>>>>>> 4880db936130a39ade0b3a757d70ed6fd20a5add
 
 	}
-}
+

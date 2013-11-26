@@ -10,5 +10,6 @@ public interface MarketCashier extends GuiPartner {
 	public abstract void msgOrderFound(int orderNum);
 	public abstract void msgHereIsAnOrder(MarketOrderer mc1, MarketPayer mc2,
 			Map<String, Integer> items);
+	public abstract void msgReceivedOrder();
 	
 }

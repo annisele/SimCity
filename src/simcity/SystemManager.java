@@ -114,7 +114,6 @@ public class SystemManager {
 		//people.add(person);
 		
 		//hacks
-
 		if (name.equalsIgnoreCase("Rebecca")) {
 			person.goToMarketNow();
 		}

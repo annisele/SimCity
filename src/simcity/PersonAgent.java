@@ -701,5 +701,4 @@ public class PersonAgent extends Agent implements Person {
 	public void setBus(BusAgent b) {
 		bus = b;
 	}
-
 }

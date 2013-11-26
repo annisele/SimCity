@@ -22,12 +22,10 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 	enum HouseInhabitantEvent { Hungry, ReadyToSleep, None } 
 	HouseInhabitantState state = HouseInhabitantState.Bored;
 	HouseInhabitantEvent event = HouseInhabitantEvent.None;
-	private Map <String , Integer > foodStock = new HashMap<String,Integer>();
-	private Map <String , Integer > foodToBuy = new HashMap<String,Integer>();
-	
+	private Map <String, Integer > foodStock = new HashMap<String,Integer>();
+	private Map <String, Integer > foodToBuy = new HashMap<String,Integer>();
 	
 	private Semaphore atDest = new Semaphore(0, true);
-	
 	
 	private final int SLEEPTIME = 4000;
 	private final int COOKTIME = 6000;
@@ -142,7 +140,6 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 		Do("That was great. Wow. Such noms");
 		DoGetUpFromTable();
 		
-
 		msgExitBuilding();
 	}
 
@@ -150,7 +147,6 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 		// TODO Auto-generated method stub
 		
 	}
-
 
 	private void Sleep() {
 		DoGoToBed();
@@ -172,13 +168,12 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 		if (event == HouseInhabitantEvent.ReadyToSleep)
 			event = HouseInhabitantEvent.None;
 		msgNeedToEat();
-		
 	}
 
-
 	public Map<String, Integer> getListToBuy() {
-		//clear list!!!!
-		return null;
+		Map<String, Integer> list = foodToBuy;
+		foodToBuy.clear();
+		return list;
 	}
 	
 	// Animation

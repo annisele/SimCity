@@ -1,4 +1,4 @@
-package simcity.test.bank;
+package simcity.test;
 
 import simcity.buildings.bank.BankCustomerRole;
 import junit.framework.*;

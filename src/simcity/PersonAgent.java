@@ -189,7 +189,8 @@ public class PersonAgent extends Agent implements Person {
 			//steps.add(new Step("enterBuilding", this));
 			steps.add(new Step("goToBusStop", this));
 			steps.add(new Step("waitForBus", this));
-
+			steps.add(new Step("goTo", this));
+			steps.add(new Step("enterBuilding", this));
 			//waitForTransport();
 			//steps.add(new Step("goTo", this));
 			
@@ -740,5 +741,14 @@ public class PersonAgent extends Agent implements Person {
 	
 	public void setBus(BusAgent b) {
 		bus = b;
+	}
+
+	public void setPedestrianRoleLocation(int x, int y) {
+		for(Role r : myRoles) {
+			if(r instanceof PedestrianRole) {
+				PedestrianRole tempR = (PedestrianRole)r;
+				tempR.msgArrivedAtLocationFromBus(x, y);
+			}
+		}  
 	}
 }

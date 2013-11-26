@@ -42,8 +42,7 @@ import agent.Agent;
 	
 	public void msgWeHaveArrived(int x, int y) { // from BusAgent
 		event = PassengerEvent.busStopping;
-		xLoc = x;
-		yLoc = y;
+		person.setPedestrianRoleLocation(x, y);
 		stateChanged();
 	} 
 	

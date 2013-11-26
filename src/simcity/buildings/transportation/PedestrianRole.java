@@ -26,7 +26,7 @@ public class PedestrianRole extends Role implements simcity.interfaces.transport
 	
 	//Messages
 	@Override
-	public void msgExitBuilding() {
+	public void exitBuilding() {
 		// TODO Auto-generated method stub
 		
 	}
@@ -79,7 +79,7 @@ public class PedestrianRole extends Role implements simcity.interfaces.transport
 	}
 
 	@Override
-	public void msgEnterBuilding(SimSystem s) {
+	public void enterBuilding(SimSystem s) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -106,5 +106,9 @@ public class PedestrianRole extends Role implements simcity.interfaces.transport
 	private void DoGoTo(Location loc)  {
 	//pedestrianGui.DoWalkTo...
 	}*/
+	
+	public Location getNextLocation() {
+		return destinationList.get(0);
+	}
 
 }

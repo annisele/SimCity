@@ -47,7 +47,7 @@ public abstract void msgGoodbye() ;
 //public abstract void msgAnimationFinishedLeaveRestaurant() ;
 	//from animation
 
-abstract void msgEnterBuilding(SimSystem s);
+abstract void enterBuilding(SimSystem s);
 public abstract void msgArrivedAtRestaurant();
 
 

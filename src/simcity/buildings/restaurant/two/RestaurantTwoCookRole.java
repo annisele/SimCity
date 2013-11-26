@@ -343,13 +343,13 @@ public void addMarket(MarketSystem m){
 	markets.add(m);
 }
 	@Override
-	public void msgExitBuilding() {
+	public void exitBuilding() {
 		// TODO Auto-generated method stub
 		
 	}
 	
 	@Override
-	public void msgEnterBuilding(SimSystem s) {
+	public void enterBuilding(SimSystem s) {
 		System.out.println("cook enters building");
 		// TODO Auto-generated method stub
 		R2 = (RestaurantTwoSystem)s;

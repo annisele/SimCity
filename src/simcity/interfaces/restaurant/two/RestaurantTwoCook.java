@@ -7,7 +7,7 @@ import simcity.buildings.restaurant.two.RestaurantTwoOrderWheel;
 import simcity.interfaces.GuiPartner;
 
 public interface RestaurantTwoCook extends GuiPartner{
-	abstract void msgEnterBuilding(SimSystem s);
+	abstract void enterBuilding(SimSystem s);
 
 	abstract void hack_chicken();
 

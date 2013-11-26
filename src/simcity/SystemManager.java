@@ -128,6 +128,9 @@ public class SystemManager {
 		if (name == "Levonne") {
 			person.goToBankNow();
 		}
+		if (name == "Levanne") {
+			person.goToBankNow();
+		}
 		if (name == "jenny") {
 			person.goToRestaurantTwoNow();
 		}

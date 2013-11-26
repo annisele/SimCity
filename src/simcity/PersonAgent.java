@@ -27,6 +27,7 @@ import simcity.interfaces.market.MarketCustomer;
 import simcity.interfaces.restaurant.two.RestaurantTwoCustomer;
 import simcity.interfaces.transportation.Pedestrian;
 import agent.Agent;
+import simcity.buildings.transportation.BusAgent;;
 
 
 
@@ -41,18 +42,18 @@ public class PersonAgent extends Agent implements Person {
 
 	private Random rand = new Random();
 	private Timer timer = new Timer();
-	
+
 	private List<Role> myRoles = new ArrayList<Role>();
 	private List<Event> eventList = new ArrayList<Event>();
 	private IdlePersonGui idleGui;
 	BusAgent bus;
 	private Role currentRole = null;
 	private Event currentEvent = null;
-	
+
 	public enum EventType { Eat, GoToMarket, BusToMarket, EatAtRestaurant, DepositMoney, WithdrawMoney, GetALoan, PayRent, Sleep, Work };
-	
+
 	private String name;
-	public double money = 10;
+	private double money = 10;
 	private double withdrawThreshold = 5; // if money is less than this, we will try to withdraw
 	private double depositThreshold = 15; // if money is higher than this, we will try to deposit
 
@@ -144,16 +145,35 @@ public class PersonAgent extends Agent implements Person {
 			}
 		}, waitTime);
 	}
-	
+
+	public void addMoney(double m) {
+		money += m;
+		checkMoneyThreshold();
+	}
+
+	public void subtractMoney(double m) {
+		money -= m;
+		checkMoneyThreshold();
+	}
+
+	public void checkMoneyThreshold() {
+		if(money <= withdrawThreshold) {
+			scheduleEvent(EventType.WithdrawMoney);
+		}
+		else if(money >= depositThreshold) {
+			scheduleEvent(EventType.DepositMoney);
+		}
+	}
+
 	private int chooseTransportation() {
-		 int randchoice = (int)((Math.random()*100)%2);
-		 return randchoice;
+		int randchoice = (int)((Math.random()*100)%2);
+		return randchoice;
 	}
 
 	public boolean scheduleEvent(EventType t) {
 		Event e;
 		if(t == EventType.GoToMarket) {
-			
+
 			List<String> markets = Directory.getMarkets();
 			if (markets.size() == 0) {
 				return false;
@@ -165,85 +185,99 @@ public class PersonAgent extends Agent implements Person {
 			steps.add(new Step("goTo", this));
 			steps.add(new Step("enterBuilding", this));
 			Role eventR = null;
-				for(Role r : myRoles) {
+			for(Role r : myRoles) {
 				if(r instanceof MarketCustomer) {
 					eventR = r;
 				}
 			} 
-			
+
 			HouseInhabitantRole house = null;
 			for(Role r : myRoles) {
 				if(r instanceof HouseInhabitantRole) {
 					house = (HouseInhabitantRole) r;
 				}
 			}  
-			
+
 			//((MarketCustomer)eventR).msgBuyStuff(house.getListToBuy());
 			//hack
 			Map<String, Integer> itemsHack = new HashMap<String, Integer>();
 			itemsHack.put("chicken", 1);
-			((MarketCustomer)eventR).msgBuyStuff(itemsHack);
-			
+			//((MarketCustomer)eventR).msgBuyStuff(itemsHack);
+
 			e = new Event(buildingName, eventR, 120, -1, true, steps, t);
 			//Do("GoToMarket is scheduled, which has "+steps.size()+" steps");
 			insertEvent(e);
 			stateChanged();
 		}
+		
+		
 		if(t == EventType.BusToMarket) {
 			List<String> markets = Directory.getMarkets();
 			int index = rand.nextInt(markets.size());
 			String buildingName = markets.get(index);
 			List<Step> steps = new ArrayList<Step>();
 			steps.add(new Step("exitBuilding", this));
+			//steps.add(new Step("goTo", this));         ///MAKE FUNCTION FOR THESE TWO LINES
+			//steps.add(new Step("enterBuilding", this));
+			//steps.add(new Step("goToBusStop", this));     ///MAKE FUNCTION FOR THESE FOUR LINES
+			//steps.add(new Step("waitForBus", this));
 			//steps.add(new Step("goTo", this));
 			//steps.add(new Step("enterBuilding", this));
-			steps.add(new Step("goToBusStop", this));
-			steps.add(new Step("waitForBus", this));
-			steps.add(new Step("goTo", this));
-			steps.add(new Step("enterBuilding", this));
-			//waitForTransport();
+			if (chooseTransportation(buildingName) == 10) {
+				steps.add(new Step("goTo", this));
+				steps.add(new Step("enterBuilding", this));
+				
+			}
+			else {
+				steps.add(new Step("goToBusStop", this));
+				steps.add(new Step("waitForBus", this)); 
+				steps.add(new Step("goTo",this));
+				steps.add(new Step("enterBuilding", this));
+				
+			}
+				//waitForTransport();
 			//steps.add(new Step("goTo", this));
-			
+
 			/*if (chooseTransportation() == 0) {
 			steps.add(new Step("goTo", this));
 			}
 			else {
 				steps.add(new Step("goToBusStop", this)); */
-		//HERE NEXT TO FIX	steps.add(new Step())
-				//steps.add(new Step("goTo", this));
+			//HERE NEXT TO FIX	steps.add(new Step())
+			//steps.add(new Step("goTo", this));
 			//} 
 			//steps.add(new Step("enterBuilding", this));
 			Role eventR = null;
-				for(Role r : myRoles) {
+			for(Role r : myRoles) {
 				if(r instanceof MarketCustomer) {
 					eventR = r;
 				}
 			} 
-			
+
 			HouseInhabitantRole house = null;
 			for(Role r : myRoles) {
 				if(r instanceof HouseInhabitantRole) {
 					house = (HouseInhabitantRole) r;
 				}
 			}  
-			
-			((MarketCustomer)eventR).msgBuyStuff(house.getListToBuy());
+
+			//((MarketCustomer)eventR).msgBuyStuff(house.getListToBuy());
 			//hack
 			Map<String, Integer> itemsHack = new HashMap<String, Integer>();
 			itemsHack.put("chicken", 1);
 			//((MarketCustomer)eventR).msgBuyStuff(itemsHack);
-			
+
 			e = new Event(buildingName, eventR, 120, -1, true, steps, t);
 			//Do("GoToMarket is scheduled, which has "+steps.size()+" steps");
 			insertEvent(e);
 			stateChanged();
-			
+
 		}
 		if(t == EventType.EatAtRestaurant) {
 			List<String> restaurants = Directory.getRestaurants();
 			//int index = rand.nextInt(restaurants.size());
 			//HACK FOR RESTAURANT 2 ONLY
-			
+
 			String buildingName = restaurants.get(0);
 			List<Step> steps = new ArrayList<Step>();
 			steps.add(new Step("exitBuilding", this));
@@ -253,22 +287,22 @@ public class PersonAgent extends Agent implements Person {
 			for(Role r : myRoles) {
 				if(r instanceof RestaurantTwoCustomer) {
 					eventR = r;
-				
+
 				}
 			}
-			
-		
+
+
 			//hack
 			//RestaurantTwoCustomerRole rc = new RestaurantTwoCustomerRole(this);
 			//((RestaurantTwoCustomer)eventR).msgArrivedAtRestaurant();
-			
+
 			e = new Event(buildingName, eventR, 120, -1, true, steps, t);
 			//Do("GoToMarket is scheduled, which has "+steps.size()+" steps");
 			insertEvent(e);
 			stateChanged();
 		}
 		else if (t == EventType.DepositMoney) {
-			
+
 			List<String> banks = Directory.getBanks();
 			Do("We're Depositing, and banks size is "+banks.size());
 			int index = rand.nextInt(banks.size());
@@ -283,36 +317,38 @@ public class PersonAgent extends Agent implements Person {
 					eventR = r;
 				}
 			}
-			
+
 			//hack
 			((BankCustomer)eventR).msgDepositMoney((BankSystem)(Directory.getSystem(buildingName)));
 			e = new Event(buildingName, eventR, 120, -1, true, steps, t);
-			
+
 			insertEvent(e);
 			stateChanged();
-			
-			
+
+
 		}
 		else if (t == EventType.WithdrawMoney) {
 			List<String> banks = Directory.getBanks();
-			int index = rand.nextInt(banks.size());
-			String buildingName = banks.get(index);
-			List<Step> steps = new ArrayList<Step>();
-			steps.add(new Step("exitBuilding", this));
-			steps.add(new Step("goTo", this));
-			steps.add(new Step("enterBuilding", this));
-			Role eventR = null;
-			for(Role r : myRoles) {
-				if(r instanceof BankCustomer) {
-					eventR = r;
+			if(banks.size() > 0) {
+				int index = rand.nextInt(banks.size());
+				String buildingName = banks.get(index);
+				List<Step> steps = new ArrayList<Step>();
+				steps.add(new Step("exitBuilding", this));
+				steps.add(new Step("goTo", this));
+				steps.add(new Step("enterBuilding", this));
+				Role eventR = null;
+				for(Role r : myRoles) {
+					if(r instanceof BankCustomer) {
+						eventR = r;
+					}
 				}
-			}
 
-			//hack
-			((BankCustomer)eventR).msgWithdrawMoney((BankSystem)(Directory.getSystem(buildingName)));
-			e = new Event(buildingName, eventR, 120, -1, true, steps, t);
-			
-			insertEvent(e);
+				//hack
+				((BankCustomer)eventR).msgWithdrawMoney((BankSystem)(Directory.getSystem(buildingName)));
+				e = new Event(buildingName, eventR, 120, -1, true, steps, t);
+
+				insertEvent(e);
+			}
 			stateChanged();
 		}
 		else if (t == EventType.GetALoan) {
@@ -332,7 +368,7 @@ public class PersonAgent extends Agent implements Person {
 			//hack
 			((BankCustomer)eventR).msgGetLoan((BankSystem)(Directory.getSystem(buildingName)));
 			e = new Event(buildingName, eventR, 120, -1, true, steps, t);
-			
+
 			insertEvent(e);
 			stateChanged();
 		}
@@ -353,7 +389,7 @@ public class PersonAgent extends Agent implements Person {
 			//hack
 			((BankCustomer)eventR).msgPayRent((BankSystem)(Directory.getSystem(buildingName)));
 			e = new Event(buildingName, eventR, 120, -1, true, steps, t);
-			
+
 			insertEvent(e);
 			stateChanged();
 		}
@@ -390,33 +426,114 @@ public class PersonAgent extends Agent implements Person {
 
 	//this assumes after roles are done, they go stand outside the building
 	//so this only needs to prep the person to walk somewhere by changing it to pedestrian
+	
+	int chooseTransportation(String dest) {
+		Role eventR = null;
+		for (Role r : myRoles) {
+			if (r instanceof Pedestrian) {
+				eventR = r;
+				
+			}
+		}
+
+		double minLocation = 1000;
+		int minStop = 10;
+		
+		for (int i=0; i<4; i++) {
+			int tempX = Directory.getBusStop(i).getX()-eventR.getGui().getX();
+			double tempX2 = Math.pow(tempX, 2);
+			int tempY = Directory.getBusStop(i).getY()-eventR.getGui().getY();
+			double tempY2 = Math.pow(tempY, 2);
+			double tempXY = tempX2 + tempY2;
+			double tempLocation = Math.sqrt(tempXY);
+			if (minLocation > tempLocation) {
+				minLocation = tempLocation;
+				minStop = i;
+			}
+		}
+		
+		PedestrianRole tempR = (PedestrianRole)eventR;
+		int buildingdist = (int)Math.sqrt(((Directory.getLocation(dest).getX()-tempR.getGui().getX())^2 + (Directory.getLocation(dest).getX()-tempR.getGui().getX())^2) );
+		if (minLocation < buildingdist) {
+			System.out.println("Transit");
+			return minStop;
+		}
+		else {
+			System.out.println("Walk");
+			return 10;
+		}
+	}
+	
+	int getClosestStop(String dest) {
+		Role eventR = null;
+		for (Role r : myRoles) {
+			if (r instanceof Pedestrian) {
+				eventR = r;
+				
+			}
+		}
+		int minLocation = 1000;
+		int minStop = 10;
+	   int stopzerodist = (int)Math.sqrt(((Directory.getBusStop(0).getX()-Directory.getLocation(dest).getX())^2 + (Directory.getBusStop(0).getY()-Directory.getLocation(dest).getY())^2));
+		int stoponedist = (int)Math.sqrt(((Directory.getBusStop(1).getX()-Directory.getLocation(dest).getX())^2 + (Directory.getBusStop(1).getY()-Directory.getLocation(dest).getY())^2));
+		int stoptwodist = (int)Math.sqrt(((Directory.getBusStop(2).getX()-Directory.getLocation(dest).getX())^2 + (Directory.getBusStop(2).getY()-Directory.getLocation(dest).getY())^2));
+	  int stopthreedist = (int)Math.sqrt(((Directory.getBusStop(3).getX()-Directory.getLocation(dest).getX())^2 + (Directory.getBusStop(3).getY()-Directory.getLocation(dest).getY())^2));
+		if (stopzerodist < minLocation) {
+			minLocation = stopzerodist;
+			minStop = 0; 
+		}
+		if (stoponedist < minLocation) {
+			minLocation = stoponedist;
+			minStop = 1;
+		}
+		if (stoptwodist < minLocation) {
+			minLocation = stoptwodist;
+			minStop = 2;
+		}
+		if (stopthreedist < minLocation) {
+			minLocation = stopthreedist;
+			minStop = 3;
+		}
+		return minStop;
+	}
+	
+	
+			
+			
+		
+	
+
+		
+	
 	public void exitBuilding() {
 		//Do("exitBuilding step is called");
 		if (currentRole != null)
-			currentRole.msgExitBuilding();
+			currentRole.exitBuilding();
 		stateChanged();
 	}
-	
+
 	public void goToBusStop() {
 		for(Role r : myRoles) {
 			if(r instanceof Pedestrian) {
 				currentRole = r;
 				Directory.getWorld().getAnimationPanel().addGui(currentRole.getGui());
+			}
 		}
-	}
-		Location loc = Directory.getBusStop(3);
+	
+		//currentRole.getGui().ge
+		Location loc = Directory.getBusStop(chooseTransportation(currentEvent.buildingName));
 		((PedestrianRole)currentRole).addDestination(loc);
 		//waitForTransport();
 		stateChanged();
 	}
-	
+
 	public void waitForBus() {
 		for (Role r : myRoles) {
 			if(r instanceof BusPassengerRole) {
 				currentRole = r;
 				//Location l = new Location(40, 67);
 				((BusPassengerRole) r).setBus(bus);
-				((BusPassengerRole) r).msgBusTo(3, 0);
+				((BusPassengerRole) r).msgBusTo(chooseTransportation(currentEvent.buildingName), getClosestStop(currentEvent.buildingName));
 				idleGui.setLocation(r.getGui().getLocation());	
 			}
 		}
@@ -424,7 +541,7 @@ public class PersonAgent extends Agent implements Person {
 
 	//later, add bus and car options
 	public void goTo() {
-		
+
 		for(Role r : myRoles) {
 			if(r instanceof Pedestrian) {
 				currentRole = r;
@@ -437,7 +554,7 @@ public class PersonAgent extends Agent implements Person {
 		//Do("PedRole is being given a destination!");
 		((PedestrianRole)currentRole).addDestination(loc);
 		stateChanged();
-		
+
 	}
 
 	public void enterBuilding() {
@@ -445,7 +562,7 @@ public class PersonAgent extends Agent implements Person {
 		if(Directory.getSystem(currentEvent.buildingName).msgEnterBuilding(currentEvent.role)) {
 			currentRole = currentEvent.role;
 			Do("Entered building. Changing role to " + currentRole.getClass());
-			currentRole.msgEnterBuilding(Directory.getSystem(currentEvent.buildingName));			
+			currentRole.enterBuilding(Directory.getSystem(currentEvent.buildingName));			
 
 		} else {
 			Do("Building closed. Cannot enter.");
@@ -453,7 +570,7 @@ public class PersonAgent extends Agent implements Person {
 		}
 		stateChanged();
 	}
-	
+
 	public void waitForTransport() {
 		for (Role r : myRoles) {
 			if (r instanceof Pedestrian) {
@@ -580,7 +697,7 @@ public class PersonAgent extends Agent implements Person {
 	public void goToMarketNow() {
 		this.scheduleEvent(EventType.GoToMarket);
 	}
-	
+
 	public void busToMarketNow() {
 		this.scheduleEvent(EventType.BusToMarket);
 	}
@@ -591,19 +708,24 @@ public class PersonAgent extends Agent implements Person {
 	public void goToRestaurantTwoNow() {
 		this.scheduleEvent(EventType.EatAtRestaurant);
 	}
-	
+
 	public boolean isIdle() {
 		return (currentRole == null);
 	}
-	
+
 	//hack
 	public IdlePersonGui getIdleGui() {
 		return idleGui;
 	}
 
 	public void receiveDelivery(Map<String, Integer> tempItems) {
-		// TODO Auto-generated method stub
-
+		HouseInhabitantRole h = null;
+		for(Role r : myRoles) {
+			if(r instanceof HouseInhabitantRole) {
+				h = (HouseInhabitantRole) r;
+			}
+		}  
+		h.addItems(tempItems);
 	}
 
 	public void addWork(Role r, String building) {
@@ -612,7 +734,7 @@ public class PersonAgent extends Agent implements Person {
 		workRole = r;
 		scheduleEvent(EventType.Work);
 	}
-	
+
 	public void addHome(String building) {
 		//myRoles.add(r);
 		home = building;
@@ -741,7 +863,7 @@ public class PersonAgent extends Agent implements Person {
 
 		}
 	}
-	
+
 	public void clear() {
 		for (Role r : myRoles) {
 			r.clear();
@@ -749,7 +871,7 @@ public class PersonAgent extends Agent implements Person {
 		timer.cancel();
 		timer.purge();
 	}
-	
+
 	public void setBus(BusAgent b) {
 		bus = b;
 	}

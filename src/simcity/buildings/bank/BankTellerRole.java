@@ -24,14 +24,17 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 	private BankSystem bankSystem;
 	private List<MyCustomer> customers = Collections.synchronizedList(new ArrayList<MyCustomer>());		// list of customers
 	private List<MyCustomerInDebt> debtCustomers = Collections.synchronizedList(new ArrayList<MyCustomerInDebt>()); // list of bank customers in debt
-
+	private int windowNumber;
+	
 	// utility variables
 	private Semaphore atDest = new Semaphore(0, true);
 	private Timer timer = new Timer();
 
+	public enum tellerWindowState {none, directed, atWindow};
 	public enum transactionType {none, openAccount, depositMoney, withdrawMoney, loanMoney, payLoan, payRent};	// type of transaction from customer
 	public enum transactionState {none, processing, processed, done};											// transaction state
-
+	private tellerWindowState tWindowState = tellerWindowState.none;
+	
 	public BankTellerRole(PersonAgent person, BankSystem bank) {
 		this.person = person;
 		this.gui = new BankTellerGui(this);
@@ -44,6 +47,12 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
     }
 	// messages
 
+	public void msgGoToThisWindow(int windowNumber) {
+		this.windowNumber = windowNumber;
+		tWindowState = tellerWindowState.directed;
+		stateChanged();
+	}
+	
 	public void msgWantToOpenAccount(BankCustomer bc, double amountToProcess) {
 		System.out.println("I want to open an account");
     	customers.add(new MyCustomer(bc, bc.getPassword(), amountToProcess, transactionType.openAccount));
@@ -88,6 +97,13 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 	// scheduler
 
 	public boolean pickAndExecuteAnAction() {
+		
+		if (tWindowState == tellerWindowState.directed) {
+			tWindowState = tellerWindowState.atWindow;
+			GoToWindow();
+			return true;
+		}
+		
 		synchronized(customers) {
 			if (!customers.isEmpty()) {
 
@@ -149,6 +165,21 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 
 	// actions
 
+	private void GoToWindow() {
+		((BankTellerGui)gui).DoGoToCorridor();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		((BankTellerGui)gui).DoGoToWindow(windowNumber);
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	private void ProcessTransaction(MyCustomer customer) {
 		timer.schedule(new TimerTask() {
 			public void run() {
@@ -404,7 +435,7 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 	    msgExitBuilding();
 	}
 	*/
-	public void msgExitBuilding() {
+	public void exitBuilding() {
 		person.Do("Leaving bank.");
 		gui.DoExitBuilding();
 		try {
@@ -416,21 +447,9 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 		person.roleFinished();
 		
 	}
-	public void msgEnterBuilding(SimSystem s) {
+	public void enterBuilding(SimSystem s) {
 		bankSystem = (BankSystem) s;
 		((BankTellerGui)gui).DoGoToHost();
-		try {
-			atDest.acquire();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		((BankTellerGui)gui).DoGoToCorridor();
-		try {
-			atDest.acquire();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		((BankTellerGui)gui).DoGoToWindow3();
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {

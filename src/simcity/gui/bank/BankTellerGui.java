@@ -44,6 +44,18 @@ public class BankTellerGui extends Gui {
 		DoGoToLocation(CORRIDOR_X, CORRIDOR_Y);
 	}
 	
+	public void DoGoToWindow(int windowNumber) {
+		if (windowNumber == 1) {
+			DoGoToLocation(WINDOW1_X, WINDOW1_Y);
+		}
+		else if (windowNumber == 2) {
+			DoGoToLocation(WINDOW2_X, WINDOW2_Y);
+		}
+		else if (windowNumber == 3) {
+			DoGoToLocation(WINDOW3_X, WINDOW3_Y);
+		}
+	}
+	/*
 	public void DoGoToWindow1() {
 		DoGoToLocation(WINDOW1_X, WINDOW1_Y);
 	}
@@ -54,7 +66,7 @@ public class BankTellerGui extends Gui {
 	
 	public void DoGoToWindow3() {
 		DoGoToLocation(WINDOW3_X, WINDOW3_Y);
-	}
+	}*/
 	public void DoGoToHost() {
 		DoGoToLocation(HOST_X, HOST_Y);
 	}

@@ -537,14 +537,14 @@ public void EndBreak(){
 
 
 	@Override
-	public void msgExitBuilding() {
+	public void exitBuilding() {
 		// TODO Auto-generated method stub
 		
 	}
 
 
 	@Override
-	public void msgEnterBuilding(SimSystem s) {
+	public void enterBuilding(SimSystem s) {
 		Do("waiter enters building");
 		R2 = (RestaurantTwoSystem)s;
 		((RestaurantTwoWaiterGui)gui).Start(spot);

@@ -1,137 +1,124 @@
 package simcity.buildings.market;
 
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.Semaphore;
 
+import simcity.Directory;
 import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
 import simcity.gui.market.MarketCustomerGui;
 import simcity.interfaces.market.MarketCashier;
 import simcity.interfaces.market.MarketCustomer;
-import simcity.interfaces.market.MarketPayer;
 
 public class MarketCustomerRole extends Role implements MarketCustomer {
 
-	private List<Invoice> invoices = Collections.synchronizedList(new ArrayList<Invoice>());
-	private enum InvoiceState {notSent, expected, requested, billed, paid, delivered};
+	private enum CustomerState {doingNothing, orderSent, billed, paid, delivered};
 	private MarketSystem market;
 	private Semaphore atDest = new Semaphore(0, true);
-	
+	private Map<String, Map<String, Boolean>> marketStock = Collections.synchronizedMap(new HashMap<String, Map<String, Boolean>>());
+	private Map<String, Integer> itemsToBuy = null;
+	private Map<String, Integer> itemsDelivered = null;
+	private CustomerState state = CustomerState.doingNothing;
+	private double change = 0;
+	private int payment;
+	private int orderNumber;
 	public MarketCustomerRole(PersonAgent p) {
 		person = p;
 		this.gui = new MarketCustomerGui(this);
+		List<String> markets = Directory.getMarkets();
+		for(String m : markets) {
+			Map<String, Boolean> stock = Collections.synchronizedMap(new HashMap<String, Boolean>());
+			stock.put("steak", true);
+			stock.put("chicken", true);
+			stock.put("salad", true);
+			stock.put("pizza", true);
+			marketStock.put(m, stock);
+		}
 	}
 	
 	@Override
 	public void atDestination() {
 		atDest.release();
 	}
-	
-	@Override
-	public void msgBuyStuff(Map<String, Integer> itemsToBuy) {
-		synchronized(invoices) {
-			invoices.add(new Invoice(InvoiceState.notSent, itemsToBuy, invoices.size()));
-		}
-		stateChanged();
-	}
 
 	@Override
-	public void msgPleasePay(MarketCashier c, double payment, int orderNum) {
+	public void msgPleasePay(MarketCashier c, double payRequested, int orderNum) {
 		person.Do("Received msgPleasePay");
+	
+		orderNumber = orderNum;
+		payment = 0;
 		
-		synchronized (invoices) {
-			for(Invoice i : invoices) {
-				if(i.state == InvoiceState.expected && i.payment == payment) {
-					i.state = InvoiceState.billed;
-					i.cashier = c;
-					i.orderNumber = orderNum;
-				}
-			}
+		Set<String> keys = itemsToBuy.keySet();
+		for (String key : keys) {
+			payment += itemsToBuy.get(key) * market.getComputer().getPrices().get(key);
+		}
+		
+		if(payment >= payRequested) {
+			state = CustomerState.billed;
+		}
+		else {
+			Do("You billed me too much!");
 		}
 		stateChanged();
 	}
 
 	@Override
-	public void msgDeliveringOrder(Map<String, Integer> itemsToDeliver) {
+	public void msgDeliveringOrder(Map<String, Integer> itemsToDeliver, double ch) {
 		person.Do("Received msgDeliveringOrder");
-		
-		synchronized (invoices) {
-			for(Invoice i : invoices) {
-				if(i.state == InvoiceState.paid && i.items == itemsToDeliver) {
-					i.state = InvoiceState.delivered;
-				}
+		itemsDelivered = itemsToDeliver;
+		change = ch;
+		state = CustomerState.delivered;
+		Set<String> keys = itemsToBuy.keySet();
+		for (String key : keys) {
+			if(!itemsDelivered.containsKey(key)) {
+				marketStock.get(market.getName()).put(key, false);
 			}
 		}
+		
 		stateChanged();
 	}
 	
 	public boolean pickAndExecuteAnAction() {
-		Invoice in = null;
-		synchronized (invoices) {
-			for(Invoice i : invoices) {
-				if(i.state == InvoiceState.notSent) {
-					in = i;
-					break;
-				}
-			}
-		}
-		if(in != null) {
-			SendOrder(in);
+		if(itemsToBuy != null && state == CustomerState.doingNothing) {
+			System.out.println(state);
+			SendOrder();
 			return true;
 		}
 		
-		Invoice in2 = null;
-		synchronized (invoices) {
-			for(Invoice i : invoices) {
-				if(i.state == InvoiceState.billed) {
-					in2 = i;
-					break;
-				}
-			}
-		}
-		if(in2 != null) {
-			PayCashier(in2);
+		if(state == CustomerState.billed) {
+			PayCashier();
 			return true;
 		}
-		
-		Invoice in3 = null;
-		synchronized (invoices) {
-			for(Invoice i : invoices) {
-				if(i.state == InvoiceState.delivered) {
-					in3 = i;
-					break;
-				}
-			}
-		}
-		if(in3 != null) {
-			ReceiveDelivery(in3);
+		else if(state == CustomerState.delivered) {
+			ReceiveDelivery();
 			return true;
 		}
 		return false;
 	}
 
-	private void SendOrder(Invoice i) {
-		market.getCashier().msgHereIsAnOrder(this, this, i.items);
-		i.state = InvoiceState.expected;
+	private void SendOrder() {
+		market.getCashier().msgHereIsAnOrder(this, this, itemsToBuy);
+		state = CustomerState.orderSent;
 	}
 
-	private void PayCashier(Invoice i) {
+	private void PayCashier() {
 		((MarketCustomerGui)gui).DoGoToCashier();
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		this.person.money -= i.payment;
-		i.cashier.msgHereIsPayment(i.payment, i.orderNumber);
-		i.state = InvoiceState.paid;
+		person.subtractMoney(payment);
+		market.getCashier().msgHereIsPayment(payment, orderNumber);
+		state = CustomerState.paid;
 	}
 
-	private void ReceiveDelivery(Invoice i) {
+	private void ReceiveDelivery() {
 		((MarketCustomerGui)gui).DoGoToCashier();
 		try {
 			atDest.acquire();
@@ -139,18 +126,19 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 			e.printStackTrace();
 		}
 		((MarketCustomerGui) gui).carryItem(true);
-		Map<String, Integer> tempItems = i.items;  
-		i.cashier.msgReceivedOrder();
-		synchronized(invoices) {
-			invoices.remove(i);
-		}
-		person.receiveDelivery(tempItems);
-		msgExitBuilding();
+		market.getCashier().msgReceivedOrder();
+		person.receiveDelivery(itemsDelivered);
+		person.addMoney(change);
+		change = 0;
+		itemsToBuy = null;
+		itemsDelivered = null;
+		state = CustomerState.doingNothing;
+		exitBuilding();
 	}
 	
 
 	@Override
-	public void msgExitBuilding() {
+	public void exitBuilding() {
 		person.Do("Leaving market.");
 		gui.DoExitBuilding();
 		try {
@@ -164,9 +152,12 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	}
 
 	@Override
-	public void msgEnterBuilding(SimSystem s) {
-		
+	public void enterBuilding(SimSystem s) {
 		market = (MarketSystem)s;
+		
+		//hack!
+		itemsToBuy = new HashMap<String, Integer>();
+		itemsToBuy.put("chicken", 2);
 		((MarketCustomerGui)gui).DoGoToCashier();
 		try {
 			atDest.acquire();
@@ -174,23 +165,6 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 			e.printStackTrace();
 		}
 		
-	}
-
-	private class Invoice {
-		double payment;
-		InvoiceState state;
-		MarketCashier cashier;
-		Map<String, Integer> items;
-		int orderNumber;
-
-		Invoice(InvoiceState s, Map<String, Integer> itemsToBuy, int num) {
-			items = itemsToBuy;
-			state = s;
-			orderNumber = num;
-			
-			//hack!!
-			payment = 0;
-		}
 	}
 
 }

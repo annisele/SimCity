@@ -197,7 +197,7 @@ public class RestaurantTwoHostRole extends Role implements simcity.interfaces.re
 
 
 	@Override
-	public void msgExitBuilding() {
+	public void exitBuilding() {
 		// TODO Auto-generated method stub
 		
 	}
@@ -205,7 +205,7 @@ public class RestaurantTwoHostRole extends Role implements simcity.interfaces.re
 
 
 	@Override
-	public void msgEnterBuilding(SimSystem s) {
+	public void enterBuilding(SimSystem s) {
 		Do("host enters building");
 		R2 = (RestaurantTwoSystem)s;
 		((RestaurantTwoHostGui)gui).DoGoToHostPosition();

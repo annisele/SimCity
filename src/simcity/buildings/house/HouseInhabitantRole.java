@@ -163,7 +163,7 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 		state = HouseInhabitantState.Eating;
 		event = HouseInhabitantEvent.None;
 		
-		msgExitBuilding();
+		exitBuilding();
 		
 		//msgExitBuilding();
 	}
@@ -201,6 +201,23 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 			foodToBuy.clear();
 		}
 		return list;
+	}
+	
+	public void addItems(Map<String, Integer> items) {
+		synchronized (foodStock) {
+			Map<String, Integer> newList = new HashMap<String, Integer>();
+	        newList.putAll(foodStock);
+	        
+	        for (String key : items.keySet()) {
+	            Integer value = newList.get(key);
+	            if (value != null) {
+	                Integer newValue = value + items.get(key);
+	                newList.put(key, newValue);
+	            } else {
+	                newList.put(key, items.get(key));
+	            }
+	        }
+		}
 	}
 	
 	// Animation
@@ -302,7 +319,7 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 	}
 
 	@Override
-	public void msgExitBuilding() {
+	public void exitBuilding() {
 		person.Do("Leaving the house.");
 		gui.DoExitBuilding();
 		try {
@@ -316,7 +333,7 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 	}
 
 	@Override
-	public void msgEnterBuilding(SimSystem s) {
+	public void enterBuilding(SimSystem s) {
 		house = (HouseSystem)s;
 		((HouseInhabitantGui)gui).DoGoToLiving();
 		try {

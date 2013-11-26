@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.concurrent.Semaphore;
 
+import simcity.test.mock.EventLog;
 import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
@@ -24,7 +25,7 @@ public class BankHostRole extends Role implements BankHost {
 	// set in Bank
 	//private List<BankWindow> windows = Collections.synchronizedList(new ArrayList<BankWindow>());
 	private BankWindow availableWindow;
-
+	public  EventLog log = new EventLog();
 	private List<BankTeller> waitingBankTellers = Collections.synchronizedList(new ArrayList<BankTeller>());
 	private List<BankCustomer> customers = Collections.synchronizedList(new ArrayList<BankCustomer>());
 

@@ -23,6 +23,12 @@ public class BankHostTest extends TestCase {
 
 		assertTrue("Cashier should have 0 bills in it. It doesn't.",host.getCustomers().isEmpty());		
 		host.msgEnteringBank(bc);
+		host.pickAndExecuteAnAction();
+		assertEquals("Bank host should have an empty event log before the BankHost's GoToWindow is called. Instead, the Cashier's event log reads:"
+				+ host.log.toString(), 0, host.log.size());
+		assertFalse(host.getCustomers().isEmpty());
+		
+		
 	}
 	public void testOneBankTellerEnterBank() {
 		System.out.println("TEST ONE BANK TELLER ENTER BANK");

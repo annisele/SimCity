@@ -12,7 +12,7 @@ public class BankCustomerGui extends Gui{
 	private int HOST_X = 230;
 	private int HOST_Y = 400;
 
-	ImageIcon ii = new ImageIcon("res/person/persondownbig.png");
+	ImageIcon ii = new ImageIcon("res/person/personupbig.png");
 	Image img = ii.getImage();
 
 	private final int WINDOW1_X = 105;

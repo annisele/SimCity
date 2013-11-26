@@ -28,10 +28,9 @@ public class Config {
 		
 	}
 	
-	public void oneMarket() {
+	public void busToMarket() {
 		systems.clear();
 		systems.clearDetailPane();
-		
 		systems.setBackgroundOne();
 		systems.addMarket("Market", 100, 100);
 		systems.addMarketCashierHack("Mary", "Market");
@@ -43,7 +42,35 @@ public class Config {
 				systems.addMarketWorkerHack("Bob", "Market");
 				timer.schedule(new TimerTask() {
 					public void run() {
+						systems.addPerson("Josh");
+					}
+				}, 2000);
+			}
+		}, 2000);
+	}
+	
+	public void oneMarket() {
+		systems.clear();
+		systems.clearDetailPane();
+		
+		systems.setBackgroundOne();
+		systems.addMarket("Market", 100, 100);
+		systems.addMarketCashierHack("Mary", "Market");
+		systems.addBus("Buster"); //Take this out if you don't want the bus here
+		systems.addMarketTruck("Market");
+		systems.addPerson("Rebecca");
+		timer.schedule(new TimerTask() {
+			public void run() {
+				systems.addMarketWorkerHack("Bob", "Market");
+				timer.schedule(new TimerTask() {
+					public void run() {
 						systems.addPerson("Rebecca");
+						systems.addMarketWorkerHack("Bill", "Market");
+						timer.schedule(new TimerTask() {
+							public void run() {
+								systems.addPerson("Rebecca");
+							}
+						}, 2000);
 					}
 				}, 2000);
 			}

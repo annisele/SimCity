@@ -23,5 +23,10 @@ public class PedestrianGui extends Gui {
 		g.drawImage(personimage, getX(), getY(), null); //COMMENT this out to get old Gui Back- Josh
 
 	}
+	
+	public void setLocation(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
 
 }

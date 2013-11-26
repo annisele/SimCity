@@ -30,7 +30,6 @@ import agent.Agent;
 
 	public void msgBusTo(int s, int d) { // from PersonAgent
 		destination = d;
-		System.out.println("in msgBusTo in BusPassengerRole");
 		startingLocation = s;
 		event = PassengerEvent.atBusStop;
 		stateChanged();
@@ -43,15 +42,13 @@ import agent.Agent;
 	
 	public void msgWeHaveArrived(int x, int y) { // from BusAgent
 		event = PassengerEvent.busStopping;
-		xLoc = x;
-		yLoc = y;
+		person.setPedestrianRoleLocation(x, y);
 		stateChanged();
 	} 
 	
 	public boolean pickAndExecuteAnAction() {
 	if ((state == PassengerState.offBus) && (event == PassengerEvent.atBusStop)) {
 			state = PassengerState.waitingForBus;
-			System.out.println("In BusPassengerRole, waiting for bus");
 			CallBus();
 			return true;
 	}
@@ -81,7 +78,7 @@ import agent.Agent;
 	
 	private void GetOut() {
 		bus.msgGettingOff(this);
-
+		person.roleFinished();
 		// Animation
 		DoRedrawAt(xLoc, yLoc);
 		//WHAT DOES ENABLED EVEN MEAN??? ASK CB or something
@@ -97,6 +94,8 @@ import agent.Agent;
 		//Animation
 	}
 
+	
+	
 	@Override
 	public void msgExitBuilding() {
 		// TODO Auto-generated method stub
@@ -117,7 +116,6 @@ import agent.Agent;
 	
 	public void setBus(BusAgent b) {
 		bus = b;
-		System.out.println("In BusPassengerRole We have a bus " + bus.getName());
 	}
 	
 	

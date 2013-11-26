@@ -26,8 +26,6 @@ public class Directory {
 	}
 	
 	public void makeBusStops() {
-		
-		
 		Location stop0 = new Location(40, 67);
 		Location stop1 = new Location(380, 67);
 		Location stop2 = new Location(380, 366);
@@ -35,12 +33,7 @@ public class Directory {
 		busStopDirectory.put(0, stop0);
 		busStopDirectory.put(1, stop1);
 		busStopDirectory.put(2, stop2);
-		busStopDirectory.put(3, stop3);
-
-
-
-
-		
+		busStopDirectory.put(3, stop3);	
 	}
 	
 	public static Location getBusStop(int bsc) {

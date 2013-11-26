@@ -14,7 +14,6 @@ import simcity.buildings.bank.BankCustomerRole;
 import simcity.buildings.bank.BankSystem;
 import simcity.buildings.house.HouseInhabitantRole;
 import simcity.buildings.market.MarketCustomerRole;
-import simcity.buildings.market.MarketSystem;
 import simcity.buildings.restaurant.five.RestaurantFiveCustomerRole;
 import simcity.buildings.restaurant.four.RestaurantFourCustomerRole;
 import simcity.buildings.restaurant.two.RestaurantTwoCustomerRole;
@@ -50,12 +49,13 @@ public class PersonAgent extends Agent implements Person {
 	private Role currentRole = null;
 	private Event currentEvent = null;
 	
-	public enum EventType { Eat, GoToMarket,EatAtRestaurant, DepositMoney, WithdrawMoney, GetALoan, PayRent, Sleep, Work };
+	public enum EventType { Eat, GoToMarket, BusToMarket, EatAtRestaurant, DepositMoney, WithdrawMoney, GetALoan, PayRent, Sleep, Work };
 	
 	private String name;
 	public double money = 10;
 	private double withdrawThreshold = 5; // if money is less than this, we will try to withdraw
 	private double depositThreshold = 15; // if money is higher than this, we will try to deposit
+
 	private String home;
 	private String workBuilding;
 	private Role workRole;
@@ -163,12 +163,47 @@ public class PersonAgent extends Agent implements Person {
 			steps.add(new Step("exitBuilding", this));
 			steps.add(new Step("goTo", this));
 			steps.add(new Step("enterBuilding", this));
-			//steps.add(new Step("goToBusStop", this));
-			//steps.add(new Step("waitForBus", this));
+			Role eventR = null;
+				for(Role r : myRoles) {
+				if(r instanceof MarketCustomer) {
+					eventR = r;
+				}
+			} 
+			
+			HouseInhabitantRole house = null;
+			for(Role r : myRoles) {
+				if(r instanceof HouseInhabitantRole) {
+					house = (HouseInhabitantRole) r;
+				}
+			}  
+			
+			//((MarketCustomer)eventR).msgBuyStuff(house.getListToBuy());
+			//hack
+			Map<String, Integer> itemsHack = new HashMap<String, Integer>();
+			itemsHack.put("chicken", 1);
+			((MarketCustomer)eventR).msgBuyStuff(itemsHack);
+			
+			e = new Event(buildingName, eventR, 120, -1, true, steps, t);
+			//Do("GoToMarket is scheduled, which has "+steps.size()+" steps");
+			insertEvent(e);
+			stateChanged();
+		}
+		if(t == EventType.BusToMarket) {
+			List<String> markets = Directory.getMarkets();
+			int index = rand.nextInt(markets.size());
+			String buildingName = markets.get(index);
+			List<Step> steps = new ArrayList<Step>();
+			steps.add(new Step("exitBuilding", this));
+			//steps.add(new Step("goTo", this));
+			//steps.add(new Step("enterBuilding", this));
+			steps.add(new Step("goToBusStop", this));
+			steps.add(new Step("waitForBus", this));
+			steps.add(new Step("goTo", this));
+			steps.add(new Step("enterBuilding", this));
 			//waitForTransport();
 			//steps.add(new Step("goTo", this));
 			
-		/*	if (chooseTransportation() == 0) {
+			/*if (chooseTransportation() == 0) {
 			steps.add(new Step("goTo", this));
 			}
 			else {
@@ -368,7 +403,6 @@ public class PersonAgent extends Agent implements Person {
 				Directory.getWorld().getAnimationPanel().addGui(currentRole.getGui());
 		}
 	}
-		Do("At Bus Stop");
 		Location loc = Directory.getBusStop(3);
 		((PedestrianRole)currentRole).addDestination(loc);
 		//waitForTransport();
@@ -381,7 +415,7 @@ public class PersonAgent extends Agent implements Person {
 				currentRole = r;
 				//Location l = new Location(40, 67);
 				((BusPassengerRole) r).setBus(bus);
-				((BusPassengerRole) r).msgBusTo(3, 1);
+				((BusPassengerRole) r).msgBusTo(3, 0);
 				idleGui.setLocation(r.getGui().getLocation());	
 			}
 		}
@@ -395,7 +429,6 @@ public class PersonAgent extends Agent implements Person {
 				currentRole = r;
 				Directory.getWorld().getAnimationPanel().addGui(currentRole.getGui());
 			}
-			
 		}
 		Location loc = Directory.getLocation(currentEvent.buildingName);
 		Do(currentEvent.buildingName + ", " + loc.getX() + ", " + loc.getY());
@@ -545,6 +578,10 @@ public class PersonAgent extends Agent implements Person {
 	//Test event
 	public void goToMarketNow() {
 		this.scheduleEvent(EventType.GoToMarket);
+	}
+	
+	public void busToMarketNow() {
+		this.scheduleEvent(EventType.BusToMarket);
 	}
 
 	public void goToBankNow() {
@@ -714,5 +751,14 @@ public class PersonAgent extends Agent implements Person {
 	
 	public void setBus(BusAgent b) {
 		bus = b;
+	}
+
+	public void setPedestrianRoleLocation(int x, int y) {
+		for(Role r : myRoles) {
+			if(r instanceof PedestrianRole) {
+				PedestrianRole tempR = (PedestrianRole)r;
+				tempR.msgArrivedAtLocationFromBus(x, y);
+			}
+		}  
 	}
 }

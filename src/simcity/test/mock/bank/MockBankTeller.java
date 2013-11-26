@@ -6,6 +6,7 @@ import simcity.interfaces.*;
 import simcity.interfaces.bank.BankCustomer;
 import simcity.interfaces.bank.BankTeller;
 import simcity.test.mock.EventLog;
+import simcity.test.mock.LoggedEvent;
 import simcity.test.mock.Mock;
 
 public class MockBankTeller extends Mock implements BankTeller {
@@ -16,44 +17,37 @@ public class MockBankTeller extends Mock implements BankTeller {
 	public EventLog log = new EventLog();
 	@Override
 	public void atDestination() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void msgWantToOpenAccount(BankCustomer bc, double amountToProcess) {
-		// TODO Auto-generated method stub
-		
+		log.add(new LoggedEvent("Received message msgWantToOpenAccount from bank customer opening account and deposit" + amountToProcess));
 	}
 
 	@Override
 	public void msgWantToDeposit(BankCustomer bc, double amountToProcess) {
-		// TODO Auto-generated method stub
-		
+		log.add(new LoggedEvent("Received messagemsgWantToDeposit from bank customer " + amountToProcess));
 	}
 
 	@Override
 	public void msgWantToWithdraw(BankCustomer bc, double amountToProcess) {
-		// TODO Auto-generated method stub
-		
+		log.add(new LoggedEvent("Received message msgWantToWithdraw from bank customer " + amountToProcess));
 	}
 
 	@Override
 	public void msgWantALoan(BankCustomer bc, double amountToProcess) {
-		// TODO Auto-generated method stub
-		
+		log.add(new LoggedEvent("Received message msgWantToWithdraw from bank customer " + amountToProcess));
 	}
 
 	@Override
 	public void msgWantToPayLoan(BankCustomer bc, double amountToProcess) {
-		// TODO Auto-generated method stub
-		
+		log.add(new LoggedEvent("Received message msgWantToPayLoan from bank customer " + amountToProcess));
 	}
 
 	@Override
 	public void msgWantToPayRent(BankCustomer bc, double amountToProcess) {
-		// TODO Auto-generated method stub
-		
+		log.add(new LoggedEvent("Received message msgWantToPayRent from bank customer " + amountToProcess));
 	}
 
 	@Override

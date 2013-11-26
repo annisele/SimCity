@@ -1,4 +1,4 @@
-package simcity.test.mock.bank;
+package simcity.test.bank.mock;
 
 import java.util.List;
 

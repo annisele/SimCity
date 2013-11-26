@@ -1,4 +1,4 @@
-package simcity.test;
+package simcity.test.bank;
 
 import junit.framework.TestCase;
 import simcity.PersonAgent;
@@ -8,8 +8,8 @@ import simcity.buildings.bank.BankCustomerRole.State;
 import simcity.buildings.bank.BankCustomerRole.TransactionType;
 import simcity.buildings.bank.BankSystem;
 import simcity.gui.SimCityGui;
-import simcity.test.mock.bank.MockBankHost;
-import simcity.test.mock.bank.MockBankTeller;
+import simcity.test.bank.mock.MockBankHost;
+import simcity.test.bank.mock.MockBankTeller;
 
 public class BankCustomerTest extends TestCase {
 	

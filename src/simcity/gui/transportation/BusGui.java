@@ -20,7 +20,7 @@ public class BusGui extends Gui {
 	
 	private boolean atDestNow = false;
 	
-	ImageIcon ii = new ImageIcon("res/citygui/markettruck.png");
+	ImageIcon ii = new ImageIcon("res/transportation/bus.png");
 	Image img = ii.getImage();
 	Image busimage = img.getScaledInstance(25, 25,  java.awt.Image.SCALE_SMOOTH); 
 

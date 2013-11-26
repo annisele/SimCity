@@ -1,5 +1,6 @@
 package simcity.buildings.transportation;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,7 +51,7 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 		
 	private String name;
 	private BusGui gui;
-	List<MyPassenger> passengers;
+	List<MyPassenger> passengers = new ArrayList<MyPassenger>();
 	
 	public static final int NUM_BUSSTOPS = 4;
 	//List<Location> busStops;
@@ -69,7 +70,11 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 	}
 	
 	public void msgWantBus(BusPassengerRole cp, Location l) {
-		passengers.add(new MyPassenger(cp, l));
+		MyPassenger temp = new MyPassenger(cp, l);
+		temp.loaded = false;
+		passengers.add(temp);
+		
+		System.out.println("In msgWantBus in BusAgent");
 		stateChanged();
 	}
 	
@@ -106,13 +111,14 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 	
 	// Scheduler
 	public boolean pickAndExecuteAnAction() {
-		Drive();
-		
-		if (state == BusState.stopped && event == BusEvent.loading) {
-			//	if (FullyLoaded == true)
-					state = BusState.driving;
+		//Drive();
+		if (passengers.size() == 0) {
+		if (state == BusState.stopped){
 					Drive();
-					return true;
+		}
+		else {
+			state = BusState.driving;
+		}
 		}
 		
 			if (state == BusState.driving && event == BusEvent.arrived) {	
@@ -180,6 +186,10 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 	public void clear() {
 		stopTimer.cancel();
 		stopTimer.purge();
+	}
+	
+	public String getName() {
+		return this.name;
 	}
 
 }

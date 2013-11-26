@@ -47,7 +47,7 @@ public class SystemManager {
 	List<RestaurantFiveSystem> restaurantFives = new ArrayList<RestaurantFiveSystem>();
 	List<RestaurantSixSystem> restaurantSixes = new ArrayList<RestaurantSixSystem>();
 	List<TransportationSystem> transportations = new ArrayList<TransportationSystem>();
-	
+	BusAgent bus;
 	List<BuildingGui> buildings = new ArrayList<BuildingGui>();
 	List<BusGui> busGuis = Collections.synchronizedList(new ArrayList<BusGui>());
 	List<PersonAgent> people = new ArrayList<PersonAgent>();
@@ -99,6 +99,8 @@ public class SystemManager {
 	public void addPerson(String name) {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());
+		System.out.println(this.bus.getName());
+		person.setBus(bus);
 		//people.add(person);
 		
 		//hacks
@@ -112,12 +114,12 @@ public class SystemManager {
 		if (name == "jenny") {
 			person.goToRestaurantTwoNow();
 		}
-		
 		people.add(person);
 		person.startThread();
 		
 		
 	}
+	
 	
 	public void addMarket(String name, int xLoc, int yLoc) {
 		MarketSystem temp = new MarketSystem(simcity);
@@ -159,7 +161,7 @@ public class SystemManager {
 		transportations.add(temp);
 		Location loc = new Location(100, 400);
 		dir.add(name, EntryType.Bus, loc, temp);
-		BusAgent bus = new BusAgent(name);
+		bus = new BusAgent(name);
 		BusGui tbg = new BusGui(bus);
 		bus.setGui(tbg);
 		world.getAnimationPanel().addBus(tbg);
@@ -359,6 +361,10 @@ public class SystemManager {
 		person.addWork(r2Waiter, rest);
 		people.add(person);
 		person.startThread();
+	}
+	
+	public BusAgent getBus() {
+		return bus;
 	}
 
 	

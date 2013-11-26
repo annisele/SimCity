@@ -30,6 +30,8 @@ import agent.Agent;
 
 	public void msgBusTo(Location l) { // from PersonAgent
 		destination = l;
+		System.out.println("in msgBusTo in BusPassengerRole");
+		startingLocation = new Location(40, 366);
 		event = PassengerEvent.atBusStop;
 		stateChanged();
 	}
@@ -49,6 +51,7 @@ import agent.Agent;
 	public boolean pickAndExecuteAnAction() {
 	if ((state == PassengerState.offBus) && (event == PassengerEvent.atBusStop)) {
 			state = PassengerState.waitingForBus;
+			System.out.println("In BusPassengerRole, waiting for bus");
 			CallBus();
 			return true;
 	}
@@ -110,6 +113,11 @@ import agent.Agent;
 	public void msgEnterBuilding(SimSystem s) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public void setBus(BusAgent b) {
+		bus = b;
+		System.out.println("In BusPassengerRole We have a bus " + bus.getName());
 	}
 	
 	

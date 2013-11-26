@@ -36,6 +36,9 @@ public class BankHostRole extends Role implements BankHost {
 	public List getCustomers() {
 		return customers;
 	}
+	public List getBankTellers() {
+		return waitingBankTellers;
+	}
 	// constructor
 	public BankHostRole (PersonAgent p) {
 		person = p;

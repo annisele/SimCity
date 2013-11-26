@@ -20,6 +20,9 @@ public class BankHostTest extends TestCase {
 	
 	public void testOneCustomerEnterBank() {
 		System.out.println("TEST ONE CUSTOMER ENTER BANK");
+
+		assertTrue("Cashier should have 0 bills in it. It doesn't.",host.customers.isEmpty());		
+		
 	}
 	public void testOneBankTellerEnterBank() {
 		System.out.println("TEST ONE BANK TELLER ENTER BANK");

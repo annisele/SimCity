@@ -24,7 +24,7 @@ public class BankHostRole extends Role implements BankHost {
 	//private List<BankWindow> windows = Collections.synchronizedList(new ArrayList<BankWindow>());
 	private BankWindow availableWindow;
 	private List<BankTeller> bankTellers = Collections.synchronizedList(new ArrayList<BankTeller>());
-	private List<BankCustomerRole> customers = Collections.synchronizedList(new ArrayList<BankCustomerRole>());
+	public List<BankCustomerRole> customers = Collections.synchronizedList(new ArrayList<BankCustomerRole>());
 	
 	// utility variables
 	private Semaphore atBank = new Semaphore(0, true);

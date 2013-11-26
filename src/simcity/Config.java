@@ -108,6 +108,8 @@ public class Config {
 		systems.clear();
 		systems.clearDetailPane();
 		
+		systems.setBackgroundTwo();
+		
 		// Top row
 		systems.addHouse("HouseSOne", 60, 27);
 		systems.addHouse("HouseSOne", 123, 27);
@@ -138,8 +140,21 @@ public class Config {
 		systems.addHouse("HouseSOne", 186, 333);
 		systems.addHouse("HouseSOne", 249, 333);
 		
+	}
+	
+	public void oneMarketOneHouse() {
+		systems.clear();
+		systems.clearDetailPane();
+		
 		systems.setBackgroundTwo();
 		
+		systems.addMarket("Market", 60, 140);
+		systems.addHouse("House", 249, 140);
+		
+		// These are the right-most houses
+		//systems.addHouse("HouseTwo", 402, 27);
+		//systems.addHouse("HouseThree", 402, 110);
+		//systems.addHouse("HouseFour", 402, 189);
 	}
 	
 	public void clearTimer() {

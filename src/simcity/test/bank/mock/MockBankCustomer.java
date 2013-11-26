@@ -1,4 +1,4 @@
-package simcity.test.mock.bank;
+package simcity.test.bank.mock;
 
 import simcity.SimSystem;
 import simcity.buildings.bank.BankCustomerRole.Event;
@@ -177,6 +177,48 @@ public class MockBankCustomer extends Mock implements BankCustomer {
 	public void setTransactionType(TransactionType tt) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void setAccountNumber(int accountNumber) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public double getCashOnHand() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setCashOnHand(double cash) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public double getAmountToProcess() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setAmountToProcess(double amount) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setLandlordAccountNumber(int landlordNumber) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public BankSystem getBankSystem() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

@@ -1,12 +1,12 @@
-package simcity.test;
+package simcity.test.bank;
 
 import junit.framework.TestCase;
 import simcity.PersonAgent;
 import simcity.buildings.bank.BankSystem;
 import simcity.buildings.bank.BankTellerRole;
 import simcity.gui.SimCityGui;
-import simcity.test.mock.bank.MockBankCustomer;
-import simcity.test.mock.bank.MockBankHost;
+import simcity.test.bank.mock.MockBankCustomer;
+import simcity.test.bank.mock.MockBankHost;
 
 public class BankTellerTest extends TestCase {
 	BankTellerRole bt;

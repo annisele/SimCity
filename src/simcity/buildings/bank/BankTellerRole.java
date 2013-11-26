@@ -10,6 +10,8 @@ import simcity.buildings.bank.BankComputer.BankAccount;
 import simcity.gui.Gui;
 import simcity.gui.bank.BankCustomerGui;
 import simcity.gui.bank.BankTellerGui;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.bank.*;
 import simcity.test.mock.EventLog;
 
@@ -60,37 +62,39 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 	}
 	
 	public void msgWantToOpenAccount(BankCustomer bc, double amountToProcess) {
-		System.out.println("I want to open an account");
+		//AlertLog.getInstance().logMessage(AlertTag.valueOf(bankSystem.getName()), "BankCustomer: " + person.getName(), "I want to open an account");		
     	customers.add(new MyCustomer(bc, bc.getPassword(), amountToProcess, transactionType.openAccount));
     	stateChanged();
 	}
 
 	public void msgWantToDeposit(BankCustomer bc, double amountToProcess) {
-		System.out.println("I want to deposit money");
+		//AlertLog.getInstance().logMessage(AlertTag.valueOf(bankSystem.getName()), "BankCustomer: " + person.getName(), "I want to deposit money");		
+
     	customers.add(new MyCustomer(bc, bc.getAccountNumber(), bc.getPassword(), amountToProcess, transactionType.depositMoney));
     	stateChanged();
 	}
 
 	public void msgWantToWithdraw(BankCustomer bc, double amountToProcess) {
-		System.out.println("I want to withdraw money");
+		//AlertLog.getInstance().logMessage(AlertTag.valueOf(bankSystem.getName()), "BankCustomer: " + person.getName(), "I want to withdraw money");		
+
     	customers.add(new MyCustomer(bc, bc.getAccountNumber(), bc.getPassword(), amountToProcess, transactionType.withdrawMoney));
     	stateChanged();
 	}
 
 	public void msgWantALoan(BankCustomer bc, double amountToProcess) {
-		System.out.println("I want to get a loan");
+		//AlertLog.getInstance().logMessage(AlertTag.valueOf(bankSystem.getName()), "BankCustomer: " + person.getName(), "I want to get a loan.  I mean, I need to.  It's a sticky situation");		
     	customers.add(new MyCustomer(bc, bc.getAccountNumber(), bc.getPassword(), amountToProcess, transactionType.loanMoney));
     	stateChanged();
 	}
 
 	public void msgWantToPayLoan(BankCustomer bc, double amountToProcess) {
-		System.out.println("I want to pay off my loan");
+		//AlertLog.getInstance().logMessage(AlertTag.valueOf(bankSystem.getName()), "BankCustomer: " + person.getName(), "I'd like to pay off this loan");		
 		customers.add(new MyCustomer(bc, bc.getAccountNumber(), bc.getPassword(), amountToProcess, transactionType.payLoan));
 		stateChanged();
 	}
 	
 	public void msgWantToPayRent(BankCustomer bc, double amountToProcess) {
-		System.out.println("I want to pay rent");
+		//System.out.println("I want to pay rent");
 		customers.add(new MyCustomer(bc, amountToProcess, bc.getLandlordAccountNumber(), transactionType.payRent));
 		stateChanged();
 	}
@@ -187,6 +191,7 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 	}
 	
 	private void ProcessTransaction(MyCustomer customer) {
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(bankSystem.getName()), "BankTeller: " + person.getName(), "I'm processing your transaction.  One moment, please");	
 		timer.schedule(new TimerTask() {
 			public void run() {
 				msgTransactionProcessed();
@@ -196,7 +201,7 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 	}
 	
 	private void AddAccount(MyCustomer customer) {
-		person.Do("I've opened an account for you");
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(bankSystem.getName()), "BankTeller: " + person.getName(), "I've made you an account!");	
 		int tempAccountNumber = bankSystem.getBankComputer().addAccountAndReturnNumber(customer.getBankCustomer(), customer.getPassword(), 
 				customer.getAmountToProcess());
 		BankAccount account = bankSystem.getBankComputer().accountLookup(tempAccountNumber);
@@ -208,7 +213,7 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 
 	private void DepositMoney(MyCustomer customer) {
 		if(bankSystem.getBankComputer().verifyAccount(customer.getAccountNumber(), customer.getPassword())){
-			person.Do("I've deposited your money");
+			AlertLog.getInstance().logMessage(AlertTag.valueOf(bankSystem.getName()), "BankTeller: " + person.getName(), "I've deposited your money");				
 			BankAccount account = bankSystem.getBankComputer().accountLookup(customer.getAccountNumber());
 			account.setAccountBalance(account.getAccountBalance() + customer.getAmountToProcess());
 			bankSystem.getBankComputer().updateSystemAccount(account);
@@ -224,21 +229,25 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 
 	private void WithdrawMoney(MyCustomer customer) {
 		if(bankSystem.getBankComputer().verifyAccount(customer.getAccountNumber(), customer.getPassword())){
-			person.Do("I've withdrawn your money");
+			
+
 			BankAccount account = bankSystem.getBankComputer().accountLookup(customer.getAccountNumber());
 			
 			if (account.getAccountBalance() >= customer.getAmountToProcess()) {	// customer has enough money to withdraw
+				AlertLog.getInstance().logMessage(AlertTag.valueOf(bankSystem.getName()), "BankTeller: " + person.getName(), "Your money is withdrawn, here it is");	
 				account.setAccountBalance(account.getAccountBalance() - customer.getAmountToProcess()); bankSystem.getBankComputer().updateSystemAccount(account);
 				customer.getBankCustomer().msgHereIsMoney(account.getBankCustomer(), account.getAccountNumber(), 
 						account.getAccountBalance(), customer.getAmountToProcess());
 			}
 			else {	// customer does not have enough money to withdraw
+				AlertLog.getInstance().logMessage(AlertTag.valueOf(bankSystem.getName()), "BankTeller: " + person.getName(), "You don't have that much.  Have you thought of getting a job?");	
 				customer.getBankCustomer().msgNotEnoughMoneyToWithdraw(account.getBankCustomer(), account.getAccountNumber(), 
 						account.getAccountBalance(), customer.getAmountToProcess());
 			}
 			
 		}
 		else { // customer fails to verify the account with password
+			AlertLog.getInstance().logMessage(AlertTag.valueOf(bankSystem.getName()), "BankTeller: " + person.getName(), "That password is wrong.  You should leave");	
 			customer.getBankCustomer().msgVerificationFailed();
 		}
 		bankSystem.getBankComputer().reinitializeTempAccount();
@@ -251,7 +260,7 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 			
 			// RULE FOR LOAN: Loan is at max twice of account balance
 			if (account.getAccountBalance() > customer.getAmountToProcess() * 0.5) { 
-				person.Do("Your loan is approved!");
+				AlertLog.getInstance().logMessage(AlertTag.valueOf(bankSystem.getName()), "BankTeller: " + person.getName(), "Your loan is approved!");	
 				account.setAmountOwed(account.getAmountOwed() + customer.getAmountToProcess());
 				bankSystem.getBankComputer().updateSystemAccount(account);
 				bankSystem.getBankComputer().setLoanableFunds(bankSystem.getBankComputer().getLoanableFunds() - customer.getAmountToProcess());
@@ -259,7 +268,7 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 						account.getAccountBalance(), customer.getAmountToProcess());
 			}
 			else {
-				person.Do("Your loan was not approved!");
+				AlertLog.getInstance().logMessage(AlertTag.valueOf(bankSystem.getName()), "BankTeller: " + person.getName(), "We can't give you that loan.  Work on your credit");	
 				customer.getBankCustomer().msgCannotGrantLoan(account.getBankCustomer(), account.getAccountNumber(), 
 						account.getAmountOwed(), customer.getAmountToProcess());
 			}
@@ -267,6 +276,7 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 		}
 		
 		else {
+			AlertLog.getInstance().logMessage(AlertTag.valueOf(bankSystem.getName()), "BankTeller: " + person.getName(), "That password is wrong.  You should leave");	
 			customer.getBankCustomer().msgVerificationFailed();
 		}
 		
@@ -279,7 +289,8 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 			BankAccount account = bankSystem.getBankComputer().accountLookup(customer.getAccountNumber());
 			
 			if (account.getAmountOwed() <= customer.getAmountToProcess()) {	// paid successfully
-				person.Do("You've paid back all your loans!");
+				AlertLog.getInstance().logMessage(AlertTag.valueOf(bankSystem.getName()), "BankTeller: " + person.getName(), "You've paid back your loan!");	
+
 				double actualPaid = account.getAmountOwed();	// in case customer pays too much
 				account.setAmountOwed(0);
 				bankSystem.getBankComputer().updateSystemAccount(account);
@@ -288,7 +299,8 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 						account.getAmountOwed(), customer.getAmountToProcess(), actualPaid);
 			}
 			else if (account.getAmountOwed() > customer.getAmountToProcess()) { // not yet finished paying loan
-				person.Do("You have paid a part of your loan.");
+				AlertLog.getInstance().logMessage(AlertTag.valueOf(bankSystem.getName()), "BankTeller: " + person.getName(), "You've made a payment on your loan.");	
+
 				account.setAmountOwed(account.getAmountOwed() - customer.getAmountToProcess());
 				bankSystem.getBankComputer().updateSystemAccount(account);
 				bankSystem.getBankComputer().setLoanableFunds(bankSystem.getBankComputer().getLoanableFunds() + customer.getAmountToProcess());
@@ -298,6 +310,8 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 
 		}
 		else {
+			AlertLog.getInstance().logMessage(AlertTag.valueOf(bankSystem.getName()), "BankTeller: " + person.getName(), "That password is wrong.  You should leave");	
+
 			customer.getBankCustomer().msgVerificationFailed();
 		}
 		bankSystem.getBankComputer().reinitializeTempAccount();
@@ -308,6 +322,8 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 		BankAccount account = bankSystem.getBankComputer().accountLookup(customer.getLandlordAccountNumber());
 		account.setAccountBalance(account.getAccountBalance() + customer.getAmountToProcess());
 		bankSystem.getBankComputer().updateSystemAccount(account);
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(bankSystem.getName()), "BankTeller: " + person.getName(), "You've paid your rent.  Your landlord sounds like a real hassle.  Seeya next month");	
+
 		customer.getBankCustomer().msgRentIsPaid(account.getBankCustomer(), account.getAccountNumber(), 
 				customer.getAmountToProcess());
 		bankSystem.getBankComputer().reinitializeTempAccount();
@@ -442,7 +458,7 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 	}
 	*/
 	public void exitBuilding() {
-		person.Do("Leaving bank.");
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(bankSystem.getName()), "BankTeller: " + person.getName(), "Leaving the bank");	
 		gui.DoExitBuilding();
 		try {
 			atDest.acquire();
@@ -454,6 +470,8 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 		
 	}
 	public void enterBuilding(SimSystem s) {
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(bankSystem.getName()), "BankTeller: " + person.getName(), "Entering the bank");	
+		
 		bankSystem = (BankSystem) s;
 		((BankTellerGui)gui).DoGoToHost();
 		try {

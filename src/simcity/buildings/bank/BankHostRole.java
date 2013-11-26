@@ -209,4 +209,14 @@ public class BankHostRole extends Role implements BankHost {
 	public void atDestination() {
 		atBank.release();
 	}
+	@Override
+	public void msgExitBuilding() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void msgEnterBuilding(SimSystem s) {
+		// TODO Auto-generated method stub
+		
+	}
 }

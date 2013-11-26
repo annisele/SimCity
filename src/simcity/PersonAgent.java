@@ -139,10 +139,7 @@ public class PersonAgent extends Agent implements Person {
 		}, waitTime);
 	}
 	
-	private int chooseTransportation() {
-		 int randchoice = (int)((Math.random()*100)%2);
-		 return randchoice;
-	}
+	
 
 	public void scheduleEvent(EventType t) {
 		Event e;
@@ -179,19 +176,33 @@ public class PersonAgent extends Agent implements Person {
 			insertEvent(e);
 			stateChanged();
 		}
+		
+		
 		if(t == EventType.BusToMarket) {
 			List<String> markets = Directory.getMarkets();
 			int index = rand.nextInt(markets.size());
 			String buildingName = markets.get(index);
 			List<Step> steps = new ArrayList<Step>();
 			steps.add(new Step("exitBuilding", this));
+			//steps.add(new Step("goTo", this));         ///MAKE FUNCTION FOR THESE TWO LINES
+			//steps.add(new Step("enterBuilding", this));
+			//steps.add(new Step("goToBusStop", this));     ///MAKE FUNCTION FOR THESE FOUR LINES
+			//steps.add(new Step("waitForBus", this));
 			//steps.add(new Step("goTo", this));
 			//steps.add(new Step("enterBuilding", this));
-			steps.add(new Step("goToBusStop", this));
-			steps.add(new Step("waitForBus", this));
-			steps.add(new Step("goTo", this));
-			steps.add(new Step("enterBuilding", this));
-			//waitForTransport();
+			if (chooseTransportation(buildingName) == 10) {
+				steps.add(new Step("goTo", this));
+				steps.add(new Step("enterBuilding", this));
+				
+			}
+			else {
+				steps.add(new Step("goToBusStop", this));
+				steps.add(new Step("waitForBus", this)); 
+				steps.add(new Step("goTo",this));
+				steps.add(new Step("enterBuilding", this));
+				
+			}
+				//waitForTransport();
 			//steps.add(new Step("goTo", this));
 			
 			/*if (chooseTransportation() == 0) {
@@ -379,6 +390,57 @@ public class PersonAgent extends Agent implements Person {
 
 	//this assumes after roles are done, they go stand outside the building
 	//so this only needs to prep the person to walk somewhere by changing it to pedestrian
+	
+	int chooseTransportation(String dest) {
+		Role eventR = null;
+		for (Role r : myRoles) {
+			if (r instanceof Pedestrian) {
+				eventR = r;
+				
+			}
+		}
+		int minLocation = 1000;
+		int minStop = 10;
+		int stopzerodist = (int)Math.sqrt(((Directory.getBusStop(0).getX()-eventR.getGui().getX())^2 + (Directory.getBusStop(0).getY()-eventR.getGui().getY())^2));
+		int stoponedist = (int)Math.sqrt(((Directory.getBusStop(1).getX()-eventR.getGui().getX())^2 + (Directory.getBusStop(1).getY()-eventR.getGui().getY())^2));
+		int stoptwodist = (int)Math.sqrt(((Directory.getBusStop(2).getX()-eventR.getGui().getX())^2 + (Directory.getBusStop(2).getY()-eventR.getGui().getY())^2));
+		int stopthreedist = (int)Math.sqrt(((Directory.getBusStop(3).getX()-eventR.getGui().getX())^2 + (Directory.getBusStop(3).getY()-eventR.getGui().getY())^2));
+		if (stopzerodist < minLocation) {
+			minLocation = stopzerodist;
+			minStop = 0; 
+		}
+		if (stoponedist < minLocation) {
+			minLocation = stoponedist;
+			minStop = 1;
+		}
+		if (stoptwodist < minLocation) {
+			minLocation = stoptwodist;
+			minStop = 2;
+		}
+		if (stopthreedist < minLocation) {
+			minLocation = stopthreedist;
+			minStop = 3;
+		}
+		PedestrianRole tempR = (PedestrianRole)eventR;
+		int buildingdist = (int)Math.sqrt(((Directory.getLocation(dest).getX()-tempR.getGui().getX())^2 + (Directory.getLocation(dest).getX()-tempR.getGui().getX())^2) );
+		if (minLocation < buildingdist) {
+			System.out.println("Transit");
+			return minStop;
+		}
+		else {
+			System.out.println("Walk");
+			return 10;
+		}
+	}
+	
+	
+			
+			
+		
+	
+
+		
+	
 	public void exitBuilding() {
 		//Do("exitBuilding step is called");
 		if (currentRole != null)
@@ -393,7 +455,8 @@ public class PersonAgent extends Agent implements Person {
 				Directory.getWorld().getAnimationPanel().addGui(currentRole.getGui());
 		}
 	}
-		Location loc = Directory.getBusStop(3);
+		//currentRole.getGui().ge
+		Location loc = Directory.getBusStop(chooseTransportation(currentEvent.buildingName));
 		((PedestrianRole)currentRole).addDestination(loc);
 		//waitForTransport();
 		stateChanged();
@@ -405,7 +468,7 @@ public class PersonAgent extends Agent implements Person {
 				currentRole = r;
 				//Location l = new Location(40, 67);
 				((BusPassengerRole) r).setBus(bus);
-				((BusPassengerRole) r).msgBusTo(3, 0);
+				((BusPassengerRole) r).msgBusTo(chooseTransportation(currentEvent.buildingName), 3);
 				idleGui.setLocation(r.getGui().getLocation());	
 			}
 		}

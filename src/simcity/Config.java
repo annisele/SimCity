@@ -99,6 +99,11 @@ public class Config {
 						systems.addPerson("Levonne");
 					}
 				}, 4000);
+				timer.schedule(new TimerTask(){
+					public void run() {
+						systems.addPerson("Levonne");
+					}
+				}, 5000);
 			}
 		}, 4000);
 	}

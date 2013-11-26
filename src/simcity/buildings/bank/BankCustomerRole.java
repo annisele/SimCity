@@ -321,7 +321,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 		    bt.msgWantToDeposit(this, amountToProcess);
 			AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankCustomer: " + person.getName(), "I'd like to deposit money.");	
 
-		    person.Do("I want to deposit money");
+		    //person.Do("I want to deposit money");
 		}
 
 		private void WithdrawMoney() {
@@ -332,7 +332,9 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	    		e.printStackTrace();
 	    	}
 		    bt.msgWantToWithdraw(this, amountToProcess);
-		    person.Do("I want to withdraw money");
+			AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankCustomer: " + person.getName(), "I'd like to withdraw money");	
+
+		   // person.Do("I want to withdraw money");
 		}
 		
 		private void LoanMoney() {
@@ -343,7 +345,8 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	    		e.printStackTrace();
 	    	}
 		    bt.msgWantALoan(this, amountToProcess);
-		    person.Do("I want to get loan");
+			AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankCustomer: " + person.getName(), "I need a loan");	
+
 		}
 
 		private void PayLoan() {
@@ -354,7 +357,8 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	    		e.printStackTrace();
 	    	}
 		    bt.msgWantToPayLoan(this, amountToProcess);
-		    System.out.println("I want to get loan");
+			AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankCustomer: " + person.getName(), "I have a debt I'd like to pay off");	
+
 		}
 		
 		private void PayRent() {
@@ -365,7 +369,9 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	    		e.printStackTrace();
 	    	}
 		    bt.msgWantToPayRent(this, amountToProcess);
-		    System.out.println("I want to pay $10 rent");
+		  //  System.out.println("I want to pay $10 rent");
+			AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankCustomer: " + person.getName(), "Here's money for my rent");	
+
 		}
 		
 		private void InformBankHostOfDeparture() {
@@ -376,12 +382,11 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	    		e.printStackTrace();
 	    	}
 		    bank.getBankHost().msgLeavingBank(windowNumber);
-		    System.out.println("Bank host, I'm leaving the bank now");
+			AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankCustomer: " + person.getName(), "I'm leaving the bank");	
 		    exitBuilding();
 		}
 
 		public void exitBuilding() {
-			person.Do("Leaving bank");
 			gui.DoExitBuilding();
 			try {
 				atDest.acquire();
@@ -396,31 +401,36 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 			bank = (BankSystem)s;
 			bh = bank.getBankHost();
 			msgArrivedAtBank();
+			AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankCustomer: " + person.getName(), "I've arrived");	
+
 		}
 
 		public void msgWithdrawMoney(BankSystem b) {
-			System.out.println("I need to withdraw money");
 			cashOnHand = 50;
 			accountPassword = "abcdef";
 			amountToProcess = 20;
 			transactionType = TransactionType.withdrawMoney;
 			bank = b;	
+			AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankCustomer: " + person.getName(), "I need to withdraw money");	
+
 		}
 		public void msgPayRent(BankSystem b) {
-			System.out.println("I need to pay rent");
 			cashOnHand = 50;
 			accountPassword = "abcdef";
 			amountToProcess = 10;
 			transactionType = TransactionType.payRent;
 			bank = b;	
+			AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankCustomer: " + person.getName(), "I need to pay rent");	
+
 		}
 		public void msgGetLoan(BankSystem b) {
-			System.out.println("I need to get a loan");
 			cashOnHand = 50;
 			accountPassword = "abcdef";
 			amountToProcess = 100;
 			transactionType = TransactionType.loanMoney;
 			bank = b;
+			AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankCustomer: " + person.getName(), "I need to get a loan");	
+
 		}
 		
 }

@@ -128,17 +128,7 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 		stateChanged();
 	}
 
-	boolean FullyLoaded() {
-		synchronized(passengers) {
-			for (MyPassenger p : passengers) {
-				if (p.startLocation == (busStopCounter)) {
-					if (p.loaded == false)
-						return false;
-				}
-			}
-		}
-		return true;	
-	}
+
 	
 	// Scheduler
 	public boolean pickAndExecuteAnAction() {

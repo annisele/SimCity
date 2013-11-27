@@ -147,6 +147,10 @@ public class SimCityGui extends JFrame implements ActionListener {
 		return controlPanel;
 	}
 	
+	public SystemManager getSystemManager() {
+		return systemManager;
+	}
+	
 	public JPanel getDetailPane() {
 		return viewDetailPanel;
 	}

@@ -21,6 +21,8 @@ import simcity.buildings.transportation.BusAgent;
 import simcity.buildings.transportation.BusPassengerRole;
 import simcity.buildings.transportation.PedestrianRole;
 import simcity.gui.IdlePersonGui;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.Person;
 import simcity.interfaces.bank.BankCustomer;
 import simcity.interfaces.market.MarketCustomer;
@@ -53,8 +55,8 @@ public class PersonAgent extends Agent implements Person {
 
 	private String name;
 	private double money = 10;
-	private double withdrawThreshold = 5; // if money is less than this, we will try to withdraw
-	private double depositThreshold = 15; // if money is higher than this, we will try to deposit
+	private double withdrawThreshold = 10; // if money is less than this, we will try to withdraw
+	private double depositThreshold = 25; // if money is higher than this, we will try to deposit
 
 	private String home;
 	private String workBuilding;
@@ -99,35 +101,24 @@ public class PersonAgent extends Agent implements Person {
 				//Do("Current event.nextStep returned false, so I must be done and idle");
 				currentEvent = null;
 				if (currentRole != null)
-					Do("CurrentRole is not null at this point in the scheduler, but it should be!");
+					AlertLog.getInstance().logError(AlertTag.WORLD, "Person: "+name, "CurrentRole is not null at this point in the scheduler, but it should be!");						
 				//currentRole = null;
 				//idleGui.setLocation(currentRole.getGui().getLocation());
 				eventList.remove(0);
 				return true;
 			}
-		}
-		// I switched the order of those first to scheduler if statements, and it seems to help
-
-
-		//move to next step in the event
-		//else
-		//move to the next event if currentEvent is null
-		else {
-			//Do("EventList has a size of "+eventList.size());
+		} else {
 			if(eventList.size() > 0) {
 				if(eventList.get(0).startTime <= Clock.getTime() || currentEvent == null) {
 					currentEvent = eventList.get(0); //set next event to current
-					//Do("Just set next event to current");
 					return true;
 				}
 				else if(Directory.getLocation(eventList.get(0).buildingName) == Directory.getLocation(currentEvent.buildingName) && eventList.get(0).flexible) {
 					//set next event to current if at same place and next event is flexible
 					currentEvent = eventList.get(0);
-					//Do("Just set next event to current");
 					return true;
 				}
 				else {
-					//Do("Calling waitForNextEvent()");
 					waitForNextEvent();
 				}
 			}
@@ -180,7 +171,7 @@ public class PersonAgent extends Agent implements Person {
 
 	public boolean scheduleEvent(EventType t) {
 		Event e;
-		if(t == EventType.GoToMarket) {
+		if (t == EventType.GoToMarket) {
 
 			List<String> markets = Directory.getMarkets();
 			if (markets.size() == 0) {
@@ -199,42 +190,22 @@ public class PersonAgent extends Agent implements Person {
 				}
 			} 
 
-			HouseInhabitantRole house = null;
-			for(Role r : myRoles) {
-				if(r instanceof HouseInhabitantRole) {
-					house = (HouseInhabitantRole) r;
-				}
-			}  
-
-			//((MarketCustomer)eventR).msgBuyStuff(house.getListToBuy());
-			//hack
-			Map<String, Integer> itemsHack = new HashMap<String, Integer>();
-			itemsHack.put("chicken", 1);
-			//((MarketCustomer)eventR).msgBuyStuff(itemsHack);
-
 			e = new Event(buildingName, eventR, 120, -1, true, steps, t);
 			//Do("GoToMarket is scheduled, which has "+steps.size()+" steps");
 			insertEvent(e);
 			stateChanged();
 		}
 		
-		
-		if(t == EventType.BusToMarket) {
+		if (t == EventType.BusToMarket) {
 			List<String> markets = Directory.getMarkets();
 			int index = rand.nextInt(markets.size());
 			String buildingName = markets.get(index);
 			List<Step> steps = new ArrayList<Step>();
 			steps.add(new Step("exitBuilding", this));
-			//steps.add(new Step("goTo", this));         ///MAKE FUNCTION FOR THESE TWO LINES
-			//steps.add(new Step("enterBuilding", this));
-			//steps.add(new Step("goToBusStop", this));     ///MAKE FUNCTION FOR THESE FOUR LINES
-			//steps.add(new Step("waitForBus", this));
-			//steps.add(new Step("goTo", this));
-			//steps.add(new Step("enterBuilding", this));
+
 			if (chooseTransportation(buildingName) == 10) {
 				steps.add(new Step("goTo", this));
 				steps.add(new Step("enterBuilding", this));
-				
 			}
 			else {
 				steps.add(new Step("goToBusStop", this));
@@ -243,37 +214,13 @@ public class PersonAgent extends Agent implements Person {
 				steps.add(new Step("enterBuilding", this));
 				
 			}
-				//waitForTransport();
-			//steps.add(new Step("goTo", this));
 
-			/*if (chooseTransportation() == 0) {
-			steps.add(new Step("goTo", this));
-			}
-			else {
-				steps.add(new Step("goToBusStop", this)); */
-			//HERE NEXT TO FIX	steps.add(new Step())
-			//steps.add(new Step("goTo", this));
-			//} 
-			//steps.add(new Step("enterBuilding", this));
 			Role eventR = null;
 			for(Role r : myRoles) {
 				if(r instanceof MarketCustomer) {
 					eventR = r;
 				}
 			} 
-
-			HouseInhabitantRole house = null;
-			for(Role r : myRoles) {
-				if(r instanceof HouseInhabitantRole) {
-					house = (HouseInhabitantRole) r;
-				}
-			}  
-
-			//((MarketCustomer)eventR).msgBuyStuff(house.getListToBuy());
-			//hack
-			Map<String, Integer> itemsHack = new HashMap<String, Integer>();
-			itemsHack.put("chicken", 1);
-			//((MarketCustomer)eventR).msgBuyStuff(itemsHack);
 
 			e = new Event(buildingName, eventR, 120, -1, true, steps, t);
 			//Do("GoToMarket is scheduled, which has "+steps.size()+" steps");
@@ -312,7 +259,8 @@ public class PersonAgent extends Agent implements Person {
 		else if (t == EventType.DepositMoney) {
 
 			List<String> banks = Directory.getBanks();
-			Do("We're Depositing, and banks size is "+banks.size());
+
+			//Do("We're Depositing, and banks size is "+banks.size());
 			int index = rand.nextInt(banks.size());
 			String buildingName = banks.get(index);
 			List<Step> steps = new ArrayList<Step>();
@@ -557,25 +505,20 @@ public class PersonAgent extends Agent implements Person {
 	}
 
 	public void enterBuilding() {
-		//Do("buildng name: "+ currentEvent.buildingName+" rold: "+currentEvent.role);
 		if(Directory.getSystem(currentEvent.buildingName).msgEnterBuilding(currentEvent.role)) {
 			currentRole = currentEvent.role;
-			Do("Entered building. Changing role to " + currentRole.getClass());
 			currentRole.enterBuilding(Directory.getSystem(currentEvent.buildingName));			
 
 		} else {
-			Do("Building closed. Cannot enter.");
+			AlertLog.getInstance().logMessage(AlertTag.WORLD, "Pedestrian: "+name, currentEvent.buildingName +" is closed.  I can't enter");						
 			currentRole = currentEvent.role;
 			roleFinished();
-			//scheduleEvent(currentEvent.type); //maybe change this?
 		}
 		stateChanged();
 	}
 
 
 	public void roleFinished() {
-		//Do("Role is finished");
-		//TODO: add more if statements once bus/car agents are in
 		if(currentRole instanceof Pedestrian) {
 			Directory.getWorld().getAnimationPanel().removeGui(currentRole.getGui());
 		}

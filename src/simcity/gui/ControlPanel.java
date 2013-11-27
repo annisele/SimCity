@@ -31,7 +31,7 @@ import simcity.Config;
  *  panel to control people or buildings, panel to control log, and panel
  *  to control general settings.
  *  
- * 
+ *  
  */
 public class ControlPanel extends JPanel implements ActionListener {
 

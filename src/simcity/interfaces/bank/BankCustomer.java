@@ -28,7 +28,11 @@ public abstract interface BankCustomer extends GuiPartner {
 	public abstract void setBankSystem(BankSystem bank);
 	public abstract BankSystem getBankSystem();
 	public abstract BankHost getBankHost();
+	public abstract int getWindowNumber();
+	public abstract void setWindowNumber(int windowNumber);
 	public abstract void setBankHost(BankHost bh);
+	public abstract BankTeller getBankTeller();
+	public abstract void setBankTeller(BankTeller bt);
 	public abstract void msgDepositMoney(BankSystem b);
 	public abstract void msgArrivedAtBank();
 	public abstract void msgGoToWindow(int windowNumber, BankTeller bt);
@@ -43,6 +47,7 @@ public abstract interface BankCustomer extends GuiPartner {
 	public abstract void msgLoanIsPartiallyRepaid(BankCustomer bc, int accountNumber, double amountOwed, double amountProcessed);
 	public abstract void msgRentIsPaid(BankCustomer bc, int accountNumber, double amountProcessed);
 	public abstract void msgVerificationFailed();
+	public abstract void msgLeftTheBank();
 	public abstract void exitBuilding();
 	public abstract void enterBuilding(SimSystem s);
 	public abstract void msgWithdrawMoney(BankSystem b);

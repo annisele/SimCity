@@ -1,6 +1,7 @@
 package simcity.test.bank;
 
 import junit.framework.*;
+import simcity.PersonAgent;
 import simcity.buildings.bank.BankSystem;
 import simcity.buildings.bank.BankTellerRole;
 import simcity.gui.SimCityGui;
@@ -18,6 +19,7 @@ public class BankTellerTest extends TestCase {
 	
 	public void setUp() throws Exception {
 		super.setUp();
+		bank.setName("BANK1");
 		bt = new BankTellerRole(p, bank);
 		bh = new MockBankHost("bank host");
 		bc = new MockBankCustomer("bank customer");		

@@ -203,7 +203,16 @@ public class Config {
 		systems.addHouse("HOUSE16", 186, 333);
 		systems.addHouse("HOUSE17", 249, 333);
 		
-		//populating city: 5 normal people
+		systems.addPerson("Tony");
+		systems.setHome("Tony", "HOUSE1");
+		
+		systems.addPerson("Bobby");
+		systems.setHome("Bobby", "HOUSE5");
+		
+		systems.addPerson("McKendricka");
+		systems.setHome("McKendricka", "HOUSE12");
+
+		/*//populating city: 5 normal people
 		systems.addPerson("Adam");
 		systems.setHome("Adam", "HOUSE1");
 		systems.addPerson("Bob");
@@ -224,7 +233,7 @@ public class Config {
 		systems.addMarketWorkerHack("Wendy", "MARKET1");
 		systems.setHome("Wendy", "HOUSE3");
 		systems.addMarketWorkerHack("Wilbur", "MARKET1");
-		systems.setHome("Wilbur", "HOUSE5");
+		systems.setHome("Wilbur", "HOUSE5");*/
 
 		
 	}
@@ -289,7 +298,7 @@ public class Config {
 
 		
 		systems.setBackgroundTwo();
-		systems.addRestaurantTwo("RESTAURANT2", 300, 100);
+		systems.addRestaurantTwo("RESTAURANT2", 249, 140);
 		systems.addRestaurantTwoHostHack("Host Bloke", "RESTAURANT2");
 		systems.addMarket("MARKET1", 60, 140);
 		systems.addBank("BANK1", 402, 27);

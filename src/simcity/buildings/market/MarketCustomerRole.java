@@ -154,10 +154,18 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	@Override
 	public void enterBuilding(SimSystem s) {
 		market = (MarketSystem)s;
+		if (market.getCashier() == null) {
+			AlertLog.getInstance().logMessage(AlertTag.valueOf(market.getName()), "MarketCustomer: " + person.getName(), "This market looks closed!");
+			
+			market.exitBuilding(this);
+			person.roleFinished();	
+			return;
+
+		}
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(market.getName()), "MarketCustomer: " + person.getName(), "Entering the market.");
 		//hack!
 		itemsToBuy = new HashMap<String, Integer>();
-		itemsToBuy.put("chicken", 2);
+		itemsToBuy = person.getListToBuy();
 		((MarketCustomerGui)gui).DoGoToCashier();
 		try {
 			atDest.acquire();

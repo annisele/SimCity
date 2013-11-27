@@ -90,24 +90,8 @@ public class PersonAgent extends Agent implements Person {
 		myRoles.add(r4);
 		
 		//random money generator between and 25
-		  double temp= 5+(double)(Math.random()*(15));
-          DecimalFormat f =new DecimalFormat("##.00");
-          String formate=f.format(temp);
-         
-                  try {
-						this.money=(Double)f.parse(formate);
-					} catch (java.text.ParseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}catch (NullPointerException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}catch (ClassCastException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+		double money= 5+(double)(Math.random()*(15));
        
-       //  Do("$$$= "+money);
 	}
 
 	@Override
@@ -217,7 +201,7 @@ public class PersonAgent extends Agent implements Person {
 			stateChanged();
 		}
 		
-		if (t == EventType.BusToMarket) {
+		else if (t == EventType.BusToMarket) {
 			List<String> markets = Directory.getMarkets();
 			int index = rand.nextInt(markets.size());
 			String buildingName = markets.get(index);
@@ -248,34 +232,6 @@ public class PersonAgent extends Agent implements Person {
 			insertEvent(e);
 			stateChanged();
 
-		}
-		if(t == EventType.EatAtRestaurant) {
-			List<String> restaurants = Directory.getRestaurants();
-			//int index = rand.nextInt(restaurants.size());
-			//HACK FOR RESTAURANT 2 ONLY
-
-			String buildingName = restaurants.get(0);
-			List<Step> steps = new ArrayList<Step>();
-			steps.add(new Step("exitBuilding", this));
-			steps.add(new Step("goTo", this));
-			steps.add(new Step("enterBuilding", this));
-			Role eventR = null;
-			for(Role r : myRoles) {
-				if(r instanceof RestaurantTwoCustomer) {
-					eventR = r;
-
-				}
-			}
-
-
-			//hack
-			//RestaurantTwoCustomerRole rc = new RestaurantTwoCustomerRole(this);
-			((RestaurantTwoCustomer)eventR).msgArrivedAtRestaurant(money);
-
-			e = new Event(buildingName, eventR, 120, -1, true, steps, t);
-			//Do("GoToMarket is scheduled, which has "+steps.size()+" steps");
-			insertEvent(e);
-			stateChanged();
 		}
 		else if (t == EventType.DepositMoney) {
 
@@ -397,7 +353,50 @@ public class PersonAgent extends Agent implements Person {
 			//Do("GoToWork is scheduled, which has "+steps.size()+" steps");
 			insertEvent(e);
 			stateChanged();
+		} else if (t == EventType.Eat) {
+			List<Step> steps = new ArrayList<Step>();
+			steps.add(new Step("exitBuilding", this));
+			steps.add(new Step("goTo", this));
+			steps.add(new Step("enterBuilding", this));
+		
+			if (rand.nextBoolean()) {
+				// Here, we eat at our house
+				HouseInhabitantRole house = null;
+				for(Role r : myRoles) {
+					if(r instanceof HouseInhabitantRole) {
+						house = (HouseInhabitantRole) r;
+					}
+				}
+				house.msgGoToBed();
+				e = new Event(home, house, 480, 3, false, steps, t);
+				//Do("GoToWork is scheduled, which has "+steps.size()+" steps");
+			} else {
+				List<String> restaurants = Directory.getRestaurants();
+				//int index = rand.nextInt(restaurants.size());
+				//HACK FOR RESTAURANT 2 ONLY
+				String buildingName = restaurants.get(0);
+				Role eventR = null;
+				for(Role r : myRoles) {
+					if(r instanceof RestaurantTwoCustomer) {
+						eventR = r;
+					}
+				}
+				//hack
+				//RestaurantTwoCustomerRole rc = new RestaurantTwoCustomerRole(this);
+				((RestaurantTwoCustomer)eventR).msgArrivedAtRestaurant(money);
+
+				e = new Event(buildingName, eventR, 120, -1, true, steps, t);
+				//Do("GoToMarket is scheduled, which has "+steps.size()+" steps");
+				
+				
+			}
+			insertEvent(e);
+			stateChanged();
 		}
+		else if(t == EventType.EatAtRestaurant) {
+			
+		}
+		
 		return true;
 	}
 

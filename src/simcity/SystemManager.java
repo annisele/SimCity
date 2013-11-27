@@ -332,8 +332,8 @@ public class SystemManager {
 		person.startThread();
 	}
 
-	public void addHackedBankAccount(int accountNumber, double accountBalance, String password) {
-		banks.get(0).getBankComputer().addHackedBankAccount(accountNumber, accountBalance, password);
+	public void addHackedBankAccount(int accountNumber, double accountBalance, double amountOwed, String password) {
+		banks.get(0).getBankComputer().addHackedBankAccount(accountNumber, accountBalance, amountOwed, password);
 	}
 	
 	public void addRestaurantTwoHostHack(String name, String rest) {

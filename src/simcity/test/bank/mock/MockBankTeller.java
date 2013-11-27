@@ -29,7 +29,7 @@ public class MockBankTeller extends Mock implements BankTeller {
 
 	@Override
 	public void msgWantToDeposit(BankCustomer bc, double amountToProcess) {
-		log.add(new LoggedEvent("Received messagemsgWantToDeposit from bank customer " + amountToProcess));
+		log.add(new LoggedEvent("Received message msgWantToDeposit from bank customer " + amountToProcess));
 	}
 
 	@Override
@@ -39,7 +39,7 @@ public class MockBankTeller extends Mock implements BankTeller {
 
 	@Override
 	public void msgWantALoan(BankCustomer bc, double amountToProcess) {
-		log.add(new LoggedEvent("Received message msgWantToWithdraw from bank customer " + amountToProcess));
+		log.add(new LoggedEvent("Received message msgWantALoan from bank customer " + amountToProcess));
 	}
 
 	@Override

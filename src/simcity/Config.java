@@ -109,7 +109,7 @@ public class Config {
 		systems.setBackgroundOne();
 		systems.addBank("BANK1", 100, 300);
 		systems.addBankHostHack("Kevin", "BANK1");
-		systems.addHackedBankAccount(0, 100, "abcdef");
+		systems.addHackedBankAccount(0, 100, 0, "abcdef");
 		timer.schedule(new TimerTask(){
 			public void run() {
 				systems.addBankTellerHack("Bank Teller", "BANK1");
@@ -216,6 +216,7 @@ public class Config {
 		systems.addPerson("Tony");
 		systems.setHome("Tony", "HOUSE1");
 
+
 		systems.addPerson("Bobby");
 		systems.setHome("Bobby", "HOUSE5");
 
@@ -245,6 +246,13 @@ public class Config {
 		systems.addMarketWorkerHack("Wilbur", "MARKET1");
 		systems.setHome("Wilbur", "HOUSE5");*/
 
+		
+		//systems.addPerson("Bobby");
+		//systems.setHome("Bobby", "HOUSE5");
+		
+		//systems.addPerson("McKendricka");
+		//systems.setHome("McKendricka", "HOUSE12");
+
 
 	}
 
@@ -266,8 +274,12 @@ public class Config {
 			}
 		}, 2000);
 
+
 		systems.addPerson("Tony");
 		systems.setHome("Tony", "HOUSE1");
+
+		systems.addPerson("Hungry Antoine");
+		systems.setHome("Hungry Antoine", "HOUSE1");
 
 	}
 
@@ -294,7 +306,7 @@ public class Config {
 
 		systems.addBank("BANK1", 402, 27);
 		systems.addBankHostHack("Kevin", "BANK1");
-		systems.addHackedBankAccount(0, 100, "abcdef");
+		systems.addHackedBankAccount(0, 100, 0, "abcdef");
 		timer.schedule(new TimerTask(){
 			public void run() {
 				systems.addBankTellerHack("Bank Teller", "BANK1");
@@ -348,7 +360,7 @@ public class Config {
 		}, 1000);
 		systems.addBank("BANK1", 402, 27);
 		systems.addBankHostHack("Kevin", "BANK1");
-		systems.addHackedBankAccount(0, 100, "abcdef");
+		systems.addHackedBankAccount(0, 100, 0, "abcdef");
 		timer.schedule(new TimerTask(){
 			public void run() {
 				systems.addBankTellerHack("Bank Teller", "BANK1");

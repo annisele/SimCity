@@ -66,21 +66,21 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 		busStopCounter = 3;
 	}
 		
-	private String name;
-	private BusGui gui;
-	List<MyPassenger> passengers = Collections.synchronizedList(new ArrayList<MyPassenger>());
+	public String name;
+	public BusGui gui;
+	public List<MyPassenger> passengers = Collections.synchronizedList(new ArrayList<MyPassenger>());
 	
 	public static final int NUM_BUSSTOPS = 4;
 	//List<Location> busStops;
-	Map<Integer,Location> busStops = new HashMap<Integer,Location>(NUM_BUSSTOPS);
+	public Map<Integer,Location> busStops = new HashMap<Integer,Location>(NUM_BUSSTOPS);
 	public Semaphore atDestination = new Semaphore(0, true);
 	
-	int busStopCounter;
+	public int busStopCounter;
 	public enum BusState {none, stopped, driving};
 	public enum BusEvent {none, arrived, loaded};
 	
-	BusState state = BusState.stopped;
-	BusEvent event = BusEvent.none;
+	public BusState state = BusState.stopped;
+	public BusEvent event = BusEvent.none;
 	
 	public void makeBusMove() {		// HACKHACKHACK
 		event = BusEvent.loaded;

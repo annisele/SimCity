@@ -18,23 +18,24 @@ import simcity.interfaces.market.MarketCustomer;
 import simcity.interfaces.market.MarketOrderer;
 import simcity.interfaces.market.MarketPayer;
 import simcity.test.mock.EventLog;
+import simcity.test.mock.LoggedEvent;
 
 public class MarketCashierRole extends Role implements MarketCashier {
 	//I only made variables public for unit testing. They all used to be private!
 	public List<MarketOrder> orders = Collections.synchronizedList(new ArrayList<MarketOrder>());
 	public MarketSystem market;
-	private enum MarketOrderState {requested, waitingForPayment, paid, filling, found};
-	private Semaphore atDest = new Semaphore(0, true);
+	public enum MarketOrderState {requested, waitingForPayment, paid, filling, found};
+	public Semaphore atDest = new Semaphore(0, true);
 	public int workerIndex = 0;
 	public int truckIndex = 0;
 	public EventLog log = new EventLog();
-	private class MarketOrder {
+	public class MarketOrder {
 		int orderNumber;
 		MarketOrderer deliverRole;
 		MarketPayer payRole;
 		Map<String, Integer> items;
 		double payment;
-		MarketOrderState state;
+		public MarketOrderState state;
 
 		MarketOrder(int oNum, MarketOrderer rD, MarketPayer rP, Map<String, Integer> it, MarketOrderState s) {
 			orderNumber = oNum;
@@ -65,6 +66,7 @@ public class MarketCashierRole extends Role implements MarketCashier {
 
 	@Override
 	public void msgHereIsPayment(double payment, int oNum) {
+		log.add(new LoggedEvent("Received msgHereIsPayment for order #" + oNum + " for amount " + payment));
 		synchronized (orders) {
 			for(MarketOrder o : orders) {
 				if(o.orderNumber == oNum) {
@@ -87,7 +89,7 @@ public class MarketCashierRole extends Role implements MarketCashier {
 		}
 		stateChanged();
 	}
-	
+
 	public void msgReceivedOrder() {
 		((MarketCashierGui) gui).carryItem(false);
 	}
@@ -137,6 +139,7 @@ public class MarketCashierRole extends Role implements MarketCashier {
 
 	private void SendBill(MarketOrder o) {
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(market.getName()), "MarketCashier: " + person.getName(), "Here is your bill.");
+		log.add(new LoggedEvent("Sending bill to customer for order #" + o.orderNumber));
 
 		Set<String> keys = o.items.keySet();
 		for (String key : keys) {
@@ -164,7 +167,7 @@ public class MarketCashierRole extends Role implements MarketCashier {
 	}
 
 	private void DeliverOrder(MarketOrder o) {
-		
+
 		((MarketCashierGui)gui).DoGoToCounter();
 		try {
 			atDest.acquire();
@@ -173,14 +176,14 @@ public class MarketCashierRole extends Role implements MarketCashier {
 		}
 		((MarketCashierGui) gui).removeItemFromCounter();
 		((MarketCashierGui) gui).carryItem(true);
-		
+
 		((MarketCashierGui)gui).DoGoToCashRegister();
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
+
 		if(o.deliverRole instanceof MarketCustomer) {
 			AlertLog.getInstance().logMessage(AlertTag.valueOf(market.getName()), "MarketCashier: " + person.getName(), "Here are your items.");
 			o.deliverRole.msgHereAreItems(o.items, 0.0);

@@ -470,6 +470,7 @@ public void DeliverOrder (mycustomer c){
 	} catch (InterruptedException e) {
 		e.printStackTrace();
 	}
+ Do("COOK:" +cook);
  cook.msgCookOrder(this, c.table_num, c.choice);
 }
 public void GettingFood(mycustomer c){
@@ -477,7 +478,8 @@ public void GettingFood(mycustomer c){
 	//getfood, go to lobby try at lobby
 	//go to table
 	AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantWaiter: " + person.getName(),"Give cashier "+c.c+" order");
-	 cashier.msgCustomerOrder(this,c.c,c.table_num, c.choice);
+	Do("CASHIER: " +cashier); 
+	cashier.msgCustomerOrder(this,c.c,c.table_num, c.choice);
 	 ((RestaurantTwoWaiterGui)gui).GoToKitchen();
 	try {
 		atDest.acquire();

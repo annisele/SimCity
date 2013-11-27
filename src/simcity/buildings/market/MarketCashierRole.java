@@ -142,7 +142,7 @@ public class MarketCashierRole extends Role implements MarketCashier {
 			o.payment += o.items.get(key) * market.getComputer().getPrices().get(key);
 		}
 
-		Do("Charging: " + o.payment);
+		Do("Charging: " + o.payment+ " "+market.getName()+"  "+ o.orderNumber);
 		o.payRole.msgPleasePay(market.getName(), o.payment, o.orderNumber);
 		o.state = MarketOrderState.waitingForPayment;
 	}

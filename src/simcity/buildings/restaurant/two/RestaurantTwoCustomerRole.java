@@ -79,10 +79,12 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
              this.waiter = waitr;
      }
      public void setHost(RestaurantTwoHost host) {
+    	 Do("SET HOST");
              this.host = host;
      }
-     public void setCook(RestaurantTwoCook cook) {
-             this.cook = cook;
+     public void setCook(RestaurantTwoCook c) {
+    	 Do("SET COOK");
+             this.cook = c;
      }
      public void setCashier(RestaurantTwoCashier cashier) {
              this.cashier = cashier;
@@ -122,7 +124,7 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
  	}
      public void gotHungry() {//from animation
     	// AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCustomer: " + person.getName(),"I'm hungry");
-    	 hack_chicken();
+    	//hack_chicken();
              event = AgentEvent.gotHungry;
              stateChanged();
      }
@@ -358,6 +360,7 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
                      while(true){
 
                              Random g = new Random();
+                             Do("KAJDHKSH"+ cook);
                              Object[] values =cook.getMenu().values().toArray();
                              Double r_val = (Double) values[g.nextInt(values.length)];
                              AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCustomer: " + person.getName(),"Making choice: "+r_val);

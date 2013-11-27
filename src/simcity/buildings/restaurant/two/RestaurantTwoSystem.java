@@ -47,6 +47,7 @@ public class RestaurantTwoSystem extends SimSystem {
 	private RestaurantTwoCook cook;
 	private RestaurantTwoComputer computer;
 	private RestaurantTwoCashier cashier;
+	private boolean hack;
 	private double lowestprice;
 	public Map<Integer,Boolean> waitingSpots= new HashMap<Integer, Boolean>();
 	public Map<Integer,Boolean> waiterSpots= new HashMap<Integer, Boolean>();
@@ -90,24 +91,26 @@ public class RestaurantTwoSystem extends SimSystem {
 	}
 	 */
 	public boolean msgEnterBuilding(Role role) {
-
+		animationPanel.addGui(role.getGui());
 		//System.out.println("gui: "+role.getGui());
 		//System.out.println("the role "+role+" has a gui: "+role.getGui());
 		if(role instanceof RestaurantTwoHost) {
-			if (host == null) {
+			//if (host == null) {
 				host = (RestaurantTwoHost) role;
-				animationPanel.addGui(role.getGui());
 				return true;
-			}
+			//}
 		}
-			else if (host != null) {
+		//	else if (host != null) {
 				
-				if(role instanceof RestaurantTwoCustomer) {
-					System.out.println("COOKppppp");
+		else if(role instanceof RestaurantTwoCustomer) {
+					System.out.println(""+host+"  "+cashier+"   "+cook);
+					((RestaurantTwoCustomer) role).setCook(cook);
 					((RestaurantTwoCustomer) role).setHost(host);
 					((RestaurantTwoCustomer) role).setCashier(cashier);
-					((RestaurantTwoCustomer) role).setCook(cook);
-					System.out.println("HEHEHEHEH: "+cook);
+			
+					if (hack==true){
+						((RestaurantTwoCustomer) role).hack_chicken();
+					}
 					customers.add((RestaurantTwoCustomer) role);
 				}
 				else if(role instanceof RestaurantTwoCashier) {
@@ -117,7 +120,6 @@ public class RestaurantTwoSystem extends SimSystem {
 					((RestaurantTwoCook)role).setOrderWheel(owheel);
 					((RestaurantTwoCook)role).setCashier(cashier);
 					cook = (RestaurantTwoCook) role;
-					System.out.println("COOK");
 				}
 				else if(role instanceof RestaurantTwoWaiter) {
 					if(role instanceof RestaurantTwoSharedDataWaiterRole){
@@ -143,10 +145,9 @@ public class RestaurantTwoSystem extends SimSystem {
 					host.addWaiter((RestaurantTwoWaiter) role);
 					waiters.add((RestaurantTwoWaiter) role);
 				}
-				animationPanel.addGui(role.getGui());
+			
 			return true;
-		}
-		return false;
+		
 	}
 
 	public void exitBuilding(Role role) {
@@ -158,6 +159,12 @@ public class RestaurantTwoSystem extends SimSystem {
 			waiters.remove((RestaurantTwoWaiter) role);
 		}
 
+	}
+
+	public void hackr2() {
+		hack=true;
+		// TODO Auto-generated method stub
+		
 	}
 
 

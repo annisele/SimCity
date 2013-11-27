@@ -383,6 +383,10 @@ public class SystemManager {
 		people.add(person);
 		person.startThread();
 	}
+	public void hacker(){
+		restaurantTwos.get(0).hackr2();
+		
+	}
 	
 	public BusAgent getBus() {
 		return bus;
@@ -391,5 +395,7 @@ public class SystemManager {
 	public Directory getDirectory() {
 		return dir;
 	}
+
+	
 	
 }

@@ -203,6 +203,15 @@ public class Config {
 		systems.addHouse("HOUSE16", 186, 333);
 		systems.addHouse("HOUSE17", 249, 333);
 		
+		systems.addPerson("Tony");
+		systems.setHome("Tony", "HOUSE1");
+		
+		systems.addPerson("Bobby");
+		systems.setHome("Bobby", "HOUSE5");
+		
+		systems.addPerson("McKendricka");
+		systems.setHome("McKendricka", "HOUSE12");
+		
 	}
 	
 	public void oneMarketOneHouse() {
@@ -265,7 +274,7 @@ public class Config {
 
 		
 		systems.setBackgroundTwo();
-		systems.addRestaurantTwo("RESTAURANT2", 300, 100);
+		systems.addRestaurantTwo("RESTAURANT2", 249, 140);
 		systems.addRestaurantTwoHostHack("Host Bloke", "RESTAURANT2");
 		systems.addMarket("MARKET1", 60, 140);
 		systems.addBank("BANK1", 402, 27);

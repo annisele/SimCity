@@ -613,12 +613,13 @@ public class PersonAgent extends Agent implements Person {
 				}
 			}
 
-			for(Event eTemp : tempList) {
-				eventList.remove(eTemp); //remove the conflicting event
-			}
+
 
 			//if there was a conflicting event already in the list, move conflicts
 			if(index != -1) {
+				for(Event eTemp : tempList) {
+					eventList.remove(eTemp); //remove the conflicting event
+				}
 				//add the new event into the correct index
 				eventList.add(index, e);
 				//reinsert all the conflicting events into the list
@@ -659,6 +660,7 @@ public class PersonAgent extends Agent implements Person {
 					//if there is a flexible event, eating takes it's place
 					if(eventList.get(i).flexible) {
 						Event temp = eventList.get(i);
+						e.startTime = eventList.get(i).startTime;
 						eventList.add(i, e); //adding new event into flexible space
 						eventList.remove(temp);
 						insertEvent(temp);
@@ -667,10 +669,13 @@ public class PersonAgent extends Agent implements Person {
 					if(eventList.get(i + 1).startTime - 
 							eventList.get(i).startTime + eventList.get(i).duration > e.duration) {
 						//adding new event into middle of list if there is space
+						e.startTime = eventList.get(i).startTime + eventList.get(i).duration;
 						eventList.add(i + 1, e);
 						return;
 					}
 				}
+				int index = eventList.size() - 1; //index of last element in eventList
+				e.startTime = eventList.get(index).startTime + eventList.get(index).duration;
 				eventList.add(e); //adding new event at end of list
 			}
 			else {
@@ -678,10 +683,13 @@ public class PersonAgent extends Agent implements Person {
 					if(eventList.get(i + 1).startTime - 
 							eventList.get(i).startTime + eventList.get(i).duration > e.duration) {
 						//adding new event into middle of list if there is space
+						e.startTime = eventList.get(i).startTime + eventList.get(i).duration;
 						eventList.add(i + 1, e);
 						return;
 					}
 				}
+				int index = eventList.size() - 1; //index of last element in eventList
+				e.startTime = eventList.get(index).startTime + eventList.get(index).duration;
 				eventList.add(e); //adding new event at end of list
 			}
 		}	

@@ -209,6 +209,8 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
                     //stateChanged();
             }
 		}, TIMEBWMEALS); //or whatever time is fine
+		
+		exitBuilding();
 	}
 
 	public Map<String, Integer> getListToBuy() {

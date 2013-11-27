@@ -2,9 +2,7 @@ package simcity;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -167,7 +165,7 @@ public class PersonAgent extends Agent implements Person {
 	}
 
 	private void waitForNextEvent() {
-		long waitTime = 1000 * (eventList.get(0).startTime - Clock.getTime());
+		long waitTime = 2000 * (eventList.get(0).startTime - Clock.getTime());
 		AlertLog.getInstance().logDebug(AlertTag.WORLD, "WORLD: " + getName(), "waiting for event... wait time = " + waitTime);										
 		timer.schedule(new TimerTask() {
 			public void run() {
@@ -392,7 +390,12 @@ public class PersonAgent extends Agent implements Person {
 			}
 			house.msgGoToBed();
 			//CHANGE DURATION TO 40
-			e = new Event(home, house, 8, (int) (Clock.getTime() + 16 + (Math.random() * 2)), false, steps, t);
+			int sleepTime;
+			if (Clock.getTime() < 48)
+				sleepTime = Clock.getTime();
+			else
+				sleepTime = Clock.getTime() + 144;
+			e = new Event(home, house, 8, sleepTime, false, steps, t);
 			insertEvent(e);
 			stateChanged();
 		} 

@@ -34,6 +34,7 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 	private final int SLEEPTIME = 4000;
 	private final int COOKTIME = 6000;
 	private final int EATTIME = 4000;
+	private final int TIMEBWMEALS = 4000;
 	private final int FOODSTOCK = 3;
 	private final int FOODTHRESHOLD = 2;
 	
@@ -43,9 +44,9 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 		this.gui = new HouseInhabitantGui(this);
 		synchronized (foodStock) {
 			foodStock.put("steak", 1);
-			foodStock.put("chicken", 1);
-			foodStock.put("pizza", 1);
-			foodStock.put("salad", 1);
+			foodStock.put("chicken", 4);
+			foodStock.put("pizza", 2);
+			foodStock.put("salad", 4);
 		}
 	}
 	
@@ -61,7 +62,7 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 		stateChanged();
 	}
 	
-	public void msgGoToBed() {//from universe/simGOD
+	public void msgGoToBed() {
 		event = HouseInhabitantEvent.ReadyToSleep;
 	}
 	
@@ -83,8 +84,7 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 	// Actions
 	private void Cook() {
 		event = HouseInhabitantEvent.None;
-		AlertLog.getInstance().logMessage(AlertTag.valueOf(house.getName()), "HouseInhabitant", "I'm hungry, I should eat");
-		//person.Do("I'm hungry, I should eat");
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(house.getName()), "HouseInhabitant: " + person.getName(), "I'm hungry, I should eat");
 		DoGoToKitchen();
 		DoGoToFridge();
 		
@@ -121,36 +121,31 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 		}
 		if (needToBuy == true && marketScheduled == false) {
 			if (person.scheduleEvent(EventType.GoToMarket))
-				AlertLog.getInstance().logMessage(AlertTag.valueOf(house.getName()), "HouseInhabitant", "I just scheduled an event to go to the market");				
-				//person.Do("I just scheduled an event to go to the market");
+				AlertLog.getInstance().logMessage(AlertTag.valueOf(house.getName()), "HouseInhabitant: "+person.getName(), "I just scheduled an event to go to the market");				
 			else
-				AlertLog.getInstance().logMessage(AlertTag.valueOf(house.getName()), "HouseInhabitant", "There aren't any markets to get food from.  Oh well.");				
-				//person.Do("There aren't any markets to get food from.  Oh well.");
+				AlertLog.getInstance().logMessage(AlertTag.valueOf(house.getName()), "HouseInhabitant: "+person.getName(), "There aren't any markets to get food from.  Oh well.");				
 			marketScheduled = true;
 		}
 		
-		AlertLog.getInstance().logMessage(AlertTag.valueOf(house.getName()), "HouseInhabitant", "I'm going to eat "+choice);				
-		//person.Do("I'm going to eat "+choice);
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(house.getName()), "HouseInhabitant: "+person.getName(), "I'm going to eat "+choice);				
 		
 		((HouseInhabitantGui)gui).DoHoldFood();
 		DoGoToStove();
 		((HouseInhabitantGui)gui).DoFoodOnStove();
 		
-		AlertLog.getInstance().logMessage(AlertTag.valueOf(house.getName()), "HouseInhabitant", "Wow cooking is so much fun");				
-		//person.Do("Wow cooking is so much fun");
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(house.getName()), "HouseInhabitant: "+person.getName(), "Wow cooking is so much fun");				
 		
 		timer.schedule(new TimerTask(){            
             public void run() {
                     Eat();
                     //stateChanged();
             }
-		}, COOKTIME); //or whatever time is fine
+		}, COOKTIME);
 		
 	}
 	
 	private void Eat() {
-		AlertLog.getInstance().logMessage(AlertTag.valueOf(house.getName()), "HouseInhabitant", "Food looks ready!");				
-		//Do("Food looks ready!");
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(house.getName()), "HouseInhabitant: "+person.getName(), "Food looks ready!");				
 		((HouseInhabitantGui)gui).DoHoldFood();
 		DoGoToTable();
 		((HouseInhabitantGui)gui).DoFoodOnTable();
@@ -164,7 +159,7 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 	
 	private void DoneEating() {
 		((HouseInhabitantGui)gui).DoEatFood();
-		AlertLog.getInstance().logMessage(AlertTag.valueOf(house.getName()), "HouseInhabitant", "That was great. Wow. Such noms");				
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(house.getName()), "HouseInhabitant: "+person.getName(), "That was great. Wow. Such noms");				
 		//Do("That was great. Wow. Such noms");
 		DoGetUpFromTable();
 		
@@ -183,7 +178,7 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 
 	private void Sleep() {
 		DoGoToBed();
-		AlertLog.getInstance().logMessage(AlertTag.valueOf(house.getName()), "HouseInhabitant", "I'm going to sleep...");		
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(house.getName()), "HouseInhabitant: "+person.getName(), "I'm going to sleep...");		
 		//AlertLog.getInstance().logMessage(AlertTag.valueOf(market.getName()), "MarketCustomer: " + person.getName(), "Here is my order.");
 
 		//person.Do("I'm going to sleep...");
@@ -199,11 +194,21 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 	
 	private void WakeUp(){
 		//gui leaves bed
-		AlertLog.getInstance().logMessage(AlertTag.valueOf(house.getName()), "HouseInhabitant", "I'm up! I'm awake!");						
+
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(house.getName()), "HouseInhabitant: "+person.getName(), "I'm up! I'm awake!");						
+		//Do("I'm up! I'm awake!");
 		state = HouseInhabitantState.Bored;
 		event = HouseInhabitantEvent.None;
-		msgNeedToEat();
-		person.scheduleEvent(EventType.Sleep);
+		
+		// When you wake up, you need to eat
+		person.scheduleEvent(EventType.Eat);
+		timer.schedule(new TimerTask(){            
+            public void run() {
+            		// And you also need to eat in about 8 hours
+                    person.scheduleEvent(EventType.Eat);
+                    //stateChanged();
+            }
+		}, TIMEBWMEALS); //or whatever time is fine
 	}
 
 	public Map<String, Integer> getListToBuy() {
@@ -332,7 +337,7 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 
 	@Override
 	public void exitBuilding() {
-		AlertLog.getInstance().logMessage(AlertTag.valueOf(house.getName()), "HouseInhabitant", "Leaving the house.");						
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(house.getName()), "HouseInhabitant: "+person.getName(), "Leaving the house.");						
 		//person.Do("Leaving the house.");
 		gui.DoExitBuilding();
 		try {
@@ -348,7 +353,7 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 	@Override
 	public void enterBuilding(SimSystem s) {
 		house = (HouseSystem)s;
-		AlertLog.getInstance().logMessage(AlertTag.valueOf(house.getName()), "HouseInhabitant", "Entering the house.");										
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(house.getName()), "HouseInhabitant: "+person.getName(), "Entering the house.");										
 		((HouseInhabitantGui)gui).DoGoToLiving();
 		try {
 			atDest.acquire();

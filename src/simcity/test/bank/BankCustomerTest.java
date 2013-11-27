@@ -10,8 +10,6 @@ import simcity.buildings.bank.BankSystem;
 import simcity.gui.SimCityGui;
 import simcity.test.bank.mock.MockBankHost;
 import simcity.test.bank.mock.MockBankTeller;
-import simcity.gui.trace.AlertLog;
-import simcity.gui.trace.AlertTag;
 
 public class BankCustomerTest extends TestCase {
 	
@@ -30,8 +28,6 @@ public class BankCustomerTest extends TestCase {
 		bankTeller = new MockBankTeller("mockbankteller");
 		scg = new SimCityGui();
 		bankSystem = new BankSystem(scg);
-		bankSystem.setBankHost(bankHost);
-		bankSystem.setName("banksystem");
 	}
 	
 	public void testOpenAccount() {
@@ -42,6 +38,10 @@ public class BankCustomerTest extends TestCase {
 		bankCustomer.setTransactionType(TransactionType.openAccount);
 		bankCustomer.setBankHost(bankHost);
 		bankCustomer.setBankSystem(bankSystem);
+		bankSystem.setBankHost(bankHost);
+		bankSystem.setName("BANK1");
+		person.setCurrentRole(bankCustomer);
+		
 	
 		// check setup postconditions
 		assertEquals("BankCustomer password should be abcde", bankCustomer.getPassword(), "abcde");
@@ -50,25 +50,64 @@ public class BankCustomerTest extends TestCase {
 		assertEquals("BankCustomer transaction type should be openAccount", bankCustomer.getTransactionType(), TransactionType.openAccount);
 		assertEquals("BankCustomer bank host should be bankHost", bankCustomer.getBankHost(), bankHost);
 		assertEquals("BankCustomer bank system should be bankSystem", bankCustomer.getBankSystem(), bankSystem);
+		assertEquals("BankCustomer bank system host should be bankHost", bankCustomer.getBankSystem().getBankHost(), bankHost);
+		assertEquals("BankCustomer bank system name should be banksystem", bankCustomer.getBankSystem().getName(), "BANK1");
 		assertEquals("BankCustomer state should be none", bankCustomer.getState(), State.none);
 		assertEquals("BankCustomer event should be none", bankCustomer.getEvent(), Event.none);
 		
 		// step 1 - customer arrives to bank
 		bankCustomer.msgArrivedAtBank();
 		
-		// check step1 postconditions
+		// check step 1 postconditions
 		assertEquals("BankCustomer state should be none", bankCustomer.getState(), State.none);
 		assertEquals("BankCustomer event should be arrivedAtBank", bankCustomer.getEvent(), Event.arrivedAtBank);
 		
-		// step 2 - call scheduler
-		//bankCustomer.pickAndExecuteAnAction();
+		// step 2 - call scheduler, customer messages bankhost of arrival
+		bankCustomer.atDestination();
 		assertTrue("BankCustomer scheduler should return true", bankCustomer.pickAndExecuteAnAction());
 		
-		// check step2 postconditions
-		//assertEquals("BankCustomer state should be waitingAtBank", bankCustomer.getState(), State.waitingAtBank);
-		//assertEquals("BankCustomer event should be arrivedAtBank", bankCustomer.getEvent(), Event.arrivedAtBank);
-		//assertEquals("BankCustomer ");
+		// check step 2 postconditions
+		assertEquals("BankCustomer state should be waitingAtBank", bankCustomer.getState(), State.waitingAtBank);
+		assertEquals("BankCustomer event should be arrivedAtBank", bankCustomer.getEvent(), Event.arrivedAtBank);
+		assertTrue("Mockbankhost should have received msgEnteringBank from customer", bankHost.log.containsString("Received message msgEnteringBank from bank customer " + bankCustomer));
 		
+		// step 3 - bankhost messages customer to go to a certain window
+		bankCustomer.msgGoToWindow(1, bankTeller);
+		
+		// check step 3 postconditions
+		assertEquals("BankCustomer state should be waitingAtBank", bankCustomer.getState(), State.waitingAtBank);
+		assertEquals("BankCustomer event should be directedToWindow", bankCustomer.getEvent(), Event.directedToWindow);
+		assertEquals("BankCustomer window number should be 1", bankCustomer.getWindowNumber(), 1);
+		assertEquals("BankCustomer bank teller should be bankTeller", bankCustomer.getBankTeller(), bankTeller);
+		
+		// step 4 - call scheduler, customer messages bank teller of transaction
+		bankCustomer.atDestination();
+		assertTrue("BankCustomer scheduler should return true", bankCustomer.pickAndExecuteAnAction());
+		
+		// check step 4 postconditions
+		assertEquals("BankCustomer state should be goingToWindow", bankCustomer.getState(), State.goingToWindow);
+		assertEquals("BankCustomer event should be directedToWindow", bankCustomer.getEvent(), Event.directedToWindow);
+		assertTrue("Mockbankteller should have received msgWantToOpenAccount from customer", bankTeller.log.containsString("Received message msgWantToOpenAccount from bank customer opening account and deposit" + 100.00));
+		
+		// step 5 - bankteller messages customer when transaction is complete
+		bankCustomer.msgHereIsAccountInfo(bankCustomer, 1, 100);
+		
+		// check step 5 postconditions
+		assertEquals("BankCustomer state should be goingToWindow", bankCustomer.getState(), State.goingToWindow);
+		assertEquals("BankCustomer event should be transactionProcessed", bankCustomer.getEvent(), Event.transactionProcessed);
+		assertEquals("BankCustomer should now have a set account number to 1", bankCustomer.getAccountNumber(), 1);
+		assertEquals("BankCustomer cash on hand should be 0 (because of deposit)", bankCustomer.getCashOnHand(), 0.00);
+		
+		// FINAL step 6 - call scheduler, customer informs bank host that he is leaving
+		bankCustomer.atDestination();
+		assertTrue("BankCustomer scheduler should return true", bankCustomer.pickAndExecuteAnAction());
+		
+		// FINAL check step 6 postconditions
+		assertEquals("BankCustomer state should be leaving", bankCustomer.getState(), State.leaving);
+		assertEquals("BankCustomer event should be left", bankCustomer.getEvent(), Event.left);
+		assertTrue("Mockbankhost should have received msgLeavingBank from customer", bankHost.log.containsString("Received message msgLeavingBank from bank customer " + 1));
+		assertEquals("BankCustomer cash on hand should be 0", bankCustomer.getCashOnHand(), 0.00);
+		assertEquals("BankCustomer account number should be 1", bankCustomer.getAccountNumber(), 1);
 	}
 	
 }

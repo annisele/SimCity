@@ -11,7 +11,7 @@ import simcity.interfaces.transportation.*;
 
 public class BusPassengerRole extends Role implements simcity.interfaces.transportation.BusPassenger {
 
-	public BusAgent bus;
+	public Bus bus;
 	public int destination;
 	public int startingLocation;
 	public int xLoc;
@@ -103,7 +103,7 @@ public class BusPassengerRole extends Role implements simcity.interfaces.transpo
 	
 	}
 
-	public void setBus(BusAgent b) {
+	public void setBus(Bus b) {
 		bus = b;
 	}
 

@@ -49,8 +49,7 @@ public class MockBankHost extends Mock implements BankHost {
 
 	@Override
 	public void msgEnteringBank(BankCustomer bc) {
-		// TODO Auto-generated method stub
-		
+		log.add(new LoggedEvent("Received message msgEnteringBank from bank customer " + bc));
 	}
 
 	@Override

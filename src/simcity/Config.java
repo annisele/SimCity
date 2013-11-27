@@ -42,10 +42,10 @@ public class Config {
 	public void busToMarket() {
 		systems.clear();
 		systems.clearDetailPane();
-		systems.setBackgroundOne();
-		systems.addMarket("MARKET2", 100, 100);
+		systems.setBackgroundTwo();
+		systems.addMarket("MARKET2", 312, 27);
 		systems.addMarketCashierHack("Mary", "MARKET2");
-		systems.addBus("Buster"); //Take this out if you don't want the bus here
+		systems.addBus("Busta"); //Take this out if you don't want the bus here
 		systems.addMarketTruck("MARKET2");
 		
 		timer.schedule(new TimerTask() {

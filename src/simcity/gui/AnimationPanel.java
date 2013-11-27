@@ -29,23 +29,12 @@ public class AnimationPanel extends JPanel implements ActionListener{
 	protected List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
 	protected List<BuildingGui> buildingGuis = Collections.synchronizedList(new ArrayList<BuildingGui>());
 	protected List<BusGui> busGuis = Collections.synchronizedList(new ArrayList<BusGui>());
-	// 
-	// have a timer that calls repaint() on every panel
-	//private Timer repaintTimer = new Timer();
-	//
-	// keep track of: how fast was I going, how much time has passed since the last update
-	//
-	// If we have a base System class, then we can link up the ControlPanel to the animationPanel.  The system
-	// class would call AnimationPanel.setControlPanel() and give the animationpanel a controlpanel.
-	// Then the animationPanel would call controlPanel.update() passing a building or person
-	//
 
 	private int px; //x where mouse was pressed
 	private int py;
 
-	protected AnimationPanel(){//SimCityGui sc) {
+	protected AnimationPanel(){
 
-		//simCityGui = sc;
 		addMouseListener(new MouseListener() {
 
 			@Override
@@ -111,8 +100,7 @@ public class AnimationPanel extends JPanel implements ActionListener{
 
 							} else {
 								simCityGui.setControlPanel(g.getSystem().getControlPanel());
-								//g.getControlPanel().updateSelected(g);
-								//System.out.println(Clock.getTime());
+
 							}
 						}
 
@@ -173,7 +161,6 @@ public class AnimationPanel extends JPanel implements ActionListener{
 	}
 
 	public void addGui(Gui gui) {
-		System.out.println("gui is added");
 		guis.add(gui);
 	}
 

@@ -29,13 +29,13 @@ import simcity.Config;
  * Control Panel - Entire right side panel. Used to control program.
  *  On bottom half of control panel, will contain tabs to switch between
  *  panel to control people or buildings, panel to control log, and panel
- *  to control general settings.
+ *  to control general settings.d
  *  
- * 
+ *  
  */
 public class ControlPanel extends JPanel implements ActionListener {
 
-	private SimCityGui simCityGui;
+	private SimCityGui simCityGui; 
 	private Config config;
 
 	//pause and clock elements
@@ -48,7 +48,7 @@ public class ControlPanel extends JPanel implements ActionListener {
 	//config panel elements
 	private JPanel configPanel = new JPanel();
 	private JComboBox configDropdown;
-	private String[] configStrings = new String[10];
+	private String[] configStrings = new String[8];
 	private JButton load = new JButton("Load");
 
 	//tab elements
@@ -110,9 +110,7 @@ public class ControlPanel extends JPanel implements ActionListener {
 	private JCheckBox buildingErrors = new JCheckBox("Show Building Errors");
 	private JCheckBox buildingMessages = new JCheckBox("Show Building Messages");
 	private JCheckBox worldInfo = new JCheckBox("Show World Info");
-
-
-
+	private JCheckBox debug = new JCheckBox("Show Debug Statements");
 
 	public ControlPanel(SimCityGui gui, Config c) {
 		simCityGui = gui;
@@ -120,16 +118,19 @@ public class ControlPanel extends JPanel implements ActionListener {
 		setLayout(new BoxLayout((Container) this, BoxLayout.Y_AXIS));
 
 		//config panel
-		configStrings[0] = "Three Buildings";
-		configStrings[1] = "One Market";
-		configStrings[2] = "One Restaurant";
-		configStrings[3] = "One Bank";
-		configStrings[4] = "One House";
-		configStrings[5] = "Full City";
-		configStrings[6] = "One Market, One House";
-		configStrings[7] = "Market, House, Bank";
-		configStrings[8] = "Bus to Market";
-		configStrings[9] = "Restaurant, Market, Bank";
+		configStrings[0] = "Full City";
+		configStrings[1] = "Market, House, Bank";
+		configStrings[2] = "Bus to Market";
+		configStrings[3] = "Restaurant, Market, Bank";
+		configStrings[4] = "One Market, One House";
+		//configStrings[0] = "Three Buildings";
+		configStrings[5] = "One Market";
+		configStrings[6] = "One Restaurant";
+		configStrings[7] = "One Bank";
+		//configStrings[4] = "One House"; // doesn't work
+		
+		
+		
 		configDropdown = new JComboBox(configStrings);
 		configPanel.setLayout(new FlowLayout());
 		configPanel.add(configDropdown);
@@ -149,13 +150,13 @@ public class ControlPanel extends JPanel implements ActionListener {
 		//.addActionListener(this);
 		pauseAndTime.setLayout(new FlowLayout());
 		pauseAndTime.add(clockDisplay);
-		pauseAndTime.add(pauseB);
+		//pauseAndTime.add(pauseB);
 		pauseAndTime.setPreferredSize(new Dimension(this.getWidth(), 100));
 		add(pauseAndTime);
 		timer.scheduleAtFixedRate((new TimerTask() {
 			public void run() {
 				//clockDisplay.setText(Clock.getDisplayTime());
-				clockDisplay.setText("" + Clock.getTime());
+				clockDisplay.setText("" + Clock.getDisplayTime());
 			}
 		}), 0, 1000);
 
@@ -171,18 +172,21 @@ public class ControlPanel extends JPanel implements ActionListener {
 		worldErrors.addActionListener(this);
 		worldMessages.addActionListener(this);
 		worldInfo.addActionListener(this);
+		debug.addActionListener(this);
 		buildingErrors.addActionListener(this);
 		buildingMessages.addActionListener(this);
 
 		worldInfo.setSelected(true);
 		worldErrors.setSelected(true);
 		worldMessages.setSelected(true);
+		debug.setSelected(false);
 		buildingErrors.setSelected(true);
 		buildingMessages.setSelected(true);
 
 		logTab.add(worldErrors);
 		logTab.add(worldMessages);
 		logTab.add(worldInfo);
+		logTab.add(debug);
 		logTab.add(buildingErrors);
 		logTab.add(buildingMessages);
 
@@ -288,28 +292,26 @@ public class ControlPanel extends JPanel implements ActionListener {
 		if(e.getSource() == load) {
 			String selection = (String)configDropdown.getSelectedItem();
 			if(selection.equals(configStrings[0])) {
-				config.threeBuildings();
-			} else if(selection.equals(configStrings[1])) {
-				config.oneMarket();
-			} else if(selection.equals(configStrings[2])) {
-				config.oneRestaurant();
-			} else if(selection.equals(configStrings[3])) {
-				config.oneBank();
-			} else if(selection.equals(configStrings[4])) {
-				config.oneHouse();
-			} else if(selection.equals(configStrings[5])) {
 				config.fullCity();
-			} else if(selection.equals(configStrings[6])) {
-				config.oneMarketOneHouse();
-			} else if(selection.equals(configStrings[7])) {
+			} else if(selection.equals(configStrings[1])) {
 				config.marketHouseBank();
-			} else if(selection.equals(configStrings[8])) {
+			} else if(selection.equals(configStrings[2])) {
 				config.busToMarket();
-			}else if(selection.equals(configStrings[9])) {
+			} else if(selection.equals(configStrings[3])) {
 				config.MarketBankRestaurant();
-			}
+			} else if(selection.equals(configStrings[4])) {
+				config.oneMarketOneHouse();
+			} else if(selection.equals(configStrings[5])) {
+				config.oneMarket();
+			} else if(selection.equals(configStrings[6])) {
+				config.oneRestaurant();
+			} else if(selection.equals(configStrings[7])) {
+				config.oneBank();
+			}//else if(selection.equals(configStrings[9])) {
+				//config.MarketBankRestaurant();
+			//}
 		}
-		//when log buttons are pressed
+
 		else if(e.getSource() == worldErrors) {
 			//turn on world errors based on if checkbox is selected
 			simCityGui.setWorldErrorTrace(worldErrors.isSelected());
@@ -319,6 +321,9 @@ public class ControlPanel extends JPanel implements ActionListener {
 		}
 		else if(e.getSource() == worldInfo) {
 			simCityGui.setWorldInfoTrace(worldInfo.isSelected());
+		}
+		else if(e.getSource() == debug) {
+			simCityGui.setWorldDebugTrace(debug.isSelected());
 		}
 		else if(e.getSource() == buildingErrors) {
 			simCityGui.setDetailErrorTrace(buildingErrors.isSelected());

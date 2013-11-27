@@ -150,13 +150,13 @@ public class ControlPanel extends JPanel implements ActionListener {
 		//.addActionListener(this);
 		pauseAndTime.setLayout(new FlowLayout());
 		pauseAndTime.add(clockDisplay);
-		pauseAndTime.add(pauseB);
+		//pauseAndTime.add(pauseB);
 		pauseAndTime.setPreferredSize(new Dimension(this.getWidth(), 100));
 		add(pauseAndTime);
 		timer.scheduleAtFixedRate((new TimerTask() {
 			public void run() {
 				//clockDisplay.setText(Clock.getDisplayTime());
-				clockDisplay.setText("" + Clock.getTime());
+				clockDisplay.setText("" + Clock.getDisplayTime());
 			}
 		}), 0, 1000);
 

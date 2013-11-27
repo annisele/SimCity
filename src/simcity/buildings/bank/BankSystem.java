@@ -117,20 +117,26 @@ public class BankSystem extends simcity.SimSystem{
 	
 	
 	public boolean msgEnterBuilding(Role role) {
-		animationPanel.addGui(role.getGui());
-		if(role instanceof BankCustomerRole) {
-			customers.add((BankCustomer) role);
+		if (role instanceof BankHost) {
+			if (bh == null) {
+				bh = (BankHost) role;
+				animationPanel.addGui(role.getGui());
+				return true;
+			}
 		}
-		
-		else if(role instanceof BankTellerRole) {
-			bankTellers.add((BankTeller) role);
+		else if (bh != null) {
+			if (role instanceof BankCustomer) {
+				customers.add((BankCustomer) role);
+				animationPanel.addGui(role.getGui());
+				return true;
+			}
+			else if (role instanceof BankTeller) {
+				bankTellers.add((BankTeller) role);
+				animationPanel.addGui(role.getGui());
+				return true;
+			}
 		}
-		else if(role instanceof BankHost) {
-			System.out.println("What");
-			//setBankHost((BankHost) role);
-			bh = (BankHost) role;
-		}
-		return true;
+		return false;
 	}
 	public void exitBuilding(Role role) {
 		animationPanel.removeGui(role.getGui());

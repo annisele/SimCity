@@ -98,10 +98,14 @@ public class RestaurantTwoSystem extends SimSystem {
 		}
 		else if(role instanceof RestaurantTwoCook) {
 			((RestaurantTwoCook)role).setOrderWheel(owheel);
+			((RestaurantTwoCook)role).setCashier(cashier);
 			cook = (RestaurantTwoCook) role;
 		}
 		else if(role instanceof RestaurantTwoWaiter) {
-			
+			 if(role instanceof RestaurantTwoSharedDataWaiterRole){
+				 //System.out.println("SHARED DATA");
+				 ((RestaurantTwoWaiter) role).setOrderWheel(owheel);
+			 }
 			((RestaurantTwoWaiter) role).setHost(host);
 			((RestaurantTwoWaiter) role).setCashier(cashier);
 			((RestaurantTwoWaiter) role).setCook(cook);
@@ -122,6 +126,7 @@ public class RestaurantTwoSystem extends SimSystem {
 			host.addWaiter((RestaurantTwoWaiter) role);
 			waiters.add((RestaurantTwoWaiter) role);
 		}
+		
 		
 		else if(role instanceof RestaurantTwoCashier) {
 			cashier = (RestaurantTwoCashier) role;

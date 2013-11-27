@@ -44,9 +44,9 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 		this.gui = new HouseInhabitantGui(this);
 		synchronized (foodStock) {
 			foodStock.put("steak", 1);
-			foodStock.put("chicken", 4);
+			foodStock.put("chicken", 2);
 			foodStock.put("pizza", 2);
-			foodStock.put("salad", 4);
+			foodStock.put("salad", 1);
 		}
 	}
 	

@@ -1,21 +1,9 @@
 package simcity.test.transportation;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import junit.framework.TestCase;
-import simcity.test.mock.LoggedEvent;
-import simcity.Location;
 import simcity.PersonAgent;
-import simcity.Role;
-import simcity.SimSystem;
-import simcity.gui.trace.AlertLog;
-import simcity.gui.trace.AlertTag;
-import simcity.gui.transportation.PedestrianGui;
-import simcity.buildings.transportation.*;
-import simcity.interfaces.transportation.*;
-import simcity.test.transportation.mock.*;
+import simcity.buildings.transportation.PedestrianRole;
+import simcity.test.transportation.mock.MockBus;
 
 
 public class PedestrianTest extends TestCase {

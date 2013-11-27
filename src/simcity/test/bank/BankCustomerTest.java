@@ -27,7 +27,7 @@ public class BankCustomerTest extends TestCase {
 		bankHost = new MockBankHost("mockbankhost");
 		bankTeller = new MockBankTeller("mockbankteller");
 		scg = new SimCityGui();
-		bankSystem = new BankSystem(scg);
+		bankSystem = new BankSystem(scg); 
 	}
 	
 	// one customer simply wants to open an account

@@ -58,6 +58,7 @@ public class Config {
 				}, 2000);
 			}
 		}, 2000);
+		
 	}
 
 	public void oneMarket() {
@@ -251,7 +252,8 @@ public class Config {
 		//systems.setHome("Bobby", "HOUSE5");
 		
 		//systems.addPerson("McKendricka");
-		//systems.setHome("McKendricka", "HOUSE12");
+		//systems.setHome("McKendricka", "HOUSE12");11
+		
 
 
 	}

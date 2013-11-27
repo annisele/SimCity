@@ -67,11 +67,11 @@ public class BankComputer {
 		account.reinitialize();
 	}
 	
-	public void addHackedBankAccount(int accountNumber, double accountBalance, String password) {
+	public void addHackedBankAccount(int accountNumber, double accountBalance, double amountOwed, String password) {
 		customerAccounts.put(accountNumber, null);
 		passwordAccounts.put(accountNumber, password);
 		balanceAccounts.put(accountNumber, accountBalance);
-		owedAccounts.put(accountNumber, 0.0);
+		owedAccounts.put(accountNumber, amountOwed);
 	}
 	
 	public void depositIntoSystemAccount(int systemAccountNumber, double deposit) {
@@ -219,10 +219,28 @@ public class BankComputer {
 	public void setLoanableFunds(double loanableFunds) {
 		this.loanableFunds = loanableFunds;
 	}
+	
 	public double getCashInBank() {
 		return cashInBank;
 	}
+	
 	public void setCashInBank(double cashInBank) {
 		this.cashInBank = cashInBank;
+	}
+	
+	public Map<Integer,BankCustomer> getCustomerAccounts() {
+		return customerAccounts;
+	}
+	
+	public Map<Integer,String> getPasswordAccounts() {
+		return passwordAccounts;
+	}
+	
+	public Map<Integer,Double> getBalanceAccounts() {
+		return balanceAccounts;
+	}
+	
+	public Map<Integer,Double> getOwedAccounts() {
+		return owedAccounts;
 	}
 }

@@ -2,7 +2,7 @@ package simcity;
 
 public class Clock {
 	
-	static long currentTime;
+	static int currentTime;
 	static long startTime = System.currentTimeMillis();
 	public class time{
 		int day;
@@ -19,15 +19,15 @@ public class Clock {
 		
 	}
 	
-	public static long getTime() {
-		currentTime = (System.currentTimeMillis() - startTime) / 1000;
+	public static int getTime() {
+		currentTime = (int) ((System.currentTimeMillis() - startTime) / 2000);
 		return currentTime;
 	}
 		
 	public static String getDay() {
 		int d = 0;
 		String day = "";
-		currentTime = (System.currentTimeMillis() - startTime) / 1000;
+		currentTime = (int) ((System.currentTimeMillis() - startTime) / 2000);
 
 		d = (int)((currentTime / (6*24))%7);
 		
@@ -44,7 +44,7 @@ public class Clock {
 	
 	public static int getHour() {
 		int h = 0;
-		currentTime = (System.currentTimeMillis() - startTime) / 1000;
+		currentTime = (int) ((System.currentTimeMillis() - startTime) / 2000);
 		
 		h = (int)(((currentTime / 6)+5)%24+1);
 
@@ -53,7 +53,7 @@ public class Clock {
 	
 	public static String getDisplayTime(){
 		int h = 0, m = 0;
-		currentTime = (System.currentTimeMillis() - startTime) / 1000;
+		currentTime = (int) ((System.currentTimeMillis() - startTime) / 2000);
 		
 		m = (int)((currentTime % 6)*10);
 		h = (int)(((currentTime / 6)+5)%24+1);

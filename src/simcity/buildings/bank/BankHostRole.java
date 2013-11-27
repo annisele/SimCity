@@ -166,6 +166,7 @@ public class BankHostRole extends Role implements BankHost {
 
 	private void tellTellerToGoToAppropriateWindow(BankTeller bt) {
 		bank.findUnreadyWindowAndSendBankTeller(bt);
+		System.out.println("hi");
 		int tempWindowNumber = bank.getTellerWindow();
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankHost: " + person.getName(), "Teller! Go to window "+tempWindowNumber);		
 		bt.msgGoToThisWindow(tempWindowNumber);
@@ -176,7 +177,7 @@ public class BankHostRole extends Role implements BankHost {
 	private void tellCustomerToGoToWindow(BankCustomer bc, BankWindow window) {
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankHost: " + person.getName(), "Please head to window "+window.getWindowNumber());		
 		((BankCustomer) customers.get(0)).msgGoToWindow(window.getWindowNumber(), window.getBankTeller());
-		
+		System.out.println("hi");
 		window.setOccupant(bc);
 		
 		customers.remove(bc);

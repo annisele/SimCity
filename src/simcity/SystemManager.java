@@ -3,11 +3,7 @@ package simcity;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import javax.swing.JPanel;
 
 import simcity.Directory.EntryType;
 import simcity.buildings.bank.BankHostRole;
@@ -32,9 +28,9 @@ import simcity.buildings.restaurant.two.RestaurantTwoSystem;
 import simcity.buildings.restaurant.two.RestaurantTwoWaiterRole;
 import simcity.buildings.transportation.BusAgent;
 import simcity.buildings.transportation.TransportationSystem;
-import simcity.gui.WorldAnimationPanel;
 import simcity.gui.BuildingGui;
 import simcity.gui.SimCityGui;
+import simcity.gui.WorldAnimationPanel;
 import simcity.gui.transportation.BusGui;
 
 public class SystemManager {
@@ -247,6 +243,10 @@ public class SystemManager {
 		}
 		//System.out.println("setHome is being called, home is "+home+" and resident is: "+resident.getName());
 		resident.addHome(home);		
+		
+		if (person == "Hungry Antoine") {
+			resident.setLowFood();
+		}
 	}
 	
 	
@@ -336,8 +336,8 @@ public class SystemManager {
 		person.startThread();
 	}
 
-	public void addHackedBankAccount(int accountNumber, double accountBalance, String password) {
-		banks.get(0).getBankComputer().addHackedBankAccount(accountNumber, accountBalance, password);
+	public void addHackedBankAccount(int accountNumber, double accountBalance, double amountOwed, String password) {
+		banks.get(0).getBankComputer().addHackedBankAccount(accountNumber, accountBalance, amountOwed, password);
 	}
 	
 	public void addRestaurantTwoHostHack(String name, String rest) {

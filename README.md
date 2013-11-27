@@ -17,3 +17,4 @@ What are the things missing in the SimCity
 ==========================================
 1) We have implemented the payRent function in the bankCustomer but we do not have the landlordRole
 
+2) restaurant doesnt interact with bank

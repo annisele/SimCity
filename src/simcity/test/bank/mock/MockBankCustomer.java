@@ -7,6 +7,7 @@ import simcity.buildings.bank.BankCustomerRole.TransactionType;
 import simcity.buildings.bank.BankSystem;
 import simcity.interfaces.*;
 import simcity.interfaces.bank.BankCustomer;
+import simcity.interfaces.bank.BankHost;
 import simcity.interfaces.bank.BankTeller;
 import simcity.test.mock.*;
 
@@ -219,6 +220,24 @@ public class MockBankCustomer extends Mock implements BankCustomer {
 	public BankSystem getBankSystem() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void setBankSystem(BankSystem bank) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public BankHost getBankHost() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setBankHost(BankHost bh) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

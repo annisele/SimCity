@@ -109,19 +109,19 @@ public class MockBankCustomer extends Mock implements BankCustomer {
 	}
 
 	@Override
-	public void msgWithdrawMoney(BankSystem b) {
+	public void hackWithdrawMoney(BankSystem b) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void msgDepositMoney(BankSystem b) {
+	public void hackDepositMoney(BankSystem b) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void msgPayRent(BankSystem b) {
+	public void hackPayRent(BankSystem b) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -151,7 +151,7 @@ public class MockBankCustomer extends Mock implements BankCustomer {
 	}
 
 	@Override
-	public void msgGetLoan(BankSystem b) {
+	public void hackGetLoan(BankSystem b) {
 		// TODO Auto-generated method stub
 		
 	}

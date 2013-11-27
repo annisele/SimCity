@@ -51,9 +51,9 @@ public class BankHostTest extends TestCase {
 		assertEquals("Bank teller should have an empty event log before the Bank BankHost's scheduler is called. Instead the Bank teller's event log reads : "
 				+ bt.log.toString(), 0, bt.log.size());
 		host.msgImReadyToWork(bt);
-		//assertTrue(
-        //        "Bank host's scheduler should have returned true because the bank customer list is empty, but didn't.",
-        //        host.pickAndExecuteAnAction());
+		assertTrue(
+                "Bank host's scheduler should have returned true because the bank customer list is empty, but didn't.",
+                host.pickAndExecuteAnAction());
 		assertEquals("Bank host should have 1 bank teller in the list ", host.getBankTellers().size(), 1);
 		
 		assertFalse(host.getBankTellers().isEmpty());

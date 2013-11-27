@@ -40,6 +40,7 @@ public class BankCustomerTest extends TestCase {
 		bankCustomer.setCashOnHand(100.00);
 		bankCustomer.setAmountToProcess(100.00);
 		bankCustomer.setTransactionType(TransactionType.openAccount);
+		bankCustomer.setBankHost(bankHost);
 		person.setCurrentRole(bankCustomer);
 	
 		// check setup postconditions
@@ -49,10 +50,11 @@ public class BankCustomerTest extends TestCase {
 		assertEquals("BankCustomer transaction type should be openAccount", bankCustomer.getTransactionType(), TransactionType.openAccount);
 		assertEquals("BankCustomer state should be none", bankCustomer.getState(), State.none);
 		assertEquals("BankCustomer event should be none", bankCustomer.getEvent(), Event.none);
+		assertEquals("BankCustomer BankHost should be bankHost", bankCustomer.getBankHost(), bankHost);
 		assertEquals("PersonAgent current role should be BankCustomerRole", person.getCurrentRole(), bankCustomer);
 		
-		// step 1 - customer enters building, sets its banksystem, then messages itself that it has arrived
-		bankCustomer.enterBuilding(bankSystem);
+		// step 1 - customer arrives to bank
+		bankCustomer.msgArrivedAtBank();
 		
 		// check step1 postconditions
 		assertEquals("BankCustomer state should be none", bankCustomer.getState(), State.none);

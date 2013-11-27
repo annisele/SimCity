@@ -126,6 +126,14 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 		return bank;
 	}
 	
+	public BankHost getBankHost() {
+		return bh;
+	}
+	
+	public void setBankHost(BankHost bh) {
+		this.bh = bh;
+	}
+	
 	//messages from personagent
 	public void msgDepositMoney(BankSystem b) {
 		//person.Do("I need to open an account and deposit money");

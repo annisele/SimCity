@@ -99,7 +99,7 @@ Levonne Key :
 - used hack for the bankroles to function since we only have one bank. The pay rent function couldn’t be tested since we do not have landlord. 
 
 Rebecca Hao:
-  + I created the original design documents and interaction diagrams for the market scenarios. The design doc for “Person Orders Items” was left unfinished becasue it became a non-norm. Kevin updated the interaction diagrams and design docs to match my code right before turning in V1.
+  + I created the original design documents and interaction diagrams for the market scenarios, and collaborated with Jenny to finalize them. The design doc for “Person Orders Items” was left unfinished becasue it became a non-norm. Kevin updated the interaction diagrams and design docs to match my code right before turning in V1.
   + I wrote the code for all the Market roles, systems, interfaces, and animation.
   + I contributed a lot to all of the base classes, including AnimationPanel, ControlPanel, Gui, SimCityGui, SimSystem, Config, Role, Directory, SystemManager, etc. Most of my time was spent designing the overall design of the project, so that it would be easier for others to integrate their individual parts (bank, restaurant, etc) into the program.
   + I finished the Market Scenario early on and figured out how to implement it in the panels and program, then wrote a wiki page to help team members integrate their parts into their project.

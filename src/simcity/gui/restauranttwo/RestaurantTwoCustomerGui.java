@@ -100,8 +100,12 @@ public class RestaurantTwoCustomerGui extends Gui{
 		//System.out.println("cust gui goes to position");
 		DoGoToLocation(60, 100);
 	}
+	public void DoGoToHost() {
+		//System.out.println("cust gui goes to position");
+		DoGoToLocation(380, 400);
+	}
 	public void DoGoToSeat(int seatnumber) {//later you will map seatnumber to table coordinates.
-		DoGoToLocation(seatnumber*100, yTable);
+		DoGoToLocation(seatnumber*70+30, yTable);
 		
 		command = Command.GoToSeat;
 	}
@@ -120,7 +124,7 @@ public class RestaurantTwoCustomerGui extends Gui{
 		command = Command.LeaveRestaurant;
 	}
 	public void DoExitRestaurant() {
-		DoGoToLocation( 300,-40);
+		DoGoToLocation( 250,500);
 		command = Command.noCommand;
 	}
 	

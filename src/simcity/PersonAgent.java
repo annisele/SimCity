@@ -2,6 +2,7 @@ package simcity;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -54,9 +55,10 @@ public class PersonAgent extends Agent implements Person {
 	public enum EventType { Eat, GoToMarket, BusToMarket, EatAtRestaurant, DepositMoney, WithdrawMoney, GetALoan, PayRent, Sleep, Work };
 
 	private String name;
-	private double money = 10;
-	private double withdrawThreshold = 10; // if money is less than this, we will try to withdraw
-	private double depositThreshold = 25; // if money is higher than this, we will try to deposit
+
+	private double money = 20;
+	private double withdrawThreshold = 5; // if money is less than this, we will try to withdraw
+	private double depositThreshold = 15; // if money is higher than this, we will try to deposit
 
 	private String home;
 	private String workBuilding;
@@ -86,7 +88,26 @@ public class PersonAgent extends Agent implements Person {
 		myRoles.add(r2);
 
 		myRoles.add(r4);
-		//myRoles.add(r5);
+		
+		//random money generator between and 25
+		  double temp= 5+(double)(Math.random()*(15));
+          DecimalFormat f =new DecimalFormat("##.00");
+          String formate=f.format(temp);
+         
+                  try {
+						this.money=(Double)f.parse(formate);
+					} catch (java.text.ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}catch (NullPointerException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}catch (ClassCastException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+       
+       //  Do("$$$= "+money);
 	}
 
 	@Override
@@ -249,7 +270,7 @@ public class PersonAgent extends Agent implements Person {
 
 			//hack
 			//RestaurantTwoCustomerRole rc = new RestaurantTwoCustomerRole(this);
-			//((RestaurantTwoCustomer)eventR).msgArrivedAtRestaurant();
+			((RestaurantTwoCustomer)eventR).msgArrivedAtRestaurant(money);
 
 			e = new Event(buildingName, eventR, 120, -1, true, steps, t);
 			//Do("GoToMarket is scheduled, which has "+steps.size()+" steps");

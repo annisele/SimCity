@@ -34,6 +34,7 @@ public interface RestaurantTwoWaiter extends GuiPartner{
 	public abstract void msgSeatCustomer(RestaurantTwoCustomer customer,
 			int tableNumber);
 	public abstract void setSpot(int key);
+	public abstract void setOrderWheel(RestaurantTwoOrderWheel owheel);
 
 
 }

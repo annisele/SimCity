@@ -7,6 +7,8 @@ import simcity.SimSystem;
 import simcity.buildings.bank.BankSystem;
 import simcity.gui.bank.BankHostGui;
 import simcity.gui.restauranttwo.RestaurantTwoHostGui;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.restaurant.two.RestaurantTwoCustomer;
 import simcity.interfaces.restaurant.two.RestaurantTwoHost;
 import simcity.interfaces.restaurant.two.RestaurantTwoWaiter;
@@ -81,10 +83,10 @@ public class RestaurantTwoHostRole extends Role implements simcity.interfaces.re
 		waiters.add(w);
 	}
 	public void msgIWantFood(RestaurantTwoCustomer cust) {
-		Do("Recieved msg I want food");
+		//Do("Recieved msg I want food");
 		waitingCustomers.add(cust);
 		stateChanged();
-		Do(cust.getName());
+		//Do(cust.getName());
 	
 	}
 
@@ -92,7 +94,7 @@ public class RestaurantTwoHostRole extends Role implements simcity.interfaces.re
 		synchronized(tables){
 		for(Table t:tables){
 			if(t.getOccupant()==cust){
-				Do(cust + " leaving " + t);
+				AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantHost: " + person.getName(),""+cust + " leaving " + t+".");
 				t.setUnoccupied();
 				stateChanged();
 			}
@@ -139,16 +141,16 @@ public class RestaurantTwoHostRole extends Role implements simcity.interfaces.re
 
 	private void assignWaiter(RestaurantTwoCustomer customer,  Table t) {
 		//msgsitattable to waiter include tablenum 
-		Do("assign "+currentwaiter);
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantHost: " + person.getName(), "Assigning "+currentwaiter+".");
 		
 	
 		waiters.get(currentwaiter).msgSeatCustomer(customer, t.tableNumber);
 		currentwaiter++;
-		Do("assign2 "+currentwaiter+" "+waiters.size());
+		//Do("assign2 "+currentwaiter+" "+waiters.size());
 		if(currentwaiter>=waiters.size()){
 			currentwaiter=0;
 		}
-		Do("assign3 hey "+currentwaiter);
+		//Do("assign3 hey "+currentwaiter);
 		t.setOccupant(customer);
 		waitingCustomers.remove(customer);
 	}
@@ -163,7 +165,7 @@ public class RestaurantTwoHostRole extends Role implements simcity.interfaces.re
 	public void addWaiter(RestaurantTwoWaiter we){
 		
 		waiters.add(we);
-		Do("added waiter "+waiters.size());
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantHost: " + person.getName(), "Added waiter ");
 	}
 	private class Table {
 		RestaurantTwoCustomer occupiedBy;
@@ -206,7 +208,7 @@ public class RestaurantTwoHostRole extends Role implements simcity.interfaces.re
 
 	@Override
 	public void enterBuilding(SimSystem s) {
-		Do("host enters building");
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantHost: " + person.getName(),"Entering building.");
 		R2 = (RestaurantTwoSystem)s;
 		((RestaurantTwoHostGui)gui).DoGoToHostPosition();
 		try {

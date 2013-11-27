@@ -45,7 +45,7 @@ public class MarketCashierTest extends TestCase {
 		assertEquals("Cashier should have 0 orders in it. It doesn't.",cashier.orders.size(), 0);		
 		assertEquals("MarketCashierRole should have an empty event log before the Cashier's HereIsAnOrder is called. Instead, the Cashier's event log reads: "
 						+ cashier.log.toString(), 0, cashier.log.size());
-		assertEquals("Cashier's market should be null before cashier has entered building. It isn't.", cashier.market), null);		
+		assertEquals("Cashier's market should be null before cashier has entered building. It isn't.", cashier.market, null);		
 		assertEquals("Cashier's worker index should be 0. It isn't.",cashier.workerIndex, 0);		
 		assertEquals("Cashier's truck index should be 0. It isn't.",cashier.truckIndex, 0);		
 		

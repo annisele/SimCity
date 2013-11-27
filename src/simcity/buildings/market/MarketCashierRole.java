@@ -20,12 +20,13 @@ import simcity.interfaces.market.MarketPayer;
 import simcity.test.mock.EventLog;
 
 public class MarketCashierRole extends Role implements MarketCashier {
-	private List<MarketOrder> orders = Collections.synchronizedList(new ArrayList<MarketOrder>());
-	private MarketSystem market;
+	//I only made variables public for unit testing. They all used to be private!
+	public List<MarketOrder> orders = Collections.synchronizedList(new ArrayList<MarketOrder>());
+	public MarketSystem market;
 	private enum MarketOrderState {requested, waitingForPayment, paid, filling, found};
 	private Semaphore atDest = new Semaphore(0, true);
-	private int workerIndex = 0;
-	private int truckIndex = 0;
+	public int workerIndex = 0;
+	public int truckIndex = 0;
 	public EventLog log = new EventLog();
 	private class MarketOrder {
 		int orderNumber;

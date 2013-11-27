@@ -23,11 +23,11 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 	Timer stopTimer = new Timer();
 	Directory dir;
 
-	class MyPassenger {
+	public class MyPassenger {
 		BusPassenger role;
 		int startLocation;
 		int destination;
-		boolean loaded = false;
+		public boolean loaded = false;
 		MyPassenger(BusPassenger r, int s, int d) {
 			role = r;			
 			destination = d;

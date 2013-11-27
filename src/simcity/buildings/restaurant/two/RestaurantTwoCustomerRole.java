@@ -23,7 +23,7 @@ import simcity.interfaces.restaurant.two.*;;
 public class RestaurantTwoCustomerRole extends Role  implements simcity.interfaces.restaurant.two.RestaurantTwoCustomer {
 
 	
-	 private int waitingPosition, tnum,lowestprice;
+	 private int waitingPosition, tnum;
      private double cashmoney, customer_check;
      
      private String  choice;
@@ -68,7 +68,6 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
             this.gui = new RestaurantTwoCustomerGui(this);
             //System.out.println("Cust Person gui is: "+gui);
              
-             lowestprice=6;
            
            //  customer_check=0;
      }
@@ -88,9 +87,10 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
      public void setCashier(RestaurantTwoCashier cashier) {
              this.cashier = cashier;
      }
-     
+  
      public void hack_chicken(){
              hack_c=true;
+             Do("LOOK:    "+cook);
              cook.hack_chicken();
      }
      public void hack_salad(){
@@ -114,12 +114,15 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
      public void msgArrivedAtRestaurant(double money) { // from gui
     	// AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "MarketCashier: " + person.getName(), "I'm here yoo");
  		//Do("I'm here yoo");
- 		this.cashmoney=money;
+ 		this.cashmoney=money;/*
+ 		if(h.equals("chicken")){
+ 			hack_chicken();
+ 		}*/
  		
  	}
      public void gotHungry() {//from animation
     	// AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCustomer: " + person.getName(),"I'm hungry");
-     
+    	 hack_chicken();
              event = AgentEvent.gotHungry;
              stateChanged();
      }
@@ -239,6 +242,7 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
                      state = AgentState.WaitingForFood;
 //Do("OK ORDERED");
                      if (hack_c==true){
+                    	 Do("HACKING CHICKEN");
                              Order("chicken");
                      }
                      if (hack_st==true){
@@ -350,7 +354,7 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
      }
      private String g_choice(){
 
-             if (cashmoney>=lowestprice){
+             if (cashmoney>=R2.getLowestPrice()){
                      while(true){
 
                              Random g = new Random();
@@ -387,7 +391,11 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
              }
              else{
             	 AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCustomer: " + person.getName(),"I am low on money!");
-                     int temp= (int)(Math.random()*(8));
+
+            	 if(R2.getLowestPrice()>20){
+            		 return "nofood";
+            	 }
+            	 int temp= (int)(Math.random()*(8));
                      if(temp==4||temp==5||temp==6||temp==7||hack_s==true){
                     	 AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCustomer: " + person.getName(),"I am angry and leaving the restaurant because "
                                              + "ze cannot pay");
@@ -423,7 +431,7 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
                      hack_st=false;
              }
              if (hack_s==true){
-                     lowestprice=9;
+                    // lowestprice=9;
              }
              String c= g_choice();
              AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCustomer: " + person.getName(),"My choice: "+ g_choice());
@@ -432,6 +440,9 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
                      Leave();
                      
                      stateChanged();
+             }
+             else if(c.equals("nofood")){
+            	 Do("fail..........");
              }
              else{
                      waiter.msgHereIsMyChoice(this, c);
@@ -490,7 +501,7 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
              //Do("$: "+cashmoney);
              host.msgLeavingTable(this);
              ((RestaurantTwoCustomerGui)gui).DoExitRestaurant();
-             
+             exitBuilding();
              
      }
      private void Leave(){
@@ -504,6 +515,7 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
              }
              ((RestaurantTwoCustomerGui)gui).DoExitRestaurant();
              AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCustomer: " + person.getName(),"Has left.");
+             exitBuilding();
      }
      // Accessors, etc.
 /*
@@ -535,7 +547,8 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
 	@Override
 	public void exitBuilding() {
 		// TODO Auto-generated method stub
-		
+		R2.exitBuilding(this);
+		person.roleFinished();	
 	}
 
 

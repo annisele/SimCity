@@ -38,11 +38,7 @@ public class BankHostTest extends TestCase {
 				+ bc.log.toString(), 0, bc.log.size());
 		host.msgEnteringBank(bc);
 		assertFalse("MockBankCustomer should have received msgGoToWindow.", bc.log.containsString("I'm going to the window to perform bank transaction"));
-		assertTrue(
-                "Bank host's scheduler should have returned true because the bank customer list is not empty, but didn't.",
-                host.pickAndExecuteAnAction());
-		assertFalse("Bank host should have 1 customer in the list because the customer hasn't left the bank. It doesn't.",
-				host.getCustomers().isEmpty());
+		assertEquals("Bank host should have 1 bank customer in the list ", host.getCustomers().size(), 1);
 		assertFalse(host.getCustomers().isEmpty());
 		System.out.println("");		
 	}
@@ -55,12 +51,12 @@ public class BankHostTest extends TestCase {
 		assertEquals("Bank teller should have an empty event log before the Bank BankHost's scheduler is called. Instead the Bank teller's event log reads : "
 				+ bt.log.toString(), 0, bt.log.size());
 		host.msgImReadyToWork(bt);
-		assertTrue(
-                "Bank host's scheduler should have returned true because the bank teller list is not empty, but didn't.",
-                host.pickAndExecuteAnAction());
-		assertTrue("Bank host should have 1 bank teller in the list because the bank teller hasn't left the bank. It doesn't.",
-				host.getBankTellers().isEmpty());
-		assertTrue(host.getBankTellers().isEmpty());
+		//assertTrue(
+        //        "Bank host's scheduler should have returned true because the bank customer list is empty, but didn't.",
+        //        host.pickAndExecuteAnAction());
+		assertEquals("Bank host should have 1 bank teller in the list ", host.getBankTellers().size(), 1);
+		
+		assertFalse(host.getBankTellers().isEmpty());
 		System.out.println("");	
 	}
 	

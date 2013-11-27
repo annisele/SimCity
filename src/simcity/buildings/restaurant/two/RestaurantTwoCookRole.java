@@ -286,6 +286,21 @@ public class RestaurantTwoCookRole extends Role implements simcity.interfaces.re
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCook: " + person.getName(),"Not cool-"+o.choice+ " is out");
 		setWaiter(o.w);
 		computer.removeFromMenu(o.choice);
+		if(computer.Menu.containsKey("salad")){
+			R2.setLowestPrice(6);
+		}
+		else if(computer.Menu.containsKey("pizza")){
+			R2.setLowestPrice(9);
+		}
+		else if(computer.Menu.containsKey("chicken")){
+			R2.setLowestPrice(11);
+		}
+		else if(computer.Menu.containsKey("steak")){
+			R2.setLowestPrice(16);
+		}
+		else
+			R2.setLowestPrice(100);
+	
 		waiter.msgnofood(t);
 		orders.remove(o);
 	}
@@ -366,8 +381,16 @@ public void addMarket(MarketSystem m){
 }
 	@Override
 	public void exitBuilding() {
-		// TODO Auto-generated method stub
+		gui.DoExitBuilding();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "MarketCashier: " + person.getName(), "Leaving the market.");
 		
+		R2.exitBuilding(this);
+		person.roleFinished();	
 	}
 	
 	@Override

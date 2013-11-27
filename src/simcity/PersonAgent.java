@@ -90,7 +90,27 @@ public class PersonAgent extends Agent implements Person {
 		myRoles.add(r4);
 		
 		//random money generator between and 25
-		double money= 5+(double)(Math.random()*(15));
+
+		double money= 5.0+15*rand.nextDouble();
+
+		  /*double temp= 5+(double)(Math.random()*(15));
+          DecimalFormat f =new DecimalFormat("##.00");
+          String formate=f.format(temp);
+        
+          double value = Double.parseDouble(formate);
+          this.money=value;
+          /*
+      
+                  try {
+						this.money=f.parse(formate);
+					} catch (java.text.ParseException e) {
+						e.printStackTrace();
+					}catch (NullPointerException e) {
+						e.printStackTrace();
+					}catch (ClassCastException e) {
+						e.printStackTrace();
+					}*/
+		  
        
 	}
 
@@ -233,6 +253,7 @@ public class PersonAgent extends Agent implements Person {
 			stateChanged();
 
 		}
+
 		else if (t == EventType.DepositMoney) {
 
 			List<String> banks = Directory.getBanks();

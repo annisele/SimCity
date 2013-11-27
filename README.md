@@ -46,48 +46,6 @@ Simple scenario showing one bank and two customers both withdrawing money.
 Member Contributions
 ==========================================
 
-House
-  + Design Documentation:
- 
-+ Implementation: Clayton made the 
-  + JUnit Testing
-
-Market
-  + Design Documentation
-  + Implementation
-  + JUnit Testing
-
-Bank
-  + Design Documentation : Levonne and Kevin 
-  + Implementation : Levonne and Kevin
-  + JUnit Testing : Levonne and Kevin
-
-Restaurant
-  + Design Documentation -N/A
-  + Implementation
-  + JUnit Testing
-
-Transportation
-  + Design Documentation- Joshua, Clayton
-  + Implementation- Bus, BusPassenger- Joshua / Pedestrian- Clayton
-  + JUnit Testing- Bus, BusPassenger- Joshua
-
-Person
-  + Design Documentation
-  + Implementation
-  + JUnit Testing
-
-GUI
-  + Animation Panels- Joshua (Version 1, images)
-  + Control Panel
-  + Trace Panel
-
-Overall Design
-  + Design Documentation
-  + Implementation
-  + JUnit Testing
-
-
 Joshua Michael
 1. Worked on the initial design documents for Bus, Car, BusPassenger, CarPassenger (with Clayton)
 2. Implemented the bus and BusPassenger in both of our worlds (with Kevin)
@@ -150,4 +108,4 @@ Rebecca Hao:
   + I implemented the trace panels, and created a document to show teammates how to change their print statements so that they show up in the trace panels. I used Keith (the CP’s) trace panel code. I also made it so that when buildings are clicked on, the correct messages are hidden and shown in the detail trace panel, so you only see the messages of one building at a time.
   + I used a hack, since we only ever have one restaurant (RestaurantTwo) on screen at a time, to make the bus deliver to that restaurant’s location.
   + Person Agent’s scheduler still needs to be debugged and fixed. The design that Clayton and I created was extremely thought out, however we didn’t have much time to implement it and test it because Person Agent was initially assigned to someone else, so we didn’t start working on it until later in the project.
-  + 
+ 

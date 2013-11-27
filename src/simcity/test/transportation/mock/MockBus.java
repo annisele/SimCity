@@ -19,6 +19,7 @@ public class MockBus implements Bus {
     public Semaphore atDestination = new Semaphore(0, true);
 	Timer stopTimer = new Timer();
 	int busStopCounter = 3;
+	String name;
     List<MyPassenger> passengers = Collections.synchronizedList(new ArrayList<MyPassenger>());
 	public BusPassengerRole bp;
     public EventLog log = new EventLog();
@@ -36,6 +37,11 @@ public class MockBus implements Bus {
     }
         
 
+
+	public MockBus(String n) {
+		// TODO Auto-generated constructor stub
+		this.name = n;
+	}
 
 	@Override
 	public void makeBusMove() {

@@ -14,17 +14,18 @@ import simcity.gui.transportation.PedestrianGui;
 public class PedestrianRole extends Role implements simcity.interfaces.transportation.Pedestrian {
 
 	// Data
-	PersonAgent person;
-	PedestrianGui gui;
+	public PersonAgent person;
+	public PedestrianGui gui;
 	private List<Location> destinationList = Collections.synchronizedList(new ArrayList<Location>());
 	
-	private Semaphore atDest = new Semaphore(0, true);
+	public Semaphore atDest = new Semaphore(0, true); 
 	
 	// Constructor
 	public PedestrianRole(PersonAgent person) {
 		this.person = person;
 		this.gui =  new PedestrianGui(this);
 	}
+	
 	
 	//Messages
 	@Override

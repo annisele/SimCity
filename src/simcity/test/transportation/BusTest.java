@@ -9,6 +9,7 @@ import simcity.buildings.transportation.BusAgent.BusState;
 import simcity.gui.transportation.BusGui;
 import simcity.test.transportation.mock.MockBus;
 import simcity.test.transportation.mock.MockBusPassenger;
+import simcity.buildings.transportation.*;
 
 public class BusTest extends TestCase {
 	

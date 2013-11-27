@@ -7,18 +7,19 @@ import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
 import simcity.gui.transportation.BusPassengerGui;
 import simcity.interfaces.Person;
+import simcity.interfaces.transportation.*;
 
 public class BusPassengerRole extends Role implements simcity.interfaces.transportation.BusPassenger {
 
-	BusAgent bus;
-	int destination;
-	int startingLocation;
-	int xLoc;
-	int yLoc;
+	public BusAgent bus;
+	public int destination;
+	public int startingLocation;
+	public int xLoc;
+	public int yLoc;
 	public enum PassengerState {offBus, waitingForBus, onBus};
 	public enum PassengerEvent {atBusStop, busArriving, busStopping};
-	PassengerState state = PassengerState.offBus;
-	PassengerEvent event;
+	public PassengerState state = PassengerState.offBus;
+	public PassengerEvent event;
 
 	public BusPassengerRole(PersonAgent p) {
 		person = p;

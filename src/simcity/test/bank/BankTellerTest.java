@@ -26,11 +26,20 @@ public class BankTellerTest extends TestCase {
 	}
 	public void testOneCustomerOpenAccount() {
 		System.out.println("TEST ONE CUSTOMER OPEN ACCOUNT");
-		assertTrue("Bank teller should have 0 customer in it. It doesn't ", bt.getCustomers().isEmpty());
-		bt.msgWantToOpenAccount(bc, 500);
-		bt.pickAndExecuteAnAction();
+		assertTrue("Bank teller should have 0 customer in it. It doesn't ", 
+				bt.getCustomers().isEmpty());
 		assertEquals("Bank teller should have an empty event log before the Bank Teller's HereIsAccountInfo is called. Instead the Bank teller's event log reads : "
 				+ bt.log.toString(), 0, bt.log.size());
+		assertEquals("Bank customer should have an empty event log before the Bank Teller's HereIsAccountInfo is called. Instead the Bank teller's event log reads : "
+				+ bc.log.toString(), 0, bc.log.size());
+		bt.msgWantToOpenAccount(bc, 500);
+		assertTrue(
+                "Bank teller's scheduler should have returned true because the bank customer list is not empty, but didn't.",
+                bt.pickAndExecuteAnAction());
+		assertFalse("Bank teller should have 1 customer in the list because the account is opened. It doesn't.",
+				bt.getCustomers().isEmpty());
+		//assertEquals("Bank teller should have an empty event log before the Bank Teller's HereIsAccountInfo is called. Instead the Bank teller's event log reads : "
+		//		+ bt.log.toString(), 0, bt.log.size());
 		assertFalse(bt.getCustomers().isEmpty());
 	}
 	public void testOneCustomerDepositMoney() {

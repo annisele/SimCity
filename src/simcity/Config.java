@@ -210,11 +210,11 @@ public class Config {
 		systems.addPerson("Tony");
 		systems.setHome("Tony", "HOUSE1");
 		
-		systems.addPerson("Bobby");
-		systems.setHome("Bobby", "HOUSE5");
+		//systems.addPerson("Bobby");
+		//systems.setHome("Bobby", "HOUSE5");
 		
-		systems.addPerson("McKendricka");
-		systems.setHome("McKendricka", "HOUSE12");
+		//systems.addPerson("McKendricka");
+		//systems.setHome("McKendricka", "HOUSE12");
 
 		/*//populating city: 5 normal people
 		systems.addPerson("Adam");
@@ -299,19 +299,21 @@ public class Config {
 	public void MarketBankRestaurant(){
 		systems.clear();
 		systems.clearDetailPane();
-
-		
-		systems.setBackgroundTwo();
-		systems.addRestaurantTwo("RESTAURANT2", 249, 140);
-		systems.addRestaurantTwoHostHack("Host Bloke", "RESTAURANT2");
 		systems.addMarket("MARKET1", 60, 140);
 		systems.addBank("BANK1", 402, 27);
 		systems.addMarketCashierHack("Mary", "MARKET1");
 		systems.addMarketTruck("MARKET1");
 		
+		systems.setBackgroundTwo();
+		systems.addRestaurantTwo("RESTAURANT2", 249, 140);
+		systems.addRestaurantTwoHostHack("Host Bloke", "RESTAURANT2");
+	
+		
 		timer.schedule(new TimerTask() {
 			public void run() {
 				systems.addRestaurantTwoCashierHack("Cashier Blob", "RESTAURANT2");
+
+				systems.addMarketWorkerHack("Bob", "MARKET1");
 				timer.schedule(new TimerTask() {
 					public void run() {
 						systems.addRestaurantTwoCookHack("Cook Brute", "RESTAURANT2");

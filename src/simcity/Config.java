@@ -58,6 +58,7 @@ public class Config {
 				}, 2000);
 			}
 		}, 2000);
+		
 	}
 
 	public void oneMarket() {

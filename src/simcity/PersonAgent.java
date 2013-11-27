@@ -291,7 +291,7 @@ public class PersonAgent extends Agent implements Person {
 			}
 
 			//hack
-			((BankCustomer)eventR).msgDepositMoney((BankSystem)(Directory.getSystem(buildingName)));
+			((BankCustomer)eventR).hackDepositMoney((BankSystem)(Directory.getSystem(buildingName)));
 			e = new Event(buildingName, eventR, 120, -1, true, steps, t);
 
 			insertEvent(e);
@@ -316,7 +316,7 @@ public class PersonAgent extends Agent implements Person {
 				}
 
 				//hack
-				((BankCustomer)eventR).msgWithdrawMoney((BankSystem)(Directory.getSystem(buildingName)));
+				((BankCustomer)eventR).hackWithdrawMoney((BankSystem)(Directory.getSystem(buildingName)));
 				e = new Event(buildingName, eventR, 120, -1, true, steps, t);
 
 				insertEvent(e);
@@ -338,7 +338,7 @@ public class PersonAgent extends Agent implements Person {
 				}
 			}
 			//hack
-			((BankCustomer)eventR).msgGetLoan((BankSystem)(Directory.getSystem(buildingName)));
+			((BankCustomer)eventR).hackGetLoan((BankSystem)(Directory.getSystem(buildingName)));
 			e = new Event(buildingName, eventR, 120, -1, true, steps, t);
 
 			insertEvent(e);
@@ -359,7 +359,7 @@ public class PersonAgent extends Agent implements Person {
 				}
 			}
 			//hack
-			((BankCustomer)eventR).msgPayRent((BankSystem)(Directory.getSystem(buildingName)));
+			((BankCustomer)eventR).hackPayRent((BankSystem)(Directory.getSystem(buildingName)));
 			e = new Event(buildingName, eventR, 120, -1, true, steps, t);
 
 			insertEvent(e);

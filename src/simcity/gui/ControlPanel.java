@@ -29,13 +29,13 @@ import simcity.Config;
  * Control Panel - Entire right side panel. Used to control program.
  *  On bottom half of control panel, will contain tabs to switch between
  *  panel to control people or buildings, panel to control log, and panel
- *  to control general settings.
+ *  to control general settings.d
  *  
- * 
+ *  
  */
 public class ControlPanel extends JPanel implements ActionListener {
 
-	private SimCityGui simCityGui;
+	private SimCityGui simCityGui; 
 	private Config config;
 
 	//pause and clock elements

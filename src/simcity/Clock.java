@@ -9,7 +9,7 @@ public class Clock {
 		int hour;
 		int min;
 		time(int h, int m) {
-			hour = h;
+			hour = h; 
 			min = m;
 		}
 	}

@@ -18,15 +18,15 @@ import simcity.buildings.transportation.BusAgent;
 
 public class MockBusPassenger implements BusPassenger {
 	
-	BusAgent bus;
-	int destination;
-	int startingLocation;
-	int xLoc;
-	int yLoc;
+	public BusAgent bus;
+	public int destination;
+	public int startingLocation;
+	public int xLoc;
+	public int yLoc;
 	public enum PassengerState {offBus, waitingForBus, onBus};
 	public enum PassengerEvent {atBusStop, busArriving, busStopping};
-	PassengerState state = PassengerState.offBus;
-	PassengerEvent event;
+	public PassengerState state = PassengerState.offBus;
+	public PassengerEvent event;
     public EventLog log = new EventLog();
 
 

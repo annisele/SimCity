@@ -360,7 +360,6 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
                      while(true){
 
                              Random g = new Random();
-                             Do("KAJDHKSH"+ cook);
                              Object[] values =cook.getMenu().values().toArray();
                              Double r_val = (Double) values[g.nextInt(values.length)];
                              AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCustomer: " + person.getName(),"Making choice: "+r_val);
@@ -379,7 +378,7 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
                              }
                              if (r_val==5.99){
                                      if(cashmoney>=6){
-                                             choice="salad";
+                                             choice="salad ";
                                              break;
                                      }
                              }

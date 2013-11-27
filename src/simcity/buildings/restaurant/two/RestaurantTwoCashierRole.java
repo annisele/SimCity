@@ -130,7 +130,16 @@ public class RestaurantTwoCashierRole extends Role implements simcity.interfaces
 					if(computer.markets.get(i).name.equals(marketName)){
 						computer.markets.get(i).ordernum=num;
 						computer.subtractMoney(payment);
-
+						  DecimalFormat f =new DecimalFormat("##.00");
+				          String formate=f.format(payment);
+				         
+				          
+				          
+				          double value = Double.parseDouble(formate);
+				        
+						computer.markets.get(i).bill=value;
+						
+						/*
 						temp=payment;
 						DecimalFormat fr =new DecimalFormat("##.00");
 						String formate=fr.format(temp);
@@ -139,8 +148,11 @@ public class RestaurantTwoCashierRole extends Role implements simcity.interfaces
 						} catch (ParseException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
+						}catch (ClassCastException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
 						}
-
+*/
 						pay_market=true;
 						AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCashier: " + person.getName(),"Paying "+computer.markets.get(i).bill+" in full.");
 						stateChanged();
@@ -320,7 +332,16 @@ public class RestaurantTwoCashierRole extends Role implements simcity.interfaces
 
 			@Override
 			public void exitBuilding() {
-				// TODO Auto-generated method stub
+				gui.DoExitBuilding();
+				try {
+					atDest.acquire();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "MarketCashier: " + person.getName(), "Leaving the market.");
+				
+				R2.exitBuilding(this);
+				person.roleFinished();	
 				
 			}
 

@@ -52,6 +52,7 @@ public class SystemManager {
 	List<RestaurantFiveSystem> restaurantFives = new ArrayList<RestaurantFiveSystem>();
 	List<RestaurantSixSystem> restaurantSixes = new ArrayList<RestaurantSixSystem>();
 	List<TransportationSystem> transportations = new ArrayList<TransportationSystem>();
+	//RestaurantTwoComputer R2comp =new RestaurantTwoComputer(15,15,15,15);
 	RestaurantTwoComputer R2comp =new RestaurantTwoComputer(15,15,15,15);
 	BusAgent bus;
 	List<BuildingGui> buildings = new ArrayList<BuildingGui>();
@@ -133,7 +134,8 @@ public class SystemManager {
 		if (name == "Levanne") {
 			person.goToBankNow();
 		}
-		if (name == "jenny1"||name == "jenny2"||name == "jenny3") {
+		if (name == "jenny"||name == "jenny1"||name == "jenny2"||name == "jenny3") {
+		
 			person.goToRestaurantTwoNow();
 		}
 		people.add(person);
@@ -147,7 +149,8 @@ public class SystemManager {
 		BuildingGui building = new BuildingGui(temp, "Market", xLoc, yLoc);
 		world.getAnimationPanel().addBuilding(building);
 		Location loc = new Location(xLoc, yLoc);
-		
+
+		System.out.println("TTTTT: "+ temp);
 		dir.add(name, EntryType.Market, loc, temp);
 	}
 	
@@ -204,6 +207,7 @@ public class SystemManager {
 	public void addRestaurantTwo(String name, int xLoc, int yLoc) {
 		//restaurantTwos.add(new RestaurantTwoSystem(simcity));
 		List<String> markets = Directory.getMarkets();
+		System.out.println("UU "+markets);
 		R2comp.addMarket(markets);
 		RestaurantTwoSystem temp = new RestaurantTwoSystem(simcity,R2comp);
 		temp.setName(name);
@@ -211,7 +215,7 @@ public class SystemManager {
 		BuildingGui building = new BuildingGui(temp, "RestaurantTwo", xLoc, yLoc);
 		world.getAnimationPanel().addBuilding(building);
 		Location loc = new Location(xLoc, yLoc);
-		
+		System.out.println("TTTTT: "+ temp);
 		dir.add(name, EntryType.Restaurant, loc, temp);
 	}
 	

@@ -47,6 +47,7 @@ public class RestaurantTwoSystem extends SimSystem {
 	private RestaurantTwoCook cook;
 	private RestaurantTwoComputer computer;
 	private RestaurantTwoCashier cashier;
+	private double lowestprice;
 	public Map<Integer,Boolean> waitingSpots= new HashMap<Integer, Boolean>();
 	public Map<Integer,Boolean> waiterSpots= new HashMap<Integer, Boolean>();
 
@@ -57,6 +58,7 @@ public class RestaurantTwoSystem extends SimSystem {
 		super.setControlPanel(new RestaurantTwoControlPanel());
 		this.owheel = new RestaurantTwoOrderWheel();
 		this.computer=c;
+		this.lowestprice=6;
 		waitingSpots.put(0,false);
 		waitingSpots.put(1,false);
 		waitingSpots.put(2,false);
@@ -67,71 +69,84 @@ public class RestaurantTwoSystem extends SimSystem {
 		waiterSpots.put(3,false);
 		waiterSpots.put(4,false);
 		waiterSpots.put(5,false);
-	
-	
+
+
 	}
 
 	public RestaurantTwoHost getR2Host() {
 		return host;
 	}
+	 protected void setLowestPrice(double lp) {
+	         this.lowestprice = lp;
+	 }
+	 protected double getLowestPrice(){
+         return lowestprice ;
+ }
 	/*
 	public void setRestaurantTwoHost(RestaurantTwoHostRole h) {
 		this.host = h;
 		RestaurantTwoHostGui hostGui = new RestaurantTwoHostGui(h);
 		animationPanel.addGui(hostGui);
 	}
-*/
+	 */
 	public boolean msgEnterBuilding(Role role) {
 
 		//System.out.println("gui: "+role.getGui());
 		//System.out.println("the role "+role+" has a gui: "+role.getGui());
-
-		animationPanel.addGui(role.getGui());
-		if(role instanceof RestaurantTwoCustomer) {
-			((RestaurantTwoCustomer) role).setHost(host);
-			((RestaurantTwoCustomer) role).setCashier(cashier);
-			((RestaurantTwoCustomer) role).setCook(cook);
-			customers.add((RestaurantTwoCustomer) role);
-		}
-		else if(role instanceof RestaurantTwoHost) {
-			host = (RestaurantTwoHost) role;
-		}
-		else if(role instanceof RestaurantTwoCook) {
-			((RestaurantTwoCook)role).setOrderWheel(owheel);
-			((RestaurantTwoCook)role).setCashier(cashier);
-			cook = (RestaurantTwoCook) role;
-		}
-		else if(role instanceof RestaurantTwoWaiter) {
-			 if(role instanceof RestaurantTwoSharedDataWaiterRole){
-				 //System.out.println("SHARED DATA");
-				 ((RestaurantTwoWaiter) role).setOrderWheel(owheel);
-			 }
-			((RestaurantTwoWaiter) role).setHost(host);
-			((RestaurantTwoWaiter) role).setCashier(cashier);
-			((RestaurantTwoWaiter) role).setCook(cook);
-			if(waiterSpots.containsValue(false)){
-				synchronized(waiterSpots){
-					
-				for(Entry<Integer, Boolean> entry : waiterSpots.entrySet()){
-						if(entry.getValue()==false){
-							((RestaurantTwoWaiter) role).setSpot(entry.getKey());
-						//g.Start(entry.getKey());
-						waiterSpots.put(entry.getKey(), true);
-		
-						break;
-					}
-				}
-				}
+		if(role instanceof RestaurantTwoHost) {
+			if (host == null) {
+				host = (RestaurantTwoHost) role;
+				animationPanel.addGui(role.getGui());
+				return true;
 			}
-			host.addWaiter((RestaurantTwoWaiter) role);
-			waiters.add((RestaurantTwoWaiter) role);
 		}
-		
-		
-		else if(role instanceof RestaurantTwoCashier) {
-			cashier = (RestaurantTwoCashier) role;
+			else if (host != null) {
+				
+				if(role instanceof RestaurantTwoCustomer) {
+					System.out.println("COOKppppp");
+					((RestaurantTwoCustomer) role).setHost(host);
+					((RestaurantTwoCustomer) role).setCashier(cashier);
+					((RestaurantTwoCustomer) role).setCook(cook);
+					System.out.println("HEHEHEHEH: "+cook);
+					customers.add((RestaurantTwoCustomer) role);
+				}
+				else if(role instanceof RestaurantTwoCashier) {
+					cashier = (RestaurantTwoCashier) role;
+				}
+				else if(role instanceof RestaurantTwoCook) {
+					((RestaurantTwoCook)role).setOrderWheel(owheel);
+					((RestaurantTwoCook)role).setCashier(cashier);
+					cook = (RestaurantTwoCook) role;
+					System.out.println("COOK");
+				}
+				else if(role instanceof RestaurantTwoWaiter) {
+					if(role instanceof RestaurantTwoSharedDataWaiterRole){
+						//System.out.println("SHARED DATA");
+						((RestaurantTwoWaiter) role).setOrderWheel(owheel);
+					}
+					((RestaurantTwoWaiter) role).setHost(host);
+					((RestaurantTwoWaiter) role).setCashier(cashier);
+					((RestaurantTwoWaiter) role).setCook(cook);
+					if(waiterSpots.containsValue(false)){
+						synchronized(waiterSpots){
+
+							for(Entry<Integer, Boolean> entry : waiterSpots.entrySet()){
+								if(entry.getValue()==false){
+									((RestaurantTwoWaiter) role).setSpot(entry.getKey());
+									//g.Start(entry.getKey());
+									waiterSpots.put(entry.getKey(), true);
+									break;
+								}
+							}
+						}
+					}
+					host.addWaiter((RestaurantTwoWaiter) role);
+					waiters.add((RestaurantTwoWaiter) role);
+				}
+				animationPanel.addGui(role.getGui());
+			return true;
 		}
-		return true;
+		return false;
 	}
 
 	public void exitBuilding(Role role) {
@@ -142,7 +157,7 @@ public class RestaurantTwoSystem extends SimSystem {
 		else if(role instanceof RestaurantTwoWaiter) {
 			waiters.remove((RestaurantTwoWaiter) role);
 		}
-		
+
 	}
 
 

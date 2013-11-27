@@ -17,4 +17,6 @@ What are the things missing in the SimCity
 ==========================================
 1) We have implemented the payRent function in the bankCustomer but we do not have the landlordRole
 
-2) restaurant doesnt interact with bank
+2) Restaurant doesnt interact with bank, restaurant account has been created but not yet instantiated.
+
+3) Restauran unit test is incomplete

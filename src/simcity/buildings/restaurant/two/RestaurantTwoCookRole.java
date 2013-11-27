@@ -13,6 +13,7 @@ import java.util.TimerTask;
 
 
 
+import java.util.Map.Entry;
 import java.util.concurrent.Semaphore;
 
 import simcity.buildings.market.MarketSystem;
@@ -20,10 +21,13 @@ import simcity.buildings.market.MarketSystem;
 import simcity.buildings.restaurant.two.*;
 import simcity.gui.restauranttwo.*;
 import simcity.interfaces.restaurant.two.*;
+import simcity.Directory;
 import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
 import simcity.gui.restaurantone.RestaurantOneCookGui;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.restaurant.two.RestaurantTwoWaiter;
 
 public class RestaurantTwoCookRole extends Role implements simcity.interfaces.restaurant.two.RestaurantTwoCook{
@@ -31,6 +35,7 @@ public class RestaurantTwoCookRole extends Role implements simcity.interfaces.re
 	//Initially had explicit variables for this- Changed that after v2.1 submission
     //Am now using a map
 	private RestaurantTwoWaiter waiter;
+	private RestaurantTwoCashier cashier;
 	private RestaurantTwoSystem R2;
 	private RestaurantTwoComputer computer;
 	private Semaphore atDest = new Semaphore(0, true);
@@ -67,6 +72,9 @@ public class RestaurantTwoCookRole extends Role implements simcity.interfaces.re
 	public void setWaiter(RestaurantTwoWaiter waitr) {
 		this.waiter = waitr;
 	}
+	public void setCashier(RestaurantTwoCashier cash) {
+		this.cashier = cash;
+	}
 	public void setOrderWheel(RestaurantTwoOrderWheel wheel) {
 		this.orderWheel= wheel;
 	}
@@ -99,7 +107,7 @@ public class RestaurantTwoCookRole extends Role implements simcity.interfaces.re
 		//markets.get(0).hack_steak();
 	}
 	public void msgCookOrder(RestaurantTwoWaiter w, int tnum, String choice) {
-		Do("Recieve msg to cook order");
+		//Do("Recieve msg to cook order");
 		//waiter=w;
 		order o = new order (w,choice, tnum);
 		if(checkorder(choice)==true){
@@ -118,31 +126,42 @@ public class RestaurantTwoCookRole extends Role implements simcity.interfaces.re
 		stateChanged();
 	}
 	
-	public void msgHereAreItems(String item){
-		Do("Recieved msg items are restocked");
+	public void msgHereAreItems(Map<String, Integer> items,
+			double change){
+	String item = null;
+	int unit = 0;
+		
+			for(Entry<String, Integer> entry :items.entrySet()){
+					item=entry.getKey();
+					unit=entry.getValue();
+				
+			}
+		
+		//msgDeliveringOrder(map<string,int>, double change)
+			AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCook: " + person.getName(),"Recieved msg items are restocked");
 				if(item.equals("steak")){
-					computer.inventory.steak=+10;
+					computer.inventory.steak=+unit;
 			computer.inventory.steak_low=false;
 			if(computer.inventory.steak_gone==true){
 				computer.addToMenu("steak");
 			}
 		}
 		if(item.equals("chicken")){
-			computer.inventory.chicken=+10;
+			computer.inventory.chicken=+unit;
 			computer.inventory.chicken_low=false;
 			if(computer.inventory.chicken_gone==true){
 				computer.addToMenu("chicken");
 			}
 		}
 		if(item.equals("salad")){
-			computer.inventory.salad=+10;
+			computer.inventory.salad=+unit;
 			computer.inventory.salad_low=false;
 			if(computer.inventory.salad_gone==true){
 				computer.addToMenu("salad");
 			}
 		}
 		if(item.equals("pizza")){
-			computer.inventory.pizza=+10;
+			computer.inventory.pizza=+unit;
 			computer.inventory.pizza_low=false;
 			if(computer.inventory.pizza_gone==true){
 				computer.addToMenu("pizza");
@@ -151,9 +170,9 @@ public class RestaurantTwoCookRole extends Role implements simcity.interfaces.re
 			
 	}
 	public void msgNoInventory(String item, int num){
-		Do("Recieved msg market out of item");
-		c_market++;
-		callMarket(item, num);
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCook: " + person.getName(),"Recieved msg market out of item");
+		
+		callMarket(computer.getMarket(),item, num);
 	}
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
@@ -207,12 +226,12 @@ public class RestaurantTwoCookRole extends Role implements simcity.interfaces.re
 			computer.inventory.chicken--;
 				if(computer.inventory.chicken<=5){
 					computer.inventory.chicken_low=true;
-					callMarket(c,num_items);
+					callMarket(computer.getMarket(),c,num_items);
 				}
 			return true;
 			}
 			else{
-				callMarket(c,num_items);
+				callMarket(computer.getMarket(),c,num_items);
 			return false;
 			}
 		}
@@ -222,12 +241,12 @@ public class RestaurantTwoCookRole extends Role implements simcity.interfaces.re
 			computer.inventory.steak--;
 			if(computer.inventory.steak<=5){
 				computer.inventory.steak_low=true;
-				callMarket(c,num_items);
+				callMarket(computer.getMarket(),c,num_items);
 			}
 			return true;
 		}
 		else{
-			callMarket(c,num_items);
+			callMarket(computer.getMarket(),c,num_items);
 			return false;
 		}
 		}
@@ -237,12 +256,12 @@ public class RestaurantTwoCookRole extends Role implements simcity.interfaces.re
 			computer.inventory.salad--;
 			if(computer.inventory.salad<=5){
 				computer.inventory.salad_low=true;
-				callMarket(c,num_items);
+				callMarket(computer.getMarket(),c,num_items);
 			}
 			return true;
 		}
 		else{
-			callMarket(c,num_items);
+			callMarket(computer.getMarket(),c,num_items);
 			return false;
 		}
 		}
@@ -251,20 +270,20 @@ public class RestaurantTwoCookRole extends Role implements simcity.interfaces.re
 			computer.inventory.pizza--;
 			if(computer.inventory.pizza<=5){
 				computer.inventory.pizza_low=true;
-				callMarket(c,num_items);
+				callMarket(computer.getMarket(),c,num_items);
 			}
 			return true;
 		}
 		else
 		{
-			callMarket(c,num_items);
+			callMarket(computer.getMarket(),c,num_items);
 			return false;
 		}
 		}
 		return false;
 	}
 	private void notcool(order o,int t){
-		Do("not cool-"+o.choice+ " is out");
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCook: " + person.getName(),"Not cool-"+o.choice+ " is out");
 		setWaiter(o.w);
 		computer.removeFromMenu(o.choice);
 		waiter.msgnofood(t);
@@ -272,21 +291,21 @@ public class RestaurantTwoCookRole extends Role implements simcity.interfaces.re
 	}
 	 private void checkOrderWheel()
 	    {
-	        Do("Checking order wheel...");
+	        //Do("Checking order wheel...");
 	        RestaurantTwoWOrder order= new RestaurantTwoWOrder(waiter, 2, "sam");
 	        order= orderWheel.remove(); // shared data!
 	        if(order == null)  /// if nothing on wheel
-	        {   Do("order wheel empty");
+	        {   //Do("order wheel empty");
 	        }
 	        else
 	        {
-	            Do("Found ");
+	            //Do("Found ");
 	            msgCookOrder( order.waiter, order.tableNum, order.choice); 
 	        }
 	        stateChanged();
 	    }
 	private void CookIt(order o){
-		Do(""+o.choice);
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCook: " + person.getName(),"Cooking "+o.choice+".");
 		((RestaurantTwoCookGui)gui).Prep();
 		//RestaurantTwocookGui.setText(o.choice);
 		num=find(o);
@@ -295,7 +314,7 @@ public class RestaurantTwoCookRole extends Role implements simcity.interfaces.re
 			
 			public void run() {
 				orders.get(num).state= OrderState.done;
-				Do("finished cooking");
+				AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCook: " + person.getName(),"Finished cooking.");
 				cooking=false;
 				stateChanged();
 			}
@@ -316,16 +335,19 @@ public class RestaurantTwoCookRole extends Role implements simcity.interfaces.re
 	private void PlateIt(order o){
 		((RestaurantTwoCookGui)gui).Plate();
 		setWaiter(o.w);
-		Do("done plating");
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCook: " + person.getName(),"Done plating");
 		//RestaurantTwocookGui.setText("");
 		waiter.msgFoodReady(o.table);
 		orders.remove(o);
 		
 	}
 	
-	private void callMarket(String item, int n){
-		Do("ordering from market "+c_market);
-	
+	private void callMarket(String market, String item, int n){
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCook: " + person.getName(),"Ordering from market "+market);
+		Map<String, Integer> temp = new HashMap<String, Integer>();
+		temp.put(item, n);
+		((MarketSystem)Directory.getSystem(market)).getCashier().msgHereIsAnOrder(this,cashier,temp);
+		
 		//markets.get(c_market).msgLowOnItem(this, item, n);
 		
 	}
@@ -350,9 +372,10 @@ public void addMarket(MarketSystem m){
 	
 	@Override
 	public void enterBuilding(SimSystem s) {
-		System.out.println("cook enters building");
 		// TODO Auto-generated method stub
 		R2 = (RestaurantTwoSystem)s;
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCook: " + person.getName(),"Entering building");
+		
 		((RestaurantTwoCookGui)gui).DoGoToPosition();
 		try {
 			atDest.acquire();
@@ -365,5 +388,7 @@ public void addMarket(MarketSystem m){
 		// TODO Auto-generated method stub
 		return computer.Menu;
 	}
+
+
 
 }

@@ -10,5 +10,5 @@ public interface BusPassenger extends GuiPartner {
 	 public abstract void CallBus();
 	 public abstract void GetIn();
 	 public abstract void GetOut();
-	 public abstract void setBus(BusAgent b);
+	 public abstract void setBus(Bus b);
 }

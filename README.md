@@ -42,3 +42,6 @@ Simple scenario showing one restaurant and three customers.
 Scenario 8: "One Bank";
 Simple scenario showing one bank and two customers both withdrawing money.
 
+2) Restaurant doesnt interact with bank, restaurant account has been created but not yet instantiated.
+
+3) Restauran unit test is incomplete

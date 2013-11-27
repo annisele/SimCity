@@ -7,7 +7,7 @@ import simcity.interfaces.restaurant.two.*;
 
 public interface RestaurantTwoWaiter extends GuiPartner{
 
-	
+	public static simcity.test.mock.EventLog log = new simcity.test.mock.EventLog();
 	//public static EventLog log = new EventLog();
 	public abstract void setHost(RestaurantTwoHost host);
 	public abstract void setCook(RestaurantTwoCook cook);

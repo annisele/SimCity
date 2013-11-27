@@ -76,6 +76,7 @@ public class Gui {
 
 	public void DoExitBuilding() {
 		DoGoToLocation(EXIT_X, EXIT_Y);
+		atDestNow = false;
 	}
 	
 	public int getX() {

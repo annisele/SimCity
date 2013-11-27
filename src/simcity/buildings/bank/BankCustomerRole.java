@@ -32,7 +32,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	// set inside bank
 	private BankHost bh;  
 	private BankTeller bt;
-	private int windowNumber;
+	private int windowNumber; 
 	
 	private BankSystem bank;
 

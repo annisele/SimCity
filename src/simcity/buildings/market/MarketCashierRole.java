@@ -193,6 +193,7 @@ public class MarketCashierRole extends Role implements MarketCashier {
 				AlertLog.getInstance().logMessage(AlertTag.valueOf(market.getName()), "MarketCashier: " + person.getName(), "Assigning delivery to a market delivery truck.");
 				int tempSize = market.getTrucks().size();
 				market.getTrucks().get(truckIndex % tempSize).msgPleaseDeliverOrder(o.deliverRole, o.items);
+				((MarketCashierGui) gui).carryItem(false);
 				truckIndex++;
 			}
 		}

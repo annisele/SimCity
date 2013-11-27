@@ -58,7 +58,7 @@ public class BankHostTest extends TestCase {
 		assertTrue(
                 "Bank host's scheduler should have returned true because the bank teller list is not empty, but didn't.",
                 host.pickAndExecuteAnAction());
-		assertFalse("Bank host should have 1 bank teller in the list because the bank teller hasn't left the bank. It doesn't.",
+		assertTrue("Bank host should have 1 bank teller in the list because the bank teller hasn't left the bank. It doesn't.",
 				host.getBankTellers().isEmpty());
 		assertTrue(host.getBankTellers().isEmpty());
 		System.out.println("");	

@@ -47,7 +47,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	public enum State{none, waitingAtBank, goingToWindow, leaving};
     private State state = State.none;
 
-	public enum Event{none, arrivedAtBank, directedToWindow, transactionProcessed};
+	public enum Event{none, arrivedAtBank, directedToWindow, transactionProcessed, left};
     private Event event = Event.none;
     
 	// Constructor
@@ -138,6 +138,22 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 		this.bh = bh;
 	}
 	
+	public int getWindowNumber() {
+		return windowNumber;
+	}
+	
+	public void setWindowNumber(int windowNumber) {
+		this.windowNumber = windowNumber;
+	}
+	
+	public BankTeller getBankTeller() {
+		return bt;
+	}
+	
+	public void setBankTeller(BankTeller bt) {
+		this.bt = bt;
+	}
+	
 	//messages from personagent
 	public void msgDepositMoney(BankSystem b) {
 		//person.Do("I need to open an account and deposit money");
@@ -170,6 +186,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 		//person.Do("Here is your new account information");
 		//person.Do("Accountnumber: " + accountNumber);
 		//person.Do("Balance: " + accountBalance);
+		this.accountNumber = accountNumber;
 		cashOnHand = cashOnHand - accountBalance;
 		event = Event.transactionProcessed;
 		stateChanged();
@@ -249,6 +266,12 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 		 stateChanged();
 	 }
 	 
+	 // bankcustomer sends this to himself when he's arrived at the door
+	 public void msgLeftTheBank() {
+		 event = Event.left;
+		 stateChanged();
+	 }
+	 
 	//scheduler
 	public boolean pickAndExecuteAnAction() {
 
@@ -293,6 +316,13 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 		    return true;
 		}
 		
+		// person is at the door and about to go outside
+		if (state == State.leaving && event == Event.left) {
+			state = State.none;
+			exitBuilding();
+			return true;
+		}
+		
 		return false;
 	}
 
@@ -304,8 +334,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	    	} catch (InterruptedException e) {
 	    		e.printStackTrace();
 	    	}
-	    	
-	    	AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankCustomer: " + person.getName(), "I'd like to make a transaction!");	
+	    	AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankCustomer: " + person.getName(), "I'd like to make a transaction!");
 	    	bank.getBankHost().msgEnteringBank(this);
 		}
 
@@ -395,19 +424,13 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	    	}
 		    bank.getBankHost().msgLeavingBank(windowNumber);
 			AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankCustomer: " + person.getName(), "I'm leaving the bank");	
-		    exitBuilding();
+		    msgLeftTheBank();
 		}
 
 		public void exitBuilding() {
-			gui.DoExitBuilding();
-			try {
-				atDest.acquire();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			event = Event.none;
 			bank.exitBuilding(this);
 			person.roleFinished();
-			
 		}
 		public void enterBuilding(SimSystem s) {
 			bank = (BankSystem)s;

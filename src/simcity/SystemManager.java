@@ -384,4 +384,8 @@ public class SystemManager {
 		return bus;
 	}
 	
+	public Directory getDirectory() {
+		return dir;
+	}
+	
 }

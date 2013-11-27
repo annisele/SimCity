@@ -200,7 +200,16 @@ public class RestaurantTwoHostRole extends Role implements simcity.interfaces.re
 
 	@Override
 	public void exitBuilding() {
-		// TODO Auto-generated method stub
+		gui.DoExitBuilding();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "MarketCashier: " + person.getName(), "Leaving the market.");
+		
+		R2.exitBuilding(this);
+		person.roleFinished();	
 		
 	}
 

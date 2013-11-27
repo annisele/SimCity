@@ -38,6 +38,10 @@ public class BankSystem extends simcity.SimSystem{
 
 	}
 
+	public SimCityGui getSimCityGui() {
+		return simCityGui;
+	}
+	
 	public BankComputer getBankComputer() {
 		return computer;
 	}
@@ -139,7 +143,6 @@ public class BankSystem extends simcity.SimSystem{
 		return false;
 	}
 	public void exitBuilding(Role role) {
-		animationPanel.removeGui(role.getGui());
 		if(role instanceof BankCustomer) {
 			customers.remove((BankCustomer) role);
 		}

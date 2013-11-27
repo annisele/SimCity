@@ -94,18 +94,21 @@ public class PersonAgent extends Agent implements Person {
           DecimalFormat f =new DecimalFormat("##.00");
           String formate=f.format(temp);
          
+          
+          
+          double value = Double.parseDouble(formate);
+          this.money=value;
+          /*
+      
                   try {
-						this.money=(Double)f.parse(formate);
+						this.money=f.parse(formate);
 					} catch (java.text.ParseException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}catch (NullPointerException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}catch (ClassCastException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
-					}
+					}*/
        
        //  Do("$$$= "+money);
 	}
@@ -253,7 +256,6 @@ public class PersonAgent extends Agent implements Person {
 			List<String> restaurants = Directory.getRestaurants();
 			//int index = rand.nextInt(restaurants.size());
 			//HACK FOR RESTAURANT 2 ONLY
-
 			String buildingName = restaurants.get(0);
 			List<Step> steps = new ArrayList<Step>();
 			steps.add(new Step("exitBuilding", this));
@@ -269,6 +271,7 @@ public class PersonAgent extends Agent implements Person {
 
 
 			//hack
+			//hack ="chicken";
 			//RestaurantTwoCustomerRole rc = new RestaurantTwoCustomerRole(this);
 			((RestaurantTwoCustomer)eventR).msgArrivedAtRestaurant(money);
 

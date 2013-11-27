@@ -239,6 +239,36 @@ public class MockBankCustomer extends Mock implements BankCustomer {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public int getWindowNumber() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setWindowNumber(int windowNumber) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public BankTeller getBankTeller() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setBankTeller(BankTeller bt) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgLeftTheBank() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }
 

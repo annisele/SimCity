@@ -564,6 +564,12 @@ public void EndBreak(){
 		
 	}
 
+	@Override
+	public void setOrderWheel(RestaurantTwoOrderWheel owheel) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 	
 }

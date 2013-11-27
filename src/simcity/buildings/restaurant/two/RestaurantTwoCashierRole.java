@@ -113,22 +113,23 @@ public class RestaurantTwoCashierRole extends Role implements simcity.interfaces
 	/*msgPleasePay(marketcashier,double payment, order num)
 	 */
 	 
-	public void msgPLeasePay( String n, Double p,int num){
+   public void msgPleasePay(String marketName, double payment,
+			int orderNum) {
 		double temp=0;
 		Do("Recieved bill from market");
 
 		//log.add(new LoggedEvent("Recieved bill"));
-		if(computer.getMoney()>=p){
+		if(computer.getMoney()>=payment){
 
 			synchronized(computer.markets){
 
 				for(int i=0; i<computer.markets.size();i++){
 
-					if(computer.markets.get(i).name.equals(n)){
+					if(computer.markets.get(i).name.equals(marketName)){
 						computer.markets.get(i).ordernum=num;
-						computer.subtractMoney(p);
+						computer.subtractMoney(payment);
 
-						temp=p;
+						temp=payment;
 						DecimalFormat fr =new DecimalFormat("##.00");
 						String formate=fr.format(temp);
 						try {
@@ -149,9 +150,9 @@ public class RestaurantTwoCashierRole extends Role implements simcity.interfaces
 
 			synchronized(computer.markets){
 				for(int j=0; j<computer.markets.size();j++){
-					if(computer.markets.get(j).name.equals(n)){
+					if(computer.markets.get(j).name.equals(marketName)){
 						Do("CURRENT BAL: "+computer.getMoney());
-						temp= p-computer.getMoney();
+						temp= payment-computer.getMoney();
 						DecimalFormat f =new DecimalFormat("##.00");
 						String formate=f.format(temp);
 						try {
@@ -337,6 +338,8 @@ public class RestaurantTwoCashierRole extends Role implements simcity.interfaces
 
 			
 			}
+
+		
 
 		
 

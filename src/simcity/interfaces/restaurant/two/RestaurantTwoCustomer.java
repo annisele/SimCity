@@ -48,7 +48,7 @@ public abstract void msgGoodbye() ;
 	//from animation
 
 abstract void enterBuilding(SimSystem s);
-public abstract void msgArrivedAtRestaurant();
+public abstract void msgArrivedAtRestaurant(double money);
 
 
 public abstract String getName();

@@ -140,17 +140,21 @@ public class Config {
 		systems.addRestaurantTwoHostHack("Host Bloke", "RESTAURANT2");
 		timer.schedule(new TimerTask() {
 			public void run() {
+				
 				systems.addRestaurantTwoCashierHack("Cashier Blob", "RESTAURANT2");
+				
 				timer.schedule(new TimerTask() {
 					public void run() {
 						systems.addRestaurantTwoCookHack("Cook Brute", "RESTAURANT2");
-
+						systems.addPerson("jenny1");
+						systems.addPerson("jenny2");
 						timer.schedule(new TimerTask() {
 							public void run() {
 								systems.addRestaurantTwoWaiterHack("Waiter Bob dylan", "RESTAURANT2");
+								systems.addRestaurantTwoSharedDataWaiterHack("Waiter Bob dylan", "RESTAURANT2");
 								timer.schedule(new TimerTask() {
 									public void run() {
-										systems.addPerson("jenny");
+										systems.addPerson("jenny3");
 									}
 								}, 1000);
 							}

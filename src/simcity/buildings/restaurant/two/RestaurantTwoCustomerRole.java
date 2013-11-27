@@ -15,6 +15,7 @@ import simcity.SimSystem;
 import simcity.buildings.bank.BankCustomerRole.Event;
 import simcity.gui.bank.BankCustomerGui;
 import simcity.gui.restauranttwo.*;
+import simcity.gui.trace.AlertLog;
 import simcity.interfaces.restaurant.two.*;;
 
 public class RestaurantTwoCustomerRole extends Role  implements simcity.interfaces.restaurant.two.RestaurantTwoCustomer {
@@ -66,18 +67,7 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
             //System.out.println("Cust Person gui is: "+gui);
              
              lowestprice=6;
-             double temp= 5+(double)(Math.random()*(15));
-             DecimalFormat f =new DecimalFormat("##.00");
-             String formate=f.format(temp);
-            
-                     try {
-						cashmoney=(Double)f.parse(formate);
-					} catch (java.text.ParseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-          
-            Do("$$$= "+cashmoney);
+           
            //  customer_check=0;
      }
 
@@ -119,11 +109,11 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
              return name;
      }*/
      // Messages
-     public void msgArrivedAtRestaurant() { // from gui
- 		System.out.println("I'm ehere yoo");
- 		event = AgentEvent.arrivedAtRestaurant;
- 		Do("person: "+person);
- 		stateChanged();
+     public void msgArrivedAtRestaurant(double money) { // from gui
+    	 AlertLog.getInstance().logMessage(AlertTag.valueOf(this.R2.getName()), "MarketCashier: " + person.getName(), "I'm here yoo");
+ 		Do("I'm here yoo");
+ 		this.cashmoney=money;
+ 		
  	}
      public void gotHungry() {//from animation
              Do("I'm hungry");
@@ -303,6 +293,8 @@ Do("OK ORDERED");
 
      private void goToRestaurant() {
              Do("Going to restaurant");
+             AlertLog.getInstance().logMessage(AlertTag.valueOf(this.R2.getName()), "MarketCashier: " + person.getName(), "I'm here yoo");
+          	
              //Do("spots:"+((RestaurantTwoHostRole)host).waitingSpots.entrySet());
              if(R2.waitingSpots.containsValue(false)){
                      synchronized(R2.waitingSpots){
@@ -348,7 +340,7 @@ Do("OK ORDERED");
                              event = AgentEvent.readytoOrder;
                              stateChanged();
                      }
-             }, 5000);
+             }, 3500);
      }
      private void CallWaiter(){
              Do("Call Waiter");
@@ -466,6 +458,7 @@ Do("OK ORDERED");
      }
      private void getCheck(){
              waiter.msgReadyToPay(this);
+             
      }
      private void LeaveToPay() {
              Do("Leaving to pay.");
@@ -475,8 +468,14 @@ Do("OK ORDERED");
      		} catch (InterruptedException e) {
      			e.printStackTrace();
      		}
-             event = AgentEvent.Leaving;
-             stateChanged();
+             timer.schedule(new TimerTask() {
+                 Object cookie = 1;
+                 public void run() {
+                	 event = AgentEvent.Leaving;
+                     stateChanged();
+                 }
+         },
+         800);
      
      }
      private void AtCashiers(){
@@ -542,7 +541,7 @@ Do("OK ORDERED");
 	public void enterBuilding(SimSystem s) {
 		Do("cust enter building");
 		R2 = (RestaurantTwoSystem)s;
-		((RestaurantTwoCustomerGui)gui).DoGoToCashier();
+		((RestaurantTwoCustomerGui)gui).DoGoToHost();
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {

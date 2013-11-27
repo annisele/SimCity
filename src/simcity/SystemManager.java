@@ -27,6 +27,7 @@ import simcity.buildings.restaurant.two.RestaurantTwoCashierRole;
 import simcity.buildings.restaurant.two.RestaurantTwoComputer;
 import simcity.buildings.restaurant.two.RestaurantTwoCookRole;
 import simcity.buildings.restaurant.two.RestaurantTwoHostRole;
+import simcity.buildings.restaurant.two.RestaurantTwoSharedDataWaiterRole;
 import simcity.buildings.restaurant.two.RestaurantTwoSystem;
 import simcity.buildings.restaurant.two.RestaurantTwoWaiterRole;
 import simcity.buildings.transportation.BusAgent;
@@ -133,7 +134,7 @@ public class SystemManager {
 		if (name == "Levanne") {
 			person.goToBankNow();
 		}
-		if (name == "jenny") {
+		if (name == "jenny1"||name == "jenny2"||name == "jenny3") {
 			person.goToRestaurantTwoNow();
 		}
 		people.add(person);
@@ -370,6 +371,14 @@ public class SystemManager {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());
 		Role r2Waiter = new RestaurantTwoWaiterRole(person,restaurantTwos.get(0),R2comp);
+		person.addWork(r2Waiter, rest);
+		people.add(person);
+		person.startThread();
+	}
+	public void addRestaurantTwoSharedDataWaiterHack(String name, String rest) {
+		PersonAgent person = new PersonAgent(name);
+		world.getAnimationPanel().addGui(person.getIdleGui());
+		Role r2Waiter = new RestaurantTwoSharedDataWaiterRole(person,restaurantTwos.get(0),R2comp);
 		person.addWork(r2Waiter, rest);
 		people.add(person);
 		person.startThread();

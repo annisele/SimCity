@@ -13,6 +13,7 @@ import java.util.TimerTask;
 
 
 
+import java.util.Map.Entry;
 import java.util.concurrent.Semaphore;
 
 import simcity.buildings.market.MarketSystem;
@@ -123,32 +124,42 @@ public class RestaurantTwoCookRole extends Role implements simcity.interfaces.re
 		stateChanged();
 	}
 	
-	public void msgHereAreItems(String item){
+	public void msgHereAreItems(Map<String, Integer> items,
+			double change){
+	String item = null;
+	int unit = 0;
+		
+			for(Entry<String, Integer> entry :items.entrySet()){
+					item=entry.getKey();
+					unit=entry.getValue();
+				
+			}
+		
 		//msgDeliveringOrder(map<string,int>, double change)
 		Do("Recieved msg items are restocked");
 				if(item.equals("steak")){
-					computer.inventory.steak=+10;
+					computer.inventory.steak=+unit;
 			computer.inventory.steak_low=false;
 			if(computer.inventory.steak_gone==true){
 				computer.addToMenu("steak");
 			}
 		}
 		if(item.equals("chicken")){
-			computer.inventory.chicken=+10;
+			computer.inventory.chicken=+unit;
 			computer.inventory.chicken_low=false;
 			if(computer.inventory.chicken_gone==true){
 				computer.addToMenu("chicken");
 			}
 		}
 		if(item.equals("salad")){
-			computer.inventory.salad=+10;
+			computer.inventory.salad=+unit;
 			computer.inventory.salad_low=false;
 			if(computer.inventory.salad_gone==true){
 				computer.addToMenu("salad");
 			}
 		}
 		if(item.equals("pizza")){
-			computer.inventory.pizza=+10;
+			computer.inventory.pizza=+unit;
 			computer.inventory.pizza_low=false;
 			if(computer.inventory.pizza_gone==true){
 				computer.addToMenu("pizza");
@@ -282,11 +293,11 @@ public class RestaurantTwoCookRole extends Role implements simcity.interfaces.re
 	        RestaurantTwoWOrder order= new RestaurantTwoWOrder(waiter, 2, "sam");
 	        order= orderWheel.remove(); // shared data!
 	        if(order == null)  /// if nothing on wheel
-	        {   Do("order wheel empty");
+	        {   //Do("order wheel empty");
 	        }
 	        else
 	        {
-	            Do("Found ");
+	            //Do("Found ");
 	            msgCookOrder( order.waiter, order.tableNum, order.choice); 
 	        }
 	        stateChanged();
@@ -374,5 +385,7 @@ public void addMarket(MarketSystem m){
 		// TODO Auto-generated method stub
 		return computer.Menu;
 	}
+
+
 
 }

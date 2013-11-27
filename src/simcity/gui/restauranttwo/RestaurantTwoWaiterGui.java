@@ -38,8 +38,8 @@ public class RestaurantTwoWaiterGui extends Gui{
 	    	role=w;
 	       // this.agent = agent;
 	        tablelist[0]=100;
-	    	tablelist[1]=200;
-	    	tablelist[2]=300;
+	    	tablelist[1]=170;
+	    	tablelist[2]=240;
 	    	//this.gui=gui;
 	    }
 /*
@@ -130,7 +130,7 @@ public class RestaurantTwoWaiterGui extends Gui{
 	    	DoGoToLocation(i*25,400);
 	    }
 	    public void GoToKitchen() {
-	    	DoGoToLocation(300,50);
+	    	DoGoToLocation(300,80);
 	    }
 /*
 	    public int getXPos() {

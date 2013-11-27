@@ -18,7 +18,7 @@ import simcity.buildings.transportation.BusAgent;
 
 public class MockBusPassenger implements BusPassenger {
 	
-	public BusAgent bus;
+	public Bus bus;
 	public int destination;
 	public int startingLocation;
 	public int xLoc;
@@ -92,7 +92,7 @@ public class MockBusPassenger implements BusPassenger {
 	}
 
 	@Override
-	public void setBus(BusAgent b) {
+	public void setBus(Bus b) {
 		// TODO Auto-generated method stub
 		bus = b;
 	}

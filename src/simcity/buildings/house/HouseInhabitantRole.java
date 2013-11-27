@@ -236,6 +236,16 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 		}
 	}
 	
+	public void setLowFood() {
+		// This is a function to force the person to buy some food
+		synchronized (foodStock) {
+			foodStock.put("steak", 1);
+			foodStock.put("chicken", 1);
+			foodStock.put("pizza", 1);
+			foodStock.put("salad", 1);
+		}
+	}
+	
 	// Animation
 	public void DoGoToBed() {
 		((HouseInhabitantGui)gui).DoGoToLiving();

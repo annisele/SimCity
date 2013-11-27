@@ -216,29 +216,6 @@ public class Config {
 		systems.addPerson("McKendricka");
 		systems.setHome("McKendricka", "HOUSE12");
 
-		/*//populating city: 5 normal people
-		systems.addPerson("Adam");
-		systems.setHome("Adam", "HOUSE1");
-		systems.addPerson("Bob");
-		systems.setHome("Bob", "HOUSE1");
-		systems.addPerson("Bill");
-		systems.setHome("Bill", "HOUSE1");
-		systems.addPerson("Steve");
-		systems.setHome("Steve", "HOUSE1");
-		systems.addPerson("Keith");
-		systems.setHome("Keith", "HOUSE1");
-		//market1: 1 cashier, 4 workers
-		systems.addMarketCashierHack("Chris", "MARKET1");
-		systems.setHome("Chris", "HOUSE4");
-		systems.addMarketWorkerHack("Will", "MARKET1");
-		systems.setHome("Will", "HOUSE2");
-		systems.addMarketWorkerHack("Wes", "MARKET1");
-		systems.setHome("Wes", "HOUSE2");
-		systems.addMarketWorkerHack("Wendy", "MARKET1");
-		systems.setHome("Wendy", "HOUSE3");
-		systems.addMarketWorkerHack("Wilbur", "MARKET1");
-		systems.setHome("Wilbur", "HOUSE5");*/
-
 		
 	}
 	
@@ -260,8 +237,8 @@ public class Config {
 			}
 		}, 2000);
 		
-		systems.addPerson("Tony");
-		systems.setHome("Tony", "HOUSE1");
+		systems.addPerson("Hungry Antoine");
+		systems.setHome("Hungry Antoine", "HOUSE1");
 
 	}
 	

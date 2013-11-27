@@ -48,9 +48,9 @@ Member Contributions
 Everyone in Team 14 had roles in multiple parts of the project. 
 
 House
-+Design Documentation
-+Implementation
-+JUnit Testing
+  + Design Documentation
+  + Implementation
+  + JUnit Testing
 
 Market
   + Design Documentation

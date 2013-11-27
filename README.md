@@ -74,13 +74,13 @@ Kevin Chan
 
 
 Clayton Brand:  
-1. Created initial design documents for PersonAgent and Transportation (along with Josh).
-2. Created the initial GUI window for us to use in our program.  Used two views, text panels, and a control panel on the right.  Got the control panel to change when something is clicked on, although currently this has very limited functionality.  Got the DetailPanel to show up when someone clicks on the WorldPanel, initially using cardLayout but throwing that out to just change a pointer to the panel.
-3.  Spent a long time on the interaction between Gui, World, and System objects.  Created base AnimationPanels, ControlPanels, Guis (based on Restaurant).  Created a System approach where each “building” is led by a System.  For example, MarketSystem contains a MarketAnimationPanel, a MarketControlPanel, a MarketComputer (for internal calculations that the agents can access), and lists of all agents in the system.
-4.  Created GUI images for World, Bank, Restaurant, Market, and House using Pokemon sprites found online.  Created GUI objects for people as well.  Spent a lot of time getting animations in the World and the House to look smooth.  Created some sprites from scratch.
-5. Re-designed the PersonAgent with Rebecca to create a thorough implementation that worked with our conception of Roles.  ALL actions require a Role, and Events are split up into sets of specific Steps to complete them.  We built a robust scheduler for the PersonAgent, which still has some issues but is for the most part solid.
-6. Implemented the trace panels with Rebecca, based on examples provided by our CP Keith.  Added print statements for House and Bank.
-7. Worked to implement the HouseSystem and HouseInhabitant Role.  Designed all animations and the entire system.
+  + Created initial design documents for PersonAgent and Transportation (along with Josh).
+  + Created the initial GUI window for us to use in our program.  Used two views, text panels, and a control panel on the right.  Got the control panel to change when something is clicked on, although currently this has very limited functionality.  Got the DetailPanel to show up when someone clicks on the WorldPanel, initially using cardLayout but throwing that out to just change a pointer to the panel.
+  + Spent a long time on the interaction between Gui, World, and System objects.  Created base AnimationPanels, ControlPanels, Guis (based on Restaurant).  Created a System approach where each “building” is led by a System.  For example, MarketSystem contains a MarketAnimationPanel, a MarketControlPanel, a MarketComputer (for internal calculations that the agents can access), and lists of all agents in the system.
+  + Created GUI images for World, Bank, Restaurant, Market, and House using Pokemon sprites found online.  Created GUI objects for people as well.  Spent a lot of time getting animations in the World and the House to look smooth.  Created some sprites from scratch.
+  + Re-designed the PersonAgent with Rebecca to create a thorough implementation that worked with our conception of Roles.  ALL actions require a Role, and Events are split up into sets of specific Steps to complete them.  We built a robust scheduler for the PersonAgent, which still has some issues but is for the most part solid.
+  + Implemented the trace panels with Rebecca, based on examples provided by our CP Keith.  Added print statements for House and Bank.
+  +  Worked to implement the HouseSystem and HouseInhabitant Role.  Designed all animations and the entire system.
 
 
 
@@ -99,7 +99,7 @@ Levonne Key :
 - used hack for the bankroles to function since we only have one bank. The pay rent function couldn’t be tested since we do not have landlord. 
 
 Rebecca Hao:
-  + I created the original design documents and interaction diagrams for the market scenarios. The design doc for “Person Orders Items” was left unfinished becasue it became a non-norm. Kevin updated the interaction diagrams and design docs to match the code right before turning in V1.
+  + I created the original design documents and interaction diagrams for the market scenarios. The design doc for “Person Orders Items” was left unfinished becasue it became a non-norm. Kevin updated the interaction diagrams and design docs to match my code right before turning in V1.
   + I wrote the code for all the Market roles, systems, interfaces, and animation.
   + I contributed a lot to all of the base classes, including AnimationPanel, ControlPanel, Gui, SimCityGui, SimSystem, Config, Role, Directory, SystemManager, etc. Most of my time was spent designing the overall design of the project, so that it would be easier for others to integrate their individual parts (bank, restaurant, etc) into the program.
   + I finished the Market Scenario early on and figured out how to implement it in the panels and program, then wrote a wiki page to help team members integrate their parts into their project.

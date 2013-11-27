@@ -67,17 +67,23 @@ public class MarketSystem extends simcity.SimSystem {
 	
 	@Override
 	public boolean msgEnterBuilding(Role role) {
-		animationPanel.addGui(role.getGui());
-		if(role instanceof MarketCustomer) {
-			customers.add((MarketCustomer) role);
-		}
-		else if(role instanceof MarketWorker) {
-			workers.add((MarketWorker) role);
-		}
-		else if(role instanceof MarketCashier) {
-			cashier = (MarketCashier) role;
-		}
-		return true;
+		if(role instanceof MarketCashier) {
+			if (cashier == null) {
+				cashier = (MarketCashier) role;
+				animationPanel.addGui(role.getGui());
+				return true;
+			}
+		} else if (cashier != null) {
+			if(role instanceof MarketCustomer) {
+				customers.add((MarketCustomer) role);
+			}
+			else if(role instanceof MarketWorker) {
+				workers.add((MarketWorker) role);
+			}
+			animationPanel.addGui(role.getGui());
+			return true;
+		} 
+		return false;
 	}
 
 	public void exitBuilding(Role role) {

@@ -162,6 +162,16 @@ public class PersonAgent extends Agent implements Person {
 			scheduleEvent(EventType.DepositMoney);
 		}
 	}
+	
+	public Map<String, Integer> getListToBuy() {
+		HouseInhabitantRole house = null;
+		for(Role r : myRoles) {
+			if(r instanceof HouseInhabitantRole) {
+				house = (HouseInhabitantRole) r;
+			}
+		}  
+		return house.getListToBuy();
+	}
 
 	private int chooseTransportation() {
 		int randchoice = (int)((Math.random()*100)%2);
@@ -555,7 +565,9 @@ public class PersonAgent extends Agent implements Person {
 
 		} else {
 			Do("Building closed. Cannot enter.");
-			scheduleEvent(currentEvent.type); //maybe change this?
+			currentRole = currentEvent.role;
+			roleFinished();
+			//scheduleEvent(currentEvent.type); //maybe change this?
 		}
 		stateChanged();
 	}

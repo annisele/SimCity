@@ -38,10 +38,10 @@ public class Directory {
 	}
 	
 	public void makeBusStops2() {
-		Location stop0 = new Location(30, 150);
-		Location stop1 = new Location(380, 150);
-		Location stop2 = new Location(380, 366);
-		Location stop3 = new Location(30, 366);
+		Location stop0 = new Location(8, 110);
+		Location stop1 = new Location(373, 110);
+		Location stop2 = new Location(373, 410);
+		Location stop3 = new Location(8, 410);
 		busStopDirectory.put(0, stop0);
 		busStopDirectory.put(1, stop1);
 		busStopDirectory.put(2, stop2);

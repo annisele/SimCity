@@ -290,7 +290,7 @@ public class PersonAgent extends Agent implements Person {
 			}
 
 			//hack
-			((BankCustomer)eventR).msgDepositMoney((BankSystem)(Directory.getSystem(buildingName)));
+			((BankCustomer)eventR).hackDepositMoney((BankSystem)(Directory.getSystem(buildingName)));
 			e = new Event(buildingName, eventR, 120, -1, true, steps, t);
 
 			insertEvent(e);
@@ -315,7 +315,7 @@ public class PersonAgent extends Agent implements Person {
 				}
 
 				//hack
-				((BankCustomer)eventR).msgWithdrawMoney((BankSystem)(Directory.getSystem(buildingName)));
+				((BankCustomer)eventR).hackWithdrawMoney((BankSystem)(Directory.getSystem(buildingName)));
 				e = new Event(buildingName, eventR, 120, -1, true, steps, t);
 
 				insertEvent(e);
@@ -337,7 +337,7 @@ public class PersonAgent extends Agent implements Person {
 				}
 			}
 			//hack
-			((BankCustomer)eventR).msgGetLoan((BankSystem)(Directory.getSystem(buildingName)));
+			((BankCustomer)eventR).hackGetLoan((BankSystem)(Directory.getSystem(buildingName)));
 			e = new Event(buildingName, eventR, 120, -1, true, steps, t);
 
 			insertEvent(e);
@@ -358,7 +358,7 @@ public class PersonAgent extends Agent implements Person {
 				}
 			}
 			//hack
-			((BankCustomer)eventR).msgPayRent((BankSystem)(Directory.getSystem(buildingName)));
+			((BankCustomer)eventR).hackPayRent((BankSystem)(Directory.getSystem(buildingName)));
 			e = new Event(buildingName, eventR, 120, -1, true, steps, t);
 
 			insertEvent(e);
@@ -414,7 +414,7 @@ public class PersonAgent extends Agent implements Person {
 				}
 			}
 			house.msgNeedToEat();
-			e = new Event(home, house, 480, -1, true, steps, t);
+			e = new Event(home, house, 30, -1, true, steps, t);
 			insertEvent(e);
 			stateChanged();
 		}
@@ -436,7 +436,7 @@ public class PersonAgent extends Agent implements Person {
 			//hack
 			//RestaurantTwoCustomerRole rc = new RestaurantTwoCustomerRole(this);
 			((RestaurantTwoCustomer)eventR).msgArrivedAtRestaurant(money);
-			e = new Event(buildingName, eventR, 480, -1, true, steps, t);
+			e = new Event(buildingName, eventR, 40, -1, true, steps, t);
 			insertEvent(e);
 			stateChanged();
 		}

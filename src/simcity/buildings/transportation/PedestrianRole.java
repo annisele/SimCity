@@ -82,4 +82,8 @@ public class PedestrianRole extends Role implements simcity.interfaces.transport
 	public void enterBuilding(SimSystem s) {
 		
 	}
+	
+	public PersonAgent getPerson() {
+		return person;
+	}
 }

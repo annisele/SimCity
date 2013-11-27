@@ -53,36 +53,36 @@ House
 +JUnit Testing
 
 Market
-+Design Documentation
-+Implementation
-+JUnit Testing
+  + Design Documentation
+  + Implementation
+  + JUnit Testing
 
 Bank
-+Design Documentation
-+Implementation
-+JUnit Testing
+  + Design Documentation
+  + Implementation
+  + JUnit Testing
 
 Restaurant
-+Design Documentation
-+Implementation
-+JUnit Testing
+  + Design Documentation
+  + Implementation
+  + JUnit Testing
 
 Transportation
-+Design Documentation
-+Implementation
-+JUnit Testing
+  + Design Documentation
+  + Implementation
+  + JUnit Testing
 
 Person
-+Design Documentation
-+Implementation
-+JUnit Testing
+  + Design Documentation
+  + Implementation
+  + JUnit Testing
 
 GUI
-+Animation Panels
-+Control Panel
-+Trace Panel
+  + Animation Panels
+  + Control Panel
+  + Trace Panel
 
 Overall Design
-+Design Documentation
-+Implementation
-+JUnit Testing
+  + Design Documentation
+  + Implementation
+  + JUnit Testing

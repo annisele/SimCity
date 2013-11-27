@@ -194,6 +194,7 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 	
 	private void WakeUp(){
 		//gui leaves bed
+
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(house.getName()), "HouseInhabitant: "+person.getName(), "I'm up! I'm awake!");						
 		//Do("I'm up! I'm awake!");
 		state = HouseInhabitantState.Bored;

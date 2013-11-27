@@ -154,7 +154,8 @@ public class ControlPanel extends JPanel implements ActionListener {
 		add(pauseAndTime);
 		timer.scheduleAtFixedRate((new TimerTask() {
 			public void run() {
-				clockDisplay.setText(Clock.getDisplayTime());
+				//clockDisplay.setText(Clock.getDisplayTime());
+				clockDisplay.setText("" + Clock.getTime());
 			}
 		}), 0, 1000);
 

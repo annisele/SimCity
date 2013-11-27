@@ -1,4 +1,4 @@
-package simcity.buildings.market;
+package simcity.buildings.market; 
 
 import java.util.Collections;
 import java.util.HashMap;

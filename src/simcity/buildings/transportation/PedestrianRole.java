@@ -60,7 +60,7 @@ public class PedestrianRole extends Role implements simcity.interfaces.transport
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
+		 
 	}
 	
 	@Override

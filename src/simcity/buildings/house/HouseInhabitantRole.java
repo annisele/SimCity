@@ -198,19 +198,23 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(house.getName()), "HouseInhabitant: "+person.getName(), "I'm up! I'm awake!");						
 		//Do("I'm up! I'm awake!");
 		state = HouseInhabitantState.Bored;
-		event = HouseInhabitantEvent.None;
+		event = HouseInhabitantEvent.Hungry;
+		stateChanged();
+		
+		// These are problems....  We're going to just make him always be hungry as he wakes up,
+		// instead of using the REAL scheduleEvent method to make him hungry.
 		
 		// When you wake up, you need to eat
-		person.scheduleEvent(EventType.Eat);
-		timer.schedule(new TimerTask(){            
+		//person.scheduleEvent(EventType.EatAtHome);
+		/*timer.schedule(new TimerTask(){            
             public void run() {
             		// And you also need to eat in about 8 hours
-                    person.scheduleEvent(EventType.Eat);
+                    person.scheduleEvent(EventType.EatAtHome);
                     //stateChanged();
             }
-		}, TIMEBWMEALS); //or whatever time is fine
+		}, TIMEBWMEALS); //or whatever time is fine*/
 		
-		exitBuilding();
+		//exitBuilding();
 	}
 
 	public Map<String, Integer> getListToBuy() {

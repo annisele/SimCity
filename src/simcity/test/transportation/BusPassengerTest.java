@@ -15,7 +15,7 @@ public class BusPassengerTest extends TestCase {
 	
 	public void setUp() throws Exception {
 		super.setUp();
-		bus = new MockBus();
+		bus = new MockBus("mockbus");
 		buspassenger = new BusPassengerRole(person);
 		
 	}

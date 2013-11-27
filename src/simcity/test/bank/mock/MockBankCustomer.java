@@ -17,6 +17,7 @@ public class MockBankCustomer extends Mock implements BankCustomer {
 		super(name);
 	}
 	public EventLog log = new EventLog();
+	
 	@Override
 	public void atDestination() {
 		// TODO Auto-generated method stub

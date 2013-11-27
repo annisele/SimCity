@@ -110,7 +110,7 @@ public class ControlPanel extends JPanel implements ActionListener {
 	private JCheckBox buildingErrors = new JCheckBox("Show Building Errors");
 	private JCheckBox buildingMessages = new JCheckBox("Show Building Messages");
 	private JCheckBox worldInfo = new JCheckBox("Show World Info");
-
+	private JCheckBox debug = new JCheckBox("Show Debug Statements");
 
 	public ControlPanel(SimCityGui gui, Config c) {
 		simCityGui = gui;
@@ -172,18 +172,21 @@ public class ControlPanel extends JPanel implements ActionListener {
 		worldErrors.addActionListener(this);
 		worldMessages.addActionListener(this);
 		worldInfo.addActionListener(this);
+		debug.addActionListener(this);
 		buildingErrors.addActionListener(this);
 		buildingMessages.addActionListener(this);
 
 		worldInfo.setSelected(true);
 		worldErrors.setSelected(true);
 		worldMessages.setSelected(true);
+		debug.setSelected(false);
 		buildingErrors.setSelected(true);
 		buildingMessages.setSelected(true);
 
 		logTab.add(worldErrors);
 		logTab.add(worldMessages);
 		logTab.add(worldInfo);
+		logTab.add(debug);
 		logTab.add(buildingErrors);
 		logTab.add(buildingMessages);
 
@@ -318,6 +321,9 @@ public class ControlPanel extends JPanel implements ActionListener {
 		}
 		else if(e.getSource() == worldInfo) {
 			simCityGui.setWorldInfoTrace(worldInfo.isSelected());
+		}
+		else if(e.getSource() == debug) {
+			simCityGui.setWorldDebugTrace(debug.isSelected());
 		}
 		else if(e.getSource() == buildingErrors) {
 			simCityGui.setDetailErrorTrace(buildingErrors.isSelected());

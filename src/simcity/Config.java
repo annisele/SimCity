@@ -58,6 +58,7 @@ public class Config {
 				}, 2000);
 			}
 		}, 2000);
+		
 	}
 
 	public void oneMarket() {
@@ -274,9 +275,6 @@ public class Config {
 			}
 		}, 2000);
 
-
-		systems.addPerson("Tony");
-		systems.setHome("Tony", "HOUSE1");
 
 		systems.addPerson("Hungry Antoine");
 		systems.setHome("Hungry Antoine", "HOUSE1");

@@ -52,7 +52,7 @@ public class PersonAgent extends Agent implements Person {
 	private Role currentRole = null;
 	private Event currentEvent = null;
 
-	public enum EventType { Eat, GoToMarket, BusToMarket, EatAtRestaurant, DepositMoney, WithdrawMoney, GetALoan, PayRent, Sleep, Work };
+	public enum EventType { Eat, GoToMarket, BusToMarket, EatAtRestaurant, EatAtHome, DepositMoney, WithdrawMoney, GetALoan, PayRent, Sleep, Work };
 
 	private String name;
 	private double money = 10;
@@ -127,7 +127,6 @@ public class PersonAgent extends Agent implements Person {
 		else if(currentEvent != null) {
 			//does the next step
 			//if it returns false because there are no more steps, remove event from the list
-			AlertLog.getInstance().logDebug(AlertTag.WORLD, "WORLD: " + getName(), "steps: " + currentEvent.steps());										
 			if(!currentEvent.nextStep()) {
 				AlertLog.getInstance().logDebug(AlertTag.WORLD, "WORLD: " + getName(), "Done with last event step!!! " + currentEvent.type + ", " + eventList.size());										
 				//Do("Current event.nextStep returned false, so I must be done and idle");
@@ -291,7 +290,7 @@ public class PersonAgent extends Agent implements Person {
 			}
 
 			//hack
-			((BankCustomer)eventR).msgDepositMoney((BankSystem)(Directory.getSystem(buildingName)));
+			((BankCustomer)eventR).hackDepositMoney((BankSystem)(Directory.getSystem(buildingName)));
 			e = new Event(buildingName, eventR, 120, -1, true, steps, t);
 
 			insertEvent(e);
@@ -316,7 +315,7 @@ public class PersonAgent extends Agent implements Person {
 				}
 
 				//hack
-				((BankCustomer)eventR).msgWithdrawMoney((BankSystem)(Directory.getSystem(buildingName)));
+				((BankCustomer)eventR).hackWithdrawMoney((BankSystem)(Directory.getSystem(buildingName)));
 				e = new Event(buildingName, eventR, 120, -1, true, steps, t);
 
 				insertEvent(e);
@@ -338,7 +337,7 @@ public class PersonAgent extends Agent implements Person {
 				}
 			}
 			//hack
-			((BankCustomer)eventR).msgGetLoan((BankSystem)(Directory.getSystem(buildingName)));
+			((BankCustomer)eventR).hackGetLoan((BankSystem)(Directory.getSystem(buildingName)));
 			e = new Event(buildingName, eventR, 120, -1, true, steps, t);
 
 			insertEvent(e);
@@ -359,7 +358,7 @@ public class PersonAgent extends Agent implements Person {
 				}
 			}
 			//hack
-			((BankCustomer)eventR).msgPayRent((BankSystem)(Directory.getSystem(buildingName)));
+			((BankCustomer)eventR).hackPayRent((BankSystem)(Directory.getSystem(buildingName)));
 			e = new Event(buildingName, eventR, 120, -1, true, steps, t);
 
 			insertEvent(e);
@@ -370,8 +369,12 @@ public class PersonAgent extends Agent implements Person {
 			steps.add(new Step("exitBuilding", this));
 			steps.add(new Step("goTo", this));
 			steps.add(new Step("enterBuilding", this));
-			//Do("building: "+workBuilding+" workrole: "+workRole);
-			e = new Event(workBuilding, workRole, 120, 3, false, steps, t);
+			int workTime;
+			if (Clock.getTime() < 48)
+				workTime = Clock.getTime();
+			else
+				workTime = Clock.getTime() + 144;
+			e = new Event(workBuilding, workRole, 48, workTime, false, steps, t);
 			//Do("GoToWork is scheduled, which has "+steps.size()+" steps");
 			insertEvent(e);
 			stateChanged();
@@ -390,51 +393,52 @@ public class PersonAgent extends Agent implements Person {
 			house.msgGoToBed();
 			//CHANGE DURATION TO 40
 			e = new Event(home, house, 8, (int) (Clock.getTime() + 16 + (Math.random() * 2)), false, steps, t);
-			AlertLog.getInstance().logDebug(AlertTag.WORLD, "WORLD: " + getName(), "SCHEDULED SLEEP: " + e.startTime + ", " + eventList.size());										
 			insertEvent(e);
 			stateChanged();
-		} else if (t == EventType.Eat) {
+		} 
+		
+		else if (t == EventType.Eat) {
+			t = EventType.EatAtHome;
+			if (rand.nextBoolean() && Directory.getRestaurants().size() > 0)
+				t = EventType.EatAtRestaurant;				
+		}
+		if (t == EventType.EatAtHome) {
 			List<Step> steps = new ArrayList<Step>();
 			steps.add(new Step("exitBuilding", this));
 			steps.add(new Step("goTo", this));
 			steps.add(new Step("enterBuilding", this));
-		
-			if (rand.nextBoolean()) {
-				// Here, we eat at our house
-				HouseInhabitantRole house = null;
-				for(Role r : myRoles) {
-					if(r instanceof HouseInhabitantRole) {
-						house = (HouseInhabitantRole) r;
-					}
+			HouseInhabitantRole house = null;
+			for(Role r : myRoles) {
+				if(r instanceof HouseInhabitantRole) {
+					house = (HouseInhabitantRole) r;
 				}
-				house.msgGoToBed();
-				e = new Event(home, house, 480, 3, false, steps, t);
-				//Do("GoToWork is scheduled, which has "+steps.size()+" steps");
-			} else {
-				List<String> restaurants = Directory.getRestaurants();
-				//int index = rand.nextInt(restaurants.size());
-				//HACK FOR RESTAURANT 2 ONLY
-				String buildingName = restaurants.get(0);
-				Role eventR = null;
-				for(Role r : myRoles) {
-					if(r instanceof RestaurantTwoCustomer) {
-						eventR = r;
-					}
-				}
-				//hack
-				//RestaurantTwoCustomerRole rc = new RestaurantTwoCustomerRole(this);
-				((RestaurantTwoCustomer)eventR).msgArrivedAtRestaurant(money);
-
-				e = new Event(buildingName, eventR, 120, -1, true, steps, t);
-				//Do("GoToMarket is scheduled, which has "+steps.size()+" steps");
-				
-				
 			}
+			house.msgNeedToEat();
+			e = new Event(home, house, 15, -1, true, steps, t);
 			insertEvent(e);
 			stateChanged();
 		}
-		else if(t == EventType.EatAtRestaurant) {
-			
+		else if (t == EventType.EatAtRestaurant) {
+			List<String> restaurants = Directory.getRestaurants();
+			List<Step> steps = new ArrayList<Step>();
+			steps.add(new Step("exitBuilding", this));
+			steps.add(new Step("goTo", this));
+			steps.add(new Step("enterBuilding", this));
+			//int index = rand.nextInt(restaurants.size());
+			//HACK FOR RESTAURANT 2 ONLY
+			String buildingName = restaurants.get(0);
+			Role eventR = null;
+			for(Role r : myRoles) {
+				if(r instanceof RestaurantTwoCustomer) {
+					eventR = r;
+				}
+			}
+			//hack
+			//RestaurantTwoCustomerRole rc = new RestaurantTwoCustomerRole(this);
+			((RestaurantTwoCustomer)eventR).msgArrivedAtRestaurant(money);
+			e = new Event(buildingName, eventR, 20, -1, true, steps, t);
+			insertEvent(e);
+			stateChanged();
 		}
 		
 		return true;
@@ -613,12 +617,13 @@ public class PersonAgent extends Agent implements Person {
 				}
 			}
 
-			for(Event eTemp : tempList) {
-				eventList.remove(eTemp); //remove the conflicting event
-			}
+
 
 			//if there was a conflicting event already in the list, move conflicts
 			if(index != -1) {
+				for(Event eTemp : tempList) {
+					eventList.remove(eTemp); //remove the conflicting event
+				}
 				//add the new event into the correct index
 				eventList.add(index, e);
 				//reinsert all the conflicting events into the list
@@ -659,6 +664,7 @@ public class PersonAgent extends Agent implements Person {
 					//if there is a flexible event, eating takes it's place
 					if(eventList.get(i).flexible) {
 						Event temp = eventList.get(i);
+						e.startTime = eventList.get(i).startTime;
 						eventList.add(i, e); //adding new event into flexible space
 						eventList.remove(temp);
 						insertEvent(temp);
@@ -667,10 +673,13 @@ public class PersonAgent extends Agent implements Person {
 					if(eventList.get(i + 1).startTime - 
 							eventList.get(i).startTime + eventList.get(i).duration > e.duration) {
 						//adding new event into middle of list if there is space
+						e.startTime = eventList.get(i).startTime + eventList.get(i).duration;
 						eventList.add(i + 1, e);
 						return;
 					}
 				}
+				int index = eventList.size() - 1; //index of last element in eventList
+				e.startTime = eventList.get(index).startTime + eventList.get(index).duration;
 				eventList.add(e); //adding new event at end of list
 			}
 			else {
@@ -678,10 +687,13 @@ public class PersonAgent extends Agent implements Person {
 					if(eventList.get(i + 1).startTime - 
 							eventList.get(i).startTime + eventList.get(i).duration > e.duration) {
 						//adding new event into middle of list if there is space
+						e.startTime = eventList.get(i).startTime + eventList.get(i).duration;
 						eventList.add(i + 1, e);
 						return;
 					}
 				}
+				int index = eventList.size() - 1; //index of last element in eventList
+				e.startTime = eventList.get(index).startTime + eventList.get(index).duration;
 				eventList.add(e); //adding new event at end of list
 			}
 		}	
@@ -739,6 +751,16 @@ public class PersonAgent extends Agent implements Person {
 		home = building;
 		scheduleEvent(EventType.Sleep);
 		//scheduleEvent(EventType.Sleep);
+	}
+	
+	public void setLowFood() {
+		HouseInhabitantRole h = null;
+		for(Role r : myRoles) {
+			if(r instanceof HouseInhabitantRole) {
+				h = (HouseInhabitantRole) r;
+			}
+		}  
+		h.setLowFood();
 	}
 
 	// Classes
@@ -858,11 +880,9 @@ public class PersonAgent extends Agent implements Person {
 		private boolean nextStep() {
 			//Do("nextStep is being called, currently "+steps.size()+" steps");
 			if(steps.isEmpty()) {
-				AlertLog.getInstance().logDebug(AlertTag.WORLD, "WORLD: " + getName(), "next step FALSE");										
 				return false;
 			}
 			else {
-				AlertLog.getInstance().logDebug(AlertTag.WORLD, "WORLD: " + getName(), "next step TRUE");										
 				steps.get(0).doMethod();
 				//Do("An event's step is being removed");
 				steps.remove(0);

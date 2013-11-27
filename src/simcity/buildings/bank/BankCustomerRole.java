@@ -154,16 +154,6 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 		this.bt = bt;
 	}
 	
-	//messages from personagent
-	public void msgDepositMoney(BankSystem b) {
-		//person.Do("I need to open an account and deposit money");
-		cashOnHand = 50;
-		accountPassword = "abcdef";
-		amountToProcess = 20;
-		transactionType = TransactionType.openAccount;
-		bank = b;
-	}
-	
 	//messages 
 	public void msgArrivedAtBank() { // from gui
 		//person.Do("I'm at bank");
@@ -440,7 +430,16 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 
 		}
 
-		public void msgWithdrawMoney(BankSystem b) {
+		// HACKS
+		public void hackDepositMoney(BankSystem b) {
+			//person.Do("I need to open an account and deposit money");
+			cashOnHand = 50;
+			accountPassword = "abcdef";
+			amountToProcess = 20;
+			transactionType = TransactionType.openAccount;
+			bank = b;
+		}
+		public void hackWithdrawMoney(BankSystem b) {
 			cashOnHand = 50;
 			accountPassword = "abcdef";
 			amountToProcess = 20;
@@ -449,7 +448,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 			AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankCustomer: " + person.getName(), "I need to withdraw money");	
 
 		}
-		public void msgPayRent(BankSystem b) {
+		public void hackPayRent(BankSystem b) {
 			cashOnHand = 50;
 			accountPassword = "abcdef";
 			amountToProcess = 10;
@@ -458,7 +457,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 			AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankCustomer: " + person.getName(), "I need to pay rent");	
 
 		}
-		public void msgGetLoan(BankSystem b) {
+		public void hackGetLoan(BankSystem b) {
 			cashOnHand = 50;
 			accountPassword = "abcdef";
 			amountToProcess = 100;

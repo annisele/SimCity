@@ -34,7 +34,7 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 	private final int SLEEPTIME = 4000;
 	private final int COOKTIME = 6000;
 	private final int EATTIME = 4000;
-	private final int TIMEBWMEALS = 4000;
+	private final int TIMEBWMEALS = 12*8*1000;
 	private final int FOODSTOCK = 3;
 	private final int FOODTHRESHOLD = 2;
 	
@@ -209,6 +209,8 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
                     //stateChanged();
             }
 		}, TIMEBWMEALS); //or whatever time is fine
+		
+		exitBuilding();
 	}
 
 	public Map<String, Integer> getListToBuy() {
@@ -234,6 +236,16 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 	                newList.put(key, items.get(key));
 	            }
 	        }
+		}
+	}
+	
+	public void setLowFood() {
+		// This is a function to force the person to buy some food
+		synchronized (foodStock) {
+			foodStock.put("steak", 1);
+			foodStock.put("chicken", 1);
+			foodStock.put("pizza", 1);
+			foodStock.put("salad", 1);
 		}
 	}
 	

@@ -138,7 +138,7 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 		timer.schedule(new TimerTask(){            
             public void run() {
                     Eat();
-                    //stateChanged();
+                    //stateChanged(); 
             }
 		}, COOKTIME);
 		

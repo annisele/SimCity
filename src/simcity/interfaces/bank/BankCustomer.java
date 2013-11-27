@@ -25,6 +25,7 @@ public abstract interface BankCustomer extends GuiPartner {
 	public abstract void setTransactionType(TransactionType tt);
 	public abstract State getState();
 	public abstract Event getEvent();
+	public abstract void setBankSystem(BankSystem bank);
 	public abstract BankSystem getBankSystem();
 	public abstract BankHost getBankHost();
 	public abstract void setBankHost(BankHost bh);

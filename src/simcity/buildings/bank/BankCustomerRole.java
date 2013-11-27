@@ -126,6 +126,10 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 		return bank;
 	}
 	
+	public void setBankSystem(BankSystem bank) {
+		this.bank = bank;
+	}
+	
 	public BankHost getBankHost() {
 		return bh;
 	}
@@ -252,8 +256,8 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 		//person.Do("event is: "+event);
 	 	// person isn't doing anything, then arrives at bank
 		if (state == State.none && event == Event.arrivedAtBank){
-			InformBankHostOfArrival();
 			state = State.waitingAtBank;
+			InformBankHostOfArrival();
 			return true;
 		}
 
@@ -301,7 +305,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	    		e.printStackTrace();
 	    	}
 	    	
-			AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankCustomer: " + person.getName(), "I'd like to make a transaction!");	
+	    	AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankCustomer: " + person.getName(), "I'd like to make a transaction!");	
 	    	bank.getBankHost().msgEnteringBank(this);
 		}
 

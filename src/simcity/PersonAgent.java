@@ -57,7 +57,6 @@ public class PersonAgent extends Agent implements Person {
 	private double money = 10;
 	private double withdrawThreshold = 10; // if money is less than this, we will try to withdraw
 	private double depositThreshold = 25; // if money is higher than this, we will try to deposit
-
 	private String home;
 	private String workBuilding;
 	private Role workRole;
@@ -91,34 +90,51 @@ public class PersonAgent extends Agent implements Person {
 
 	@Override
 	public boolean pickAndExecuteAnAction() {
+		String eventString = "";
+		for(Event e : eventList) {
+			eventString = eventString + ", " + e.type + " @ " + e.startTime;
+		}
+		AlertLog.getInstance().logDebug(AlertTag.WORLD, "WORLD: " + getName(), "SCHED: " + eventString);										
+
 		if(currentRole != null) {
 			return currentRole.pickAndExecuteAnAction();
 		}
 		else if(currentEvent != null) {
 			//does the next step
 			//if it returns false because there are no more steps, remove event from the list
+			AlertLog.getInstance().logDebug(AlertTag.WORLD, "WORLD: " + getName(), "steps: " + currentEvent.steps());										
 			if(!currentEvent.nextStep()) {
+				AlertLog.getInstance().logDebug(AlertTag.WORLD, "WORLD: " + getName(), "Done with last event step!!! " + currentEvent.type + ", " + eventList.size());										
 				//Do("Current event.nextStep returned false, so I must be done and idle");
 				currentEvent = null;
-				if (currentRole != null)
+				if (currentRole != null) {
 					AlertLog.getInstance().logError(AlertTag.WORLD, "Person: "+name, "CurrentRole is not null at this point in the scheduler, but it should be!");						
+				}
 				//currentRole = null;
 				//idleGui.setLocation(currentRole.getGui().getLocation());
 				eventList.remove(0);
 				return true;
 			}
-		} else {
+		} 
+		else {
+			AlertLog.getInstance().logDebug(AlertTag.WORLD, "WORLD: " + getName(), "CURRENT EVENT IS NULL.. " + eventList.size());										
 			if(eventList.size() > 0) {
-				if(eventList.get(0).startTime <= Clock.getTime() || currentEvent == null) {
+				if(eventList.get(0).startTime <= Clock.getTime() || eventList.get(0).flexible) {
 					currentEvent = eventList.get(0); //set next event to current
+					AlertLog.getInstance().logDebug(AlertTag.WORLD, "WORLD: " + getName(), "STARTING NEXT EVENT: " + currentEvent.type);										
 					return true;
+				}
+				else if(!eventList.get(0).flexible) {
+					waitForNextEvent();
 				}
 				else if(Directory.getLocation(eventList.get(0).buildingName) == Directory.getLocation(currentEvent.buildingName) && eventList.get(0).flexible) {
 					//set next event to current if at same place and next event is flexible
 					currentEvent = eventList.get(0);
+					AlertLog.getInstance().logDebug(AlertTag.WORLD, "WORLD: " + getName(), "event is flexible or in same building, starting... " + currentEvent.type);										
 					return true;
 				}
 				else {
+					Do("person agent scheduler unecessary if?");
 					waitForNextEvent();
 				}
 			}
@@ -127,9 +143,11 @@ public class PersonAgent extends Agent implements Person {
 	}
 
 	private void waitForNextEvent() {
-		long waitTime = eventList.get(0).startTime - Clock.getTime();
+		long waitTime = 1000 * (eventList.get(0).startTime - Clock.getTime());
+		AlertLog.getInstance().logDebug(AlertTag.WORLD, "WORLD: " + getName(), "waiting for event... wait time = " + waitTime);										
 		timer.schedule(new TimerTask() {
 			public void run() {
+				AlertLog.getInstance().logDebug(AlertTag.WORLD, "WORLD: " + getName(), "wait for event done. " + Clock.currentTime);										
 				stateChanged();
 			}
 		}, waitTime);
@@ -153,7 +171,7 @@ public class PersonAgent extends Agent implements Person {
 			scheduleEvent(EventType.DepositMoney);
 		}
 	}
-	
+
 	public Map<String, Integer> getListToBuy() {
 		HouseInhabitantRole house = null;
 		for(Role r : myRoles) {
@@ -172,7 +190,6 @@ public class PersonAgent extends Agent implements Person {
 	public boolean scheduleEvent(EventType t) {
 		Event e;
 		if (t == EventType.GoToMarket) {
-
 			List<String> markets = Directory.getMarkets();
 			if (markets.size() == 0) {
 				return false;
@@ -191,11 +208,13 @@ public class PersonAgent extends Agent implements Person {
 			} 
 
 			e = new Event(buildingName, eventR, 120, -1, true, steps, t);
+			AlertLog.getInstance().logDebug(AlertTag.WORLD, "WORLD: " + getName(), "SCHEDULED GOTOMARKET" + e.startTime + ", " + eventList.size());										
+
 			//Do("GoToMarket is scheduled, which has "+steps.size()+" steps");
 			insertEvent(e);
 			stateChanged();
 		}
-		
+
 		if (t == EventType.BusToMarket) {
 			List<String> markets = Directory.getMarkets();
 			int index = rand.nextInt(markets.size());
@@ -212,7 +231,7 @@ public class PersonAgent extends Agent implements Person {
 				steps.add(new Step("waitForBus", this)); 
 				steps.add(new Step("goTo",this));
 				steps.add(new Step("enterBuilding", this));
-				
+
 			}
 
 			Role eventR = null;
@@ -372,8 +391,9 @@ public class PersonAgent extends Agent implements Person {
 				}
 			}
 			house.msgGoToBed();
-			e = new Event(home, house, 480, 3, false, steps, t);
-			//Do("GoToWork is scheduled, which has "+steps.size()+" steps");
+			//CHANGE DURATION TO 40
+			e = new Event(home, house, 8, (int) (Clock.getTime() + 16 + (Math.random() * 2)), false, steps, t);
+			AlertLog.getInstance().logDebug(AlertTag.WORLD, "WORLD: " + getName(), "SCHEDULED SLEEP: " + e.startTime + ", " + eventList.size());										
 			insertEvent(e);
 			stateChanged();
 		}
@@ -382,19 +402,19 @@ public class PersonAgent extends Agent implements Person {
 
 	//this assumes after roles are done, they go stand outside the building
 	//so this only needs to prep the person to walk somewhere by changing it to pedestrian
-	
+
 	int chooseTransportation(String dest) {
 		Role eventR = null;
 		for (Role r : myRoles) {
 			if (r instanceof Pedestrian) {
 				eventR = r;
-				
+
 			}
 		}
 
 		double minLocation = 1000;
 		int minStop = 10;
-		
+
 		for (int i=0; i<4; i++) {
 			int tempX = Directory.getBusStop(i).getX()-eventR.getGui().getX();
 			double tempX2 = Math.pow(tempX, 2);
@@ -407,7 +427,7 @@ public class PersonAgent extends Agent implements Person {
 				minStop = i;
 			}
 		}
-		
+
 		PedestrianRole tempR = (PedestrianRole)eventR;
 		//int buildingdist = 4000;
 		int btempX = Directory.getLocation(dest).getX()-tempR.getGui().getX();
@@ -423,11 +443,11 @@ public class PersonAgent extends Agent implements Person {
 			return 10;
 		}
 	}
-	
+
 	int getClosestStop(String dest) {
 		double minLocation = 10000;
 		int minStop = 10;
-		
+
 		for (int i=0; i<4; i++) {
 			int tempX = Directory.getBusStop(i).getX()-Directory.getLocation(dest).getX();
 			double tempX2 = Math.pow(tempX, 2);
@@ -441,17 +461,17 @@ public class PersonAgent extends Agent implements Person {
 			}
 		}
 		return minStop;
-		
-	}
-	
-	
-			
-			
-		
-	
 
-		
-	
+	}
+
+
+
+
+
+
+
+
+
 	public void exitBuilding() {
 		//Do("exitBuilding step is called");
 		if (currentRole != null)
@@ -466,7 +486,7 @@ public class PersonAgent extends Agent implements Person {
 				Directory.getWorld().getAnimationPanel().addGui(currentRole.getGui());
 			}
 		}
-	
+
 		//currentRole.getGui().ge
 		Location loc = Directory.getBusStop(chooseTransportation(currentEvent.buildingName));
 		((PedestrianRole)currentRole).addDestination(loc);
@@ -587,9 +607,11 @@ public class PersonAgent extends Agent implements Person {
 		else {
 			//if there is time at the beginning, insert new event first
 			if(eventList.isEmpty()) {
+				e.startTime = Clock.getTime();
 				eventList.add(0, e);
 			}
 			else if(eventList.get(0).startTime - Clock.getTime() > e.duration) {
+				e.startTime = Clock.getTime();
 				eventList.add(0, e);
 			}
 			else if(e.type == EventType.Eat) {
@@ -710,6 +732,10 @@ public class PersonAgent extends Agent implements Person {
 				e.printStackTrace();
 			}
 		}
+		
+		public String toString() {
+			return "[" + person.getName() + ", " + methodName + "]";
+		}
 
 		public void doMethod() {
 
@@ -761,6 +787,10 @@ public class PersonAgent extends Agent implements Person {
 			steps = s;
 			type = t;
 		}
+		
+		public List<Step> steps() {
+			return steps;
+		}
 
 		private boolean overlaps(Event e) {
 			//e starts halfway through this event
@@ -788,9 +818,11 @@ public class PersonAgent extends Agent implements Person {
 		private boolean nextStep() {
 			//Do("nextStep is being called, currently "+steps.size()+" steps");
 			if(steps.isEmpty()) {
+				AlertLog.getInstance().logDebug(AlertTag.WORLD, "WORLD: " + getName(), "next step FALSE");										
 				return false;
 			}
 			else {
+				AlertLog.getInstance().logDebug(AlertTag.WORLD, "WORLD: " + getName(), "next step TRUE");										
 				steps.get(0).doMethod();
 				//Do("An event's step is being removed");
 				steps.remove(0);
@@ -821,11 +853,11 @@ public class PersonAgent extends Agent implements Person {
 			}
 		}  
 	}
-	
+
 	public Role getCurrentRole() {
 		return currentRole;
 	}
-	
+
 	public void setCurrentRole(Role r) {
 		this.currentRole = r;
 	}

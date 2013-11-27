@@ -3,11 +3,7 @@ package simcity;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import javax.swing.JPanel;
 
 import simcity.Directory.EntryType;
 import simcity.buildings.bank.BankHostRole;
@@ -31,9 +27,9 @@ import simcity.buildings.restaurant.two.RestaurantTwoSystem;
 import simcity.buildings.restaurant.two.RestaurantTwoWaiterRole;
 import simcity.buildings.transportation.BusAgent;
 import simcity.buildings.transportation.TransportationSystem;
-import simcity.gui.WorldAnimationPanel;
 import simcity.gui.BuildingGui;
 import simcity.gui.SimCityGui;
+import simcity.gui.WorldAnimationPanel;
 import simcity.gui.transportation.BusGui;
 
 public class SystemManager {

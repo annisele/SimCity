@@ -68,7 +68,7 @@ public class MarketTruckAgent extends Agent implements MarketTruck {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		gui.DoGoToLocation(200, 250);
+		gui.DoGoToLocation(Directory.getLocation("RESTAURANT2").getX(), Directory.getLocation("RESTAURANT2").getY());
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {

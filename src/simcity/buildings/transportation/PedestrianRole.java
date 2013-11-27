@@ -7,6 +7,8 @@ import simcity.Location;
 import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.gui.transportation.PedestrianGui;
 
 public class PedestrianRole extends Role implements simcity.interfaces.transportation.Pedestrian {
@@ -27,7 +29,6 @@ public class PedestrianRole extends Role implements simcity.interfaces.transport
 	//Messages
 	@Override
 	public void exitBuilding() {
-		// TODO Auto-generated method stub
 		
 	}
 	
@@ -46,13 +47,13 @@ public class PedestrianRole extends Role implements simcity.interfaces.transport
 	
 	// Actions
 	private void GoToDestination(Location destination) {
-		//person.Do("Calling GOTOLOC");
 		DoGoToLocation(destination.getX(), destination.getY());
 		person.roleFinished();
 	}
 	
 	// Animation DoXYZ
 	private void DoGoToLocation(int x, int y) {
+		AlertLog.getInstance().logMessage(AlertTag.WORLD, "Pedestrian: " + person.getName(), "Walking to location (" + x + ", " + y + ").");
 		gui.DoGoToLocation(x, y);
 		try {
 			atDest.acquire();
@@ -68,8 +69,6 @@ public class PedestrianRole extends Role implements simcity.interfaces.transport
 	}
 	
 	// Utility functions
-	
-	
 	public void addDestination(Location destination) {
 		destinationList.add(destination);
 	}
@@ -80,35 +79,6 @@ public class PedestrianRole extends Role implements simcity.interfaces.transport
 
 	@Override
 	public void enterBuilding(SimSystem s) {
-		// TODO Auto-generated method stub
 		
 	}
-
-	
-	
-	/*
-	public void msgWalkTo(Location l) {
-		destination = l;
-	}
-	
-	protected boolean pickAndExecuteAnAction() {
-		if (destination != null)
-			Walk(destination);
-	}
-	
-	private void Walk(Location l) {
-		// Animation
-		DoGoTo(l);
-		destination = null;
-		person.msgWeHaveArrived();
-	}
-	
-	private void DoGoTo(Location loc)  {
-	//pedestrianGui.DoWalkTo...
-	}*/
-	
-	public Location getNextLocation() {
-		return destinationList.get(0);
-	}
-
 }

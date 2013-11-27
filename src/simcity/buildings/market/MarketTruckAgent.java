@@ -11,6 +11,8 @@ import simcity.Location;
 import simcity.Role;
 import simcity.SimSystem;
 import simcity.gui.market.MarketTruckGui;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.market.MarketOrderer;
 import simcity.interfaces.market.MarketTruck;
 import agent.Agent;
@@ -21,14 +23,23 @@ public class MarketTruckAgent extends Agent implements MarketTruck {
 	private Semaphore atDest = new Semaphore(0, true);
 	private MarketSystem market;
 	MarketTruckGui gui;
-	
+	private class TruckOrder {
+		MarketOrderer role;
+		Map<String, Integer> itemsToDeliver;
+
+		TruckOrder(MarketOrderer roleIn, Map<String, Integer> itemsToDeliverIn) {
+			role = roleIn;
+			itemsToDeliver = itemsToDeliverIn;
+		}
+	}
+
 	public MarketTruckAgent(SimSystem m) {
 		market = (MarketSystem)m;
 		Location loc = Directory.getLocation(market.getName());
-		
+
 		gui = new MarketTruckGui(this, loc.getX(), loc.getY());
 	}
-	
+
 	public MarketTruckGui getGui() {
 		return gui;
 	}
@@ -63,20 +74,9 @@ public class MarketTruckAgent extends Agent implements MarketTruck {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
-		o.role.msgDeliveringOrder(o.itemsToDeliver);
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(market.getName()), "MarketTruck", "Here is your delivery.");
+		o.role.msgHereAreItems(o.itemsToDeliver, 0.0);
 		orders.remove(o);
-	}
-
-	private class TruckOrder {
-		MarketOrderer role;
-		Map<String, Integer> itemsToDeliver;
-
-		TruckOrder(MarketOrderer roleIn, Map<String, Integer> itemsToDeliverIn) {
-			role = roleIn;
-			itemsToDeliver = itemsToDeliverIn;
-		}
-
 	}
 
 	@Override

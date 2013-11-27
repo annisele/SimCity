@@ -71,6 +71,7 @@ public class SystemManager {
 		}
 		world.clear();
 		world.getAnimationPanel().clear();
+		world.simCityGui.clearTracePanels();
 		
 		dir.clear();
 		markets.clear();
@@ -105,7 +106,6 @@ public class SystemManager {
 		WorldAnimationPanel w = (WorldAnimationPanel)world.getAnimationPanel();
 		w.setBackgroundOne();
 		dir.makeBusStops1();
-
 	} 
 	
 	public void setBackgroundTwo() {
@@ -119,7 +119,6 @@ public class SystemManager {
 		world.getAnimationPanel().addGui(person.getIdleGui());
 
 		person.setBus(bus);
-		//people.add(person);
 		
 		//hacks
 		if (name.equalsIgnoreCase("Rebecca")) {
@@ -139,10 +138,7 @@ public class SystemManager {
 		}
 		people.add(person);
 		person.startThread();
-		
-		
 	}
-	
 	
 	public void addMarket(String name, int xLoc, int yLoc) {
 		MarketSystem temp = new MarketSystem(simcity);
@@ -387,6 +383,5 @@ public class SystemManager {
 	public BusAgent getBus() {
 		return bus;
 	}
-
 	
 }

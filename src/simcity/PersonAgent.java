@@ -28,7 +28,6 @@ import simcity.interfaces.market.MarketCustomer;
 import simcity.interfaces.restaurant.two.RestaurantTwoCustomer;
 import simcity.interfaces.transportation.Pedestrian;
 import agent.Agent;
-import simcity.buildings.transportation.BusAgent;;
 
 
 
@@ -114,7 +113,6 @@ public class PersonAgent extends Agent implements Person {
 		else if(currentEvent != null) {
 			//does the next step
 			//if it returns false because there are no more steps, remove event from the list
-			//Do("Current event is not null");
 			if(!currentEvent.nextStep()) {
 				//Do("Current event.nextStep returned false, so I must be done and idle");
 				currentEvent = null;
@@ -580,13 +578,6 @@ public class PersonAgent extends Agent implements Person {
 		stateChanged();
 	}
 
-	public void waitForTransport() {
-		for (Role r : myRoles) {
-			if (r instanceof Pedestrian) {
-				idleGui.setLocation(r.getGui().getLocation());
-			}
-		}
-	}
 
 	public void roleFinished() {
 		//Do("Role is finished");

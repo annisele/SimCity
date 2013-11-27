@@ -20,12 +20,21 @@ public class BusGui extends Gui {
 	
 	private boolean atDestNow = false;
 	
-	ImageIcon ii = new ImageIcon("res/citygui/markettruck.png");
+	ImageIcon ii = new ImageIcon("res/transportation/bus.png");
 	Image img = ii.getImage();
 	Image busimage = img.getScaledInstance(25, 25,  java.awt.Image.SCALE_SMOOTH); 
 
 	public BusGui(BusAgent bus) {
 		this.busagent = bus;
+		if (busagent.getName().equals("Buster")) {
+			x = 10;
+			y = 67;
+		}
+		if (busagent.getName().equals("Busta")) {
+			x = 20;
+			y = 108;
+		}
+		
 	}
 	
 	public void updatePosition() {

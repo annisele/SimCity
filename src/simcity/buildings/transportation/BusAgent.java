@@ -13,6 +13,7 @@ import agent.Agent;
 import simcity.Directory;
 import simcity.Location;
 import simcity.gui.transportation.BusGui;
+import simcity.interfaces.transportation.BusPassenger;
 
 
 //Make Changes to bus stop counter
@@ -23,11 +24,11 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 	Directory dir;
 
 	class MyPassenger {
-		BusPassengerRole role;
+		BusPassenger role;
 		int startLocation;
 		int destination;
 		boolean loaded = false;
-		MyPassenger(BusPassengerRole r, int s, int d) {
+		MyPassenger(BusPassenger r, int s, int d) {
 			role = r;			
 			destination = d;
 			startLocation = s;
@@ -42,14 +43,26 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 	
 	public BusAgent(String busname) {
 		this.name = busname; 
-		Location stop1 = new Location(68, 67);
-		Location stop2 = new Location(370, 67);
-		Location stop3 = new Location(370, 366);
-		Location stop4 = new Location(68, 366);
-		busStops.put(0, stop1);
-		busStops.put(1, stop2);
-		busStops.put(2, stop3);
-		busStops.put(3, stop4);
+		if (name == "Buster") {
+			Location stop1 = new Location(68, 67);
+			Location stop2 = new Location(370, 67);
+			Location stop3 = new Location(370, 366);
+			Location stop4 = new Location(68, 366);
+			busStops.put(0, stop1);
+			busStops.put(1, stop2);
+			busStops.put(2, stop3);
+			busStops.put(3, stop4);
+		}
+		else if (name == "Busta") {
+			Location stop1 = new Location(15, 108);
+			Location stop2 = new Location(336, 108);
+			Location stop3 = new Location(336, 405);
+			Location stop4 = new Location(15, 405);
+			busStops.put(0, stop1);
+			busStops.put(1, stop2);
+			busStops.put(2, stop3);
+			busStops.put(3, stop4);
+		}
 		busStopCounter = 3;
 	}
 		
@@ -74,7 +87,7 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 		stateChanged();
 	}
 	
-	public void msgWantBus(BusPassengerRole cp, int s, int d) {
+	public void msgWantBus(BusPassenger cp, int s, int d) {
 		MyPassenger temp = new MyPassenger(cp, s, d);
 		temp.loaded = false;
 		passengers.add(temp);
@@ -82,7 +95,7 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 		stateChanged();
 	}
 	
-	public void msgGettingOn(BusPassengerRole cp) {
+	public void msgGettingOn(BusPassenger cp) {
 		//passengers.get(cp).loaded();
 		synchronized(passengers) {
 			for (MyPassenger p : passengers) {
@@ -94,7 +107,7 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 		stateChanged();
 	}
 	
-	public void msgGettingOff(BusPassengerRole cp) {
+	public void msgGettingOff(BusPassenger cp) {
 		synchronized(passengers) {
 			for (MyPassenger p : passengers) {
 				if (p.role == cp) {
@@ -116,17 +129,7 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 		stateChanged();
 	}
 
-	boolean FullyLoaded() {
-		synchronized(passengers) {
-			for (MyPassenger p : passengers) {
-				if (p.startLocation == (busStopCounter)) {
-					if (p.loaded == false)
-						return false;
-				}
-			}
-		}
-		return true;	
-	}
+
 	
 	// Scheduler
 	public boolean pickAndExecuteAnAction() {
@@ -150,7 +153,7 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 	}
 	
 	// Actions
-	private void Drive() {
+	public void Drive() {
 		busStopCounter = ((busStopCounter + 1) % 4);
 		DoGoTo(busStops.get(busStopCounter));
 		try {
@@ -162,7 +165,7 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 		msgArrived();
 	}
 
-	private void Stop() {
+	public void Stop() {
 		synchronized(passengers) {
 			for (MyPassenger p : passengers) {
 				if (p.loaded == false && p.startLocation == busStopCounter) {
@@ -181,7 +184,7 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 	}
 	
 	
-	private void DoGoTo(Location l) {
+	public void DoGoTo(Location l) {
 		//Animation
 		//Wait a few Seconds
 		gui.DoGoToStop(l.getX(), l.getY());
@@ -216,6 +219,7 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 	public void setDirectory(Directory dir) {
 		this.dir = dir;
 	}
+
 
 }
 

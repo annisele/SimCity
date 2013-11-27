@@ -97,7 +97,9 @@ public class Config {
 		systems.addHouse("HOUSE1", 100, 100);
 		//systems.addPerson("Homie"); // This guy will live in the house, hence his name
 		systems.addPerson("Homie");
-		systems.setHome("Homie", "HOUSE1");
+		systems.setHome("Homie", "HouseOne");
+		
+
 	}
 	
 	public void oneBank() {
@@ -176,34 +178,58 @@ public class Config {
 		systems.addBus("Busta");
 		
 		// Top row
-		systems.addHouse("HouseSOne", 60, 27);
-		systems.addHouse("HouseSOne", 123, 27);
-		systems.addHouse("HouseSOne", 186, 27);
-		systems.addHouse("HouseSOne", 249, 27);
-		systems.addHouse("HouseSOne", 312, 27);
+		systems.addHouse("HOUSE1", 60, 27);
+		systems.addHouse("HOUSE2", 123, 27);
+		systems.addHouse("HOUSE3", 186, 27);
+		systems.addHouse("HOUSE4", 249, 27);
+		systems.addHouse("HOUSE5", 312, 27); 
 		
 		// These are the right-most houses
-		systems.addHouse("HouseSOne", 402, 27);
-		systems.addHouse("HouseSOne", 402, 110);
-		systems.addHouse("HouseSOne", 402, 189);
+		systems.addHouse("HOUSE6", 402, 27);
+		systems.addHouse("HOUSE7", 402, 110);
+		systems.addHouse("HOUSE8", 402, 189);
 		
 		// Second row
-		systems.addHouse("HouseSOne", 60, 140);
-		systems.addHouse("HouseSOne", 123, 140);
-		systems.addHouse("HouseSOne", 186, 140);
-		systems.addHouse("HouseSOne", 249, 140);
+		systems.addHouse("HOUSE9", 60, 140);
+		systems.addHouse("HOUSE10", 123, 140);
+		systems.addHouse("HOUSE11", 186, 140);
+		systems.addHouse("HOUSE12", 249, 140); 
 		
 		// Third row
-		systems.addHouse("HouseSOne", 60, 250);
-		systems.addHouse("HouseSOne", 123, 250);
-		systems.addMarket("MarketOne", 186, 250);
-		systems.addRestaurantTwo("RestaurantTwo", 249, 250);
+		systems.addHouse("HOUSE13", 60, 250);
+		systems.addHouse("HOUSE14", 123, 250);
+		systems.addMarket("MARKET1", 186, 250);
+		systems.addRestaurantTwo("RESTAURANT2", 249, 250);
 
 		// Fourth row
-		systems.addBank("BankOne", 60, 333);
-		systems.addHouse("HouseSOne", 123, 333);
-		systems.addHouse("HouseSOne", 186, 333);
-		systems.addHouse("HouseSOne", 249, 333);
+		systems.addBank("BANK1", 60, 333);
+		systems.addHouse("HOUSE15", 123, 333);
+		systems.addHouse("HOUSE16", 186, 333);
+		systems.addHouse("HOUSE17", 249, 333);
+		
+		//populating city: 5 normal people
+		systems.addPerson("Adam");
+		systems.setHome("Adam", "HOUSE1");
+		systems.addPerson("Bob");
+		systems.setHome("Bob", "HOUSE1");
+		systems.addPerson("Bill");
+		systems.setHome("Bill", "HOUSE1");
+		systems.addPerson("Steve");
+		systems.setHome("Steve", "HOUSE1");
+		systems.addPerson("Keith");
+		systems.setHome("Keith", "HOUSE1");
+		//market1: 1 cashier, 4 workers
+		systems.addMarketCashierHack("Chris", "MARKET1");
+		systems.setHome("Chris", "HOUSE4");
+		systems.addMarketWorkerHack("Will", "MARKET1");
+		systems.setHome("Will", "HOUSE2");
+		systems.addMarketWorkerHack("Wes", "MARKET1");
+		systems.setHome("Wes", "HOUSE2");
+		systems.addMarketWorkerHack("Wendy", "MARKET1");
+		systems.setHome("Wendy", "HOUSE3");
+		systems.addMarketWorkerHack("Wilbur", "MARKET1");
+		systems.setHome("Wilbur", "HOUSE5");
+
 		
 	}
 	
@@ -266,24 +292,24 @@ public class Config {
 		systems.clearDetailPane();
 
 		
-		systems.setBackgroundOne();
-		systems.addRestaurantTwo("RestaurantTwo", 300, 100);
-		systems.addRestaurantTwoHostHack("Host Bloke", "RestaurantTwo");
-		systems.addMarket("Market", 60, 140);
-		systems.addBank("Bank", 402, 27);
-		systems.addMarketCashierHack("Mary", "Market");
-		systems.addMarketTruck("Market");
+		systems.setBackgroundTwo();
+		systems.addRestaurantTwo("RESTAURANT2", 300, 100);
+		systems.addRestaurantTwoHostHack("Host Bloke", "RESTAURANT2");
+		systems.addMarket("MARKET1", 60, 140);
+		systems.addBank("BANK1", 402, 27);
+		systems.addMarketCashierHack("Mary", "MARKET1");
+		systems.addMarketTruck("MARKET1");
 		
 		timer.schedule(new TimerTask() {
 			public void run() {
-				systems.addRestaurantTwoCashierHack("Cashier Blob", "RestaurantTwo");
+				systems.addRestaurantTwoCashierHack("Cashier Blob", "RESTAURANT2");
 				timer.schedule(new TimerTask() {
 					public void run() {
-						systems.addRestaurantTwoCookHack("Cook Brute", "RestaurantTwo");
+						systems.addRestaurantTwoCookHack("Cook Brute", "RESTAURANT2");
 
 						timer.schedule(new TimerTask() {
 							public void run() {
-								systems.addRestaurantTwoWaiterHack("Waiter Bob dylan", "RestaurantTwo");
+								systems.addRestaurantTwoWaiterHack("Waiter Bob dylan", "RESTAURANT2");
 								timer.schedule(new TimerTask() {
 									public void run() {
 										systems.addPerson("jenny");
@@ -299,15 +325,15 @@ public class Config {
 
 		timer.schedule(new TimerTask() {
 			public void run() {
-				systems.addMarketWorkerHack("Bob", "Market");
+				systems.addMarketWorkerHack("Bob", "MARKET1");
 			}
 		}, 1000);
-		systems.addBank("Bank", 402, 27);
-		systems.addBankHostHack("Kevin", "Bank");
+		systems.addBank("BANK1", 402, 27);
+		systems.addBankHostHack("Kevin", "BANK1");
 		systems.addHackedBankAccount(0, 100, "abcdef");
 		timer.schedule(new TimerTask(){
 			public void run() {
-				systems.addBankTellerHack("Bank Teller", "Bank");
+				systems.addBankTellerHack("Bank Teller", "BANK1");
 			}
 		}, 1000);
 	}

@@ -26,6 +26,8 @@ import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
 import simcity.gui.restaurantone.RestaurantOneCookGui;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.restaurant.two.RestaurantTwoWaiter;
 
 public class RestaurantTwoCookRole extends Role implements simcity.interfaces.restaurant.two.RestaurantTwoCook{
@@ -105,7 +107,7 @@ public class RestaurantTwoCookRole extends Role implements simcity.interfaces.re
 		//markets.get(0).hack_steak();
 	}
 	public void msgCookOrder(RestaurantTwoWaiter w, int tnum, String choice) {
-		Do("Recieve msg to cook order");
+		//Do("Recieve msg to cook order");
 		//waiter=w;
 		order o = new order (w,choice, tnum);
 		if(checkorder(choice)==true){
@@ -136,7 +138,7 @@ public class RestaurantTwoCookRole extends Role implements simcity.interfaces.re
 			}
 		
 		//msgDeliveringOrder(map<string,int>, double change)
-		Do("Recieved msg items are restocked");
+			AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCook: " + person.getName(),"Recieved msg items are restocked");
 				if(item.equals("steak")){
 					computer.inventory.steak=+unit;
 			computer.inventory.steak_low=false;
@@ -168,7 +170,7 @@ public class RestaurantTwoCookRole extends Role implements simcity.interfaces.re
 			
 	}
 	public void msgNoInventory(String item, int num){
-		Do("Recieved msg market out of item");
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCook: " + person.getName(),"Recieved msg market out of item");
 		
 		callMarket(computer.getMarket(),item, num);
 	}
@@ -281,7 +283,7 @@ public class RestaurantTwoCookRole extends Role implements simcity.interfaces.re
 		return false;
 	}
 	private void notcool(order o,int t){
-		Do("not cool-"+o.choice+ " is out");
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCook: " + person.getName(),"Not cool-"+o.choice+ " is out");
 		setWaiter(o.w);
 		computer.removeFromMenu(o.choice);
 		waiter.msgnofood(t);
@@ -289,7 +291,7 @@ public class RestaurantTwoCookRole extends Role implements simcity.interfaces.re
 	}
 	 private void checkOrderWheel()
 	    {
-	        Do("Checking order wheel...");
+	        //Do("Checking order wheel...");
 	        RestaurantTwoWOrder order= new RestaurantTwoWOrder(waiter, 2, "sam");
 	        order= orderWheel.remove(); // shared data!
 	        if(order == null)  /// if nothing on wheel
@@ -303,7 +305,7 @@ public class RestaurantTwoCookRole extends Role implements simcity.interfaces.re
 	        stateChanged();
 	    }
 	private void CookIt(order o){
-		Do(""+o.choice);
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCook: " + person.getName(),"Cooking "+o.choice+".");
 		((RestaurantTwoCookGui)gui).Prep();
 		//RestaurantTwocookGui.setText(o.choice);
 		num=find(o);
@@ -312,7 +314,7 @@ public class RestaurantTwoCookRole extends Role implements simcity.interfaces.re
 			
 			public void run() {
 				orders.get(num).state= OrderState.done;
-				Do("finished cooking");
+				AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCook: " + person.getName(),"Finished cooking.");
 				cooking=false;
 				stateChanged();
 			}
@@ -333,7 +335,7 @@ public class RestaurantTwoCookRole extends Role implements simcity.interfaces.re
 	private void PlateIt(order o){
 		((RestaurantTwoCookGui)gui).Plate();
 		setWaiter(o.w);
-		Do("done plating");
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCook: " + person.getName(),"Done plating");
 		//RestaurantTwocookGui.setText("");
 		waiter.msgFoodReady(o.table);
 		orders.remove(o);
@@ -341,7 +343,7 @@ public class RestaurantTwoCookRole extends Role implements simcity.interfaces.re
 	}
 	
 	private void callMarket(String market, String item, int n){
-		Do("ordering from market "+c_market);
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCook: " + person.getName(),"Ordering from market "+market);
 		Map<String, Integer> temp = new HashMap<String, Integer>();
 		temp.put(item, n);
 		((MarketSystem)Directory.getSystem(market)).getCashier().msgHereIsAnOrder(this,cashier,temp);
@@ -370,9 +372,10 @@ public void addMarket(MarketSystem m){
 	
 	@Override
 	public void enterBuilding(SimSystem s) {
-		System.out.println("cook enters building");
 		// TODO Auto-generated method stub
 		R2 = (RestaurantTwoSystem)s;
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCook: " + person.getName(),"Entering building");
+		
 		((RestaurantTwoCookGui)gui).DoGoToPosition();
 		try {
 			atDest.acquire();

@@ -5,17 +5,20 @@ import java.util.concurrent.Semaphore;
 
 import simcity.PersonAgent;
 import simcity.gui.restauranttwo.RestaurantTwoWaiterGui;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.restaurant.two.*;;
 
 public class RestaurantTwoSharedDataWaiterRole extends RestaurantTwoWaiterRole  implements simcity.interfaces.restaurant.two.RestaurantTwoWaiter{
 
 		private RestaurantTwoOrderWheel orderWheel;
+		private RestaurantTwoSystem R2;
 
 private Semaphore atDest = new Semaphore(0, true);
-	    public RestaurantTwoSharedDataWaiterRole(PersonAgent person, RestaurantTwoSystem R2, RestaurantTwoComputer c) 
+	    public RestaurantTwoSharedDataWaiterRole(PersonAgent person, RestaurantTwoSystem r2, RestaurantTwoComputer c) 
 	    {
-	            super(person, R2, c);
-	            
+	            super(person, r2, c);
+	            this.R2=r2;
 	            //this.orderWheel = orderWheel;
 	    }
 	    
@@ -40,7 +43,7 @@ private Semaphore atDest = new Semaphore(0, true);
 	    		}
 */	            customer.state = CustomerState.nothing;
 	            RestaurantTwoWOrder order = new RestaurantTwoWOrder(this, customer.table_num, customer.choice);
-	            Do("Placing " + customer.c.getName() + "'s choice of " + customer.choice + " onto OrderWheel");
+	            AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantSharedDataWaiter: " + person.getName(),"Placing " + customer.c.getName() + "'s choice of " + customer.choice + " onto OrderWheel.");
 	            orderWheel.insert(order);
 	            stateChanged();
 	}

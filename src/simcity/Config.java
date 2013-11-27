@@ -144,10 +144,10 @@ public class Config {
 			public void run() {
 				
 				systems.addRestaurantTwoCashierHack("Cashier Blob", "RESTAURANT2");
-				
+
+				systems.addRestaurantTwoCookHack("Cook Brute", "RESTAURANT2");
 				timer.schedule(new TimerTask() {
 					public void run() {
-						systems.addRestaurantTwoCookHack("Cook Brute", "RESTAURANT2");
 						systems.addPerson("jenny1");
 						systems.addPerson("jenny2");
 						timer.schedule(new TimerTask() {

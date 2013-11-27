@@ -16,6 +16,8 @@ import simcity.buildings.bank.BankCustomerRole.Event;
 import simcity.gui.bank.BankCustomerGui;
 import simcity.gui.restauranttwo.*;
 import simcity.gui.trace.AlertLog;
+
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.restaurant.two.*;;
 
 public class RestaurantTwoCustomerRole extends Role  implements simcity.interfaces.restaurant.two.RestaurantTwoCustomer {
@@ -62,7 +64,7 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
     	 	//Do("Cust Person is: ");
             person = p;
 
-            Do("LOOK: "+p);
+           // Do("LOOK: "+p);
             this.gui = new RestaurantTwoCustomerGui(this);
             //System.out.println("Cust Person gui is: "+gui);
              
@@ -110,20 +112,20 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
      }*/
      // Messages
      public void msgArrivedAtRestaurant(double money) { // from gui
-    	 AlertLog.getInstance().logMessage(AlertTag.valueOf(this.R2.getName()), "MarketCashier: " + person.getName(), "I'm here yoo");
- 		Do("I'm here yoo");
+    	// AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "MarketCashier: " + person.getName(), "I'm here yoo");
+ 		//Do("I'm here yoo");
  		this.cashmoney=money;
  		
  	}
      public void gotHungry() {//from animation
-             Do("I'm hungry");
+    	// AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCustomer: " + person.getName(),"I'm hungry");
      
              event = AgentEvent.gotHungry;
              stateChanged();
      }
 
      public void msgSitAtTable(RestaurantTwoWaiter w, int a) {
-             Do("Received msgSitAtTable");
+    	// AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCustomer: " + person.getName(),"Received msgSitAtTable");
              waiter=w;
              event = AgentEvent.followWaiter;
              stateChanged();
@@ -136,15 +138,15 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
              stateChanged();
      }
      public void msgWhatsYourOrder(){
-             Do("Recieved msg what is your order");
+    	// AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCustomer: " + person.getName(),"Recieved msg what is your order");
              event = AgentEvent.ordered;
              
              stateChanged();
      }
      public void msgReorder(int table, String c){
-             Do("recieved msg to reorder "+this.state);
+    	// AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCustomer: " + person.getName(),"recieved msg to reorder "+this.state);
              event = AgentEvent.x;
-             Do("recieved msg to reorder "+this.event);
+         //    Do("recieved msg to reorder "+this.event);
              
              
              stateChanged();
@@ -154,7 +156,7 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
              stateChanged();
      }
      public void msgHereIsCheck(double c){
-             Do("Recieved Check");
+    	// AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCustomer: " + person.getName(),"Recieved Check");
              if(cashmoney>c){
              customer_check=c;
              }
@@ -166,13 +168,13 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
      
      public void msgPaying() {
              //from animation
-             Do("paying"+state);
+    	 AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCustomer: " + person.getName(),"Paying");
              event = AgentEvent.Leaving;
              
              stateChanged();
      }
      public void msgGoodbye() {
-             Do("Goodbye");
+    	 AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCustomer: " + person.getName(),"Goodbye");
              event = AgentEvent.doneLeaving;
              
              stateChanged();
@@ -219,8 +221,8 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
                      state = AgentState.WaitingForWaiter;
 
 
-                     Do("LOW "+lowestprice);
-                     Do("$"+cashmoney);
+                  //   Do("LOW "+lowestprice);
+                    // Do("$"+cashmoney);
                      choice=g_choice();
                      if(choice.equals("not ordering")){
                              Leave();
@@ -235,7 +237,7 @@ public class RestaurantTwoCustomerRole extends Role  implements simcity.interfac
 
              if (state ==  AgentState.WaitingForWaiter && event == AgentEvent.ordered){
                      state = AgentState.WaitingForFood;
-Do("OK ORDERED");
+//Do("OK ORDERED");
                      if (hack_c==true){
                              Order("chicken");
                      }
@@ -252,7 +254,7 @@ Do("OK ORDERED");
 
              if (state ==  AgentState.WaitingForFood && event == AgentEvent.x){
                      state= AgentState.Reordered;
-                     Do("back to order");
+             		AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantWaiter: " + person.getName(),"redordering....");
                      Reorder();
                      return true;
              }
@@ -292,8 +294,8 @@ Do("OK ORDERED");
      // Actions
 
      private void goToRestaurant() {
-             Do("Going to restaurant");
-             AlertLog.getInstance().logMessage(AlertTag.valueOf(this.R2.getName()), "MarketCashier: " + person.getName(), "I'm here yoo");
+             //Do("Going to restaurant");
+             AlertLog.getInstance().logMessage(AlertTag.valueOf(this.R2.getName()), "RestaurantCustomer: " + person.getName(), "Going to restaurant.");
           	
              //Do("spots:"+((RestaurantTwoHostRole)host).waitingSpots.entrySet());
              if(R2.waitingSpots.containsValue(false)){
@@ -313,13 +315,13 @@ Do("OK ORDERED");
              }
              //Do(""+host.waitingSpots.entrySet());
              else{
-             Do("Restaurant is full and I am leaving!");
+            	 AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCustomer: " + person.getName(),"Restaurant is full and I am leaving!");
                      Leave();
              }
      }
 
      private void SitDown() {
-             Do("Being seated. Going to table");
+    	 AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCustomer: " + person.getName(),"Being seated. Going to table.");
              ((RestaurantTwoCustomerGui)gui).DoGoToSeat(tnum);//hack; only osne table
              R2.waitingSpots.put(waitingPosition, false);
              try {
@@ -332,8 +334,8 @@ Do("OK ORDERED");
      
      }
      private void LookingAtMenu(){
-             Do("Looking at Menu");
-             Do("MENU: "+ cook.getMenu().entrySet());
+    	 AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCustomer: " + person.getName(),"Looking at Menu.");
+            // Do("MENU: "+ cook.getMenu().entrySet());
              timer.schedule(new TimerTask(){
                      Object cookie = 1;
                      public void run() {
@@ -343,7 +345,7 @@ Do("OK ORDERED");
              }, 3500);
      }
      private void CallWaiter(){
-             Do("Call Waiter");
+    	 AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCustomer: " + person.getName(),"Call Waiter.");
              waiter.msgReadyToOrder(this);
      }
      private String g_choice(){
@@ -354,8 +356,8 @@ Do("OK ORDERED");
                              Random g = new Random();
                              Object[] values =cook.getMenu().values().toArray();
                              Double r_val = (Double) values[g.nextInt(values.length)];
-                             Do("making choice: "+r_val);
-                             Do("cash: "+cashmoney);
+                             AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCustomer: " + person.getName(),"Making choice: "+r_val);
+                             AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCustomer: " + person.getName(),"Current cash: "+cashmoney);
                              if (r_val==10.99){
                                      if(cashmoney>=11){
                                              choice="chicken";
@@ -384,10 +386,10 @@ Do("OK ORDERED");
                      return choice;
              }
              else{
-                     Do("customer is low on money!");
+            	 AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCustomer: " + person.getName(),"I am low on money!");
                      int temp= (int)(Math.random()*(8));
                      if(temp==4||temp==5||temp==6||temp==7||hack_s==true){
-                             Do("customer is angry and leaving the restaurant because "
+                    	 AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCustomer: " + person.getName(),"I am angry and leaving the restaurant because "
                                              + "ze cannot pay");
                              return "not ordering";
                      }
@@ -411,12 +413,12 @@ Do("OK ORDERED");
              return choice;
      }
      private void Order (String ch){
-             Do("I AM ORDERING Order "+ch);
+    	 AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCustomer: " + person.getName(),"I am ordering "+ch+".");
              waiter.msgHereIsMyChoice(this, ch);
              
      }
      private void Reorder(){
-             Do("reordering ");
+    	 AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCustomer: " + person.getName(),"Reordering.");
              if(hack_st==true){
                      hack_st=false;
              }
@@ -424,7 +426,7 @@ Do("OK ORDERED");
                      lowestprice=9;
              }
              String c= g_choice();
-             Do("here"+ g_choice());
+             AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCustomer: " + person.getName(),"My choice: "+ g_choice());
              if(c.equals("not ordering")){
             	 	state=AgentState.Leaving;
                      Leave();
@@ -436,7 +438,7 @@ Do("OK ORDERED");
              }
      }
      private void EatFood() {
-             Do("Eating Food");
+    	 AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCustomer: " + person.getName(),"Eating Food.");
              //This next complicated line creates and starts a timer thread.
              //We schedule a deadline of getHungerLevel()*1000 milliseconds.
              //When that time elapses, it will call back to the run routine
@@ -448,7 +450,7 @@ Do("OK ORDERED");
              timer.schedule(new TimerTask() {
                      Object cookie = 1;
                      public void run() {
-                             Do("Done eating, cookie=" + cookie);
+                 		AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantWaiter: " + person.getName(),"Done eating, cookie=" + cookie);
                              event = AgentEvent.doneEating;
                              //isHungry = false;
                              stateChanged();
@@ -457,11 +459,12 @@ Do("OK ORDERED");
              5000);//getHungerLevel() * 1000);//how long to wait before running task
      }
      private void getCheck(){
+    	 
              waiter.msgReadyToPay(this);
              
      }
      private void LeaveToPay() {
-             Do("Leaving to pay.");
+    	 AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCustomer: " + person.getName(),"Leaving to pay.");
              ((RestaurantTwoCustomerGui)gui).DoGoToCashier();
              try {
      			atDest.acquire();
@@ -479,8 +482,8 @@ Do("OK ORDERED");
      
      }
      private void AtCashiers(){
-             Do("At cashiers");
-             Do(""+OrderWheel.Menu.entrySet());
+    	 AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCustomer: " + person.getName(),"At cashiers.");
+            // Do(""+OrderWheel.Menu.entrySet());
              cashmoney-=OrderWheel.Menu.get(choice);
              cashier.msgHereIsMoney(this, customer_check);
              cashmoney-=customer_check;
@@ -500,7 +503,7 @@ Do("OK ORDERED");
              event=AgentEvent.doneLeaving;
              }
              ((RestaurantTwoCustomerGui)gui).DoExitRestaurant();
-             Do("Has left");
+             AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCustomer: " + person.getName(),"Has left.");
      }
      // Accessors, etc.
 /*
@@ -539,8 +542,9 @@ Do("OK ORDERED");
 
 	@Override
 	public void enterBuilding(SimSystem s) {
-		Do("cust enter building");
-		R2 = (RestaurantTwoSystem)s;
+		 R2 = (RestaurantTwoSystem)s;
+		 AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCustomer: " + person.getName(),"Entering building.");
+			
 		((RestaurantTwoCustomerGui)gui).DoGoToHost();
 		try {
 			atDest.acquire();

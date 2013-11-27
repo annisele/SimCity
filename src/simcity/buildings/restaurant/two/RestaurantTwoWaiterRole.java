@@ -14,6 +14,8 @@ import simcity.Role;
 import simcity.SimSystem;
 import simcity.interfaces.restaurant.two.*;
 import simcity.gui.restauranttwo.*;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 
 
 public class RestaurantTwoWaiterRole extends Role implements simcity.interfaces.restaurant.two.RestaurantTwoWaiter{
@@ -109,23 +111,23 @@ class mycustomer {
 	}
 	// Messages
 	public void wantsaBreak(){
-		Do("waiter wants break");
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantWaiter: " + person.getName(),"Wants break");
 		WantToGoOnBreak=true;
 	}
 	public void msgCanBreak(boolean bool){
 		if(bool==true){
-			Do("host allow break");
+			//Do("host allow break");
 			WaitingToBreak=true;
 			WantToGoOnBreak=false;
 		}
 		if(bool==false){
-			Do("host refuse break");
+			//Do("host refuse break");
 			WantToGoOnBreak=false;
 			((RestaurantTwoWaiterGui)gui).reset();
 		}
 	}
 	public void msgSeatCustomer(RestaurantTwoCustomer c, int table_num){
-		Do("Recieved msg seat "+c);
+		//Do("Recieved msg seat "+c);
 		//GetsMenu();
 		mycustomer cust = new mycustomer (c, table_num);
 	
@@ -136,7 +138,7 @@ class mycustomer {
 		
 	}
 		public void msgReadyToOrder(RestaurantTwoCustomer c){
-			Do("Recieved msg "+c+" is ready to order");
+			//Do("Recieved msg "+c+" is ready to order");
 				try{
 			for (int i = 0; i< customers.size();i++){
 				
@@ -156,7 +158,7 @@ class mycustomer {
 		
 	public void msgHereIsMyChoice(RestaurantTwoCustomer c, String choice){
 		//findthingforme();
-		Do("Recieved msg "+c+" has made choice");
+		//Do("Recieved msg "+c+" has made choice");
 		try{
 		for (int i = 0; i< customers.size();i++){
 			
@@ -180,7 +182,7 @@ class mycustomer {
 	}
 	
 	public void msgnofood(int table){
-		Do("recieved msg that food is unavailable");
+		//Do("recieved msg that food is unavailable");
 		try{
 		for (int i = 0; i< customers.size();i++){
 			if(customers.get(i).table_num==table){
@@ -195,7 +197,7 @@ class mycustomer {
 		}
 	}
 	public void msgFoodReady(int table){
-		Do("Recieved msg from cook that food is ready");
+		//Do("Recieved msg from cook that food is ready");
 		try{
 		for (int i = 0; i< customers.size();i++){
 			if(customers.get(i).table_num==table){
@@ -212,7 +214,7 @@ class mycustomer {
 		
 	}
 	public void msgReadyToPay(RestaurantTwoCustomer c){
-		Do("Recieved msg cust is ready to pay");
+		//Do("Recieved msg cust is ready to pay");
 		try{
 			//synchronized(customers){
 		for (int i = 0; i< customers.size();i++){
@@ -240,7 +242,7 @@ class mycustomer {
 		for (int i = 0; i< customers.size();i++){
 			if (customers.get(i).table_num == table){
 				customers.get(i).check=p;
-				Do("recieved check of"+ p+" for customer");
+				//Do("recieved check of"+ p+" for customer");
 				stateChanged();
 			}
 		}
@@ -269,7 +271,7 @@ class mycustomer {
 		((RestaurantTwoWaiterGui)gui).DoLeaveCustomer(spot);
 	}
 	public void msgAtTable() {//from animation
-	Do("at table");
+	//Do("at table");
 
 		atTable.release();// = true;
 		w_at_table=true;
@@ -310,7 +312,7 @@ class mycustomer {
 			if(customers.size()==0){
 				((RestaurantTwoWaiterGui)gui).DoLeaveCustomer(spot);
 				((RestaurantTwoWaiterGui)gui).set();
-				Do("On break");
+				AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantWaiter: " + person.getName(),"On break");
 				breaktimer.schedule(new TimerTask(){
 					Object cookie = 1;
 					public void run() {
@@ -333,14 +335,14 @@ class mycustomer {
 				
 				if (c.state == CustomerState.askedtoorder) {
 					
-						Do("waiter at table and customer is ready to order.");
+						//Do("waiter at table and customer is ready to order.");
 					TakeOrder(c);//the action
 					return true;//return true to the abstract agent to reinvoke the scheduler.
 					
 				}
 	
 				if (c.state == CustomerState.ordered) {
-					Do("customer has ordered.");
+					//Do("customer has ordered.");
 					
 					//if(w_at_lobby==true){
 						c.state=CustomerState.waitingfororder;
@@ -353,7 +355,7 @@ class mycustomer {
 				}
 				if (c.state == CustomerState.mustreorder) {
 					
-					Do("customer must reorder.");
+					//Do("customer must reorder.");
 					
 					ReOrder(c);
 					//waiterGui.DoBringToTable( c.table_num);
@@ -364,7 +366,7 @@ class mycustomer {
 				}
 				if (c.state == CustomerState.waitingforfood) {
 					
-						Do("customer is waiting for food.");
+						//Do("customer is waiting for food.");
 						GettingFood(c);
 						ServeFood(c);
 						c.state = CustomerState.eating;
@@ -375,7 +377,7 @@ class mycustomer {
 				}
 				//Do("");
 				if(c.state == CustomerState.waitingtopay){
-					Do("customer is waiting to pay.");
+					//Do("customer is waiting to pay.");
 						DeliverCheck(c);
 						c.state=CustomerState.finished;
 						return true;
@@ -438,7 +440,7 @@ class mycustomer {
 		tablelist[1]=300;
 		tablelist[2]=400;
 		//int tablenum= table.tableNumber;
-		Do("Seating " + c + " at " + table);
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantWaiter: " + person.getName(),"Seating " + c + " at " + table+".");
 		((RestaurantTwoWaiterGui)gui).DoBringToTable(table); 
 	}
 
@@ -452,7 +454,7 @@ public void TakeOrder (mycustomer c){
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
-	Do("take order");
+	AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantWaiter: " + person.getName(),"Taking order.");
 	c.c.msgWhatsYourOrder();
 		w_at_table=false;
 	
@@ -471,10 +473,10 @@ public void DeliverOrder (mycustomer c){
  cook.msgCookOrder(this, c.table_num, c.choice);
 }
 public void GettingFood(mycustomer c){
-	Do("waiter is getting food");
+	AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantWaiter: " + person.getName(),"Getting food.");
 	//getfood, go to lobby try at lobby
 	//go to table
-	 Do("gives cashier "+c.c+" order");
+	AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantWaiter: " + person.getName(),"Give cashier "+c.c+" order");
 	 cashier.msgCustomerOrder(this,c.c,c.table_num, c.choice);
 	 ((RestaurantTwoWaiterGui)gui).GoToKitchen();
 	try {
@@ -486,7 +488,7 @@ public void GettingFood(mycustomer c){
 	
 }
 public void ServeFood(mycustomer c){
-	Do("waiter is delivering food");
+	AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantWaiter: " + person.getName(),"waiter is delivering food");
 	((RestaurantTwoWaiterGui)gui).DoBringToTable(c.table_num); 
 	try {
 		atDest.acquire();
@@ -515,7 +517,7 @@ public void ReOrder(mycustomer c){
 	
 }
 public void DeliverCheck(mycustomer c){
-Do("delivering check");
+	AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantWaiter: " + person.getName(),"Delivering check.");
 	//cashier.msgGetCheck(c.c);
 ((RestaurantTwoWaiterGui)gui).DoBringToTable(c.table_num); 
 	try {
@@ -524,13 +526,13 @@ Do("delivering check");
 		e.printStackTrace();
 	}
 	c.c.msgHereIsCheck(c.check);
-	Do("customer recieved check");
+	//Do("Customer recieved check.");
 	((RestaurantTwoWaiterGui)gui).Start(spot);
 	customers.remove(c);
 }
 
 public void EndBreak(){
-	Do("End break");
+	AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantWaiter: " + person.getName(),"End break.");
 	host.msgRestate(this);
 }
 	//utilities
@@ -545,8 +547,9 @@ public void EndBreak(){
 
 	@Override
 	public void enterBuilding(SimSystem s) {
-		Do("waiter enters building");
 		R2 = (RestaurantTwoSystem)s;
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantWaiter: " + person.getName(),"Entering building.");
+		
 		((RestaurantTwoWaiterGui)gui).Start(spot);
 		try {
 			atDest.acquire();

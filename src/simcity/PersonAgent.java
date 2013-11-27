@@ -85,7 +85,6 @@ public class PersonAgent extends Agent implements Person {
 		myRoles.add(r2);
 
 		myRoles.add(r4);
-		//myRoles.add(r5);5 
 		
 		//random money generator between and 25
 		  double temp= 5+(double)(Math.random()*(15));
@@ -100,9 +99,12 @@ public class PersonAgent extends Agent implements Person {
 					}catch (NullPointerException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
+					}catch (ClassCastException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
        
-         Do("$$$= "+money);
+       //  Do("$$$= "+money);
 	}
 
 	@Override

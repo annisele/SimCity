@@ -103,7 +103,7 @@ public class RestaurantTwoSystem extends SimSystem {
 		}
 		else if(role instanceof RestaurantTwoWaiter) {
 			 if(role instanceof RestaurantTwoSharedDataWaiterRole){
-				 System.out.println("SHARED DATA");
+				 //System.out.println("SHARED DATA");
 				 ((RestaurantTwoWaiter) role).setOrderWheel(owheel);
 			 }
 			((RestaurantTwoWaiter) role).setHost(host);

@@ -79,7 +79,7 @@ public class RestaurantTwoComputer {
 				if(m.debt>0){
 					if(balance>m.debt){
 						balance-=m.debt;
-						System.out.println("$"+m.debt+" has been paid to "+m.name);
+						//System.out.println("$"+m.debt+" has been paid to "+m.name);
 						return m.name;
 					}
 					if(balance<=m.debt){
@@ -93,7 +93,7 @@ public class RestaurantTwoComputer {
 	
 	protected void removeFromMenu(String choice){
 		Menu.remove(choice);
-		System.out.println(""+choice+" has been removed from Menu.");
+		//System.out.println(""+choice+" has been removed from Menu.");
 		if(choice.equals("steak")){
 			inventory.steak_gone=true;
 		}
@@ -108,7 +108,7 @@ public class RestaurantTwoComputer {
 		}
 	}
 	protected void addToMenu(String choice){
-		System.out.println(""+choice+" has been added to Menu");
+		//System.out.println(""+choice+" has been added to Menu");
 		if(choice.equals("steak")){
 			Menu.put("steak",15.99);
 			inventory.steak_gone=false;

@@ -16,6 +16,8 @@ import simcity.buildings.restaurant.two.RestaurantTwoCustomerRole;
 import simcity.buildings.restaurant.two.RestaurantTwoWaiterRole;
 import simcity.gui.restauranttwo.RestaurantTwoCashierGui;
 import simcity.gui.restauranttwo.RestaurantTwoHostGui;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.market.MarketCashier;
 import simcity.interfaces.restaurant.two.RestaurantTwoCustomer;
 //import restaurant.interfaces.Market;
@@ -88,21 +90,21 @@ public class RestaurantTwoCashierRole extends Role implements simcity.interfaces
 	public void modBalance(double b){
 		//hack
 		computer.balance=b;
-		Do("mod balence: "+computer.balance);
+	//	Do("mod balence: "+computer.balance);
 	}
 	
 
    public void msgCustomerOrder(RestaurantTwoWaiter w,RestaurantTwoCustomer c,int t, String ch) {
-           Do("Recieved "+c+"'s "+ch+" order");
+           //Do("Recieved "+c+"'s "+ch+" order");
            order o= new order(w, c,t,ch);
            o.state= OrderState.adding;
-           Do("order: "+o.choice+" cust: "+o.cust);
+           //Do("order: "+o.choice+" cust: "+o.cust);
            cashiers_list.add(o);
            stateChanged();
    }
   
    public double msgGetCheck(RestaurantTwoCustomer c){
-           Do("Giving check to waiter");
+           //Do("Giving check to waiter");
            for(order current: cashiers_list){
                    if(current.cust==c){
                            return current.payment;
@@ -116,7 +118,7 @@ public class RestaurantTwoCashierRole extends Role implements simcity.interfaces
    public void msgPleasePay(String marketName, double payment,
 			int orderNum) {
 		double temp=0;
-		Do("Recieved bill from market");
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCashier: " + person.getName(),"Recieved bill from market.");
 
 		//log.add(new LoggedEvent("Recieved bill"));
 		if(computer.getMoney()>=payment){
@@ -140,7 +142,7 @@ public class RestaurantTwoCashierRole extends Role implements simcity.interfaces
 						}
 
 						pay_market=true;
-						Do("Paying "+computer.markets.get(i).bill+" in full.");
+						AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCashier: " + person.getName(),"Paying "+computer.markets.get(i).bill+" in full.");
 						stateChanged();
 					}
 				}
@@ -151,7 +153,7 @@ public class RestaurantTwoCashierRole extends Role implements simcity.interfaces
 			synchronized(computer.markets){
 				for(int j=0; j<computer.markets.size();j++){
 					if(computer.markets.get(j).name.equals(marketName)){
-						Do("CURRENT BAL: "+computer.getMoney());
+						//Do("CURRENT BAL: "+computer.getMoney());
 						temp= payment-computer.getMoney();
 						DecimalFormat f =new DecimalFormat("##.00");
 						String formate=f.format(temp);
@@ -162,8 +164,7 @@ public class RestaurantTwoCashierRole extends Role implements simcity.interfaces
 							e.printStackTrace();
 						}
 						computer.markets.get(j).debt= computer.markets.get(j).bill;
-						Do("Cashier is in debt!");
-						Do("Cashier owes $"+computer.markets.get(j).debt);
+						AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCashier: " + person.getName(),"Cashier is in debt! Cashier owes $"+computer.markets.get(j).debt+".");
 						temp= computer.getMoney();
 						computer.subtractMoney(temp);
 						in_debt=true;
@@ -175,20 +176,20 @@ public class RestaurantTwoCashierRole extends Role implements simcity.interfaces
 
 	}
 	public void msgHereIsMoney(RestaurantTwoCustomer c, double m){
-		Do("Recieved money from cust");
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCashier: " + person.getName(),"Recieved money from cust");
 		//log.add(new LoggedEvent("Recieved money"));
-		Do("checking payment");
+		//Do("checking payment");
 		synchronized(cashiers_list){
 		for(order current: cashiers_list){
 			if(current.cust==c){
 				if(current.payment==m){
 					current.state= OrderState.paid;
 					computer.addMoney(m);
-					Do("Customer has paid in full");
+					AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCashier: " + person.getName(),"Customer has paid in full");
 					stateChanged();
 				}
 				else{
-					Do("wrong amount");
+					AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCashier: " + person.getName(),"Customer paid wrong amount");
 				current.state= OrderState.indebt;
 				computer.addMoney(m);
 				current.debt=current.payment-m;
@@ -237,7 +238,7 @@ public class RestaurantTwoCashierRole extends Role implements simcity.interfaces
 		synchronized(cashiers_list){  
 			for (order o : cashiers_list) {
 				if (o.state == OrderState.adding) {
-					Do("adding");
+					//Do("adding");
 					CreateCheck(o);
 					return true;
 				}
@@ -272,7 +273,7 @@ public class RestaurantTwoCashierRole extends Role implements simcity.interfaces
 			e.printStackTrace();
 			
 		}
-	Do("creating $"+o.payment+" check for "+o.cust);
+		 AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCashier: " + person.getName(),"Creating $"+o.payment+" check for "+o.cust+".");
 	o.waiter.msgHereIsCheck(o.table,o.payment);
 	o.state= OrderState.waiting;
 	//stateChanged(
@@ -285,11 +286,11 @@ public class RestaurantTwoCashierRole extends Role implements simcity.interfaces
 		((MarketSystem)Directory.getSystem(market)).getCashier().msgHereIsPayment(bill, num);
 	//	m.msgHereIsMoney(b);
 		pay_market=false;
-		Do("Money has been sent to market");
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCashier: " + person.getName(),"Money has been sent to market.");
 	}
 	private void KeepTrack(order o){
 		computer.bad_orders.add(o);
-		Do("Customer "+ o.cust+ "is in debt");
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCashier: " + person.getName(),"Customer "+ o.cust+ "is in debt.");
 		
 	}
 
@@ -326,9 +327,10 @@ public class RestaurantTwoCashierRole extends Role implements simcity.interfaces
 
 			@Override
 			public void enterBuilding(SimSystem s) {
-				System.out.println("cashier enters building");
 				// TODO Auto-generated method stub
 				R2 = (RestaurantTwoSystem)s;
+				AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCashier: " + person.getName(),"Entering building");
+				
 				((RestaurantTwoCashierGui)gui).DoGoToCenter();
 				try {
 					atDest.acquire();

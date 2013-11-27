@@ -37,6 +37,7 @@ public class PedestrianTest extends TestCase {
 		//Testing Preconditions
 		assertEquals("The Pedestrian should not have another Gui associated with it right now, but it does", this.gui, null );
 		assertEquals("The List 'destinationList' should be emptry right now. But it isn't", this.destinationList.size(),0);
+		assertEquals("The ")
 		
 	}
 	

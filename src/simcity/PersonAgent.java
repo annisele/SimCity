@@ -548,7 +548,7 @@ public class PersonAgent extends Agent implements Person {
 				//Location l = new Location(40, 67);
 				((BusPassengerRole) r).setBus(bus);
 				((BusPassengerRole) r).msgBusTo(chooseTransportation(currentEvent.buildingName), getClosestStop(currentEvent.buildingName));
-				idleGui.setLocation(r.getGui().getLocation());	
+				//idleGui.setLocation(r.getGui().getLocation());	
 			}
 		}
 	}

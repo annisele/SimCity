@@ -1,6 +1,5 @@
 package simcity.test.market.mock;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import simcity.SimSystem;
@@ -14,7 +13,6 @@ public class MockMarketCustomer implements MarketCustomer {
 
 	public MarketCashierRole cashier;
 	public EventLog log = new EventLog();
-	Map<String, Integer> itemsToBuy = new HashMap<String, Integer>();
 	double paymentExpected = 14.0;
 	MarketSystem market;
 	
@@ -39,9 +37,6 @@ public class MockMarketCustomer implements MarketCustomer {
 
 	@Override
 	public void enterBuilding(SimSystem s) {
-		market = (MarketSystem)s;
-		itemsToBuy.put("chicken", 2);
-		cashier.msgHereIsAnOrder(this, this, itemsToBuy);
 	}
 
 }

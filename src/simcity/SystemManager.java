@@ -227,8 +227,14 @@ public class SystemManager {
 		restaurantFives.add(new RestaurantFiveSystem(simcity));
 	}
 	
-	public void addRestaurantSix() {
-		restaurantSixes.add(new RestaurantSixSystem(simcity));
+	public void addRestaurantSix(String name, int xLoc, int yLoc) {
+		RestaurantSixSystem temp = new RestaurantSixSystem(simcity);
+		temp.setName(name);
+		restaurantSixes.add(temp);
+		BuildingGui building = new BuildingGui(temp, "RestaurantSix", xLoc, yLoc);
+		world.getAnimationPanel().addBuilding(building);
+		Location loc = new Location(xLoc, yLoc);
+		dir.add(name, EntryType.Restaurant, loc, temp);	
 	}
 	
 	public void setHome(String person, String home) {

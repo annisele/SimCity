@@ -10,6 +10,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import simcity.Role;
+import simcity.SimSystem;
 import simcity.gui.restaurantone.RestaurantOneCookGui;
 
 public class RestaurantOneCookRole extends Role {
@@ -206,6 +207,18 @@ private Graphics2D g = null;
             }
             stateChanged();
     }
+
+	@Override
+	public void exitBuilding() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void enterBuilding(SimSystem s) {
+		// TODO Auto-generated method stub
+		
+	}
 
 
 	

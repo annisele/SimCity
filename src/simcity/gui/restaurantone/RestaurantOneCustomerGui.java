@@ -7,7 +7,7 @@ import java.awt.Point;
 import simcity.buildings.restaurant.one.RestaurantOneCustomerRole;
 import simcity.gui.Gui;
 
-public class RestaurantOneCustomerGui implements Gui{
+public class RestaurantOneCustomerGui extends Gui{
 
 	private RestaurantOneCustomerRole role;
 	private int x = 0;

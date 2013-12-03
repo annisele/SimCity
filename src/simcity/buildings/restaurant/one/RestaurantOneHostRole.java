@@ -1,6 +1,7 @@
 package simcity.buildings.restaurant.one;
 
 import simcity.Role;
+import simcity.SimSystem;
 import simcity.gui.restaurantone.RestaurantOneHostGui;
 import simcity.interfaces.restaurant.one.RestaurantOneCustomer;
 import simcity.interfaces.restaurant.one.RestaurantOneHost;
@@ -257,6 +258,19 @@ public class RestaurantOneHostRole extends Role {//implements simcity.interfaces
                     return "table " + tableNumber;
             }
     }
+
+
+	@Override
+	public void exitBuilding() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void enterBuilding(SimSystem s) {
+		// TODO Auto-generated method stub
+		
+	}
 
 
 }

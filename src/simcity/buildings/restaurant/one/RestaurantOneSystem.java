@@ -26,11 +26,12 @@ import simcity.interfaces.restaurant.one.*;
 public class RestaurantOneSystem extends SimSystem {
 
 	// public RestaurantControlPanel controlPanel;
-	private List<RestaurantOneCustomer> customers = new ArrayList<RestaurantOneCustomer>();
-	private List<RestaurantOneWaiter> waiters = new ArrayList<RestaurantOneWaiter>();
+	//private List<RestaurantOneCustomer> customers = new ArrayList<RestaurantOneCustomer>();
+	//private List<RestaurantOneWaiter> waiters = new ArrayList<RestaurantOneWaiter>();
 	private RestaurantOneHost host;
-	private RestaurantOneCook cook;
-	private RestaurantOneCashier cashier;
+	//private RestaurantOneCook cook;
+	//private RestaurantOneCashier cashier;
+	private SimCityGui scgui;
 
 	public RestaurantOneSystem(SimCityGui scgui) {
 		super(scgui);

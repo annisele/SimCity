@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.concurrent.Semaphore;
 
 import simcity.Role;
+import simcity.SimSystem;
 import simcity.buildings.restaurant.one.RestaurantOneCheck.CheckState;
 import simcity.gui.Gui;
 import simcity.gui.restaurantone.RestaurantOneWaiterGui;
@@ -567,7 +568,19 @@ public class RestaurantOneWaiterRole extends Role implements simcity.interfaces.
 
       public RestaurantOneWaiterGui getGui() {
               return waiterGui;
-      }
+      } 
+
+	@Override
+	public void exitBuilding() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void enterBuilding(SimSystem s) {
+		// TODO Auto-generated method stub
+		
+	}
 
 
 

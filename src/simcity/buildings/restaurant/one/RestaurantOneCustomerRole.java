@@ -8,8 +8,10 @@ import java.util.TimerTask;
 
 import simcity.PersonAgent;
 import simcity.Role;
+import simcity.SimSystem;
 import simcity.gui.restaurantone.RestaurantOneCustomerGui;
 import simcity.interfaces.restaurant.one.RestaurantOneHost;
+import simcity.buildings.restaurant.one.*;
 
 public class RestaurantOneCustomerRole extends Role implements simcity.interfaces.restaurant.one.RestaurantOneCustomer {
 
@@ -24,6 +26,7 @@ public class RestaurantOneCustomerRole extends Role implements simcity.interface
      private RestaurantOneHostRole host;
      private RestaurantOneWaiterRole waiter;
      private RestaurantOneCashierRole cashier;
+     private PersonAgent person;
 
      //public boolean oweMoney = false;
      private double StayProbability = .8;
@@ -49,13 +52,13 @@ public class RestaurantOneCustomerRole extends Role implements simcity.interface
       * @param personAgent.getName() name of the customer
       * @param gui  reference to the customergui so the customer can send it messages
       */
-     public RestaurantOneCustomerRole(PersonAgent personAgent.getName()){
+     public RestaurantOneCustomerRole(PersonAgent p){
              super();
-             this.name = personAgent.getName();
-             if (personAgent.getName().equals("Broke")) {
+             this.person = p;
+             if (person.getName().equals("Broke")) {
                      money = 0;
              }
-             else if (personAgent.getName().equals("Enough")) {
+             else if (person.getName().equals("Enough")) {
                      money = 6.00;
              }
              else
@@ -398,6 +401,18 @@ public class RestaurantOneCustomerRole extends Role implements simcity.interface
      private void justApologize() {
     	 System.out.println("sorry");
      }
+
+	@Override
+	public void exitBuilding() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void enterBuilding(SimSystem s) {
+		// TODO Auto-generated method stub
+		
+	}
 
 	
 	

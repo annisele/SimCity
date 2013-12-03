@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import simcity.Role;
+import simcity.SimSystem;
 import simcity.buildings.restaurant.one.RestaurantOneCheck.CheckState;
 import simcity.interfaces.restaurant.one.RestaurantOneCustomer;
 
@@ -162,7 +163,7 @@ public class RestaurantOneCashierRole extends Role {//implements simcity.interfa
 
 
 			@Override
-			public void msgEnterBuilding() {
+			public void enterBuilding(SimSystem s) {
 				// TODO Auto-generated method stub
 				
 			}

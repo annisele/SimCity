@@ -1,1 +1,0 @@
-package simcity.gui.restaurantone;

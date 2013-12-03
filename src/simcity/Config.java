@@ -366,6 +366,47 @@ public class Config {
 			}
 		}, 1000);
 	}
+	
+	public void restaurantOne(){
+		systems.clear();
+		systems.clearDetailPane();
+
+		systems.setBackgroundTwo();
+		//systems.addRestaurantSix("RESTAURANT6", 249, 140);
+
+	}
+	public void restaurantThree(){
+		systems.clear();
+		systems.clearDetailPane();
+
+		systems.setBackgroundTwo();
+		//systems.addRestaurantSix("RESTAURANT6", 249, 140);
+
+	}
+	public void restaurantFour(){
+		systems.clear();
+		systems.clearDetailPane();
+
+		systems.setBackgroundTwo();
+		//systems.addRestaurantSix("RESTAURANT6", 249, 140);
+
+	}
+	public void restaurantFive(){
+		systems.clear();
+		systems.clearDetailPane();
+
+		systems.setBackgroundTwo();
+		//systems.addRestaurantSix("RESTAURANT6", 249, 140);
+
+	}
+	public void restaurantSix(){
+		systems.clear();
+		systems.clearDetailPane();
+
+		systems.setBackgroundTwo();
+		systems.addRestaurantSix("RESTAURANT6", 249, 140);
+
+	}
 
 	public void clearTimer() {
 		timer.cancel();

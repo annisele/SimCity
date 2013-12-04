@@ -1,6 +1,7 @@
 package simcity.interfaces.restaurant.one;
 
 import simcity.buildings.restaurant.one.*;
+import simcity.buildings.restaurant.one.RestaurantOneCookRole.CookOrder;
 
 public interface RestaurantOneCook {
 	

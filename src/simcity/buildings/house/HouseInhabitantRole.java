@@ -32,7 +32,6 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 	
 	private Semaphore atDest = new Semaphore(0, true);
 	
-	private final int SLEEPTIME = Clock.hoursInMillis(2);
 	private final int COOKTIME = 6000;
 	private final int EATTIME = 4000;
 	private final int TIMEBWMEALS = 12*8*1000;
@@ -187,13 +186,12 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 
 		//person.Do("I'm going to sleep...");
 		//state = HouseInhabitantState.Sleeping;
-		
 		timer.schedule(new TimerTask(){            
             public void run() {
                     WakeUp();
                     //stateChanged();
             }
-		}, SLEEPTIME); //or whatever time is fine
+		}, Clock.hoursInMillis(person.getCurrentEventDuration())); //or whatever time is fine
 	}
 	
 	private void WakeUp(){

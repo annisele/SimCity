@@ -14,8 +14,10 @@ import simcity.buildings.bank.BankSystem;
 import simcity.buildings.house.HouseInhabitantRole;
 import simcity.buildings.market.MarketCustomerRole;
 import simcity.buildings.restaurant.five.RestaurantFiveCustomerRole;
+import simcity.buildings.restaurant.five.RestaurantFiveSystem;
 import simcity.buildings.restaurant.four.RestaurantFourCustomerRole;
 import simcity.buildings.restaurant.two.RestaurantTwoCustomerRole;
+import simcity.buildings.restaurant.two.RestaurantTwoSystem;
 import simcity.buildings.transportation.BusAgent;
 import simcity.buildings.transportation.BusPassengerRole;
 import simcity.buildings.transportation.PedestrianRole;
@@ -25,6 +27,7 @@ import simcity.gui.trace.AlertTag;
 import simcity.interfaces.Person;
 import simcity.interfaces.bank.BankCustomer;
 import simcity.interfaces.market.MarketCustomer;
+import simcity.interfaces.restaurant.five.RestaurantFiveCustomer;
 import simcity.interfaces.restaurant.two.RestaurantTwoCustomer;
 import simcity.interfaces.transportation.Pedestrian;
 import agent.Agent;
@@ -83,7 +86,7 @@ public class PersonAgent extends Agent implements Person {
 		myRoles.add(bp);
 		//myRoles.add(r2);
 		myRoles.add(r2);
-
+		myRoles.add(r5);
 		myRoles.add(r4);
 		
 		//random money generator between and 25
@@ -373,14 +376,17 @@ public class PersonAgent extends Agent implements Person {
 			house.msgGoToBed();
 			//CHANGE DURATION TO 40
 			int sleepTime;
+			int sleepDuration;
 			if (Clock.getTime() < 2) {
 				sleepTime = Clock.getTime();
+				sleepDuration = 6;
 			}
 			else {
 				sleepTime = Clock.getTime() + 16;
+				sleepDuration = 48; // 8 * 6 = 8 * (6 * 10 min) = 8 hours
 			}
 			//sleepTime = Clock.getTime() + 99999;
-			e = new Event(home, house, 8, sleepTime, false, steps, t);
+			e = new Event(home, house, sleepDuration, sleepTime, false, steps, t);
 			AlertLog.getInstance().logDebug(AlertTag.WORLD, "Person: "+getName(), "I'm going to sleep at "+sleepTime+" and it's currently "+Clock.getTime());						
 
 			insertEvent(e);
@@ -414,18 +420,26 @@ public class PersonAgent extends Agent implements Person {
 			steps.add(new Step("exitBuilding", this));
 			steps.add(new Step("goTo", this));
 			steps.add(new Step("enterBuilding", this));
-			//int index = rand.nextInt(restaurants.size());
-			//HACK FOR RESTAURANT 2 ONLY
-			String buildingName = restaurants.get(0);
+			int index = rand.nextInt(restaurants.size());
+			String buildingName = restaurants.get(index);
 			Role eventR = null;
-			for(Role r : myRoles) {
-				if(r instanceof RestaurantTwoCustomer) {
-					eventR = r;
+			if(Directory.getSystem(buildingName) instanceof RestaurantFiveSystem) {
+				for(Role r : myRoles) {
+					if(r instanceof RestaurantFiveCustomer) {
+						eventR = r;
+					}
 				}
 			}
-			//hack
-			//RestaurantTwoCustomerRole rc = new RestaurantTwoCustomerRole(this);
-			((RestaurantTwoCustomer)eventR).msgArrivedAtRestaurant(money);
+			else if(Directory.getSystem(buildingName) instanceof RestaurantTwoSystem) {
+				for(Role r : myRoles) {
+					if(r instanceof RestaurantTwoCustomer) {
+						eventR = r;
+					}
+				}
+				((RestaurantTwoCustomer)eventR).msgArrivedAtRestaurant(money);
+			}
+
+			
 			e = new Event(buildingName, eventR, 20, -1, true, steps, t);
 			insertEvent(e);
 			stateChanged();
@@ -911,6 +925,10 @@ public class PersonAgent extends Agent implements Person {
 	
 	public String getCurrentEvent() {
 		return currentEvent.type.toString();
+	}
+	
+	public int getCurrentEventDuration() {
+		return currentEvent.duration;
 	}
 
 	public void setCurrentRole(Role r) {

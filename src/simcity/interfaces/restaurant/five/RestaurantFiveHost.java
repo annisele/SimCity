@@ -4,4 +4,6 @@ import simcity.interfaces.GuiPartner;
 
 public interface RestaurantFiveHost extends GuiPartner {
 
+	public abstract void msgIWantFood(RestaurantFiveCustomer restaurantFiveCustomerRole);
+
 }

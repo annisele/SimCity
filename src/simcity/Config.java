@@ -44,13 +44,13 @@ public class Config {
 		systems.clearDetailPane();
 		systems.setBackgroundTwo();
 		systems.addMarket("MARKET2", 312, 27);
-		systems.addMarketCashierHack("Mary", "MARKET2");
+		systems.addMarketCashier("Mary", "MARKET2");
 		systems.addBus("Busta"); //Take this out if you don't want the bus here
 		systems.addMarketTruck("MARKET2");
 
 		timer.schedule(new TimerTask() {
 			public void run() {
-				systems.addMarketWorkerHack("Bob", "MARKET2");
+				systems.addMarketWorker("Bob", "MARKET2");
 				timer.schedule(new TimerTask() {
 					public void run() {
 						systems.addPerson("Josh");
@@ -67,13 +67,13 @@ public class Config {
 
 		systems.setBackgroundOne();
 		systems.addMarket("MARKET1", 100, 100);
-		systems.addMarketCashierHack("Mary", "MARKET1");
+		systems.addMarketCashier("Mary", "MARKET1");
 		systems.addBus("Buster"); //Take this out if you don't want the bus here
 		systems.addMarketTruck("MARKET1");
 		//systems.addPerson("Rebecca");
 		timer.schedule(new TimerTask() {
 			public void run() {
-				systems.addMarketWorkerHack("Bob", "MARKET1");
+				systems.addMarketWorker("Bob", "MARKET1");
 				timer.schedule(new TimerTask() {
 					public void run() {
 						//systems.addPerson("Rebecca");
@@ -267,12 +267,12 @@ public class Config {
 		systems.addMarket("MARKET1", 60, 140);
 		systems.addHouse("HOUSE1", 249, 140);
 
-		systems.addMarketCashierHack("Mary", "MARKET1");
+		systems.addMarketCashier("Mary", "MARKET1");
 		systems.addMarketTruck("MARKET1");
 
 		timer.schedule(new TimerTask() {
 			public void run() {
-				systems.addMarketWorkerHack("Bob", "MARKET1");
+				systems.addMarketWorker("Bob", "MARKET1");
 			}
 		}, 2000);
 
@@ -291,12 +291,12 @@ public class Config {
 		systems.addMarket("MARKET1", 60, 140);
 		systems.addHouse("HOUSE1", 249, 140);
 
-		systems.addMarketCashierHack("Mary", "MARKET1");
+		systems.addMarketCashier("Mary", "MARKET1");
 		systems.addMarketTruck("MARKET1");
 
 		timer.schedule(new TimerTask() {
 			public void run() {
-				systems.addMarketWorkerHack("Bob", "MARKET1");
+				systems.addMarketWorker("Bob", "MARKET1");
 			}
 		}, 2000);
 
@@ -318,7 +318,7 @@ public class Config {
 		systems.clearDetailPane();
 		systems.addMarket("MARKET1", 60, 140);
 		systems.addBank("BANK1", 402, 27);
-		systems.addMarketCashierHack("Mary", "MARKET1");
+		systems.addMarketCashier("Mary", "MARKET1");
 		systems.addMarketTruck("MARKET1");
 
 		systems.setBackgroundTwo();
@@ -330,7 +330,7 @@ public class Config {
 			public void run() {
 				systems.addRestaurantTwoCashierHack("Cashier Blob", "RESTAURANT2");
 
-				systems.addMarketWorkerHack("Bob", "MARKET1");
+				systems.addMarketWorker("Bob", "MARKET1");
 				timer.schedule(new TimerTask() {
 					public void run() {
 						systems.addRestaurantTwoCookHack("Cook Brute", "RESTAURANT2");
@@ -354,7 +354,7 @@ public class Config {
 
 		timer.schedule(new TimerTask() {
 			public void run() {
-				systems.addMarketWorkerHack("Bob", "MARKET1");
+				systems.addMarketWorker("Bob", "MARKET1");
 			}
 		}, 1000);
 		systems.addBank("BANK1", 402, 27);
@@ -391,12 +391,24 @@ public class Config {
 		//systems.addRestaurantSix("RESTAURANT6", 249, 140);
 
 	}
+	//Rebecca's restaurant
 	public void restaurantFive(){
 		systems.clear();
 		systems.clearDetailPane();
 
 		systems.setBackgroundTwo();
 		systems.addRestaurantFive("RESTAURANT5", 249, 140);
+		systems.addRestaurantFiveHost("Sarah", "RESTAURANT5");
+		timer.schedule(new TimerTask() {
+			public void run() {
+				systems.addPerson("Five");
+				timer.schedule(new TimerTask() {
+					public void run() {
+						systems.addRestaurantFiveWaiter("Bob", "RESTAURANT5");
+					}
+				}, 2000);
+			}
+		}, 4000);
 
 	}
 	public void restaurantSix(){

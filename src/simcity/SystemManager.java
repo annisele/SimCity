@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 import simcity.Directory.EntryType;
+import simcity.PersonAgent.EventType;
 import simcity.buildings.bank.BankHostRole;
 import simcity.buildings.bank.BankSystem;
 import simcity.buildings.bank.BankTellerRole;
@@ -14,7 +15,9 @@ import simcity.buildings.market.MarketCashierRole;
 import simcity.buildings.market.MarketSystem;
 import simcity.buildings.market.MarketTruckAgent;
 import simcity.buildings.market.MarketWorkerRole;
+import simcity.buildings.restaurant.five.RestaurantFiveHostRole;
 import simcity.buildings.restaurant.five.RestaurantFiveSystem;
+import simcity.buildings.restaurant.five.RestaurantFiveWaiterRole;
 import simcity.buildings.restaurant.four.RestaurantFourSystem;
 import simcity.buildings.restaurant.one.RestaurantOneSystem;
 import simcity.buildings.restaurant.six.RestaurantSixSystem;
@@ -120,6 +123,9 @@ public class SystemManager {
 		//hacks
 		if (name.equalsIgnoreCase("Rebecca")) {
 			person.goToMarketNow();
+		}
+		if(name.equalsIgnoreCase("Five")) {
+			person.scheduleEvent(EventType.EatAtRestaurant);
 		}
 		if(name.equalsIgnoreCase("Josh")) {
 			person.busToMarketNow();
@@ -307,6 +313,15 @@ public class SystemManager {
 		simcity.clearDetailPane();
 	}
 	
+	
+	
+	
+	/************************ MARKET FUNCTIONS ***********************/
+	
+	/**
+	 * addMarketTruck - Helper function to create a market truck agent
+	 * @param market - Name of market the truck works for
+	 */
 	public void addMarketTruck(String market) {
 		MarketTruckAgent t = new MarketTruckAgent(Directory.getSystem(market));
 		((MarketSystem) Directory.getSystem(market)).addTruck(t);
@@ -314,7 +329,12 @@ public class SystemManager {
 		world.getAnimationPanel().addGui(t.getGui());
 	}
 
-	public void addMarketCashierHack(String name, String market) {
+	/**
+	 * addMarketCashier - Helper function to create person who works as a market cashier
+	 * @param name - Name of person to be created
+	 * @param market - Name of market they will work at
+	 */
+	public void addMarketCashier(String name, String market) {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());
 		Role cashier = new MarketCashierRole(person);
@@ -323,7 +343,12 @@ public class SystemManager {
 		person.startThread();
 	}
 	
-	public void addMarketWorkerHack(String name, String market) {
+	/**
+	 * addMarketWorker - Helper function to create a person who works as a market worker
+	 * @param name - Name of the person created
+	 * @param market - Name of the market they work at
+	 */
+	public void addMarketWorker(String name, String market) {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());
 		Role worker = new MarketWorkerRole(person);
@@ -331,6 +356,11 @@ public class SystemManager {
 		people.add(person);
 		person.startThread();
 	}
+	
+	/****************** End of Market functions **********************/
+	
+	
+	
 
 	public void addBankHostHack(String name, String bank) {
 		PersonAgent person = new PersonAgent(name);
@@ -400,6 +430,29 @@ public class SystemManager {
 		restaurantTwos.get(0).hackr2();
 		
 	}
+	
+	/*************** RESTAURANT FIVE FUNCTIONS *******************/
+	
+	public void addRestaurantFiveHost(String name, String rest) {
+		PersonAgent person = new PersonAgent(name);
+		world.getAnimationPanel().addGui(person.getIdleGui());
+		Role host = new RestaurantFiveHostRole(person);
+		person.addWork(host, rest);
+		people.add(person);
+		person.startThread();
+	}
+	
+	public void addRestaurantFiveWaiter(String name, String rest) {
+		PersonAgent person = new PersonAgent(name);
+		world.getAnimationPanel().addGui(person.getIdleGui());
+		Role waiter = new RestaurantFiveWaiterRole(person);
+		person.addWork(waiter, rest);
+		people.add(person);
+		person.startThread();
+	}
+	
+	/**************** End of Restaurant Five functions ***************/
+	
 	
 	public BusAgent getBus() {
 		return bus;

@@ -1,0 +1,33 @@
+package simcity.gui.restaurantfive;
+
+import java.awt.Graphics2D;
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
+
+import simcity.gui.Gui;
+import simcity.interfaces.restaurant.five.RestaurantFiveCustomer;
+
+public class RestaurantFiveCustomerGui extends Gui {
+
+	private final int HOST_X = 100;
+	private final int HOST_Y = 375;
+	
+	private ImageIcon ii = new ImageIcon("res/person/persondownbig.png");
+	private Image hostimage = ii.getImage();
+	
+	public RestaurantFiveCustomerGui(RestaurantFiveCustomer c) {
+		role = c;
+	}
+	
+	@Override
+	public void draw(Graphics2D g) {
+		g.drawImage(hostimage, getX(), getY(), null);
+	}
+	
+	public void DoGoToHost() {
+		DoGoToLocation(HOST_X, HOST_Y);
+	}
+	
+	
+}

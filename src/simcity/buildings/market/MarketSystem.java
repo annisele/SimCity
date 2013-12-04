@@ -73,7 +73,8 @@ public class MarketSystem extends simcity.SimSystem {
 				animationPanel.addGui(role.getGui());
 				return true;
 			}
-		} else if (cashier != null) {
+		}
+		else if (cashier != null) {
 			if(role instanceof MarketCustomer) {
 				customers.add((MarketCustomer) role);
 			}

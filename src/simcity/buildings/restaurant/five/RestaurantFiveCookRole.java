@@ -15,7 +15,8 @@ public class RestaurantFiveCookRole implements RestaurantFiveCook {
 	}
 
 	@Override
-	public void msgDeliveringOrder(Map<String, Integer> itemsToDeliver) {
+	public void msgHereAreItems(Map<String, Integer> itemsToDeliver,
+			double change) {
 		// TODO Auto-generated method stub
 		
 	}

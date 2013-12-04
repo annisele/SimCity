@@ -203,7 +203,7 @@ public class SystemManager {
 	public void addRestaurantTwo(String name, int xLoc, int yLoc) {
 		//restaurantTwos.add(new RestaurantTwoSystem(simcity));
 		List<String> markets = Directory.getMarkets();
-		System.out.println("UU "+markets);
+		//System.out.println("UU "+markets);
 		R2comp.addMarket(markets);
 		RestaurantTwoSystem temp = new RestaurantTwoSystem(simcity,R2comp);
 		temp.setName(name);
@@ -211,7 +211,7 @@ public class SystemManager {
 		BuildingGui building = new BuildingGui(temp, "RestaurantTwo", xLoc, yLoc);
 		world.getAnimationPanel().addBuilding(building);
 		Location loc = new Location(xLoc, yLoc);
-		System.out.println("TTTTT: "+ temp);
+		//System.out.println("TTTTT: "+ temp);
 		dir.add(name, EntryType.Restaurant, loc, temp);
 	}
 	
@@ -223,8 +223,15 @@ public class SystemManager {
 		restaurantFours.add(new RestaurantFourSystem(simcity));
 	}
 	
-	public void addRestaurantFive() {
-		restaurantFives.add(new RestaurantFiveSystem(simcity));
+	public void addRestaurantFive(String name, int x, int y) {
+		RestaurantFiveSystem temp = new RestaurantFiveSystem(simcity);
+		temp.setName(name);
+		restaurantFives.add(temp);
+		
+		BuildingGui b = new BuildingGui(temp, "RestaurantFive", x, y);
+		world.getAnimationPanel().addBuilding(b);
+		Location location = new Location(x, y);
+		dir.add(name, EntryType.Restaurant, location, temp);
 	}
 	
 	public void addRestaurantSix(String name, int xLoc, int yLoc) {

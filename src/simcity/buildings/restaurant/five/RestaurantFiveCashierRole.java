@@ -16,7 +16,7 @@ public class RestaurantFiveCashierRole implements RestaurantFiveCashier {
 	}
 
 	@Override
-	public void msgPleasePay(MarketCashier c, double payment, int orderNum) {
+	public void msgPleasePay(String marketName, double payment, int orderNum) {
 		// TODO Auto-generated method stub
 		
 	}

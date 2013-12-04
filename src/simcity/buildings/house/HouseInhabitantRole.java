@@ -376,12 +376,20 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 	@Override
 	public void enterBuilding(SimSystem s) {
 		house = (HouseSystem)s;
-		AlertLog.getInstance().logMessage(AlertTag.valueOf(house.getName()), "HouseInhabitant: "+person.getName(), "Entering the house.");										
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(house.getName()), "HouseInhabitant: "+person.getName(), "Entering the house.");
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(house.getName()), "HouseInhabitant: "+person.getName(), " My event is: "+person.getCurrentEvent());						
+
 		((HouseInhabitantGui)gui).DoGoToLiving();
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
+		}
+		
+		if (person.getCurrentEvent() == "EatAtHome") {
+			event = HouseInhabitantEvent.Hungry;
+		} else if (person.getCurrentEvent() == "Sleep") {
+			event = HouseInhabitantEvent.ReadyToSleep;
 		}
 		state = HouseInhabitantState.Bored;
 		

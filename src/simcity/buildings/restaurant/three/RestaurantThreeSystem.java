@@ -19,6 +19,7 @@ public class RestaurantThreeSystem extends simcity.SimSystem {
 	public RestaurantThreeComputer getRestaurantThreeComputer() {
 		return computer;
 	}
+	
 	public boolean msgEnterBuilding(Role role) {
 		if (role instanceof RestaurantThreeHost) {
 			if (resthost == null) {
@@ -51,6 +52,9 @@ public class RestaurantThreeSystem extends simcity.SimSystem {
 		else if (role instanceof RestaurantThreeHost) {
 			resthost = null;
 		}
+	}
+	public RestaurantThreeHost getRestaurantThreeHost() {
+		return resthost;
 	}
 	
 }

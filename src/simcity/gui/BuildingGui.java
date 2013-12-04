@@ -55,6 +55,8 @@ public class BuildingGui {
     		g.drawImage(finalhouseimage, location.getX(), location.getY(), null);
     	else if (type == BuildingType.Bank)
     		g.drawImage(finalbankimage, location.getX(), location.getY(), null);
+    	else
+    		g.drawImage(finalrestaurantimage, location.getX(), location.getY(), null);
     }
     
     //to check if this building was clicked on

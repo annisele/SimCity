@@ -197,6 +197,9 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(house.getName()), "HouseInhabitant: "+person.getName(), "I'm up! I'm awake!");						
 		//Do("I'm up! I'm awake!");
+		person.scheduleEvent(EventType.Sleep);
+		AlertLog.getInstance().logDebug(AlertTag.valueOf(house.getName()), "HouseInhabitant: "+person.getName(), "Scheduling a sleep event!");						
+
 		state = HouseInhabitantState.Bored;
 		event = HouseInhabitantEvent.Hungry;
 		stateChanged();

@@ -9,6 +9,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
+import simcity.Clock;
 import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
@@ -31,7 +32,7 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 	
 	private Semaphore atDest = new Semaphore(0, true);
 	
-	private final int SLEEPTIME = 4000;
+	private final int SLEEPTIME = Clock.hoursInMillis(2);
 	private final int COOKTIME = 6000;
 	private final int EATTIME = 4000;
 	private final int TIMEBWMEALS = 12*8*1000;
@@ -69,12 +70,15 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 	@Override
 	public boolean pickAndExecuteAnAction() {
 		// TODO Auto-generated method stub
-		
+		AlertLog.getInstance().logDebug(AlertTag.valueOf(house.getName()), "Person: "+getName(), "HOUSE SCHEDULERRRR " + event.name());						
+
 		if (event == HouseInhabitantEvent.Hungry && state == HouseInhabitantState.Bored){
 			state = HouseInhabitantState.Eating;
 			Cook();
 		}
 		else if (event == HouseInhabitantEvent.ReadyToSleep && state == HouseInhabitantState.Bored){
+			AlertLog.getInstance().logDebug(AlertTag.valueOf(house.getName()), "Person: "+getName(), "HOUSE I SHOULD EAT");						
+
 			state = HouseInhabitantState.Sleeping;
 			Sleep();
 		}
@@ -197,6 +201,9 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(house.getName()), "HouseInhabitant: "+person.getName(), "I'm up! I'm awake!");						
 		//Do("I'm up! I'm awake!");
+		person.scheduleEvent(EventType.Sleep);
+		AlertLog.getInstance().logDebug(AlertTag.valueOf(house.getName()), "HouseInhabitant: "+person.getName(), "Scheduling a sleep event!");						
+
 		state = HouseInhabitantState.Bored;
 		event = HouseInhabitantEvent.Hungry;
 		stateChanged();
@@ -246,10 +253,10 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 	public void setLowFood() {
 		// This is a function to force the person to buy some food
 		synchronized (foodStock) {
-			foodStock.put("steak", 1);
-			foodStock.put("chicken", 1);
-			foodStock.put("pizza", 1);
-			foodStock.put("salad", 1);
+			foodStock.put("steak", 3);
+			foodStock.put("chicken", 3);
+			foodStock.put("pizza", 3);
+			foodStock.put("salad", 3);
 		}
 	}
 	
@@ -369,12 +376,20 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 	@Override
 	public void enterBuilding(SimSystem s) {
 		house = (HouseSystem)s;
-		AlertLog.getInstance().logMessage(AlertTag.valueOf(house.getName()), "HouseInhabitant: "+person.getName(), "Entering the house.");										
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(house.getName()), "HouseInhabitant: "+person.getName(), "Entering the house.");
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(house.getName()), "HouseInhabitant: "+person.getName(), " My event is: "+person.getCurrentEvent());						
+
 		((HouseInhabitantGui)gui).DoGoToLiving();
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
+		}
+		
+		if (person.getCurrentEvent() == "EatAtHome") {
+			event = HouseInhabitantEvent.Hungry;
+		} else if (person.getCurrentEvent() == "Sleep") {
+			event = HouseInhabitantEvent.ReadyToSleep;
 		}
 		state = HouseInhabitantState.Bored;
 		

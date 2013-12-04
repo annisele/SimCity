@@ -69,12 +69,15 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 	@Override
 	public boolean pickAndExecuteAnAction() {
 		// TODO Auto-generated method stub
-		
+		AlertLog.getInstance().logDebug(AlertTag.valueOf(house.getName()), "Person: "+getName(), "HOUSE SCHEDULERRRR " + event.name());						
+
 		if (event == HouseInhabitantEvent.Hungry && state == HouseInhabitantState.Bored){
 			state = HouseInhabitantState.Eating;
 			Cook();
 		}
 		else if (event == HouseInhabitantEvent.ReadyToSleep && state == HouseInhabitantState.Bored){
+			AlertLog.getInstance().logDebug(AlertTag.valueOf(house.getName()), "Person: "+getName(), "HOUSE I SHOULD EAT");						
+
 			state = HouseInhabitantState.Sleeping;
 			Sleep();
 		}

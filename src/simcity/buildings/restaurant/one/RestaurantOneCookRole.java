@@ -12,6 +12,8 @@ import java.util.TimerTask;
 import simcity.Role;
 import simcity.SimSystem;
 import simcity.gui.restaurantone.RestaurantOneCookGui;
+import simcity.buildings.market.MarketSystem;
+
 
 public class RestaurantOneCookRole extends Role {
 
@@ -56,8 +58,7 @@ private Graphics2D g = null;
                     cooktime = c;
             }
     }
-    private List<MarketAgent> markets = Collections.synchronizedList(new ArrayList<MarketAgent>()); 
-    Map <String , Food> foodmatch;
+    public List<MarketSystem> markets = Collections.synchronizedList(new ArrayList<MarketSystem>());    Map <String , Food> foodmatch;
     
     
 
@@ -173,11 +174,11 @@ private Graphics2D g = null;
     }
 
     private void orderFromMarket(String type) {
-            markets.get(marketchoice).msgNeedFood(type, 5- (ItemMap.get(type).amount));
+            markets.get(0).msgNeedFood(type, 5- (ItemMap.get(type).amount));
     }
 
     
-    public void makeMarkets(List<MarketAgent> markets) {
+    public void makeMarkets(List<MarketSystem> markets) {
             this.markets = markets;
     }
 

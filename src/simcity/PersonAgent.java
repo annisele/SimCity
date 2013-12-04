@@ -89,24 +89,6 @@ public class PersonAgent extends Agent implements Person {
 		//random money generator between and 25
 
 		double money= 5.0+15*rand.nextDouble();
-
-		  /*double temp= 5+(double)(Math.random()*(15));
-          DecimalFormat f =new DecimalFormat("##.00");
-          String formate=f.format(temp);
-        
-          double value = Double.parseDouble(formate);
-          this.money=value;
-          /*
-      
-                  try {
-						this.money=f.parse(formate);
-					} catch (java.text.ParseException e) {
-						e.printStackTrace();
-					}catch (NullPointerException e) {
-						e.printStackTrace();
-					}catch (ClassCastException e) {
-						e.printStackTrace();
-					}*/
 		  
        
 	}
@@ -391,11 +373,16 @@ public class PersonAgent extends Agent implements Person {
 			house.msgGoToBed();
 			//CHANGE DURATION TO 40
 			int sleepTime;
-			if (Clock.getTime() < 48)
+			if (Clock.getTime() < 2) {
 				sleepTime = Clock.getTime();
-			else
-				sleepTime = Clock.getTime() + 144;
+			}
+			else {
+				sleepTime = Clock.getTime() + 13;
+			}
+			//sleepTime = Clock.getTime() + 99999;
 			e = new Event(home, house, 8, sleepTime, false, steps, t);
+			AlertLog.getInstance().logDebug(AlertTag.WORLD, "Person: "+getName(), "I'm going to sleep at "+sleepTime+" and it's currently "+Clock.getTime());						
+
 			insertEvent(e);
 			stateChanged();
 		} 
@@ -647,6 +634,7 @@ public class PersonAgent extends Agent implements Person {
 							return;
 						}
 					}
+					eventList.add(e);
 				}
 
 			}
@@ -919,6 +907,10 @@ public class PersonAgent extends Agent implements Person {
 
 	public Role getCurrentRole() {
 		return currentRole;
+	}
+	
+	public String getCurrentEvent() {
+		return currentEvent.type.toString();
 	}
 
 	public void setCurrentRole(Role r) {

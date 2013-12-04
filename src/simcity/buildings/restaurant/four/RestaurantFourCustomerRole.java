@@ -107,7 +107,7 @@ public class RestaurantFourCustomerRole extends Role implements RestaurantFourCu
 	 */
 	
 	private void informHostOfArrival() {
-		//restaurantFourSystem.getHost().msgImHungry(this);
+		restaurantFourSystem.getHost().msgImHungry(this);
 	}
 	
 	// Utilities //////////////////////////////////////////////////////////////////////////

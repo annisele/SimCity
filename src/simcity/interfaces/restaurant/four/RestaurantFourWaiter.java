@@ -18,6 +18,7 @@ public interface RestaurantFourWaiter extends GuiPartner {
 		
 		// Messages
 		public abstract void msgGotToWork();
+		public abstract void msgStartWorking();
 		
 		// Utilities
 		public abstract void exitBuilding();

@@ -22,7 +22,7 @@ public class RestaurantFourWaiterRole extends Role implements RestaurantFourWait
 	
 	private RestaurantFourSystem restaurantFourSystem;
 	
-	public enum Status {none, waitingAtRestaurant, waitingForConfirmation};
+	public enum Status {none, waitingAtRestaurant, waitingForConfirmation, working};
 	private Status status = Status.none;
 	
 	// Constructors //////////////////////////////////////////////////////////////////////////
@@ -64,10 +64,15 @@ public class RestaurantFourWaiterRole extends Role implements RestaurantFourWait
 	 */
 
 	public void msgGotToWork() {
-		status = status.waitingAtRestaurant;
+		status = Status.waitingAtRestaurant;
 		stateChanged();
 	}
 
+	public void msgStartWorking() {
+		status = Status.working;
+		stateChanged();
+	}
+	
 	//////////////////////////////////////////////////////////////////////////
 	
 	/**
@@ -81,6 +86,10 @@ public class RestaurantFourWaiterRole extends Role implements RestaurantFourWait
 			informHostOfArrival();
 		}
 
+		if (status == Status.working) {
+			// Scheduler options
+		}
+		
 		return false;
 	}
 
@@ -93,7 +102,7 @@ public class RestaurantFourWaiterRole extends Role implements RestaurantFourWait
 	 */
 	
 	private void informHostOfArrival() {
-		//restaurantFourSystem.getHost().msgWaiterReadyToWork(this);
+		restaurantFourSystem.getHost().msgWaiterReadyForWork(this);
 	}
 
 

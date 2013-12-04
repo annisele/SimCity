@@ -1,9 +1,15 @@
 package simcity.buildings.restaurant.four;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
+import simcity.interfaces.restaurant.four.RestaurantFourCustomer;
 import simcity.interfaces.restaurant.four.RestaurantFourHost;
+import simcity.interfaces.restaurant.four.RestaurantFourWaiter;
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -21,6 +27,8 @@ public class RestaurantFourHostRole extends Role implements RestaurantFourHost {
 	 */
 	
 	private RestaurantFourSystem restaurantFourSystem;
+	private List<RestaurantFourWaiter> waiters = Collections.synchronizedList(new ArrayList<RestaurantFourWaiter>());
+	private List<RestaurantFourCustomer> customers = Collections.synchronizedList(new ArrayList<RestaurantFourCustomer>());
 
 	public enum Status {none, waitingAtRestaurant, working};
 	private Status status = Status.none;
@@ -57,6 +65,14 @@ public class RestaurantFourHostRole extends Role implements RestaurantFourHost {
 		this.status = status;
 	}
 
+	public List getWaitersList() {
+		return waiters;
+	}
+	
+	public List getCustomersList() {
+		return customers;
+	}
+	
 	//////////////////////////////////////////////////////////////////////////
 	
 	/**
@@ -68,6 +84,17 @@ public class RestaurantFourHostRole extends Role implements RestaurantFourHost {
 		stateChanged();
 	}
 
+	public void msgWaiterReadyForWork(RestaurantFourWaiter waiter) {
+		waiters.add(waiter);
+		stateChanged();
+	}
+	
+	public void msgImHungry(RestaurantFourCustomer customer) {
+		customers.add(customer);
+		stateChanged();
+	}
+	
+	
 	//////////////////////////////////////////////////////////////////////////
 	
 	/**
@@ -79,8 +106,29 @@ public class RestaurantFourHostRole extends Role implements RestaurantFourHost {
 		if (status == Status.waitingAtRestaurant) {
 			status = Status.working;
 			setupForWork();
+			return true;
 		}
 
+		if (!waiters.isEmpty()) {
+			welcomeWaiter(waiters.get(0));
+			return true;
+		}
+		
+		if (!customers.isEmpty()) {
+			if (!restaurantFourSystem.getWaitersList().isEmpty()) {
+				if(restaurantFourSystem.freeTableExists()) {
+					askWaiterToSeatCustomer(customers.get(0), restaurantFourSystem.getLeastBusyWaiter(), restaurantFourSystem.getFreeTableNumber());
+					return true;
+				}
+				else {
+					//informCustomerOfUnavailableService();
+				}
+			}
+			else {
+				//informCustomerOfUnavailableService();
+			}
+		}
+		
 		return false;
 	}
 
@@ -97,7 +145,19 @@ public class RestaurantFourHostRole extends Role implements RestaurantFourHost {
 		// Let directory know that the restaurant is open
 	}
 
+	private void welcomeWaiter(RestaurantFourWaiter waiter) {
+		restaurantFourSystem.addWaiter(waiter);
+		waiter.msgStartWorking();
+		waiters.remove(waiter);
+	}
 
+	private void askWaiterToSeatCustomer(RestaurantFourCustomer customer, RestaurantFourWaiter waiter, int tableNumber) {
+		restaurantFourSystem.updateTableOccupants(customer, waiter, tableNumber);
+		restaurantFourSystem.updateCustomerLoadOfWaiter(waiter);
+		//waiter.msgSeatCustomerAtTable(customer, tableNumber);
+		customers.remove(customer);
+	}
+	
 	// Utilities //////////////////////////////////////////////////////////////////////////
 	@Override
 	public void exitBuilding() {
@@ -119,9 +179,6 @@ public class RestaurantFourHostRole extends Role implements RestaurantFourHost {
 	}
 	
 	// Utility Classes //////////////////////////////////////////////////////////////////////////
-	/**
-	 * MyCustomer class - for customers that just walk in
-	 */
 	
 }
 

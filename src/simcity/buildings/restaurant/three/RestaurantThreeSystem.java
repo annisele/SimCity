@@ -4,6 +4,9 @@ import java.util.*;
 
 import simcity.Role;
 import simcity.gui.*;
+import simcity.gui.restaurantthree.RestaurantThreeAnimationPanel;
+import simcity.gui.restaurantthree.RestaurantThreeControlPanel;
+import simcity.interfaces.restaurant.three.RestaurantThreeCook;
 import simcity.interfaces.restaurant.three.RestaurantThreeWaiter;
 import simcity.interfaces.restaurant.three.RestaurantThreeCustomer;
 import simcity.interfaces.restaurant.three.RestaurantThreeHost;
@@ -11,15 +14,26 @@ import simcity.interfaces.restaurant.three.RestaurantThreeHost;
 public class RestaurantThreeSystem extends simcity.SimSystem {
 	private RestaurantThreeComputer computer = new RestaurantThreeComputer();
 	private RestaurantThreeHost resthost;
+	private RestaurantThreeCook cook;
 	private List<RestaurantThreeCustomer> customers = Collections.synchronizedList(new ArrayList<RestaurantThreeCustomer>());
 	private List<RestaurantThreeWaiter> waiters = Collections.synchronizedList(new ArrayList<RestaurantThreeWaiter>());
 	public RestaurantThreeSystem(SimCityGui scg) {
 		super(scg);
+		super.setControlPanel(new RestaurantThreeControlPanel());
+		super.setAnimationPanel(new RestaurantThreeAnimationPanel());
 	}
 	public RestaurantThreeComputer getRestaurantThreeComputer() {
 		return computer;
 	}
-	
+	public RestaurantThreeHost getRestaurantThreeHost() {
+		return resthost;
+	}
+	public List <RestaurantThreeCustomer> getCustomers() {
+		return customers;
+	}
+	public List <RestaurantThreeWaiter> getWaiters() {
+		return waiters;
+	}
 	public boolean msgEnterBuilding(Role role) {
 		if (role instanceof RestaurantThreeHost) {
 			if (resthost == null) {
@@ -53,8 +67,6 @@ public class RestaurantThreeSystem extends simcity.SimSystem {
 			resthost = null;
 		}
 	}
-	public RestaurantThreeHost getRestaurantThreeHost() {
-		return resthost;
-	}
+	
 	
 }

@@ -373,11 +373,11 @@ public class PersonAgent extends Agent implements Person {
 			house.msgGoToBed();
 			//CHANGE DURATION TO 40
 			int sleepTime;
-			if (Clock.getTime() < 8) {
+			if (Clock.getTime() < 2) {
 				sleepTime = Clock.getTime();
 			}
 			else {
-				sleepTime = Clock.getTime() + 144;
+				sleepTime = Clock.getTime() + 13;
 			}
 			//sleepTime = Clock.getTime() + 99999;
 			e = new Event(home, house, 8, sleepTime, false, steps, t);
@@ -634,6 +634,7 @@ public class PersonAgent extends Agent implements Person {
 							return;
 						}
 					}
+					eventList.add(e);
 				}
 
 			}

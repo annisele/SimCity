@@ -8,6 +8,8 @@ package simcity.buildings.restaurant.three;
 import java.util.Timer;
 import java.util.concurrent.Semaphore;
 
+import restaurant.CustomerAgent.AgentEvent;
+import restaurant.CustomerAgent.AgentState;
 import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
@@ -30,6 +32,14 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
 	private RestaurantThreeCashier ca;
 	private RestaurantThreeWaiter waiter;
 	private RestaurantThreeSystem rest;
+	public enum CustomerState
+	{DoingNothing, WaitingInRestaurant, BeingSeated, WaiterCalled, WaitingForFood, Eating, DoneEating, Leaving, WaitingForCheck, NoMoney};
+	private CustomerState state = CustomerState.DoingNothing;//The start state
+
+	public enum CustomerEvent 
+	{none, gotHungry, seated, stayOrLeave, decidedChoice, waiterToTakeOrder, served, finishedEating,checkReceived, notWaiting, keepWaiting, doneLeaving, needReorder, leaveBecauseOfNoMoney, payNextTime, requestReorder};
+	CustomerEvent event = CustomerEvent.none;
+	
 	private Semaphore atDest = new Semaphore(0, true);
 	private RestaurantThreeSystem restaurantThreeSystem;
 	public void atDestination() {

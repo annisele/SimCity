@@ -26,6 +26,10 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
     ImageIcon ii2 = new ImageIcon("res/citygui/simcitymap2.png");
     Image cityimg = ii2.getImage();
     Image background = null;
+    
+    private int posX = 0;
+    private int posY = 0;
+    
 
     
 	public WorldAnimationPanel() {//SimCityGui sc) {
@@ -35,6 +39,15 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		repaint();
+	}
+	
+	@Override
+	public void dragWorld(int x, int y) {
+		posX -= x;
+		posY -= y;
+		
+		System.out.println(x+", "+y);
+		return;
 	}
 	
 	public void paintComponent(Graphics g) {

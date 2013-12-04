@@ -32,6 +32,11 @@ public class AnimationPanel extends JPanel implements ActionListener{
 
 	private int px; //x where mouse was pressed
 	private int py;
+	
+	protected int xStart = 0;
+	protected int yStart = 0;
+	protected int xOffset = 0;
+    protected int yOffset = 0;
 
 	protected AnimationPanel(){
 
@@ -46,6 +51,8 @@ public class AnimationPanel extends JPanel implements ActionListener{
 			public void mousePressed(MouseEvent e) {
 				px = e.getXOnScreen();
 				py = e.getYOnScreen();
+				xStart = (int) e.getPoint().getX();
+				yStart = (int) e.getPoint().getY();
 			}
 
 			@Override
@@ -117,6 +124,17 @@ public class AnimationPanel extends JPanel implements ActionListener{
 			@Override
 			public void mouseDragged(MouseEvent e) {
 				//added this to try to set up dragging world map
+				 xOffset = xStart - (int) e.getPoint().getX();
+				 yOffset = yStart - (int) e.getPoint().getY();
+				 if (xOffset != 0 || yOffset != 0) {
+					 dragWorld(xOffset, yOffset);
+					 xOffset = 0;
+					 yOffset = 0;
+					 xStart = (int) e.getPoint().getX();
+					 yStart = (int) e.getPoint().getY();
+				 }
+				 
+				 //repaint();
 			}
 
 			@Override
@@ -128,6 +146,11 @@ public class AnimationPanel extends JPanel implements ActionListener{
 
 		Timer timer = new Timer(10, this );
 		timer.start();
+	}
+	
+	public void dragWorld(int x, int y) {
+		System.out.println(x+", "+y);
+		return;
 	}
 
 	public void paintComponent(Graphics g) {

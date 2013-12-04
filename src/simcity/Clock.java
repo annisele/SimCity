@@ -4,6 +4,7 @@ public class Clock {
 	
 	static int currentTime;
 	static long startTime = System.currentTimeMillis();
+	
 	public class time{
 		int day;
 		int hour;
@@ -15,19 +16,22 @@ public class Clock {
 	}
 	time worldTime= new time(0, 0);
 	
+	static int tenMinuteLength = 2000;
+	static int hourLength = 2000*6;
+	
 	public Clock() {
 		
 	}
 	
 	public static int getTime() {
-		currentTime = (int) ((System.currentTimeMillis() - startTime) / 2000);
+		currentTime = (int) ((System.currentTimeMillis() - startTime) / tenMinuteLength);
 		return currentTime;
 	}
 		
 	public static String getDay() {
 		int d = 0;
 		String day = "";
-		currentTime = (int) ((System.currentTimeMillis() - startTime) / 2000);
+		currentTime = (int) ((System.currentTimeMillis() - startTime) / tenMinuteLength);
 
 		d = (int)((currentTime / (6*24))%7);
 		
@@ -44,21 +48,30 @@ public class Clock {
 	
 	public static int getHour() {
 		int h = 0;
-		currentTime = (int) ((System.currentTimeMillis() - startTime) / 2000);
+		currentTime = (int) ((System.currentTimeMillis() - startTime) / hourLength);
 		
 		h = (int)(((currentTime / 6)+5)%24+1);
 
 		return h;
 	}
 	
+	public static int getTenMinutes() {
+		int t = 0;
+		currentTime = (int) ((System.currentTimeMillis() - startTime) / tenMinuteLength);
+		
+		t = (int)(((currentTime / 6)+5)%24+1);
+
+		return t;
+	}
+	
 	public static int hoursInMillis(int hours) {
 		// Our current standard is 1 hour = 2000 ms
-		return (hours*2000);
+		return (hours*tenMinuteLength);
 	}
 	
 	public static String getDisplayTime(){
 		int h = 0, m = 0;
-		currentTime = (int) ((System.currentTimeMillis() - startTime) / 2000);
+		currentTime = (int) ((System.currentTimeMillis() - startTime) / tenMinuteLength);
 		
 		m = (int)((currentTime % 6)*10);
 		h = (int)(((currentTime / 6)+5)%24+1);
@@ -75,6 +88,10 @@ public class Clock {
 		String time = (getDay() + "  "+ h + ":" + min + "  " + ampm);
 		
 		return time;
+	}
+	
+	public static String getDebugTime(){
+		return (getDisplayTime() + " " + getTime());
 	}
 	
 	public static void reset() {

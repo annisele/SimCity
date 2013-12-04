@@ -396,7 +396,7 @@ public class Config {
 		systems.clearDetailPane();
 
 		systems.setBackgroundTwo();
-		//systems.addRestaurantSix("RESTAURANT6", 249, 140);
+		systems.addRestaurantFive("RESTAURANT5", 249, 140);
 
 	}
 	public void restaurantSix(){

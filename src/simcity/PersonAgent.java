@@ -209,9 +209,9 @@ public class PersonAgent extends Agent implements Person {
 				if(r instanceof MarketCustomer) {
 					eventR = r;
 				}
-			} 
+			}
 
-			e = new Event(buildingName, eventR, 120, -1, true, steps, t);
+			e = new Event(buildingName, eventR, 2, -1, true, steps, t);
 			AlertLog.getInstance().logDebug(AlertTag.WORLD, "WORLD: " + getName(), "SCHEDULED GOTOMARKET" + e.startTime + ", " + eventList.size());										
 
 			//Do("GoToMarket is scheduled, which has "+steps.size()+" steps");
@@ -377,7 +377,7 @@ public class PersonAgent extends Agent implements Person {
 				sleepTime = Clock.getTime();
 			}
 			else {
-				sleepTime = Clock.getTime() + 13;
+				sleepTime = Clock.getTime() + 16;
 			}
 			//sleepTime = Clock.getTime() + 99999;
 			e = new Event(home, house, 8, sleepTime, false, steps, t);

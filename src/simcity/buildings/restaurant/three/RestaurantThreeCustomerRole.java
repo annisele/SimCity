@@ -7,14 +7,9 @@ package simcity.buildings.restaurant.three;
 
 import java.util.Timer;
 import java.util.concurrent.Semaphore;
-
-import restaurant.CustomerAgent.AgentEvent;
-import restaurant.CustomerAgent.AgentState;
 import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
-import simcity.buildings.market.MarketSystem;
-import simcity.gui.bank.BankTellerGui;
 import simcity.gui.restaurantthree.RestaurantThreeCustomerGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
@@ -87,8 +82,7 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
 	}
 	@Override
 	public void setRestaurantThreeHost(RestaurantThreeHost bh) {
-		// TODO Auto-generated method stub
-		
+		this.bh = bh;
 	}
 	public void setWaiter(RestaurantThreeWaiter w) {
 		this.waiter = waiter;

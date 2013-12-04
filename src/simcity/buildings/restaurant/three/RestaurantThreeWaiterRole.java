@@ -6,7 +6,6 @@ import java.util.concurrent.Semaphore;
 import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
-import simcity.gui.bank.BankTellerGui;
 import simcity.gui.restaurantthree.RestaurantThreeWaiterGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
@@ -17,6 +16,9 @@ import simcity.interfaces.restaurant.three.RestaurantThreeWaiter;
 import simcity.test.mock.EventLog;
 public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWaiter{
 	private Timer timer = new Timer();
+	private RestaurantThreeHost host;
+	private RestaurantThreeCook cook;
+	private RestaurantThreeCashier cashier;
 	public  EventLog log = new EventLog();
 	private String name;
 	private Semaphore atDest = new Semaphore(0, true);
@@ -29,25 +31,17 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
 		this.gui = new RestaurantThreeWaiterGui(this);
 		this.restaurantThreeSystem = rest;
 	}
-	@Override
 	public void setHost(RestaurantThreeHost host) {
-		// TODO Auto-generated method stub
-		
+		this.host = host;
 	}
-
-	@Override
 	public void setCook(RestaurantThreeCook cook) {
-		// TODO Auto-generated method stub
-		
+		this.cook = cook;
 	}
 
-	@Override
 	public void setCashier(RestaurantThreeCashier cashier) {
-		// TODO Auto-generated method stub
-		
+		this.cashier = cashier;
 	}
 
-	@Override
 	public boolean pickAndExecuteAnAction() {
 		// TODO Auto-generated method stub
 		return false;

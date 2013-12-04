@@ -52,12 +52,21 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
 			e.printStackTrace();
 		}
 		restaurantThreeSystem.exitBuilding(this);
-		person.roleFinished();
-		
+		person.roleFinished();	
 	}
 
 	@Override
 	public void enterBuilding(SimSystem s) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public RestaurantThreeHost getRestaurantThreeHost() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public void setRestaurantThreeHost(RestaurantThreeHost bh) {
 		// TODO Auto-generated method stub
 		
 	}

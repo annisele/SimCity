@@ -19,18 +19,54 @@ public class RestaurantFourHostRole extends Role implements RestaurantFourHost {
 	/**
 	 * Data
 	 */
+	
+	private RestaurantFourSystem restaurantFourSystem;
 
-	private PersonAgent person;
+	public enum Status {none, waitingAtRestaurant, working};
+	private Status status = Status.none;
 	
 	// Constructors //////////////////////////////////////////////////////////////////////////
 	
-
+	public RestaurantFourHostRole(PersonAgent person) {
+		this.person = person;
+	}
 	
+	// Accessors //////////////////////////////////////////////////////////////////////////
+	
+	public PersonAgent getPerson() {
+		return person;
+	}
+	
+	public void setPerson(PersonAgent person) {
+		this.person = person;
+	}
+	
+	public RestaurantFourSystem getSystem() {
+		return restaurantFourSystem;
+	}
+	
+	public void setSystem(RestaurantFourSystem restaurantFourSystem) {
+		this.restaurantFourSystem = restaurantFourSystem;
+	}
+	
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	
 	/**
 	 * Messages
 	 */
+
+	public void msgGotToWork() {
+		status = status.waitingAtRestaurant;
+		stateChanged();
+	}
 
 	//////////////////////////////////////////////////////////////////////////
 	
@@ -39,6 +75,11 @@ public class RestaurantFourHostRole extends Role implements RestaurantFourHost {
 	 */
 	
 	public boolean pickAndExecuteAnAction() {
+
+		if (status == Status.waitingAtRestaurant) {
+			status = Status.working;
+			setupForWork();
+		}
 
 		return false;
 	}
@@ -51,6 +92,12 @@ public class RestaurantFourHostRole extends Role implements RestaurantFourHost {
 	 * Actions
 	 */
 	
+	private void setupForWork() {
+		restaurantFourSystem.setHost(this);
+		// Let directory know that the restaurant is open
+	}
+
+
 	// Utilities //////////////////////////////////////////////////////////////////////////
 	@Override
 	public void exitBuilding() {
@@ -60,6 +107,13 @@ public class RestaurantFourHostRole extends Role implements RestaurantFourHost {
 
 	@Override
 	public void enterBuilding(SimSystem s) {
+		// TODO Auto-generated method stub
+		this.restaurantFourSystem = (RestaurantFourSystem)s;
+		msgGotToWork();
+	}
+
+	@Override
+	public void atDestination() {
 		// TODO Auto-generated method stub
 		
 	}

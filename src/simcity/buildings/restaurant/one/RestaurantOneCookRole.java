@@ -29,7 +29,7 @@ private Graphics2D g = null;
     Timer CookTimer = new Timer();
     private int marketchoice = 1; //USE LATER?
 
-    class CookOrder {
+    public class CookOrder {
             RestaurantOneWaiterRole waiter;
             String choice;
             int table;
@@ -44,7 +44,7 @@ private Graphics2D g = null;
             }
     }
     
-    private List<CookOrder> orders = Collections.synchronizedList(new ArrayList<CookOrder>());
+    public List<CookOrder> orders = Collections.synchronizedList(new ArrayList<CookOrder>());
 
 
 

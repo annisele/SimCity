@@ -9,6 +9,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
+import simcity.Clock;
 import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
@@ -31,7 +32,7 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 	
 	private Semaphore atDest = new Semaphore(0, true);
 	
-	private final int SLEEPTIME = 4000;
+	private final int SLEEPTIME = Clock.hoursInMillis(2);
 	private final int COOKTIME = 6000;
 	private final int EATTIME = 4000;
 	private final int TIMEBWMEALS = 12*8*1000;

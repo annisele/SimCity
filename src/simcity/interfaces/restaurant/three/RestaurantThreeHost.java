@@ -25,6 +25,10 @@ public interface RestaurantThreeHost extends GuiPartner {
 
 	void enterBuilding(SimSystem s);
 
+	int numWaitingCustomers();
+
+	void msgIWantFood(RestaurantThreeCustomer restaurantThreeCustomerRole);
+
 
 
 }

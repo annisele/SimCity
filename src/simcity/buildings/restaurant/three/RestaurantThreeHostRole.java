@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
 import java.util.concurrent.Semaphore;
-
 import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
@@ -18,6 +17,11 @@ import simcity.interfaces.restaurant.three.RestaurantThreeCustomer;
 import simcity.interfaces.restaurant.three.RestaurantThreeHost;
 import simcity.test.mock.EventLog;
 
+/**
+ * Restaurant Three Waiter Role
+ * @author Levonne Key
+ *
+ */
 public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost {
 	private Timer timer = new Timer();
 	public  EventLog log = new EventLog();
@@ -26,7 +30,7 @@ public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost
 	private Semaphore atDest = new Semaphore(0, true);
 	private static Collection<Table> tables;
 	private List<RestaurantThreeCustomer> waitingCustomers = Collections.synchronizedList(new ArrayList<RestaurantThreeCustomer>());
-	private RestaurantThreeSystem restaurant;
+	private RestaurantThreeSystem system;
 
 	private class Table {
 		RestaurantThreeCustomer occupiedBy;
@@ -66,7 +70,7 @@ public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost
 	}
 	
 	public void msgIWantFood(RestaurantThreeCustomer cust) {
-		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantHost: " + person.getName(), "A customer has arrived!");
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(system.getName()), "RestaurantHost: " + person.getName(), "A customer has arrived!");
 		//checking for unoccupied tables
 		for (Table table : tables) {
 			if (!table.isOccupied()) {
@@ -91,22 +95,22 @@ public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost
 
 	@Override
 	public void exitBuilding() {
-		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "Restaurant Three Host: " + person.getName(), "Leaving restaurant three");	
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(system.getName()), "Restaurant Three Host: " + person.getName(), "Leaving restaurant three");	
 		gui.DoExitBuilding();
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		restaurant.exitBuilding(this);
+		system.exitBuilding(this);
 		person.roleFinished();	
 	}
 
 
 	@Override
 	public void enterBuilding(SimSystem s) {
-		restaurant = (RestaurantThreeSystem)s;
-		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantThreeHost: " + person.getName(), "Ready to work at the restaurant!");
+		system = (RestaurantThreeSystem)s;
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(system.getName()), "RestaurantThreeHost: " + person.getName(), "Ready to work at the restaurant!");
 		
 		((RestaurantThreeHostGui) gui).DoGoToStand();
 		
@@ -116,7 +120,7 @@ public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost
 	@Override
 	public PersonAgent getPerson() {
 		// TODO Auto-generated method stub
-		return null;
+		return person;
 	}
 
 
@@ -130,7 +134,7 @@ public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost
 	@Override
 	public RestaurantThreeSystem getSystem() {
 		// TODO Auto-generated method stub
-		return null;
+		return system;
 	}
 
 
@@ -152,6 +156,13 @@ public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost
 	public void msgGotToWork() {
 		// TODO Auto-generated method stub
 		
+	}
+
+
+	@Override
+	public int numWaitingCustomers() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

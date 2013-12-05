@@ -116,7 +116,7 @@ public class SystemManager {
 		if (name.equalsIgnoreCase("Rebecca")) {
 			person.goToMarketNow();
 		}
-		if(name.equalsIgnoreCase("Five")) {
+		if(name.equalsIgnoreCase("Hungry Jenny") || name.equalsIgnoreCase("Hungry Clayton")) {
 			person.scheduleEvent(EventType.EatAtRestaurant);
 		}
 		if(name.equalsIgnoreCase("Josh")) {

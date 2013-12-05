@@ -8,13 +8,17 @@ import simcity.Role;
 import simcity.gui.SimCityGui;
 import simcity.gui.restaurantfive.RestaurantFiveAnimationPanel;
 import simcity.gui.restaurantfive.RestaurantFiveControlPanel;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.restaurant.five.RestaurantFiveCustomer;
 import simcity.interfaces.restaurant.five.RestaurantFiveHost;
+import simcity.interfaces.restaurant.five.RestaurantFiveWaiter;
 
 public class RestaurantFiveSystem extends simcity.SimSystem {
 
 	private RestaurantFiveHost host = null;
 	private List<RestaurantFiveCustomer> customers = Collections.synchronizedList(new ArrayList<RestaurantFiveCustomer>());
+	private List<RestaurantFiveWaiter> waiters = Collections.synchronizedList(new ArrayList<RestaurantFiveWaiter>());
 
 	
 	public RestaurantFiveSystem(SimCityGui scg) {
@@ -47,8 +51,11 @@ public class RestaurantFiveSystem extends simcity.SimSystem {
 //			else if(role instanceof MarketWorker) {
 //				workers.add((MarketWorker) role);
 //			}
-			if(role == null) System.out.println("ROLE NULL");
-			else if(animationPanel == null) System.out.println("ANIMATION PANEL NULL");
+			else if(role instanceof RestaurantFiveWaiter) {
+				waiters.add((RestaurantFiveWaiter) role);
+				host.msgAddWaiter((RestaurantFiveWaiter)role);
+			}
+
 			animationPanel.addGui(role.getGui());
 			return true;
 		}

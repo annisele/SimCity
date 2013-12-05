@@ -7,9 +7,12 @@ package simcity.buildings.restaurant.three;
 
 import java.util.Timer;
 import java.util.concurrent.Semaphore;
+
 import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
+import simcity.buildings.restaurant.five.RestaurantFiveCustomerRole.AgentEvent;
+import simcity.gui.restaurantfive.RestaurantFiveCustomerGui;
 import simcity.gui.restaurantthree.RestaurantThreeCustomerGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
@@ -74,11 +77,23 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
 		//msgArrivedAtBank();
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(rest.getName()), "Restaurant 3 Customer: " + person.getName(), "I've arrived at restaurant 3");	
 
+		int n = rest. getRestaurantThreeHost().numWaitingCustomers();
+		((RestaurantThreeCustomerGui) gui).DoGoToHost();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		event = CustomerEvent.gotHungry;
+		rest.getRestaurantThreeHost().msgIWantFood(this);
+
+		stateChanged();
 	}
 	@Override
 	public RestaurantThreeHost getRestaurantThreeHost() {
 		// TODO Auto-generated method stub
-		return null;
+		return bh;
 	}
 	@Override
 	public void setRestaurantThreeHost(RestaurantThreeHost bh) {
@@ -89,6 +104,11 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
 	}
 	public void setCashier(RestaurantThreeCashier ca) {
 		this.ca = ca;
+	}
+	@Override
+	public void msgRestaurantFull() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

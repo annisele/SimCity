@@ -101,13 +101,18 @@ public class RestaurantFourWaiterRole extends Role implements RestaurantFourWait
 			return true;
 		}
 
-		if (status == St)
+		if (status == Status.confirmed) {
+			status = Status.working;
+			workAtWaiterStation();
+			return true;
+		}
 		
 		if (status == Status.working) {
 			synchronized(customers) {
 				for (MyCustomer customer : customers) {
 					if (customer.getState() == customerState.withHost) {
 						seatCustomerAtTable(customer);
+						return true;
 					}
 				}
 			}
@@ -130,11 +135,24 @@ public class RestaurantFourWaiterRole extends Role implements RestaurantFourWait
 	}
 
 	private void seatCustomerAtTable(MyCustomer customer) {
-		
+		DoGoToWaitingArea();
+		//customer.getCustomer().msgFollowMeToTable(this, customer.getTableNumber());
 	}
 
+	private void workAtWaiterStation() {
+		DoGoToWaiterStation();
+	}
+	
 	// Animation DoXYZ
 	private void DoGoToHostLocation() {
+		
+	}
+	
+	private void DoGoToWaiterStation() {
+		
+	}
+	
+	private void DoGoToWaitingArea() {
 		
 	}
 	

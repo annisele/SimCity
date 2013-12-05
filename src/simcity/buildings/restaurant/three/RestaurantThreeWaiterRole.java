@@ -1,5 +1,8 @@
 package simcity.buildings.restaurant.three;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Timer;
 import java.util.concurrent.Semaphore;
 
@@ -11,14 +14,36 @@ import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
 import simcity.interfaces.restaurant.three.RestaurantThreeCashier;
 import simcity.interfaces.restaurant.three.RestaurantThreeCook;
+import simcity.interfaces.restaurant.three.RestaurantThreeCustomer;
 import simcity.interfaces.restaurant.three.RestaurantThreeHost;
 import simcity.interfaces.restaurant.three.RestaurantThreeWaiter;
 import simcity.test.mock.EventLog;
+
+/**
+ * Restaurant Three Waiter Role
+ * @author Levonne Key
+ *
+ */
 public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWaiter{
 	private Timer timer = new Timer();
 	private RestaurantThreeHost host;
 	private RestaurantThreeCook cook;
 	private RestaurantThreeCashier cashier;
+	public enum CustomerState {WAITING,READY_TO_ORDER,ORDERING,FOOD_SERVED,IS_DONE,NO_ACTION, READY_TO_PAY, EXPENSIVE_LEAVE, REORDER, CANNOT_AFFORD_TO_REORDER};
+	private List<MyCustomer> customers = Collections.synchronizedList(new ArrayList<MyCustomer>());
+	
+	public class MyCustomer {
+		private RestaurantThreeCustomer customer;
+		private CustomerState state;
+		private int tableNum;
+		private String choice;
+		
+		MyCustomer(RestaurantThreeCustomer customer, int tableNum) {
+			this.customer = customer;
+			this.tableNum = tableNum;
+			state = CustomerState.NO_ACTION;
+		}
+	}
 	public  EventLog log = new EventLog();
 	private String name;
 	private Semaphore atDest = new Semaphore(0, true);
@@ -26,10 +51,9 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
 	public void atDestination() {
 		atDest.release();
 	}
-	public RestaurantThreeWaiterRole(PersonAgent person, RestaurantThreeSystem rest) {
+	public RestaurantThreeWaiterRole(PersonAgent person) {
 		this.person = person;
 		this.gui = new RestaurantThreeWaiterGui(this);
-		this.restaurantThreeSystem = rest;
 	}
 	public void setHost(RestaurantThreeHost host) {
 		this.host = host;
@@ -63,13 +87,11 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
 
 	@Override
 	public void enterBuilding(SimSystem s) {
-		// TODO Auto-generated method stub
+		restaurantThreeSystem = (RestaurantThreeSystem)s;
 		
 	}
 	
-	public class MyCustomer {
-		
-	}
+	
 }
 
 

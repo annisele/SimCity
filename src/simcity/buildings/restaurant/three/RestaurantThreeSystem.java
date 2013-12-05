@@ -10,6 +10,7 @@ import simcity.interfaces.restaurant.three.RestaurantThreeCook;
 import simcity.interfaces.restaurant.three.RestaurantThreeWaiter;
 import simcity.interfaces.restaurant.three.RestaurantThreeCustomer;
 import simcity.interfaces.restaurant.three.RestaurantThreeHost;
+import simcity.test.restaurantthree.mock.MockRestaurantThreeHost;
 
 public class RestaurantThreeSystem extends simcity.SimSystem {
 	private RestaurantThreeComputer computer = new RestaurantThreeComputer();
@@ -66,6 +67,9 @@ public class RestaurantThreeSystem extends simcity.SimSystem {
 		else if (role instanceof RestaurantThreeHost) {
 			resthost = null;
 		}
+	}
+	public void setHost(RestaurantThreeHost host) {
+		
 	}
 	
 	

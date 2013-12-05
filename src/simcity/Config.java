@@ -401,10 +401,15 @@ public class Config {
 		systems.addRestaurantFiveHost("Sarah", "RESTAURANT5");
 		timer.schedule(new TimerTask() {
 			public void run() {
-				systems.addPerson("Five");
+				systems.addPerson("Hungry Jenny");
 				timer.schedule(new TimerTask() {
 					public void run() {
 						systems.addRestaurantFiveWaiter("Bob", "RESTAURANT5");
+						timer.schedule(new TimerTask() {
+							public void run() {
+								systems.addPerson("Hungry Clayton");
+							}
+						}, 2000);
 					}
 				}, 2000);
 			}

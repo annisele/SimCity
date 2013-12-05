@@ -13,6 +13,8 @@ public interface RestaurantFourCustomer extends GuiPartner {
 	public abstract void setPersonAgent(PersonAgent person);
 	public abstract RestaurantFourSystem getSystem();
 	public abstract void setSystem(RestaurantFourSystem restaurantFourSystem);
+	public abstract int getTableNumber();
+	public abstract void setTableNumber(int tableNumber);
 	public abstract State getState();
 	public abstract void setState(State state);
 	public abstract Event getEvent();
@@ -20,6 +22,7 @@ public interface RestaurantFourCustomer extends GuiPartner {
 	
 	// Messages
 	public abstract void msgGotHungry();
+	public abstract void msgFollowMeToTable(int tableNumber);
 	
 	// Utilities
 	public abstract void exitBuilding();

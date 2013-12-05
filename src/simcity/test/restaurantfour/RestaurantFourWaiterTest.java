@@ -50,7 +50,7 @@ public class RestaurantFourWaiterTest extends TestCase {
 		assertEquals("Waiter should have a restaurant four system registered", waiter.getSystem(), restaurant);
 		
 		// step 2 - call scheduler to message host of arrival
-		waiter.pickAndExecuteAnAction();
+		assertTrue("Waiter scheduler should return true", waiter.pickAndExecuteAnAction());
 		
 		// check step 2 postconditions
 		assertEquals("Waiter status should be waitingForConfirmation", waiter.getStatus(), Status.waitingForConfirmation);
@@ -61,6 +61,12 @@ public class RestaurantFourWaiterTest extends TestCase {
 		waiter.msgStartWorking();
 		
 		// check step 3 postconditions
+		assertEquals("Waiter status should be confirmed", waiter.getStatus(), Status.confirmed);
+		
+		// step 4 - call scheduler to go to waiter position
+		assertTrue("Waiter scheduler should return true", waiter.pickAndExecuteAnAction());
+		
+		// check step 4 postconditions
 		assertEquals("Waiter status should be working", waiter.getStatus(), Status.working);
 		
 		System.out.println("");

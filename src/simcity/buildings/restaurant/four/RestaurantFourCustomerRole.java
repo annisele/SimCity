@@ -23,13 +23,14 @@ public class RestaurantFourCustomerRole extends Role implements RestaurantFourCu
 
 	//private PersonAgent person;
 	private RestaurantFourCustomerGui gui;
+	private int tableNumber;
 	
 	private RestaurantFourSystem restaurantFourSystem;
 	
-	public enum State {none};
+	public enum State {none, waitingAtRestaurant, walkingToTable};
 	private State state = State.none;
 	
-	public enum Event {none, gotHungry};
+	public enum Event {none, gotHungry, metWaiter};
 	private Event event = Event.none;
 	
 	public PersonAgent getPersonAgent() {
@@ -54,6 +55,14 @@ public class RestaurantFourCustomerRole extends Role implements RestaurantFourCu
 	
 	public void setSystem(RestaurantFourSystem restaurantFourSystem) {
 		this.restaurantFourSystem = restaurantFourSystem;
+	}
+	
+	public int getTableNumber() {
+		return tableNumber;
+	}
+	
+	public void setTableNumber(int tableNumber) {
+		this.tableNumber = tableNumber;
 	}
 	
 	public State getState() {
@@ -83,6 +92,12 @@ public class RestaurantFourCustomerRole extends Role implements RestaurantFourCu
 		stateChanged();
 	}
 	
+	public void msgFollowMeToTable(int tableNumber) {
+		event = Event.metWaiter;
+		this.tableNumber = tableNumber;
+		stateChanged();
+	}
+	
 	//////////////////////////////////////////////////////////////////////////
 	
 	/**
@@ -92,7 +107,13 @@ public class RestaurantFourCustomerRole extends Role implements RestaurantFourCu
 	public boolean pickAndExecuteAnAction() {
 
 		if (state == State.none && event == Event.gotHungry) {
+			state = State.waitingAtRestaurant;
 			informHostOfArrival();
+		}
+		
+		if (state == State.waitingAtRestaurant && event == Event.metWaiter){
+			state = State.walkingToTable;
+			followWaiterToTable();
 		}
 		
 		return false;
@@ -108,6 +129,10 @@ public class RestaurantFourCustomerRole extends Role implements RestaurantFourCu
 	
 	private void informHostOfArrival() {
 		restaurantFourSystem.getHost().msgImHungry(this);
+	}
+	
+	private void followWaiterToTable() {
+		
 	}
 	
 	// Utilities //////////////////////////////////////////////////////////////////////////

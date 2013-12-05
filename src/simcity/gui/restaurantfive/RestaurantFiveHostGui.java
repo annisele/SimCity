@@ -11,7 +11,7 @@ import simcity.interfaces.restaurant.five.RestaurantFiveHost;
 public class RestaurantFiveHostGui extends Gui {
 
 	private final int HOST_STAND_X = 50;
-	private final int HOST_STAND_Y = 375;
+	private final int HOST_STAND_Y = 325;
 	
 	private ImageIcon ii = new ImageIcon("res/person/bluepersondownbig.png");
 	private Image hostimage = ii.getImage();

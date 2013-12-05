@@ -15,20 +15,12 @@ import simcity.buildings.market.MarketCashierRole;
 import simcity.buildings.market.MarketSystem;
 import simcity.buildings.market.MarketTruckAgent;
 import simcity.buildings.market.MarketWorkerRole;
-import simcity.buildings.restaurant.five.RestaurantFiveHostRole;
-import simcity.buildings.restaurant.five.RestaurantFiveSystem;
-import simcity.buildings.restaurant.five.RestaurantFiveWaiterRole;
-import simcity.buildings.restaurant.four.RestaurantFourSystem;
-import simcity.buildings.restaurant.one.RestaurantOneSystem;
-import simcity.buildings.restaurant.six.RestaurantSixSystem;
-import simcity.buildings.restaurant.three.RestaurantThreeSystem;
-import simcity.buildings.restaurant.two.RestaurantTwoCashierRole;
-import simcity.buildings.restaurant.two.RestaurantTwoComputer;
-import simcity.buildings.restaurant.two.RestaurantTwoCookRole;
-import simcity.buildings.restaurant.two.RestaurantTwoHostRole;
-import simcity.buildings.restaurant.two.RestaurantTwoSharedDataWaiterRole;
-import simcity.buildings.restaurant.two.RestaurantTwoSystem;
-import simcity.buildings.restaurant.two.RestaurantTwoWaiterRole;
+import simcity.buildings.restaurant.one.*;
+import simcity.buildings.restaurant.six.*;
+import simcity.buildings.restaurant.two.*;
+import simcity.buildings.restaurant.three.*;
+import simcity.buildings.restaurant.four.*;
+import simcity.buildings.restaurant.five.*;
 import simcity.buildings.transportation.BusAgent;
 import simcity.buildings.transportation.TransportationSystem;
 import simcity.gui.BuildingGui;
@@ -244,6 +236,7 @@ public class SystemManager {
 		RestaurantSixSystem temp = new RestaurantSixSystem(simcity);
 		temp.setName(name);
 		restaurantSixes.add(temp);
+		
 		BuildingGui building = new BuildingGui(temp, "RestaurantSix", xLoc, yLoc);
 		world.getAnimationPanel().addBuilding(building);
 		Location loc = new Location(xLoc, yLoc);
@@ -383,6 +376,8 @@ public class SystemManager {
 		banks.get(0).getBankComputer().addHackedBankAccount(accountNumber, accountBalance, amountOwed, password);
 	}
 	
+	/*************** RESTAURANT TWO FUNCTIONS *******************/
+
 	public void addRestaurantTwoHostHack(String name, String rest) {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());
@@ -453,6 +448,43 @@ public class SystemManager {
 	
 	/**************** End of Restaurant Five functions ***************/
 	
+	/*************** RESTAURANT SIX FUNCTIONS *******************/
+	
+	public void addRestaurantSixHost(String name, String rest) {
+		PersonAgent person = new PersonAgent(name);
+		world.getAnimationPanel().addGui(person.getIdleGui());
+		Role host = new RestaurantSixHostRole(person);
+		person.addWork(host, rest);
+		people.add(person);
+		person.startThread();
+	}
+	
+	public void addRestaurantSixWaiter(String name, String rest) {
+		PersonAgent person = new PersonAgent(name);
+		world.getAnimationPanel().addGui(person.getIdleGui());
+		Role waiter = new RestaurantSixWaiterRole(person);
+		person.addWork(waiter, rest);
+		people.add(person);
+		person.startThread();
+	}
+	
+	public void addRestaurantSixCook(String name, String rest) {
+		PersonAgent person = new PersonAgent(name);
+		world.getAnimationPanel().addGui(person.getIdleGui());
+		Role cook = new RestaurantSixCookRole(person);
+		person.addWork(cook, rest);
+		people.add(person);
+		person.startThread();
+	}
+	
+	public void addRestaurantSixCashier(String name, String rest) {
+		PersonAgent person = new PersonAgent(name);
+		world.getAnimationPanel().addGui(person.getIdleGui());
+		Role cashier = new RestaurantSixCashierRole(person);
+		person.addWork(cashier, rest);
+		people.add(person);
+		person.startThread();
+	}
 	
 	public BusAgent getBus() {
 		return bus;

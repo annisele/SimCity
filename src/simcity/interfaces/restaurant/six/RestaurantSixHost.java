@@ -1,5 +1,10 @@
 package simcity.interfaces.restaurant.six;
 
-public interface RestaurantSixHost {
+import simcity.interfaces.GuiPartner;
+import simcity.interfaces.restaurant.five.RestaurantFiveCustomer;
 
+public interface RestaurantSixHost extends GuiPartner {
+	
+	public abstract void msgIWantFood(RestaurantSixCustomer restaurantSixCustomerRole);
+	
 }

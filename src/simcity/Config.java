@@ -417,6 +417,28 @@ public class Config {
 
 		systems.setBackgroundTwo();
 		systems.addRestaurantSix("RESTAURANT6", 249, 140);
+		systems.addRestaurantSixHost("Timothy", "RESTAURANT6");
+		
+		timer.schedule(new TimerTask() {
+			public void run() {
+				//systems.addPerson("Five");
+				timer.schedule(new TimerTask() {
+					public void run() {
+						systems.addRestaurantSixWaiter("Bob", "RESTAURANT6");
+						timer.schedule(new TimerTask() {
+							public void run() {
+								systems.addRestaurantSixCashier("Charlie", "RESTAURANT6");
+								timer.schedule(new TimerTask() {
+									public void run() {
+										systems.addRestaurantSixCook("Hernando", "RESTAURANT6");
+									}
+								}, 1000);
+							}
+						}, 1000);
+					}
+				}, 2000);
+			}
+		}, 4000);
 
 	}
 

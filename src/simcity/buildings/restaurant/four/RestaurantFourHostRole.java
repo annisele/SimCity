@@ -142,6 +142,7 @@ public class RestaurantFourHostRole extends Role implements RestaurantFourHost {
 	
 	private void setupForWork() {
 		restaurantFourSystem.setHost(this);
+		DoGoToHostStation();
 		// Let directory know that the restaurant is open
 	}
 
@@ -154,8 +155,13 @@ public class RestaurantFourHostRole extends Role implements RestaurantFourHost {
 	private void askWaiterToSeatCustomer(RestaurantFourCustomer customer, RestaurantFourWaiter waiter, int tableNumber) {
 		restaurantFourSystem.updateTableOccupants(customer, waiter, tableNumber);
 		restaurantFourSystem.updateCustomerLoadOfWaiter(waiter);
-		//waiter.msgSeatCustomerAtTable(customer, tableNumber);
+		waiter.msgSeatCustomerAtTable(customer, tableNumber);
 		customers.remove(customer);
+	}
+	
+	// Animation DoXYZ()
+	private void DoGoToHostStation() {
+		
 	}
 	
 	// Utilities //////////////////////////////////////////////////////////////////////////

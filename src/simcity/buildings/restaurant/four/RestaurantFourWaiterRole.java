@@ -1,8 +1,14 @@
+
 package simcity.buildings.restaurant.four;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
+import simcity.interfaces.restaurant.four.RestaurantFourCustomer;
 import simcity.interfaces.restaurant.four.RestaurantFourWaiter;
 
 
@@ -21,9 +27,12 @@ public class RestaurantFourWaiterRole extends Role implements RestaurantFourWait
 	 */
 	
 	private RestaurantFourSystem restaurantFourSystem;
+	private List<MyCustomer> customers = Collections.synchronizedList(new ArrayList<MyCustomer>());
 	
-	public enum Status {none, waitingAtRestaurant, waitingForConfirmation, working};
+	public enum Status {none, waitingAtRestaurant, waitingForConfirmation, confirmed, working};
 	private Status status = Status.none;
+	
+	public enum customerState {none, withHost};
 	
 	// Constructors //////////////////////////////////////////////////////////////////////////
 	
@@ -69,7 +78,12 @@ public class RestaurantFourWaiterRole extends Role implements RestaurantFourWait
 	}
 
 	public void msgStartWorking() {
-		status = Status.working;
+		status = Status.confirmed;
+		stateChanged();
+	}
+	
+	public void msgSeatCustomerAtTable(RestaurantFourCustomer customer, int tableNumber) {
+		customers.add(new MyCustomer(customer, tableNumber));
 		stateChanged();
 	}
 	
@@ -84,10 +98,19 @@ public class RestaurantFourWaiterRole extends Role implements RestaurantFourWait
 		if (status == Status.waitingAtRestaurant) {
 			status = Status.waitingForConfirmation;
 			informHostOfArrival();
+			return true;
 		}
 
+		if (status == St)
+		
 		if (status == Status.working) {
-			// Scheduler options
+			synchronized(customers) {
+				for (MyCustomer customer : customers) {
+					if (customer.getState() == customerState.withHost) {
+						seatCustomerAtTable(customer);
+					}
+				}
+			}
 		}
 		
 		return false;
@@ -102,10 +125,19 @@ public class RestaurantFourWaiterRole extends Role implements RestaurantFourWait
 	 */
 	
 	private void informHostOfArrival() {
+		DoGoToHostLocation();
 		restaurantFourSystem.getHost().msgWaiterReadyForWork(this);
 	}
 
+	private void seatCustomerAtTable(MyCustomer customer) {
+		
+	}
 
+	// Animation DoXYZ
+	private void DoGoToHostLocation() {
+		
+	}
+	
 	// Utilities //////////////////////////////////////////////////////////////////////////
 	@Override
 	public void exitBuilding() {
@@ -130,6 +162,48 @@ public class RestaurantFourWaiterRole extends Role implements RestaurantFourWait
 	/**
 	 * MyCustomer class - for customers that just walk in
 	 */
+	public class MyCustomer {
+		
+		// Data ////////////////////////////////////////////////////////////////////////////////
+		private RestaurantFourCustomer customer;
+		private customerState state;
+		private int tableNumber;
+		
+		// Constructor /////////////////////////////////////////////////////////////////////////
+		MyCustomer(RestaurantFourCustomer customer, int tableNumber) {
+			this.customer = customer;
+			this.tableNumber = tableNumber;
+			this.state = customerState.withHost;
+		}
+		
+		// Accessors ///////////////////////////////////////////////////////////////////////////
+		public RestaurantFourCustomer getCustomer() {
+			return customer;
+		}
+		
+		public void setCustomer(RestaurantFourCustomer customer) {
+			this.customer = customer;
+		}
+		
+		public customerState getState() {
+			return state;
+		}
+		
+		public void setState(customerState state) {
+			this.state = state;
+		}
+		
+		public int getTableNumber() {
+			return tableNumber;
+		}
+		
+		public void setTableNumber(int tableNumber) {
+			this.tableNumber = tableNumber;
+		}
+		
+		// Functions ///////////////////////////////////////////////////////////////////////////
+		
+	}
 	
 }
 

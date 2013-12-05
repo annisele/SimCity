@@ -7,9 +7,9 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 
 import simcity.gui.Gui;
-import simcity.interfaces.restaurant.three.RestaurantThreeCook;
+import simcity.interfaces.restaurant.three.RestaurantThreeCashier;
 
-public class RestaurantThreeCookGui extends Gui {
+public class RestaurantThreeCashierGui extends Gui {
 		
 	private final int CORRIDOR_X = 15;
 	private final int CORRIDOR_Y = 85;
@@ -30,7 +30,7 @@ public class RestaurantThreeCookGui extends Gui {
 	Image img = ii.getImage();
 
 
-	public RestaurantThreeCookGui(RestaurantThreeCook b) {
+	public RestaurantThreeCashierGui(RestaurantThreeCashier b) {
 		role = b;
 	}
 	

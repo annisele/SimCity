@@ -1,5 +1,7 @@
 package simcity.interfaces.restaurant.three;
 
-public interface RestaurantThreeHost {
+import simcity.interfaces.GuiPartner;
+
+public interface RestaurantThreeHost extends GuiPartner {
 
 }

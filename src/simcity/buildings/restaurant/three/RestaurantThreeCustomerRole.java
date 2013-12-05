@@ -90,5 +90,10 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
 	public void setCashier(RestaurantThreeCashier ca) {
 		this.ca = ca;
 	}
+	@Override
+	public void msgRestaurantFull() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

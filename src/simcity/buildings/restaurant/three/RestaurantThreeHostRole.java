@@ -112,4 +112,46 @@ public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost
 		
 	}
 
+
+	@Override
+	public PersonAgent getPerson() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public void setPerson(PersonAgent person) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public RestaurantThreeSystem getSystem() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public void setSystem(RestaurantThreeSystem resSystem) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public List getWaitersList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public void msgGotToWork() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -26,10 +26,9 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
 	public void atDestination() {
 		atDest.release();
 	}
-	public RestaurantThreeWaiterRole(PersonAgent person, RestaurantThreeSystem rest) {
+	public RestaurantThreeWaiterRole(PersonAgent person) {
 		this.person = person;
 		this.gui = new RestaurantThreeWaiterGui(this);
-		this.restaurantThreeSystem = rest;
 	}
 	public void setHost(RestaurantThreeHost host) {
 		this.host = host;

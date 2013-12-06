@@ -241,6 +241,7 @@ public class RestaurantFiveHostRole extends Role implements RestaurantFiveHost {
 //
 	
 	public int getNumWaitingCustomers() {
+		//host takes them off list when she assigns to waiter, so size always = 0
 		return waitingCustomers.size();
 	}
 	

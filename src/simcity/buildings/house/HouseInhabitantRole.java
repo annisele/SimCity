@@ -214,7 +214,7 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 
 		// When you wake up, you need to eat
 		AlertLog.getInstance().logDebug(AlertTag.valueOf(house.getName()), "HouseInhabitant: "+person.getName(), "Scheduling first eat event.");						
-		//person.scheduleEvent(EventType.EatAtHome);
+	//	person.scheduleEvent(EventType.EatAtHome);
 		
 		timer.schedule(new TimerTask(){            
 			public void run() {
@@ -223,7 +223,16 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 				person.scheduleEvent(EventType.EatAtHome);
 				stateChanged();
 			}
-		}, 50);//TIMEBWMEALS); //or whatever time is fine
+		}, 10);
+		
+		timer.schedule(new TimerTask(){            
+			public void run() {
+				AlertLog.getInstance().logDebug(AlertTag.valueOf(house.getName()), "HouseInhabitant: "+person.getName(), "Scheduling next eat event.");						
+
+				person.scheduleEvent(EventType.EatAtHome);
+				stateChanged();
+			}
+		}, TIMEBWMEALS);
 		DoGoToLiving();
 		//person.roleFinished();
 		exitBuilding();

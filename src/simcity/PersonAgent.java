@@ -542,7 +542,6 @@ public class PersonAgent extends Agent implements Person {
 			}
 		}
 
-		//currentRole.getGui().ge
 		Location loc = Directory.getBusStop(chooseTransportation(currentEvent.buildingName));
 		((PedestrianRole)currentRole).addDestination(loc);
 		//waitForTransport();

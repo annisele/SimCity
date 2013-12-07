@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.concurrent.Semaphore;
 
+import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
 import simcity.buildings.restaurant.one.RestaurantOneCheck.CheckState;
@@ -71,9 +72,10 @@ public class RestaurantOneWaiterRole extends Role implements simcity.interfaces.
 
 
 
-      public RestaurantOneWaiterRole(String name) {
+      public RestaurantOneWaiterRole(PersonAgent p) {
               super();
-              this.name = name;
+              this.person = p;
+              this.name = p.getName();
       }
       
       public void Setcashier(RestaurantOneCashierRole cashier) {

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
 import simcity.buildings.restaurant.one.RestaurantOneCheck.CheckState;
@@ -16,13 +17,14 @@ public class RestaurantOneCashierRole extends Role {//implements simcity.interfa
 	
 
 	        
-
+			private PersonAgent person;
 	        private String Name;
 	        public Double cash;
 	        public double owedmoney = 0.00;
 
-	        public RestaurantOneCashierRole(String name) {
+	        public RestaurantOneCashierRole(PersonAgent p) {
 	                super();
+	                this.person = p;
 	                this.Name = name;
 	                cash = 10.00; //cashier starts out with 100 dollars in the register
 	        }

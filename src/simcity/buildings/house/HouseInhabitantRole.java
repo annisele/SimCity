@@ -37,6 +37,7 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 	private final int TIMEBWMEALS = Clock.hoursInMillis(8);
 	//private final int FOODSTOCK = 3;
 	private final Integer FOODTHRESHOLD = 2;
+	private final Integer FOODRESTOCK = 4;
 
 
 	public HouseInhabitantRole(PersonAgent p){
@@ -240,8 +241,20 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 	}
 
 	public Map<String, Integer> getListToBuy() {
+		
 		Map<String, Integer> list = null;
 		synchronized (foodToBuy) {
+			synchronized (foodStock) {
+				foodToBuy.putAll(foodStock);
+				for (String key : foodToBuy.keySet()) {
+					Integer value = foodToBuy.get(key);
+					if (value > FOODTHRESHOLD) {
+						foodToBuy.put(key, 0);
+					} else {
+						foodToBuy.put(key, FOODRESTOCK - foodToBuy.get(key));
+					}
+				}
+			}		
 			list = foodToBuy;
 			foodToBuy.clear();
 		}

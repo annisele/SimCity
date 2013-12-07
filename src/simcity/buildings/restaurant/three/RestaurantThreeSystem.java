@@ -70,6 +70,13 @@ public class RestaurantThreeSystem extends simcity.SimSystem {
 					return true;
 				}
 			}
+			else if (role instanceof RestaurantThreeCashier) {
+				if (cashier == null) {
+					cashier = (RestaurantThreeCashier) role;
+					animationPanel.addGui(role.getGui());
+					return true;
+				}
+			}
 		}
 		return false;
 	}
@@ -83,9 +90,15 @@ public class RestaurantThreeSystem extends simcity.SimSystem {
 		else if (role instanceof RestaurantThreeHost) {
 			resthost = null;
 		}
+		else if (role instanceof RestaurantThreeCashier) {
+			cashier = null;
+		}
+		else if (role instanceof RestaurantThreeCook) {
+			cook = null;
+		}
 	}
 	public void setHost(RestaurantThreeHost host) {
-		
+		this.resthost = host;
 	}
 	
 	

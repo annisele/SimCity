@@ -79,7 +79,7 @@ public class PersonAgent extends Agent implements Person {
 		BusPassengerRole bp = new BusPassengerRole(this);
 		//RestaurantOneCustomerRole r1 = new RestaurantOneCustomerRole(this);
 		RestaurantTwoCustomerRole r2 = new RestaurantTwoCustomerRole(this);
-		//RestaurantThreeCustomerRole r3 = new RestaurantThreeCustomerRole(this);
+		RestaurantThreeCustomerRole r3 = new RestaurantThreeCustomerRole(this);
 		RestaurantFourCustomerRole r4 = new RestaurantFourCustomerRole(this);
 		RestaurantFiveCustomerRole r5 = new RestaurantFiveCustomerRole(this);
 		//RestaurantSixCustomerRole r6 = new RestaurantSixCustomerRole(this);

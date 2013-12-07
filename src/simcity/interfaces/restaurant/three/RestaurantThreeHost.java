@@ -9,25 +9,25 @@ import simcity.interfaces.GuiPartner;
 
 public interface RestaurantThreeHost extends GuiPartner {
 
-	PersonAgent getPerson();
+	public abstract PersonAgent getPerson();
 
-	void setPerson(PersonAgent person);
+	public abstract void setPerson(PersonAgent person);
 
-	RestaurantThreeSystem getSystem();
+	public abstract RestaurantThreeSystem getSystem();
 
-	void setSystem(RestaurantThreeSystem resSystem);
+	public abstract void setSystem(RestaurantThreeSystem resSystem);
 
-	List getWaitersList();
+	public abstract List getWaitersList();
 
-	void msgGotToWork();
+	public abstract void msgGotToWork();
 
-	void exitBuilding();
+	public abstract void exitBuilding();
 
-	void enterBuilding(SimSystem s);
+	public abstract void enterBuilding(SimSystem s);
 
-	int numWaitingCustomers();
+	public abstract int numWaitingCustomers();
 
-	void msgIWantFood(RestaurantThreeCustomer restaurantThreeCustomerRole);
+	public abstract void msgIWantFood(RestaurantThreeCustomer restaurantThreeCustomerRole);
 
 
 

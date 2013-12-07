@@ -147,7 +147,6 @@ public class SystemManager {
 		world.getAnimationPanel().addBuilding(building);
 		Location loc = new Location(xLoc, yLoc);
 
-		System.out.println("TTTTT: "+ temp);
 		dir.add(name, EntryType.Market, loc, temp);
 	}
 	

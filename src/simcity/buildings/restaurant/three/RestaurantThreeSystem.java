@@ -10,12 +10,14 @@ import simcity.interfaces.restaurant.three.RestaurantThreeCook;
 import simcity.interfaces.restaurant.three.RestaurantThreeWaiter;
 import simcity.interfaces.restaurant.three.RestaurantThreeCustomer;
 import simcity.interfaces.restaurant.three.RestaurantThreeHost;
+import simcity.interfaces.restaurant.three.RestaurantThreeCashier;
 import simcity.test.restaurantthree.mock.MockRestaurantThreeHost;
 
 public class RestaurantThreeSystem extends simcity.SimSystem {
 	private RestaurantThreeComputer computer = new RestaurantThreeComputer();
 	private RestaurantThreeHost resthost;
 	private RestaurantThreeCook cook;
+	private RestaurantThreeCashier cashier;
 	private List<RestaurantThreeCustomer> customers = Collections.synchronizedList(new ArrayList<RestaurantThreeCustomer>());
 	private List<RestaurantThreeWaiter> waiters = Collections.synchronizedList(new ArrayList<RestaurantThreeWaiter>());
 	
@@ -29,6 +31,12 @@ public class RestaurantThreeSystem extends simcity.SimSystem {
 	}
 	public RestaurantThreeHost getRestaurantThreeHost() {
 		return resthost;
+	}
+	public RestaurantThreeCook getRestaurantThreeCook() {
+		return cook;
+	}
+	public RestaurantThreeCashier getRestaurantThreeCashier() {
+		return cashier;
 	}
 	public List <RestaurantThreeCustomer> getCustomers() {
 		return customers;
@@ -62,6 +70,13 @@ public class RestaurantThreeSystem extends simcity.SimSystem {
 					return true;
 				}
 			}
+			else if (role instanceof RestaurantThreeCashier) {
+				if (cashier == null) {
+					cashier = (RestaurantThreeCashier) role;
+					animationPanel.addGui(role.getGui());
+					return true;
+				}
+			}
 		}
 		return false;
 	}
@@ -75,9 +90,15 @@ public class RestaurantThreeSystem extends simcity.SimSystem {
 		else if (role instanceof RestaurantThreeHost) {
 			resthost = null;
 		}
+		else if (role instanceof RestaurantThreeCashier) {
+			cashier = null;
+		}
+		else if (role instanceof RestaurantThreeCook) {
+			cook = null;
+		}
 	}
 	public void setHost(RestaurantThreeHost host) {
-		
+		this.resthost = host;
 	}
 	
 	

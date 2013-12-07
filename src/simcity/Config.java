@@ -372,7 +372,7 @@ public class Config {
 		systems.clearDetailPane();
 
 		systems.setBackgroundTwo();
-		//systems.addRestaurantSix("RESTAURANT6", 249, 140);
+		systems.addRestaurantOne("Restaurant One", 249, 140);
 
 	}
 	public void restaurantThree(){
@@ -388,7 +388,6 @@ public class Config {
 		systems.clearDetailPane();
 
 		systems.setBackgroundTwo();
-		//systems.addRestaurantSix("RESTAURANT6", 249, 140);
 
 	}
 	//Rebecca's restaurant

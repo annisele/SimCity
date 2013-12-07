@@ -25,7 +25,7 @@ public class RestaurantOneCashierRole extends Role {//implements simcity.interfa
 	        public RestaurantOneCashierRole(PersonAgent p) {
 	                super();
 	                this.person = p;
-	                this.Name = name;
+	                this.Name = p.getName();
 	                cash = 10.00; //cashier starts out with 100 dollars in the register
 	        }
 	        

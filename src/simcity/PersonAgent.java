@@ -363,7 +363,7 @@ public class PersonAgent extends Agent implements Person {
 				workTime = Clock.getTime()+(Clock.getHour()*3);
 			else
 				workTime = Clock.getTime()+(Clock.getHour()*3);
-			e = new Event(workBuilding, workRole, 48, workTime, false, steps, t);
+			e = new Event(workBuilding, workRole, Clock.getHour()*6, workTime, false, steps, t);
 			//Do("GoToWork is scheduled, which has "+steps.size()+" steps");
 			insertEvent(e);
 			stateChanged();

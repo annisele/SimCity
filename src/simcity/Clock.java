@@ -90,7 +90,7 @@ public class Clock {
 		if (h > 11) {
 			ampm = "pm";
 		}
-		if (h > 13) {
+		if (h >= 13) {
 			h = h-12;
 		}
 		
@@ -112,8 +112,12 @@ public class Clock {
 		int hi = 0;
 		if (m == 0)
 			min = "00";
-		if (h > 12) //{
+		if (h > 11) {
 			ampm = "pm";
+		}
+		if (h >= 13) {
+			h = h-12;
+		}
 		
 		String time = (getDayString() + "  "+ h + ":" + min + "  " + ampm);
 		

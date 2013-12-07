@@ -7,7 +7,7 @@ public interface RestaurantThreeWaiter extends GuiPartner{
 	public abstract void setHost(RestaurantThreeHost host);
 	public abstract void setCook(RestaurantThreeCook cook);
 	public abstract void setCashier(RestaurantThreeCashier cashier);
-	void atDestination();
+	public abstract void atDestination();
 
 }
 

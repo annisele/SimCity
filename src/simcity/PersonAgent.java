@@ -26,6 +26,7 @@ import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
 import simcity.interfaces.Person;
 import simcity.interfaces.bank.BankCustomer;
+import simcity.interfaces.house.HouseInhabitant;
 import simcity.interfaces.market.MarketCustomer;
 import simcity.interfaces.restaurant.five.RestaurantFiveCustomer;
 import simcity.interfaces.restaurant.two.RestaurantTwoCustomer;
@@ -594,7 +595,7 @@ public class PersonAgent extends Agent implements Person {
 			Directory.getWorld().getAnimationPanel().removeGui(currentRole.getGui());
 		}
 		else {
-			Directory.getSystem(currentEvent.buildingName).animationPanel.removeGui(currentRole.getGui());
+			//Directory.getSystem(currentEvent.buildingName).animationPanel.removeGui(currentRole.getGui());
 			for (Role r : myRoles) {
 				if (r instanceof Pedestrian) {
 					idleGui.setLocation(r.getGui().getLocation());

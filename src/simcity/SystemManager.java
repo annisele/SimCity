@@ -376,6 +376,31 @@ public class SystemManager {
 		banks.get(0).getBankComputer().addHackedBankAccount(accountNumber, accountBalance, amountOwed, password);
 	}
 	
+	/*************** RESTAURANT ONE FUNTIONS DOE ****************/
+	public void addRestaurantOneHost(String name, String rest) {
+		PersonAgent person = new PersonAgent(name);
+		world.getAnimationPanel().addGui(person.getIdleGui());
+		Role r1Host = new RestaurantTwoHostRole(person,restaurantTwos.get(0));
+		person.addWork(r1Host, rest);
+		people.add(person);
+		person.startThread();
+		
+	}	
+	
+	public void addRestaurantOneCashierHack(String name, String rest) {
+		PersonAgent person = new PersonAgent(name);
+		world.getAnimationPanel().addGui(person.getIdleGui());
+		Role r1Cashier = new RestaurantOneCashierRole(person,restaurantTwos.get(0),R2comp);
+		person.addWork(r1Cashier, rest);
+		people.add(person);
+		person.startThread();
+		
+	}
+	
+	
+	
+	/*************** END OF RESTAURANT ONE FUNCTIONS ***********/
+	
 	/*************** RESTAURANT TWO FUNCTIONS *******************/
 
 	public void addRestaurantTwoHostHack(String name, String rest) {

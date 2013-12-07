@@ -1,5 +1,6 @@
 package simcity.buildings.restaurant.one;
 
+import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
 import simcity.gui.restaurantone.RestaurantOneHostGui;
@@ -53,7 +54,12 @@ public class RestaurantOneHostRole extends Role {//implements simcity.interfaces
             }
     }
 
-    public String getName() {
+    public RestaurantOneHostRole(PersonAgent person,
+			RestaurantOneSystem restaurantOneSystem) {
+		// TODO Auto-generated constructor stub
+	}
+
+	public String getName() {
             return name;
     }
 

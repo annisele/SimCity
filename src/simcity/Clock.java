@@ -28,7 +28,7 @@ public class Clock {
 		return currentTime;
 	}
 		
-	public static String getDay() {
+	public static String getDayString() {
 		int d = 0;
 		String day = "";
 		currentTime = (int) ((System.currentTimeMillis() - startTime) / tenMinuteLength);
@@ -85,13 +85,38 @@ public class Clock {
 		if (h > 12) //{
 			ampm = "pm";
 		
-		String time = (getDay() + "  "+ h + ":" + min + "  " + ampm);
+		String time = (getDayString() + "  "+ h + ":" + min + "  " + ampm);
+		
+		return time;
+	}
+	
+	public static String getDisplayTime(int t){
+		int h = 0, m = 0;
+		currentTime = t;
+		
+		m = (int)((currentTime % 6)*10);
+		h = (int)(((currentTime / 6)+5)%24+1);
+		
+		String min = ""+m;
+		String hr = ""+h;
+		String ampm = "am";
+		int hi = 0;
+		if (m == 0)
+			min = "00";
+		if (h > 12) //{
+			ampm = "pm";
+		
+		String time = (getDayString() + "  "+ h + ":" + min + "  " + ampm);
 		
 		return time;
 	}
 	
 	public static String getDebugTime(){
 		return (getDisplayTime() + " " + getTime());
+	}
+	
+	public static String getDebugTime(int t){
+		return (getDisplayTime(t) + " " + t);
 	}
 	
 	public static void reset() {

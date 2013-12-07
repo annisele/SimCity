@@ -18,6 +18,7 @@ public class RestaurantSixWaiterRole extends Role implements RestaurantSixWaiter
 		person = p;
 		this.gui = new RestaurantSixWaiterGui(this);
 	}
+	
 	@Override
 	public void atDestination() {
 		// TODO Auto-generated method stub

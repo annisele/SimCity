@@ -69,14 +69,13 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 	@Override
 	public boolean pickAndExecuteAnAction() {
 		// TODO Auto-generated method stub
-		AlertLog.getInstance().logDebug(AlertTag.valueOf(house.getName()), "Person: "+getName(), "HOUSE SCHEDULERRRR " + event.name());						
+		AlertLog.getInstance().logDebug(AlertTag.valueOf(house.getName()), "HouseInhabitant: "+getName(), "Entering the House Scheduler " + event.name());						
 
 		if (event == HouseInhabitantEvent.Hungry && state == HouseInhabitantState.Bored){
 			state = HouseInhabitantState.Eating;
 			Cook();
 		}
 		else if (event == HouseInhabitantEvent.ReadyToSleep && state == HouseInhabitantState.Bored){
-			AlertLog.getInstance().logDebug(AlertTag.valueOf(house.getName()), "Person: "+getName(), "HOUSE I SHOULD EAT");						
 
 			state = HouseInhabitantState.Sleeping;
 			Sleep();
@@ -375,7 +374,7 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 	public void enterBuilding(SimSystem s) {
 		house = (HouseSystem)s;
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(house.getName()), "HouseInhabitant: "+person.getName(), "Entering the house.");
-		AlertLog.getInstance().logMessage(AlertTag.valueOf(house.getName()), "HouseInhabitant: "+person.getName(), " My event is: "+person.getCurrentEvent());						
+		AlertLog.getInstance().logDebug(AlertTag.valueOf(house.getName()), "HouseInhabitant: "+person.getName(), " My event is: "+person.getCurrentEvent());						
 
 		((HouseInhabitantGui)gui).DoGoToLiving();
 		try {

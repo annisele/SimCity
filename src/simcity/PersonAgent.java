@@ -59,6 +59,9 @@ public class PersonAgent extends Agent implements Person {
 	private double money = 10;
 	private double withdrawThreshold = 10; // if money is less than this, we will try to withdraw
 	private double depositThreshold = 25; // if money is higher than this, we will try to deposit
+	final int FIRSTSLEEPDURATION = 6;
+	final int SLEEPDURATION = 48;
+	final int AWAKEDURATION = 88;
 
 	private String home;
 	private String workBuilding;
@@ -91,7 +94,7 @@ public class PersonAgent extends Agent implements Person {
 		
 		//random money generator between and 25
 
-		double money= 5.0+15*rand.nextDouble();
+		money = 5.0+15*rand.nextDouble();
 		  
        
 	}
@@ -379,15 +382,15 @@ public class PersonAgent extends Agent implements Person {
 			int sleepDuration;
 			if (Clock.getTime() < 2) {
 				sleepTime = Clock.getTime();
-				sleepDuration = 6;
+				sleepDuration = FIRSTSLEEPDURATION;//6;
 			}
 			else {
-				sleepTime = Clock.getTime() + 16;
-				sleepDuration = 48; // 8 * 6 = 8 * (6 * 10 min) = 8 hours
+				sleepTime = Clock.getTime() + AWAKEDURATION;
+				sleepDuration = SLEEPDURATION;//48; // 8 * 6 = 8 * (6 * 10 min) = 8 hours
 			}
 			//sleepTime = Clock.getTime() + 99999;
 			e = new Event(home, house, sleepDuration, sleepTime, false, steps, t);
-			AlertLog.getInstance().logDebug(AlertTag.WORLD, "Person: "+getName(), "I'm going to sleep at "+sleepTime+" and it's currently "+Clock.getTime());						
+			AlertLog.getInstance().logDebug(AlertTag.WORLD, "Person: "+getName(), "I'm going to sleep at "+Clock.getDebugTime(sleepTime)+" and it's currently "+Clock.getTime());						
 
 			insertEvent(e);
 			stateChanged();

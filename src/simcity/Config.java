@@ -3,6 +3,8 @@ package simcity;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import simcity.buildings.market.MarketWorkerRole;
+
 public class Config {
 
 	private Timer timer = new Timer();
@@ -87,7 +89,24 @@ public class Config {
 				}, 2000);
 			}
 		}, 2000);
+	}
+	
+	public void fullMarket() {
+		systems.clear();
+		systems.clearDetailPane();
 
+		systems.setBackgroundTwo();
+		
+		systems.addMarket("MARKET1", 186, 250);
+		systems.addHouse("HOUSE1", 60, 27);
+		systems.addHouse("HOUSE2", 123, 27);
+		systems.addHouse("HOUSE3", 186, 27);
+		
+		systems.addMarketCashier("Mary", "MARKET1");
+		//systems.setHome("Mary", "HOUSE2");
+				
+		//systems.addMarketWorker("Joe", "MARKET1");
+		//systems.setHome("Joe", "HOUSE1");
 	}
 
 	public void oneHouse() {
@@ -96,11 +115,8 @@ public class Config {
 
 		systems.setBackgroundOne();
 		systems.addHouse("HOUSE1", 100, 100);
-		//systems.addPerson("Homie"); // This guy will live in the house, hence his name
 		systems.addPerson("Homie");
 		systems.setHome("Homie", "HouseOne");
-
-
 	}
 
 	public void oneBank() {

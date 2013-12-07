@@ -132,6 +132,9 @@ public class SystemManager {
 		
 			person.goToRestaurantTwoNow();
 		}
+		if (name.equalsIgnoreCase("Gus Fring") || name.equalsIgnoreCase("Ted Benacke") || name .equalsIgnoreCase("jack")) {
+			person.goToRestaurantOneNow();
+		}
 		people.add(person);
 		person.startThread();
 	}

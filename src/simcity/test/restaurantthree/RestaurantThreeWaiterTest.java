@@ -33,7 +33,9 @@ public class RestaurantThreeWaiterTest extends TestCase {
 
 	// one waiter enters work and contacts host scenario 
 	public void testOneWaiterToWork() {
+		System.out.println("===============testOneWaiter================");
 		
+		waiter.enterBuilding(restaurant);
 	}
 
 }

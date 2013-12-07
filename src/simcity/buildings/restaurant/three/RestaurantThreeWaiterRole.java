@@ -2,6 +2,7 @@ package simcity.buildings.restaurant.three;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.util.Timer;
 import java.util.concurrent.Semaphore;
@@ -29,7 +30,9 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
 	private RestaurantThreeHost host;
 	private RestaurantThreeCook cook;
 	private RestaurantThreeCashier cashier;
-	public enum CustomerState {WAITING,READY_TO_ORDER,ORDERING,FOOD_SERVED,IS_DONE,NO_ACTION, READY_TO_PAY, EXPENSIVE_LEAVE, REORDER, CANNOT_AFFORD_TO_REORDER};
+	private enum WaiterState {WORKING,  REQUESTED_BREAK, HAVING_BREAK, ON_BREAK, NEED_BREAK, GOINGOFFBREAK, DENIED_BREAK };  
+	private WaiterState waiterState;
+	private enum CustomerState {WAITING,READY_TO_ORDER,ORDERING,FOOD_SERVED,IS_DONE,NO_ACTION, READY_TO_PAY, EXPENSIVE_LEAVE, REORDER, CANNOT_AFFORD_TO_REORDER};
 	private List<MyCustomer> customers = Collections.synchronizedList(new ArrayList<MyCustomer>());
 	
 	public class MyCustomer {
@@ -38,10 +41,10 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
 		private int tableNum;
 		private String choice;
 		
-		MyCustomer(RestaurantThreeCustomer customer, int tableNum) {
+		MyCustomer(RestaurantThreeCustomer customer, int tableNum, CustomerState s) {
 			this.customer = customer;
 			this.tableNum = tableNum;
-			state = CustomerState.NO_ACTION;
+			this.state = s;
 		}
 	}
 	public  EventLog log = new EventLog();
@@ -54,6 +57,7 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
 	public RestaurantThreeWaiterRole(PersonAgent person) {
 		this.person = person;
 		this.gui = new RestaurantThreeWaiterGui(this);
+		waiterState = WaiterState.WORKING;
 	}
 	public void setHost(RestaurantThreeHost host) {
 		this.host = host;
@@ -70,7 +74,23 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
 		// TODO Auto-generated method stub
 		return false;
 	}
-
+	
+	//messages
+	 public void msgFollowMeToTable(RestaurantThreeCustomer customer, int tableNum){
+		 try {
+			 for (MyCustomer c: customers) {
+				 if(c.customer == customer) {
+					 c.state = CustomerState.WAITING;
+					 stateChanged();
+					 return;
+				 }
+			 }
+		 } catch (ConcurrentModificationException e) {
+			 AlertLog.getInstance().logError(AlertTag.valueOf(restaurantThreeSystem.getName()), "Restaurant Three Waiter: " + person.getName(), "Concurrent modification exception.");
+			}
+			customers.add(new MyCustomer(customer, tableNum, CustomerState.WAITING));
+			stateChanged();
+	 }
 	@Override
 	public void exitBuilding() {
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurantThreeSystem.getName()), "Restaurant Three Waiter: " + person.getName(), "Leaving restaurant three");	
@@ -88,9 +108,14 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
 	@Override
 	public void enterBuilding(SimSystem s) {
 		restaurantThreeSystem = (RestaurantThreeSystem)s;
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurantThreeSystem.getName()), "RestaurantThreeHost: " + person.getName(), "Ready to work at the restaurant!");
+		
+		((RestaurantThreeWaiterGui) gui).DoGoToHome();
 		
 	}
-	
+	public String getName() {
+		return person.getName();
+	}
 	
 }
 

@@ -5,6 +5,7 @@ import java.util.List;
 import simcity.PersonAgent;
 import simcity.SimSystem;
 import simcity.buildings.restaurant.three.RestaurantThreeSystem;
+import simcity.interfaces.restaurant.three.RestaurantThreeCustomer;
 import simcity.interfaces.restaurant.three.RestaurantThreeHost;
 import simcity.interfaces.restaurant.three.RestaurantThreeWaiter;
 import simcity.test.mock.EventLog;
@@ -70,6 +71,18 @@ public class MockRestaurantThreeHost extends Mock implements RestaurantThreeHost
 
 	@Override
 	public void atDestination() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int numWaitingCustomers() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void msgIWantFood(RestaurantThreeCustomer restaurantThreeCustomerRole) {
 		// TODO Auto-generated method stub
 		
 	}

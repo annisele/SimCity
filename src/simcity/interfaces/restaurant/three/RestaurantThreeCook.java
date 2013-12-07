@@ -7,6 +7,7 @@ public interface RestaurantThreeCook extends GuiPartner {
 	public abstract void atDestination();
 	public abstract void exitBuilding();
 	public abstract void enterBuilding(SimSystem s);
+	
 }
 
 	

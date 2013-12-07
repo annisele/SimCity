@@ -526,6 +526,7 @@ public class PersonAgent extends Agent implements Person {
 
 	public void exitBuilding() {
 		//Do("exitBuilding step is called");
+		AlertLog.getInstance().logDebug(AlertTag.WORLD, "Person: "+name, "EXITING building from person agent.");						
 		if (currentRole != null)
 			currentRole.exitBuilding();
 		stateChanged();

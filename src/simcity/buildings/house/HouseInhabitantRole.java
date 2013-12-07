@@ -169,7 +169,7 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 		event = HouseInhabitantEvent.None;
 
 		//exitBuilding();
-		//person.roleFinished();
+		person.roleFinished();
 	}
 
 	private void LeaveForRestaurant() {
@@ -203,7 +203,7 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 		state = HouseInhabitantState.Bored;
 		//event = HouseInhabitantEvent.Hungry;
 		event = HouseInhabitantEvent.None;
-		stateChanged();
+		
 
 		// These are problems....  We're going to just make him always be hungry as he wakes up,
 		// instead of using the REAL scheduleEvent method to make him hungry.
@@ -217,11 +217,12 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 				AlertLog.getInstance().logDebug(AlertTag.valueOf(house.getName()), "HouseInhabitant: "+person.getName(), "Scheduling next eat event.");						
 
 				person.scheduleEvent(EventType.EatAtHome);
-				//stateChanged();
+				stateChanged();
 			}
 		}, TIMEBWMEALS); //or whatever time is fine
-		//person.roleFinished();
+		person.roleFinished();
 		//exitBuilding();
+		stateChanged();
 	}
 
 	public Map<String, Integer> getListToBuy() {

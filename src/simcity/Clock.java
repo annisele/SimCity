@@ -66,7 +66,7 @@ public class Clock {
 	
 	public static int hoursInMillis(int hours) {
 		// Our current standard is 1 hour = 2000 ms
-		return (hours*tenMinuteLength);
+		return (hours * tenMinuteLength * 1000);
 	}
 	
 	public static String getDisplayTime(){

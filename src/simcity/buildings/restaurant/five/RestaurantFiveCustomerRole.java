@@ -382,6 +382,8 @@ public class RestaurantFiveCustomerRole extends Role implements RestaurantFiveCu
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantFiveCustomer: " + person.getName(), "Can't wait to eat at this restaurant!");
 		
 		int n = restaurant.getHost().getNumWaitingCustomers();
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantFiveCustomer: " + person.getName(), "Num waiting customers: " + n);
+		
 		((RestaurantFiveCustomerGui) gui).DoGoToHost(n);
 		try {
 			atDest.acquire();

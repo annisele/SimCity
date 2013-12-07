@@ -16,6 +16,7 @@ import simcity.buildings.market.MarketCustomerRole;
 import simcity.buildings.restaurant.five.RestaurantFiveCustomerRole;
 import simcity.buildings.restaurant.five.RestaurantFiveSystem;
 import simcity.buildings.restaurant.four.RestaurantFourCustomerRole;
+import simcity.buildings.restaurant.three.RestaurantThreeCustomerRole;
 import simcity.buildings.restaurant.two.RestaurantTwoCustomerRole;
 import simcity.buildings.restaurant.two.RestaurantTwoSystem;
 import simcity.buildings.transportation.BusAgent;

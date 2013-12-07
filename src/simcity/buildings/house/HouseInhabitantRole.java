@@ -184,12 +184,14 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 
 		//person.Do("I'm going to sleep...");
 		//state = HouseInhabitantState.Sleeping;
+		AlertLog.getInstance().logDebug(AlertTag.valueOf(house.getName()), "HouseInhabitant: "+person.getName(), "Event Duration is: "+person.getCurrentEventDuration());		
+
 		timer.schedule(new TimerTask(){            
 			public void run() {
 				WakeUp();
 				//stateChanged();
 			}
-		}, Clock.hoursInMillis(person.getCurrentEventDuration())); //or whatever time is fine
+		}, Clock.tenMinutesInMillis(person.getCurrentEventDuration())); //or whatever time is fine
 	}
 
 	private void WakeUp(){

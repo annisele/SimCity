@@ -372,8 +372,19 @@ public class Config {
 		systems.clearDetailPane();
 
 		systems.setBackgroundTwo();
-		systems.addRestaurantOne("Restaurant One", 249, 140);
-
+		systems.addRestaurantOne("RESTAURANTONE", 249, 140);
+		systems.addRestaurantOneHost("Jack", "RESTAURANTONE");
+		timer.schedule(new TimerTask() {
+			public void run(){
+				systems.addRestaurantOneWaiter("Gus Fring", "RESTAURANTONE");
+				timer.schedule(new TimerTask () {
+					public void run() {
+						systems.addRestaurantOneCashier("Ted Benacke", "RESTAURANTONE");
+							}
+						}, 1000);
+					}
+				}, 1000);
+			
 	}
 	public void restaurantThree(){
 		systems.clear();

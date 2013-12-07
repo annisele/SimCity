@@ -1,5 +1,6 @@
 package simcity.buildings.restaurant.one;
 
+import simcity.Role;
 import simcity.SimSystem;
 import simcity.gui.SimCityGui;
 import simcity.gui.restaurantone.*;
@@ -14,6 +15,7 @@ import java.awt.*;
 
 import simcity.gui.SimCityGui;
 import simcity.gui.restaurantone.RestaurantOneAnimationPanel;
+
 import simcity.interfaces.restaurant.one.*;
 
 
@@ -26,8 +28,8 @@ import simcity.interfaces.restaurant.one.*;
 public class RestaurantOneSystem extends SimSystem {
 
 	// public RestaurantControlPanel controlPanel;
-	//private List<RestaurantOneCustomer> customers = new ArrayList<RestaurantOneCustomer>();
-	//private List<RestaurantOneWaiter> waiters = new ArrayList<RestaurantOneWaiter>();
+	private List<RestaurantOneCustomer> customers = new ArrayList<RestaurantOneCustomer>();
+	private List<RestaurantOneWaiter> waiters = new ArrayList<RestaurantOneWaiter>();
 	private RestaurantOneHost host;
 	//private RestaurantOneCook cook;
 	//private RestaurantOneCashier cashier;
@@ -38,6 +40,32 @@ public class RestaurantOneSystem extends SimSystem {
 		// controlPanel = new RestaurantControlPanel();
 		super.setAnimationPanel(new RestaurantOneAnimationPanel());
 		super.setControlPanel(new RestaurantOneControlPanel());
+	}
+	
+	public boolean msgEnterBuilding(Role role) {
+		if(role instanceof RestaurantOneHost) {
+			if (host == null) {
+				host = (RestaurantOneHost) role;
+				animationPanel.addGui(role.getGui());
+				return true;
+			}
+		}
+		else if(host != null) {
+			if(role instanceof RestaurantOneCustomer) {
+				customers.add((RestaurantOneCustomer) role);
+			}
+//			else if(role instanceof MarketWorker) {
+//				workers.add((MarketWorker) role);
+//			}
+			else if(role instanceof RestaurantOneWaiter) {
+				waiters.add((RestaurantOneWaiter) role);
+				host.msgNewWaiter((RestaurantOneWaiterRole)role);
+			}
+
+			animationPanel.addGui(role.getGui());
+			return true;
+		}
+		return true;
 	}
 
 }

@@ -568,6 +568,7 @@ public class PersonAgent extends Agent implements Person {
 				Directory.getWorld().getAnimationPanel().addGui(currentRole.getGui());
 			}
 		}
+		System.out.println(currentEvent.buildingName);
 		Location loc = Directory.getLocation(currentEvent.buildingName);
 		Do(currentEvent.buildingName + ", " + loc.getX() + ", " + loc.getY());
 		//Do("Location is: "+loc.getX()+", "+loc.getY());
@@ -727,6 +728,10 @@ public class PersonAgent extends Agent implements Person {
 		this.scheduleEvent(EventType.WithdrawMoney);
 	}
 	public void goToRestaurantTwoNow() {
+		this.scheduleEvent(EventType.EatAtRestaurant);
+	}
+	
+	public void goToRestaurantOneNow() {
 		this.scheduleEvent(EventType.EatAtRestaurant);
 	}
 

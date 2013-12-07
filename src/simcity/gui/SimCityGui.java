@@ -79,6 +79,7 @@ public class SimCityGui extends JFrame implements ActionListener {
 		AlertLog.getInstance().addAlertListener(detailTracePanel);
 		worldTracePanel.showAlertsWithTag(AlertTag.WORLD);
 		worldTracePanel.hideAlertsWithLevel(AlertLevel.DEBUG);
+		detailTracePanel.hideAlertsWithLevel(AlertLevel.DEBUG);
 		
 		// Add it all to the main pane
 		fullPane.setLayout(twoGridLayout);
@@ -127,6 +128,15 @@ public class SimCityGui extends JFrame implements ActionListener {
 		}
 		else {
 			worldTracePanel.hideAlertsWithLevel(AlertLevel.DEBUG);
+		}
+	}
+	
+	public void setDetailDebugTrace(boolean set) {
+		if(set) {
+			detailTracePanel.showAlertsWithLevel(AlertLevel.DEBUG);
+		}
+		else {
+			detailTracePanel.hideAlertsWithLevel(AlertLevel.DEBUG);
 		}
 	}
 	

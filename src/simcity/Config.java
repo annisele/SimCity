@@ -103,7 +103,7 @@ public class Config {
 		systems.addHouse("HOUSE3", 186, 27);
 		
 		systems.addMarketCashier("Mary", "MARKET1");
-		//systems.setHome("Mary", "HOUSE2");
+		systems.setHome("Mary", "HOUSE2");
 				
 		//systems.addMarketWorker("Joe", "MARKET1");
 		//systems.setHome("Joe", "HOUSE1");

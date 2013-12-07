@@ -582,8 +582,8 @@ public class PersonAgent extends Agent implements Person {
 		if(Directory.getSystem(currentEvent.buildingName).msgEnterBuilding(currentEvent.role)) {
 			currentRole = currentEvent.role;
 			currentRole.enterBuilding(Directory.getSystem(currentEvent.buildingName));			
-
-		} else {
+		}
+		else {
 			AlertLog.getInstance().logMessage(AlertTag.WORLD, "Pedestrian: "+name, currentEvent.buildingName +" is closed.  I can't enter");						
 			currentRole = currentEvent.role;
 			roleFinished();

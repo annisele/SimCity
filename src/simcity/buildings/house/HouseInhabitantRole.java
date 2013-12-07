@@ -170,8 +170,8 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 		state = HouseInhabitantState.Eating;
 		event = HouseInhabitantEvent.None;
 
-		//exitBuilding();
-		person.roleFinished();
+		exitBuilding();
+		//person.roleFinished();
 	}
 
 	private void LeaveForRestaurant() {
@@ -225,8 +225,8 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 			}
 		}, 50);//TIMEBWMEALS); //or whatever time is fine
 		DoGoToLiving();
-		person.roleFinished();
-		//exitBuilding();
+		//person.roleFinished();
+		exitBuilding();
 		stateChanged();
 	}
 

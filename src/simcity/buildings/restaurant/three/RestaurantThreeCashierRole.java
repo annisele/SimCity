@@ -1,5 +1,8 @@
 package simcity.buildings.restaurant.three;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Timer;
 import java.util.concurrent.Semaphore;
 
@@ -7,7 +10,6 @@ import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
 import simcity.gui.restaurantthree.RestaurantThreeCashierGui;
-import simcity.gui.restauranttwo.RestaurantTwoCustomerGui;
 import simcity.interfaces.restaurant.three.RestaurantThreeCashier;
 import simcity.interfaces.restaurant.three.RestaurantThreeCook;
 import simcity.interfaces.restaurant.three.RestaurantThreeHost;

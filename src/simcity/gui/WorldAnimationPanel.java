@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
+import astar.*;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 

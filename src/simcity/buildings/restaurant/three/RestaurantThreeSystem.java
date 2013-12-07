@@ -18,6 +18,7 @@ public class RestaurantThreeSystem extends simcity.SimSystem {
 	private RestaurantThreeCook cook;
 	private List<RestaurantThreeCustomer> customers = Collections.synchronizedList(new ArrayList<RestaurantThreeCustomer>());
 	private List<RestaurantThreeWaiter> waiters = Collections.synchronizedList(new ArrayList<RestaurantThreeWaiter>());
+	
 	public RestaurantThreeSystem(SimCityGui scg) {
 		super(scg);
 		super.setControlPanel(new RestaurantThreeControlPanel());
@@ -53,6 +54,13 @@ public class RestaurantThreeSystem extends simcity.SimSystem {
 				waiters.add((RestaurantThreeWaiter) role);
 				animationPanel.addGui(role.getGui());
 				return true;
+			}
+			else if (role instanceof RestaurantThreeCook) {
+				if (cook == null) {
+					cook = (RestaurantThreeCook) role;
+					animationPanel.addGui(role.getGui());
+					return true;
+				}
 			}
 		}
 		return false;

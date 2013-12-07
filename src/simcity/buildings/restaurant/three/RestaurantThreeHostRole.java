@@ -15,6 +15,7 @@ import simcity.gui.trace.AlertTag;
 import simcity.interfaces.restaurant.three.RestaurantThreeCashier;
 import simcity.interfaces.restaurant.three.RestaurantThreeCustomer;
 import simcity.interfaces.restaurant.three.RestaurantThreeHost;
+import simcity.interfaces.restaurant.three.RestaurantThreeWaiter;
 import simcity.test.mock.EventLog;
 
 /**
@@ -24,7 +25,14 @@ import simcity.test.mock.EventLog;
  */
 public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost {
 	private Timer timer = new Timer();
+	private int numTable = 3;
+	int tablesOccupiedCounter;
+	int waiterAvailable = 0;
+	private int nextWaiter = 0;
+	public enum HostState {informed, uninformed};
 	public  EventLog log = new EventLog();
+	private enum WaiterState {onBreak, work, requestBreak};
+	private List<MyWaiter> waiters = Collections.synchronizedList(new ArrayList<MyWaiter>());
 	private String name;
 	private RestaurantThreeCashier ca;
 	private Semaphore atDest = new Semaphore(0, true);
@@ -35,15 +43,19 @@ public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost
 	private class Table {
 		RestaurantThreeCustomer occupiedBy;
 		int tableNumber;
-
+		boolean occupied;
+		
 		Table(int tableNumber) {
 			this.tableNumber = tableNumber;
+			this.occupied = false;
 		}
 
 		void setOccupant(RestaurantThreeCustomer cust) {
 			occupiedBy = cust;
 		}
-
+		RestaurantThreeCustomer getOccupant() {
+			return occupiedBy;
+		}
 		void setUnoccupied() {
 			occupiedBy = null;
 		}
@@ -57,11 +69,25 @@ public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost
 		}
 
 	}
-	
+	private class MyWaiter {
+		RestaurantThreeWaiter waiter;
+		WaiterState waiterState;
+		
+		MyWaiter(RestaurantThreeWaiter w) {
+			waiter = w;
+			waiterState = WaiterState.work;
+		}
+	}
 
 	public RestaurantThreeHostRole(PersonAgent p) {
 		this.person = p;
 		this.gui = new RestaurantThreeHostGui(this);
+		tables = Collections.synchronizedList(new ArrayList<Table>(numTable));
+		synchronized(tables) {
+			for (int i = 1; i <= numTable; i++) {
+				tables.add(new Table(i));
+			}
+		}
 	}
 	
 	
@@ -88,8 +114,38 @@ public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost
 
 	@Override
 	public boolean pickAndExecuteAnAction() {
-		// TODO Auto-generated method stub
+		synchronized(waitingCustomers)
+    	{
+    		synchronized(waiters)
+    		{
+		
+		for (Table table : tables) {
+			if (!table.isOccupied()) {
+				if (!waitingCustomers.isEmpty() && !waiters.isEmpty()) {
+					
+					getWaiterSeatCustomer(waiters.get(nextWaiter), waitingCustomers.get(0), table);//the action
+					return true;//return true to the abstract agent to reinvoke the scheduler.
+				}
+			}	
+		}
+		for(RestaurantThreeCustomer c: waitingCustomers) {
+		 
+			
+			c.msgRestaurantFull();
+			
+			return true;
+		
+		}
+    		}
+    	}
 		return false;
+	}
+
+
+	private void getWaiterSeatCustomer(MyWaiter myWaiter,
+			RestaurantThreeCustomer restaurantThreeCustomer, Table table) {
+		// TODO Auto-generated method stub
+		
 	}
 
 
@@ -158,11 +214,15 @@ public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost
 		
 	}
 
-
+	public List getWaitingCustomer() {
+		return waitingCustomers;
+	}
 	@Override
 	public int numWaitingCustomers() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
+	public String getName() {
+		return person.getName();
+	}
 }

@@ -381,6 +381,8 @@ public class RestaurantFiveCustomerRole extends Role implements RestaurantFiveCu
 		restaurant = (RestaurantFiveSystem)s;
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantFiveCustomer: " + person.getName(), "Can't wait to eat at this restaurant!");
 		
+		restaurant.getHost().msgIWantFood(this);
+		
 		int n = restaurant.getHost().getNumWaitingCustomers();
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantFiveCustomer: " + person.getName(), "Num waiting customers: " + n);
 		
@@ -392,7 +394,6 @@ public class RestaurantFiveCustomerRole extends Role implements RestaurantFiveCu
 		}
 		
 		event = AgentEvent.gotHungry;
-		restaurant.getHost().msgIWantFood(this);
 
 		stateChanged();
 	}

@@ -35,8 +35,8 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 	private final int COOKTIME = 6000;
 	private final int EATTIME = 4000;
 	private final int TIMEBWMEALS = Clock.hoursInMillis(8);
-	private final int FOODSTOCK = 3;
-	private final int FOODTHRESHOLD = 2;
+	//private final int FOODSTOCK = 3;
+	private final Integer FOODTHRESHOLD = 2;
 
 
 	public HouseInhabitantRole(PersonAgent p){
@@ -101,8 +101,10 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 			if (quantity > 0) {
 				// Pick your random food if you have any
 				foodStock.put(choice, (quantity-1));
-				if (quantity < FOODTHRESHOLD && !marketScheduled) 
+				AlertLog.getInstance().logDebug(AlertTag.valueOf(house.getName()), "HouseInhabitant: "+person.getName(), "quantity is: "+quantity);	
+				if (quantity <= FOODTHRESHOLD && !marketScheduled) {
 					needToBuy = true;
+				}
 			} else {
 				choice = "";
 				for (String k : keys) {
@@ -221,7 +223,8 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 				person.scheduleEvent(EventType.EatAtHome);
 				stateChanged();
 			}
-		}, TIMEBWMEALS); //or whatever time is fine
+		}, 50);//TIMEBWMEALS); //or whatever time is fine
+		DoGoToLiving();
 		person.roleFinished();
 		//exitBuilding();
 		stateChanged();
@@ -256,10 +259,10 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 	public void setLowFood() {
 		// This is a function to force the person to buy some food
 		synchronized (foodStock) {
-			foodStock.put("steak", 3);
-			foodStock.put("chicken", 3);
-			foodStock.put("pizza", 3);
-			foodStock.put("salad", 3);
+			foodStock.put("steak", 2);
+			foodStock.put("chicken", 2);
+			foodStock.put("pizza", 2);
+			foodStock.put("salad", 2);
 		}
 	}
 
@@ -352,6 +355,15 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		((HouseInhabitantGui)gui).DoGoToLiving();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void DoGoToLiving() {
 		((HouseInhabitantGui)gui).DoGoToLiving();
 		try {
 			atDest.acquire();

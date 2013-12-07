@@ -38,4 +38,8 @@ public class RestaurantThreeWaiterGui extends Gui {
 		g.drawImage(img,getX(), getY(), null);
 	}
 
+	public void DoGoToHome() {
+		DoGoToLocation(HOST_X, HOST_Y);
+	}
+
 }

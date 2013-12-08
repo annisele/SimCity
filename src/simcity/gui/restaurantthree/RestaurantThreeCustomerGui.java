@@ -25,7 +25,7 @@ public class RestaurantThreeCustomerGui extends Gui {
 	private final int HOST_X = 250;
 	private final int HOST_Y = 400;
 	
-	ImageIcon ii = new ImageIcon("res/person/tanpersondownbig.png");
+	ImageIcon ii = new ImageIcon("res/person/persondownbig.png");
 	Image img = ii.getImage();
 
 

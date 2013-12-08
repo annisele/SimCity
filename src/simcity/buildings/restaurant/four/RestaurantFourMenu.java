@@ -19,7 +19,7 @@ public class RestaurantFourMenu {
 	
 	// Constructor ////////////////////////////////////////////////////////////
 	
-	RestaurantFourMenu() {
+	public RestaurantFourMenu() {
 		foodID.put(1, foodType.steak);
 		foodID.put(2, foodType.chicken);
 		foodID.put(3, foodType.salad);

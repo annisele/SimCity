@@ -244,8 +244,14 @@ public class SystemManager {
 		
 	}
 	
-	public void addRestaurantFour() {
-		restaurantFours.add(new RestaurantFourSystem(simcity));
+	public void addRestaurantFour(String name, int x, int y) {
+		RestaurantFourSystem temp = new RestaurantFourSystem(simcity);
+		temp.setName(name);
+		restaurantFours.add(temp);
+		BuildingGui b = new BuildingGui(temp, "RestaurantFour", x, y);
+		world.getAnimationPanel().addBuilding(b);
+		Location location = new Location(x, y);
+		dir.add(name, EntryType.Restaurant, location, temp);
 	}
 	
 	public void addRestaurantFive(String name, int x, int y) {
@@ -531,6 +537,27 @@ public class SystemManager {
 	
 	/**************** End of Restaurant Three functions ***************/
 	
+	/**************** RESTAURANT FOUR FUNCTIONS ******************/
+	
+	public void addRestaurantFourHost(String name, String rest) {
+		PersonAgent person = new PersonAgent(name);
+		world.getAnimationPanel().addGui(person.getIdleGui());
+		Role host = new RestaurantFourHostRole(person);
+		person.addWork(host, rest);
+		people.add(person);
+		person.startThread();
+	}
+	
+	public void addRestaurantFourWaiter(String name, String rest) {
+		PersonAgent person = new PersonAgent(name);
+		world.getAnimationPanel().addGui(person.getIdleGui());
+		Role host = new RestaurantFourWaiterRole(person);
+		person.addWork(host, rest);
+		people.add(person);
+		person.startThread();
+	}
+	
+	/**************** End of Restaurant Four functions ****************/
 	
 	/*************** RESTAURANT FIVE FUNCTIONS *******************/
 	

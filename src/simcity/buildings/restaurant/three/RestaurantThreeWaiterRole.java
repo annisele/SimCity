@@ -31,6 +31,7 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
 	private Timer timer = new Timer();
 	public Map<String,Double> Menu= new HashMap<String, Double>();
 	private RestaurantThreeHost host;
+	private RestaurantThreeSystem restaurant;
 	private RestaurantThreeCook cook;
 	private RestaurantThreeComputer computer;
 	private RestaurantThreeCashier cashier;
@@ -80,29 +81,48 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
 	}
 
 	public boolean pickAndExecuteAnAction() {
-		// TODO Auto-generated method stub
+		try {
+			for(MyCustomer c : customers) {
+				if(c.state == CustomerState.WAITING) {
+					GiveCustomerMenu(c);
+					return true;
+				}
+			}
+		}
+		catch(ConcurrentModificationException e) {
+			return false;
+		}
 		return false;
 	}
 	
 	//messages
-	 public void msgFollowMeToTable(RestaurantThreeCustomer customer, int tableNum){
-		 try {
-			 for (MyCustomer c: customers) {
-				 if(c.customer == customer) {
-					 c.state = CustomerState.WAITING;
-					 stateChanged();
-					 return;
-				 }
-			 }
-		 } catch (ConcurrentModificationException e) {
-			 AlertLog.getInstance().logError(AlertTag.valueOf(restaurantThreeSystem.getName()), "Restaurant 3 Waiter: " + person.getName(), "Concurrent modification exception.");
+	@Override
+	public void msgPleaseSeatCustomer(RestaurantThreeCustomer c, int tableNumber) {
+		try {
+			for(MyCustomer mc : customers) {
+				if(mc.customer == c) {
+					mc.state = CustomerState.WAITING;
+					stateChanged();
+					return;
+				}
 			}
-			customers.add(new MyCustomer(customer, tableNum, CustomerState.WAITING));
-			stateChanged();
-	 }
+		}
+		catch(ConcurrentModificationException e) {
+			AlertLog.getInstance().logError(AlertTag.valueOf(restaurant.getName()), "Restaurant 3 Waiter: " + person.getName(), "Concurrent modification exception.");
+		}
+		customers.add(new MyCustomer(c, tableNumber, CustomerState.WAITING));
+		stateChanged();
+	}
+	private void GiveCustomerMenu(MyCustomer c) {
+		
+		c.state = CustomerState.READY_TO_ORDER;
+		//c.c.msgHereIsMenu(this, new RestaurantFiveMenu());
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "Restaurant 3 Waiter: " + person.getName(), "Here is a menu, " + c.customer.getName() + ".");
+	}
+
 	@Override
 	public void exitBuilding() {
-		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurantThreeSystem.getName()), "Restaurant Three Waiter: " + person.getName(), "Leaving restaurant three");	
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurantThreeSystem.getName()), "Restaurant 3 Waiter: " + person.getName(), "Leaving restaurant three");	
 		gui.DoExitBuilding();
 		try {
 			atDest.acquire();

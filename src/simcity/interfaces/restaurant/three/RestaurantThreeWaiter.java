@@ -8,6 +8,8 @@ public interface RestaurantThreeWaiter extends GuiPartner{
 	public abstract void setCook(RestaurantThreeCook cook);
 	public abstract void setCashier(RestaurantThreeCashier cashier);
 	public abstract void atDestination();
+	public abstract void msgPleaseSeatCustomer(
+			RestaurantThreeCustomer restaurantThreeCustomer, int tableNumber);
 
 }
 

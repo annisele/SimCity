@@ -39,7 +39,7 @@ public class RestaurantOneWaiterGui extends Gui {
         public static List<Coordinates> TableSpots = new ArrayList<Coordinates>();
         public static List<RestaurantOneFoodGui> foodItems = new ArrayList<RestaurantOneFoodGui>();
 
-        protected RestaurantOneWaiterRole wagent = null;
+        protected RestaurantOneWaiterRole waiterrole = null;
         private RestaurantOneFoodGui food = null;
         private int CookLocationX= 540;
         private int CookLocationY = 200;
@@ -55,8 +55,8 @@ public class RestaurantOneWaiterGui extends Gui {
 
         private RestaurantPanel restPanel;
 
-        public RestaurantOneWaiterGui(RestaurantOneWaiterRole agent) {
-                this.wagent = agent;
+        public RestaurantOneWaiterGui(RestaurantOneWaiterRole wrole) {
+                this.waiterrole = wrole;
                 int n = 200;
                 for (int i = 0; i < 3; i++) {
                         TableSpots.add(new Coordinates(n, 600));
@@ -120,7 +120,7 @@ public class RestaurantOneWaiterGui extends Gui {
                 if ((x != 40) && (y != 40)) {
                         DoLeaveCustomer();
                         try {
-                                wagent.leftCustomer.acquire();
+                                waiterrole.leftCustomer.acquire();
                         } catch (InterruptedException e) {
                                 // TODO Auto-generated catch block
                                 e.printStackTrace();
@@ -161,26 +161,23 @@ public class RestaurantOneWaiterGui extends Gui {
                 food.moveWithWaiter();
         }
 
-        public void setAnimationPanel(RestaurantOneAnimationPanel ap) {
-                animationPanel = ap;
-        }
 
         public void DoDeliverFood(int t, String choice, RestaurantOneCustomerGui custGui) {
                 food.moveToTable();
         }
         
         public void setBreak() {
-                wagent.msgWantBreak();
+                waiterrole.msgWantBreak();
         }
         public boolean IsOnBreak() {
-                return wagent.OnBreak;
+                return waiterrole.OnBreak;
         }
         public void putOffBreak() {
                 breakTimer.schedule(new TimerTask() {
                         public void run() {
-                                System.out.println(wagent.getName() + ": break is over");
-                                wagent.offDuty.release();
-                                wagent.Waiting();
+                                System.out.println(waiterrole.getName() + ": break is over");
+                                waiterrole.offDuty.release();
+                                waiterrole.Waiting();
                         }
                 },
                 8000);

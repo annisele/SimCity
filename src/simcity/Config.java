@@ -160,7 +160,6 @@ public class Config {
 		systems.clear();
 		systems.clearDetailPane();
 
-
 		systems.setBackgroundOne();
 		systems.addRestaurantTwo("RESTAURANT2", 300, 100);
 		systems.addRestaurantTwoHostHack("Host Bloke", "RESTAURANT2");
@@ -173,9 +172,7 @@ public class Config {
 						timer.schedule(new TimerTask() {
 							public void run() {
 								systems.addRestaurantTwoWaiterHack("Waiter Bob dylan", "RESTAURANT2");
-
 								systems.addRestaurantTwoSharedDataWaiterHack("Waiter Bob dylan", "RESTAURANT2");
-
 								timer.schedule(new TimerTask() {
 									public void run() {
 										//systems.addRestaurantTwoWaiterHack("Waiter Bob dylan", "RESTAURANT2");
@@ -192,11 +189,8 @@ public class Config {
 							}
 						},1000);
 					}
-
 				},1000);
-
 			}
-
 		},1000);
 	}
 

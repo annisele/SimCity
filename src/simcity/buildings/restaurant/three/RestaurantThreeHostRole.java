@@ -6,9 +6,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
 import java.util.concurrent.Semaphore;
+
 import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
+
 import simcity.gui.restaurantthree.RestaurantThreeHostGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
@@ -26,8 +28,8 @@ import simcity.test.mock.EventLog;
 public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost {
 	private Timer timer = new Timer();
 	private int numTable = 3;
-	int tablesOccupiedCounter;
-	int waiterAvailable = 0;
+	//int tablesOccupiedCounter;
+	//int waiterAvailable = 0;
 	private int nextWaiter = 0;
 	public enum HostState {informed, uninformed};
 	public  EventLog log = new EventLog();
@@ -100,24 +102,21 @@ public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost
 		for (Table table : tables) {
 			if (!table.isOccupied()) {
 				waitingCustomers.add(cust);
-				AlertLog.getInstance().logMessage(AlertTag.valueOf(system.getName()), "RestaurantThreeHost: " + person.getName(), "Assigning customer to waiter.");
+				AlertLog.getInstance().logMessage(AlertTag.valueOf(system.getName()), "Restaurant 3 Host: " + person.getName(), "Assigning customer to waiter.");
 				stateChanged();
 				return;
 			}
 		}
 		//no free tables
-		AlertLog.getInstance().logMessage(AlertTag.valueOf(system.getName()), "RestaurantThreeHost: " + person.getName(), "Alerting customer that restaurant is full.");
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(system.getName()), "Restaurant 3 Host: " + person.getName(), "Alerting customer that restaurant is full.");
 		cust.msgRestaurantFull();
 	}
 
 
 	@Override
 	public boolean pickAndExecuteAnAction() {
-		synchronized(waitingCustomers)
-    	{
-    		synchronized(waiters)
-    		{
 		
+		/*
 		for (Table table : tables) {
 			if (!table.isOccupied()) {
 				if (!waitingCustomers.isEmpty() && !waiters.isEmpty()) {
@@ -135,17 +134,43 @@ public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost
 			return true;
 		
 		}
-    		}
-    	}
+    		*/
+
+		if(waiters.size() > 0) {
+			synchronized(tables) {
+				for (Table table : tables) {
+					if (!table.isOccupied()) {
+						if (!waitingCustomers.isEmpty()) {
+							if(nextWaiter + 1 >= waiters.size()) {
+								nextWaiter = 0;
+							}
+							else {
+								nextWaiter++;
+							}
+							//find waiter that's not on break
+							while(waiters.get(nextWaiter % waiters.size()).waiterState != WaiterState.work) {
+								nextWaiter++;
+							}
+							RestaurantThreeWaiter w = waiters.get(nextWaiter % waiters.size()).waiter;
+							table.setOccupant(waitingCustomers.get(0));
+							w.msgPleaseSeatCustomer(waitingCustomers.get(0), table.tableNumber);
+							//index increments through waiters list, then wraps to front
+
+							waitingCustomers.remove(waitingCustomers.get(0));
+							return true;//return true to the abstract agent to reinvoke the scheduler.
+						}
+
+					}
+				}
+			}
+
+		}
+
+
 		return false;
 	}
 
 
-	private void getWaiterSeatCustomer(MyWaiter myWaiter,
-			RestaurantThreeCustomer restaurantThreeCustomer, Table table) {
-		// TODO Auto-generated method stub
-		
-	}
 
 
 	@Override

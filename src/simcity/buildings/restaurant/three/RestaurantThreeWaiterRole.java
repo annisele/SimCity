@@ -31,6 +31,7 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
 	private Timer timer = new Timer();
 	public Map<String,Double> Menu= new HashMap<String, Double>();
 	private RestaurantThreeHost host;
+	private RestaurantThreeSystem restaurant;
 	private RestaurantThreeCook cook;
 	private RestaurantThreeComputer computer;
 	private RestaurantThreeCashier cashier;
@@ -129,6 +130,24 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
 	}
 	public String getName() {
 		return person.getName();
+	}
+	@Override
+	public void msgPleaseSeatCustomer(
+			RestaurantThreeCustomer c, int tableNumber) {
+		try {
+			for(MyCustomer mc : customers) {
+				if(mc.customer == c) {
+					mc.state = CustomerState.WAITING;
+					stateChanged();
+					return;
+				}
+			}
+		}
+		catch(ConcurrentModificationException e) {
+			AlertLog.getInstance().logError(AlertTag.valueOf(restaurant.getName()), "RestaurantFiveWaiter: " + person.getName(), "Concurrent modification exception.");
+		}
+		customers.add(new MyCustomer(c, tableNumber, CustomerState.WAITING));
+		stateChanged();
 	}
 	
 }

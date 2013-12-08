@@ -29,9 +29,7 @@ public class RestaurantThreeSystem extends simcity.SimSystem {
 	public RestaurantThreeComputer getRestaurantThreeComputer() {
 		return computer;
 	}
-	public RestaurantThreeHost getRestaurantThreeHost() {
-		return resthost;
-	}
+	
 	public RestaurantThreeCook getRestaurantThreeCook() {
 		return cook;
 	}
@@ -99,6 +97,10 @@ public class RestaurantThreeSystem extends simcity.SimSystem {
 	}
 	public void setHost(RestaurantThreeHost host) {
 		this.resthost = host;
+	}
+	public RestaurantThreeHost getRestaurantThreeHost() {
+		// TODO Auto-generated method stub
+		return resthost;
 	}
 	
 	

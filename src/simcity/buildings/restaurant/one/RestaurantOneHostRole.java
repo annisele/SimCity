@@ -25,7 +25,7 @@ public class RestaurantOneHostRole extends Role {//implements simcity.interfaces
     private String name;
     private boolean alreadySeated = false;
 
-    public RestaurantOneHostGui hostGui = null;
+    public RestaurantOneHostGui hostGui = new RestaurantOneHostGui(this);
 
     private Semaphore seatCustomer = new Semaphore(0, true);
     
@@ -48,6 +48,7 @@ public class RestaurantOneHostRole extends Role {//implements simcity.interfaces
     private List<MyWaiter> waiters = new ArrayList<MyWaiter>();
 
     public RestaurantOneHostRole(PersonAgent p) {
+    		
             super();
             this.person = p;
             this.name = p.getName();

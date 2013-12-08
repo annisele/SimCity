@@ -413,6 +413,11 @@ public class RestaurantOneCustomerRole extends Role implements simcity.interface
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public void msgArrivedAtRestaurant(double money) {
+		
+	}
+
 
 	
 	

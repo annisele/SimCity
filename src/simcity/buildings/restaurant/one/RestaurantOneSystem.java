@@ -65,7 +65,7 @@ public class RestaurantOneSystem extends SimSystem {
 			animationPanel.addGui(role.getGui());
 			return true;
 		}
-		return true;
+		return false;
 	}
 
 }

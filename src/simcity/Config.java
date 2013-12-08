@@ -420,14 +420,19 @@ public class Config {
 		systems.clearDetailPane();
 
 		systems.setBackgroundTwo();
-		systems.addRestaurantOne("RESTAURANTONE", 249, 140);
-		systems.addRestaurantOneHost("Jack", "RESTAURANTONE");
+		systems.addRestaurantOne("RESTAURANT1", 249, 140);
+		systems.addRestaurantOneHost("Jack", "RESTAURANT1");
 		timer.schedule(new TimerTask() {
 			public void run(){
-				systems.addRestaurantOneWaiter("Gus Fring", "RESTAURANTONE");
+				systems.addRestaurantOneWaiter("Gus Fring", "RESTAURANT1");
 				timer.schedule(new TimerTask () {
 					public void run() {
-						systems.addRestaurantOneCashier("Ted Benacke", "RESTAURANTONE");
+						systems.addRestaurantOneCashier("Ted Benacke", "RESTAURANT1");
+						timer.schedule(new TimerTask () {
+							public void run() {
+								systems.addRestaurantOneCustomer("Hungry Josh", "RESTAURANT1");
+							}
+						}, 1000);
 							}
 						}, 1000);
 					}

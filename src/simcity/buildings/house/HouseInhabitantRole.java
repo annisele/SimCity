@@ -295,19 +295,19 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		((HouseInhabitantGui)gui).DoGoToBedroom();
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		((HouseInhabitantGui)gui).DoGoToBed();
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 	}
 
@@ -316,13 +316,13 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		((HouseInhabitantGui)gui).DoGoToKitchen();
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 	}
 
@@ -331,7 +331,7 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 	}
 
@@ -340,7 +340,7 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 	}
 
@@ -349,25 +349,25 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		((HouseInhabitantGui)gui).DoGoToDining();
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		((HouseInhabitantGui)gui).DoGoToNearTable();
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		((HouseInhabitantGui)gui).DoGoToTable();
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 	}
 
@@ -376,13 +376,13 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		((HouseInhabitantGui)gui).DoGoToLiving();
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 	}
 	
@@ -391,7 +391,7 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 
 	}
@@ -404,7 +404,7 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		house.exitBuilding(this);
 		person.roleFinished();
@@ -421,7 +421,7 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 
 		if (person.getCurrentEvent() == "EatAtHome") {

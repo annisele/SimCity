@@ -31,8 +31,8 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
     ImageIcon ii2 = new ImageIcon("res/citygui/simcitymap2.png");
     Image cityimg = ii2.getImage();
     ImageIcon ii3 = new ImageIcon("res/citygui/simcitymap3.png");
-    Image intersectionimage = ii3.getImage();
-    //Image intersectionimage = intersection.getScaledInstance(462,  453,  java.awt.Image.SCALE_SMOOTH);
+    Image largecityimage = ii3.getImage();
+    //Image largecityimage = intersection.getScaledInstance(462,  453,  java.awt.Image.SCALE_SMOOTH);
     
     Image background = null;
     
@@ -70,8 +70,15 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
 	
 	@Override
 	public void dragWorld(int x, int y) {
-		posX -= x;
-		posY -= y;
+		if (	(posX >= -(largecityimage.getWidth(simCityGui)-this.getWidth())+10 || x < 0) 
+			&&	(posX <= -10 || x > 0)	) {
+			posX -= x;
+		}
+		//if (posY <= largecityimage.getHeight(simCityGui))
+		if (	(posY >= -(largecityimage.getHeight(simCityGui)-this.getHeight())+10 || y < 0) 
+			&&	(posY <= -10 || y > 0)	) {
+			posY -= y;
+		}
 		
 		System.out.println(x+", "+y);
 		return;
@@ -93,8 +100,8 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
 	    } else if (background == cityimg) {
 	    	g2.drawImage(background, 0, 0, null);
 	    }
-	    else if (background == intersectionimage) {
-	    	g2.drawImage(background, 0, 0, null);
+	    else if (background == largecityimage) {
+	    	g2.drawImage(background, posX, posY, null);
 	    }
     
         for(BuildingGui b : buildingGuis) {
@@ -134,7 +141,7 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
     }
     
     public void setBackgroundThree() {
-    	background = intersectionimage;
+    	background = largecityimage;
     }
     
 	public void addGui(Gui g) {

@@ -52,7 +52,9 @@ public class RestaurantThreeSystem extends simcity.SimSystem {
 			}
 		}
 		else if (resthost != null) {
+			System.out.println("Do a d dod dod do a lalalalalalla");
 			if (role instanceof RestaurantThreeCustomer) {
+				System.out.println("Do a d dod dod do a lalalalalalla");
 				customers.add((RestaurantThreeCustomer) role);
 				animationPanel.addGui(role.getGui());
 				return true;

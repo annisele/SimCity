@@ -16,7 +16,11 @@ import simcity.buildings.market.MarketCustomerRole;
 import simcity.buildings.restaurant.five.RestaurantFiveCustomerRole;
 import simcity.buildings.restaurant.five.RestaurantFiveSystem;
 import simcity.buildings.restaurant.four.RestaurantFourCustomerRole;
+import simcity.buildings.restaurant.one.RestaurantOneCustomerRole;
+import simcity.buildings.restaurant.one.RestaurantOneSystem;
+import simcity.buildings.restaurant.six.RestaurantSixCustomerRole;
 import simcity.buildings.restaurant.three.RestaurantThreeCustomerRole;
+import simcity.buildings.restaurant.three.RestaurantThreeSystem;
 import simcity.buildings.restaurant.two.RestaurantTwoCustomerRole;
 import simcity.buildings.restaurant.two.RestaurantTwoSystem;
 import simcity.buildings.transportation.BusAgent;
@@ -29,6 +33,8 @@ import simcity.interfaces.Person;
 import simcity.interfaces.bank.BankCustomer;
 import simcity.interfaces.market.MarketCustomer;
 import simcity.interfaces.restaurant.five.RestaurantFiveCustomer;
+import simcity.interfaces.restaurant.one.RestaurantOneCustomer;
+import simcity.interfaces.restaurant.three.RestaurantThreeCustomer;
 import simcity.interfaces.restaurant.two.RestaurantTwoCustomer;
 import simcity.interfaces.transportation.Pedestrian;
 import agent.Agent;
@@ -78,7 +84,7 @@ public class PersonAgent extends Agent implements Person {
 		BankCustomerRole b = new BankCustomerRole(this);
 
 		BusPassengerRole bp = new BusPassengerRole(this);
-		//RestaurantOneCustomerRole r1 = new RestaurantOneCustomerRole(this);
+		RestaurantOneCustomerRole r1 = new RestaurantOneCustomerRole(this);
 		RestaurantTwoCustomerRole r2 = new RestaurantTwoCustomerRole(this);
 		RestaurantThreeCustomerRole r3 = new RestaurantThreeCustomerRole(this);
 		RestaurantFourCustomerRole r4 = new RestaurantFourCustomerRole(this);
@@ -89,10 +95,12 @@ public class PersonAgent extends Agent implements Person {
 		myRoles.add(m);
 		myRoles.add(b);
 		myRoles.add(bp);
-		//myRoles.add(r2);
+		
 		myRoles.add(r2);
-		myRoles.add(r5);
+		myRoles.add(r3);
 		myRoles.add(r4);
+		myRoles.add(r5);
+		
 		
 		//random money generator between and 25
 
@@ -448,6 +456,20 @@ public class PersonAgent extends Agent implements Person {
 					}
 				}
 				((RestaurantTwoCustomer)eventR).msgArrivedAtRestaurant(money);
+			}
+			else if(Directory.getSystem(buildingName) instanceof RestaurantThreeSystem) {
+				for(Role r : myRoles) {
+					if(r instanceof RestaurantThreeCustomer) {
+						eventR = r;
+					}
+				}
+			}
+			else if(Directory.getSystem(buildingName) instanceof RestaurantOneSystem) {
+				for(Role r : myRoles) {
+					if(r instanceof RestaurantOneCustomer) {
+						eventR = r;
+					}
+				}
 			}
 
 			

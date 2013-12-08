@@ -422,6 +422,14 @@ public class SystemManager {
 		person.startThread();
 	}	
 	
+	public void addRestaurantOneCustomer(String name, String rest) {
+		PersonAgent person = new PersonAgent(name);
+		world.getAnimationPanel().addGui(person.getIdleGui());
+		Role r1customer = new RestaurantOneCustomerRole(person);
+		person.addWork(r1customer, rest);
+		people.add(person);
+		person.startThread();
+	}
 	
 	/*************** END OF RESTAURANT ONE FUNCTIONS ***********/
 	

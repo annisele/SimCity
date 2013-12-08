@@ -16,6 +16,7 @@ import simcity.buildings.market.MarketCustomerRole;
 import simcity.buildings.restaurant.five.RestaurantFiveCustomerRole;
 import simcity.buildings.restaurant.five.RestaurantFiveSystem;
 import simcity.buildings.restaurant.four.RestaurantFourCustomerRole;
+import simcity.buildings.restaurant.one.RestaurantOneSystem;
 import simcity.buildings.restaurant.three.RestaurantThreeCustomerRole;
 import simcity.buildings.restaurant.two.RestaurantTwoCustomerRole;
 import simcity.buildings.restaurant.two.RestaurantTwoSystem;
@@ -30,6 +31,7 @@ import simcity.interfaces.bank.BankCustomer;
 import simcity.interfaces.house.HouseInhabitant;
 import simcity.interfaces.market.MarketCustomer;
 import simcity.interfaces.restaurant.five.RestaurantFiveCustomer;
+import simcity.interfaces.restaurant.one.RestaurantOneCustomer;
 import simcity.interfaces.restaurant.two.RestaurantTwoCustomer;
 import simcity.interfaces.transportation.Pedestrian;
 import agent.Agent;
@@ -448,6 +450,15 @@ public class PersonAgent extends Agent implements Person {
 				}
 				((RestaurantTwoCustomer)eventR).msgArrivedAtRestaurant(money);
 			}
+			
+			else if(Directory.getSystem(buildingName) instanceof RestaurantOneSystem) {
+				for(Role r : myRoles) {
+					if (r instanceof RestaurantOneCustomer) {
+						eventR = r;
+					}
+				}
+				((RestaurantOneCustomer)eventR).msgArrivedAtRestaurant(money);	
+			}
 
 			
 			e = new Event(buildingName, eventR, TWOHOURS, -1, true, steps, t);
@@ -586,7 +597,10 @@ public class PersonAgent extends Agent implements Person {
 	public void enterBuilding() {
 		if(Directory.getSystem(currentEvent.buildingName).msgEnterBuilding(currentEvent.role)) {
 			currentRole = currentEvent.role;
-			currentRole.enterBuilding(Directory.getSystem(currentEvent.buildingName));			
+			currentRole.enterBuilding(Directory.getSystem(currentEvent.buildingName));	
+			
+			AlertLog.getInstance().logMessage(AlertTag.WORLD, "Pedestrian: "+name, currentEvent.buildingName +" entering building");						
+
 		}
 		else {
 			AlertLog.getInstance().logMessage(AlertTag.WORLD, "Pedestrian: "+name, currentEvent.buildingName +" is closed.  I can't enter");						

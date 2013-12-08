@@ -40,6 +40,13 @@ public class Config {
 
 
 	}
+	
+	public void busIntersection() {
+		systems.clear();
+		systems.clearDetailPane();
+		systems.setBackgroundThree();
+		systems.addBus("Busta");
+	}
 
 	public void busToMarket() {
 		systems.clear();

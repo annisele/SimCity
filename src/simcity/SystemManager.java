@@ -106,6 +106,12 @@ public class SystemManager {
 		dir.makeBusStops2();
 	}
 	
+	public void setBackgroundThree() {
+		WorldAnimationPanel w = (WorldAnimationPanel)world.getAnimationPanel();
+		w.setBackgroundThree();
+		dir.makeBusStops2();
+	}
+	
 	public void addPerson(String name) {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());

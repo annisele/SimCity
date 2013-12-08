@@ -64,7 +64,7 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			
 		}
 		restaurantThreeSystem.exitBuilding(this);
 		person.roleFinished();	
@@ -73,20 +73,20 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
 	@Override
 	public void enterBuilding(SimSystem s) {
 		rest = (RestaurantThreeSystem)s;
-		bh = rest.getRestaurantThreeHost();
-		//msgArrivedAtBank();
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(rest.getName()), "Restaurant 3 Customer: " + person.getName(), "I've arrived at restaurant 3");	
-
+		rest.getRestaurantThreeHost().msgIWantFood(this);
 		int n = rest. getRestaurantThreeHost().numWaitingCustomers();
-		((RestaurantThreeCustomerGui) gui).DoGoToHost();
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(rest.getName()), "Restaurant 3 Customer: " + person.getName(), "Num waiting customers: " + n);
+		
+		((RestaurantThreeCustomerGui) gui).DoGoToHost(n);
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			
 		}
 		
 		event = CustomerEvent.gotHungry;
-		rest.getRestaurantThreeHost().msgIWantFood(this);
+		
 
 		stateChanged();
 	}

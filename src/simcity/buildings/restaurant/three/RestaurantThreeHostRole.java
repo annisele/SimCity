@@ -94,20 +94,22 @@ public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost
 	public void atDestination() {
 		atDest.release();
 	}
-	
+	public void msgAddWaiter(RestaurantThreeWaiter waiter) {
+		waiters.add(new MyWaiter(waiter));
+		stateChanged();
+	}
 	public void msgIWantFood(RestaurantThreeCustomer cust) {
-		AlertLog.getInstance().logMessage(AlertTag.valueOf(system.getName()), "RestaurantHost: " + person.getName(), "A customer has arrived!");
-		//checking for unoccupied tables
+		//if there is free table
 		for (Table table : tables) {
 			if (!table.isOccupied()) {
 				waitingCustomers.add(cust);
-				Do("Assigning a waiter to customer.");
+				AlertLog.getInstance().logMessage(AlertTag.valueOf(system.getName()), "RestaurantThreeHost: " + person.getName(), "Assigning customer to waiter.");
 				stateChanged();
 				return;
 			}
 		}
 		//no free tables
-		Do("Alerting customer that restaurant is full.");
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(system.getName()), "RestaurantThreeHost: " + person.getName(), "Alerting customer that restaurant is full.");
 		cust.msgRestaurantFull();
 	}
 

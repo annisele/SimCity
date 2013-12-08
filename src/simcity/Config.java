@@ -414,21 +414,21 @@ public class Config {
 		systems.clear();
 		systems.clearDetailPane();
 		systems.setBackgroundTwo();
-		systems.addRestaurantThree("RESTAURANTTHREE", 249, 140);
-		systems.addRestaurantThreeHost("Levonne", "RESTAURANTTHREE");
+		systems.addRestaurantThree("RESTAURANT3", 249, 140);
+		systems.addRestaurantThreeHost("Levonne", "RESTAURANT3");
 
 		timer.schedule(new TimerTask() {
 			public void run() {
 				systems.addPerson("Hungry Aaron");
 				timer.schedule(new TimerTask() {
 					public void run() {
-						systems.addRestaurantThreeWaiter("EDWARD", "RESTAURANTTHREE");
+						systems.addRestaurantThreeWaiter("EDWARD", "RESTAURANT3");
 						timer.schedule(new TimerTask() {
 							public void run() {
-								systems.addRestaurantThreeCashier("JUSTIN", "RESTAURANTTHREE");
+								systems.addRestaurantThreeCashier("JUSTIN", "RESTAURANT3");
 								timer.schedule(new TimerTask() {
 									public void run() {
-										systems.addRestaurantThreeCook("NELSON", "RESTAURANTTHREE");
+										systems.addRestaurantThreeCook("NELSON", "RESTAURANT3");
 										timer.schedule(new TimerTask() {
 											public void run() {
 												systems.addPerson("Hungry Harry");

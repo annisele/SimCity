@@ -12,6 +12,7 @@ import java.util.concurrent.Semaphore;
 import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
+import simcity.gui.restaurantthree.RestaurantThreeCashierGui;
 import simcity.gui.restaurantthree.RestaurantThreeCookGui;
 import simcity.gui.restaurantthree.RestaurantThreeHostGui;
 import simcity.gui.restaurantthree.RestaurantThreeWaiterGui;
@@ -32,7 +33,7 @@ public class RestaurantThreeCookRole extends Role implements RestaurantThreeCook
 	private List<RestaurantThreeWaiter> waiters = new ArrayList<RestaurantThreeWaiter>();
 	//private List<MyMarket> markets = new ArrayList<MyMarket>();
 	
-	
+	private Semaphore atDest = new Semaphore(0, true);
 	public enum OrderState { pending, cooking, cooked, plated, taken }
 	private Map<String, Integer> cookingTimes = new HashMap<String, Integer>();
 	private Map<String, Integer> inventory = new HashMap<String, Integer>();
@@ -72,8 +73,15 @@ public class RestaurantThreeCookRole extends Role implements RestaurantThreeCook
 
 	@Override
 	public void enterBuilding(SimSystem s) {
-		// TODO Auto-generated method stub
+		restaurant = (RestaurantThreeSystem)s;
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestauranT 3 Cook: " + person.getName(), "Ready to work at the restaurant!");
 		
+		((RestaurantThreeCookGui) gui).DoGoToStand();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			
+		}
 	}
 
 }

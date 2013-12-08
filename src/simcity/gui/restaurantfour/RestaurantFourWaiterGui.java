@@ -1,40 +1,38 @@
 package simcity.gui.restaurantfour;
 
 import java.awt.Graphics2D;
-import java.awt.Point;
+import java.awt.Image;
 
-import javax.swing.JPanel;
+import javax.swing.ImageIcon;
 
 import simcity.gui.Gui;
+import simcity.interfaces.restaurant.four.RestaurantFourWaiter;
 
-public class RestaurantFourWaiterGui implements Gui {
+public class RestaurantFourWaiterGui extends Gui {
         
-        public RestaurantFourWaiterGui() {
-                
-        }
+	private ImageIcon ii = new ImageIcon("res/person/bluepersondownbig.png");
+	private Image hostimage = ii.getImage();
+	
+	public static final int HOST_LOCATION_X = 290;
+	public static final int HOST_LOCATION_Y = 370;
+	
+	public static final int WAITER_STATION_X = 200;
+	public static final int WAITER_STATION_Y = 370;
+	
+	public RestaurantFourWaiterGui(RestaurantFourWaiter waiter) {
+		role = waiter;
+	}
 
-		@Override
-		public void updatePosition() {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void draw(Graphics2D g) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public boolean isPresent() {
-			// TODO Auto-generated method stub
-			return false;
-		}
-
-		@Override
-		public boolean contains(Point point) {
-			// TODO Auto-generated method stub
-			return false;
-		}
+	public void draw(Graphics2D g) {
+		g.drawImage(hostimage, getX(), getY(), null);
+	}
+	
+	public void DoGoToHostLocation() {
+		DoGoToLocation(HOST_LOCATION_X, HOST_LOCATION_Y);
+	}
+	
+	public void DoGoToWaiterStation() {
+		DoGoToLocation(WAITER_STATION_X, WAITER_STATION_Y);
+	}
         
 }

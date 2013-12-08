@@ -1,9 +1,12 @@
 package simcity.interfaces.restaurant.four;
 
+import java.util.List;
+
 import simcity.PersonAgent;
 import simcity.SimSystem;
 import simcity.buildings.restaurant.four.RestaurantFourMenu;
 import simcity.buildings.restaurant.four.RestaurantFourSystem;
+import simcity.buildings.restaurant.four.RestaurantFourWaiterRole.MyCustomer;
 import simcity.buildings.restaurant.four.RestaurantFourWaiterRole.Status;
 import simcity.interfaces.GuiPartner;
 
@@ -14,6 +17,9 @@ public interface RestaurantFourWaiter extends GuiPartner {
 		public abstract void setPerson(PersonAgent person);
 		public abstract RestaurantFourSystem getSystem();
 		public abstract void setSystem(RestaurantFourSystem restaurantFourSystem);
+		public abstract List<MyCustomer> getCustomers();
+		public abstract RestaurantFourMenu getMenu();
+		public abstract void setMenu(RestaurantFourMenu menu);
 		public abstract Status getStatus();
 		public abstract void setStatus(Status status);
 		

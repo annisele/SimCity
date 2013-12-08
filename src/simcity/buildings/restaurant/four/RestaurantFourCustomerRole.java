@@ -5,6 +5,7 @@ import simcity.Role;
 import simcity.SimSystem;
 import simcity.gui.restaurantfour.RestaurantFourCustomerGui;
 import simcity.interfaces.restaurant.four.RestaurantFourCustomer;
+import simcity.interfaces.restaurant.four.RestaurantFourWaiter;
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -25,12 +26,15 @@ public class RestaurantFourCustomerRole extends Role implements RestaurantFourCu
 	private RestaurantFourCustomerGui gui;
 	private int tableNumber;
 	
+	private RestaurantFourWaiter waiter;
+	private RestaurantFourMenu menu;
+	
 	private RestaurantFourSystem restaurantFourSystem;
 	
-	public enum State {none, waitingAtRestaurant, walkingToTable};
+	public enum State {none, waitingAtRestaurant, walkingToTable, thinkingOfOrder};
 	private State state = State.none;
 	
-	public enum Event {none, gotHungry, metWaiter};
+	public enum Event {none, gotHungry, metWaiter, gotToTable};
 	private Event event = Event.none;
 	
 	public PersonAgent getPersonAgent() {
@@ -65,6 +69,22 @@ public class RestaurantFourCustomerRole extends Role implements RestaurantFourCu
 		this.tableNumber = tableNumber;
 	}
 	
+	public RestaurantFourWaiter getWaiter() {
+		return waiter;
+	}
+	
+	public void setWaiter(RestaurantFourWaiter waiter) {
+		this.waiter = waiter;
+	}
+	
+	public RestaurantFourMenu getMenu() {
+		return menu;
+	}
+	
+	public void setMenu(RestaurantFourMenu menu) {
+		this.menu = menu;
+	}
+	
 	public State getState() {
 		return state;
 	}
@@ -92,9 +112,14 @@ public class RestaurantFourCustomerRole extends Role implements RestaurantFourCu
 		stateChanged();
 	}
 	
-	public void msgFollowMeToTable(int tableNumber) {
+	public void msgFollowMeToTable(RestaurantFourWaiter waiter, int tableNumber, RestaurantFourMenu menu) {
 		event = Event.metWaiter;
 		this.tableNumber = tableNumber;
+		stateChanged();
+	}
+	
+	public void msgArrivedAtTable() {
+		event = Event.gotToTable;
 		stateChanged();
 	}
 	
@@ -118,6 +143,12 @@ public class RestaurantFourCustomerRole extends Role implements RestaurantFourCu
 			return true;
 		}
 		
+		if (state == State.walkingToTable && event == Event.gotToTable) {
+			state = State.thinkingOfOrder;
+			thinkOfOrder();
+			return true;
+		}
+		
 		return false;
 	}
 
@@ -135,6 +166,11 @@ public class RestaurantFourCustomerRole extends Role implements RestaurantFourCu
 	
 	private void followWaiterToTable() {
 		DoGoToTable();
+		msgArrivedAtTable();
+	}
+	
+	private void thinkOfOrder() {
+		//waiter.msgImReadyToOrder();
 	}
 	
 	// Animation DoXYZ

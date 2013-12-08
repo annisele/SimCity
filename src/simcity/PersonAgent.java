@@ -3,6 +3,7 @@ package simcity;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -34,7 +35,6 @@ import simcity.interfaces.bank.BankCustomer;
 import simcity.interfaces.market.MarketCustomer;
 import simcity.interfaces.restaurant.five.RestaurantFiveCustomer;
 import simcity.interfaces.restaurant.one.RestaurantOneCustomer;
-
 import simcity.interfaces.restaurant.three.RestaurantThreeCustomer;
 import simcity.interfaces.restaurant.two.RestaurantTwoCustomer;
 import simcity.interfaces.transportation.Pedestrian;
@@ -55,7 +55,7 @@ public class PersonAgent extends Agent implements Person {
 	private Timer timer = new Timer();
 
 	private List<Role> myRoles = new ArrayList<Role>();
-	private List<Event> eventList = new ArrayList<Event>();
+	private List<Event> eventList = Collections.synchronizedList(new ArrayList<Event>());
 	private IdlePersonGui idleGui;
 	BusAgent bus;
 	private Role currentRole = null;

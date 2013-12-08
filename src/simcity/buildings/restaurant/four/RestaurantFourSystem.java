@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import simcity.Role;
 import simcity.SimSystem;
 import simcity.gui.SimCityGui;
+import simcity.gui.restaurantfour.RestaurantFourAnimationPanel;
 import simcity.interfaces.restaurant.four.RestaurantFourCustomer;
 import simcity.interfaces.restaurant.four.RestaurantFourHost;
 import simcity.interfaces.restaurant.four.RestaurantFourWaiter;
@@ -34,6 +36,7 @@ public class RestaurantFourSystem extends SimSystem {
 
 	public RestaurantFourSystem(SimCityGui scg) {
 		super(scg);
+		setAnimationPanel(new RestaurantFourAnimationPanel());
 		for (int i = 1; i <= NUMBER_TABLES; i++) {
 			tables.add(new RestaurantFourTable(i));
 		}
@@ -62,7 +65,24 @@ public class RestaurantFourSystem extends SimSystem {
 		return menu;
 	}
 	
+	public void setMenu(RestaurantFourMenu menu) {
+		this.menu = menu;
+	}
+	
 	// Functions //////////////////////////////////////////////////////////////////////////
+	public boolean msgEnterBuilding(Role role) {
+		if (role instanceof RestaurantFourHost) {
+			this.host = (RestaurantFourHost) role;
+			animationPanel.addGui(role.getGui());
+			return true;
+		}
+		if (role instanceof RestaurantFourWaiter) {
+			animationPanel.addGui(role.getGui());
+			return true;
+		}
+		return false;
+	}
+	
 	public void addWaiter(RestaurantFourWaiter waiter) {
 		waiters.add(new RestaurantWaiter(waiter));
 	}

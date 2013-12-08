@@ -1,40 +1,31 @@
 package simcity.gui.restaurantfour;
 
 import java.awt.Graphics2D;
-import java.awt.Point;
+import java.awt.Image;
 
-import javax.swing.JPanel;
+import javax.swing.ImageIcon;
 
 import simcity.gui.Gui;
+import simcity.interfaces.restaurant.four.RestaurantFourHost;
 
-public class RestaurantFourHostGui implements Gui {
-        
-        public RestaurantFourHostGui() {
-                
-        }
+public class RestaurantFourHostGui extends Gui {
 
-		@Override
-		public void updatePosition() {
-			// TODO Auto-generated method stub
-			
-		}
+	private ImageIcon ii = new ImageIcon("res/person/bluepersondownbig.png");
+	private Image hostimage = ii.getImage();
+	
+	public static final int HOST_STATION_X = 335;
+	public static final int HOST_STATION_Y = 370;
+	
+	public RestaurantFourHostGui(RestaurantFourHost host) {
+		role = host;
+	}
 
-		@Override
-		public void draw(Graphics2D g) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public boolean isPresent() {
-			// TODO Auto-generated method stub
-			return false;
-		}
-
-		@Override
-		public boolean contains(Point point) {
-			// TODO Auto-generated method stub
-			return false;
-		}
-        
+	public void draw(Graphics2D g) {
+		g.drawImage(hostimage, getX(), getY(), null);
+	}
+	
+	public void DoGoToHostStation() {
+		DoGoToLocation(HOST_STATION_X, HOST_STATION_Y);
+	}
+	
 }

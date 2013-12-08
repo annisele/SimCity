@@ -16,6 +16,9 @@ public class RestaurantFourWaiterGui extends Gui {
 	public static final int HOST_LOCATION_X = 290;
 	public static final int HOST_LOCATION_Y = 370;
 	
+	public static final int WAITER_STATION_X = 200;
+	public static final int WAITER_STATION_Y = 370;
+	
 	public RestaurantFourWaiterGui(RestaurantFourWaiter waiter) {
 		role = waiter;
 	}
@@ -26,6 +29,10 @@ public class RestaurantFourWaiterGui extends Gui {
 	
 	public void DoGoToHostLocation() {
 		DoGoToLocation(HOST_LOCATION_X, HOST_LOCATION_Y);
+	}
+	
+	public void DoGoToWaiterStation() {
+		DoGoToLocation(WAITER_STATION_X, WAITER_STATION_Y);
 	}
         
 }

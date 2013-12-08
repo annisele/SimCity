@@ -4,6 +4,7 @@ package simcity.buildings.restaurant.four;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 import simcity.PersonAgent;
 import simcity.Role;
@@ -35,6 +36,8 @@ public class RestaurantFourWaiterRole extends Role implements RestaurantFourWait
 	private Status status = Status.none;
 	
 	public enum customerState {none, withHost, sitting, wantToOrder, beingWalkedToForOrder};
+	
+	private Semaphore atDest = new Semaphore(0, true);
 	
 	// Constructors //////////////////////////////////////////////////////////////////////////
 	
@@ -163,17 +166,22 @@ public class RestaurantFourWaiterRole extends Role implements RestaurantFourWait
 	
 	private void informHostOfArrival() {
 		DoGoToHostLocation();
+		try {
+    		atDest.acquire();
+    	} catch (InterruptedException e) {
+    		//e.printStackTrace();
+    	}
 		restaurantFourSystem.getHost().msgWaiterReadyForWork(this);
-	}
-
-	private void seatCustomerAtTable(MyCustomer customer) {
-		DoGoToWaitingArea();
-		customer.getCustomer().msgFollowMeToTable(this, customer.getTableNumber(), menu);
-		DoGoToTable(customer.getTableNumber());
 	}
 
 	private void workAtWaiterStation() {
 		DoGoToWaiterStation();
+	}
+	
+	private void seatCustomerAtTable(MyCustomer customer) {
+		DoGoToWaitingArea();
+		customer.getCustomer().msgFollowMeToTable(this, customer.getTableNumber(), menu);
+		DoGoToTable(customer.getTableNumber());
 	}
 	
 	private void walkToCustomerForOrder(MyCustomer customer) {
@@ -186,7 +194,7 @@ public class RestaurantFourWaiterRole extends Role implements RestaurantFourWait
 	}
 	
 	private void DoGoToWaiterStation() {
-		
+		((RestaurantFourWaiterGui) gui).DoGoToWaiterStation();
 	}
 	
 	private void DoGoToWaitingArea() {
@@ -211,10 +219,8 @@ public class RestaurantFourWaiterRole extends Role implements RestaurantFourWait
 		msgGotToWork();
 	}
 
-	@Override
 	public void atDestination() {
-		// TODO Auto-generated method stub
-		
+		atDest.release();
 	}
 	
 	// Utility Classes //////////////////////////////////////////////////////////////////////////

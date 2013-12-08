@@ -3,6 +3,7 @@ package simcity.buildings.restaurant.four;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 import simcity.PersonAgent;
 import simcity.Role;
@@ -33,6 +34,8 @@ public class RestaurantFourHostRole extends Role implements RestaurantFourHost {
 
 	public enum Status {none, waitingAtRestaurant, working};
 	private Status status = Status.none;
+	
+	private Semaphore atDest = new Semaphore(0, true);
 	
 	// Constructors //////////////////////////////////////////////////////////////////////////
 	

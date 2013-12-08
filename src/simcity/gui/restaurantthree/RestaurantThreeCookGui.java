@@ -14,8 +14,8 @@ public class RestaurantThreeCookGui extends Gui {
 	private final int CORRIDOR_X = 15;
 	private final int CORRIDOR_Y = 85;
 			;
-	private final int WINDOW1_X = 105;
-	private final int WINDOW1_Y = 103;
+	private final int WINDOW1_X = 90;
+	private final int WINDOW1_Y = 90;
 	
 	private final int WINDOW2_X = 200;
 	private final int WINDOW2_Y = 103;
@@ -37,5 +37,7 @@ public class RestaurantThreeCookGui extends Gui {
 	public void draw(Graphics2D g) {
 		g.drawImage(img,getX(), getY(), null);
 	}
-
+	public void DoGoToStand () {
+		DoGoToLocation(WINDOW1_X, WINDOW1_Y);
+	}
 }

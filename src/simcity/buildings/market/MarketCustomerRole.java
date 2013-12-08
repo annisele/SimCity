@@ -110,7 +110,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		person.subtractMoney(payment);
 		market.getCashier().msgHereIsPayment(payment, orderNumber);
@@ -123,7 +123,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		((MarketCustomerGui) gui).carryItem(true);
 		market.getCashier().msgReceivedOrder();
@@ -144,7 +144,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		((MarketCustomerGui) gui).carryItem(false);
 		market.exitBuilding(this);
@@ -170,7 +170,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		
 	}

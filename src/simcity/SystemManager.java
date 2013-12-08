@@ -61,6 +61,9 @@ public class SystemManager {
 		for (BusGui b : busGuis) {
 			b.clear();
 		}
+		for (PersonAgent p : people) {
+			p.clear();
+		}
 		world.clear();
 		world.getAnimationPanel().clear();
 		world.simCityGui.clearTracePanels();
@@ -125,6 +128,11 @@ public class SystemManager {
 		if(name.equalsIgnoreCase("Hungry Jenny") || name.equalsIgnoreCase("Hungry Clayton")) {
 			person.scheduleEvent(EventType.EatAtRestaurant);
 		}
+		if (name.equalsIgnoreCase("Hungry Harry")||name.equalsIgnoreCase("Hungry Aaron")) {
+			
+			person.goToRestaurantThreeNow();
+		}
+		
 		if(name.equalsIgnoreCase("Josh")) {
 			person.busToMarketNow();
 		}
@@ -138,6 +146,8 @@ public class SystemManager {
 		
 			person.goToRestaurantTwoNow();
 		}
+		
+		
 		if (name.equalsIgnoreCase("Gus Fring") || name.equalsIgnoreCase("Ted Benacke") || name .equalsIgnoreCase("jack")) {
 			person.goToRestaurantOneNow();
 		}
@@ -428,6 +438,14 @@ public class SystemManager {
 		person.startThread();
 	}	
 	
+	public void addRestaurantOneCustomer(String name, String rest) {
+		PersonAgent person = new PersonAgent(name);
+		world.getAnimationPanel().addGui(person.getIdleGui());
+		Role r1customer = new RestaurantOneCustomerRole(person);
+		person.addWork(r1customer, rest);
+		people.add(person);
+		person.startThread();
+	}
 	
 	/*************** END OF RESTAURANT ONE FUNCTIONS ***********/
 	

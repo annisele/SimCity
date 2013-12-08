@@ -172,7 +172,7 @@ public class MarketCashierRole extends Role implements MarketCashier {
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		((MarketCashierGui) gui).removeItemFromCounter();
 		((MarketCashierGui) gui).carryItem(true);
@@ -181,7 +181,7 @@ public class MarketCashierRole extends Role implements MarketCashier {
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 
 		if(o.deliverRole instanceof MarketCustomer) {
@@ -211,28 +211,28 @@ public class MarketCashierRole extends Role implements MarketCashier {
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 
 		((MarketCashierGui)gui).DoGoToLeftCenter();
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 
 		((MarketCashierGui)gui).DoGoToCenter();
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 
 		gui.DoExitBuilding();
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(market.getName()), "MarketCashier: " + person.getName(), "Leaving the market.");
 		market.exitBuilding(this);
@@ -247,28 +247,28 @@ public class MarketCashierRole extends Role implements MarketCashier {
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 
 		((MarketCashierGui)gui).DoGoToLeftCenter();
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 
 		((MarketCashierGui)gui).DoGoToLeftTop();
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 
 		((MarketCashierGui)gui).DoGoToCashRegister();
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 	}
 

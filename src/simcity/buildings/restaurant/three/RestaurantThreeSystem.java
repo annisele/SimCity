@@ -6,6 +6,7 @@ import simcity.Role;
 import simcity.gui.*;
 import simcity.gui.restaurantthree.RestaurantThreeAnimationPanel;
 import simcity.gui.restaurantthree.RestaurantThreeControlPanel;
+import simcity.interfaces.restaurant.five.RestaurantFiveWaiter;
 import simcity.interfaces.restaurant.three.RestaurantThreeCook;
 import simcity.interfaces.restaurant.three.RestaurantThreeWaiter;
 import simcity.interfaces.restaurant.three.RestaurantThreeCustomer;
@@ -15,7 +16,7 @@ import simcity.test.restaurantthree.mock.MockRestaurantThreeHost;
 
 public class RestaurantThreeSystem extends simcity.SimSystem {
 	private RestaurantThreeComputer computer = new RestaurantThreeComputer();
-	private RestaurantThreeHost resthost;
+	private RestaurantThreeHost resthost = null;
 	private RestaurantThreeCook cook;
 	private RestaurantThreeCashier cashier;
 	private List<RestaurantThreeCustomer> customers = Collections.synchronizedList(new ArrayList<RestaurantThreeCustomer>());
@@ -29,9 +30,7 @@ public class RestaurantThreeSystem extends simcity.SimSystem {
 	public RestaurantThreeComputer getRestaurantThreeComputer() {
 		return computer;
 	}
-	public RestaurantThreeHost getRestaurantThreeHost() {
-		return resthost;
-	}
+	
 	public RestaurantThreeCook getRestaurantThreeCook() {
 		return cook;
 	}
@@ -53,13 +52,16 @@ public class RestaurantThreeSystem extends simcity.SimSystem {
 			}
 		}
 		else if (resthost != null) {
+			System.out.println("Do a d dod dod do a lalalalalalla");
 			if (role instanceof RestaurantThreeCustomer) {
+				System.out.println("Do a d dod dod do a lalalalalalla");
 				customers.add((RestaurantThreeCustomer) role);
 				animationPanel.addGui(role.getGui());
 				return true;
 			}
 			else if (role instanceof RestaurantThreeWaiter) {
 				waiters.add((RestaurantThreeWaiter) role);
+				resthost.msgAddWaiter((RestaurantThreeWaiter)role);
 				animationPanel.addGui(role.getGui());
 				return true;
 			}
@@ -97,8 +99,10 @@ public class RestaurantThreeSystem extends simcity.SimSystem {
 			cook = null;
 		}
 	}
-	public void setHost(RestaurantThreeHost host) {
-		this.resthost = host;
+	
+	public RestaurantThreeHost getRestaurantThreeHost() {
+		// TODO Auto-generated method stub
+		return resthost;
 	}
 	
 	

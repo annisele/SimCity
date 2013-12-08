@@ -3,7 +3,9 @@ package simcity.buildings.restaurant.three;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.ConcurrentModificationException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.concurrent.Semaphore;
 
@@ -27,8 +29,10 @@ import simcity.test.mock.EventLog;
  */
 public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWaiter{
 	private Timer timer = new Timer();
+	public Map<String,Double> Menu= new HashMap<String, Double>();
 	private RestaurantThreeHost host;
 	private RestaurantThreeCook cook;
+	private RestaurantThreeComputer computer;
 	private RestaurantThreeCashier cashier;
 	private enum WaiterState {WORKING,  REQUESTED_BREAK, HAVING_BREAK, ON_BREAK, NEED_BREAK, GOINGOFFBREAK, DENIED_BREAK };  
 	private WaiterState waiterState;
@@ -55,6 +59,11 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
 		atDest.release();
 	}
 	public RestaurantThreeWaiterRole(PersonAgent person) {
+		//Menu.put("chicken",10.99);	
+		//Menu.put("steak",15.99);
+		//Menu.put("salad",5.99);
+		//Menu.put("pizza",8.99);
+		//this.computer = computer;
 		this.person = person;
 		this.gui = new RestaurantThreeWaiterGui(this);
 		waiterState = WaiterState.WORKING;
@@ -86,7 +95,7 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
 				 }
 			 }
 		 } catch (ConcurrentModificationException e) {
-			 AlertLog.getInstance().logError(AlertTag.valueOf(restaurantThreeSystem.getName()), "Restaurant Three Waiter: " + person.getName(), "Concurrent modification exception.");
+			 AlertLog.getInstance().logError(AlertTag.valueOf(restaurantThreeSystem.getName()), "Restaurant 3 Waiter: " + person.getName(), "Concurrent modification exception.");
 			}
 			customers.add(new MyCustomer(customer, tableNum, CustomerState.WAITING));
 			stateChanged();
@@ -98,7 +107,7 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			
 		}
 		restaurantThreeSystem.exitBuilding(this);
 		person.roleFinished();
@@ -108,9 +117,14 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
 	@Override
 	public void enterBuilding(SimSystem s) {
 		restaurantThreeSystem = (RestaurantThreeSystem)s;
-		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurantThreeSystem.getName()), "RestaurantThreeHost: " + person.getName(), "Ready to work at the restaurant!");
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurantThreeSystem.getName()), "Restaurant 3 Waiter: " + person.getName(), "Ready to work at the restaurant!");
 		
 		((RestaurantThreeWaiterGui) gui).DoGoToHome();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			
+		}
 		
 	}
 	public String getName() {

@@ -16,32 +16,39 @@ import java.util.ArrayList;
  */
 public class RestaurantThreeAnimationPanel extends AnimationPanel implements ActionListener {
 
-	ImageIcon ii = new ImageIcon("res/restaurant/three/res3gui.png");
-	Image img = ii.getImage();
-	Image res3image = img.getScaledInstance(470, 454,  java.awt.Image.SCALE_SMOOTH);
+	ImageIcon ii = new ImageIcon("res/restaurant/one/tablecartoon.png");
+	Image tableimage = ii.getImage();
+	ImageIcon cookicon = new ImageIcon("res/restaurant/one/cookcartoon.jpg");
+	Image cookimage = cookicon.getImage();
 	
-	
-	public RestaurantThreeAnimationPanel() {
-		super();
-	}
-
+	ImageIcon iii = new ImageIcon("res/restaurant/two/restauranttwo.png");
+    Image img = iii.getImage();
+    Image r2image = img.getScaledInstance(470, 454,  java.awt.Image.SCALE_SMOOTH); 
+    
+    public RestaurantThreeAnimationPanel() {
+    	super();
+    }
+    
+	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		super.actionPerformed(arg0);		
+		super.actionPerformed(arg0);
 	}
-
+		
 	public void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D)g;
+
 		//Clear the screen by painting a rectangle the size of the frame
 		g2.setColor(Color.LIGHT_GRAY);
 		g2.fillRect(0, 0, this.getWidth(), this.getHeight());
-		g2.drawImage(res3image, 0,0, null);
+		g2.drawImage(r2image, 0,0, null);
+
 
 		super.paintComponent(g);
-	}
 
+	}
+	
 	public void addGui(Gui g) {
 		guis.add(g);
 	}
-
 
 }

@@ -39,7 +39,7 @@ public class RestaurantThreeWaiterGui extends Gui {
 	}
 
 	public void DoGoToHome() {
-		DoGoToLocation(HOST_X, HOST_Y);
+		DoGoToLocation(CORRIDOR_X, CORRIDOR_Y);
 	}
 
 }

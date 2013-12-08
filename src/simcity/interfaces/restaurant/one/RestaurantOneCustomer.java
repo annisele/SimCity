@@ -20,4 +20,6 @@ public interface RestaurantOneCustomer {
 
 	void msgHereisYourCheck(RestaurantOneCheck c);
 
+	void msgArrivedAtRestaurant(double money);
+
 }

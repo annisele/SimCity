@@ -38,7 +38,7 @@ public class RestaurantThreeCashierGui extends Gui {
 		g.drawImage(img,getX(), getY(), null);
 	}
 	public void DoGoToStand () {
-		DoGoToLocation(HOST_X, HOST_Y);
+		DoGoToLocation(WINDOW3_X, WINDOW3_Y);
 	}
 
 }

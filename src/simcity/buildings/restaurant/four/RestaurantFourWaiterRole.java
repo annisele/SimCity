@@ -59,7 +59,13 @@ public class RestaurantFourWaiterRole extends Role implements RestaurantFourWait
 		this.restaurantFourSystem = restaurantFourSystem;
 	}
 	
-	public 
+	public RestaurantFourMenu getMenu() {
+		return menu;
+	}
+	
+	public void setMenu(RestaurantFourMenu menu) {
+		this.menu = menu;
+	}
 	
 	public Status getStatus() {
 		return status;

@@ -126,7 +126,7 @@ public class Config {
 	public void fullMarket() {
 		systems.clear();
 		systems.clearDetailPane();
-
+		
 		systems.setBackgroundTwo();
 		
 		systems.addMarket("MARKET1", 186, 250);
@@ -135,14 +135,16 @@ public class Config {
 		systems.addHouse("HOUSE3", 186, 27);
 		
 		systems.addPerson("Mary");
+		systems.setHome("Mary", "HOUSE2");
 		systems.setWorkMarketCashier("Mary", "MARKET1");
 		//systems.addMarketCashier("Mary", "MARKET1");
-		systems.setHome("Mary", "HOUSE2");
+		
 		
 		systems.addPerson("Joe");
+		systems.setHome("Joe", "HOUSE1");
 		systems.setWorkMarketWorker("Joe", "MARKET1");
 		//systems.addMarketWorker("Joe", "MARKET1");
-		systems.setHome("Joe", "HOUSE1");
+		
 	}
 
 	public void oneHouse() {

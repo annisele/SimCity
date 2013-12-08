@@ -648,101 +648,105 @@ public class PersonAgent extends Agent implements Person {
 	 * @param e - the new event to insert into the list
 	 */
 	private void insertEvent(Event e) {
-		if(!e.flexible) {
-			int index = -1;
-			List<Event> tempList = new ArrayList<Event>();
 
-			for(Event e2 : eventList) {
-				if(e.overlaps(e2)) {
-					//copies all events that overlap e to a separate list so we can remove later
-					tempList.add(e2); 
-					if(index == -1) {
-						index = eventList.indexOf(e2);
+		synchronized (eventList) {
+			if(!e.flexible) {
+				int index = -1;
+				List<Event> tempList = new ArrayList<Event>();
+
+
+				for(Event e2 : eventList) {
+					if(e.overlaps(e2)) {
+						//copies all events that overlap e to a separate list so we can remove later
+						tempList.add(e2); 
+						if(index == -1) {
+							index = eventList.indexOf(e2);
+						}
 					}
 				}
+
+				//if there was a conflicting event already in the list, move conflicts
+				if(index != -1) {
+					for(Event eTemp : tempList) {
+						eventList.remove(eTemp); //remove the conflicting event
+					}
+					//add the new event into the correct index
+					eventList.add(index, e);
+					//reinsert all the conflicting events into the list
+					for(Event eTemp : tempList) {
+						insertEvent(eTemp);
+					}
+				}
+				//if there were no conflicting events, put new event in right place
+				else {
+					if(eventList.isEmpty()) {
+						eventList.add(0, e);
+					}
+					else {
+						for(Event e2 : eventList) {
+							if(e.startTime + e.duration <= e2.startTime) {
+								int ind = eventList.indexOf(e2);
+								eventList.add(ind, e); //insert new event at correct index
+								return;
+							}
+						}
+						eventList.add(e);
+					}
+
+				}
 			}
 
-
-
-			//if there was a conflicting event already in the list, move conflicts
-			if(index != -1) {
-				for(Event eTemp : tempList) {
-					eventList.remove(eTemp); //remove the conflicting event
-				}
-				//add the new event into the correct index
-				eventList.add(index, e);
-				//reinsert all the conflicting events into the list
-				for(Event eTemp : tempList) {
-					insertEvent(eTemp);
-				}
-			}
-			//if there were no conflicting events, put new event in right place
+			//the new event is flexible
 			else {
+				//if there is time at the beginning, insert new event first
 				if(eventList.isEmpty()) {
+					e.startTime = Clock.getTime();
 					eventList.add(0, e);
 				}
-				else {
-					for(Event e2 : eventList) {
-						if(e.startTime + e.duration <= e2.startTime) {
-							int ind = eventList.indexOf(e2);
-							eventList.add(ind, e); //insert new event at correct index
+				else if(eventList.get(0).startTime - Clock.getTime() > e.duration) {
+					e.startTime = Clock.getTime();
+					eventList.add(0, e);
+				}
+				else if(e.type == EventType.Eat) {
+					for(int i = 0; i < eventList.size() - 1; i++) {
+						//if there is a flexible event, eating takes it's place
+						if(eventList.get(i).flexible) {
+							Event temp = eventList.get(i);
+							e.startTime = eventList.get(i).startTime;
+							eventList.add(i, e); //adding new event into flexible space
+							eventList.remove(temp);
+							insertEvent(temp);
+						}
+						//if there is space after that event, put eating event there
+						if(eventList.get(i + 1).startTime - 
+								eventList.get(i).startTime + eventList.get(i).duration > e.duration) {
+							//adding new event into middle of list if there is space
+							e.startTime = eventList.get(i).startTime + eventList.get(i).duration;
+							eventList.add(i + 1, e);
 							return;
 						}
 					}
-					eventList.add(e);
+					int index = eventList.size() - 1; //index of last element in eventList
+					e.startTime = eventList.get(index).startTime + eventList.get(index).duration;
+					eventList.add(e); //adding new event at end of list
 				}
-
-			}
+				else {
+					for(int i = 0; i < eventList.size() - 1; i++) {
+						if(eventList.get(i + 1).startTime - 
+								eventList.get(i).startTime + eventList.get(i).duration > e.duration) {
+							//adding new event into middle of list if there is space
+							e.startTime = eventList.get(i).startTime + eventList.get(i).duration;
+							eventList.add(i + 1, e);
+							return;
+						}
+					}
+					int index = eventList.size() - 1; //index of last element in eventList
+					e.startTime = eventList.get(index).startTime + eventList.get(index).duration;
+					eventList.add(e); //adding new event at end of list
+				}
+			}	
 		}
-		//the new event is flexible
-		else {
-			//if there is time at the beginning, insert new event first
-			if(eventList.isEmpty()) {
-				e.startTime = Clock.getTime();
-				eventList.add(0, e);
-			}
-			else if(eventList.get(0).startTime - Clock.getTime() > e.duration) {
-				e.startTime = Clock.getTime();
-				eventList.add(0, e);
-			}
-			else if(e.type == EventType.Eat) {
-				for(int i = 0; i < eventList.size() - 1; i++) {
-					//if there is a flexible event, eating takes it's place
-					if(eventList.get(i).flexible) {
-						Event temp = eventList.get(i);
-						e.startTime = eventList.get(i).startTime;
-						eventList.add(i, e); //adding new event into flexible space
-						eventList.remove(temp);
-						insertEvent(temp);
-					}
-					//if there is space after that event, put eating event there
-					if(eventList.get(i + 1).startTime - 
-							eventList.get(i).startTime + eventList.get(i).duration > e.duration) {
-						//adding new event into middle of list if there is space
-						e.startTime = eventList.get(i).startTime + eventList.get(i).duration;
-						eventList.add(i + 1, e);
-						return;
-					}
-				}
-				int index = eventList.size() - 1; //index of last element in eventList
-				e.startTime = eventList.get(index).startTime + eventList.get(index).duration;
-				eventList.add(e); //adding new event at end of list
-			}
-			else {
-				for(int i = 0; i < eventList.size() - 1; i++) {
-					if(eventList.get(i + 1).startTime - 
-							eventList.get(i).startTime + eventList.get(i).duration > e.duration) {
-						//adding new event into middle of list if there is space
-						e.startTime = eventList.get(i).startTime + eventList.get(i).duration;
-						eventList.add(i + 1, e);
-						return;
-					}
-				}
-				int index = eventList.size() - 1; //index of last element in eventList
-				e.startTime = eventList.get(index).startTime + eventList.get(index).duration;
-				eventList.add(e); //adding new event at end of list
-			}
-		}	
+
 	}
 
 	// Utility functions

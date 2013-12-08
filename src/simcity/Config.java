@@ -502,13 +502,21 @@ public class Config {
 			}
 		}, 4000);
 	}
+	
 	public void restaurantFour(){
 		systems.clear();
 		systems.clearDetailPane();
 
 		systems.setBackgroundTwo();
-
+		systems.addRestaurantFour("RESTAURANT4", 249, 140);
+		systems.addRestaurantFourHost("R4Host", "RESTAURANT4");
+		timer.schedule(new TimerTask() {
+			public void run() {
+				systems.addRestaurantFourWaiter("R4Waiter", "RESTAURANT4");
+			}
+		}, 1000);
 	}
+	
 	//Rebecca's restaurant
 	public void restaurantFive(){
 		systems.clear();

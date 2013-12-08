@@ -3,10 +3,12 @@ package simcity.buildings.restaurant.four;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
+import simcity.gui.restaurantfour.RestaurantFourHostGui;
 import simcity.interfaces.restaurant.four.RestaurantFourCustomer;
 import simcity.interfaces.restaurant.four.RestaurantFourHost;
 import simcity.interfaces.restaurant.four.RestaurantFourWaiter;
@@ -33,10 +35,13 @@ public class RestaurantFourHostRole extends Role implements RestaurantFourHost {
 	public enum Status {none, waitingAtRestaurant, working};
 	private Status status = Status.none;
 	
+	private Semaphore atDest = new Semaphore(0, true);
+	
 	// Constructors //////////////////////////////////////////////////////////////////////////
 	
 	public RestaurantFourHostRole(PersonAgent person) {
 		this.person = person;
+		this.gui = new RestaurantFourHostGui(this);
 	}
 	
 	// Accessors //////////////////////////////////////////////////////////////////////////
@@ -161,7 +166,7 @@ public class RestaurantFourHostRole extends Role implements RestaurantFourHost {
 	
 	// Animation DoXYZ()
 	private void DoGoToHostStation() {
-		
+		((RestaurantFourHostGui) gui).DoGoToHostStation();
 	}
 	
 	// Utilities //////////////////////////////////////////////////////////////////////////

@@ -2,6 +2,7 @@ package simcity.test.restaurantfour;
 
 import junit.framework.TestCase;
 import simcity.PersonAgent;
+import simcity.buildings.restaurant.four.RestaurantFourMenu;
 import simcity.buildings.restaurant.four.RestaurantFourSystem;
 import simcity.buildings.restaurant.four.RestaurantFourWaiterRole;
 import simcity.buildings.restaurant.four.RestaurantFourWaiterRole.Status;
@@ -118,8 +119,21 @@ public class RestaurantFourWaiterTest extends TestCase {
 		// check step 4 postconditions
 		assertEquals("Waiter status should be working", waiter.getStatus(), Status.working);
 		
-		// step 5 - msgAskWaiterToSeatCustomer
-		//waiter.msg
+		// step 5 - msgSeatCustomerAtTable
+		waiter.msgSeatCustomerAtTable(customer, 1, restaurant.getMenu());
+		
+		// check step 5 postconditions
+		assertEquals("Waiter status should be working", waiter.getStatus(), Status.working);
+		assertEquals("Waiter should have a registered menu", waiter.getMenu(), restaurant.getMenu());
+		assertEquals("Waiter customer list should not be empty", waiter.getCustomers().size(), 1);
+		assertEquals("Customers list should have a MyCustomer with customer", waiter.getCustomers().get(0).getCustomer(), customer);
+		assertEquals("Customers list should have a MyCustomer with table 1", waiter.getCustomers().get(0).getTableNumber(), 1);
+		
+		// step 6 - call scheduler to seat customer at table
+		assertTrue("Waiter scheduler should return true", waiter.pickAndExecuteAnAction());
+		
+		// check step 6 postconditions
+		//assertEquals("")
 		
 		System.out.println("");
 		System.out.println("testOneWaiterToWork done");

@@ -13,8 +13,13 @@ import simcity.gui.Gui;
 public class RestaurantOneHostGui extends Gui {
 
     private RestaurantOneHostRole hostrole = null;
+    
+    private ImageIcon ii = new ImageIcon("res/person/bluepersondownbig.png");
+    private Image hostimage = ii.getImage();
 
-    private int xPos = 200, yPos = 100;//default waiter position
+    
+    public static final int HOSTX = 220;
+    public static final int HOSTY = 150;
             
 
     public RestaurantOneHostGui(RestaurantOneHostRole hr) {
@@ -27,25 +32,8 @@ public class RestaurantOneHostGui extends Gui {
 
 
     public void draw(Graphics2D g) {
-            g.setColor(new Color(250,250, 250));
+    	g.drawImage(hostimage,getX(), getY(), null);
     }
 
-    public boolean isPresent() {
-        return true;
-    }
-
-    public int getXPos() {
-        return xPos;
-    }
-
-    public int getYPos() {
-        return yPos;
-    }
     
-
-        @Override
-        public void updatePosition() {
-                // TODO Auto-generated method stub
-                
-        }
 }

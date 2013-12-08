@@ -9,7 +9,7 @@ import simcity.gui.transportation.CarGui;
 import agent.Agent;
 
 public class CarAgent extends Role implements simcity.interfaces.transportation.Car {
- CarPassengerRole passenger;
+	CarPassengerRole passenger;
 	Location destination;
 	CarGui cargui;
 	public Semaphore atDestination = new Semaphore(0, true);

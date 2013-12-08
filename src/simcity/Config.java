@@ -409,13 +409,39 @@ public class Config {
 				}, 1000);
 			
 	}
+	//LEVONNE'S RESTAURANT
 	public void restaurantThree(){
 		systems.clear();
 		systems.clearDetailPane();
-
 		systems.setBackgroundTwo();
-		//systems.addRestaurantSix("RESTAURANT6", 249, 140);
+		systems.addRestaurantThree("RESTAURANTTHREE", 249, 140);
+		systems.addRestaurantThreeHost("Levonne", "RESTAURANTTHREE");
 
+		timer.schedule(new TimerTask() {
+			public void run() {
+				systems.addPerson("Hungry Aaron");
+				timer.schedule(new TimerTask() {
+					public void run() {
+						systems.addRestaurantThreeWaiter("EDWARD", "RESTAURANTTHREE");
+						timer.schedule(new TimerTask() {
+							public void run() {
+								systems.addRestaurantThreeCashier("JUSTIN", "RESTAURANTTHREE");
+								timer.schedule(new TimerTask() {
+									public void run() {
+										systems.addRestaurantThreeCook("NELSON", "RESTAURANTTHREE");
+										timer.schedule(new TimerTask() {
+											public void run() {
+												systems.addPerson("Hungry Harry");
+											}
+										}, 2000);
+									}
+								}, 1000);
+							}
+						}, 1000);
+					}
+				}, 2000);
+			}
+		}, 4000);
 	}
 	public void restaurantFour(){
 		systems.clear();

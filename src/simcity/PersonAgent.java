@@ -458,14 +458,14 @@ public class PersonAgent extends Agent implements Person {
 				}
 				((RestaurantTwoCustomer)eventR).msgArrivedAtRestaurant(money);
 			}
-			
 			else if(Directory.getSystem(buildingName) instanceof RestaurantOneSystem) {
 				for(Role r : myRoles) {
 					if (r instanceof RestaurantOneCustomer) {
 						eventR = r;
 					}
 				}
-				((RestaurantOneCustomer)eventR).msgArrivedAtRestaurant(money);	 }
+				((RestaurantOneCustomer)eventR).msgArrivedAtRestaurant(money);	 
+			}
 			else if(Directory.getSystem(buildingName) instanceof RestaurantThreeSystem) {
 				for(Role r : myRoles) {
 					if(r instanceof RestaurantThreeCustomer) {
@@ -610,6 +610,8 @@ public class PersonAgent extends Agent implements Person {
 	}
 
 	public void enterBuilding() {
+		AlertLog.getInstance().logDebug(AlertTag.WORLD, "WORLD: " + getName(), ""+currentEvent.buildingName +" is about to be entered as role: "+currentEvent.role.toString());						
+
 		if(Directory.getSystem(currentEvent.buildingName).msgEnterBuilding(currentEvent.role)) {
 			currentRole = currentEvent.role;
 			currentRole.enterBuilding(Directory.getSystem(currentEvent.buildingName));	

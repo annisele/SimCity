@@ -50,4 +50,10 @@ public class MockRestaurantThreeCustomer extends Mock implements RestaurantThree
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

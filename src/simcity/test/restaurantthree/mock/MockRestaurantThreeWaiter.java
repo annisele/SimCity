@@ -5,6 +5,7 @@ import simcity.buildings.restaurant.three.RestaurantThreeWaiterRole;
 import simcity.interfaces.*;
 import simcity.interfaces.restaurant.three.RestaurantThreeCashier;
 import simcity.interfaces.restaurant.three.RestaurantThreeCook;
+import simcity.interfaces.restaurant.three.RestaurantThreeCustomer;
 import simcity.interfaces.restaurant.three.RestaurantThreeWaiter;
 import simcity.interfaces.restaurant.three.RestaurantThreeHost;
 import simcity.test.mock.*;
@@ -37,6 +38,13 @@ public class MockRestaurantThreeWaiter extends Mock implements RestaurantThreeWa
 
 	@Override
 	public void setCashier(RestaurantThreeCashier cashier) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgPleaseSeatCustomer(
+			RestaurantThreeCustomer restaurantThreeCustomer, int tableNumber) {
 		// TODO Auto-generated method stub
 		
 	}

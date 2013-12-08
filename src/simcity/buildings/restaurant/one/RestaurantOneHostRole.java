@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.concurrent.Semaphore;
 
-public class RestaurantOneHostRole extends Role implements simcity.interfaces.restaurant.one.RestaurantOneCustomer {
+public class RestaurantOneHostRole extends Role implements simcity.interfaces.restaurant.one.RestaurantOneHost {
 	static final int NTABLES = 3;//a global for the number of tables.
     //Notice that we implement waitingCustomers using ArrayList, but type it
     //with List semantics.
@@ -286,47 +286,7 @@ public class RestaurantOneHostRole extends Role implements simcity.interfaces.re
 		
 	}
 
-	@Override
-	public void msgWhatWouldYouLike() {
-		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	public void msgFollowMe(RestaurantOneMenu restaurantOneMenu) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setWaiter(RestaurantOneWaiterRole restaurantOneWaiterRole) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void msgFoodOutofStock() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void msgHereIsYourFood() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void msgHereisYourCheck(RestaurantOneCheck c) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void msgArrivedAtRestaurant(double money) {
-		// TODO Auto-generated method stub
-		
-	}
 
 
 }

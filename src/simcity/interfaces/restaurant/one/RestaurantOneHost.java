@@ -5,18 +5,18 @@ import simcity.buildings.restaurant.one.RestaurantOneWaiterRole;
 
 public interface RestaurantOneHost {
 	
-	public void msgIWantFood(RestaurantOneCustomerRole cust);
+	public abstract void msgIWantFood(RestaurantOneCustomerRole cust);
 	
-	public void msgNewWaiter(RestaurantOneWaiterRole w);
+	public abstract void msgNewWaiter(RestaurantOneWaiterRole w);
 	
-	public void msgTableIsFree(int table);
+	public abstract void msgTableIsFree(int table);
 	
-	public void msgIWantABreak(RestaurantOneWaiterRole w);
+	public abstract void msgIWantABreak(RestaurantOneWaiterRole w);
 	
-	public void msgImOffBreak(RestaurantOneWaiterRole w);
+	public abstract void msgImOffBreak(RestaurantOneWaiterRole w);
 	
-	public void msgLeaving(RestaurantOneCustomerRole c);
+	public abstract void msgLeaving(RestaurantOneCustomerRole c);
 	
-	public void msgCustomerSeated();
+	public abstract void msgCustomerSeated();
 
 }

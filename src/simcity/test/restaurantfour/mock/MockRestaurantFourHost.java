@@ -6,6 +6,7 @@ import simcity.PersonAgent;
 import simcity.SimSystem;
 import simcity.buildings.restaurant.four.RestaurantFourHostRole.Status;
 import simcity.buildings.restaurant.four.RestaurantFourSystem;
+import simcity.interfaces.restaurant.four.RestaurantFourCustomer;
 import simcity.interfaces.restaurant.four.RestaurantFourHost;
 import simcity.interfaces.restaurant.four.RestaurantFourWaiter;
 import simcity.test.mock.EventLog;
@@ -88,6 +89,17 @@ public class MockRestaurantFourHost extends Mock implements RestaurantFourHost {
 	public void atDestination() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public List getCustomersList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void msgImHungry(RestaurantFourCustomer customer) {
+		log.add(new LoggedEvent("Received msgImHungry from customer " + customer));
 	}
 
 }

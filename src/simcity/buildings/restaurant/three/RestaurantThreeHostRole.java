@@ -21,7 +21,7 @@ import simcity.interfaces.restaurant.three.RestaurantThreeWaiter;
 import simcity.test.mock.EventLog;
 
 /**
- * Restaurant Three Waiter Role
+ * Restaurant Three Host Role
  * @author Levonne Key
  *
  */

@@ -29,7 +29,7 @@ import simcity.gui.WorldAnimationPanel;
 import simcity.gui.transportation.BusGui;
 
 public class SystemManager {
-	
+
 	SimCityGui simcity;
 	WorldSystem world;
 	Directory dir = new Directory();
@@ -49,15 +49,15 @@ public class SystemManager {
 	List<BuildingGui> buildings = new ArrayList<BuildingGui>();
 	List<BusGui> busGuis = Collections.synchronizedList(new ArrayList<BusGui>());
 	List<PersonAgent> people = new ArrayList<PersonAgent>();
-	
+
 	public SystemManager(SimCityGui g) {
 		simcity = g;
 		world = new WorldSystem(simcity);//simcity.getWorld();
 		dir.setWorld(world);
 	}
-	
+
 	public void clear() {
-		
+
 		for (BusGui b : busGuis) {
 			b.clear();
 		}
@@ -67,7 +67,7 @@ public class SystemManager {
 		world.clear();
 		world.getAnimationPanel().clear();
 		world.simCityGui.clearTracePanels();
-		
+
 		dir.clear();
 		markets.clear();
 		banks.clear();
@@ -82,45 +82,45 @@ public class SystemManager {
 		busGuis.clear();
 		buildings.clear();
 		people.clear();
-		
+
 		Clock.reset();
-		
+
 	}
-	
+
 	public void getContact(SimSystem s) {
 		if(s instanceof MarketSystem) {
 			for(MarketSystem m : markets) {
 				if(m == s) {
-					
+
 				}
 			}
 		}
 	}
-	
+
 	public void setBackgroundOne() {
 		WorldAnimationPanel w = (WorldAnimationPanel)world.getAnimationPanel();
 		w.setBackgroundOne();
 		dir.makeBusStops1();
 	} 
-	
+
 	public void setBackgroundTwo() {
 		WorldAnimationPanel w = (WorldAnimationPanel)world.getAnimationPanel();
 		w.setBackgroundTwo();
 		dir.makeBusStops2();
 	}
-	
+
 	public void setBackgroundThree() {
 		WorldAnimationPanel w = (WorldAnimationPanel)world.getAnimationPanel();
 		w.setBackgroundThree();
 		dir.makeBusStops2();
 	}
-	
+
 	public void addPerson(String name) {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());
 
 		person.setBus(bus);
-		
+
 		//hacks
 		if (name.equalsIgnoreCase("Rebecca")) {
 			person.goToMarketNow();
@@ -129,10 +129,10 @@ public class SystemManager {
 			person.scheduleEvent(EventType.EatAtRestaurant);
 		}
 		if (name.equalsIgnoreCase("Hungry Harry")||name.equalsIgnoreCase("Hungry Aaron")) {
-			
+
 			person.goToRestaurantThreeNow();
 		}
-		
+
 		if(name.equalsIgnoreCase("Josh")) {
 			person.busToMarketNow();
 		}
@@ -143,18 +143,18 @@ public class SystemManager {
 			person.goToBankNow();
 		}
 		if (name == "jenny"||name == "jenny1"||name == "jenny2"||name == "jenny3") {
-		
+
 			person.goToRestaurantTwoNow();
 		}
-		
-		
+
+
 		if (name.equalsIgnoreCase("Gus Fring") || name.equalsIgnoreCase("Ted Benacke") || name .equalsIgnoreCase("jack")) {
 			person.goToRestaurantOneNow();
 		}
 		people.add(person);
 		person.startThread();
 	}
-	
+
 	public void addMarket(String name, int xLoc, int yLoc) {
 		MarketSystem temp = new MarketSystem(simcity);
 		temp.setName(name);
@@ -165,7 +165,7 @@ public class SystemManager {
 
 		dir.add(name, EntryType.Market, loc, temp);
 	}
-	
+
 	public void addBank(String name, int xLoc, int yLoc) {
 		BankSystem temp = new BankSystem(simcity);
 		temp.setName(name);
@@ -173,10 +173,10 @@ public class SystemManager {
 		BuildingGui building = new BuildingGui(temp, "Bank", xLoc, yLoc);
 		world.getAnimationPanel().addBuilding(building);
 		Location loc = new Location(xLoc, yLoc);
-		
+
 		dir.add(name, EntryType.Bank, loc, temp);
 	}
-	
+
 	public void addHouse(String name, int xLoc, int yLoc) {
 		HouseSystem temp = new HouseSystem(simcity);
 		temp.setName(name);
@@ -184,10 +184,10 @@ public class SystemManager {
 		BuildingGui building = new BuildingGui(temp, "House", xLoc, yLoc);
 		world.getAnimationPanel().addBuilding(building);
 		Location loc = new Location(xLoc, yLoc);
-		
+
 		dir.add(name, EntryType.House, loc, temp);
 	}
-	
+
 	public void addBus(String name) {
 		// TODO Auto-generated method stub
 		TransportationSystem temp = new TransportationSystem(simcity);
@@ -203,7 +203,7 @@ public class SystemManager {
 		bus.startThread();
 		bus.makeBusMove();
 	}
-	
+
 	public void addRestaurantOne(String name, int xLoc, int yLoc) {
 		RestaurantOneSystem temp = new RestaurantOneSystem(simcity);
 		temp.setName(name);
@@ -211,11 +211,11 @@ public class SystemManager {
 		BuildingGui building = new BuildingGui(temp, "RestaurantOne", xLoc, yLoc);
 		world.getAnimationPanel().addBuilding(building);
 		Location loc = new Location(xLoc, yLoc);
-		
+
 		dir.add(name, EntryType.Restaurant, loc, temp);
-		
+
 	}
-	
+
 	public void addRestaurantTwo(String name, int xLoc, int yLoc) {
 		//restaurantTwos.add(new RestaurantTwoSystem(simcity));
 		List<String> markets = Directory.getMarkets();
@@ -230,7 +230,7 @@ public class SystemManager {
 		//System.out.println("TTTTT: "+ temp);
 		dir.add(name, EntryType.Restaurant, loc, temp);
 	}
-	
+
 	public void addRestaurantThree(String name, int xLoc, int yLoc) {
 		RestaurantThreeSystem temp = new RestaurantThreeSystem(simcity);
 		temp.setName(name);
@@ -238,16 +238,16 @@ public class SystemManager {
 		BuildingGui building = new BuildingGui(temp, "RestaurantThree", xLoc, yLoc);
 		world.getAnimationPanel().addBuilding(building);
 		Location loc = new Location(xLoc, yLoc);
-		
+
 		dir.add(name, EntryType.Restaurant, loc, temp);
-		
-		
+
+
 	}
-	
+
 	public void addRestaurantFour() {
 		restaurantFours.add(new RestaurantFourSystem(simcity));
 	}
-	
+
 	public void addRestaurantFive(String name, int x, int y) {
 		RestaurantFiveSystem temp = new RestaurantFiveSystem(simcity);
 		temp.setName(name);
@@ -257,86 +257,83 @@ public class SystemManager {
 		Location location = new Location(x, y);
 		dir.add(name, EntryType.Restaurant, location, temp);
 	}
-	
+
 	public void addRestaurantSix(String name, int xLoc, int yLoc) {
 		RestaurantSixSystem temp = new RestaurantSixSystem(simcity);
 		temp.setName(name);
 		restaurantSixes.add(temp);
-		
+
 		BuildingGui building = new BuildingGui(temp, "RestaurantSix", xLoc, yLoc);
 		world.getAnimationPanel().addBuilding(building);
 		Location loc = new Location(xLoc, yLoc);
 		dir.add(name, EntryType.Restaurant, loc, temp);	
 	}
-	
+
 	public void setHome(String person, String home) {
 		//ApartmentSystem apt;
 		//HouseSystem house;
 		PersonAgent resident = null;
+
+		resident = getPersonFromName(person);
 		
-		for (PersonAgent p : people) {
-			if (p.getName().equals(person)) {
-				resident = p;
-			}
-		}
 		//System.out.println("setHome is being called, home is "+home+" and resident is: "+resident.getName());
 		resident.addHome(home);		
-		
+
 		if (person == "Hungry Antoine") {
 			resident.setLowFood();
 		}
 	}
-	
-	
+
+
 	public MarketSystem getMarket(int i) {
 		return markets.get(i);
 	}
-	
+
 	public BankSystem getBank(int i) {
 		return banks.get(i);
 	}
-	
+
 	public HouseSystem getHouse(int i) {
 		return houses.get(i);
 	}
-	
+
 	public RestaurantOneSystem getRestaurantOne(int i) {
 		return restaurantOnes.get(i);
 	}
-	
+
 	public RestaurantTwoSystem getRestaurantTwo(int i) {
 		return restaurantTwos.get(i);
 	}
-	
+
 	public RestaurantThreeSystem getRestaurantThree(int i) {
 		return restaurantThrees.get(i);
 	}
-	
+
 	public RestaurantFourSystem getRestaurantFour(int i) {
 		return restaurantFours.get(i);
 	}
-	
+
 	public RestaurantFiveSystem getRestaurantFive(int i) {
 		return restaurantFives.get(i);
 	}
-	
+
 	public RestaurantSixSystem getRestaurantSix(int i) {
 		return restaurantSixes.get(i);
 	}
-	
+
 	public WorldSystem getWorld() {
 		return world;
 	}
-	
+
 	public void clearDetailPane() {
 		simcity.clearDetailPane();
 	}
-	
-	
-	
-	
+
+
+
+
 	/************************ MARKET FUNCTIONS ***********************/
-	
+
 	/**
 	 * addMarketTruck - Helper function to create a market truck agent
 	 * @param market - Name of market the truck works for
@@ -352,7 +349,7 @@ public class SystemManager {
 	 * addMarketCashier - Helper function to create person who works as a market cashier
 	 * @param name - Name of person to be created
 	 * @param market - Name of market they will work at
-	 */
+	 
 	public void addMarketCashier(String name, String market) {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());
@@ -361,12 +358,26 @@ public class SystemManager {
 		people.add(person);
 		person.startThread();
 	}
+	*/
+
+	public void setWorkMarketCashier(String name, String market) {
+		PersonAgent person = getPersonFromName(name);
+		Role cashier = new MarketCashierRole(person);
+		person.addWork(cashier, market);
+	}
 	
+	public void setWorkMarketWorker(String name, String market) {
+		PersonAgent person = getPersonFromName(name);
+		Role worker = new MarketWorkerRole(person);
+		person.addWork(worker, market);
+	}
+
+
 	/**
 	 * addMarketWorker - Helper function to create a person who works as a market worker
 	 * @param name - Name of the person created
 	 * @param market - Name of the market they work at
-	 */
+	 
 	public void addMarketWorker(String name, String market) {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());
@@ -375,11 +386,23 @@ public class SystemManager {
 		people.add(person);
 		person.startThread();
 	}
+	*/
 	
+	public PersonAgent getPersonFromName(String name) {
+		PersonAgent person = null;
+
+		for (PersonAgent p : people) {
+			if (p.getName().equals(name)) {
+				person = p;
+			}
+		}
+		return person;
+	}
+
 	/****************** End of Market functions **********************/
-	
-	
-	
+
+
+
 
 	public void addBankHostHack(String name, String bank) {
 		PersonAgent person = new PersonAgent(name);
@@ -401,7 +424,7 @@ public class SystemManager {
 	public void addHackedBankAccount(int accountNumber, double accountBalance, double amountOwed, String password) {
 		banks.get(0).getBankComputer().addHackedBankAccount(accountNumber, accountBalance, amountOwed, password);
 	}
-	
+
 	/*************** RESTAURANT ONE FUNTIONS DOE ****************/
 	public void addRestaurantOneHost(String name, String rest) {
 		PersonAgent person = new PersonAgent(name);
@@ -410,9 +433,9 @@ public class SystemManager {
 		person.addWork(r1Host, rest);
 		people.add(person);
 		person.startThread();
-		
+
 	}	
-	
+
 	public void addRestaurantOneCashier(String name, String rest) {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());
@@ -420,9 +443,9 @@ public class SystemManager {
 		person.addWork(r1Cashier, rest);
 		people.add(person);
 		person.startThread();
-		
+
 	}
-	
+
 	public void addRestaurantOneWaiter(String name, String rest) {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());
@@ -431,7 +454,7 @@ public class SystemManager {
 		people.add(person);
 		person.startThread();
 	}	
-	
+
 	public void addRestaurantOneCustomer(String name, String rest) {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());
@@ -440,9 +463,9 @@ public class SystemManager {
 		people.add(person);
 		person.startThread();
 	}
-	
+
 	/*************** END OF RESTAURANT ONE FUNCTIONS ***********/
-	
+
 	/*************** RESTAURANT TWO FUNCTIONS *******************/
 
 	public void addRestaurantTwoHostHack(String name, String rest) {
@@ -452,7 +475,7 @@ public class SystemManager {
 		person.addWork(r2Host, rest);
 		people.add(person);
 		person.startThread();
-		
+
 	}
 	public void addRestaurantTwoCashierHack(String name, String rest) {
 		PersonAgent person = new PersonAgent(name);
@@ -461,7 +484,7 @@ public class SystemManager {
 		person.addWork(r2Cashier, rest);
 		people.add(person);
 		person.startThread();
-		
+
 	}
 	public void addRestaurantTwoCookHack(String name, String rest) {
 		PersonAgent person = new PersonAgent(name);
@@ -470,7 +493,7 @@ public class SystemManager {
 		person.addWork(r2Cook, rest);
 		people.add(person);
 		person.startThread();
-		
+
 	}
 	public void addRestaurantTwoWaiterHack(String name, String rest) {
 		PersonAgent person = new PersonAgent(name);
@@ -490,10 +513,10 @@ public class SystemManager {
 	}
 	public void hacker(){
 		restaurantTwos.get(0).hackr2();
-		
+
 	}
-/*************** RESTAURANT THREE FUNCTIONS *******************/
-	
+	/*************** RESTAURANT THREE FUNCTIONS *******************/
+
 	public void addRestaurantThreeHost(String name, String rest) {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());
@@ -502,7 +525,7 @@ public class SystemManager {
 		people.add(person);
 		person.startThread();
 	}
-	
+
 	public void addRestaurantThreeCashier(String name, String rest) {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());
@@ -528,12 +551,12 @@ public class SystemManager {
 		people.add(person);
 		person.startThread();
 	}
-	
+
 	/**************** End of Restaurant Three functions ***************/
-	
-	
+
+
 	/*************** RESTAURANT FIVE FUNCTIONS *******************/
-	
+
 	public void addRestaurantFiveHost(String name, String rest) {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());
@@ -542,7 +565,7 @@ public class SystemManager {
 		people.add(person);
 		person.startThread();
 	}
-	
+
 	public void addRestaurantFiveWaiter(String name, String rest) {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());
@@ -551,11 +574,11 @@ public class SystemManager {
 		people.add(person);
 		person.startThread();
 	}
-	
+
 	/**************** End of Restaurant Five functions ***************/
-	
+
 	/*************** RESTAURANT SIX FUNCTIONS *******************/
-	
+
 	public void addRestaurantSixHost(String name, String rest) {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());
@@ -564,7 +587,7 @@ public class SystemManager {
 		people.add(person);
 		person.startThread();
 	}
-	
+
 	public void addRestaurantSixWaiter(String name, String rest) {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());
@@ -573,7 +596,7 @@ public class SystemManager {
 		people.add(person);
 		person.startThread();
 	}
-	
+
 	public void addRestaurantSixCook(String name, String rest) {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());
@@ -582,7 +605,7 @@ public class SystemManager {
 		people.add(person);
 		person.startThread();
 	}
-	
+
 	public void addRestaurantSixCashier(String name, String rest) {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());
@@ -591,15 +614,15 @@ public class SystemManager {
 		people.add(person);
 		person.startThread();
 	}
-	
+
 	public BusAgent getBus() {
 		return bus;
 	}
-	
+
 	public Directory getDirectory() {
 		return dir;
 	}
 
-	
-	
+
+
 }

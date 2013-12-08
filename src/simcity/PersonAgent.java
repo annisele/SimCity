@@ -458,14 +458,14 @@ public class PersonAgent extends Agent implements Person {
 				}
 				((RestaurantTwoCustomer)eventR).msgArrivedAtRestaurant(money);
 			}
-			
 			else if(Directory.getSystem(buildingName) instanceof RestaurantOneSystem) {
 				for(Role r : myRoles) {
 					if (r instanceof RestaurantOneCustomer) {
 						eventR = r;
 					}
 				}
-				((RestaurantOneCustomer)eventR).msgArrivedAtRestaurant(money);	 }
+				((RestaurantOneCustomer)eventR).msgArrivedAtRestaurant(money);	 
+			}
 			else if(Directory.getSystem(buildingName) instanceof RestaurantThreeSystem) {
 				for(Role r : myRoles) {
 					if(r instanceof RestaurantThreeCustomer) {

@@ -31,7 +31,7 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
 	private Timer timer = new Timer();
 	public Map<String,Double> Menu= new HashMap<String, Double>();
 	private RestaurantThreeHost host;
-	private RestaurantThreeSystem restaurant;
+
 	private RestaurantThreeCook cook;
 	private RestaurantThreeComputer computer;
 	private RestaurantThreeCashier cashier;
@@ -59,13 +59,13 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
 	public void atDestination() {
 		atDest.release();
 	}
-	public RestaurantThreeWaiterRole(PersonAgent person) {
+	public RestaurantThreeWaiterRole(PersonAgent p) {
 		//Menu.put("chicken",10.99);	
 		//Menu.put("steak",15.99);
 		//Menu.put("salad",5.99);
 		//Menu.put("pizza",8.99);
 		//this.computer = computer;
-		this.person = person;
+		person = p;
 		this.gui = new RestaurantThreeWaiterGui(this);
 		waiterState = WaiterState.WORKING;
 	}
@@ -108,7 +108,7 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
 			}
 		}
 		catch(ConcurrentModificationException e) {
-			AlertLog.getInstance().logError(AlertTag.valueOf(restaurant.getName()), "Restaurant 3 Waiter: " + person.getName(), "Concurrent modification exception.");
+			AlertLog.getInstance().logError(AlertTag.valueOf(restaurantThreeSystem.getName()), "Restaurant 3 Waiter: " + person.getName(), "Concurrent modification exception.");
 		}
 		customers.add(new MyCustomer(c, tableNumber, CustomerState.WAITING));
 		stateChanged();
@@ -117,7 +117,11 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
 		
 		c.state = CustomerState.READY_TO_ORDER;
 		//c.c.msgHereIsMenu(this, new RestaurantFiveMenu());
-		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "Restaurant 3 Waiter: " + person.getName(), "Here is a menu, " + c.customer.getName() + ".");
+		//System.out.println("HIHIHIHIHIHIHI");
+		//System.out.println(restaurantThreeSystem.getName());
+		//System.out.println(person.getName());
+		//System.out.println(c.customer.getName());
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurantThreeSystem.getName()), "Restaurant 3 Waiter: " + person.getName(), "Here is a menu, " + c.customer.getName() + ".");
 	}
 
 	@Override

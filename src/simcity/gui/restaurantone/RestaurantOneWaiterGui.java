@@ -46,10 +46,7 @@ public class RestaurantOneWaiterGui extends Gui {
         
 
 
-        private int xPos = 60, yPos = 60;//default waiter position
-        int xDest = 40;//default start position
-
-        int yDest = 40;
+       
 
         public boolean returning = false;
         private RestaurantOneAnimationPanel animationPanel = null;
@@ -58,17 +55,18 @@ public class RestaurantOneWaiterGui extends Gui {
 
         private RestaurantPanel restPanel;
 
-        public RestaurantOneWaiterGui(RestaurantOneWaiterRole agent, RestaurantPanel rp) {
-                restPanel = rp;
+        public RestaurantOneWaiterGui(RestaurantOneWaiterRole agent) {
                 this.wagent = agent;
                 int n = 200;
                 for (int i = 0; i < 3; i++) {
                         TableSpots.add(new Coordinates(n, 600));
                         n += 150;
+                        x = 200;
+                        y = 200;
                 }
         }
 
-        public void updatePosition() {
+    /*    public void updatePosition() {
 
                 if (xPos < xDest)
                         xPos++;
@@ -108,20 +106,18 @@ public class RestaurantOneWaiterGui extends Gui {
                         wagent.msgWithCook();
                 }
                 
-        }
+        } */
 
         public void draw(Graphics2D g) {
                 Color waiterColor = new Color(100, 120, 140);
                 g.setColor(waiterColor);
-                g.fillRect(xPos, yPos, 32, 32);
+                g.fillRect(x, y, 32, 32);
         }
 
-        public boolean isPresent() {
-                return true;
-        }
+      
 
         public void DoBringToTable(RestaurantOneCustomerGui CustGui, int tNum) {
-                if ((xPos != 40) && (yPos != 40)) {
+                if ((x != 40) && (y != 40)) {
                         DoLeaveCustomer();
                         try {
                                 wagent.leftCustomer.acquire();
@@ -129,7 +125,6 @@ public class RestaurantOneWaiterGui extends Gui {
                                 // TODO Auto-generated catch block
                                 e.printStackTrace();
                         }
-                        System.out.println ("left the customer, now time to take order");
                 }
                 tableNumber = tNum;
                 xDest = TableSpots.get(tableNumber-1).getX() + 20;
@@ -148,6 +143,10 @@ public class RestaurantOneWaiterGui extends Gui {
                 xDest = CookLocationX; 
                 yDest = CookLocationY; 
         }
+        
+        public void DoGoToHome(){
+        DoGoToLocation(200, 200);
+        }
 
         public void DoLeaveCustomer() {
                 returning = true;
@@ -156,18 +155,10 @@ public class RestaurantOneWaiterGui extends Gui {
         }
         
         public void GetFood(String choice, int t) {
-                food = new RestaurantOneFoodGui(this, choice, false, xPos, yPos, t);
+                food = new RestaurantOneFoodGui(this, choice, false, x, y, t);
                 foodItems.add(food);
                 animationPanel.addGui(food);
                 food.moveWithWaiter();
-        }
-
-        public int getXPos() {
-                return xPos;
-        }
-
-        public int getYPos() {
-                return yPos;
         }
 
         public void setAnimationPanel(RestaurantOneAnimationPanel ap) {
@@ -203,7 +194,7 @@ public class RestaurantOneWaiterGui extends Gui {
                 }
         }
         public boolean isHome() {
-                if ((xPos == 60) && (yPos == 60)) {
+                if ((x == 60) && (y == 60)) {
                         return true;
                 }
                 return false;

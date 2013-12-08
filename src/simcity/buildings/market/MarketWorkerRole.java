@@ -75,7 +75,7 @@ public class MarketWorkerRole extends Role implements MarketWorker {
 			try {
 				atDest.acquire();
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 		}
 	}
@@ -86,42 +86,42 @@ public class MarketWorkerRole extends Role implements MarketWorker {
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 
 		((MarketWorkerGui)gui).DoGoToShelfOneArea();
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 
 		((MarketWorkerGui)gui).DoGoToShelfOne();
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 
 		((MarketWorkerGui)gui).DoGoToShelfTwo();
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 
 		((MarketWorkerGui)gui).DoGoToCenter();
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 
 		((MarketWorkerGui)gui).DoGoToDropOffItems();
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 	}
 
@@ -131,7 +131,7 @@ public class MarketWorkerRole extends Role implements MarketWorker {
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(market.getName()), "MarketWorker: " + person.getName(), "Leaving market.");
 		market.exitBuilding(this);
@@ -146,13 +146,13 @@ public class MarketWorkerRole extends Role implements MarketWorker {
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		((MarketWorkerGui)gui).DoGoToHomePosition();
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 
 	}

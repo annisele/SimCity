@@ -26,6 +26,7 @@ public class RestaurantFourSystem extends SimSystem {
 	private RestaurantFourHost host;
 	private List<RestaurantWaiter> waiters = Collections.synchronizedList(new ArrayList<RestaurantWaiter>());
 	private List<RestaurantFourTable> tables = Collections.synchronizedList(new ArrayList<RestaurantFourTable>());
+	private RestaurantFourMenu menu;
 	
 	public static final int NUMBER_TABLES = 3;
 	
@@ -36,6 +37,7 @@ public class RestaurantFourSystem extends SimSystem {
 		for (int i = 1; i <= NUMBER_TABLES; i++) {
 			tables.add(new RestaurantFourTable(i));
 		}
+		menu = new RestaurantFourMenu();
 	}
 
 	// Accessors //////////////////////////////////////////////////////////////////////////
@@ -54,6 +56,10 @@ public class RestaurantFourSystem extends SimSystem {
 	
 	public List getTablesList() {
 		return tables;
+	}
+	
+	public RestaurantFourMenu getMenu() {
+		return menu;
 	}
 	
 	// Functions //////////////////////////////////////////////////////////////////////////

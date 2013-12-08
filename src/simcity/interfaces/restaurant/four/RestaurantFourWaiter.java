@@ -2,8 +2,9 @@ package simcity.interfaces.restaurant.four;
 
 import simcity.PersonAgent;
 import simcity.SimSystem;
-import simcity.buildings.restaurant.four.RestaurantFourWaiterRole.Status;
+import simcity.buildings.restaurant.four.RestaurantFourMenu;
 import simcity.buildings.restaurant.four.RestaurantFourSystem;
+import simcity.buildings.restaurant.four.RestaurantFourWaiterRole.Status;
 import simcity.interfaces.GuiPartner;
 
 public interface RestaurantFourWaiter extends GuiPartner {
@@ -19,7 +20,7 @@ public interface RestaurantFourWaiter extends GuiPartner {
 		// Messages
 		public abstract void msgGotToWork();
 		public abstract void msgStartWorking();
-		public abstract void msgSeatCustomerAtTable(RestaurantFourCustomer customer, int tableNumber);
+		public abstract void msgSeatCustomerAtTable(RestaurantFourCustomer customer, int tableNumber, RestaurantFourMenu menu);
 		
 		// Utilities
 		public abstract void exitBuilding();

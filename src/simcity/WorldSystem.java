@@ -1,8 +1,8 @@
 package simcity;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import simcity.gui.AnimationPanel;
 import simcity.gui.SimCityGui;
 import simcity.gui.WorldAnimationPanel;
 

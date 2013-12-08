@@ -6,9 +6,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
 import java.util.concurrent.Semaphore;
+
 import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
+
 import simcity.gui.restaurantthree.RestaurantThreeHostGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
@@ -19,15 +21,15 @@ import simcity.interfaces.restaurant.three.RestaurantThreeWaiter;
 import simcity.test.mock.EventLog;
 
 /**
- * Restaurant Three Waiter Role
+ * Restaurant Three Host Role
  * @author Levonne Key
  *
  */
 public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost {
 	private Timer timer = new Timer();
 	private int numTable = 3;
-	int tablesOccupiedCounter;
-	int waiterAvailable = 0;
+	//int tablesOccupiedCounter;
+	//int waiterAvailable = 0;
 	private int nextWaiter = 0;
 	public enum HostState {informed, uninformed};
 	public  EventLog log = new EventLog();
@@ -43,19 +45,16 @@ public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost
 	private class Table {
 		RestaurantThreeCustomer occupiedBy;
 		int tableNumber;
-		boolean occupied;
 		
 		Table(int tableNumber) {
 			this.tableNumber = tableNumber;
-			this.occupied = false;
+			
 		}
 
 		void setOccupant(RestaurantThreeCustomer cust) {
 			occupiedBy = cust;
 		}
-		RestaurantThreeCustomer getOccupant() {
-			return occupiedBy;
-		}
+		
 		void setUnoccupied() {
 			occupiedBy = null;
 		}
@@ -94,31 +93,30 @@ public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost
 	public void atDestination() {
 		atDest.release();
 	}
-	
+	public void msgAddWaiter(RestaurantThreeWaiter waiter) {
+		waiters.add(new MyWaiter(waiter));
+		stateChanged();
+	}
 	public void msgIWantFood(RestaurantThreeCustomer cust) {
-		AlertLog.getInstance().logMessage(AlertTag.valueOf(system.getName()), "RestaurantHost: " + person.getName(), "A customer has arrived!");
-		//checking for unoccupied tables
+		//if there is free table
 		for (Table table : tables) {
 			if (!table.isOccupied()) {
 				waitingCustomers.add(cust);
-				Do("Assigning a waiter to customer.");
+				AlertLog.getInstance().logMessage(AlertTag.valueOf(system.getName()), "Restaurant 3 Host: " + person.getName(), "Assigning customer to waiter.");
 				stateChanged();
 				return;
 			}
 		}
 		//no free tables
-		Do("Alerting customer that restaurant is full.");
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(system.getName()), "Restaurant 3 Host: " + person.getName(), "Alerting customer that restaurant is full.");
 		cust.msgRestaurantFull();
 	}
 
 
 	@Override
 	public boolean pickAndExecuteAnAction() {
-		synchronized(waitingCustomers)
-    	{
-    		synchronized(waiters)
-    		{
 		
+		/*
 		for (Table table : tables) {
 			if (!table.isOccupied()) {
 				if (!waitingCustomers.isEmpty() && !waiters.isEmpty()) {
@@ -136,22 +134,48 @@ public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost
 			return true;
 		
 		}
-    		}
-    	}
+    		*/
+
+		if(waiters.size() > 0) {
+			synchronized(tables) {
+				for (Table table : tables) {
+					if (!table.isOccupied()) {
+						if (!waitingCustomers.isEmpty()) {
+							if(nextWaiter + 1 >= waiters.size()) {
+								nextWaiter = 0;
+							}
+							else {
+								nextWaiter++;
+							}
+							//find waiter that's not on break
+							while(waiters.get(nextWaiter % waiters.size()).waiterState != WaiterState.work) {
+								nextWaiter++;
+							}
+							RestaurantThreeWaiter w = waiters.get(nextWaiter % waiters.size()).waiter;
+							table.setOccupant(waitingCustomers.get(0));
+							w.msgPleaseSeatCustomer(waitingCustomers.get(0), table.tableNumber);
+							//index increments through waiters list, then wraps to front
+
+							waitingCustomers.remove(waitingCustomers.get(0));
+							return true;//return true to the abstract agent to reinvoke the scheduler.
+						}
+
+					}
+				}
+			}
+
+		}
+
+
 		return false;
 	}
 
 
-	private void getWaiterSeatCustomer(MyWaiter myWaiter,
-			RestaurantThreeCustomer restaurantThreeCustomer, Table table) {
-		// TODO Auto-generated method stub
-		
-	}
 
 
 	@Override
 	public void exitBuilding() {
-		AlertLog.getInstance().logMessage(AlertTag.valueOf(system.getName()), "Restaurant Three Host: " + person.getName(), "Leaving restaurant three");	
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(system.getName()), "Restaurant 3 Host: " + person.getName(), "Leaving restaurant three");	
 		gui.DoExitBuilding();
 		try {
 			atDest.acquire();
@@ -166,63 +190,23 @@ public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost
 	@Override
 	public void enterBuilding(SimSystem s) {
 		system = (RestaurantThreeSystem)s;
-		AlertLog.getInstance().logMessage(AlertTag.valueOf(system.getName()), "RestaurantThreeHost: " + person.getName(), "Ready to work at the restaurant!");
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(system.getName()), "Restaurant 3 Host: " + person.getName(), "Ready to work at the restaurant!");
 		
 		((RestaurantThreeHostGui) gui).DoGoToStand();
 		
 	}
 
 
+
+
+	
 	@Override
-	public PersonAgent getPerson() {
+	public int getWaitingCustomers() {
 		// TODO Auto-generated method stub
-		return person;
-	}
-
-
-	@Override
-	public void setPerson(PersonAgent person) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public RestaurantThreeSystem getSystem() {
-		// TODO Auto-generated method stub
-		return system;
-	}
-
-
-	@Override
-	public void setSystem(RestaurantThreeSystem resSystem) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public List getWaitersList() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	@Override
-	public void msgGotToWork() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public List getWaitingCustomer() {
-		return waitingCustomers;
-	}
-	@Override
-	public int numWaitingCustomers() {
-		// TODO Auto-generated method stub
-		return 0;
+		return waitingCustomers.size();
 	}
 	public String getName() {
 		return person.getName();
 	}
+
 }

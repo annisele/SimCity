@@ -61,6 +61,9 @@ public class SystemManager {
 		for (BusGui b : busGuis) {
 			b.clear();
 		}
+		for (PersonAgent p : people) {
+			p.clear();
+		}
 		world.clear();
 		world.getAnimationPanel().clear();
 		world.simCityGui.clearTracePanels();
@@ -106,6 +109,12 @@ public class SystemManager {
 		dir.makeBusStops2();
 	}
 	
+	public void setBackgroundThree() {
+		WorldAnimationPanel w = (WorldAnimationPanel)world.getAnimationPanel();
+		w.setBackgroundThree();
+		dir.makeBusStops2();
+	}
+	
 	public void addPerson(String name) {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());
@@ -119,6 +128,11 @@ public class SystemManager {
 		if(name.equalsIgnoreCase("Hungry Jenny") || name.equalsIgnoreCase("Hungry Clayton")) {
 			person.scheduleEvent(EventType.EatAtRestaurant);
 		}
+		if (name.equalsIgnoreCase("Hungry Harry")||name.equalsIgnoreCase("Hungry Aaron")) {
+			
+			person.goToRestaurantThreeNow();
+		}
+		
 		if(name.equalsIgnoreCase("Josh")) {
 			person.busToMarketNow();
 		}
@@ -132,6 +146,8 @@ public class SystemManager {
 		
 			person.goToRestaurantTwoNow();
 		}
+		
+		
 		if (name.equalsIgnoreCase("Gus Fring") || name.equalsIgnoreCase("Ted Benacke") || name .equalsIgnoreCase("jack")) {
 			person.goToRestaurantOneNow();
 		}
@@ -215,8 +231,17 @@ public class SystemManager {
 		dir.add(name, EntryType.Restaurant, loc, temp);
 	}
 	
-	public void addRestaurantThree() {
-		restaurantThrees.add(new RestaurantThreeSystem(simcity));
+	public void addRestaurantThree(String name, int xLoc, int yLoc) {
+		RestaurantThreeSystem temp = new RestaurantThreeSystem(simcity);
+		temp.setName(name);
+		restaurantThrees.add(temp);
+		BuildingGui building = new BuildingGui(temp, "RestaurantThree", xLoc, yLoc);
+		world.getAnimationPanel().addBuilding(building);
+		Location loc = new Location(xLoc, yLoc);
+		
+		dir.add(name, EntryType.Restaurant, loc, temp);
+		
+		
 	}
 	
 	public void addRestaurantFour() {
@@ -227,7 +252,6 @@ public class SystemManager {
 		RestaurantFiveSystem temp = new RestaurantFiveSystem(simcity);
 		temp.setName(name);
 		restaurantFives.add(temp);
-		
 		BuildingGui b = new BuildingGui(temp, "RestaurantFive", x, y);
 		world.getAnimationPanel().addBuilding(b);
 		Location location = new Location(x, y);
@@ -408,6 +432,14 @@ public class SystemManager {
 		person.startThread();
 	}	
 	
+	public void addRestaurantOneCustomer(String name, String rest) {
+		PersonAgent person = new PersonAgent(name);
+		world.getAnimationPanel().addGui(person.getIdleGui());
+		Role r1customer = new RestaurantOneCustomerRole(person);
+		person.addWork(r1customer, rest);
+		people.add(person);
+		person.startThread();
+	}
 	
 	/*************** END OF RESTAURANT ONE FUNCTIONS ***********/
 	
@@ -460,6 +492,45 @@ public class SystemManager {
 		restaurantTwos.get(0).hackr2();
 		
 	}
+/*************** RESTAURANT THREE FUNCTIONS *******************/
+	
+	public void addRestaurantThreeHost(String name, String rest) {
+		PersonAgent person = new PersonAgent(name);
+		world.getAnimationPanel().addGui(person.getIdleGui());
+		Role r3Host = new RestaurantThreeHostRole(person);
+		person.addWork(r3Host, rest);
+		people.add(person);
+		person.startThread();
+	}
+	
+	public void addRestaurantThreeCashier(String name, String rest) {
+		PersonAgent person = new PersonAgent(name);
+		world.getAnimationPanel().addGui(person.getIdleGui());
+		Role r3Cashier = new RestaurantThreeCashierRole(person);
+		person.addWork(r3Cashier, rest);
+		people.add(person);
+		person.startThread();
+	}
+	public void addRestaurantThreeWaiter(String name, String rest) {
+		PersonAgent person = new PersonAgent(name);
+		world.getAnimationPanel().addGui(person.getIdleGui());
+		Role r3Waiter = new RestaurantThreeWaiterRole(person);
+		person.addWork(r3Waiter, rest);
+		people.add(person);
+		person.startThread();
+	}
+
+	public void addRestaurantThreeCook(String name, String rest) {
+		PersonAgent person = new PersonAgent(name);
+		world.getAnimationPanel().addGui(person.getIdleGui());
+		Role r3Cook = new RestaurantThreeCookRole(person);
+		person.addWork(r3Cook, rest);
+		people.add(person);
+		person.startThread();
+	}
+	
+	/**************** End of Restaurant Three functions ***************/
+	
 	
 	/*************** RESTAURANT FIVE FUNCTIONS *******************/
 	

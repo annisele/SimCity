@@ -11,8 +11,7 @@ import java.util.concurrent.Semaphore;
 import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
-import simcity.buildings.restaurant.five.RestaurantFiveCustomerRole.AgentEvent;
-import simcity.gui.restaurantfive.RestaurantFiveCustomerGui;
+
 import simcity.gui.restaurantthree.RestaurantThreeCustomerGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
@@ -35,7 +34,7 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
 	private CustomerState state = CustomerState.DoingNothing;//The start state
 
 	public enum CustomerEvent 
-	{none, gotHungry, seated, stayOrLeave, decidedChoice, waiterToTakeOrder, served, finishedEating,checkReceived, notWaiting, keepWaiting, doneLeaving, needReorder, leaveBecauseOfNoMoney, payNextTime, requestReorder};
+	{none, wait, gotHungry, seated, stayOrLeave, decidedChoice, waiterToTakeOrder, served, finishedEating,checkReceived, notWaiting, keepWaiting, doneLeaving, needReorder, leaveBecauseOfNoMoney, payNextTime, requestReorder};
 	CustomerEvent event = CustomerEvent.none;
 	
 	private Semaphore atDest = new Semaphore(0, true);
@@ -64,7 +63,7 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			
 		}
 		restaurantThreeSystem.exitBuilding(this);
 		person.roleFinished();	
@@ -73,20 +72,20 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
 	@Override
 	public void enterBuilding(SimSystem s) {
 		rest = (RestaurantThreeSystem)s;
-		bh = rest.getRestaurantThreeHost();
-		//msgArrivedAtBank();
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(rest.getName()), "Restaurant 3 Customer: " + person.getName(), "I've arrived at restaurant 3");	
-
-		int n = rest. getRestaurantThreeHost().numWaitingCustomers();
-		((RestaurantThreeCustomerGui) gui).DoGoToHost();
+		rest.getRestaurantThreeHost().msgIWantFood(this);
+		int n = rest. getRestaurantThreeHost().getWaitingCustomers();
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(rest.getName()), "Restaurant 3 Customer: " + person.getName(), "Num waiting customers: " + n);
+		
+		((RestaurantThreeCustomerGui) gui).DoGoToHost(n);
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			
 		}
 		
 		event = CustomerEvent.gotHungry;
-		rest.getRestaurantThreeHost().msgIWantFood(this);
+		
 
 		stateChanged();
 	}
@@ -107,8 +106,8 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
 	}
 	@Override
 	public void msgRestaurantFull() {
-		// TODO Auto-generated method stub
-		
+		event = CustomerEvent.wait;
+		stateChanged();
 	}
 	
 }

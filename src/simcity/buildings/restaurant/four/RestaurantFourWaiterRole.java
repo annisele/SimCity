@@ -28,6 +28,7 @@ public class RestaurantFourWaiterRole extends Role implements RestaurantFourWait
 	
 	private RestaurantFourSystem restaurantFourSystem;
 	private List<MyCustomer> customers = Collections.synchronizedList(new ArrayList<MyCustomer>());
+	private RestaurantFourMenu menu;
 	
 	public enum Status {none, waitingAtRestaurant, waitingForConfirmation, confirmed, working};
 	private Status status = Status.none;
@@ -58,6 +59,14 @@ public class RestaurantFourWaiterRole extends Role implements RestaurantFourWait
 		this.restaurantFourSystem = restaurantFourSystem;
 	}
 	
+	public RestaurantFourMenu getMenu() {
+		return menu;
+	}
+	
+	public void setMenu(RestaurantFourMenu menu) {
+		this.menu = menu;
+	}
+	
 	public Status getStatus() {
 		return status;
 	}
@@ -82,7 +91,7 @@ public class RestaurantFourWaiterRole extends Role implements RestaurantFourWait
 		stateChanged();
 	}
 	
-	public void msgSeatCustomerAtTable(RestaurantFourCustomer customer, int tableNumber) {
+	public void msgSeatCustomerAtTable(RestaurantFourCustomer customer, int tableNumber, RestaurantFourMenu menu) {
 		customers.add(new MyCustomer(customer, tableNumber));
 		stateChanged();
 	}

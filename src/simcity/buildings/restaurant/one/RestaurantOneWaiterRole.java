@@ -10,8 +10,13 @@ import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
 import simcity.buildings.restaurant.one.RestaurantOneCheck.CheckState;
+import simcity.buildings.restaurant.six.RestaurantSixSystem;
 import simcity.gui.Gui;
+import simcity.gui.restaurantfive.RestaurantFiveWaiterGui;
 import simcity.gui.restaurantone.RestaurantOneWaiterGui;
+import simcity.gui.restaurantsix.RestaurantSixHostGui;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.restaurant.one.RestaurantOneCustomer;
 
 public class RestaurantOneWaiterRole extends Role implements simcity.interfaces.restaurant.one.RestaurantOneWaiter{
@@ -19,6 +24,7 @@ public class RestaurantOneWaiterRole extends Role implements simcity.interfaces.
       public Semaphore DeliverFood = new Semaphore(0, true);
       public Semaphore takeOrder = new Semaphore(0, true);
       public Semaphore atCook = new Semaphore(0, true);
+      private RestaurantOneSystem restaurant;
       
       boolean FreeCustomers = false;
       boolean Asked = false;
@@ -50,7 +56,6 @@ public class RestaurantOneWaiterRole extends Role implements simcity.interfaces.
       
       
 
-      public RestaurantOneWaiterGui waiterGui = null;
       private RestaurantOneCookRole cook;
       private RestaurantOneHostRole host;
 
@@ -76,6 +81,7 @@ public class RestaurantOneWaiterRole extends Role implements simcity.interfaces.
               super();
               this.person = p;
               this.name = p.getName();
+              this.gui = new RestaurantOneWaiterGui(this);
       }
       
       public void Setcashier(RestaurantOneCashierRole cashier) {
@@ -312,7 +318,7 @@ public class RestaurantOneWaiterRole extends Role implements simcity.interfaces.
                               try {
                               for (MyCustomer mc : customers) {
                                       if (mc.s == CustomerState.FINISHED) {
-                                              waiterGui.DoLeaveCustomer();
+                                    	  ((RestaurantOneWaiterGui)gui).DoLeaveCustomer();
                                       }
                               }
                               } catch(ConcurrentModificationException e) {
@@ -360,7 +366,7 @@ public class RestaurantOneWaiterRole extends Role implements simcity.interfaces.
                       }
               
               else if (OnBreak) {
-                      waiterGui.putOffBreak();  
+            	  ((RestaurantOneWaiterGui)gui).putOffBreak();  
                       offDuty.drainPermits();
                       try {
                               offDuty.acquire();
@@ -409,7 +415,7 @@ public class RestaurantOneWaiterRole extends Role implements simcity.interfaces.
 
               if ((!FreeCustomers) && (FreeOrders.size() == 0))
               {
-                      waiterGui.DoLeaveCustomer();
+            	  ((RestaurantOneWaiterGui)gui).DoLeaveCustomer();
                       leftCustomer.drainPermits();
                       
                       try {
@@ -430,7 +436,7 @@ public class RestaurantOneWaiterRole extends Role implements simcity.interfaces.
 
       private void GetOrder(MyCustomer c){
               //print("Taking the order of " + c.cagent + " at " + c.tnumber);
-              waiterGui.DoGoToTable(c.tnumber); 
+              ((RestaurantOneWaiterGui)gui).DoGoToTable(c.tnumber); 
               atTable.drainPermits();
               
               try {
@@ -446,7 +452,7 @@ public class RestaurantOneWaiterRole extends Role implements simcity.interfaces.
       }
       
       private void TellCustomerOutofStock(MyCustomer mc) {
-              waiterGui.DoGoToTable(mc.tnumber); 
+    	  ((RestaurantOneWaiterGui)gui).DoGoToTable(mc.tnumber); 
               atTable.drainPermits();
               
               try {
@@ -472,7 +478,7 @@ public class RestaurantOneWaiterRole extends Role implements simcity.interfaces.
                               if (mc.s != CustomerState.FINISHED)
                               {
                               if (FreeOrders.get(0).table == mc.tnumber) {
-                                              waiterGui.DoGoToCook();                
+                            	  ((RestaurantOneWaiterGui)gui).DoGoToCook();                
                                       //        atCook.drainPermits();    //CHECK THIS LINE IF NOT WORKING
                                               
                                               
@@ -482,8 +488,8 @@ public class RestaurantOneWaiterRole extends Role implements simcity.interfaces.
                                                       // TODO Auto-generated catch block
                                                       e.printStackTrace();
                                               }
-                                              waiterGui.GetFood(mc.choice, mc.tnumber);
-                                              waiterGui.DoGoToTable(mc.tnumber); 
+                              ((RestaurantOneWaiterGui)gui).GetFood(mc.choice, mc.tnumber);
+                              ((RestaurantOneWaiterGui)gui).DoGoToTable(mc.tnumber); 
                                               atTable.drainPermits();
                                               
                                               try {
@@ -494,7 +500,7 @@ public class RestaurantOneWaiterRole extends Role implements simcity.interfaces.
                                               }
                                               
                                               DeliverFood.drainPermits();
-                                              waiterGui.DoDeliverFood(mc.tnumber, mc.choice, mc.cagent.getGui());
+                                              ((RestaurantOneWaiterGui)gui).DoDeliverFood(mc.tnumber, mc.choice, mc.cagent.getGui());
                                               try {
                                                       DeliverFood.acquire(); 
                                               } catch (InterruptedException e) {
@@ -505,7 +511,7 @@ public class RestaurantOneWaiterRole extends Role implements simcity.interfaces.
                                               FreeOrders.remove(0);
                                              // print("Gave the food to the seated customer");
                                               mc.s = CustomerState.eating;
-                                              waiterGui.DoLeaveCustomer();
+                                              ((RestaurantOneWaiterGui)gui).DoLeaveCustomer();
 
                                       }
                               }
@@ -516,7 +522,7 @@ public class RestaurantOneWaiterRole extends Role implements simcity.interfaces.
       
       private void GiveCookOrder(MyCustomer c){
               atCook.drainPermits();
-              waiterGui.DoGoToCook();        
+              ((RestaurantOneWaiterGui)gui).DoGoToCook();        
               c.s = CustomerState.orderGiven;
               try {
                       atCook.acquire();
@@ -530,19 +536,19 @@ public class RestaurantOneWaiterRole extends Role implements simcity.interfaces.
       private void DoSeatCustomer(RestaurantOneCustomerRole cagent, int tableNumber) {
               //Notice how we print "customer" directly. It's toString method will do it.
               //Same with "table"
-              waiterGui.DoBringToTable(cagent.getGui(), tableNumber); 
+    	  ((RestaurantOneWaiterGui)gui).DoBringToTable(cagent.getGui(), tableNumber); 
               //print("Seating customer " + customer.getName());
       }
 
       private void prepareCheck(MyCustomer customer) {
             //  print("Preparing bill for Customer");
               customer.s = CustomerState.FINISHED;
-              waiterGui.DoClearTable(customer.tnumber);
+              ((RestaurantOneWaiterGui)gui).DoClearTable(customer.tnumber);
               cashagent.msgHereIsorder(customer.choice, customer.tnumber, customer.cagent, this); 
       }
 
       private void DoDeliverCheck(RestaurantOneCheck c) {
-              waiterGui.DoGoToTable(c.tablenum); 
+    	  ((RestaurantOneWaiterGui)gui).DoGoToTable(c.tablenum); 
               atTable.drainPermits();
               try {
                       atTable.acquire(); 
@@ -564,12 +570,12 @@ public class RestaurantOneWaiterRole extends Role implements simcity.interfaces.
       }
 
 
-      public void setGui(RestaurantOneWaiterGui gui) {
-              waiterGui = gui;
+      public void setGui(RestaurantOneWaiterGui wgui) {
+              gui = gui;
       }
 
       public RestaurantOneWaiterGui getGui() {
-              return waiterGui;
+              return this.getGui();
       } 
 
 	@Override
@@ -580,11 +586,13 @@ public class RestaurantOneWaiterRole extends Role implements simcity.interfaces.
 
 	@Override
 	public void enterBuilding(SimSystem s) {
-		// TODO Auto-generated method stub
-		
+		restaurant = (RestaurantOneSystem)s;
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantOneWaiter: " + person.getName(), "Ready to work at the restaurant!");
+
+
+		((RestaurantOneWaiterGui) gui).DoGoToHome();
+
+
 	}
-
-
-
 } 
 

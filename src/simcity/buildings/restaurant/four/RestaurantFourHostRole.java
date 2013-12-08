@@ -7,6 +7,7 @@ import java.util.List;
 import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
+import simcity.gui.restaurantfour.RestaurantFourHostGui;
 import simcity.interfaces.restaurant.four.RestaurantFourCustomer;
 import simcity.interfaces.restaurant.four.RestaurantFourHost;
 import simcity.interfaces.restaurant.four.RestaurantFourWaiter;
@@ -37,6 +38,7 @@ public class RestaurantFourHostRole extends Role implements RestaurantFourHost {
 	
 	public RestaurantFourHostRole(PersonAgent person) {
 		this.person = person;
+		this.gui = new RestaurantFourHostGui(this);
 	}
 	
 	// Accessors //////////////////////////////////////////////////////////////////////////
@@ -161,7 +163,7 @@ public class RestaurantFourHostRole extends Role implements RestaurantFourHost {
 	
 	// Animation DoXYZ()
 	private void DoGoToHostStation() {
-		
+		((RestaurantFourHostGui) gui).DoGoToHostStation();
 	}
 	
 	// Utilities //////////////////////////////////////////////////////////////////////////

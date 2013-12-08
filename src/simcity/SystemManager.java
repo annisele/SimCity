@@ -61,6 +61,9 @@ public class SystemManager {
 		for (BusGui b : busGuis) {
 			b.clear();
 		}
+		for (PersonAgent p : people) {
+			p.clear();
+		}
 		world.clear();
 		world.getAnimationPanel().clear();
 		world.simCityGui.clearTracePanels();

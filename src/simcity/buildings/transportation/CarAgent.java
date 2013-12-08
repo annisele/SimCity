@@ -9,7 +9,7 @@ import simcity.gui.transportation.CarGui;
 import agent.Agent;
 
 public class CarAgent extends Role implements simcity.interfaces.transportation.Car {
- CarPassengerRole passenger;
+	CarPassengerRole passenger;
 	Location destination;
 	CarGui cargui;
 	public Semaphore atDestination = new Semaphore(0, true);
@@ -43,7 +43,7 @@ public class CarAgent extends Role implements simcity.interfaces.transportation.
 		try {
 			atDestination.acquire();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		} 
 		//UNCOMMENT LINE OF CODE BELOW ONCE MOST ERRORS BE FIXED. ARRR
 	//	passenger.msgWeHaveArrived(destination.xLoc, destination.yLoc);

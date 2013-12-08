@@ -17,7 +17,10 @@ import simcity.buildings.restaurant.five.RestaurantFiveCustomerRole;
 import simcity.buildings.restaurant.five.RestaurantFiveSystem;
 import simcity.buildings.restaurant.four.RestaurantFourCustomerRole;
 import simcity.buildings.restaurant.one.RestaurantOneSystem;
+import simcity.buildings.restaurant.one.RestaurantOneCustomerRole;
+import simcity.buildings.restaurant.six.RestaurantSixCustomerRole;
 import simcity.buildings.restaurant.three.RestaurantThreeCustomerRole;
+import simcity.buildings.restaurant.three.RestaurantThreeSystem;
 import simcity.buildings.restaurant.two.RestaurantTwoCustomerRole;
 import simcity.buildings.restaurant.two.RestaurantTwoSystem;
 import simcity.buildings.transportation.BusAgent;
@@ -28,10 +31,11 @@ import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
 import simcity.interfaces.Person;
 import simcity.interfaces.bank.BankCustomer;
-import simcity.interfaces.house.HouseInhabitant;
 import simcity.interfaces.market.MarketCustomer;
 import simcity.interfaces.restaurant.five.RestaurantFiveCustomer;
 import simcity.interfaces.restaurant.one.RestaurantOneCustomer;
+
+import simcity.interfaces.restaurant.three.RestaurantThreeCustomer;
 import simcity.interfaces.restaurant.two.RestaurantTwoCustomer;
 import simcity.interfaces.transportation.Pedestrian;
 import agent.Agent;
@@ -81,7 +85,7 @@ public class PersonAgent extends Agent implements Person {
 		BankCustomerRole b = new BankCustomerRole(this);
 
 		BusPassengerRole bp = new BusPassengerRole(this);
-		//RestaurantOneCustomerRole r1 = new RestaurantOneCustomerRole(this);
+		RestaurantOneCustomerRole r1 = new RestaurantOneCustomerRole(this);
 		RestaurantTwoCustomerRole r2 = new RestaurantTwoCustomerRole(this);
 		RestaurantThreeCustomerRole r3 = new RestaurantThreeCustomerRole(this);
 		RestaurantFourCustomerRole r4 = new RestaurantFourCustomerRole(this);
@@ -92,10 +96,12 @@ public class PersonAgent extends Agent implements Person {
 		myRoles.add(m);
 		myRoles.add(b);
 		myRoles.add(bp);
-		//myRoles.add(r2);
+		
 		myRoles.add(r2);
-		myRoles.add(r5);
+		myRoles.add(r3);
 		myRoles.add(r4);
+		myRoles.add(r5);
+		
 		
 		//random money generator between and 25
 
@@ -362,15 +368,16 @@ public class PersonAgent extends Agent implements Person {
 			steps.add(new Step("enterBuilding", this));
 			int workTime;
 			if (Clock.getTime() < 48) {
-				workTime = Clock.getTime()+(Clock.getHour()*3);
+				workTime = Clock.getTime()+(Clock.getHour()*4);
 			} else {
-				workTime = Clock.getTime()+(Clock.getHour()*3);
+				workTime = Clock.getTime()+(Clock.getHour()*4);
 			}
 			if (home == null || home.equals("")) {
 				workTime = Clock.getTime();
 			}
 			e = new Event(workBuilding, workRole, Clock.getHour()*6, workTime, false, steps, t);
 			//Do("GoToWork is scheduled, which has "+steps.size()+" steps");
+			System.out.println("Work");
 			insertEvent(e);
 			stateChanged();
 		}
@@ -400,6 +407,7 @@ public class PersonAgent extends Agent implements Person {
 			//sleepTime = Clock.getTime() + 99999;
 			e = new Event(home, house, sleepDuration, sleepTime, false, steps, t);
 			AlertLog.getInstance().logDebug(AlertTag.WORLD, "Person: "+getName(), "I'm going to sleep at "+Clock.getDebugTime(sleepTime)+" and it's currently "+Clock.getTime());						
+			System.out.println("Sleep");
 
 			insertEvent(e);
 			stateChanged();
@@ -457,8 +465,15 @@ public class PersonAgent extends Agent implements Person {
 						eventR = r;
 					}
 				}
-				((RestaurantOneCustomer)eventR).msgArrivedAtRestaurant(money);	
+				((RestaurantOneCustomer)eventR).msgArrivedAtRestaurant(money);	 }
+			else if(Directory.getSystem(buildingName) instanceof RestaurantThreeSystem) {
+				for(Role r : myRoles) {
+					if(r instanceof RestaurantThreeCustomer) {
+						eventR = r;
+					}
+				}
 			}
+			
 
 			
 			e = new Event(buildingName, eventR, TWOHOURS, -1, true, steps, t);
@@ -928,11 +943,13 @@ public class PersonAgent extends Agent implements Person {
 	}
 
 	public void clear() {
+		System.out.println("A person is being cleared");
 		for (Role r : myRoles) {
 			r.clear();
 		}
 		timer.cancel();
 		timer.purge();
+		super.stopThread();
 	}
 
 	public void setBus(BusAgent b) {

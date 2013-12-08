@@ -59,7 +59,7 @@ public class PedestrianRole extends Role implements simcity.interfaces.transport
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		 
 	}

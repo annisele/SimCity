@@ -13,7 +13,7 @@ public class RestaurantThreeCustomerGui extends Gui {
 		
 	private final int CORRIDOR_X = 15;
 	private final int CORRIDOR_Y = 85;
-			;
+	private final int HOST_OFFSET = 50;
 	private final int WINDOW1_X = 105;
 	private final int WINDOW1_Y = 103;
 	
@@ -37,7 +37,7 @@ public class RestaurantThreeCustomerGui extends Gui {
 	public void draw(Graphics2D g) {
 		g.drawImage(img,getX(), getY(), null);
 	}
-	public void DoGoToHost() {
-		DoGoToLocation(HOST_X, HOST_Y);
+	public void DoGoToHost(int n) {
+		DoGoToLocation(WINDOW1_X + (HOST_OFFSET * n), WINDOW1_Y);
 	}
 }

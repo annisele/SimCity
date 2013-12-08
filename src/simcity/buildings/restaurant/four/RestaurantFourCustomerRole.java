@@ -109,11 +109,13 @@ public class RestaurantFourCustomerRole extends Role implements RestaurantFourCu
 		if (state == State.none && event == Event.gotHungry) {
 			state = State.waitingAtRestaurant;
 			informHostOfArrival();
+			return true;
 		}
 		
 		if (state == State.waitingAtRestaurant && event == Event.metWaiter){
 			state = State.walkingToTable;
 			followWaiterToTable();
+			return true;
 		}
 		
 		return false;
@@ -132,6 +134,15 @@ public class RestaurantFourCustomerRole extends Role implements RestaurantFourCu
 	}
 	
 	private void followWaiterToTable() {
+		DoGoToTable();
+	}
+	
+	// Animation DoXYZ
+	private void DoGoToHostLocation() {
+		
+	}
+	
+	private void DoGoToTable() {
 		
 	}
 	
@@ -141,12 +152,13 @@ public class RestaurantFourCustomerRole extends Role implements RestaurantFourCu
 		// TODO Auto-generated method stub
 		
 	}
-
+	
 	@Override
 	public void enterBuilding(SimSystem s) {
 		// TODO Auto-generated method stub
 		this.restaurantFourSystem = (RestaurantFourSystem)s;
 		msgGotHungry();
+		DoGoToHostLocation();
 	}
 
 	@Override

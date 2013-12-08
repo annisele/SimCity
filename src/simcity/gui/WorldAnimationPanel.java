@@ -9,7 +9,10 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Semaphore;
+
 import astar.*;
+
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
@@ -17,7 +20,9 @@ import simcity.gui.transportation.BusGui;
 
 
 public class WorldAnimationPanel extends AnimationPanel implements ActionListener {
-	
+	static int gridX = 36; // newly added
+	static int gridY = 36; // newly added
+	Semaphore[][] grid = new Semaphore[gridX+1][gridY+1]; 
 	protected List<BusGui> busGuis = Collections.synchronizedList(new ArrayList<BusGui>());
 	    
     ImageIcon ii = new ImageIcon("res/citygui/basicroad.png");
@@ -38,6 +43,24 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
     
 	public WorldAnimationPanel() {//SimCityGui sc) {
 		super();
+
+		//intialize the semaphore grid
+		for (int i=0; i<gridX+1 ; i++)
+		    for (int j = 0; j<gridY+1; j++)
+			grid[i][j]=new Semaphore(1,true);
+		//build the animation areas
+		try {
+		    //make the 0-th row and column unavailable
+		    System.out.println("making row 0 and col 0 unavailable.");
+		    for (int i=0; i<gridY+1; i++) grid[0][0+i].acquire();
+		    for (int i=1; i<gridX+1; i++) grid[0+i][0].acquire();
+		    System.out.println("adding wait area");
+		    //restaurant.addWaitArea(2, 2, 13);
+		} catch (Exception e) {
+		    System.out.println("Unexpected exception caught in during setup:"+ e);
+		}
+
+
 	}
 	
 	@Override
@@ -77,7 +100,6 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
         for(BuildingGui b : buildingGuis) {
         	b.draw((Graphics2D)g);
         	if ((JPanel)b.getSystem().getAnimationPanel() != super.getSimCityGui().getDetailPane()) {
-        		//System.out.println("hey "+ b.getSystem()+"   "+ b.getSystem().getAnimationPanel());
         		b.getSystem().getAnimationPanel().updateGuis();
         	}
         }

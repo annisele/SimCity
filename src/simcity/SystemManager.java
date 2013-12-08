@@ -492,7 +492,8 @@ public class SystemManager {
 		restaurantTwos.get(0).hackr2();
 		
 	}
-/*************** RESTAURANT THREE FUNCTIONS *******************/
+	
+	/*************** RESTAURANT THREE FUNCTIONS *******************/
 	
 	public void addRestaurantThreeHost(String name, String rest) {
 		PersonAgent person = new PersonAgent(name);

@@ -61,7 +61,7 @@ public class PersonAgent extends Agent implements Person {
 	private Role currentRole = null;
 	private Event currentEvent = null;
 
-	public enum EventType { Eat, GoToMarket, BusToMarket, EatAtRestaurant, EatAtHome, DepositMoney, WithdrawMoney, GetALoan, PayRent, Sleep, Work };
+	public enum EventType { Eat, GoToMarket, BusToMarket, EatAtRestaurant, EatAtHome, DepositMoney, WithdrawMoney, GetALoan, PayRent, Sleep, Work, WorkNow };
 
 	private String name;
 	private double money = 10;
@@ -377,7 +377,6 @@ public class PersonAgent extends Agent implements Person {
 			}
 			e = new Event(workBuilding, workRole, Clock.getHour()*6, workTime, false, steps, t);
 			//Do("GoToWork is scheduled, which has "+steps.size()+" steps");
-			System.out.println("Work");
 			insertEvent(e);
 			stateChanged();
 		}

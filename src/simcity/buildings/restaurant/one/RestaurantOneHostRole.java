@@ -3,7 +3,10 @@ package simcity.buildings.restaurant.one;
 import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
+import simcity.buildings.restaurant.three.RestaurantThreeSystem;
 import simcity.gui.restaurantone.RestaurantOneHostGui;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.restaurant.one.RestaurantOneCustomer;
 import simcity.interfaces.restaurant.one.RestaurantOneHost;
 
@@ -13,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.concurrent.Semaphore;
 
-public class RestaurantOneHostRole extends Role {//implements simcity.interfaces.restaurant.one.RestaurantOneCustomer {
+public class RestaurantOneHostRole extends Role implements simcity.interfaces.restaurant.one.RestaurantOneCustomer {
 	static final int NTABLES = 3;//a global for the number of tables.
     //Notice that we implement waitingCustomers using ArrayList, but type it
     //with List semantics.
@@ -24,7 +27,7 @@ public class RestaurantOneHostRole extends Role {//implements simcity.interfaces
 
     private String name;
     private boolean alreadySeated = false;
-
+    public RestaurantOneSystem system = null;
     public RestaurantOneHostGui hostGui = new RestaurantOneHostGui(this);
 
     private Semaphore seatCustomer = new Semaphore(0, true);
@@ -48,8 +51,6 @@ public class RestaurantOneHostRole extends Role {//implements simcity.interfaces
     private List<MyWaiter> waiters = new ArrayList<MyWaiter>();
 
     public RestaurantOneHostRole(PersonAgent p) {
-    		
-            super();
             this.person = p;
             this.name = p.getName();
             tables = new ArrayList<Table>(NTABLES);
@@ -278,6 +279,51 @@ public class RestaurantOneHostRole extends Role {//implements simcity.interfaces
 
 	@Override
 	public void enterBuilding(SimSystem s) {
+		// TODO Auto-generated method stub
+		system = (RestaurantOneSystem)s;
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(system.getName()), "Restaurant 1 Host: " + person.getName(), "Ready to work at the restaurant!");
+
+		
+	}
+
+	@Override
+	public void msgWhatWouldYouLike() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgFollowMe(RestaurantOneMenu restaurantOneMenu) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setWaiter(RestaurantOneWaiterRole restaurantOneWaiterRole) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgFoodOutofStock() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgHereIsYourFood() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgHereisYourCheck(RestaurantOneCheck c) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgArrivedAtRestaurant(double money) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -4,6 +4,7 @@ import simcity.PersonAgent;
 import simcity.SimSystem;
 import simcity.buildings.restaurant.four.RestaurantFourSystem;
 import simcity.buildings.restaurant.four.RestaurantFourWaiterRole.Status;
+import simcity.interfaces.restaurant.four.RestaurantFourCustomer;
 import simcity.interfaces.restaurant.four.RestaurantFourWaiter;
 import simcity.test.mock.EventLog;
 import simcity.test.mock.LoggedEvent;
@@ -79,6 +80,13 @@ public class MockRestaurantFourWaiter extends Mock implements RestaurantFourWait
 	@Override
 	public void msgStartWorking() {
 		log.add(new LoggedEvent("Received msgStartWorking from host"));
+		
+	}
+
+	@Override
+	public void msgSeatCustomerAtTable(RestaurantFourCustomer customer,
+			int tableNumber) {
+		// TODO Auto-generated method stub
 		
 	}
 

@@ -155,7 +155,7 @@ public class RestaurantFourHostRole extends Role implements RestaurantFourHost {
 	private void askWaiterToSeatCustomer(RestaurantFourCustomer customer, RestaurantFourWaiter waiter, int tableNumber) {
 		restaurantFourSystem.updateTableOccupants(customer, waiter, tableNumber);
 		restaurantFourSystem.updateCustomerLoadOfWaiter(waiter);
-		waiter.msgSeatCustomerAtTable(customer, tableNumber);
+		waiter.msgSeatCustomerAtTable(customer, tableNumber, restaurantFourSystem.getMenu());
 		customers.remove(customer);
 	}
 	

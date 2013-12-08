@@ -82,4 +82,22 @@ public class MockRestaurantFourCustomer extends Mock implements RestaurantFourCu
 		
 	}
 
+	@Override
+	public int getTableNumber() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setTableNumber(int tableNumber) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgFollowMeToTable(int tableNumber) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

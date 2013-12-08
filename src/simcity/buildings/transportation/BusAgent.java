@@ -1,5 +1,6 @@
 package simcity.buildings.transportation;
 
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -203,8 +204,20 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 		msgFinishedLoading();
 			//event = BusEvent.loading; 	
 	}
+	//check to see if a point is within the rectangle
+	public boolean inside (int x, int y, Rectangle rect) {
+		return (x > rect.x && x < rect.x+rect.width) && (y > rect.y && y < rect.y + rect.height);
+	}
+	//adding this to check for hit check
+	public boolean hitCheck(int x, int y, Rectangle rect) {
+		return (x >= rect.x && x <= rect.x + rect.width) && (y >= rect.y && y <= rect.x + rect.height);
+	}
 	
-	
+	//adding this to check for collision
+	public boolean collisionCheck(Rectangle rect1, Rectangle rect2) {
+		return hitCheck(rect1.x, rect1.y, rect2) || hitCheck(rect1.x + rect1.width, rect1.y, rect2) ||
+			   hitCheck(rect1.x, rect1.y + rect1.height, rect2) || hitCheck(rect1.x + rect1.width, rect1.y + rect1.height, rect2);
+	}
 	public void DoGoTo(Location l) {
 		//Animation
 		//Wait a few Seconds

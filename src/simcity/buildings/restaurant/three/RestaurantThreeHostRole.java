@@ -183,4 +183,5 @@ public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost
 	public String getName() {
 		return person.getName();
 	}
+
 }

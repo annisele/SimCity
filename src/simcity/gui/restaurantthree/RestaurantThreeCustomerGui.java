@@ -11,11 +11,10 @@ import simcity.interfaces.restaurant.three.RestaurantThreeCustomer;
 
 public class RestaurantThreeCustomerGui extends Gui {
 		
-	private final int CORRIDOR_X = 15;
-	private final int CORRIDOR_Y = 85;
+	
 	private final int HOST_OFFSET = 50;
-	private final int WINDOW1_X = 105;
-	private final int WINDOW1_Y = 103;
+	private final int WINDOW1_X = 80;
+	private final int WINDOW1_Y = 80;
 	
 	private final int WINDOW2_X = 200;
 	private final int WINDOW2_Y = 103;

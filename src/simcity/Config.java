@@ -437,7 +437,7 @@ public class Config {
 
 		timer.schedule(new TimerTask() {
 			public void run() {
-				systems.addPerson("Hungry Aaron");
+				systems.addPerson("Hungry Harry");
 				timer.schedule(new TimerTask() {
 					public void run() {
 						systems.addRestaurantThreeWaiter("EDWARD", "RESTAURANT3");
@@ -449,7 +449,7 @@ public class Config {
 										systems.addRestaurantThreeCook("NELSON", "RESTAURANT3");
 										timer.schedule(new TimerTask() {
 											public void run() {
-												systems.addPerson("Hungry Harry");
+												systems.addPerson("Hungry Aaron");
 											}
 										}, 2000);
 									}

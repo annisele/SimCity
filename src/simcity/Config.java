@@ -127,8 +127,8 @@ public class Config {
 		systems.addMarketCashier("Mary", "MARKET1");
 		systems.setHome("Mary", "HOUSE2");
 				
-		//systems.addMarketWorker("Joe", "MARKET1");
-		//systems.setHome("Joe", "HOUSE1");
+		systems.addMarketWorker("Joe", "MARKET1");
+		systems.setHome("Joe", "HOUSE1");
 	}
 
 	public void oneHouse() {

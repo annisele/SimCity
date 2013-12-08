@@ -27,7 +27,6 @@ import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
 import simcity.interfaces.Person;
 import simcity.interfaces.bank.BankCustomer;
-import simcity.interfaces.house.HouseInhabitant;
 import simcity.interfaces.market.MarketCustomer;
 import simcity.interfaces.restaurant.five.RestaurantFiveCustomer;
 import simcity.interfaces.restaurant.two.RestaurantTwoCustomer;
@@ -360,15 +359,16 @@ public class PersonAgent extends Agent implements Person {
 			steps.add(new Step("enterBuilding", this));
 			int workTime;
 			if (Clock.getTime() < 48) {
-				workTime = Clock.getTime()+(Clock.getHour()*3);
+				workTime = Clock.getTime()+(Clock.getHour()*4);
 			} else {
-				workTime = Clock.getTime()+(Clock.getHour()*3);
+				workTime = Clock.getTime()+(Clock.getHour()*4);
 			}
 			if (home == null || home.equals("")) {
 				workTime = Clock.getTime();
 			}
 			e = new Event(workBuilding, workRole, Clock.getHour()*6, workTime, false, steps, t);
 			//Do("GoToWork is scheduled, which has "+steps.size()+" steps");
+			System.out.println("Work");
 			insertEvent(e);
 			stateChanged();
 		}
@@ -398,6 +398,7 @@ public class PersonAgent extends Agent implements Person {
 			//sleepTime = Clock.getTime() + 99999;
 			e = new Event(home, house, sleepDuration, sleepTime, false, steps, t);
 			AlertLog.getInstance().logDebug(AlertTag.WORLD, "Person: "+getName(), "I'm going to sleep at "+Clock.getDebugTime(sleepTime)+" and it's currently "+Clock.getTime());						
+			System.out.println("Sleep");
 
 			insertEvent(e);
 			stateChanged();
@@ -914,11 +915,13 @@ public class PersonAgent extends Agent implements Person {
 	}
 
 	public void clear() {
+		System.out.println("A person is being cleared");
 		for (Role r : myRoles) {
 			r.clear();
 		}
 		timer.cancel();
 		timer.purge();
+		super.stopThread();
 	}
 
 	public void setBus(BusAgent b) {

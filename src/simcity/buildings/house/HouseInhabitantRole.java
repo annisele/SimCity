@@ -11,11 +11,12 @@ import java.util.concurrent.Semaphore;
 
 import simcity.Clock;
 import simcity.PersonAgent;
+import simcity.PersonAgent.EventType;
 import simcity.Role;
 import simcity.SimSystem;
-import simcity.PersonAgent.EventType;
 import simcity.gui.house.HouseInhabitantGui;
-import simcity.gui.trace.*;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 
 public class HouseInhabitantRole extends Role implements simcity.interfaces.house.HouseInhabitant {
 

@@ -7,6 +7,9 @@ import simcity.buildings.market.MarketWorkerRole;
 
 public class Config {
 
+	private Timer timer1 = new Timer();
+	private Timer timer2 = new Timer();
+	private Timer timer3 = new Timer();
 	private Timer timer = new Timer();
 	private SystemManager systems;
 
@@ -56,46 +59,58 @@ public class Config {
 		systems.addMarketCashier("Mary", "MARKET2");
 		systems.addBus("Busta"); //Take this out if you don't want the bus here
 		systems.addMarketTruck("MARKET2");
-
-		timer.schedule(new TimerTask() {
+		
+		try {
+			timer1.cancel();
+			timer2.cancel();
+			timer1 = new Timer();
+			timer2 = new Timer();
+		} catch(Exception e) {
+		
+		}
+		timer1.schedule(new TimerTask() {
 			public void run() {
 				systems.addMarketWorker("Bob", "MARKET2");
-				timer.schedule(new TimerTask() {
-					public void run() {
-						systems.addPerson("Josh");
-					}
-				}, 2000);
 			}
 		}, 2000);
+		timer2.schedule(new TimerTask() {
+			public void run() {
+				systems.addPerson("Josh");
+			}
+		}, 4000);
+		
 		
 	}
 
 	public void oneMarket() {
 		systems.clear();
 		systems.clearDetailPane();
-
 		systems.setBackgroundOne();
 		systems.addMarket("MARKET1", 100, 100);
 		systems.addMarketCashier("Mary", "MARKET1");
 		systems.addBus("Buster"); //Take this out if you don't want the bus here
 		systems.addMarketTruck("MARKET1");
 		//systems.addPerson("Rebecca");
-		timer.schedule(new TimerTask() {
+		
+		try {
+			timer1.cancel();
+			timer2.cancel();
+			timer1 = new Timer();
+			timer2 = new Timer();
+		} catch(Exception e) {
+		
+		}
+		timer1.schedule(new TimerTask() {
 			public void run() {
 				systems.addMarketWorker("Bob", "MARKET1");
-				timer.schedule(new TimerTask() {
-					public void run() {
-						//systems.addPerson("Rebecca");
-						//systems.addMarketWorkerHack("Bill", "Market");
-						timer.schedule(new TimerTask() {
-							public void run() {
-								systems.addPerson("Rebecca");
-							}
-						}, 2000);
-					}
-				}, 2000);
 			}
-		}, 2000);
+		}, 500);
+		timer2.schedule(new TimerTask() {
+			public void run() {
+				systems.addPerson("Rebecca");
+			}
+		}, 1500);
+
 	}
 	
 	public void fullMarket() {
@@ -134,32 +149,40 @@ public class Config {
 		systems.addBank("BANK1", 100, 300);
 		systems.addBankHostHack("Kevin", "BANK1");
 		systems.addHackedBankAccount(0, 100, 0, "abcdef");
-		timer.schedule(new TimerTask(){
+		
+		try {
+			timer1.cancel();
+			timer2.cancel();
+			timer3.cancel();
+			timer1 = new Timer();
+			timer2 = new Timer();
+			timer3 = new Timer();
+		} catch(Exception e) {
+		
+		}
+		timer1.schedule(new TimerTask() {
 			public void run() {
 				systems.addBankTellerHack("Bank Teller", "BANK1");
-				timer.schedule(new TimerTask(){
-					public void run() {
-						systems.addPerson("Levonne");
-						timer.schedule(new TimerTask() {
-							public void run() {
-								//systems.addBankTellerHack("Bank Teller2", "Bank");
-								timer.schedule(new TimerTask() {
-									public void run() {
-										systems.addPerson("Levanne");
-									}
-								}, 500);
-							}
-						}, 500);
-					}
-				}, 500);
 			}
 		}, 500);
+		timer2.schedule(new TimerTask() {
+			public void run() {
+				systems.addPerson("Levonne");
+			}
+		}, 1000);
+		timer3.schedule(new TimerTask() {
+			public void run() {
+				systems.addPerson("Levanne");
+			}
+		}, 1500);
 	}
+
+		
+	
 
 	public void oneRestaurant() {
 		systems.clear();
 		systems.clearDetailPane();
-
 
 		systems.setBackgroundOne();
 		systems.addRestaurantTwo("RESTAURANT2", 300, 100);
@@ -173,9 +196,7 @@ public class Config {
 						timer.schedule(new TimerTask() {
 							public void run() {
 								systems.addRestaurantTwoWaiterHack("Waiter Bob dylan", "RESTAURANT2");
-
 								systems.addRestaurantTwoSharedDataWaiterHack("Waiter Bob dylan", "RESTAURANT2");
-
 								timer.schedule(new TimerTask() {
 									public void run() {
 										//systems.addRestaurantTwoWaiterHack("Waiter Bob dylan", "RESTAURANT2");
@@ -192,11 +213,8 @@ public class Config {
 							}
 						},1000);
 					}
-
 				},1000);
-
 			}
-
 		},1000);
 	}
 

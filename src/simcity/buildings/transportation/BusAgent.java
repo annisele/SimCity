@@ -52,6 +52,7 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 			busStops.put(1, stop2);
 			busStops.put(2, stop3);
 			busStops.put(3, stop4);
+			busStopCounter = 3;
 		}
 		else if (name == "Busta") {
 			Location stop1 = new Location(15, 108);
@@ -62,8 +63,24 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 			busStops.put(1, stop2);
 			busStops.put(2, stop3);
 			busStops.put(3, stop4);
+			busStopCounter = 3;
 		}
-		busStopCounter = 3;
+		else if (name == "Bismarck") {
+			Location stop1 = new Location(15, 30);
+			Location stop2 = new Location(190, 30);
+			Location stop3 = new Location(360, 30);
+			Location stop4 = new Location(360, 168);
+			Location stop5 = new Location(360, 280);
+			Location stop6 = new Location(168, 280);
+			busStops.put(0, stop1);
+			busStops.put(1, stop2);
+			busStops.put(2, stop3);
+			busStops.put(3, stop4);
+			busStops.put(4, stop5);
+			busStops.put(5, stop6);
+			busStopCounter = 5;
+		}
+		
 	}
 		
 	public String name;
@@ -154,7 +171,11 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 	
 	// Actions
 	public void Drive() {
+		if (this.getName().equals("Busta") || this.getName().equals("Buster")) {
 		busStopCounter = ((busStopCounter + 1) % 4);
+		}
+		else { busStopCounter = ((busStopCounter + 1) % 6);}
+			
 		DoGoTo(busStops.get(busStopCounter));
 		try {
 			atDestination.acquire();

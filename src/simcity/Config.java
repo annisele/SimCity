@@ -45,7 +45,7 @@ public class Config {
 		systems.clear();
 		systems.clearDetailPane();
 		systems.setBackgroundThree();
-		systems.addBus("Busta");
+		systems.addBus("Bismarck");
 	}
 
 	public void busToMarket() {

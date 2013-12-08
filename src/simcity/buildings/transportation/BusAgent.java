@@ -180,7 +180,7 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 		try {
 			atDestination.acquire();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		} 
 		//busStopCounter = ((busStopCounter + 1) % 4);
 		msgArrived();

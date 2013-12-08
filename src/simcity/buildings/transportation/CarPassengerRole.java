@@ -25,29 +25,29 @@ public class CarPassengerRole extends Role implements simcity.interfaces.transpo
 		stateChanged();
 	}
 	public boolean pickAndExecuteAnAction() {
-	if ((state == PassengerState.stopped) && (event == PassengerEvent.starting)) {
+		if ((state == PassengerState.stopped) && (event == PassengerEvent.starting)) {
 			state = PassengerState.driving;
 			GetIn();
 			return true;
-	}
+		}
 		if ((state == PassengerState.driving) && (event == PassengerEvent.stopping)) {
 			state = PassengerState.stopped;
 			GetOut();
 			return true;
-}
+		}
 		return false;
 	}
 	
 	public void GetIn() {
         car.msgGettingOn(this, destination);
-	// Animation
-	DoDisableGui();
-}
+		// Animation
+		DoDisableGui();
+	}
 
 	public void GetOut() {
-	car.msgGettingOff(this);
-	// Animation
-	DoRedrawAt(xLoc, yLoc); 
+		car.msgGettingOff(this);
+		// Animation
+		DoRedrawAt(xLoc, yLoc); 
 	}
 	
 	public void DoDisableGui() {

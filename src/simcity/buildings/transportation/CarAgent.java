@@ -43,7 +43,7 @@ public class CarAgent extends Role implements simcity.interfaces.transportation.
 		try {
 			atDestination.acquire();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		} 
 		//UNCOMMENT LINE OF CODE BELOW ONCE MOST ERRORS BE FIXED. ARRR
 	//	passenger.msgWeHaveArrived(destination.xLoc, destination.yLoc);

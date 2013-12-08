@@ -30,9 +30,9 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
     Image roadimage = img.getScaledInstance(388, 400,  java.awt.Image.SCALE_SMOOTH); 
     ImageIcon ii2 = new ImageIcon("res/citygui/simcitymap2.png");
     Image cityimg = ii2.getImage();
-    ImageIcon ii3 = new ImageIcon("res/citygui/trialintersections.png");
-    Image intersection = ii3.getImage();
-    Image intersectionimage = intersection.getScaledInstance(462,  453,  java.awt.Image.SCALE_SMOOTH);
+    ImageIcon ii3 = new ImageIcon("res/citygui/simcitymap3.png");
+    Image intersectionimage = ii3.getImage();
+    //Image intersectionimage = intersection.getScaledInstance(462,  453,  java.awt.Image.SCALE_SMOOTH);
     
     Image background = null;
     

@@ -298,6 +298,13 @@ public class Config {
 
 
 	}
+	
+	public void LargeCity(){
+		systems.clear();
+		systems.clearDetailPane();
+		
+		systems.setBackgroundThree();
+	}
 
 	public void oneMarketOneHouse() {
 		systems.clear();

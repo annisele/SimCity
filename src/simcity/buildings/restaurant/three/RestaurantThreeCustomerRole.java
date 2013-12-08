@@ -11,8 +11,7 @@ import java.util.concurrent.Semaphore;
 import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
-import simcity.buildings.restaurant.five.RestaurantFiveCustomerRole.AgentEvent;
-import simcity.gui.restaurantfive.RestaurantFiveCustomerGui;
+
 import simcity.gui.restaurantthree.RestaurantThreeCustomerGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
@@ -35,7 +34,7 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
 	private CustomerState state = CustomerState.DoingNothing;//The start state
 
 	public enum CustomerEvent 
-	{none, gotHungry, seated, stayOrLeave, decidedChoice, waiterToTakeOrder, served, finishedEating,checkReceived, notWaiting, keepWaiting, doneLeaving, needReorder, leaveBecauseOfNoMoney, payNextTime, requestReorder};
+	{none, wait, gotHungry, seated, stayOrLeave, decidedChoice, waiterToTakeOrder, served, finishedEating,checkReceived, notWaiting, keepWaiting, doneLeaving, needReorder, leaveBecauseOfNoMoney, payNextTime, requestReorder};
 	CustomerEvent event = CustomerEvent.none;
 	
 	private Semaphore atDest = new Semaphore(0, true);
@@ -75,7 +74,7 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
 		rest = (RestaurantThreeSystem)s;
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(rest.getName()), "Restaurant 3 Customer: " + person.getName(), "I've arrived at restaurant 3");	
 		rest.getRestaurantThreeHost().msgIWantFood(this);
-		int n = rest. getRestaurantThreeHost().numWaitingCustomers();
+		int n = rest. getRestaurantThreeHost().getWaitingCustomers();
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(rest.getName()), "Restaurant 3 Customer: " + person.getName(), "Num waiting customers: " + n);
 		
 		((RestaurantThreeCustomerGui) gui).DoGoToHost(n);
@@ -107,8 +106,8 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
 	}
 	@Override
 	public void msgRestaurantFull() {
-		// TODO Auto-generated method stub
-		
+		event = CustomerEvent.wait;
+		stateChanged();
 	}
 	
 }

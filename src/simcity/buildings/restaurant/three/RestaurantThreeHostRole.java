@@ -43,19 +43,16 @@ public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost
 	private class Table {
 		RestaurantThreeCustomer occupiedBy;
 		int tableNumber;
-		boolean occupied;
 		
 		Table(int tableNumber) {
 			this.tableNumber = tableNumber;
-			this.occupied = false;
+			
 		}
 
 		void setOccupant(RestaurantThreeCustomer cust) {
 			occupiedBy = cust;
 		}
-		RestaurantThreeCustomer getOccupant() {
-			return occupiedBy;
-		}
+		
 		void setUnoccupied() {
 			occupiedBy = null;
 		}
@@ -153,7 +150,7 @@ public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost
 
 	@Override
 	public void exitBuilding() {
-		AlertLog.getInstance().logMessage(AlertTag.valueOf(system.getName()), "Restaurant Three Host: " + person.getName(), "Leaving restaurant three");	
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(system.getName()), "Restaurant 3 Host: " + person.getName(), "Leaving restaurant three");	
 		gui.DoExitBuilding();
 		try {
 			atDest.acquire();
@@ -168,63 +165,23 @@ public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost
 	@Override
 	public void enterBuilding(SimSystem s) {
 		system = (RestaurantThreeSystem)s;
-		AlertLog.getInstance().logMessage(AlertTag.valueOf(system.getName()), "RestaurantThreeHost: " + person.getName(), "Ready to work at the restaurant!");
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(system.getName()), "Restaurant 3 Host: " + person.getName(), "Ready to work at the restaurant!");
 		
 		((RestaurantThreeHostGui) gui).DoGoToStand();
 		
 	}
 
 
+
+
+	
 	@Override
-	public PersonAgent getPerson() {
+	public int getWaitingCustomers() {
 		// TODO Auto-generated method stub
-		return person;
-	}
-
-
-	@Override
-	public void setPerson(PersonAgent person) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public RestaurantThreeSystem getSystem() {
-		// TODO Auto-generated method stub
-		return system;
-	}
-
-
-	@Override
-	public void setSystem(RestaurantThreeSystem resSystem) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public List getWaitersList() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	@Override
-	public void msgGotToWork() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public List getWaitingCustomer() {
-		return waitingCustomers;
-	}
-	@Override
-	public int numWaitingCustomers() {
-		// TODO Auto-generated method stub
-		return 0;
+		return waitingCustomers.size();
 	}
 	public String getName() {
 		return person.getName();
 	}
+
 }

@@ -128,6 +128,11 @@ public class SystemManager {
 		if(name.equalsIgnoreCase("Hungry Jenny") || name.equalsIgnoreCase("Hungry Clayton")) {
 			person.scheduleEvent(EventType.EatAtRestaurant);
 		}
+		if (name.equalsIgnoreCase("Hungry Harry")||name.equalsIgnoreCase("Hungry Aaron")) {
+			
+			person.goToRestaurantThreeNow();
+		}
+		
 		if(name.equalsIgnoreCase("Josh")) {
 			person.busToMarketNow();
 		}
@@ -141,6 +146,8 @@ public class SystemManager {
 		
 			person.goToRestaurantTwoNow();
 		}
+		
+		
 		if (name.equalsIgnoreCase("Gus Fring") || name.equalsIgnoreCase("Ted Benacke") || name .equalsIgnoreCase("jack")) {
 			person.goToRestaurantOneNow();
 		}

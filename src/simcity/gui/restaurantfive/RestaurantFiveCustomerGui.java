@@ -10,8 +10,9 @@ import simcity.interfaces.restaurant.five.RestaurantFiveCustomer;
 
 public class RestaurantFiveCustomerGui extends Gui {
 
+	private final int HOST_OFFSET = 50;
 	private final int HOST_X = 100;
-	private final int HOST_Y = 375;
+	private final int HOST_Y = 325;
 	
 	private ImageIcon ii = new ImageIcon("res/person/persondownbig.png");
 	private Image hostimage = ii.getImage();
@@ -25,8 +26,8 @@ public class RestaurantFiveCustomerGui extends Gui {
 		g.drawImage(hostimage, getX(), getY(), null);
 	}
 	
-	public void DoGoToHost() {
-		DoGoToLocation(HOST_X, HOST_Y);
+	public void DoGoToHost(int n) {
+		DoGoToLocation(HOST_X + (HOST_OFFSET * n), HOST_Y);
 	}
 	
 	

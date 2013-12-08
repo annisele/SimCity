@@ -1,5 +1,6 @@
 package simcity.buildings.restaurant.one;
 
+import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
 import simcity.gui.restaurantone.RestaurantOneHostGui;
@@ -27,6 +28,8 @@ public class RestaurantOneHostRole extends Role {//implements simcity.interfaces
     public RestaurantOneHostGui hostGui = null;
 
     private Semaphore seatCustomer = new Semaphore(0, true);
+    
+    private PersonAgent person;
 
     private class MyWaiter {
             public MyWaiter(RestaurantOneWaiterRole w, int nTables) {
@@ -44,16 +47,22 @@ public class RestaurantOneHostRole extends Role {//implements simcity.interfaces
 
     private List<MyWaiter> waiters = new ArrayList<MyWaiter>();
 
-    public RestaurantOneHostRole(String name) {
+    public RestaurantOneHostRole(PersonAgent p) {
             super();
-            this.name = name;
+            this.person = p;
+            this.name = p.getName();
             tables = new ArrayList<Table>(NTABLES);
             for (int ix = 1; ix <= NTABLES; ix++) {
                     tables.add(new Table(ix));//how you add to a collections
             }
     }
 
-    public String getName() {
+    public RestaurantOneHostRole(PersonAgent person,
+			RestaurantOneSystem restaurantOneSystem) {
+		// TODO Auto-generated constructor stub
+	}
+
+	public String getName() {
             return name;
     }
 

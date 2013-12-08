@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
+import astar.*;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
@@ -25,6 +25,10 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
     Image roadimage = img.getScaledInstance(388, 400,  java.awt.Image.SCALE_SMOOTH); 
     ImageIcon ii2 = new ImageIcon("res/citygui/simcitymap2.png");
     Image cityimg = ii2.getImage();
+    ImageIcon ii3 = new ImageIcon("res/citygui/trialintersections.png");
+    Image intersection = ii3.getImage();
+    Image intersectionimage = intersection.getScaledInstance(462,  453,  java.awt.Image.SCALE_SMOOTH);
+    
     Image background = null;
     
     private int posX = 0;
@@ -66,6 +70,9 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
 	    } else if (background == cityimg) {
 	    	g2.drawImage(background, 0, 0, null);
 	    }
+	    else if (background == intersectionimage) {
+	    	g2.drawImage(background, 0, 0, null);
+	    }
     
         for(BuildingGui b : buildingGuis) {
         	b.draw((Graphics2D)g);
@@ -102,6 +109,10 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
     
     public void setBackgroundTwo() {
     	background = cityimg;
+    }
+    
+    public void setBackgroundThree() {
+    	background = intersectionimage;
     }
     
 	public void addGui(Gui g) {

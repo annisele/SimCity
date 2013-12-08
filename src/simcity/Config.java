@@ -3,6 +3,8 @@ package simcity;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import simcity.buildings.market.MarketWorkerRole;
+
 public class Config {
 
 	private Timer timer = new Timer();
@@ -37,6 +39,13 @@ public class Config {
 		systems.addMarket("MARKET1", 123, 27);
 
 
+	}
+	
+	public void busIntersection() {
+		systems.clear();
+		systems.clearDetailPane();
+		systems.setBackgroundThree();
+		systems.addBus("Busta");
 	}
 
 	public void busToMarket() {
@@ -87,7 +96,24 @@ public class Config {
 				}, 2000);
 			}
 		}, 2000);
+	}
+	
+	public void fullMarket() {
+		systems.clear();
+		systems.clearDetailPane();
 
+		systems.setBackgroundTwo();
+		
+		systems.addMarket("MARKET1", 186, 250);
+		systems.addHouse("HOUSE1", 60, 27);
+		systems.addHouse("HOUSE2", 123, 27);
+		systems.addHouse("HOUSE3", 186, 27);
+		
+		systems.addMarketCashier("Mary", "MARKET1");
+		systems.setHome("Mary", "HOUSE2");
+				
+		//systems.addMarketWorker("Joe", "MARKET1");
+		//systems.setHome("Joe", "HOUSE1");
 	}
 
 	public void oneHouse() {
@@ -96,11 +122,8 @@ public class Config {
 
 		systems.setBackgroundOne();
 		systems.addHouse("HOUSE1", 100, 100);
-		//systems.addPerson("Homie"); // This guy will live in the house, hence his name
 		systems.addPerson("Homie");
 		systems.setHome("Homie", "HouseOne");
-
-
 	}
 
 	public void oneBank() {
@@ -372,8 +395,19 @@ public class Config {
 		systems.clearDetailPane();
 
 		systems.setBackgroundTwo();
-		//systems.addRestaurantSix("RESTAURANT6", 249, 140);
-
+		systems.addRestaurantOne("RESTAURANTONE", 249, 140);
+		systems.addRestaurantOneHost("Jack", "RESTAURANTONE");
+		timer.schedule(new TimerTask() {
+			public void run(){
+				systems.addRestaurantOneWaiter("Gus Fring", "RESTAURANTONE");
+				timer.schedule(new TimerTask () {
+					public void run() {
+						systems.addRestaurantOneCashier("Ted Benacke", "RESTAURANTONE");
+							}
+						}, 1000);
+					}
+				}, 1000);
+			
 	}
 	public void restaurantThree(){
 		systems.clear();
@@ -388,7 +422,6 @@ public class Config {
 		systems.clearDetailPane();
 
 		systems.setBackgroundTwo();
-		//systems.addRestaurantSix("RESTAURANT6", 249, 140);
 
 	}
 	//Rebecca's restaurant
@@ -401,10 +434,15 @@ public class Config {
 		systems.addRestaurantFiveHost("Sarah", "RESTAURANT5");
 		timer.schedule(new TimerTask() {
 			public void run() {
-				systems.addPerson("Five");
+				systems.addPerson("Hungry Jenny");
 				timer.schedule(new TimerTask() {
 					public void run() {
 						systems.addRestaurantFiveWaiter("Bob", "RESTAURANT5");
+						timer.schedule(new TimerTask() {
+							public void run() {
+								systems.addPerson("Hungry Clayton");
+							}
+						}, 2000);
 					}
 				}, 2000);
 			}
@@ -417,6 +455,28 @@ public class Config {
 
 		systems.setBackgroundTwo();
 		systems.addRestaurantSix("RESTAURANT6", 249, 140);
+		systems.addRestaurantSixHost("Timothy", "RESTAURANT6");
+		
+		timer.schedule(new TimerTask() {
+			public void run() {
+				//systems.addPerson("Five");
+				timer.schedule(new TimerTask() {
+					public void run() {
+						systems.addRestaurantSixWaiter("Bob", "RESTAURANT6");
+						timer.schedule(new TimerTask() {
+							public void run() {
+								systems.addRestaurantSixCashier("Charlie", "RESTAURANT6");
+								timer.schedule(new TimerTask() {
+									public void run() {
+										systems.addRestaurantSixCook("Hernando", "RESTAURANT6");
+									}
+								}, 1000);
+							}
+						}, 1000);
+					}
+				}, 2000);
+			}
+		}, 4000);
 
 	}
 

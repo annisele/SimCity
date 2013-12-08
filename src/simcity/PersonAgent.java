@@ -610,6 +610,8 @@ public class PersonAgent extends Agent implements Person {
 	}
 
 	public void enterBuilding() {
+		AlertLog.getInstance().logDebug(AlertTag.WORLD, "WORLD: " + getName(), ""+currentEvent.buildingName +" is about to be entered as role: "+currentEvent.role.toString());						
+
 		if(Directory.getSystem(currentEvent.buildingName).msgEnterBuilding(currentEvent.role)) {
 			currentRole = currentEvent.role;
 			currentRole.enterBuilding(Directory.getSystem(currentEvent.buildingName));	

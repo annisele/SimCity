@@ -17,8 +17,10 @@ import simcity.buildings.restaurant.five.RestaurantFiveCustomerRole;
 import simcity.buildings.restaurant.five.RestaurantFiveSystem;
 import simcity.buildings.restaurant.four.RestaurantFourCustomerRole;
 import simcity.buildings.restaurant.one.RestaurantOneCustomerRole;
+import simcity.buildings.restaurant.one.RestaurantOneSystem;
 import simcity.buildings.restaurant.six.RestaurantSixCustomerRole;
 import simcity.buildings.restaurant.three.RestaurantThreeCustomerRole;
+import simcity.buildings.restaurant.three.RestaurantThreeSystem;
 import simcity.buildings.restaurant.two.RestaurantTwoCustomerRole;
 import simcity.buildings.restaurant.two.RestaurantTwoSystem;
 import simcity.buildings.transportation.BusAgent;
@@ -31,6 +33,8 @@ import simcity.interfaces.Person;
 import simcity.interfaces.bank.BankCustomer;
 import simcity.interfaces.market.MarketCustomer;
 import simcity.interfaces.restaurant.five.RestaurantFiveCustomer;
+import simcity.interfaces.restaurant.one.RestaurantOneCustomer;
+import simcity.interfaces.restaurant.three.RestaurantThreeCustomer;
 import simcity.interfaces.restaurant.two.RestaurantTwoCustomer;
 import simcity.interfaces.transportation.Pedestrian;
 import agent.Agent;
@@ -452,6 +456,20 @@ public class PersonAgent extends Agent implements Person {
 					}
 				}
 				((RestaurantTwoCustomer)eventR).msgArrivedAtRestaurant(money);
+			}
+			else if(Directory.getSystem(buildingName) instanceof RestaurantThreeSystem) {
+				for(Role r : myRoles) {
+					if(r instanceof RestaurantThreeCustomer) {
+						eventR = r;
+					}
+				}
+			}
+			else if(Directory.getSystem(buildingName) instanceof RestaurantOneSystem) {
+				for(Role r : myRoles) {
+					if(r instanceof RestaurantOneCustomer) {
+						eventR = r;
+					}
+				}
 			}
 
 			

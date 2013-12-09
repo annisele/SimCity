@@ -6,12 +6,17 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 
 import simcity.gui.Gui;
+import simcity.interfaces.restaurant.five.RestaurantFiveCustomer;
 import simcity.interfaces.restaurant.five.RestaurantFiveWaiter;
 
 public class RestaurantFiveWaiterGui extends Gui {
 
 	private final int HOME_X = 100;
 	private final int HOME_Y = 100;
+	private final int HOST_X = 100;
+	private final int HOST_Y = 285;
+	private final int TABLE_0_X = 200;
+	private final int TABLE_Y = 200;
 	
 	private ImageIcon ii = new ImageIcon("res/person/bluepersondownbig.png");
 	private Image hostimage = ii.getImage();
@@ -27,5 +32,16 @@ public class RestaurantFiveWaiterGui extends Gui {
 	
 	public void DoGoToHome() {
 		DoGoToLocation(HOME_X, HOME_Y);
+	}
+	
+	public void DoGoToHost() {
+		DoGoToLocation(HOST_X, HOST_Y);
+	}
+	
+	public void DoSeatCustomer(RestaurantFiveCustomer c, int table) {
+		if(table == 0) {
+			DoGoToLocation(TABLE_0_X, TABLE_Y);
+		}
+		((RestaurantFiveCustomerGui) c.getGui()).DoGoToSeat(TABLE_0_X + size_x, TABLE_Y + size_y);
 	}
 }

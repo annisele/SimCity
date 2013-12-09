@@ -543,21 +543,44 @@ public class Config {
 		systems.setBackgroundTwo();
 		systems.addRestaurantFive("RESTAURANT5", 249, 140);
 		systems.addRestaurantFiveHost("Sarah", "RESTAURANT5");
-		timer.schedule(new TimerTask() {
+		
+		
+		try {
+			timer1.cancel();
+			timer2.cancel();
+			timer3.cancel();
+			timer.cancel();
+			timer1 = new Timer();
+			timer2 = new Timer();
+			timer3 = new Timer();
+			timer = new Timer();
+		} catch(Exception e) {
+		
+		}
+		
+		timer1.schedule(new TimerTask() {
 			public void run() {
 				systems.addPerson("Hungry Jenny");
-				timer.schedule(new TimerTask() {
-					public void run() {
-						systems.addRestaurantFiveWaiter("Bob", "RESTAURANT5");
-						timer.schedule(new TimerTask() {
-							public void run() {
-								systems.addPerson("Hungry Clayton");
-							}
-						}, 2000);
-					}
-				}, 2000);
 			}
-		}, 4000);
+		}, 1000);
+		
+		timer2.schedule(new TimerTask() {
+			public void run() {
+				systems.addRestaurantFiveWaiter("Bob", "RESTAURANT5");
+			}
+		}, 1600);
+		
+		timer3.schedule(new TimerTask() {
+			public void run() {
+				systems.addPerson("Hungry Clayton");
+			}
+		}, 1500);
+		
+		timer.schedule(new TimerTask() {
+			public void run() {
+				systems.addPerson("Hungry Clayton");
+			}
+		}, 2000);
 
 	}
 	public void restaurantSix(){

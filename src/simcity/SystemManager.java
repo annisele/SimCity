@@ -22,6 +22,7 @@ import simcity.buildings.restaurant.three.*;
 import simcity.buildings.restaurant.four.*;
 import simcity.buildings.restaurant.five.*;
 import simcity.buildings.transportation.BusAgent;
+import simcity.buildings.transportation.Intersection;
 import simcity.buildings.transportation.TransportationSystem;
 import simcity.gui.BuildingGui;
 import simcity.gui.SimCityGui;
@@ -33,6 +34,7 @@ public class SystemManager {
 	SimCityGui simcity;
 	WorldSystem world;
 	Directory dir = new Directory();
+	List<Intersection> intersections = new ArrayList<Intersection>();
 	List<MarketSystem> markets = new ArrayList<MarketSystem>();
 	List<BankSystem> banks = new ArrayList<BankSystem>();
 	List<HouseSystem> houses = new ArrayList<HouseSystem>();
@@ -67,7 +69,7 @@ public class SystemManager {
 		world.clear();
 		world.getAnimationPanel().clear();
 		world.simCityGui.clearTracePanels();
-
+		intersections.clear();
 		dir.clear();
 		markets.clear();
 		banks.clear();
@@ -170,7 +172,11 @@ public class SystemManager {
 
 		dir.add(name, EntryType.Market, loc, temp);
 	}
-
+	public void addIntersection(String name, int x, int y) {
+		//Intersection temp = new Intersection(simcity);
+		//temp.setName(name);
+		
+	}
 	public void addBank(String name, int xLoc, int yLoc) {
 		BankSystem temp = new BankSystem(simcity);
 		temp.setName(name);

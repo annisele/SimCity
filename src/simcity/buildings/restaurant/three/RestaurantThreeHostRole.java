@@ -29,7 +29,9 @@ import simcity.test.mock.EventLog;
 public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost {
 	private Timer timer = new Timer();
 	private int numTable = 3;
-	private int nextWaiter = 0;
+	private int waiterIndex = 0;
+	int tablesOccupiedCounter;
+	int waiterAvailable = 0;
 	public enum HostState {informed, uninformed};
 	public  EventLog log = new EventLog();
 	private enum WaiterState {onBreak, work, requestBreak};
@@ -67,11 +69,11 @@ public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost
 
 	}
 	private class MyWaiter {
-		RestaurantThreeWaiter waiter;
+		RestaurantThreeWaiter wtr;
 		WaiterState waiterState;
 		
 		MyWaiter(RestaurantThreeWaiter w) {
-			waiter = w;
+			wtr = w;
 			waiterState = WaiterState.work;
 		}
 	}
@@ -120,21 +122,21 @@ public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost
 				for (Table table : tables) {
 					if (!table.isOccupied()) {
 						if (!waitingCustomers.isEmpty()) {
-							if(nextWaiter + 1 >= waiters.size()) {
-								nextWaiter = 0;
+							if(waiterIndex + 1 >= waiters.size()) {
+								waiterIndex = 0;
 							}
 							else {
-								nextWaiter++;
+								waiterIndex++;
 							}
 							//find waiter that's not on break
-							while(waiters.get(nextWaiter % waiters.size()).waiterState != WaiterState.work) {
-								nextWaiter++;
+							while(waiters.get(waiterIndex % waiters.size()).waiterState != WaiterState.work) {
+								waiterIndex++;
 							}
-							RestaurantThreeWaiter w = waiters.get(nextWaiter % waiters.size()).waiter;
+							RestaurantThreeWaiter w = waiters.get(waiterIndex % waiters.size()).wtr;
 							table.setOccupant(waitingCustomers.get(0));
 							w.msgPleaseSeatCustomer(waitingCustomers.get(0), table.tableNumber);
 							//index increments through waiters list, then wraps to front
-
+							getWaiterSeatCustomer(waiters.get(waiterIndex), waitingCustomers.get(0), table);
 							waitingCustomers.remove(waitingCustomers.get(0));
 							return true;//return true to the abstract agent to reinvoke the scheduler.
 						}
@@ -150,16 +152,13 @@ public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost
 	}
 
 	//actions
-	//private void getWaiterSeatCustomer(RestaurantThreeCustomer customer)
-
-	/*
-	private void askWaiterToSeatCustomer(RestaurantFourCustomer customer, RestaurantFourWaiter waiter, int tableNumber) {
-		restaurantFourSystem.updateTableOccupants(customer, waiter, tableNumber);
-		restaurantFourSystem.updateCustomerLoadOfWaiter(waiter);
-		waiter.msgSeatCustomerAtTable(customer, tableNumber, restaurantFourSystem.getMenu());
-		customers.remove(customer);
+	private void getWaiterSeatCustomer(MyWaiter waiter, RestaurantThreeCustomer customer, Table table) {
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(system.getName()), "Restaurant 3 Host: " + person.getName(), "Assigning "+waiterIndex+".");
+		waiter.wtr.msgPleaseSeatCustomer(customer, table.tableNumber);
+		waitingCustomers.remove(customer);
 	}
-	*/
+
+	
 	@Override
 	public void exitBuilding() {
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(system.getName()), "Restaurant 3 Host: " + person.getName(), "Leaving restaurant three");	
@@ -173,7 +172,12 @@ public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost
 		system.exitBuilding(this);
 		person.roleFinished();	
 	}
-
+	public List getWaitersList() {
+		return waiters;
+	}
+	public List getCustomersList() {
+		return waitingCustomers;
+	}
 
 	@Override
 	public void enterBuilding(SimSystem s) {

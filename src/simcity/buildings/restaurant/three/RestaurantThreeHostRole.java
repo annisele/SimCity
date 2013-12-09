@@ -13,8 +13,6 @@ import simcity.SimSystem;
 import simcity.gui.restaurantthree.RestaurantThreeHostGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
-import simcity.interfaces.restaurant.four.RestaurantFourCustomer;
-import simcity.interfaces.restaurant.four.RestaurantFourWaiter;
 import simcity.interfaces.restaurant.three.RestaurantThreeCashier;
 import simcity.interfaces.restaurant.three.RestaurantThreeCustomer;
 import simcity.interfaces.restaurant.three.RestaurantThreeHost;
@@ -155,6 +153,11 @@ public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost
 	private void getWaiterSeatCustomer(MyWaiter waiter, RestaurantThreeCustomer customer, Table table) {
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(system.getName()), "Restaurant 3 Host: " + person.getName(), "Assigning "+waiterIndex+".");
 		waiter.wtr.msgPleaseSeatCustomer(customer, table.tableNumber);
+		waiterIndex++;
+		if(waiterIndex >= waiters.size()) {
+			waiterIndex = 0;
+		}
+		table.setOccupant(customer);
 		waitingCustomers.remove(waitingCustomers.get(0));
 	}
 

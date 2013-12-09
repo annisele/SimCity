@@ -10,21 +10,10 @@ import simcity.gui.Gui;
 import simcity.interfaces.restaurant.three.RestaurantThreeCashier;
 
 public class RestaurantThreeCashierGui extends Gui {
-		
-	private final int CORRIDOR_X = 15;
-	private final int CORRIDOR_Y = 85;
-			;
-	private final int WINDOW1_X = 105;
-	private final int WINDOW1_Y = 103;
 	
-	private final int WINDOW2_X = 200;
-	private final int WINDOW2_Y = 103;
-		
-	private final int WINDOW3_X = 280;
-	private final int WINDOW3_Y = 103;
+	private final int CASHIER_X = 350;
+	private final int CASHIER_Y = 375;
 
-	private final int HOST_X = 250;
-	private final int HOST_Y = 400;
 	
 	ImageIcon ii = new ImageIcon("res/person/tanpersondownbig.png");
 	Image img = ii.getImage();
@@ -38,7 +27,7 @@ public class RestaurantThreeCashierGui extends Gui {
 		g.drawImage(img,getX(), getY(), null);
 	}
 	public void DoGoToStand () {
-		DoGoToLocation(WINDOW3_X, WINDOW3_Y);
+		DoGoToLocation(CASHIER_X, CASHIER_Y);
 	}
 
 }

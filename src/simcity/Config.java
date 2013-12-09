@@ -480,7 +480,7 @@ public class Config {
 
 		timer.schedule(new TimerTask() {
 			public void run() {
-				systems.addPerson("Hungry Harry");
+				systems.addRestaurantThreeCook("NELSON", "RESTAURANT3");
 				timer.schedule(new TimerTask() {
 					public void run() {
 						systems.addRestaurantThreeWaiter("EDWARD", "RESTAURANT3");
@@ -489,7 +489,7 @@ public class Config {
 								systems.addRestaurantThreeCashier("JUSTIN", "RESTAURANT3");
 								timer.schedule(new TimerTask() {
 									public void run() {
-										systems.addRestaurantThreeCook("NELSON", "RESTAURANT3");
+										systems.addPerson("Hungry Harry");
 										timer.schedule(new TimerTask() {
 											public void run() {
 												systems.addPerson("Hungry Aaron");
@@ -512,9 +512,25 @@ public class Config {
 		systems.setBackgroundTwo();
 		systems.addRestaurantFour("RESTAURANT4", 249, 140);
 		systems.addRestaurantFourHost("R4Host", "RESTAURANT4");
+		
 		timer.schedule(new TimerTask() {
 			public void run() {
 				systems.addRestaurantFourWaiter("R4Waiter", "RESTAURANT4");
+				timer.schedule(new TimerTask() {
+					public void run() {
+						systems.addPerson("Hungry R4Customer1");
+						timer.schedule(new TimerTask() {
+							public void run() {
+								systems.addPerson("Hungry R4Customer2");
+								timer.schedule(new TimerTask() {
+									public void run() {
+										systems.addPerson("Hungry R4Customer3");
+									}
+								}, 1000);
+							}
+						}, 1000);
+					}
+				}, 1000);
 			}
 		}, 1000);
 	}

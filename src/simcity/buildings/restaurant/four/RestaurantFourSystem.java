@@ -80,6 +80,10 @@ public class RestaurantFourSystem extends SimSystem {
 			animationPanel.addGui(role.getGui());
 			return true;
 		}
+		if (role instanceof RestaurantFourCustomer) {
+			animationPanel.addGui(role.getGui());
+			return true;
+		}
 		return false;
 	}
 	

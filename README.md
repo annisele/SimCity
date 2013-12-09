@@ -47,6 +47,9 @@ Member Contributions
 ==========================================
 
 ####Joshua Michael
+#####V2: 
+
+#####V1:
 1. Worked on the initial design documents for Bus, Car, BusPassenger, CarPassenger (with Clayton)
 2. Implemented the bus and BusPassenger in both of our worlds (with Kevin)
 	-Included Animation for person moving to nearest bus stop and moving from bus stop to building.
@@ -57,6 +60,9 @@ Member Contributions
 4. Unit Tested the Bus, BusPassenger, and part of InhabitantRole (other part was Kevin)
 
 ####Kevin Chan
+#####V2: 
+
+#####V1:
   + 1.) Bank Design - worked with Levonne extensively on the design of each of the agents/roles in the bank design
   + 2.) BankComputer - implemented bank accounts using maps and allowed it to work with the bank computer
   + 3.) BankSystem - implemented BankSystem records of windows and functionality to determine whether a window contained a customer and a bank teller, and allowed it to work with bank host thread
@@ -75,10 +81,10 @@ Member Contributions
 
 ####Clayton Brand: 
 #####V2: 
-  + Created initial design documents for PersonAgent and Transportation (along with Josh).
-  + Created the initial GUI window for us to use in our program.  Used two views, text panels, and a control panel on the right.  Got the control panel to change when something is clicked on, although currently this has very limited functionality.  Got the DetailPanel to show up when someone clicks on the WorldPanel, initially using cardLayout but throwing that out to just change a pointer to the panel.
 
 #####V1:
+  + Created initial design documents for PersonAgent and Transportation (along with Josh).
+  + Created the initial GUI window for us to use in our program.  Used two views, text panels, and a control panel on the right.  Got the control panel to change when something is clicked on, although currently this has very limited functionality.  Got the DetailPanel to show up when someone clicks on the WorldPanel, initially using cardLayout but throwing that out to just change a pointer to the panel.
   + Spent a long time on the interaction between Gui, World, and System objects.  Created base AnimationPanels, ControlPanels, Guis (based on Restaurant).  Created a System approach where each “building” is led by a System.  For example, MarketSystem contains a MarketAnimationPanel, a MarketControlPanel, a MarketComputer (for internal calculations that the agents can access), and lists of all agents in the system.
   + Created GUI images for World, Bank, Restaurant, Market, and House using Pokemon sprites found online.  Created GUI objects for people as well.  Spent a lot of time getting animations in the World and the House to look smooth.  Created some sprites from scratch.
   + Re-designed the PersonAgent with Rebecca to create a thorough implementation that worked with our conception of Roles.  ALL actions require a Role, and Events are split up into sets of specific Steps to complete them.  We built a robust scheduler for the PersonAgent, which still has some issues but is for the most part solid.
@@ -86,6 +92,9 @@ Member Contributions
   +  Worked to implement the HouseSystem and HouseInhabitant Role.  Designed all animations and the entire system.
 
 ####Jenny: 
+#####V2: 
+
+#####V1:
   + Did initial design doc and theorization of Market system with Rebecca, designed and co-wote data, scheduler, messages, actions. 
   + Initial design doc and file creation, convenient functions, scheduler  for house inhabitant role 
   + Implemented person agent (beta version). 
@@ -93,12 +102,18 @@ Member Contributions
   + Imported restaurant two and wrote additional roles/classes, including System, Computer, AnimatonPanel, Orderwheel, Orders, SharedDataWaiter. Currently restaurant can communicate with market to order items if inventory is out. It keeps track if restaurant is unable to pay market. also restaurant keeps track of customers who are unable to pay.
   + JUnit testing of restaurant two. Incomplete as of right now.
 
-####Levonne Key : 
+####Levonne Key :
+#####V2: 
+
+#####V1: 
   + initial market interaction diagram with Jenny
   + initial design doc and interaction diagrams the bank design, implementation and Junit testing with Kevin. I created the interfaces and test package structure for testing such as mock  and test. I updated the design document for bank teller,bank customer, market customer and market truck and redesign the interaction diagram for bank normative and non normative scenario. I initiated the testing procedure and formatted the test files. I worked on creating the gui for bank. I worked with Jenny on how to write her restaurant test. 
   + used hack for the bankroles to function since we only have one bank. The pay rent function couldn’t be tested since we do not have landlord. 
 
 ####Rebecca Hao:
+#####V2: 
+
+#####V1:
   + I created the original design documents and interaction diagrams for the market scenarios, and collaborated with Jenny to finalize them. The design doc for “Person Orders Items” was left unfinished becasue it became a non-norm. Kevin updated the interaction diagrams and design docs to match my code right before turning in V1.
   + I wrote the code for all the Market roles, systems, interfaces, and animation.
   + I contributed a lot to all of the base classes, including AnimationPanel, ControlPanel, Gui, SimCityGui, SimSystem, Config, Role, Directory, SystemManager, etc. Most of my time was spent designing the overall design of the project, so that it would be easier for others to integrate their individual parts (bank, restaurant, etc) into the program.

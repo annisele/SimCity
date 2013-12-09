@@ -15,4 +15,10 @@ public interface RestaurantFiveWaiter extends GuiPartner {
 
 	public abstract void msgIWillFollowYou(RestaurantFiveCustomer cust);
 
+	public abstract void msgReadyToOrder(RestaurantFiveCustomer cust);
+
+	public abstract void msgFoodTooExpensive(RestaurantFiveCustomer cust);
+
+	public abstract void msgHereIsMyChoice(RestaurantFiveCustomer cust, String food);
+
 }

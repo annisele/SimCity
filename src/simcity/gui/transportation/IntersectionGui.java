@@ -44,6 +44,7 @@ public class IntersectionGui {
 		this.y = y;
 	}
 	
+	// Functions
 	public void vehicleArrived(Object vehicle) {
 		vehicles.add(vehicle);
 	}

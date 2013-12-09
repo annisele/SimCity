@@ -35,8 +35,8 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
 	private RestaurantThreeCook cook;
 	private RestaurantThreeComputer computer;
 	private RestaurantThreeCashier cashier;
-	private enum WaiterState {WORKING,  REQUESTED_BREAK, HAVING_BREAK, ON_BREAK, NEED_BREAK, GOINGOFFBREAK, DENIED_BREAK };  
-	private WaiterState waiterState;
+	private enum WaiterState {NONE, WORKING,  REQUESTED_BREAK, HAVING_BREAK, ON_BREAK, NEED_BREAK, GOINGOFFBREAK, DENIED_BREAK };  
+	private WaiterState waiterState = WaiterState.NONE;
 	private enum CustomerState {WAITING,READY_TO_ORDER,ORDERING,FOOD_SERVED,IS_DONE,NO_ACTION, READY_TO_PAY, EXPENSIVE_LEAVE, REORDER, CANNOT_AFFORD_TO_REORDER};
 	private List<MyCustomer> customers = Collections.synchronizedList(new ArrayList<MyCustomer>());
 	

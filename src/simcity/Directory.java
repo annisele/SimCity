@@ -8,7 +8,7 @@ public class Directory {
 	public static enum EntryType {Market, Restaurant, Bank, House, Bus};
 	private static Map<String, Entry> directory = new HashMap<String, Entry>(); //maps names to entries
 	private static Map<Integer, Location>busStopDirectory = new HashMap<Integer, Location>();
-
+	private static Map<Integer, Location> parkingStructureDirectory = new HashMap<Integer, Location>();
 	
 	
 	private class Entry {
@@ -35,6 +35,7 @@ public class Directory {
 		busStopDirectory.put(1, stop1);
 		busStopDirectory.put(2, stop2);
 		busStopDirectory.put(3, stop3);	
+		
 	}
 	
 	public void makeBusStops2() {

@@ -343,7 +343,7 @@ public class RestaurantFiveWaiterRole extends Role implements RestaurantFiveWait
 //		catch(ConcurrentModificationException e) {
 //			return false;
 //		}
-//		MoveToHome();
+		MoveToHome();
 //		if(state == WaiterState.goingOffBreak) {
 //			GoOffBreak();
 //		}
@@ -357,9 +357,9 @@ public class RestaurantFiveWaiterRole extends Role implements RestaurantFiveWait
 		return false;
 	}
 
-//	private void MoveToHome() {
-//		((RestaurantFiveWaiterGui)gui).DoGoToHome();
-//	}
+	private void MoveToHome() {
+		((RestaurantFiveWaiterGui)gui).DoGoToHome();
+	}
 
 	private void GiveCustomerMenu(MyCustomer c) {
 		
@@ -408,7 +408,12 @@ public class RestaurantFiveWaiterRole extends Role implements RestaurantFiveWait
 //		System.out.println("Seating " + c.c + " at table " + c.table + ".");
 		
 		((RestaurantFiveWaiterGui)gui).DoSeatCustomer(c.c, c.table);
-		
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		c.s = CustomerState.seated;
 		

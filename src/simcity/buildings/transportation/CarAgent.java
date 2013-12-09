@@ -1,21 +1,28 @@
 package simcity.buildings.transportation;
 
+import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
+import simcity.Directory;
 import simcity.Location;
 import simcity.Role;
 import simcity.SimSystem;
 import simcity.gui.transportation.CarGui;
 import agent.Agent;
 
-public class CarAgent extends Role implements simcity.interfaces.transportation.Car {
+public class CarAgent extends Agent implements simcity.interfaces.transportation.Car {
 	CarPassengerRole passenger;
 	Location destination;
-	CarGui cargui;
+	CarGui gui;
+	String name;
+	Directory directory;
 	public Semaphore atDestination = new Semaphore(0, true);
 	//CarState state = enum{ waiting, driving }
 	public enum Carstate { waiting, driving }
 	Carstate state;
+	public CarAgent(String n) {
+		this.name = n;
+	}
 	
 	public void msgGettingOn(CarPassengerRole cp, Location l) {
 		passenger = cp;
@@ -39,7 +46,7 @@ public class CarAgent extends Role implements simcity.interfaces.transportation.
 	private void Drive() {
 
 		// Animation - call to cargui
-		cargui.DoGoTo(destination.getX(), destination.getY());
+		gui.DoGoTo(destination.getX(), destination.getY());
 		try {
 			atDestination.acquire();
 		} catch (InterruptedException e) {
@@ -52,21 +59,24 @@ public class CarAgent extends Role implements simcity.interfaces.transportation.
 	} 
 	
 	
-	@Override
-	public void exitBuilding() {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 	@Override
 	public void atDestination() {
+		  
+		  atDestination.release();
+	}
+	
+
+	public void setDirectory(Directory dir) {
 		// TODO Auto-generated method stub
+		this.directory = dir;
 		
 	}
-	@Override
-	public void enterBuilding(SimSystem s) {
+
+	public void setGui(CarGui tcg) {
 		// TODO Auto-generated method stub
-		
+		this.gui = tcg;
 	}
 }
 

@@ -49,6 +49,7 @@ public class Config {
 		systems.setBackgroundThree();
 		systems.addBus("Bismarck");
 		systems.addBus("Kipling");
+		systems.addCar("Prufrock");
 		systems.addMarket("MARKET2", 312, 27);
 		
 		systems.addPerson("Mary");

@@ -20,6 +20,7 @@ import simcity.gui.market.MarketWorkerGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
 import simcity.gui.transportation.BusGui;
+import simcity.gui.transportation.CarGui;
 
 public class AnimationPanel extends JPanel implements ActionListener{
 
@@ -29,6 +30,8 @@ public class AnimationPanel extends JPanel implements ActionListener{
 	protected List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
 	protected List<BuildingGui> buildingGuis = Collections.synchronizedList(new ArrayList<BuildingGui>());
 	protected List<BusGui> busGuis = Collections.synchronizedList(new ArrayList<BusGui>());
+	protected List<CarGui> carGuis = Collections.synchronizedList(new ArrayList<CarGui>());
+
 
 	private int px; //x where mouse was pressed
 	private int py;
@@ -197,6 +200,10 @@ public class AnimationPanel extends JPanel implements ActionListener{
 
 	public void addBus(BusGui g) {
 		busGuis.add(g);
+	}
+	
+	public void addCar(CarGui g) {
+		carGuis.add(g);
 	}
 
 	public void setControlPanel(JPanel cp) {

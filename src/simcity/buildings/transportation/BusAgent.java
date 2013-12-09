@@ -67,18 +67,18 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 			busStopCounter = 3;
 		}
 		else if (name == "Bismarck") {
-			Location stop1 = new Location(90, 100);
-			Location stop2 = new Location(500, 100);
-			Location stop3 = new Location(940, 100);
-			Location stop4 = new Location(1370, 100);
+			Location stop1 = new Location(110, 110);
+			Location stop2 = new Location(500, 110);
+			Location stop3 = new Location(940, 110);
+			Location stop4 = new Location(1370, 110);
 			Location stop5 = new Location(1370, 470);
-			Location stop6 = new Location(970, 470);
-			Location stop7 = new Location(530,  470 );
-			Location stop8 = new Location(90 , 470  );
-			Location stop9 = new Location(90 , 840);
-			Location stop10 = new Location(500, 840);
-			Location stop11 = new Location(940, 840);
-			Location stop12 = new Location(1370, 840);
+			Location stop6 = new Location(1370, 800);
+			Location stop7 = new Location(940,  800 );
+			Location stop8 = new Location(500 , 800  );
+			Location stop9 = new Location(110 , 800);
+			Location stop10 = new Location(110, 470);
+			//Location stop11 = new Location(940, 840);
+			//Location stop12 = new Location(1370, 840);
 			//Location stop9 = new Location(   );
 			//Location stop10 = new Location(   );
 			//Location stop11 = new Location(   );
@@ -93,12 +93,12 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 			busStops.put(7, stop8);
 			busStops.put(8, stop9);
 			busStops.put(9, stop10);
-			busStops.put(10, stop11);
-			busStops.put(11, stop12);
+			//busStops.put(10, stop11);
+			//busStops.put(11, stop12);
 			
 			
 			
-			busStopCounter = 11;
+			busStopCounter = 9;
 		}
 		
 	}
@@ -107,7 +107,7 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 	public BusGui gui;
 	public List<MyPassenger> passengers = Collections.synchronizedList(new ArrayList<MyPassenger>());
 	
-	public static final int NUM_BUSSTOPS = 12;
+	public static final int NUM_BUSSTOPS = 10;
 	//List<Location> busStops;
 	public Map<Integer,Location> busStops = new HashMap<Integer,Location>(NUM_BUSSTOPS);
 	public Semaphore atDestination = new Semaphore(0, true);
@@ -194,7 +194,7 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 		if (this.getName().equals("Busta") || this.getName().equals("Buster")) {
 		busStopCounter = ((busStopCounter + 1) % 4);
 		}
-		else { busStopCounter = ((busStopCounter + 1) % 12);}
+		else { busStopCounter = ((busStopCounter + 1) % 10);}
 			
 		DoGoTo(busStops.get(busStopCounter));
 		try {

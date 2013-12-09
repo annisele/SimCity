@@ -633,7 +633,7 @@ public class PersonAgent extends Agent implements Person {
 			currentRole = currentEvent.role;
 			currentRole.enterBuilding(Directory.getSystem(currentEvent.buildingName));	
 			
-			AlertLog.getInstance().logMessage(AlertTag.WORLD, "Pedestrian: "+name, currentEvent.buildingName +" entering building");						
+			AlertLog.getInstance().logMessage(AlertTag.WORLD, "Pedestrian: "+name, "Entering building" + currentEvent.buildingName );						
 
 		}
 		else {

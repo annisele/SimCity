@@ -81,6 +81,9 @@ Member Contributions
 
 ####Clayton Brand: 
 #####V2: 
+  + Worked on the PersonAgent so that it now schedules events correctly and with repetition.  Events like eating, sleeping, and working will now be scheduled every day, ad infinitum.
+  + Worked on the clock more to accomodate the planning of PersonAgent's schedule.
+  + Made a ControlPanel for the house which displays info.
 
 #####V1:
   + Created initial design documents for PersonAgent and Transportation (along with Josh).

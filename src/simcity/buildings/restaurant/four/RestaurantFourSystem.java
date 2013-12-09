@@ -8,6 +8,7 @@ import simcity.Role;
 import simcity.SimSystem;
 import simcity.gui.SimCityGui;
 import simcity.gui.restaurantfour.RestaurantFourAnimationPanel;
+import simcity.interfaces.restaurant.four.RestaurantFourCook;
 import simcity.interfaces.restaurant.four.RestaurantFourCustomer;
 import simcity.interfaces.restaurant.four.RestaurantFourHost;
 import simcity.interfaces.restaurant.four.RestaurantFourWaiter;
@@ -29,6 +30,7 @@ public class RestaurantFourSystem extends SimSystem {
 	private List<RestaurantWaiter> waiters = Collections.synchronizedList(new ArrayList<RestaurantWaiter>());
 	private List<RestaurantFourTable> tables = Collections.synchronizedList(new ArrayList<RestaurantFourTable>());
 	private RestaurantFourMenu menu;
+	private RestaurantFourCook cook;
 	
 	public static final int NUMBER_TABLES = 3;
 	
@@ -69,6 +71,14 @@ public class RestaurantFourSystem extends SimSystem {
 		this.menu = menu;
 	}
 	
+	public RestaurantFourCook getCook() {
+		return cook;
+	}
+	
+	public void setCook(RestaurantFourCook cook) {
+		this.cook = cook;
+	}
+	
 	// Functions //////////////////////////////////////////////////////////////////////////
 	public boolean msgEnterBuilding(Role role) {
 		if (role instanceof RestaurantFourHost) {
@@ -81,6 +91,10 @@ public class RestaurantFourSystem extends SimSystem {
 			return true;
 		}
 		if (role instanceof RestaurantFourCustomer) {
+			animationPanel.addGui(role.getGui());
+			return true;
+		}
+		if (role instanceof RestaurantFourCook) {
 			animationPanel.addGui(role.getGui());
 			return true;
 		}

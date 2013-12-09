@@ -150,8 +150,9 @@ public class Config {
 		systems.setWorkMarketWorker("Joe", "MARKET1");
 		//systems.addMarketWorker("Joe", "MARKET1");
 		
-		systems.addPerson("Tim");
-		systems.setHome("Tim", "HOUSE3");
+		systems.addPerson("Tommy");
+		systems.setHome("Tommy", "HOUSE3");
+
 		
 	}
 
@@ -526,15 +527,10 @@ public class Config {
 				systems.addRestaurantFourWaiter("R4Waiter", "RESTAURANT4");
 				timer.schedule(new TimerTask() {
 					public void run() {
-						systems.addPerson("Hungry R4Customer1");
+						systems.addRestaurantFourCook("R4Cook", "RESTAURANT4");
 						timer.schedule(new TimerTask() {
 							public void run() {
-								systems.addPerson("Hungry R4Customer2");
-								timer.schedule(new TimerTask() {
-									public void run() {
-										systems.addPerson("Hungry R4Customer3");
-									}
-								}, 1000);
+								systems.addPerson("Hungry R4Customer1");
 							}
 						}, 1000);
 					}

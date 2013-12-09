@@ -25,6 +25,7 @@ public class Directory {
 			system = s; 
 		}
 	}
+	
 	public void makeParkingStructure1() {
 		Location parking1 = new Location(720,143);
 		Location parking2 = new Location(290,411);

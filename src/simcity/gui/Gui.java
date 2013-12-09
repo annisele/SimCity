@@ -12,6 +12,8 @@ public class Gui {
 	protected GuiPartner role;
 	protected int x = 240;
 	protected int y = 460;
+	protected int xOff = 0;
+	protected int yOff = 0;
 	protected int xDest = 240;
 	protected int yDest = 460;
 	protected int size_x = 40;
@@ -45,18 +47,24 @@ public class Gui {
 			}
 		}
 	}
+	
+	public void setOffset(int x, int y) {
+		xOff = x;
+		yOff = y;
+	}
 
 	public void draw(Graphics2D g) {
 		g.setColor(Color.BLACK);
-		g.fillRect(x, y, size_x, size_y);
+		g.fillRect(x+xOff, y+yOff, size_x, size_y);
 	}
 	public boolean isPresent() {
 		return true;
 	}
 
 	public boolean contains(Point point) {
-		if(point.getX() >= x && point.getX() <= x + size_x) {
-			if(point.y >= y && point.y <= y + size_y) {
+		if(point.getX() >= x+xOff && point.getX() <= x+xOff + size_x) {
+			if(point.y >= y+yOff && point.y <= y+yOff + size_y) {
+				//System.out.println("TESTSTTTT");
 				return true;
 			}
 		}

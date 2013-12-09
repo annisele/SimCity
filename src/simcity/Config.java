@@ -41,7 +41,6 @@ public class Config {
 		systems.addRestaurantTwo("RESTAURANT2", 60, 27);
 		systems.addMarket("MARKET1", 123, 27);
 
-
 	}
 	
 	public void busIntersection() {
@@ -49,6 +48,10 @@ public class Config {
 		systems.clearDetailPane();
 		systems.setBackgroundThree();
 		systems.addBus("Bismarck");
+		systems.addMarket("MARKET2", 312, 27);
+		
+		systems.addPerson("Mary");
+		systems.setWorkMarketWorker("Mary", "MARKET2");
 	}
 
 	public void busToMarket() {

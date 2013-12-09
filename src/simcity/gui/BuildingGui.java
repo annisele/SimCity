@@ -14,6 +14,8 @@ public class BuildingGui {
 	private Location location;
 	private static final int SIZE_X = 60;
 	private static final int SIZE_Y = 60;
+	private int xOff = 0;
+	private int yOff = 0;
 	private SimSystem system;
 	private enum BuildingType { House, Market, Bank, Apartment, RestaurantOne, RestaurantTwo, RestaurantThree, RestaurantFour, RestaurantFive, RestaurantSix };
 	private BuildingType type;
@@ -43,26 +45,34 @@ public class BuildingGui {
 		
 	}
 	
+	public void setOffset(int x, int y) {
+		xOff = x;
+		yOff = y;
+	}
+	
     public void draw(Graphics2D g) {
 
+    	Image img;
     	if (type == BuildingType.Market)
-    		g.drawImage(finalmarketimage,location.getX(), location.getY(), null);
+    		img = finalmarketimage;
     	else if (type == BuildingType.RestaurantOne)
-    		g.drawImage(finalrestaurantimage, location.getX(), location.getY(), null);
+    		img = finalrestaurantimage;
     	else if (type == BuildingType.RestaurantTwo)
-    		g.drawImage(finalrestaurantimage, location.getX(), location.getY(), null);
+    		img = finalrestaurantimage;
     	else if (type == BuildingType.House)
-    		g.drawImage(finalhouseimage, location.getX(), location.getY(), null);
+    		img = finalhouseimage;
     	else if (type == BuildingType.Bank)
-    		g.drawImage(finalbankimage, location.getX(), location.getY(), null);
+    		img = finalbankimage;
     	else
-    		g.drawImage(finalrestaurantimage, location.getX(), location.getY(), null);
+    		img = finalrestaurantimage;
+    	
+    	g.drawImage(img, location.getX()+xOff, location.getY()+yOff, null);
     }
     
     //to check if this building was clicked on
     public boolean contains(Point point) {
-    	if(point.x >= location.getX() && point.x <= location.getX() + SIZE_X) {
-    		if(point.y >= location.getY() && point.y <= location.getY() + SIZE_Y) {
+    	if(point.x >= location.getX()+xOff && point.x <= location.getX()+xOff + SIZE_X) {
+    		if(point.y >= location.getY()+yOff && point.y <= location.getY()+yOff + SIZE_Y) {
     			return true;
     		}
     	}

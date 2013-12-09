@@ -192,5 +192,6 @@ public class RestaurantOneCashierRole extends Role implements simcity.interfaces
 			public void atDestination() {
 				// TODO Auto-generated method stub
 				atDest.release();
-			}
+				System.out.println("Cashier at destination");
+				}
 }

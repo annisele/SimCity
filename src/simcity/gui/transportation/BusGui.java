@@ -13,8 +13,8 @@ public class BusGui extends Gui {
 
 	private BusAgent busagent;
 
-	private int x = 10;
-	private int y = 67;
+	private int x = 40;
+	private int y = 50;
 	private int xDest;
 	private int yDest;
 	
@@ -39,16 +39,16 @@ public class BusGui extends Gui {
 	
 	public void updatePosition() {
 		if(xDest+1 > x) {
-			x++;
+			x = x+2;
 		}
 		else {
-			x--;
+			x = x-2;
 		}
 		if(yDest+1 > y) {
-			y++;
+			y = y+2;
 		}
 		else {
-			y--;
+			y = y-2;
 		}
 		/*
 		if (((x == (xDest)) || (x == (xDest+1)) || (x == (xDest-1)) && ((y == (yDest)) || (y == (yDest+1)) || (y == (yDest-1))))) {
@@ -57,7 +57,7 @@ public class BusGui extends Gui {
 				atDestNow = true;
 			}
 		} */
-		if (((x == (xDest)) || (x == (xDest+1))) && ((y == (yDest)) || (y == (yDest+1)))) {
+		if (((x == (xDest)) || (x == (xDest+1)) || (x == (xDest+2))) && ((y == (yDest)) || (y == (yDest+1)) || (y == (yDest+2)))) {
 			if (atDestNow == false) {
 				busagent.atDestination();
 				atDestNow = true;

@@ -522,15 +522,10 @@ public class Config {
 				systems.addRestaurantFourWaiter("R4Waiter", "RESTAURANT4");
 				timer.schedule(new TimerTask() {
 					public void run() {
-						systems.addPerson("Hungry R4Customer1");
+						systems.addRestaurantFourCook("R4Cook", "RESTAURANT4");
 						timer.schedule(new TimerTask() {
 							public void run() {
-								systems.addPerson("Hungry R4Customer2");
-								timer.schedule(new TimerTask() {
-									public void run() {
-										systems.addPerson("Hungry R4Customer3");
-									}
-								}, 1000);
+								systems.addPerson("Hungry R4Customer1");
 							}
 						}, 1000);
 					}

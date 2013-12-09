@@ -5,6 +5,7 @@ import java.util.List;
 import simcity.PersonAgent;
 import simcity.SimSystem;
 import simcity.buildings.restaurant.four.RestaurantFourMenu;
+import simcity.buildings.restaurant.four.RestaurantFourMenu.foodType;
 import simcity.buildings.restaurant.four.RestaurantFourSystem;
 import simcity.buildings.restaurant.four.RestaurantFourWaiterRole.MyCustomer;
 import simcity.buildings.restaurant.four.RestaurantFourWaiterRole.Status;
@@ -28,6 +29,7 @@ public interface RestaurantFourWaiter extends GuiPartner {
 		public abstract void msgStartWorking();
 		public abstract void msgSeatCustomerAtTable(RestaurantFourCustomer customer, int tableNumber, RestaurantFourMenu menu);
 		public abstract void msgImReadyToOrder(RestaurantFourCustomer customer);
+		public abstract void msgThisIsMyOrder(RestaurantFourCustomer customer, foodType foodChoice);
 		
 		// Utilities
 		public abstract void exitBuilding();

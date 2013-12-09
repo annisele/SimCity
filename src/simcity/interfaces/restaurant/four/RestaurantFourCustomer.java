@@ -4,6 +4,7 @@ import simcity.PersonAgent;
 import simcity.SimSystem;
 import simcity.buildings.restaurant.four.RestaurantFourCustomerRole.Event;
 import simcity.buildings.restaurant.four.RestaurantFourCustomerRole.State;
+import simcity.buildings.restaurant.four.RestaurantFourMenu.foodType;
 import simcity.buildings.restaurant.four.RestaurantFourMenu;
 import simcity.buildings.restaurant.four.RestaurantFourSystem;
 import simcity.interfaces.GuiPartner;
@@ -21,6 +22,8 @@ public interface RestaurantFourCustomer extends GuiPartner {
 	public abstract void setWaiter(RestaurantFourWaiter waiter);
 	public abstract RestaurantFourMenu getMenu();
 	public abstract void setMenu(RestaurantFourMenu menu);
+	public abstract foodType getFoodChoice();
+	public abstract void setFoodChoice(foodType foodChoice);
 	public abstract State getState();
 	public abstract void setState(State state);
 	public abstract Event getEvent();

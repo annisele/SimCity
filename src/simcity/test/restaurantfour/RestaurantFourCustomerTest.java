@@ -80,9 +80,15 @@ public class RestaurantFourCustomerTest extends TestCase {
 		assertTrue("Customer scheduler should return true", customer.pickAndExecuteAnAction());
 		
 		// check step 4 postconditions
-		assertEquals("Customer state should be waitingAtRestaurant", customer.getState(), State.walkingToTable);
-		assertEquals("Customer event should be metWaiter", customer.getEvent(), Event.metWaiter);
-		//assertEquals("")
+		assertEquals("Customer state should be walkingToTable", customer.getState(), State.walkingToTable);
+		assertEquals("Customer event should be gotToTable", customer.getEvent(), Event.gotToTable);
+
+		// step 5: call scheduler to think of order
+		customer.atDestination();
+		assertTrue("Customer scheduler should return true", customer.pickAndExecuteAnAction());
+		
+		// check step 5 postconditions
+		
 		
 		System.out.println("");
 		System.out.println("testOneCustomer done");

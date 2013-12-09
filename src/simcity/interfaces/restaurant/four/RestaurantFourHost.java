@@ -19,10 +19,13 @@ public interface RestaurantFourHost extends GuiPartner {
 	public abstract void setStatus(Status status);
 	public abstract List getWaitersList();
 	public abstract List getCustomersList();
+	public abstract RestaurantFourCook getCook();
+	public abstract void setCook(RestaurantFourCook cook);
 	
 	// Messages
 	public abstract void msgGotToWork();
 	public abstract void msgWaiterReadyForWork(RestaurantFourWaiter waiter);
+	public abstract void msgCookReadyForWork(RestaurantFourCook cook);
 	public abstract void msgImHungry(RestaurantFourCustomer customer);
 	
 	// Utilities

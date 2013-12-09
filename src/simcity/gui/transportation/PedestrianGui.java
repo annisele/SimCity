@@ -20,7 +20,7 @@ public class PedestrianGui extends Gui {
 
 	@Override
 	public void draw(Graphics2D g) {
-		g.drawImage(personimage, getX(), getY(), null); //COMMENT this out to get old Gui Back- Josh
+		g.drawImage(personimage, getX()+xOff, getY()+yOff, null); //COMMENT this out to get old Gui Back- Josh
 
 	}
 	

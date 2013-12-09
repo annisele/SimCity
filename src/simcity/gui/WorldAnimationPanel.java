@@ -20,6 +20,11 @@ import simcity.gui.transportation.BusGui;
 
 
 public class WorldAnimationPanel extends AnimationPanel implements ActionListener {
+	
+	private boolean draggable = false;
+    private int posX = 0;
+    private int posY = 0;
+    
 	static int gridX = 36; // newly added
 	static int gridY = 36; // newly added
 	Semaphore[][] grid = new Semaphore[gridX+1][gridY+1]; 
@@ -36,8 +41,7 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
     
     Image background = null;
     
-    private int posX = 0;
-    private int posY = 0;
+    
     
 
     
@@ -105,6 +109,8 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
 	    }
     
         for(BuildingGui b : buildingGuis) {
+        	if (draggable)
+        		b.setOffset(posX, posY);
         	b.draw((Graphics2D)g);
         	if ((JPanel)b.getSystem().getAnimationPanel() != super.getSimCityGui().getDetailPane()) {
         		b.getSystem().getAnimationPanel().updateGuis();
@@ -114,6 +120,8 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
         synchronized(busGuis) {
 			for(Gui gui : busGuis) {
 				if (gui.isPresent()) {
+					if (draggable)
+						gui.setOffset(posX, posY);
 					gui.updatePosition();
 				}
 			}
@@ -126,22 +134,40 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
 				}
 			}
 		}
-
-        super.paintComponent(g);
 		
+		synchronized(guis) {
+			for(Gui gui : guis) {
+				if (gui.isPresent()) {
+					if (draggable)
+						gui.setOffset(posX, posY);
+					gui.updatePosition();
+				}
+			}
+		}
+
+		synchronized(guis) {
+			for(Gui gui : guis) {
+				if (gui.isPresent()) {
+					gui.draw((Graphics2D)g);
+				}
+			}
+		}		
        
 	}
 	
 	public void setBackgroundOne() {
     	background = roadimage;
+    	draggable = false;
     }
     
     public void setBackgroundTwo() {
     	background = cityimg;
+    	draggable = false;
     }
     
     public void setBackgroundThree() {
     	background = largecityimage;
+    	draggable = true;
     }
     
 	public void addGui(Gui g) {

@@ -17,7 +17,7 @@ public class IdlePersonGui extends Gui {
 	Image personimage = img.getScaledInstance(17, 17,  java.awt.Image.SCALE_SMOOTH); 
 	boolean waiting = false;
 	
-	public IdlePersonGui(PersonAgent p) {
+	public IdlePersonGui(PersonAgent p) {		
 		person = p;
 	}
 	
@@ -27,7 +27,7 @@ public class IdlePersonGui extends Gui {
 
 	@Override
 	public void draw(Graphics2D g) {
-		g.drawImage(personimage, getX(), getY(), null); 
+		g.drawImage(personimage, getX()+xOff, getY()+yOff, null); 
 	}
 
 	@Override

@@ -105,6 +105,7 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
 	    }
     
         for(BuildingGui b : buildingGuis) {
+        	b.setOffset(posX, posY);
         	b.draw((Graphics2D)g);
         	if ((JPanel)b.getSystem().getAnimationPanel() != super.getSimCityGui().getDetailPane()) {
         		b.getSystem().getAnimationPanel().updateGuis();
@@ -114,6 +115,7 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
         synchronized(busGuis) {
 			for(Gui gui : busGuis) {
 				if (gui.isPresent()) {
+					gui.setOffset(posX, posY);
 					gui.updatePosition();
 				}
 			}
@@ -126,9 +128,23 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
 				}
 			}
 		}
-
-        super.paintComponent(g);
 		
+		synchronized(guis) {
+			for(Gui gui : guis) {
+				if (gui.isPresent()) {
+					gui.setOffset(posX, posY);
+					gui.updatePosition();
+				}
+			}
+		}
+
+		synchronized(guis) {
+			for(Gui gui : guis) {
+				if (gui.isPresent()) {
+					gui.draw((Graphics2D)g);
+				}
+			}
+		}		
        
 	}
 	

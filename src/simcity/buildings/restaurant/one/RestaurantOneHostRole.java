@@ -5,6 +5,7 @@ import simcity.Role;
 import simcity.SimSystem;
 import simcity.buildings.restaurant.three.RestaurantThreeSystem;
 import simcity.gui.restaurantone.RestaurantOneHostGui;
+import simcity.gui.restaurantthree.RestaurantThreeHostGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
 import simcity.interfaces.restaurant.one.RestaurantOneCustomer;
@@ -30,7 +31,7 @@ public class RestaurantOneHostRole extends Role implements simcity.interfaces.re
     private boolean alreadySeated = false;
     public RestaurantOneSystem system = null;
 
-    private Semaphore seatCustomer = new Semaphore(0, true);
+    private Semaphore atDest = new Semaphore(0, true);
     
     private PersonAgent person;
 
@@ -149,7 +150,7 @@ public class RestaurantOneHostRole extends Role implements simcity.interfaces.re
 
     //message from Gui once customer has been seated
     public void msgCustomerSeated() {
-            seatCustomer.release();
+          //  seatCustomer.release();
     }
 
     /**
@@ -206,12 +207,12 @@ public class RestaurantOneHostRole extends Role implements simcity.interfaces.re
                                                     if (waitingCustomers.contains(waitingCustomers.get(0))) {
                                                             tellWaiterToSeatCustomer(waitingCustomers.get(0), table, waiters.get(WaiterWithMinTables).waiter);
                                                     }
-                                                    try {
-                                                            seatCustomer.acquire();
+                                                  /*  try {
+                                                            atDest.acquire();
                                                     } catch (InterruptedException e) {
                                                             // TODO Auto-generated catch block
                                                             e.printStackTrace();
-                                                    }
+                                                    } */
                                                     return true;
                                             }
                                     }
@@ -279,9 +280,17 @@ public class RestaurantOneHostRole extends Role implements simcity.interfaces.re
 		// TODO Auto-generated method stub
 		system = (RestaurantOneSystem)s;
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(system.getName()), "Restaurant 1 Host: " + person.getName(), "Ready to work at the restaurant!");
-		this.gui.DoGoToLocation(100, 200);
+		((RestaurantOneHostGui) gui).DoGoToStand();
 		
 	}
+
+	@Override
+	public void atDestination() {
+		// TODO Auto-generated method stub
+		atDest.release();
+		
+	}
+	
 
 
 

@@ -68,7 +68,7 @@ public class BusGui extends Gui {
 	@Override
 	public void draw(Graphics2D g) {
 
-		g.drawImage(busimage, x, y, null); //COMMENT this out to get old Gui Back- Josh
+		g.drawImage(busimage, x+xOff, y+yOff, null); //COMMENT this out to get old Gui Back- Josh
 	}
 
 	public void DoGoToStop(int x, int y) {

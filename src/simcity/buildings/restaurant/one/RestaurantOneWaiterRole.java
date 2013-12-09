@@ -32,6 +32,8 @@ public class RestaurantOneWaiterRole extends Role implements simcity.interfaces.
       public Semaphore offDuty = new Semaphore(0,true);
       boolean pendingActions = true;
       private RestaurantOneCashierRole cashagent;
+      
+      public Semaphore atDest = new Semaphore(0, true);
 
       enum CustomerState{waiting, seated, readyToOrder, asked, ordered, orderGiven, FINISHED, OutofStock, doneEating, eating, allFinished};
 
@@ -390,7 +392,7 @@ public class RestaurantOneWaiterRole extends Role implements simcity.interfaces.
 
       private void seatCustomer(MyCustomer c) {
 
-              DoSeatCustomer(c.cagent, c.tnumber);
+//              DoSeatCustomer(c.cagent, c.tnumber);
               c.cagent.msgFollowMe(new RestaurantOneMenu());
               c.cagent.setWaiter(this);
               atTable.drainPermits();
@@ -533,12 +535,12 @@ public class RestaurantOneWaiterRole extends Role implements simcity.interfaces.
               cook.msgHereIsAnOrder(this, c.choice, c.tnumber);
       }
 
-      private void DoSeatCustomer(RestaurantOneCustomerRole cagent, int tableNumber) {
+   /*   private void DoSeatCustomer(RestaurantOneCustomerRole cagent, int tableNumber) {
               //Notice how we print "customer" directly. It's toString method will do it.
               //Same with "table"
     	  ((RestaurantOneWaiterGui)gui).DoBringToTable(cagent.getGui(), tableNumber); 
               //print("Seating customer " + customer.getName());
-      }
+      } */
 
       private void prepareCheck(MyCustomer customer) {
             //  print("Preparing bill for Customer");
@@ -590,6 +592,13 @@ public class RestaurantOneWaiterRole extends Role implements simcity.interfaces.
 		((RestaurantOneWaiterGui) gui).DoGoToHome();
 
 
+	}
+
+	@Override
+	public void atDestination() {
+		// TODO Auto-generated method stub
+		atDest.release();
+		
 	}
 } 
 

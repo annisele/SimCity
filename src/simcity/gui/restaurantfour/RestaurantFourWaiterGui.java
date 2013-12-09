@@ -16,8 +16,18 @@ public class RestaurantFourWaiterGui extends Gui {
 	public static final int HOST_LOCATION_X = 290;
 	public static final int HOST_LOCATION_Y = 370;
 	
-	public static final int WAITER_STATION_X = 200;
+	public static final int WAITER_STATION_X = 195;
 	public static final int WAITER_STATION_Y = 370;
+	
+	public static final int WAITER_AREA_X = 240;
+	public static final int WAITER_AREA_Y = 370;
+	
+	public static final int TABLE1_X = 80;
+	public static final int TABLE1_Y = 300;
+	public static final int TABLE2_X = 150;
+	public static final int TABLE2_Y = 300;
+	public static final int TABLE3_X = 220;
+	public static final int TABLE3_Y = 300;
 	
 	public RestaurantFourWaiterGui(RestaurantFourWaiter waiter) {
 		role = waiter;
@@ -34,5 +44,21 @@ public class RestaurantFourWaiterGui extends Gui {
 	public void DoGoToWaiterStation() {
 		DoGoToLocation(WAITER_STATION_X, WAITER_STATION_Y);
 	}
-        
+    
+	public void DoGoToWaitingArea() {
+		DoGoToLocation(WAITER_AREA_X, WAITER_AREA_Y);
+	}
+	
+	public void DoGoToTable(int tableNumber) {
+		if (tableNumber == 1) {
+			DoGoToLocation(TABLE1_X, TABLE1_Y);
+		}
+		else if (tableNumber == 2) {
+			DoGoToLocation(TABLE2_X, TABLE2_Y);
+		}
+		else if (tableNumber == 3) {
+			DoGoToLocation(TABLE3_X, TABLE3_Y);
+		}
+	}
+	
 }

@@ -1,9 +1,15 @@
 package simcity.buildings.restaurant.four;
 
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.Semaphore;
+
 import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
 import simcity.gui.restaurantfour.RestaurantFourCustomerGui;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.restaurant.four.RestaurantFourCustomer;
 import simcity.interfaces.restaurant.four.RestaurantFourWaiter;
 
@@ -22,8 +28,6 @@ public class RestaurantFourCustomerRole extends Role implements RestaurantFourCu
 	 * Data
 	 */
 
-	//private PersonAgent person;
-	private RestaurantFourCustomerGui gui;
 	private int tableNumber;
 	
 	private RestaurantFourWaiter waiter;
@@ -37,9 +41,8 @@ public class RestaurantFourCustomerRole extends Role implements RestaurantFourCu
 	public enum Event {none, gotHungry, metWaiter, gotToTable};
 	private Event event = Event.none;
 	
-	public PersonAgent getPersonAgent() {
-		return person;
-	}
+	private Semaphore atDest = new Semaphore(0, true);
+	private Timer timer = new Timer();
 	
 	// Constructors //////////////////////////////////////////////////////////////////////////
 	
@@ -49,6 +52,10 @@ public class RestaurantFourCustomerRole extends Role implements RestaurantFourCu
 	}
 	
 	// Accessors //////////////////////////////////////////////////////////////////////////
+	
+	public PersonAgent getPersonAgent() {
+		return person;
+	}
 	
 	public void setPersonAgent(PersonAgent person) {
 		this.person = person;
@@ -162,16 +169,34 @@ public class RestaurantFourCustomerRole extends Role implements RestaurantFourCu
 	 */
 	
 	private void informHostOfArrival() {
+		DoGoToHostLocation();
+		try {
+    		atDest.acquire();
+    	} catch (InterruptedException e) {
+    		//e.printStackTrace();
+    	}
 		restaurantFourSystem.getHost().msgImHungry(this);
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurantFourSystem.getName()), "Customer: " + person.getName(), "I am hungry!");	
 	}
 	
 	private void followWaiterToTable() {
-		DoGoToTable();
+		DoGoToTable(tableNumber);
+		try {
+    		atDest.acquire();
+    	} catch (InterruptedException e) {
+    		//e.printStackTrace();
+    	}
 		msgArrivedAtTable();
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurantFourSystem.getName()), "Customer: " + person.getName(), "I am at table " + tableNumber);
 	}
 	
 	private void thinkOfOrder() {
-		//waiter.msgImReadyToOrder();
+		timer.schedule(new TimerTask() {
+			public void run() {
+				//waiter.msgImReadyToOrder();
+				AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurantFourSystem.getName()), "Customer: " + person.getName(), "I am ready to order!");
+			}
+		}, 1000);
 	}
 	
 	// Animation DoXYZ
@@ -179,8 +204,8 @@ public class RestaurantFourCustomerRole extends Role implements RestaurantFourCu
 		((RestaurantFourCustomerGui) gui).DoGoToHostLocation();
 	}
 	
-	private void DoGoToTable() {
-		
+	private void DoGoToTable(int tableNumber) {
+		((RestaurantFourCustomerGui) gui).DoGoToTable(tableNumber);
 	}
 	
 	// Utilities //////////////////////////////////////////////////////////////////////////
@@ -195,13 +220,16 @@ public class RestaurantFourCustomerRole extends Role implements RestaurantFourCu
 		// TODO Auto-generated method stub
 		this.restaurantFourSystem = (RestaurantFourSystem)s;
 		msgGotHungry();
-		DoGoToHostLocation();
+		try {
+    		atDest.acquire();
+    	} catch (InterruptedException e) {
+    		//e.printStackTrace();
+    	}
 	}
 
 	@Override
 	public void atDestination() {
-		// TODO Auto-generated method stub
-		
+		atDest.release();
 	}
 	
 	// Utility Classes //////////////////////////////////////////////////////////////////////////

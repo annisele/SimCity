@@ -513,26 +513,26 @@ public class Config {
 		systems.addRestaurantFour("RESTAURANT4", 249, 140);
 		systems.addRestaurantFourHost("R4Host", "RESTAURANT4");
 		
-		try {
-			timer1.cancel();
-			timer2.cancel();
-			timer1 = new Timer();
-			timer2 = new Timer();
-		} catch(Exception e) {
-		
-		}
-		
-		timer1.schedule(new TimerTask() {
+		timer.schedule(new TimerTask() {
 			public void run() {
 				systems.addRestaurantFourWaiter("R4Waiter", "RESTAURANT4");
+				timer.schedule(new TimerTask() {
+					public void run() {
+						systems.addPerson("Hungry R4Customer1");
+						timer.schedule(new TimerTask() {
+							public void run() {
+								systems.addPerson("Hungry R4Customer2");
+								timer.schedule(new TimerTask() {
+									public void run() {
+										systems.addPerson("Hungry R4Customer3");
+									}
+								}, 1000);
+							}
+						}, 1000);
+					}
+				}, 1000);
 			}
 		}, 1000);
-		
-		timer2.schedule(new TimerTask() {
-			public void run() {
-				systems.addPerson("Hungry R4Customer");
-			}
-		}, 2000);
 	}
 	
 	//Rebecca's restaurant

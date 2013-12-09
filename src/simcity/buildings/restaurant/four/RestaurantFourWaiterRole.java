@@ -10,6 +10,8 @@ import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
 import simcity.gui.restaurantfour.RestaurantFourWaiterGui;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.restaurant.four.RestaurantFourCustomer;
 import simcity.interfaces.restaurant.four.RestaurantFourWaiter;
 
@@ -172,6 +174,7 @@ public class RestaurantFourWaiterRole extends Role implements RestaurantFourWait
     		//e.printStackTrace();
     	}
 		restaurantFourSystem.getHost().msgWaiterReadyForWork(this);
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurantFourSystem.getName()), "Waiter: " + person.getName(), "I am ready to work!");
 	}
 
 	private void workAtWaiterStation() {
@@ -180,8 +183,20 @@ public class RestaurantFourWaiterRole extends Role implements RestaurantFourWait
 	
 	private void seatCustomerAtTable(MyCustomer customer) {
 		DoGoToWaitingArea();
+		try {
+    		atDest.acquire();
+    	} catch (InterruptedException e) {
+    		//e.printStackTrace();
+    	}
 		customer.getCustomer().msgFollowMeToTable(this, customer.getTableNumber(), menu);
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurantFourSystem.getName()), "Waiter: " + person.getName(), "Hello! Please follow me to table " + customer.getTableNumber());
 		DoGoToTable(customer.getTableNumber());
+		try {
+    		atDest.acquire();
+    	} catch (InterruptedException e) {
+    		//e.printStackTrace();
+    	}
+		DoGoToWaiterStation();
 	}
 	
 	private void walkToCustomerForOrder(MyCustomer customer) {
@@ -198,11 +213,11 @@ public class RestaurantFourWaiterRole extends Role implements RestaurantFourWait
 	}
 	
 	private void DoGoToWaitingArea() {
-		
+		((RestaurantFourWaiterGui) gui).DoGoToWaitingArea();
 	}
 	
 	private void DoGoToTable(int tableNumber) {
-		
+		((RestaurantFourWaiterGui) gui).DoGoToTable(tableNumber);
 	}
 	
 	// Utilities //////////////////////////////////////////////////////////////////////////
@@ -217,6 +232,11 @@ public class RestaurantFourWaiterRole extends Role implements RestaurantFourWait
 		// TODO Auto-generated method stub
 		this.restaurantFourSystem = (RestaurantFourSystem)s;
 		msgGotToWork();
+		try {
+    		atDest.acquire();
+    	} catch (InterruptedException e) {
+    		//e.printStackTrace();
+    	}
 	}
 
 	public void atDestination() {

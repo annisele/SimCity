@@ -11,6 +11,7 @@ import simcity.interfaces.GuiPartner;
 public interface RestaurantFourCustomer extends GuiPartner {
 
 	// Accessors
+	public abstract PersonAgent getPersonAgent();
 	public abstract void setPersonAgent(PersonAgent person);
 	public abstract RestaurantFourSystem getSystem();
 	public abstract void setSystem(RestaurantFourSystem restaurantFourSystem);
@@ -33,6 +34,5 @@ public interface RestaurantFourCustomer extends GuiPartner {
 	// Utilities
 	public abstract void exitBuilding();
 	public abstract void enterBuilding(SimSystem s);
-	public abstract void atDestination();
 	
 }

@@ -446,6 +446,15 @@ public class SystemManager {
 		person.startThread();
 
 	}	
+	
+	public void addRestaurantOneCook(String name, String rest) {
+		PersonAgent person = new PersonAgent(name);
+		world.getAnimationPanel().addGui(person.getIdleGui());
+		Role r1Cook = new RestaurantOneCookRole(person);
+		person.addWork(r1Cook, rest);
+		people.add(person);
+		person.startThread();
+	}
 
 	public void addRestaurantOneCashier(String name, String rest) {
 		PersonAgent person = new PersonAgent(name);

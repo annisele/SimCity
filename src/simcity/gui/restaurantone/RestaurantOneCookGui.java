@@ -10,6 +10,7 @@ import javax.swing.ImageIcon;
 
 import simcity.buildings.restaurant.one.*;
 import simcity.gui.Gui;
+import simcity.interfaces.restaurant.one.RestaurantOneCook;
 
 public class RestaurantOneCookGui extends Gui {
 
@@ -17,13 +18,15 @@ public class RestaurantOneCookGui extends Gui {
     
     private Graphics2D g = null;
 
-    private int xPos = 550, yPos = 120; // cook position
+    private int xPos = 150, yPos = 120; // cook position
     private int xGrill = 500, yGrill = 130;
     private int xPlate = 550, yPlate = 175;
             
+    private ImageIcon ii = new ImageIcon("res/person/bluepersondownbig.png");
+    private Image hostimage = ii.getImage();
 
-    public RestaurantOneCookGui(RestaurantOneCookRole cr) {
-                this.cookrole = cr;
+    public RestaurantOneCookGui(RestaurantOneCook cr) {
+                role = cr;
         }
 
     
@@ -33,21 +36,8 @@ public class RestaurantOneCookGui extends Gui {
 
 
     public void draw(Graphics2D g) {
-            this.g = g;
-            Color CookColor = new Color (50, 50, 50);
-                g.setColor(CookColor);
-                g.fillRect(xPos, yPos, 50, 50);
-                Color GrillColor = new Color (177, 212, 43);
-                g.setColor(GrillColor);
-                g.fillRect(xGrill, yGrill, 40, 40);
-                Color black = new Color(0,0,0);
-                g.setColor(black);
-                g.drawString("Grill", xGrill, yGrill);
-                Color PlateColor = new Color (233, 121, 43);
-                g.setColor(PlateColor);
-                g.fillRect(xPlate, yPlate, 40, 40);
-                g.setColor(black);
-                g.drawString("Plate", xPlate, yPlate+42);
+    	g.drawImage(hostimage,getX(), getY(), null);
+
     }
     
     public void putongrill() {
@@ -61,12 +51,8 @@ public class RestaurantOneCookGui extends Gui {
         return true;
     }
 
-    public int getXPos() {
-        return xPos;
-    }
-
-    public int getYPos() {
-        return yPos;
+    public void DoGoToKitchen() {
+    	DoGoToLocation(180, 180);
     }
 
 

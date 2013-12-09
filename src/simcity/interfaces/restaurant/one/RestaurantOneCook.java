@@ -2,8 +2,9 @@ package simcity.interfaces.restaurant.one;
 
 import simcity.buildings.restaurant.one.*;
 import simcity.buildings.restaurant.one.RestaurantOneCookRole.CookOrder;
+import simcity.interfaces.GuiPartner;
 
-public interface RestaurantOneCook {
+public interface RestaurantOneCook extends GuiPartner{
 	
 	public void msgHereIsAnorder(RestaurantOneWaiterRole w, String choice, int table);
 	

@@ -34,6 +34,11 @@ public class BusGui extends Gui {
 			x = 20;
 			y = 108;
 		}
+		if (busagent.getName().equals("Kipling")) {
+			x = 1370;
+			y = 800;
+				
+		}
 		
 	}
 	

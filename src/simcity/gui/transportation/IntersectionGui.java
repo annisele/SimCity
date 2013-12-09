@@ -1,4 +1,4 @@
-package simcity.buildings.transportation;
+package simcity.gui.transportation;
 
 import java.awt.Rectangle;
 import java.util.ArrayList;
@@ -6,9 +6,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
-public class Intersection {
+import simcity.buildings.transportation.BusAgent;
+import simcity.buildings.transportation.CarAgent;
+
+public class IntersectionGui {
 	
-	private List<Object> vehicles = Collections.synchronizedList(new ArrayList<Object>());
 	private Semaphore stoplight = new Semaphore(1, true);
 	private int x;
 	private int y;
@@ -17,7 +19,7 @@ public class Intersection {
 	public static final int intersectionWidth = 100;
 	public static final int intersectionHeight = 100;
 	
-	public Intersection(int x, int y) {
+	public IntersectionGui(int x, int y) {
 		this.x = x;
 		this.y = y;
 		box = new Rectangle(x, y, intersectionWidth, intersectionHeight);

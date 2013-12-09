@@ -56,9 +56,17 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
 		event = CustomerEvent.seated;
 		stateChanged();
 	}
+	public void msgAnimationFinishedGoToSeat() {
+		event = CustomerEvent.seated;
+		stateChanged();
+	}
+	public void msgGotHungry() {
+		event = CustomerEvent.gotHungry;
+		stateChanged();
+	}
 	@Override
 	public boolean pickAndExecuteAnAction() {
-		// TODO Auto-generated method stub
+		
 		return false;
 	}
 

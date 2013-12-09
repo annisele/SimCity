@@ -33,12 +33,12 @@ public class Directory {
 		Location parking4 = new Location(1145,411);
 		Location parking5 = new Location(290,771);
 		Location parking6 = new Location(1145,771);
-		parkingStructureDirectory.put(1, parking1);
-		parkingStructureDirectory.put(2, parking2);
-		parkingStructureDirectory.put(3, parking3);
-		parkingStructureDirectory.put(4, parking4);
-		parkingStructureDirectory.put(5, parking5);
-		parkingStructureDirectory.put(6, parking6);
+		parkingStructureDirectory.put(0, parking1);
+		parkingStructureDirectory.put(1, parking2);
+		parkingStructureDirectory.put(2, parking3);
+		parkingStructureDirectory.put(3, parking4);
+		parkingStructureDirectory.put(4, parking5);
+		parkingStructureDirectory.put(5, parking6);
 	}
 	public void makeBusStops1() {
 		Location stop0 = new Location(40, 67);
@@ -65,6 +65,10 @@ public class Directory {
 	
 	public static Location getBusStop(int bsc) {
 		return busStopDirectory.get(bsc);
+	}
+	
+	public static Location getGarage(int gc) {
+		return parkingStructureDirectory.get(gc);
 	}
 	
 	public void setWorld(WorldSystem w) {

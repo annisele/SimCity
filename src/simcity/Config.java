@@ -52,8 +52,8 @@ public class Config {
 		systems.addCar("Prufrock");
 		systems.addMarket("MARKET2", 312, 27);
 		
-		systems.addPerson("Mary");
-		systems.setWorkMarketWorker("Mary", "MARKET2");
+		systems.addPerson("Gosling");
+		systems.setWorkMarketWorker("Gosling", "MARKET2");
 	}
 
 	public void busToMarket() {
@@ -244,7 +244,7 @@ public class Config {
 			}
 		},1000);
 	}
-
+	
 	public void fullCity() {
 		systems.clear();
 		systems.clearDetailPane();

@@ -14,11 +14,10 @@ import simcity.interfaces.restaurant.one.RestaurantOneCook;
 
 public class RestaurantOneCookGui extends Gui {
 
-    private RestaurantOneCookRole cookrole = null;
     
     private Graphics2D g = null;
 
-    private int xPos = 150, yPos = 120; // cook position
+   // private int xPos = 150, yPos = 120; // cook position
     private int xGrill = 500, yGrill = 130;
     private int xPlate = 550, yPlate = 175;
             
@@ -47,18 +46,12 @@ public class RestaurantOneCookGui extends Gui {
             
     }
 
-    public boolean isPresent() {
-        return true;
-    }
+  
 
     public void DoGoToKitchen() {
-    	//DoGoToLocation(180, 180);
+    	DoGoToLocation(180, 180);
     }
 
 
-        @Override
-        public void updatePosition() {
-                // TODO Auto-generated method stub
-                
-        }
+        
 }

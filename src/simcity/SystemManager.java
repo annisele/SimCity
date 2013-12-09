@@ -138,6 +138,10 @@ public class SystemManager {
 		if(name.equalsIgnoreCase("Josh")) {
 			person.busToMarketNow();
 		}
+		
+		if(name == "Gosling") {
+			person.carToMarketNow();
+		}
 		if (name == "Levonne") {
 			person.goToBankNow();
 		}
@@ -219,6 +223,7 @@ public class SystemManager {
 		Location loc = new Location(100, 400);
 		dir.add(name, EntryType.Car, loc, temp);
 		car = new CarAgent(name);
+		//car.msgGettingOn(cp, l);
 		car.setDirectory(dir);
 		CarGui tcg = new CarGui(car);
 		car.setGui(tcg);

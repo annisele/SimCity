@@ -27,10 +27,10 @@ public interface RestaurantFourWaiter extends GuiPartner {
 		public abstract void msgGotToWork();
 		public abstract void msgStartWorking();
 		public abstract void msgSeatCustomerAtTable(RestaurantFourCustomer customer, int tableNumber, RestaurantFourMenu menu);
+		public abstract void msgImReadyToOrder(RestaurantFourCustomer customer);
 		
 		// Utilities
 		public abstract void exitBuilding();
 		public abstract void enterBuilding(SimSystem s);
-		public abstract void atDestination();
 	
 }

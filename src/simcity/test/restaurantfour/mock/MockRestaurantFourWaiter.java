@@ -1,8 +1,12 @@
 package simcity.test.restaurantfour.mock;
 
+import java.util.List;
+
 import simcity.PersonAgent;
 import simcity.SimSystem;
+import simcity.buildings.restaurant.four.RestaurantFourMenu;
 import simcity.buildings.restaurant.four.RestaurantFourSystem;
+import simcity.buildings.restaurant.four.RestaurantFourWaiterRole.MyCustomer;
 import simcity.buildings.restaurant.four.RestaurantFourWaiterRole.Status;
 import simcity.interfaces.restaurant.four.RestaurantFourCustomer;
 import simcity.interfaces.restaurant.four.RestaurantFourWaiter;
@@ -84,8 +88,32 @@ public class MockRestaurantFourWaiter extends Mock implements RestaurantFourWait
 	}
 
 	@Override
+	public List<MyCustomer> getCustomers() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public RestaurantFourMenu getMenu() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setMenu(RestaurantFourMenu menu) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
 	public void msgSeatCustomerAtTable(RestaurantFourCustomer customer,
-			int tableNumber) {
+			int tableNumber, RestaurantFourMenu menu) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgImReadyToOrder(RestaurantFourCustomer customer) {
 		// TODO Auto-generated method stub
 		
 	}

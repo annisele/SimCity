@@ -11,34 +11,37 @@ import simcity.buildings.transportation.CarAgent;
 
 public class IntersectionGui {
 	
-	private Semaphore stoplight = new Semaphore(1, true);
 	private int x;
 	private int y;
 	private Rectangle box;
 	
+	private Semaphore stoplight = new Semaphore(1, true);
+	
 	public static final int intersectionWidth = 100;
 	public static final int intersectionHeight = 100;
 	
+	// Constructor
 	public IntersectionGui(int x, int y) {
 		this.x = x;
 		this.y = y;
 		box = new Rectangle(x, y, intersectionWidth, intersectionHeight);
 	}
 	
-	public void startIntersection() {
-		while(true) {
-			if(vehicles.isEmpty()) {
-
-			}
-			else {
-				if (vehicles.get(0) instanceof BusAgent) {
-					//((BusAgent)vehicles.get(0)).allowToGo();
-				}
-				else if (vehicles.get(0) instanceof CarAgent) {
-					//((CarAgent)vehicles.get(0)).allowToGo();
-				}
-			}
-		}
+	// Accessors
+	public int getX() {
+		return x;
+	}
+	
+	public void setX(int x) {
+		this.x = x;
+	}
+	
+	public int getY() {
+		return y;
+	}
+	
+	public void setY(int y) {
+		this.y = y;
 	}
 	
 	public void vehicleArrived(Object vehicle) {

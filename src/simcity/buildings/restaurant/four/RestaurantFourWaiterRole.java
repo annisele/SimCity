@@ -201,6 +201,13 @@ public class RestaurantFourWaiterRole extends Role implements RestaurantFourWait
 	
 	private void walkToCustomerForOrder(MyCustomer customer) {
 		DoGoToTable(customer.getTableNumber());
+		try {
+    		atDest.acquire();
+    	} catch (InterruptedException e) {
+    		//e.printStackTrace();
+    	}
+		customer.getCustomer().msgWhatDoYouWantToOrder();
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurantFourSystem.getName()), "Waiter: " + person.getName(), "What would you like to order?");
 	}
 	
 	// Animation DoXYZ

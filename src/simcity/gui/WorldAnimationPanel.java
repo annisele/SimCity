@@ -104,8 +104,17 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
 	    }
 	    else if (background == largecityimage) {
 	    	g2.drawImage(background, posX, posY, null);
+	    	g.setColor(Color.GRAY);
+			g.fillRect(720+posX, 143+posY, 50, 20);
+			g.fillRect(290+posX, 411+posY, 50, 20);
+			g.fillRect(720+posX, 411+posY, 50, 20);
+			g.fillRect(1145+posX,411+posY, 50, 20);
+			g.fillRect(290+posX, 771+posY, 50, 20);
+			g.fillRect(1145+posX,771+posY, 50, 20);
+	    	
+	    	
 	    }
-    
+	   
         for(BuildingGui b : buildingGuis) {
         	if (draggable)
         		b.setOffset(posX, posY);

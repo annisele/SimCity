@@ -38,11 +38,16 @@ public class RestaurantFiveWaiterGui extends Gui {
 		DoGoToLocation(HOST_X, HOST_Y);
 	}
 	
-	public void DoSeatCustomer(RestaurantFiveCustomer c, int table) {
-		System.out.println("TABLEEEE" + table);
+	public void DoGoToTable(int table) {
 		if(table == 1) {
 			DoGoToLocation(TABLE1_X, TABLE_Y);
 		}
-		((RestaurantFiveCustomerGui) c.getGui()).DoGoToSeat(TABLE1_X + size_x, TABLE_Y + (size_y/4));
+	}
+	
+	public void DoSeatCustomer(RestaurantFiveCustomer c, int table) {
+		if(table == 1) {
+			DoGoToLocation(TABLE1_X, TABLE_Y);
+			((RestaurantFiveCustomerGui) c.getGui()).DoGoToSeat(TABLE1_X + size_x, TABLE_Y + (size_y/4));
+		}
 	}
 }

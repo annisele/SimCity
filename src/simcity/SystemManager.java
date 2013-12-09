@@ -22,7 +22,6 @@ import simcity.buildings.restaurant.three.*;
 import simcity.buildings.restaurant.four.*;
 import simcity.buildings.restaurant.five.*;
 import simcity.buildings.transportation.BusAgent;
-import simcity.buildings.transportation.Intersection;
 import simcity.buildings.transportation.TransportationSystem;
 import simcity.gui.BuildingGui;
 import simcity.gui.SimCityGui;

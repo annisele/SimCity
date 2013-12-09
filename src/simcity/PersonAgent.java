@@ -17,9 +17,9 @@ import simcity.buildings.market.MarketCustomerRole;
 import simcity.buildings.restaurant.five.RestaurantFiveCustomerRole;
 import simcity.buildings.restaurant.five.RestaurantFiveSystem;
 import simcity.buildings.restaurant.four.RestaurantFourCustomerRole;
-import simcity.buildings.restaurant.one.RestaurantOneSystem;
+import simcity.buildings.restaurant.four.RestaurantFourSystem;
 import simcity.buildings.restaurant.one.RestaurantOneCustomerRole;
-import simcity.buildings.restaurant.six.RestaurantSixCustomerRole;
+import simcity.buildings.restaurant.one.RestaurantOneSystem;
 import simcity.buildings.restaurant.three.RestaurantThreeCustomerRole;
 import simcity.buildings.restaurant.three.RestaurantThreeSystem;
 import simcity.buildings.restaurant.two.RestaurantTwoCustomerRole;
@@ -34,6 +34,7 @@ import simcity.interfaces.Person;
 import simcity.interfaces.bank.BankCustomer;
 import simcity.interfaces.market.MarketCustomer;
 import simcity.interfaces.restaurant.five.RestaurantFiveCustomer;
+import simcity.interfaces.restaurant.four.RestaurantFourCustomer;
 import simcity.interfaces.restaurant.one.RestaurantOneCustomer;
 import simcity.interfaces.restaurant.three.RestaurantThreeCustomer;
 import simcity.interfaces.restaurant.two.RestaurantTwoCustomer;
@@ -96,7 +97,6 @@ public class PersonAgent extends Agent implements Person {
 		myRoles.add(m);
 		myRoles.add(b);
 		myRoles.add(bp);
-		
 		myRoles.add(r2);
 		myRoles.add(r3);
 		myRoles.add(r4);
@@ -472,6 +472,13 @@ public class PersonAgent extends Agent implements Person {
 					}
 				}
 			}
+			else if(Directory.getSystem(buildingName) instanceof RestaurantFourSystem) {
+				for(Role r : myRoles) {
+					if(r instanceof RestaurantFourCustomer) {
+						eventR = r;
+					}
+				}
+			}
 			
 
 			
@@ -777,6 +784,10 @@ public class PersonAgent extends Agent implements Person {
 		this.scheduleEvent(EventType.EatAtRestaurant);
 	}
 
+	public void goToRestaurantFourNow() {
+		this.scheduleEvent(EventType.EatAtRestaurant);
+	}
+	
 	public boolean isIdle() {
 		return (currentRole == null);
 	}

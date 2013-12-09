@@ -2,6 +2,7 @@ package simcity.gui.restaurantone;
 
 import simcity.buildings.restaurant.one.*;
 import simcity.gui.Gui;
+import simcity.interfaces.restaurant.one.RestaurantOneWaiter;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -35,11 +36,15 @@ public class RestaurantOneWaiterGui extends Gui {
                 private int x;
                 private int y;
         }
+        
+        
+        private ImageIcon ii = new ImageIcon("res/person/bluepersondownbig.png");
+        private Image hostimage = ii.getImage();
 
         public static List<Coordinates> TableSpots = new ArrayList<Coordinates>();
         public static List<RestaurantOneFoodGui> foodItems = new ArrayList<RestaurantOneFoodGui>();
 
-        protected RestaurantOneWaiterRole wagent = null;
+      //  protected RestaurantOneWaiterRole waiterrole = null;
         private RestaurantOneFoodGui food = null;
         private int CookLocationX= 540;
         private int CookLocationY = 200;
@@ -55,72 +60,30 @@ public class RestaurantOneWaiterGui extends Gui {
 
         private RestaurantPanel restPanel;
 
-        public RestaurantOneWaiterGui(RestaurantOneWaiterRole agent) {
-                this.wagent = agent;
+        public RestaurantOneWaiterGui(RestaurantOneWaiter wrole) {
+                role = wrole;
                 int n = 200;
                 for (int i = 0; i < 3; i++) {
                         TableSpots.add(new Coordinates(n, 600));
                         n += 150;
-                        x = 200;
-                        y = 200;
+                     //   x = 240;
+                      //  y = 300;
                 }
         }
 
-    /*    public void updatePosition() {
-
-                if (xPos < xDest)
-                        xPos++;
-                else if (xPos > xDest)
-                        xPos--;
-
-                if (yPos < yDest)
-                        yPos++;
-                else if (yPos > yDest)
-                        yPos--;
-
-                if (tableNumber > 0) {
-                        if (xPos == xDest && yPos == yDest
-                                        & (xDest == (TableSpots.get(tableNumber - 1).getX() + 20)) & (yDest == (TableSpots.get(tableNumber - 1).y - 20))) {
-                                wagent.msgAtTable();
-                        }                
-                }
-
-                if (tableNumber > 0) {
-                        if (xPos == xDest && yPos == yDest
-                                        & (xDest == (TableSpots.get(tableNumber - 1).getX() + 20)) & (yDest == (TableSpots.get(tableNumber - 1).y - 70))) {
-                                wagent.msgAtTable();
-                        }                
-                }
-
-
-                if ((xPos < 70) && (yPos < 70))
-                {
-                        if (returning)
-                        {
-                                wagent.msgLeavingCustomer();
-                                returning = false;
-                        }
-                }    
-
-                if ((xPos == CookLocationX) && (yPos == CookLocationY) && (xDest == CookLocationX) && (yDest == CookLocationY)){ //hack
-                        wagent.msgWithCook();
-                }
-                
-        } */
+  
 
         public void draw(Graphics2D g) {
-                Color waiterColor = new Color(100, 120, 140);
-                g.setColor(waiterColor);
-                g.fillRect(x, y, 32, 32);
+        	g.drawImage(hostimage,getX(), getY(), null);
         }
 
       
 
-        public void DoBringToTable(RestaurantOneCustomerGui CustGui, int tNum) {
+    /*    public void DoBringToTable(RestaurantOneCustomerGui CustGui, int tNum) {
                 if ((x != 40) && (y != 40)) {
                         DoLeaveCustomer();
                         try {
-                                wagent.leftCustomer.acquire();
+                                //waiterrole.leftCustomer.acquire();
                         } catch (InterruptedException e) {
                                 // TODO Auto-generated catch block
                                 e.printStackTrace();
@@ -130,7 +93,7 @@ public class RestaurantOneWaiterGui extends Gui {
                 xDest = TableSpots.get(tableNumber-1).getX() + 20;
                 yDest= TableSpots.get(tableNumber-1).y - 20;
                 CustGui.DoGoToLocation(xDest, yDest);
-        }
+        } */
 
         public void DoGoToTable(int tNum) {
                 tableNumber = tNum;
@@ -145,7 +108,7 @@ public class RestaurantOneWaiterGui extends Gui {
         }
         
         public void DoGoToHome(){
-        DoGoToLocation(200, 200);
+        	DoGoToLocation(50, 50);
         }
 
         public void DoLeaveCustomer() {
@@ -161,26 +124,23 @@ public class RestaurantOneWaiterGui extends Gui {
                 food.moveWithWaiter();
         }
 
-        public void setAnimationPanel(RestaurantOneAnimationPanel ap) {
-                animationPanel = ap;
-        }
 
         public void DoDeliverFood(int t, String choice, RestaurantOneCustomerGui custGui) {
                 food.moveToTable();
         }
         
         public void setBreak() {
-                wagent.msgWantBreak();
+             //   waiterrole.msgWantBreak();
         }
-        public boolean IsOnBreak() {
-                return wagent.OnBreak;
-        }
+      /*  public boolean IsOnBreak() {
+               // return waiterrole.OnBreak;
+        }*/
         public void putOffBreak() {
                 breakTimer.schedule(new TimerTask() {
                         public void run() {
-                                System.out.println(wagent.getName() + ": break is over");
-                                wagent.offDuty.release();
-                                wagent.Waiting();
+                               // System.out.println(waiterrole.getName() + ": break is over");
+                               // waiterrole.offDuty.release();
+                               /// waiterrole.Waiting();
                         }
                 },
                 8000);

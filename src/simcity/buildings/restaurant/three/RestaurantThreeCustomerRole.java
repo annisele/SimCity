@@ -11,7 +11,6 @@ import java.util.concurrent.Semaphore;
 import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
-import simcity.buildings.restaurant.two.RestaurantTwoOrderWheel;
 import simcity.gui.restaurantthree.RestaurantThreeCustomerGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
@@ -22,6 +21,7 @@ import simcity.interfaces.restaurant.three.RestaurantThreeWaiter;
 import simcity.test.mock.EventLog;
 public class RestaurantThreeCustomerRole extends Role implements RestaurantThreeCustomer{
 	private Timer timer = new Timer();
+	private double customerCash, customerCheck;
 	public  EventLog log = new EventLog();
 	private String name;
 	//role correspondents
@@ -33,7 +33,8 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
 	{DoingNothing, WaitingInRestaurant, BeingSeated, WaiterCalled, WaitingForFood, Eating, DoneEating, Leaving, WaitingForCheck, NoMoney};
 	private CustomerState state = CustomerState.DoingNothing;//The start state
     private RestaurantThreeOrderWheel OrderWheel= new RestaurantThreeOrderWheel();
-	public enum CustomerEvent 
+	private String choice;
+    public enum CustomerEvent 
 	{none, wait, gotHungry, seated, stayOrLeave, decidedChoice, waiterToTakeOrder, served, finishedEating,checkReceived, notWaiting, keepWaiting, doneLeaving, needReorder, leaveBecauseOfNoMoney, payNextTime, requestReorder};
 	CustomerEvent event = CustomerEvent.none;
 	
@@ -49,6 +50,11 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
 		return person.getName();
 	}
 
+	public void msgSitAtTable(RestaurantThreeWaiter w, int tableNum) {
+		waiter = w;
+		event = CustomerEvent.seated;
+		stateChanged();
+	}
 	@Override
 	public boolean pickAndExecuteAnAction() {
 		// TODO Auto-generated method stub
@@ -101,6 +107,7 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
 	public void setCashier(RestaurantThreeCashier ca) {
 		this.ca = ca;
 	}
+	
 	@Override
 	public void msgRestaurantFull() {
 		event = CustomerEvent.wait;

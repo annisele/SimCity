@@ -26,6 +26,7 @@ public class RestaurantFourCustomerTest extends TestCase {
 		customer = new RestaurantFourCustomerRole(person);
 		scg = new SimCityGui();
 		restaurant = new RestaurantFourSystem(scg);
+		restaurant.setName("RESTAURANT4");
 	}
 	
 	// one customer wants to eat (development stage)
@@ -47,6 +48,7 @@ public class RestaurantFourCustomerTest extends TestCase {
 		assertEquals("Restaurant should have one waiter", restaurant.getWaitersList().size(), 1);
 		
 		// step 1: enterBuilding
+		customer.atDestination();
 		customer.enterBuilding(restaurant);
 		
 		// check step 1 postconditions
@@ -55,6 +57,7 @@ public class RestaurantFourCustomerTest extends TestCase {
 		assertEquals("Customer should have registered a restaurant system", customer.getSystem(), restaurant);
 		
 		// step 2: call customer scheduler to inform host of arrival
+		customer.atDestination();
 		assertTrue("Customer scheduler should have returned true", customer.pickAndExecuteAnAction());
 		
 		// check step 2 postconditions
@@ -63,17 +66,23 @@ public class RestaurantFourCustomerTest extends TestCase {
 		assertTrue("Mockhost should have received msgImHungry", host.log.containsString("Received msgImHungry from customer " + customer));
 		
 		// step 3: msgFollowMeToTable from waiter
-		customer.msgFollowMeToTable(1); // int tableNumber
+		customer.msgFollowMeToTable(waiter1, 1, restaurant.getMenu());
 		
 		// check step 3 postconditions
 		assertEquals("Customer state should be waitingAtRestaurant", customer.getState(), State.waitingAtRestaurant);
 		assertEquals("Customer event should be metWaiter", customer.getEvent(), Event.metWaiter);
+		assertEquals("Customer should know who his waiter is", customer.getWaiter(), waiter1);
 		assertEquals("Customer table number should now be 1", customer.getTableNumber(), 1);
+		assertEquals("Customer should have access to a menu", customer.getMenu(), restaurant.getMenu());
 		
 		// step 4: call scheduler to follow waiter to table
+		customer.atDestination();
 		assertTrue("Customer scheduler should return true", customer.pickAndExecuteAnAction());
 		
-		
+		// check step 4 postconditions
+		assertEquals("Customer state should be waitingAtRestaurant", customer.getState(), State.walkingToTable);
+		assertEquals("Customer event should be metWaiter", customer.getEvent(), Event.metWaiter);
+		//assertEquals("")
 		
 		System.out.println("");
 		System.out.println("testOneCustomer done");

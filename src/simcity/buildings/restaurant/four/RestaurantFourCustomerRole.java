@@ -1,5 +1,6 @@
 package simcity.buildings.restaurant.four;
 
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
@@ -7,6 +8,7 @@ import java.util.concurrent.Semaphore;
 import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
+import simcity.buildings.restaurant.four.RestaurantFourMenu.foodType;
 import simcity.gui.restaurantfour.RestaurantFourCustomerGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
@@ -32,17 +34,19 @@ public class RestaurantFourCustomerRole extends Role implements RestaurantFourCu
 	
 	private RestaurantFourWaiter waiter;
 	private RestaurantFourMenu menu;
+	private foodType foodChoice;
 	
 	private RestaurantFourSystem restaurantFourSystem;
 	
-	public enum State {none, waitingAtRestaurant, walkingToTable, thinkingOfOrder};
+	public enum State {none, waitingAtRestaurant, walkingToTable, thinkingOfOrder, callingWaiter, ordering};
 	private State state = State.none;
 	
-	public enum Event {none, gotHungry, metWaiter, gotToTable};
+	public enum Event {none, gotHungry, metWaiter, gotToTable, doneThinkingOfOrder, waiterArrivedToTakeOrder};
 	private Event event = Event.none;
 	
 	private Semaphore atDest = new Semaphore(0, true);
 	private Timer timer = new Timer();
+	private Random generator = new Random();
 	
 	// Constructors //////////////////////////////////////////////////////////////////////////
 	
@@ -122,12 +126,24 @@ public class RestaurantFourCustomerRole extends Role implements RestaurantFourCu
 	
 	public void msgFollowMeToTable(RestaurantFourWaiter waiter, int tableNumber, RestaurantFourMenu menu) {
 		event = Event.metWaiter;
+		this.waiter = waiter;
 		this.tableNumber = tableNumber;
+		this.menu = menu;
 		stateChanged();
 	}
 	
 	public void msgArrivedAtTable() {
 		event = Event.gotToTable;
+		stateChanged();
+	}
+	
+	public void msgDoneThinkingOfOrder() {
+		event = Event.doneThinkingOfOrder;
+		stateChanged();
+	}
+	
+	public void msgWhatDoYouWantToOrder() {
+		event = Event.waiterArrivedToTakeOrder;
 		stateChanged();
 	}
 	
@@ -154,6 +170,18 @@ public class RestaurantFourCustomerRole extends Role implements RestaurantFourCu
 		if (state == State.walkingToTable && event == Event.gotToTable) {
 			state = State.thinkingOfOrder;
 			thinkOfOrder();
+			return true;
+		}
+		
+		if (state == State.thinkingOfOrder && event == Event.doneThinkingOfOrder) {
+			state = State.callingWaiter;
+			callWaiterForOrder();
+			return true;
+		}
+		
+		if (state == State.callingWaiter && event == Event.waiterArrivedToTakeOrder) {
+			state = State.ordering;
+			tellWaiterOrder();
 			return true;
 		}
 		
@@ -191,12 +219,23 @@ public class RestaurantFourCustomerRole extends Role implements RestaurantFourCu
 	}
 	
 	private void thinkOfOrder() {
+		int i = generator.nextInt(4) + 1;
+		foodChoice = menu.getFoodType(i);
 		timer.schedule(new TimerTask() {
 			public void run() {
-				//waiter.msgImReadyToOrder();
-				AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurantFourSystem.getName()), "Customer: " + person.getName(), "I am ready to order!");
+				msgDoneThinkingOfOrder();
+				AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurantFourSystem.getName()), "Customer: " + person.getName(), "Thought of order.");
 			}
 		}, 1000);
+	}
+	
+	private void callWaiterForOrder() {
+		waiter.msgImReadyToOrder(this);
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurantFourSystem.getName()), "Customer: " + person.getName(), "Waiter! I'm ready to order.");
+	}
+	
+	private void tellWaiterOrder() {
+		
 	}
 	
 	// Animation DoXYZ

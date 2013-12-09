@@ -30,6 +30,8 @@ public interface RestaurantFourCustomer extends GuiPartner {
 	public abstract void msgGotHungry();
 	public abstract void msgFollowMeToTable(RestaurantFourWaiter waiter, int tableNumber, RestaurantFourMenu menu);
 	public abstract void msgArrivedAtTable();
+	public abstract void msgDoneThinkingOfOrder();
+	public abstract void msgWhatDoYouWantToOrder();
 	
 	// Utilities
 	public abstract void exitBuilding();

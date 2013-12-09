@@ -67,7 +67,6 @@ public class SystemManager {
 		world.clear();
 		world.getAnimationPanel().clear();
 		world.simCityGui.clearTracePanels();
-
 		dir.clear();
 		markets.clear();
 		banks.clear();
@@ -170,7 +169,7 @@ public class SystemManager {
 
 		dir.add(name, EntryType.Market, loc, temp);
 	}
-
+	
 	public void addBank(String name, int xLoc, int yLoc) {
 		BankSystem temp = new BankSystem(simcity);
 		temp.setName(name);

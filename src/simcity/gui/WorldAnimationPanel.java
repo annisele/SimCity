@@ -55,13 +55,11 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
 		//build the animation areas
 		try {
 		    //make the 0-th row and column unavailable
-		    System.out.println("making row 0 and col 0 unavailable.");
 		    for (int i=0; i<gridY+1; i++) grid[0][0+i].acquire();
 		    for (int i=1; i<gridX+1; i++) grid[0+i][0].acquire();
-		    System.out.println("adding wait area");
 		    //restaurant.addWaitArea(2, 2, 13);
 		} catch (Exception e) {
-		    System.out.println("Unexpected exception caught in during setup:"+ e);
+		   // System.out.println("Unexpected exception caught in during setup:"+ e);
 		}
 
 
@@ -84,7 +82,6 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
 			posY -= y;
 		}
 		
-		System.out.println(x+", "+y);
 		return;
 	}
 	

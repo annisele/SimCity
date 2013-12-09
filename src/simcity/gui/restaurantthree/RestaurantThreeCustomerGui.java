@@ -30,4 +30,9 @@ public class RestaurantThreeCustomerGui extends Gui {
 	public void DoGoToHost(int n) {
 		DoGoToLocation(WINDOW1_X + (HOST_OFFSET * n), WINDOW1_Y);
 	}
+
+	public void DoGoToSeat(int tableNumber) {
+		// TODO Auto-generated method stub
+		
+	}
 }

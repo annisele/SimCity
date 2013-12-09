@@ -13,8 +13,8 @@ public class RestaurantThreeCustomerGui extends Gui {
 		
 	
 	private final int HOST_OFFSET = 50;
-	private final int WINDOW1_X = 80;
-	private final int WINDOW1_Y = 80;
+	private final int WINDOW1_X = 100;
+	private final int WINDOW1_Y = 325;
 	
 	private final int WINDOW2_X = 200;
 	private final int WINDOW2_Y = 103;

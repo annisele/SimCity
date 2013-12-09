@@ -10,6 +10,6 @@ public class Intersection {
 		public CarAgent car;
 		public Semaphore lock = new Semaphore(1, true);
 		Timer passtimer = new Timer();
-	
+		
 	
 }

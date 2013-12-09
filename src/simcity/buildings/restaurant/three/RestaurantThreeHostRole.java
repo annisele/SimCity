@@ -28,8 +28,6 @@ import simcity.test.mock.EventLog;
 public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost {
 	private Timer timer = new Timer();
 	private int numTable = 3;
-	//int tablesOccupiedCounter;
-	//int waiterAvailable = 0;
 	private int nextWaiter = 0;
 	public enum HostState {informed, uninformed};
 	public  EventLog log = new EventLog();
@@ -47,8 +45,7 @@ public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost
 		int tableNumber;
 		
 		Table(int tableNumber) {
-			this.tableNumber = tableNumber;
-			
+			this.tableNumber = tableNumber;		
 		}
 
 		void setOccupant(RestaurantThreeCustomer cust) {
@@ -79,7 +76,7 @@ public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost
 	}
 
 	public RestaurantThreeHostRole(PersonAgent p) {
-		this.person = p;
+		person = p;
 		this.gui = new RestaurantThreeHostGui(this);
 		tables = Collections.synchronizedList(new ArrayList<Table>(numTable));
 		synchronized(tables) {
@@ -115,26 +112,6 @@ public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost
 
 	@Override
 	public boolean pickAndExecuteAnAction() {
-		
-		/*
-		for (Table table : tables) {
-			if (!table.isOccupied()) {
-				if (!waitingCustomers.isEmpty() && !waiters.isEmpty()) {
-					
-					getWaiterSeatCustomer(waiters.get(nextWaiter), waitingCustomers.get(0), table);//the action
-					return true;//return true to the abstract agent to reinvoke the scheduler.
-				}
-			}	
-		}
-		for(RestaurantThreeCustomer c: waitingCustomers) {
-		 
-			
-			c.msgRestaurantFull();
-			
-			return true;
-		
-		}
-    		*/
 
 		if(waiters.size() > 0) {
 			synchronized(tables) {
@@ -202,7 +179,6 @@ public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost
 	
 	@Override
 	public int getWaitingCustomers() {
-		// TODO Auto-generated method stub
 		return waitingCustomers.size();
 	}
 	public String getName() {

@@ -7,7 +7,7 @@ public interface RestaurantOneHost {
 	
 	public abstract void msgIWantFood(RestaurantOneCustomerRole cust);
 	
-	public abstract void msgNewWaiter(RestaurantOneWaiterRole w);
+	public abstract void msgNewWaiter(RestaurantOneWaiter w);
 	
 	public abstract void msgTableIsFree(int table);
 	

@@ -11,6 +11,7 @@ public abstract class Role  {
 	
 	public void stateChanged() {  
 	//	System.out.println("skdjfhkjsdh: "+person);
+		System.out.println(this.getName());
 		person.stateChanged(); 
 	}
 	

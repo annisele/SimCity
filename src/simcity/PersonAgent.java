@@ -33,6 +33,7 @@ import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
 import simcity.interfaces.Person;
 import simcity.interfaces.bank.BankCustomer;
+import simcity.interfaces.house.HouseInhabitant;
 import simcity.interfaces.market.MarketCustomer;
 import simcity.interfaces.restaurant.five.RestaurantFiveCustomer;
 import simcity.interfaces.restaurant.four.RestaurantFourCustomer;
@@ -731,7 +732,7 @@ public class PersonAgent extends Agent implements Person {
 			currentRole = currentEvent.role;
 			currentRole.enterBuilding(Directory.getSystem(currentEvent.buildingName));	
 			
-			AlertLog.getInstance().logMessage(AlertTag.WORLD, "Pedestrian: "+name, currentEvent.buildingName +" entering building");						
+			AlertLog.getInstance().logMessage(AlertTag.WORLD, "Pedestrian: "+name, "Entering building" + currentEvent.buildingName );						
 
 		}
 		else {
@@ -744,6 +745,13 @@ public class PersonAgent extends Agent implements Person {
 				scheduleEvent(EventType.Work);
 				currentRole = null;
 				currentEvent = null;
+			}
+		}
+		if(currentEvent.type == EventType.GoToMarket) {
+			for (Role r : myRoles) {
+				if (r instanceof HouseInhabitant) {
+					((HouseInhabitant)r).marketDone();
+				}
 			}
 		}
 		stateChanged();

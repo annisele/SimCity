@@ -156,7 +156,6 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		market = (MarketSystem)s;
 		if (market.getCashier() == null) {
 			AlertLog.getInstance().logMessage(AlertTag.valueOf(market.getName()), "MarketCustomer: " + person.getName(), "This market looks closed!");
-			
 			market.exitBuilding(this);
 			person.roleFinished();	
 			return;

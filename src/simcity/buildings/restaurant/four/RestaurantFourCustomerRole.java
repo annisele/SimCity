@@ -97,6 +97,14 @@ public class RestaurantFourCustomerRole extends Role implements RestaurantFourCu
 		this.menu = menu;
 	}
 	
+	public foodType getFoodChoice() {
+		return foodChoice;
+	}
+	
+	public void setFoodChoice(foodType foodChoice) {
+		this.foodChoice = foodChoice;
+	}
+	
 	public State getState() {
 		return state;
 	}
@@ -219,10 +227,10 @@ public class RestaurantFourCustomerRole extends Role implements RestaurantFourCu
 	}
 	
 	private void thinkOfOrder() {
-		int i = generator.nextInt(4) + 1;
-		foodChoice = menu.getFoodType(i);
 		timer.schedule(new TimerTask() {
 			public void run() {
+				int i = generator.nextInt(4) + 1;
+				foodChoice = menu.getFoodType(i);
 				msgDoneThinkingOfOrder();
 				AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurantFourSystem.getName()), "Customer: " + person.getName(), "Thought of order.");
 			}
@@ -235,7 +243,8 @@ public class RestaurantFourCustomerRole extends Role implements RestaurantFourCu
 	}
 	
 	private void tellWaiterOrder() {
-		
+		waiter.msgThisIsMyOrder(this, foodChoice);
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurantFourSystem.getName()), "Customer: " + person.getName(), "I want " + foodChoice);
 	}
 	
 	// Animation DoXYZ

@@ -9,6 +9,7 @@ import java.util.concurrent.Semaphore;
 import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
+import simcity.buildings.restaurant.four.RestaurantFourMenu.foodType;
 import simcity.gui.restaurantfour.RestaurantFourWaiterGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
@@ -37,7 +38,7 @@ public class RestaurantFourWaiterRole extends Role implements RestaurantFourWait
 	public enum Status {none, waitingAtRestaurant, waitingForConfirmation, confirmed, working};
 	private Status status = Status.none;
 	
-	public enum customerState {none, withHost, sitting, wantToOrder, beingWalkedToForOrder};
+	public enum customerState {none, withHost, sitting, wantToOrder, beingWalkedToForOrder, ordering, ordered};
 	
 	private Semaphore atDest = new Semaphore(0, true);
 	
@@ -113,6 +114,19 @@ public class RestaurantFourWaiterRole extends Role implements RestaurantFourWait
 			for(MyCustomer c : customers) {
 				if (c.getCustomer() == customer) {
 					c.setState(customerState.wantToOrder);
+					stateChanged();
+				}
+			}
+		}
+	}
+	
+	public void msgThisIsMyOrder(RestaurantFourCustomer customer, foodType foodChoice) {
+		synchronized(customers) {
+			for(MyCustomer c : customers) {
+				if (c.getCustomer() == customer) {
+					c.setState(customerState.ordering);
+					c.setFoodChoice(foodChoice);
+					stateChanged();
 				}
 			}
 		}
@@ -139,17 +153,28 @@ public class RestaurantFourWaiterRole extends Role implements RestaurantFourWait
 		}
 		
 		if (status == Status.working) {
-			synchronized(customers) {
-				for (MyCustomer customer : customers) {
-					if (customer.getState() == customerState.wantToOrder) {
-						customer.setState(customerState.beingWalkedToForOrder);
-						walkToCustomerForOrder(customer);
-						return true;
+			if (!customers.isEmpty()) {
+				synchronized(customers) {
+					for (MyCustomer customer : customers) {
+						if (customer.getState() == customerState.ordering) {
+							customer.setState(customerState.ordered);
+							walkToKitchenToTellCookOfOrder(customer);
+							return true;
+						}
 					}
-					if (customer.getState() == customerState.withHost) {
-						customer.setState(customerState.sitting);
-						seatCustomerAtTable(customer);
-						return true;
+					for (MyCustomer customer : customers) {
+						if (customer.getState() == customerState.wantToOrder) {
+							customer.setState(customerState.beingWalkedToForOrder);
+							walkToCustomerForOrder(customer);
+							return true;
+						}
+					}
+					for (MyCustomer customer : customers) {
+						if (customer.getState() == customerState.withHost) {
+							customer.setState(customerState.sitting);
+							seatCustomerAtTable(customer);
+							return true;
+						}
 					}
 				}
 			}
@@ -210,6 +235,17 @@ public class RestaurantFourWaiterRole extends Role implements RestaurantFourWait
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurantFourSystem.getName()), "Waiter: " + person.getName(), "What would you like to order?");
 	}
 	
+	private void walkToKitchenToTellCookOfOrder(MyCustomer customer) {
+		DoGoToCook();
+		try {
+    		atDest.acquire();
+    	} catch (InterruptedException e) {
+    		//e.printStackTrace();
+    	}
+		restaurantFourSystem.getCook().msgHereIsCustomerOrder(this, customer.getTableNumber(), customer.getFoodChoice());
+		DoGoToWaiterStation();
+	}
+	
 	// Animation DoXYZ
 	private void DoGoToHostLocation() {
 		((RestaurantFourWaiterGui) gui).DoGoToHostLocation();
@@ -225,6 +261,10 @@ public class RestaurantFourWaiterRole extends Role implements RestaurantFourWait
 	
 	private void DoGoToTable(int tableNumber) {
 		((RestaurantFourWaiterGui) gui).DoGoToTable(tableNumber);
+	}
+	
+	private void DoGoToCook() {
+		((RestaurantFourWaiterGui) gui).DoGoToCookLocation();
 	}
 	
 	// Utilities //////////////////////////////////////////////////////////////////////////
@@ -260,6 +300,7 @@ public class RestaurantFourWaiterRole extends Role implements RestaurantFourWait
 		private RestaurantFourCustomer customer;
 		private customerState state;
 		private int tableNumber;
+		private foodType foodChoice;
 		
 		// Constructor /////////////////////////////////////////////////////////////////////////
 		MyCustomer(RestaurantFourCustomer customer, int tableNumber) {
@@ -291,6 +332,14 @@ public class RestaurantFourWaiterRole extends Role implements RestaurantFourWait
 		
 		public void setTableNumber(int tableNumber) {
 			this.tableNumber = tableNumber;
+		}
+		
+		public foodType getFoodChoice() {
+			return foodChoice;
+		}
+		
+		public void setFoodChoice(foodType foodChoice) {
+			this.foodChoice = foodChoice;
 		}
 		
 		// Functions ///////////////////////////////////////////////////////////////////////////

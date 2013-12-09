@@ -205,9 +205,8 @@ public class ControlPanel extends JPanel implements ActionListener {
 		addTab.add(placeDropdown);
 		addTab.add(addPerson);
 
-
-		tabPane.addTab("Add People", addTab);
 		tabPane.addTab("Selected", selectTab);
+		tabPane.addTab("Add People", addTab);
 		tabPane.addTab("Log", logTab);
 
 		add(tabPane);

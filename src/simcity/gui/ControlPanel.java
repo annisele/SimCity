@@ -134,7 +134,9 @@ public class ControlPanel extends JPanel implements ActionListener {
 		//setting tab layouts
 		addTab.setLayout(new GridLayout(15, 1));
 		logTab.setLayout(new FlowLayout());
-		selectTab.setLayout(new GridLayout(15, 1));
+		//selectTab.setLayout(new GridLayout(15, 1));
+		selectTab.setLayout(new FlowLayout());
+		selectTab.setPreferredSize(new Dimension(this.getWidth(), 600));
 
 
 		//Log tab section
@@ -193,6 +195,7 @@ public class ControlPanel extends JPanel implements ActionListener {
 
 			@Override
 			public void keyTyped(KeyEvent arg0) {				
+		
 			}
 
 		});
@@ -201,7 +204,6 @@ public class ControlPanel extends JPanel implements ActionListener {
 		addTab.add(typeDropdown);
 		addTab.add(placeDropdown);
 		addTab.add(addPerson);
-
 
 
 		tabPane.addTab("Add People", addTab);
@@ -280,6 +282,7 @@ public class ControlPanel extends JPanel implements ActionListener {
 		else if(e.getSource() == pauseB) {
 			if(pauseB.getText().equals("Pause")) {
 				pauseB.setText("Resume");
+				
 			}
 			else {
 				pauseB.setText("Pause");

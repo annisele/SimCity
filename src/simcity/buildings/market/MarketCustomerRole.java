@@ -68,6 +68,9 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 
 	@Override
 	public void msgHereAreItems(Map<String, Integer> itemsToDeliver, double ch) {
+		AlertLog.getInstance().logDebug(AlertTag.valueOf(market.getName()), "MarketCustomer: " + person.getName(), 
+				"itemsDelivered has size: "+itemsToDeliver.size());
+
 		itemsDelivered = itemsToDeliver;
 		change = ch;
 		state = CustomerState.delivered;
@@ -100,6 +103,8 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 
 	private void SendOrder() {
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(market.getName()), "MarketCustomer: " + person.getName(), "Here is my order.");
+		AlertLog.getInstance().logDebug(AlertTag.valueOf(market.getName()), "MarketCustomer: " + person.getName(), 
+				"itemsToBuy has size: "+itemsToBuy.size());
 		market.getCashier().msgHereIsAnOrder(this, this, itemsToBuy);
 		state = CustomerState.orderSent;
 	}
@@ -127,6 +132,8 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		}
 		((MarketCustomerGui) gui).carryItem(true);
 		market.getCashier().msgReceivedOrder();
+		AlertLog.getInstance().logDebug(AlertTag.valueOf(market.getName()), "MarketCustomer: " + person.getName(), "ItemsDelivered has size: "+itemsDelivered.size());
+
 		person.receiveDelivery(itemsDelivered);
 		person.addMoney(change);
 		change = 0;
@@ -165,6 +172,8 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		//hack!
 		itemsToBuy = new HashMap<String, Integer>();
 		itemsToBuy = person.getListToBuy();
+		AlertLog.getInstance().logDebug(AlertTag.valueOf(market.getName()), "MarketCustomer: " + person.getName(), 
+				"itemsToBuy has size: "+itemsToBuy.size());
 		((MarketCustomerGui)gui).DoGoToCashier();
 		try {
 			atDest.acquire();

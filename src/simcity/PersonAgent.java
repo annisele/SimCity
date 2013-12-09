@@ -204,6 +204,8 @@ public class PersonAgent extends Agent implements Person {
 				house = (HouseInhabitantRole) r;
 			}
 		}  
+		AlertLog.getInstance().logDebug(AlertTag.WORLD, "WORLD: " + getName(), "getListToBuy has a size of " + house.getListToBuy().size());										
+
 		return house.getListToBuy();
 	}
 

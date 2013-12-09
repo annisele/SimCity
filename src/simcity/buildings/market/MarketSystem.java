@@ -75,14 +75,19 @@ public class MarketSystem extends simcity.SimSystem {
 			}
 		}
 		else if (cashier != null) {
-			if(role instanceof MarketCustomer) {
-				customers.add((MarketCustomer) role);
-			}
-			else if(role instanceof MarketWorker) {
+			if(role instanceof MarketWorker) {
 				workers.add((MarketWorker) role);
+				animationPanel.addGui(role.getGui());
+				return true;
 			}
-			animationPanel.addGui(role.getGui());
-			return true;
+			if (workers.size() > 0) {
+				if(role instanceof MarketCustomer) {
+					customers.add((MarketCustomer) role);
+					animationPanel.addGui(role.getGui());
+					return true;
+				}
+			}
+			
 		} 
 		return false;
 	}

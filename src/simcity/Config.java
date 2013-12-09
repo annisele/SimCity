@@ -150,8 +150,10 @@ public class Config {
 		systems.setWorkMarketWorker("Joe", "MARKET1");
 		//systems.addMarketWorker("Joe", "MARKET1");
 		
+
 		systems.addPerson("Tommy");
 		systems.setHome("Tommy", "HOUSE3");
+
 
 		
 	}

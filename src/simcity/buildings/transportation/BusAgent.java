@@ -101,16 +101,16 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 			busStopCounter = 9;
 		}
 		else if (name == "Kipling") {
-			Location stop1 = new Location(1370, 800);
-			Location stop2 = new Location(1370, 470);
-			Location stop3 = new Location(1370, 110);
-			Location stop4 = new Location(940, 110);
-			Location stop5 = new Location(500, 110);
-			Location stop6 = new Location(110, 110);
-			Location stop7 = new Location(110,  470 );
-			Location stop8 = new Location(110, 800);
-			Location stop9 = new Location(500 , 800);
-			Location stop10 = new Location(940, 800);
+			Location stop1 = new Location(1400, 830);
+			Location stop2 = new Location(1400, 470);
+			Location stop3 = new Location(1400, 80);
+			Location stop4 = new Location(940, 80);
+			Location stop5 = new Location(500, 80);
+			Location stop6 = new Location(80, 80);
+			Location stop7 = new Location(80,  440 );
+			Location stop8 = new Location(80, 830);
+			Location stop9 = new Location(500 , 830);
+			Location stop10 = new Location(940, 830);
 			busStops.put(0, stop1);
 			busStops.put(1, stop2);
 			busStops.put(2, stop3);

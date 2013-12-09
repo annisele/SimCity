@@ -20,6 +20,11 @@ import simcity.gui.transportation.BusGui;
 
 
 public class WorldAnimationPanel extends AnimationPanel implements ActionListener {
+	
+	private boolean draggable = false;
+    private int posX = 0;
+    private int posY = 0;
+    
 	static int gridX = 36; // newly added
 	static int gridY = 36; // newly added
 	Semaphore[][] grid = new Semaphore[gridX+1][gridY+1]; 
@@ -36,8 +41,7 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
     
     Image background = null;
     
-    private int posX = 0;
-    private int posY = 0;
+    
     
 
     
@@ -51,13 +55,11 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
 		//build the animation areas
 		try {
 		    //make the 0-th row and column unavailable
-		    System.out.println("making row 0 and col 0 unavailable.");
 		    for (int i=0; i<gridY+1; i++) grid[0][0+i].acquire();
 		    for (int i=1; i<gridX+1; i++) grid[0+i][0].acquire();
-		    System.out.println("adding wait area");
 		    //restaurant.addWaitArea(2, 2, 13);
 		} catch (Exception e) {
-		    System.out.println("Unexpected exception caught in during setup:"+ e);
+		   // System.out.println("Unexpected exception caught in during setup:"+ e);
 		}
 
 
@@ -80,7 +82,6 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
 			posY -= y;
 		}
 		
-		System.out.println(x+", "+y);
 		return;
 	}
 	
@@ -105,6 +106,8 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
 	    }
     
         for(BuildingGui b : buildingGuis) {
+        	if (draggable)
+        		b.setOffset(posX, posY);
         	b.draw((Graphics2D)g);
         	if ((JPanel)b.getSystem().getAnimationPanel() != super.getSimCityGui().getDetailPane()) {
         		b.getSystem().getAnimationPanel().updateGuis();
@@ -114,6 +117,8 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
         synchronized(busGuis) {
 			for(Gui gui : busGuis) {
 				if (gui.isPresent()) {
+					if (draggable)
+						gui.setOffset(posX, posY);
 					gui.updatePosition();
 				}
 			}
@@ -126,22 +131,40 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
 				}
 			}
 		}
-
-        super.paintComponent(g);
 		
+		synchronized(guis) {
+			for(Gui gui : guis) {
+				if (gui.isPresent()) {
+					if (draggable)
+						gui.setOffset(posX, posY);
+					gui.updatePosition();
+				}
+			}
+		}
+
+		synchronized(guis) {
+			for(Gui gui : guis) {
+				if (gui.isPresent()) {
+					gui.draw((Graphics2D)g);
+				}
+			}
+		}		
        
 	}
 	
 	public void setBackgroundOne() {
     	background = roadimage;
+    	draggable = false;
     }
     
     public void setBackgroundTwo() {
     	background = cityimg;
+    	draggable = false;
     }
     
     public void setBackgroundThree() {
     	background = largecityimage;
+    	draggable = true;
     }
     
 	public void addGui(Gui g) {

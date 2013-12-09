@@ -37,6 +37,10 @@ public class PedestrianRole extends Role implements simcity.interfaces.transport
 		this.gui.setLocation(x, y);
 	}
 	
+	public void setLocation(int x, int y) {
+		this.gui.setLocation(x,  y);
+	}
+	
 	// Scheduler
 	public boolean pickAndExecuteAnAction() {
 		if(!destinationList.isEmpty()) {
@@ -71,6 +75,7 @@ public class PedestrianRole extends Role implements simcity.interfaces.transport
 	
 	// Utility functions
 	public void addDestination(Location destination) {
+		System.out.println("IM A PEDESTRIAN WITH A DESTIONATION NAMED "+person.getName());
 		destinationList.add(destination);
 	}
 	

@@ -2,8 +2,9 @@ package simcity.interfaces.restaurant.one;
 
 import simcity.buildings.restaurant.one.RestaurantOneCheck;
 import simcity.buildings.restaurant.one.RestaurantOneCustomerRole;
+import simcity.interfaces.GuiPartner;
 
-public interface RestaurantOneWaiter {
+public interface RestaurantOneWaiter extends GuiPartner{
 	
 	public void msgSitAtTable(RestaurantOneCustomerRole cust, int table);
 	

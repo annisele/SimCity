@@ -5,18 +5,24 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Semaphore;
 
 import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
 import simcity.buildings.restaurant.one.RestaurantOneCheck.CheckState;
+import simcity.gui.restaurantone.RestaurantOneCashierGui;
+import simcity.gui.restaurantone.RestaurantOneWaiterGui;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.restaurant.one.RestaurantOneCustomer;
 
-public class RestaurantOneCashierRole extends Role {//implements simcity.interfaces.restaurant.one.RestaurantOneCashier {
+public class RestaurantOneCashierRole extends Role implements simcity.interfaces.restaurant.one.RestaurantOneCashier {
 
 	
 
-	        
+			private RestaurantOneSystem restaurant;
+
 			private PersonAgent person;
 	        private String Name;
 	        public Double cash;
@@ -27,6 +33,7 @@ public class RestaurantOneCashierRole extends Role {//implements simcity.interfa
 	                this.person = p;
 	                this.Name = p.getName();
 	                cash = 10.00; //cashier starts out with 100 dollars in the register
+	                this.gui = new RestaurantOneCashierGui(this);
 	        }
 	        
 	        public Map<String, Double> prices = Collections.synchronizedMap(new HashMap<String, Double>()); { { 
@@ -41,7 +48,9 @@ public class RestaurantOneCashierRole extends Role {//implements simcity.interfa
 	        //CashierCheck- when the cashier has actually computed the price of the check
 	        public List<RestaurantOneCheck> uncalculatedChecks = Collections.synchronizedList(new ArrayList<RestaurantOneCheck>());
 	        //Checks in circulation- haven't been calculated yet
+	        public Semaphore atDest = new Semaphore(0, true);
 
+	        
 	        public class CashierCheck {
 	                public RestaurantOneCheck check;
 	                public Double Payment;
@@ -104,7 +113,7 @@ public class RestaurantOneCashierRole extends Role {//implements simcity.interfa
 
 
 
-	        private void CalculateCheck(RestaurantOneCheck check) {
+	        public void CalculateCheck(RestaurantOneCheck check) {
 	               // print ("Calculating check");
 	                calculatedChecks.add(new CashierCheck(check));
 	                check.price = prices.get(check.choice);
@@ -112,7 +121,7 @@ public class RestaurantOneCashierRole extends Role {//implements simcity.interfa
 	                check.w.msgHereIsComputedCheck(check);
 	        }
 	        
-	        private void finishCheck(CashierCheck c)
+	        public void finishCheck(CashierCheck c)
 	        {
 	                if (c.check.price <= c.Payment) {
 	                        c.check.state = RestaurantOneCheck.CheckState.done;
@@ -167,6 +176,22 @@ public class RestaurantOneCashierRole extends Role {//implements simcity.interfa
 			@Override
 			public void enterBuilding(SimSystem s) {
 				// TODO Auto-generated method stub
+				restaurant = (RestaurantOneSystem)s;
+				AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantOneCashier: " + person.getName(), "Ready to work at the restaurant!");
+
+
+				((RestaurantOneCashierGui) gui).DoGoToStand();
 				
 			}
+
+
+
+
+
+			@Override
+			public void atDestination() {
+				// TODO Auto-generated method stub
+				atDest.release();
+				System.out.println("Cashier at destination");
+				}
 }

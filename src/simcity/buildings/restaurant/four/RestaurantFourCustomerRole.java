@@ -45,6 +45,7 @@ public class RestaurantFourCustomerRole extends Role implements RestaurantFourCu
 	
 	public RestaurantFourCustomerRole(PersonAgent person) {
 		this.person = person;
+		this.gui = new RestaurantFourCustomerGui(this);
 	}
 	
 	// Accessors //////////////////////////////////////////////////////////////////////////
@@ -175,7 +176,7 @@ public class RestaurantFourCustomerRole extends Role implements RestaurantFourCu
 	
 	// Animation DoXYZ
 	private void DoGoToHostLocation() {
-		
+		((RestaurantFourCustomerGui) gui).DoGoToHostLocation();
 	}
 	
 	private void DoGoToTable() {

@@ -574,9 +574,6 @@ public class RestaurantOneWaiterRole extends Role implements simcity.interfaces.
               gui = gui;
       }
 
-      public RestaurantOneWaiterGui getGui() {
-              return this.getGui();
-      } 
 
 	@Override
 	public void exitBuilding() {

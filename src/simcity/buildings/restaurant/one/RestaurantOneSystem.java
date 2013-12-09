@@ -59,7 +59,7 @@ public class RestaurantOneSystem extends SimSystem {
 //			}
 			else if(role instanceof RestaurantOneWaiter) {
 				waiters.add((RestaurantOneWaiter) role);
-				host.msgNewWaiter((RestaurantOneWaiter)role);
+				//host.msgNewWaiter((RestaurantOneWaiter)role);
 			}
 
 			animationPanel.addGui(role.getGui());

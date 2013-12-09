@@ -74,7 +74,7 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
 		rest = (RestaurantThreeSystem)s;
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(rest.getName()), "Restaurant 3 Customer: " + person.getName(), "I've arrived at restaurant 3");	
 		rest.getRestaurantThreeHost().msgIWantFood(this);
-		int n = rest. getRestaurantThreeHost().getWaitingCustomers();
+		int n = rest.getRestaurantThreeHost().getWaitingCustomers();
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(rest.getName()), "Restaurant 3 Customer: " + person.getName(), "Num waiting customers: " + n);
 		
 		((RestaurantThreeCustomerGui) gui).DoGoToHost(n);

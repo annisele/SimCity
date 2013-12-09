@@ -16,14 +16,6 @@ public class RestaurantThreeCustomerGui extends Gui {
 	private final int WINDOW1_X = 100;
 	private final int WINDOW1_Y = 325;
 	
-	private final int WINDOW2_X = 200;
-	private final int WINDOW2_Y = 103;
-		
-	private final int WINDOW3_X = 280;
-	private final int WINDOW3_Y = 103;
-
-	private final int HOST_X = 250;
-	private final int HOST_Y = 400;
 	
 	ImageIcon ii = new ImageIcon("res/person/persondownbig.png");
 	Image img = ii.getImage();

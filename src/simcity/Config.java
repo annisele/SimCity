@@ -480,7 +480,7 @@ public class Config {
 
 		timer.schedule(new TimerTask() {
 			public void run() {
-				systems.addPerson("Hungry Harry");
+				systems.addRestaurantThreeCook("NELSON", "RESTAURANT3");
 				timer.schedule(new TimerTask() {
 					public void run() {
 						systems.addRestaurantThreeWaiter("EDWARD", "RESTAURANT3");
@@ -489,7 +489,7 @@ public class Config {
 								systems.addRestaurantThreeCashier("JUSTIN", "RESTAURANT3");
 								timer.schedule(new TimerTask() {
 									public void run() {
-										systems.addRestaurantThreeCook("NELSON", "RESTAURANT3");
+										systems.addPerson("Hungry Harry");
 										timer.schedule(new TimerTask() {
 											public void run() {
 												systems.addPerson("Hungry Aaron");

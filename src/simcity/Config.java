@@ -48,6 +48,7 @@ public class Config {
 		systems.clearDetailPane();
 		systems.setBackgroundThree();
 		systems.addBus("Bismarck");
+		systems.addBus("Kipling");
 		systems.addMarket("MARKET2", 312, 27);
 		
 		systems.addPerson("Mary");
@@ -545,7 +546,8 @@ public class Config {
 
 		systems.setBackgroundTwo();
 		systems.addRestaurantFive("RESTAURANT5", 249, 140);
-		systems.addRestaurantFiveHost("Sarah", "RESTAURANT5");
+		systems.addRestaurantFiveWaiter("Bob", "RESTAURANT5");
+	//	systems.addRestaurantFiveHost("Sarah", "RESTAURANT5");
 		
 		
 		try {
@@ -569,7 +571,9 @@ public class Config {
 		
 		timer2.schedule(new TimerTask() {
 			public void run() {
-				systems.addRestaurantFiveWaiter("Bob", "RESTAURANT5");
+				//systems.addRestaurantFiveWaiter("Bob", "RESTAURANT5");
+				systems.addRestaurantFiveHost("Sarah", "RESTAURANT5");
+
 			}
 		}, 1600);
 		

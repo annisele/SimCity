@@ -15,8 +15,6 @@ public class IntersectionGui {
 	private int y;
 	private Rectangle box;
 	
-	private Semaphore stoplight = new Semaphore(1, true);
-	
 	public static final int intersectionWidth = 100;
 	public static final int intersectionHeight = 100;
 	
@@ -45,8 +43,4 @@ public class IntersectionGui {
 	}
 	
 	// Functions
-	public void vehicleArrived(Object vehicle) {
-		vehicles.add(vehicle);
-	}
-	
 }

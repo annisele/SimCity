@@ -12,6 +12,7 @@ import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
 import simcity.gui.restaurantthree.RestaurantThreeCustomerGui;
+import simcity.gui.restauranttwo.RestaurantTwoCustomerGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
 import simcity.interfaces.restaurant.three.RestaurantThreeCashier;
@@ -36,7 +37,7 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
     private RestaurantThreeOrderWheel OrderWheel= new RestaurantThreeOrderWheel();
 	private String choice;
     public enum CustomerEvent 
-	{none, wait, gotHungry, seated, stayOrLeave, decidedChoice, waiterToTakeOrder, served, finishedEating,checkReceived, notWaiting, keepWaiting, doneLeaving, needReorder, leaveBecauseOfNoMoney, payNextTime, requestReorder};
+	{none, wait, gotHungry, followWaiter, seated, stayOrLeave, decidedChoice, waiterToTakeOrder, served, finishedEating,checkReceived, notWaiting, keepWaiting, doneLeaving, needReorder, leaveBecauseOfNoMoney, payNextTime, requestReorder};
 	CustomerEvent event = CustomerEvent.none;
 	
 	private Semaphore atDest = new Semaphore(0, true);
@@ -64,12 +65,40 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
 		event = CustomerEvent.gotHungry;
 		stateChanged();
 	}
+	public void msgHereIsYourFood(String choice) {
+		event = CustomerEvent.served;
+		stateChanged();
+	}
+	public void msgFinishedFood() {
+		event = CustomerEvent.finishedEating;
+		stateChanged();
+	}
+	public void msgWhatsYourOrder() {
+		event = CustomerEvent.decidedChoice;
+		stateChanged();
+	}
 	@Override
 	public boolean pickAndExecuteAnAction() {
-		
+		if (state == CustomerState.DoingNothing && event == CustomerEvent.gotHungry ){
+            state = CustomerState.WaitingInRestaurant;
+            informHostOfArrival();
+            return true;
+    } 
+		  if (state == CustomerState.WaitingInRestaurant && event == CustomerEvent.followWaiter ){
+              state = CustomerState.BeingSeated;
+              SitDown();
+              return true;
+      }
 		return false;
 	}
-
+	//actions
+	public void informHostOfArrival() {
+		
+	}
+	public void SitDown() {
+		 AlertLog.getInstance().logMessage(AlertTag.valueOf(rest.getName()), "RestaurantCustomer: " + person.getName(),"Being seated. Going to table.");
+         ((RestaurantThreeCustomerGui)gui).DoGoToSeat(tableNumber);//hack; only osne table
+	}
 	@Override
 	public void exitBuilding() {
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(rest.getName()), "Restaurant Three Waiter: " + person.getName(), "Leaving restaurant three");	

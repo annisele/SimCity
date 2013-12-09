@@ -111,22 +111,22 @@ public class RestaurantFiveHostRole extends Role implements RestaurantFiveHost {
 		for (Table table : tables) {
 			if (!table.isOccupied()) {
 				waitingCustomers.add(cust);
-				AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantFiveHost: " + person.getName(), "Assigning customer to waiter.");
+				AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantFiveHost: " + person.getName(), "Assigning waiter to customer " + cust.getName() + ".");
 				stateChanged();
 				return;
 			}
 		}
 		//no free tables
-		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantFiveHost: " + person.getName(), "Alerting customer that restaurant is full.");
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantFiveHost: " + person.getName(), "Alerting " + cust.getName() + " that restaurant is full.");
 		cust.msgRestaurantFull();
 	}
 
-//	public void msgIWillWaitForTable(RestaurantFiveCustomerRole cust) {
-//		waitingCustomers.add(cust);
-//		Do("Assigning a waiter to customer.");
-//		stateChanged();
-//	}
-//
+	public void msgIWillWaitForTable(RestaurantFiveCustomer cust) {
+		waitingCustomers.add(cust);
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantFiveHost: " + person.getName(), "Because customer will wait, assigning waiter to customer " + cust.getName() + ".");
+		stateChanged();
+	}
+
 //	public void msgTableIsFree(int t) {
 //		for (Table table : tables) {
 //			if (table.tableNumber == t) {

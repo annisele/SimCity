@@ -1,6 +1,5 @@
 package simcity.gui.restaurantthree;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 

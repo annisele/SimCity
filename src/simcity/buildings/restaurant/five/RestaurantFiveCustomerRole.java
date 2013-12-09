@@ -9,16 +9,17 @@ import simcity.gui.restaurantfive.RestaurantFiveCustomerGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
 import simcity.interfaces.restaurant.five.RestaurantFiveCustomer;
+import simcity.interfaces.restaurant.five.RestaurantFiveWaiter;
 
 public class RestaurantFiveCustomerRole extends Role implements RestaurantFiveCustomer {
 
 //	Timer timer = new Timer();
-//	int tableNum = -1;
+	int tableNum = -1;
 //	private Menu menu;
 //	private String food;
 //	private double money = 30;
-//	private RestaurantFiveWaiterRole waiter;
-//	private RestaurantFiveMenu menu;
+	private RestaurantFiveWaiter waiter;
+	private RestaurantFiveMenu menu;
 //	private double check;
 //	private double change;
 	private Semaphore atDest = new Semaphore(0, true);
@@ -45,7 +46,6 @@ public class RestaurantFiveCustomerRole extends Role implements RestaurantFiveCu
 	
 	public void msgRestaurantFull() {
 		
-		
 //		if(person.getName().equalsIgnoreCase("full")) {
 //			print("Leaving because restaurant is full.");
 //		}
@@ -57,20 +57,20 @@ public class RestaurantFiveCustomerRole extends Role implements RestaurantFiveCu
 		stateChanged();
 	}
 	
-//	public void msgHereIsMenu(RestaurantFiveWaiterRole w, RestaurantFiveMenu m) {
-//		event = AgentEvent.lookingAtMenu;
-//		waiter = w;
-//		menu = m;
-//		stateChanged();
-//	}
-//	
-//	public void msgFollowMeToTable(RestaurantFiveWaiterRole w, int tableNumber) {
-//		tableNum = tableNumber;
-//		event = AgentEvent.followWaiter;	
-//		waiter = w;
-//		stateChanged();
-//	}
-//
+	public void msgHereIsMenu(RestaurantFiveWaiter w, RestaurantFiveMenu m) {
+		event = AgentEvent.lookingAtMenu;
+		waiter = w;
+		menu = m;
+		stateChanged();
+	}
+	
+	public void msgFollowMeToTable(RestaurantFiveWaiterRole w, int tableNumber) {
+		tableNum = tableNumber;
+		event = AgentEvent.followWaiter;	
+		waiter = w;
+		stateChanged();
+	}
+
 //	public void msgAnimationFinishedGoToSeat() {
 //		//from animation
 //		event = AgentEvent.seated;
@@ -156,23 +156,24 @@ public class RestaurantFiveCustomerRole extends Role implements RestaurantFiveCu
 	 */
 	@Override
 	public boolean pickAndExecuteAnAction() {
-//		if (state == AgentState.WaitingInRestaurant && event == AgentEvent.willWaitforTable ){
-//			event = AgentEvent.toldHostIWillWait;
-//			waitForTable();
-//			return true;
-//		}
-//		if (state == AgentState.WaitingInRestaurant && event == AgentEvent.lookingAtMenu ){
-//			state = AgentState.LookingAtMenu;
-//			LookAtMenu();
-//			return true;
-//		}
-//		if (state == AgentState.LookingAtMenu && event == AgentEvent.followWaiter ){
-//			state = AgentState.BeingSeated;
-//			SitDown(tableNum);
-//			return true;
-//		}
-//		
-//		
+		//AlertLog.getInstance().logDebug(AlertTag.valueOf(restaurant.getName()), "RestaurantFiveHost: " + person.getName(), "state: " + state.toString() + ", event: " + event.toString());
+		if (state == AgentState.WaitingInRestaurant && event == AgentEvent.willWaitforTable ){
+			event = AgentEvent.toldHostIWillWait;
+			waitForTable();
+			return true;
+		}
+		if (state == AgentState.WaitingInRestaurant && event == AgentEvent.lookingAtMenu ){
+			state = AgentState.LookingAtMenu;
+			LookAtMenu();
+			return true;
+		}
+		if (state == AgentState.LookingAtMenu && event == AgentEvent.followWaiter ){
+			state = AgentState.BeingSeated;
+			SitDown(tableNum);
+			return true;
+		}
+		
+		
 //		if(state == AgentState.WantToOrder && event == AgentEvent.seated) {
 //			state = AgentState.AskedToOrder;
 //			CallWaiter();
@@ -213,19 +214,20 @@ public class RestaurantFiveCustomerRole extends Role implements RestaurantFiveCu
 	}
 
 	
-//	private void waitForTable() {
-//		Do("Waiting for table.");
-//		restaurant.getHost().msgIWillWaitForTable(this);
-//	}
-//
-//	private void SitDown(int tn) {
-//		
-//		if(((RestaurantFiveCustomerGui)gui).DoGoToSeat()) {
-//			state = AgentState.Seated;
-//			Do("Waiter is seating me.");
-//		}
-//		
-//		//hack to make customer order shortly after being seated
+	private void waitForTable() {
+		Do("Waiting for table.");
+		restaurant.getHost().msgIWillWaitForTable(this);
+	}
+
+	private void SitDown(int tn) {
+		
+		//if(((RestaurantFiveCustomerGui)gui).DoGoToSeat()) {
+		((RestaurantFiveCustomerGui)gui).DoGoToSeat();
+			state = AgentState.Seated;
+			AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantFiveCustomer: " + person.getName(), "Being seated by waiter.");
+		//}
+		
+		//hack to make customer order shortly after being seated
 //		timer.schedule(new TimerTask() {
 //			public void run() {
 //				
@@ -235,23 +237,24 @@ public class RestaurantFiveCustomerRole extends Role implements RestaurantFiveCu
 //		},
 //		1000);
 //		
-//	}
-//	
+	}
+	
 //	private void CallWaiter() {
 //		Do("I'm ready to order.");
 //		waiter.msgReadyToOrder(this);
 //	}
-//	
-//	private void LookAtMenu() {
-//		if(money < menu.getLeastExpensivePrice()) {
-//			if(CheckToLeaveBecauseTooExpensive()) {
-//				return;
-//			}
-//		}
-//		//if they can afford food, or they flake, continue to table
-//		Do("Will follow waiter.");
-//		waiter.msgIWillFollowYou(this);
-//	}
+	
+	private void LookAtMenu() {
+		//if(money < menu.getLeastExpensivePrice()) {
+			//if(CheckToLeaveBecauseTooExpensive()) {
+			//	return;
+			//}
+		//}
+		//if they can afford food, or they flake, continue to table
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantFiveCustomer: " + person.getName(), "Waiter, I will follow you.");
+		waiter.msgIWillFollowYou(this);
+	}
+	
 //	//if they leave, return true. if not (name = flake), return false
 //	private boolean CheckToLeaveBecauseTooExpensive() {
 //		if(!person.getName().equalsIgnoreCase("flake")) {
@@ -384,7 +387,6 @@ public class RestaurantFiveCustomerRole extends Role implements RestaurantFiveCu
 		restaurant.getHost().msgIWantFood(this);
 		
 		int n = restaurant.getHost().getNumWaitingCustomers();
-		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantFiveCustomer: " + person.getName(), "Num waiting customers: " + n);
 		
 		((RestaurantFiveCustomerGui) gui).DoGoToHost(n);
 		try {
@@ -393,6 +395,7 @@ public class RestaurantFiveCustomerRole extends Role implements RestaurantFiveCu
 			e.printStackTrace();
 		}
 		
+		state = AgentState.WaitingInRestaurant;
 		event = AgentEvent.gotHungry;
 
 		stateChanged();

@@ -9,21 +9,22 @@ import javax.swing.ImageIcon;
 
 import simcity.buildings.restaurant.one.*;
 import simcity.gui.Gui;
+import simcity.interfaces.restaurant.one.RestaurantOneCashier;
 import simcity.interfaces.restaurant.one.RestaurantOneHost;
 
-public class RestaurantOneHostGui extends Gui {
+public class RestaurantOneCashierGui extends Gui {
 
     
     private ImageIcon ii = new ImageIcon("res/person/bluepersondownbig.png");
     private Image hostimage = ii.getImage();
 
     
-    public static final int HOSTX = 300;
-    public static final int HOSTY = 300;
+    public static final int CASHX = 100;
+    public static final int CASHY = 400;
             
 
-    public RestaurantOneHostGui(RestaurantOneHost hr) {
-        role = hr;
+    public RestaurantOneCashierGui(RestaurantOneCashier cr) {
+        role = cr;
     }
     
     // retrieve table location information from the animation panel
@@ -36,7 +37,7 @@ public class RestaurantOneHostGui extends Gui {
     }
     
     public void DoGoToStand() {
-    	DoGoToLocation(HOSTX, HOSTY);
+    	DoGoToLocation(CASHX, CASHY);
     	//DoGoToLocation(100, 100);
     	
     }

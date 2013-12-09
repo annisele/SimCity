@@ -169,7 +169,7 @@ public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost
 		system = (RestaurantThreeSystem)s;
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(system.getName()), "Restaurant 3 Host: " + person.getName(), "Ready to work at the restaurant!");
 		
-		((RestaurantThreeHostGui) gui).DoGoToStand();
+		((RestaurantThreeHostGui)gui).DoGoToStand();
 		
 	}
 

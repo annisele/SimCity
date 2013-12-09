@@ -4,8 +4,9 @@ import simcity.buildings.restaurant.one.RestaurantOneCashierRole.CashierCheck;
 import simcity.buildings.restaurant.one.RestaurantOneCheck;
 import simcity.buildings.restaurant.one.RestaurantOneCustomerRole;
 import simcity.buildings.restaurant.one.RestaurantOneWaiterRole;
+import simcity.interfaces.GuiPartner;
 
-public interface RestaurantOneCashier {
+public interface RestaurantOneCashier extends GuiPartner{
 	
 	public void msgCustomerPaying(RestaurantOneCheck check, Double payment);
 	

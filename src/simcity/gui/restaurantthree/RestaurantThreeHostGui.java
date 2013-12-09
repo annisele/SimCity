@@ -39,6 +39,7 @@ public class RestaurantThreeHostGui extends Gui {
 	}
 	public void DoGoToStand() {
 		DoGoToLocation(HOST_X, HOST_Y);
+		
 	}
 
 }

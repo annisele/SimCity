@@ -13,4 +13,6 @@ public interface RestaurantFiveWaiter extends GuiPartner {
 
 	String getName();
 
+	public abstract void msgIWillFollowYou(RestaurantFiveCustomer cust);
+
 }

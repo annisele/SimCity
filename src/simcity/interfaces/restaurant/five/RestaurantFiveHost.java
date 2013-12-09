@@ -13,8 +13,7 @@ public interface RestaurantFiveHost extends GuiPartner {
 //	public abstract void msgWantToGoOnBreak(
 //			RestaurantFiveWaiter restaurantFiveWaiterRole);
 //
-//	public abstract void msgIWillWaitForTable(
-//			RestaurantFiveCustomer cust);
+	public abstract void msgIWillWaitForTable(RestaurantFiveCustomer cust);
 	
 	String getName();
 

@@ -41,7 +41,6 @@ public class Config {
 		systems.addRestaurantTwo("RESTAURANT2", 60, 27);
 		systems.addMarket("MARKET1", 123, 27);
 
-
 	}
 	
 	public void busIntersection() {
@@ -49,6 +48,10 @@ public class Config {
 		systems.clearDetailPane();
 		systems.setBackgroundThree();
 		systems.addBus("Bismarck");
+		systems.addMarket("MARKET2", 312, 27);
+		
+		systems.addPerson("Mary");
+		systems.setWorkMarketWorker("Mary", "MARKET2");
 	}
 
 	public void busToMarket() {
@@ -458,7 +461,7 @@ public class Config {
 				systems.addRestaurantOneWaiter("Gus Fring", "RESTAURANT1");
 				timer.schedule(new TimerTask () {
 					public void run() {
-					//	systems.addRestaurantOneCashier("Ted Benacke", "RESTAURANT1");
+						systems.addRestaurantOneCashier("Ted Benacke", "RESTAURANT1");
 						timer.schedule(new TimerTask () {
 							public void run() {
 							//	systems.addRestaurantOneCustomer("Hungry Josh", "RESTAURANT1");
@@ -513,26 +516,26 @@ public class Config {
 		systems.addRestaurantFour("RESTAURANT4", 249, 140);
 		systems.addRestaurantFourHost("R4Host", "RESTAURANT4");
 		
-		try {
-			timer1.cancel();
-			timer2.cancel();
-			timer1 = new Timer();
-			timer2 = new Timer();
-		} catch(Exception e) {
-		
-		}
-		
-		timer1.schedule(new TimerTask() {
+		timer.schedule(new TimerTask() {
 			public void run() {
 				systems.addRestaurantFourWaiter("R4Waiter", "RESTAURANT4");
+				timer.schedule(new TimerTask() {
+					public void run() {
+						systems.addPerson("Hungry R4Customer1");
+						timer.schedule(new TimerTask() {
+							public void run() {
+								systems.addPerson("Hungry R4Customer2");
+								timer.schedule(new TimerTask() {
+									public void run() {
+										systems.addPerson("Hungry R4Customer3");
+									}
+								}, 1000);
+							}
+						}, 1000);
+					}
+				}, 1000);
 			}
 		}, 1000);
-		
-		timer2.schedule(new TimerTask() {
-			public void run() {
-				systems.addPerson("Hungry R4Customer");
-			}
-		}, 2000);
 	}
 	
 	//Rebecca's restaurant
@@ -543,21 +546,44 @@ public class Config {
 		systems.setBackgroundTwo();
 		systems.addRestaurantFive("RESTAURANT5", 249, 140);
 		systems.addRestaurantFiveHost("Sarah", "RESTAURANT5");
-		timer.schedule(new TimerTask() {
+		
+		
+		try {
+			timer1.cancel();
+			timer2.cancel();
+			timer3.cancel();
+			timer.cancel();
+			timer1 = new Timer();
+			timer2 = new Timer();
+			timer3 = new Timer();
+			timer = new Timer();
+		} catch(Exception e) {
+		
+		}
+		
+		timer1.schedule(new TimerTask() {
 			public void run() {
 				systems.addPerson("Hungry Jenny");
-				timer.schedule(new TimerTask() {
-					public void run() {
-						systems.addRestaurantFiveWaiter("Bob", "RESTAURANT5");
-						timer.schedule(new TimerTask() {
-							public void run() {
-								systems.addPerson("Hungry Clayton");
-							}
-						}, 2000);
-					}
-				}, 2000);
 			}
-		}, 4000);
+		}, 1000);
+		
+		timer2.schedule(new TimerTask() {
+			public void run() {
+				systems.addRestaurantFiveWaiter("Bob", "RESTAURANT5");
+			}
+		}, 1600);
+		
+		timer3.schedule(new TimerTask() {
+			public void run() {
+				systems.addPerson("Hungry Clayton");
+			}
+		}, 1500);
+		
+		timer.schedule(new TimerTask() {
+			public void run() {
+				systems.addPerson("Hungry Clayton");
+			}
+		}, 2000);
 
 	}
 	public void restaurantSix(){

@@ -105,20 +105,20 @@ public class RestaurantFiveWaiterRole extends Role implements RestaurantFiveWait
 //		}
 //	}
 //
-//	public void msgIWillFollowYou(RestaurantFiveCustomer c) {
-//		try {
-//			for(MyCustomer mc : customers) {
-//				if(mc.c == c) {
-//					mc.s = CustomerState.waiting;
-//					stateChanged();
-//					return;
-//				}
-//			}
-//		}
-//		catch(ConcurrentModificationException e) {
-//			System.out.println("Something went wrong.");
-//		}
-//	}
+	public void msgIWillFollowYou(RestaurantFiveCustomer c) {
+		try {
+			for(MyCustomer mc : customers) {
+				if(mc.c == c) {
+					mc.s = CustomerState.waiting;
+					stateChanged();
+					return;
+				}
+			}
+		}
+		catch(ConcurrentModificationException e) {
+			AlertLog.getInstance().logError(AlertTag.valueOf(restaurant.getName()), "RestaurantFiveWaiter: " + person.getName(), "Concurrent modification exception.");
+		}
+	}
 //
 //	public void msgAskForBreak(AnimationPanel rp) {
 //		//restPanel = rp;
@@ -268,17 +268,17 @@ public class RestaurantFiveWaiterRole extends Role implements RestaurantFiveWait
 		catch(ConcurrentModificationException e) {
 			return false;
 		}
-//		try {
-//			for(MyCustomer c : customers) {
-//				if(c.s == CustomerState.waiting) {
-//					SeatCustomer(c);
-//					return true;
-//				}
-//			}
-//		}
-//		catch(ConcurrentModificationException e) {
-//			return false;
-//		}
+		try {
+			for(MyCustomer c : customers) {
+				if(c.s == CustomerState.waiting) {
+					SeatCustomer(c);
+					return true;
+				}
+			}
+		}
+		catch(ConcurrentModificationException e) {
+			return false;
+		}
 //		try {
 //			for(MyCustomer c : customers) {
 //				if(c.s == CustomerState.askedToOrder) {
@@ -363,8 +363,16 @@ public class RestaurantFiveWaiterRole extends Role implements RestaurantFiveWait
 
 	private void GiveCustomerMenu(MyCustomer c) {
 		
+		((RestaurantFiveWaiterGui)gui).DoGoToHost();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		c.s = CustomerState.hasMenu;
-		//c.c.msgHereIsMenu(this, new RestaurantFiveMenu());
+		c.c.msgHereIsMenu(this, new RestaurantFiveMenu());
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantFiveWaiter: " + person.getName(), "Here is a menu, " + c.c.getName() + ".");
 	}
 
@@ -373,34 +381,42 @@ public class RestaurantFiveWaiterRole extends Role implements RestaurantFiveWait
 //		c.s = CustomerState.left;
 //	}
 //
-//	private void SeatCustomer(MyCustomer c) {
-////	gui stuff
-////		int xCustLoc = c.c.getGui().getXDest();
-////		int yCustLoc = c.c.getGui().getYDest();
-////		gui.DoGoToSeatCustomer(xCustLoc, yCustLoc);
-////		try {
-////			atDest.acquire();
-////		} catch (InterruptedException e) {
-////			// TODO Auto-generated catch block
-////			print("Unexpected exception caught in WaiterAgent thread:", e);
-////		}
-////		while(!c.c.getGui().readyToBeSeated()) {
-////			System.out.print(""); //do nothing
-////		}
-////		gui.DoSeatCustomer(c.c, host.getGui().getTableX(c.table), host.getGui().getTableY(c.table));
-////		try {
-////			atDest.acquire();
-////		} catch (InterruptedException e) {
-////			// TODO Auto-generated catch block
-////			print("Unexpected exception caught in WaiterAgent thread:", e);
-////		}
+	private void SeatCustomer(MyCustomer c) {
+//	gui stuff
+//		int xCustLoc = c.c.getGui().getXDest();
+//		int yCustLoc = c.c.getGui().getYDest();
+//		gui.DoGoToSeatCustomer(xCustLoc, yCustLoc);
+//		try {
+//			atDest.acquire();
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			print("Unexpected exception caught in WaiterAgent thread:", e);
+//		}
+//		while(!c.c.getGui().readyToBeSeated()) {
+//			System.out.print(""); //do nothing
+//		}
+//		gui.DoSeatCustomer(c.c, host.getGui().getTableX(c.table), host.getGui().getTableY(c.table));
+//		try {
+//			atDest.acquire();
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			print("Unexpected exception caught in WaiterAgent thread:", e);
+//		}
 //		
 //		c.c.msgFollowMeToTable(this, c.table);
 //
 //		System.out.println("Seating " + c.c + " at table " + c.table + ".");
-//		c.s = CustomerState.seated;
-//	}
-//
+		
+		((RestaurantFiveWaiterGui)gui).DoSeatCustomer(c.c, c.table);
+		
+		
+		c.s = CustomerState.seated;
+		
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantFiveWaiter: " + person.getName(), "Seating Customer");
+
+		
+	}
+
 //	private void AskToReorder(Order o) {
 //		try {
 //			for(MyCustomer mc : customers) {
@@ -542,7 +558,7 @@ public class RestaurantFiveWaiterRole extends Role implements RestaurantFiveWait
 	@Override
 	public void enterBuilding(SimSystem s) {
 		restaurant = (RestaurantFiveSystem)s;
-		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantFiveHost: " + person.getName(), "Ready to work at the restaurant!");
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantFiveWaiter: " + person.getName(), "Ready to work at the restaurant!");
 		
 		((RestaurantFiveWaiterGui) gui).DoGoToHome();
 		

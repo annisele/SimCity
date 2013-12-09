@@ -150,6 +150,9 @@ public class Config {
 		systems.setWorkMarketWorker("Joe", "MARKET1");
 		//systems.addMarketWorker("Joe", "MARKET1");
 		
+		systems.addPerson("Tim");
+		systems.setHome("Tim", "HOUSE3");
+		
 	}
 
 	public void oneHouse() {

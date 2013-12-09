@@ -57,6 +57,10 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 	public void atDestination() {
 		atDest.release();
 	}
+	
+	public void marketDone() {
+		marketScheduled = false;
+	}
 
 	//Messages
 

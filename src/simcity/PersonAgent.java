@@ -72,7 +72,8 @@ public class PersonAgent extends Agent implements Person {
 	final int FIRSTSLEEPDURATION = 6;
 	final int SLEEPDURATION = 48;
 	final int AWAKEDURATION = 88;
-
+	private boolean workClosed = false;
+	
 	private String home;
 	private String workBuilding;
 	private Role workRole;
@@ -369,14 +370,21 @@ public class PersonAgent extends Agent implements Person {
 			steps.add(new Step("goTo", this));
 			steps.add(new Step("enterBuilding", this));
 			int workTime;
-			if (Clock.getTime() < 48) {
-				workTime = Clock.getTime()+(Clock.getHour()*4);
-			} else {
-				workTime = Clock.getTime()+(Clock.getHour()*4);
+			if(workClosed) {
+				workTime = Clock.getTime() + 3;
+				workClosed = false;
 			}
-			if (home == null || home.equals("")) {
-				workTime = Clock.getTime();
+			else {
+				if (Clock.getTime() < 48) {
+					workTime = Clock.getTime()+(Clock.getHour()*4);
+				} else {
+					workTime = Clock.getTime()+(Clock.getHour()*4);
+				}
+				if (home == null || home.equals("")) {
+					workTime = Clock.getTime();
+				}
 			}
+
 			e = new Event(workBuilding, workRole, Clock.getHour()*6, workTime, false, steps, t);
 			//Do("GoToWork is scheduled, which has "+steps.size()+" steps");
 			insertEvent(e);
@@ -607,7 +615,7 @@ public class PersonAgent extends Agent implements Person {
 				Directory.getWorld().getAnimationPanel().addGui(currentRole.getGui());
 			}
 		}
-		System.out.println(currentEvent.buildingName);
+		System.out.println(currentEvent.buildingName + ", " + getName() + ", " + currentEvent.role);
 		Location loc = Directory.getLocation(currentEvent.buildingName);
 		Do(currentEvent.buildingName + ", " + loc.getX() + ", " + loc.getY());
 		//Do("Location is: "+loc.getX()+", "+loc.getY());
@@ -631,6 +639,13 @@ public class PersonAgent extends Agent implements Person {
 			AlertLog.getInstance().logMessage(AlertTag.WORLD, "Pedestrian: "+name, currentEvent.buildingName +" is closed.  I can't enter");						
 			currentRole = currentEvent.role;
 			roleFinished();
+			if(currentEvent.type == EventType.Work) {
+				workClosed = true;
+				eventList.remove(0);
+				scheduleEvent(EventType.Work);
+				currentRole = null;
+				currentEvent = null;
+			}
 		}
 		stateChanged();
 	}
@@ -666,6 +681,9 @@ public class PersonAgent extends Agent implements Person {
 
 				for(Event e2 : eventList) {
 					if(e.overlaps(e2)) {
+						if(!e2.flexible) {
+							AlertLog.getInstance().logError(AlertTag.WORLD, "WORLD: " + getName(), "Trying to schedule an inflexible event that overlaps an inflexible event!");										
+						}
 						//copies all events that overlap e to a separate list so we can remove later
 						tempList.add(e2); 
 						if(index == -1) {

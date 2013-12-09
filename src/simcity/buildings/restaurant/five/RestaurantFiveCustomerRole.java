@@ -1,5 +1,7 @@
 package simcity.buildings.restaurant.five;
 
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
 import simcity.PersonAgent;
@@ -13,7 +15,7 @@ import simcity.interfaces.restaurant.five.RestaurantFiveWaiter;
 
 public class RestaurantFiveCustomerRole extends Role implements RestaurantFiveCustomer {
 
-//	Timer timer = new Timer();
+	Timer timer = new Timer();
 	int tableNum = -1;
 //	private Menu menu;
 //	private String food;
@@ -82,13 +84,12 @@ public class RestaurantFiveCustomerRole extends Role implements RestaurantFiveCu
 //		atDest.release();
 //		stateChanged();
 //	}
-//	
-//	//sent from animation
-//	public void msgWantToOrder() {
-//		state = AgentState.WantToOrder;
-//		stateChanged();
-//	}
-//	
+	
+	public void msgWantToOrder() {
+		state = AgentState.WantToOrder;
+		stateChanged();
+	}
+	
 //	public void msgWhatWouldYouLike() {
 //		if(state == AgentState.Reordering) {
 //			if(food.equals(menu.getLeastExpensiveItem())) {
@@ -174,11 +175,11 @@ public class RestaurantFiveCustomerRole extends Role implements RestaurantFiveCu
 		}
 		
 		
-//		if(state == AgentState.WantToOrder && event == AgentEvent.seated) {
-//			state = AgentState.AskedToOrder;
-//			CallWaiter();
-//			return true;
-//		}
+		if(state == AgentState.WantToOrder && event == AgentEvent.seated) {
+			state = AgentState.AskedToOrder;
+			CallWaiter();
+			return true;
+		}
 //		if((state == AgentState.Ordering || state == AgentState.Reordered) && event == AgentEvent.seated) {
 //			OrderFood();
 //			return true;
@@ -227,22 +228,20 @@ public class RestaurantFiveCustomerRole extends Role implements RestaurantFiveCu
 			AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantFiveCustomer: " + person.getName(), "Being seated by waiter.");
 		//}
 		
-		//hack to make customer order shortly after being seated
-//		timer.schedule(new TimerTask() {
-//			public void run() {
-//				
-//				msgWantToOrder();
-//				stateChanged();
-//			}
-//		},
-//		1000);
-//		
+		timer.schedule(new TimerTask() {
+			public void run() {
+				msgWantToOrder();
+				stateChanged();
+			}
+		},
+		1000);
+		
 	}
 	
-//	private void CallWaiter() {
-//		Do("I'm ready to order.");
-//		waiter.msgReadyToOrder(this);
-//	}
+	private void CallWaiter() {
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantFiveCustomer: " + person.getName(), "Ready to order. Calling waiter.");
+		//waiter.msgReadyToOrder(this);
+	}
 	
 	private void LookAtMenu() {
 		//if(money < menu.getLeastExpensivePrice()) {

@@ -151,6 +151,11 @@ public class SystemManager {
 		if (name.equalsIgnoreCase("Gus Fring") || name.equalsIgnoreCase("Ted Benacke") || name .equalsIgnoreCase("jack")) {
 			person.goToRestaurantOneNow();
 		}
+		
+		if (name == "Hungry R4Customer") {
+			person.goToRestaurantFourNow();
+		}
+		
 		people.add(person);
 		person.startThread();
 	}

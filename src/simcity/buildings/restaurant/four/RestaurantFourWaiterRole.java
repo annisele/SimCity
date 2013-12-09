@@ -124,7 +124,7 @@ public class RestaurantFourWaiterRole extends Role implements RestaurantFourWait
 		synchronized(customers) {
 			for(MyCustomer c : customers) {
 				if (c.getCustomer() == customer) {
-					c.setState(customerState.ordered);
+					c.setState(customerState.ordering);
 					c.setFoodChoice(foodChoice);
 					stateChanged();
 				}
@@ -153,22 +153,28 @@ public class RestaurantFourWaiterRole extends Role implements RestaurantFourWait
 		}
 		
 		if (status == Status.working) {
-			synchronized(customers) {
-				for (MyCustomer customer : customers) {
-					if (customer.getState() == customerState.ordering) {
-						customer.setState(customerState.ordered);
-						walkToKitchenToTellCookOfOrder(customer);
+			if (!customers.isEmpty()) {
+				synchronized(customers) {
+					for (MyCustomer customer : customers) {
+						if (customer.getState() == customerState.ordering) {
+							customer.setState(customerState.ordered);
+							walkToKitchenToTellCookOfOrder(customer);
+							return true;
+						}
 					}
-					
-					if (customer.getState() == customerState.wantToOrder) {
-						customer.setState(customerState.beingWalkedToForOrder);
-						walkToCustomerForOrder(customer);
-						return true;
+					for (MyCustomer customer : customers) {
+						if (customer.getState() == customerState.wantToOrder) {
+							customer.setState(customerState.beingWalkedToForOrder);
+							walkToCustomerForOrder(customer);
+							return true;
+						}
 					}
-					if (customer.getState() == customerState.withHost) {
-						customer.setState(customerState.sitting);
-						seatCustomerAtTable(customer);
-						return true;
+					for (MyCustomer customer : customers) {
+						if (customer.getState() == customerState.withHost) {
+							customer.setState(customerState.sitting);
+							seatCustomerAtTable(customer);
+							return true;
+						}
 					}
 				}
 			}
@@ -236,9 +242,8 @@ public class RestaurantFourWaiterRole extends Role implements RestaurantFourWait
     	} catch (InterruptedException e) {
     		//e.printStackTrace();
     	}
-		/*
-		 * 
-		 */
+		restaurantFourSystem.getCook().msgHereIsCustomerOrder(this, customer.getTableNumber(), customer.getFoodChoice());
+		DoGoToWaiterStation();
 	}
 	
 	// Animation DoXYZ

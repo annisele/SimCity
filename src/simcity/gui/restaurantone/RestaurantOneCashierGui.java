@@ -38,6 +38,8 @@ public class RestaurantOneCashierGui extends Gui {
     
     public void DoGoToStand() {
     	DoGoToLocation(CASHX, CASHY);
+    	DoGoToLocation(300, 200);
+
     	//DoGoToLocation(100, 100);
     	
     }

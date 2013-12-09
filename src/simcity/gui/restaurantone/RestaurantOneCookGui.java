@@ -52,7 +52,7 @@ public class RestaurantOneCookGui extends Gui {
     }
 
     public void DoGoToKitchen() {
-    	DoGoToLocation(180, 180);
+    	//DoGoToLocation(180, 180);
     }
 
 

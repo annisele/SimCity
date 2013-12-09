@@ -287,7 +287,7 @@ public class SystemManager {
 		resident = getPersonFromName(person);
 		
 		//System.out.println("setHome is being called, home is "+home+" and resident is: "+resident.getName());
-		resident.addHome(home);		
+		resident.addHome(home);	
 
 		if (person == "Hungry Antoine") {
 			resident.setLowFood();

@@ -173,6 +173,8 @@ public class PersonAgent extends Agent implements Person {
 			}
 		}, waitTime);
 	}
+	
+	
 
 	public void addMoney(double m) {
 		money += m;
@@ -819,6 +821,15 @@ public class PersonAgent extends Agent implements Person {
 		home = building;
 		scheduleEvent(EventType.Sleep);
 		//scheduleEvent(EventType.Sleep);
+		idleGui.setLocation(Directory.getLocation(home));
+		PedestrianRole ped = null;
+		for(Role r : myRoles) {
+			if(r instanceof PedestrianRole) {
+				ped = (PedestrianRole) r;
+				ped.setLocation(Directory.getLocation(home).getX(), Directory.getLocation(home).getY());
+			}
+		}  
+		
 	}
 	
 	public void setLowFood() {

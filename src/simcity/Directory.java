@@ -5,7 +5,7 @@ import java.util.*;
 public class Directory {
 	
 	private static WorldSystem world;
-	public static enum EntryType {Market, Restaurant, Bank, House, Bus};
+	public static enum EntryType {Market, Restaurant, Bank, House, Bus, Car};
 	private static Map<String, Entry> directory = new HashMap<String, Entry>(); //maps names to entries
 	private static Map<Integer, Location>busStopDirectory = new HashMap<Integer, Location>();
 	private static Map<Integer, Location> parkingStructureDirectory = new HashMap<Integer, Location>();
@@ -27,12 +27,12 @@ public class Directory {
 	}
 	
 	public void makeParkingStructure1() {
-		Location parking1 = new Location(690,110);
-		Location parking2 = new Location(290,400);
-		Location parking3 = new Location(690,405);
-		Location parking4 = new Location(1125,400);
-		Location parking5 = new Location(290,800);
-		Location parking6 = new Location(1125,800);
+		Location parking1 = new Location(720,143);
+		Location parking2 = new Location(290,411);
+		Location parking3 = new Location(720,411);
+		Location parking4 = new Location(1145,411);
+		Location parking5 = new Location(290,771);
+		Location parking6 = new Location(1145,771);
 		parkingStructureDirectory.put(1, parking1);
 		parkingStructureDirectory.put(2, parking2);
 		parkingStructureDirectory.put(3, parking3);

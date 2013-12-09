@@ -49,6 +49,7 @@ public class Config {
 		systems.setBackgroundThree();
 		systems.addBus("Bismarck");
 		systems.addBus("Kipling");
+		systems.addCar("Prufrock");
 		systems.addMarket("MARKET2", 312, 27);
 		
 		systems.addPerson("Mary");
@@ -148,6 +149,9 @@ public class Config {
 		systems.setHome("Joe", "HOUSE1");
 		systems.setWorkMarketWorker("Joe", "MARKET1");
 		//systems.addMarketWorker("Joe", "MARKET1");
+		
+		systems.addPerson("Tim");
+		systems.setHome("Tim", "HOUSE3");
 		
 	}
 

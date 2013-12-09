@@ -89,22 +89,22 @@ public class RestaurantFiveWaiterRole extends Role implements RestaurantFiveWait
 		customers.add(new MyCustomer(c, table, CustomerState.waitingForMenu));
 		stateChanged();
 	}
-//
-//	public void msgFoodTooExpensive(RestaurantFiveCustomer c) {
-//		try {
-//			for(MyCustomer mc : customers) {
-//				if(mc.c == c) {
-//					mc.s = CustomerState.leftWithoutEating;
-//					stateChanged();
-//					return;
-//				}
-//			}
-//		}
-//		catch(ConcurrentModificationException e) {
-//			System.out.println("Something went wrong.");
-//		}
-//	}
-//
+
+	public void msgFoodTooExpensive(RestaurantFiveCustomer c) {
+		try {
+			for(MyCustomer mc : customers) {
+				if(mc.c == c) {
+					mc.s = CustomerState.leftWithoutEating;
+					stateChanged();
+					return;
+				}
+			}
+		}
+		catch(ConcurrentModificationException e) {
+			AlertLog.getInstance().logError(AlertTag.valueOf(restaurant.getName()), "RestaurantFiveWaiter: " + person.getName(), "Concurrent modification exception.");
+		}
+	}
+
 	public void msgIWillFollowYou(RestaurantFiveCustomer c) {
 		try {
 			for(MyCustomer mc : customers) {
@@ -148,40 +148,40 @@ public class RestaurantFiveWaiterRole extends Role implements RestaurantFiveWait
 //		atDest.release();
 //		stateChanged();
 //	}
-//
-//	public void msgReadyToOrder(RestaurantFiveCustomer c) {
-//		try {
-//			for(MyCustomer mc : customers) {
-//
-//				if(mc.c == c) {
-//					mc.s = CustomerState.askedToOrder;
-//					stateChanged();
-//					return;
-//				}
-//			}
-//		}
-//		catch(ConcurrentModificationException e) {
-//			System.out.println("Something went wrong.");
-//		}
-//	}
-//
-//	public void msgHereIsMyChoice(RestaurantFiveCustomer c, String choice) {
-//		try {
-//			for(MyCustomer mc : customers) {
-//
-//				if(mc.c == c) {
-//					mc.s = CustomerState.ordered;
-//					mc.choice = choice;
-//					stateChanged();
-//					return;
-//				}
-//			}
-//		}
-//		catch(ConcurrentModificationException e) {
-//			System.out.println("Something went wrong.");
-//		}
-//	}
-//
+
+	public void msgReadyToOrder(RestaurantFiveCustomer c) {
+		try {
+			for(MyCustomer mc : customers) {
+
+				if(mc.c == c) {
+					mc.s = CustomerState.askedToOrder;
+					stateChanged();
+					return;
+				}
+			}
+		}
+		catch(ConcurrentModificationException e) {
+			AlertLog.getInstance().logError(AlertTag.valueOf(restaurant.getName()), "RestaurantFiveWaiter: " + person.getName(), "Concurrent modification exception.");
+		}
+	}
+
+	public void msgHereIsMyChoice(RestaurantFiveCustomer c, String choice) {
+		try {
+			for(MyCustomer mc : customers) {
+
+				if(mc.c == c) {
+					mc.s = CustomerState.ordered;
+					mc.choice = choice;
+					stateChanged();
+					return;
+				}
+			}
+		}
+		catch(ConcurrentModificationException e) {
+			AlertLog.getInstance().logError(AlertTag.valueOf(restaurant.getName()), "RestaurantFiveWaiter: " + person.getName(), "Concurrent modification exception.");
+		}
+	}
+
 //	public void msgOutOfFood(String choice, int table) {
 //		failedOrders.add(new Order(choice, table));
 //		stateChanged();
@@ -279,17 +279,17 @@ public class RestaurantFiveWaiterRole extends Role implements RestaurantFiveWait
 		catch(ConcurrentModificationException e) {
 			return false;
 		}
-//		try {
-//			for(MyCustomer c : customers) {
-//				if(c.s == CustomerState.askedToOrder) {
-//					TakeOrder(c);
-//					return true;
-//				}
-//			}
-//		}
-//		catch(ConcurrentModificationException e) {
-//			return false;
-//		}
+		try {
+			for(MyCustomer c : customers) {
+				if(c.s == CustomerState.askedToOrder) {
+					TakeOrder(c);
+					return true;
+				}
+			}
+		}
+		catch(ConcurrentModificationException e) {
+			return false;
+		}
 //		try {
 //			for(Order o: failedOrders) {
 //				AskToReorder(o);
@@ -299,17 +299,18 @@ public class RestaurantFiveWaiterRole extends Role implements RestaurantFiveWait
 //		catch(ConcurrentModificationException e) {
 //			return false;
 //		}
-//		try {
-//			for(MyCustomer c : customers) {
-//				if(c.s == CustomerState.ordered) {
-//					SendOrderToCook(c);
-//					return true;
-//				}
-//			}
-//		}
-//		catch(ConcurrentModificationException e) {
-//			return false;
-//		}
+		try {
+			for(MyCustomer c : customers) {
+				if(c.s == CustomerState.ordered) {
+					//SendOrderToCook(c);
+					AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantFiveWaiter: " + person.getName(), "About to send order to cook!!!");
+					return true;
+				}
+			}
+		}
+		catch(ConcurrentModificationException e) {
+			return false;
+		}
 //		try {
 //			for(MyCustomer c : customers) {
 //				if(c.s == CustomerState.doneEating) {
@@ -405,7 +406,6 @@ public class RestaurantFiveWaiterRole extends Role implements RestaurantFiveWait
 //		
 		c.c.msgFollowMeToTable(this, c.table);
 //
-//		System.out.println("Seating " + c.c + " at table " + c.table + ".");
 		
 		((RestaurantFiveWaiterGui)gui).DoSeatCustomer(c.c, c.table);
 		try {
@@ -441,22 +441,28 @@ public class RestaurantFiveWaiterRole extends Role implements RestaurantFiveWait
 //		}
 //
 //	}
-//
-//	private void TakeOrder(MyCustomer c) {
-////		gui.DoGoToTable(host.getGui().getTableX(c.table), host.getGui().getTableY(c.table));
-////		try {
-////			atDest.acquire();
-////		} catch (InterruptedException e) {
-////			// TODO Auto-generated catch block
-////			e.printStackTrace();
-////		}
-//		Do("Taking order.");
-//		c.c.msgWhatWouldYouLike();
-//		if(c.s != CustomerState.leftWithoutEating) {
-//			c.s = CustomerState.asked;
+
+	private void TakeOrder(MyCustomer c) {
+//		gui.DoGoToTable(host.getGui().getTableX(c.table), host.getGui().getTableY(c.table));
+//		try {
+//			atDest.acquire();
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
 //		}
-//	}
-//
+		Do("Taking order.");
+		((RestaurantFiveWaiterGui)gui).DoGoToTable(c.table);
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		c.c.msgWhatWouldYouLike();
+		if(c.s != CustomerState.leftWithoutEating) {
+			c.s = CustomerState.asked;
+		}
+	}
+
 //	private void SendOrderToCook(MyCustomer c) {
 //		cook.msgHereIsAnOrder(this, c.choice, c.table);
 //		Do("Sending order " + c.choice + " from table " + c.table + " to cook.");

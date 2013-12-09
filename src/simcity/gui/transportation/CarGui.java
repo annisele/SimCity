@@ -18,7 +18,7 @@ public class CarGui extends Gui {
 	
 	private boolean atDestNow = false;
 	
-	ImageIcon ii = new ImageIcon("res/transportation/bus.png");
+	ImageIcon ii = new ImageIcon("res/bank/bankgui.png");
 	Image img = ii.getImage();
 	Image busimage = img.getScaledInstance(25, 25,  java.awt.Image.SCALE_SMOOTH); 
 	
@@ -66,6 +66,11 @@ public class CarGui extends Gui {
 	public void setCarAgent(CarAgent car) {
 		this.caragent = car;
 	}
+	
+/*	public void clear() {
+		caragent.clear();
+	} */
+	
 
 
 }

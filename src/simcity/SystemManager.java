@@ -22,11 +22,13 @@ import simcity.buildings.restaurant.three.*;
 import simcity.buildings.restaurant.four.*;
 import simcity.buildings.restaurant.five.*;
 import simcity.buildings.transportation.BusAgent;
+import simcity.buildings.transportation.CarAgent;
 import simcity.buildings.transportation.TransportationSystem;
 import simcity.gui.BuildingGui;
 import simcity.gui.SimCityGui;
 import simcity.gui.WorldAnimationPanel;
 import simcity.gui.transportation.BusGui;
+import simcity.gui.transportation.CarGui;
 
 public class SystemManager {
 
@@ -46,6 +48,7 @@ public class SystemManager {
 	//RestaurantTwoComputer R2comp =new RestaurantTwoComputer(15,15,15,15);
 	RestaurantTwoComputer R2comp =new RestaurantTwoComputer(15,15,15,15);
 	BusAgent bus;
+	CarAgent car;
 	List<BuildingGui> buildings = new ArrayList<BuildingGui>();
 	List<BusGui> busGuis = Collections.synchronizedList(new ArrayList<BusGui>());
 	List<PersonAgent> people = new ArrayList<PersonAgent>();
@@ -206,6 +209,21 @@ public class SystemManager {
 		world.getAnimationPanel().addBus(tbg);
 		bus.startThread();
 		bus.makeBusMove();
+	}
+	
+	public void addCar(String name) {
+		//transportations.add(temp);
+		TransportationSystem temp = new TransportationSystem(simcity);
+		temp.setName(name);
+		transportations.add(temp);
+		Location loc = new Location(100, 400);
+		dir.add(name, EntryType.Car, loc, temp);
+		car = new CarAgent(name);
+		car.setDirectory(dir);
+		CarGui tcg = new CarGui(car);
+		car.setGui(tcg);
+		world.getAnimationPanel().addCar(tcg);
+		car.startThread();
 	}
 
 	public void addRestaurantOne(String name, int xLoc, int yLoc) {

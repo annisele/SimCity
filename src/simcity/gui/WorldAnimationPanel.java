@@ -17,6 +17,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import simcity.gui.transportation.BusGui;
+import simcity.gui.transportation.CarGui;
 
 
 public class WorldAnimationPanel extends AnimationPanel implements ActionListener {
@@ -103,8 +104,17 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
 	    }
 	    else if (background == largecityimage) {
 	    	g2.drawImage(background, posX, posY, null);
+	    	g.setColor(Color.GRAY);
+			g.fillRect(720+posX, 143+posY, 50, 20);
+			g.fillRect(290+posX, 411+posY, 50, 20);
+			g.fillRect(720+posX, 411+posY, 50, 20);
+			g.fillRect(1145+posX,411+posY, 50, 20);
+			g.fillRect(290+posX, 771+posY, 50, 20);
+			g.fillRect(1145+posX,771+posY, 50, 20);
+	    	
+	    	
 	    }
-    
+	   
         for(BuildingGui b : buildingGuis) {
         	if (draggable)
         		b.setOffset(posX, posY);
@@ -131,6 +141,24 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
 				}
 			}
 		}
+		
+	     synchronized(carGuis) {
+				for(Gui gui : carGuis) {
+					if (gui.isPresent()) {
+						if (draggable)
+							gui.setOffset(posX, posY);
+						gui.updatePosition();
+					}
+				}
+			}
+
+			synchronized(carGuis) {
+				for(Gui gui : carGuis) {
+					if (gui.isPresent()) {
+						gui.draw((Graphics2D)g);
+					}
+				}
+			}
 		
 		synchronized(guis) {
 			for(Gui gui : guis) {
@@ -180,6 +208,9 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
 		
 	}
 	
+	public void addCar(CarGui g) {
+		carGuis.add(g);
+	}
 	public void clear() {
 		if (busGuis.size() > 0) {
 		busGuis.get(0).clear();

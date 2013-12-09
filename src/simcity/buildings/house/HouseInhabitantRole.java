@@ -49,12 +49,17 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 			foodStock.put("chicken", 2);
 			foodStock.put("pizza", 2);
 			foodStock.put("salad", 1);
+			
 		}
 	}
 
 	@Override
 	public void atDestination() {
 		atDest.release();
+	}
+	
+	public void marketDone() {
+		marketScheduled = false;
 	}
 
 	//Messages
@@ -147,6 +152,8 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 				//stateChanged(); 
 			}
 		}, COOKTIME);
+		
+		house.updateFoodDisplay();
 
 	}
 
@@ -276,6 +283,7 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 					newList.put(key, items.get(key));
 				}
 			}
+			house.updateFoodDisplay();
 		}
 	}
 
@@ -286,9 +294,14 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 			foodStock.put("chicken", 2);
 			foodStock.put("pizza", 2);
 			foodStock.put("salad", 2);
+			house.updateFoodDisplay();
 		}
 	}
 
+	public Map<String, Integer> getFoodStock() { // this is called by the controlpanel to update the food display
+		return foodStock;
+	}
+	
 	// Animation
 	public void DoGoToBed() {
 		((HouseInhabitantGui)gui).DoGoToLiving();

@@ -464,7 +464,7 @@ public class Config {
 						systems.addRestaurantOneCashier("Ted Benacke", "RESTAURANT1");
 						timer.schedule(new TimerTask () {
 							public void run() {
-							//	systems.addRestaurantOneCustomer("Hungry Josh", "RESTAURANT1");
+								systems.addRestaurantOneCook("Gayle", "RESTAURANT1");
 							}
 						}, 1000);
 							}

@@ -3,10 +3,13 @@ package simcity.buildings.restaurant.three;
 import java.util.*;
 
 import simcity.Role;
+import simcity.buildings.restaurant.four.RestaurantFourTable;
 import simcity.gui.*;
 import simcity.gui.restaurantthree.RestaurantThreeAnimationPanel;
 import simcity.gui.restaurantthree.RestaurantThreeControlPanel;
 import simcity.interfaces.restaurant.five.RestaurantFiveWaiter;
+import simcity.interfaces.restaurant.four.RestaurantFourCustomer;
+import simcity.interfaces.restaurant.four.RestaurantFourWaiter;
 import simcity.interfaces.restaurant.three.RestaurantThreeCook;
 import simcity.interfaces.restaurant.three.RestaurantThreeWaiter;
 import simcity.interfaces.restaurant.three.RestaurantThreeCustomer;
@@ -82,6 +85,7 @@ public class RestaurantThreeSystem extends simcity.SimSystem {
 		}
 		return false;
 	}
+	
 	public void exitBuilding(Role role) {
 		if(role instanceof RestaurantThreeCustomer) {
 			customers.remove((RestaurantThreeCustomer) role);

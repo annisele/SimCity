@@ -10,10 +10,11 @@ import java.util.concurrent.Semaphore;
 import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
-
 import simcity.gui.restaurantthree.RestaurantThreeHostGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
+import simcity.interfaces.restaurant.four.RestaurantFourCustomer;
+import simcity.interfaces.restaurant.four.RestaurantFourWaiter;
 import simcity.interfaces.restaurant.three.RestaurantThreeCashier;
 import simcity.interfaces.restaurant.three.RestaurantThreeCustomer;
 import simcity.interfaces.restaurant.three.RestaurantThreeHost;
@@ -90,6 +91,7 @@ public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost
 	public void atDestination() {
 		atDest.release();
 	}
+	//messages
 	public void msgAddWaiter(RestaurantThreeWaiter waiter) {
 		waiters.add(new MyWaiter(waiter));
 		stateChanged();
@@ -147,9 +149,17 @@ public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost
 		return false;
 	}
 
+	//actions
+	//private void getWaiterSeatCustomer(RestaurantThreeCustomer customer)
 
-
-
+	/*
+	private void askWaiterToSeatCustomer(RestaurantFourCustomer customer, RestaurantFourWaiter waiter, int tableNumber) {
+		restaurantFourSystem.updateTableOccupants(customer, waiter, tableNumber);
+		restaurantFourSystem.updateCustomerLoadOfWaiter(waiter);
+		waiter.msgSeatCustomerAtTable(customer, tableNumber, restaurantFourSystem.getMenu());
+		customers.remove(customer);
+	}
+	*/
 	@Override
 	public void exitBuilding() {
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(system.getName()), "Restaurant 3 Host: " + person.getName(), "Leaving restaurant three");	
@@ -157,8 +167,9 @@ public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
 		}
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(system.getName()), "Restaurant 3 Host: " + person.getName(), "Leaving the restaurant three.");
+		
 		system.exitBuilding(this);
 		person.roleFinished();	
 	}
@@ -169,14 +180,8 @@ public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost
 		system = (RestaurantThreeSystem)s;
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(system.getName()), "Restaurant 3 Host: " + person.getName(), "Ready to work at the restaurant!");
 		
-		((RestaurantThreeHostGui) gui).DoGoToStand();
-		
+		((RestaurantThreeHostGui) gui).DoGoToStand();	
 	}
-
-
-
-
-	
 	@Override
 	public int getWaitingCustomers() {
 		return waitingCustomers.size();

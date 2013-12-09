@@ -31,8 +31,13 @@ public class BusGui extends Gui {
 			y = 67;
 		}
 		if (busagent.getName().equals("Busta")) {
-			x = 20;
+			x = 110;
 			y = 108;
+		}
+		if (busagent.getName().equals("Bismarck")) {
+			x = 110;
+			y = 150;
+					
 		}
 		if (busagent.getName().equals("Kipling")) {
 			x = 1370;

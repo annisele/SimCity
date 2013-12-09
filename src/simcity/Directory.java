@@ -25,7 +25,20 @@ public class Directory {
 			system = s; 
 		}
 	}
-	
+	public void makeParkingStructure1() {
+		Location parking1 = new Location(690,110);
+		Location parking2 = new Location(290,400);
+		Location parking3 = new Location(690,405);
+		Location parking4 = new Location(1125,400);
+		Location parking5 = new Location(290,800);
+		Location parking6 = new Location(1125,800);
+		parkingStructureDirectory.put(1, parking1);
+		parkingStructureDirectory.put(2, parking2);
+		parkingStructureDirectory.put(3, parking3);
+		parkingStructureDirectory.put(4, parking4);
+		parkingStructureDirectory.put(5, parking5);
+		parkingStructureDirectory.put(6, parking6);
+	}
 	public void makeBusStops1() {
 		Location stop0 = new Location(40, 67);
 		Location stop1 = new Location(380, 67);

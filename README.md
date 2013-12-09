@@ -77,6 +77,7 @@ Member Contributions
 #####V2: 
   + Created initial design documents for PersonAgent and Transportation (along with Josh).
   + Created the initial GUI window for us to use in our program.  Used two views, text panels, and a control panel on the right.  Got the control panel to change when something is clicked on, although currently this has very limited functionality.  Got the DetailPanel to show up when someone clicks on the WorldPanel, initially using cardLayout but throwing that out to just change a pointer to the panel.
+
 #####V1:
   + Spent a long time on the interaction between Gui, World, and System objects.  Created base AnimationPanels, ControlPanels, Guis (based on Restaurant).  Created a System approach where each “building” is led by a System.  For example, MarketSystem contains a MarketAnimationPanel, a MarketControlPanel, a MarketComputer (for internal calculations that the agents can access), and lists of all agents in the system.
   + Created GUI images for World, Bank, Restaurant, Market, and House using Pokemon sprites found online.  Created GUI objects for people as well.  Spent a lot of time getting animations in the World and the House to look smooth.  Created some sprites from scratch.
@@ -92,7 +93,7 @@ Member Contributions
   + Imported restaurant two and wrote additional roles/classes, including System, Computer, AnimatonPanel, Orderwheel, Orders, SharedDataWaiter. Currently restaurant can communicate with market to order items if inventory is out. It keeps track if restaurant is unable to pay market. also restaurant keeps track of customers who are unable to pay.
   + JUnit testing of restaurant two. Incomplete as of right now.
 
-Levonne Key : 
+####Levonne Key : 
   + initial market interaction diagram with Jenny
   + initial design doc and interaction diagrams the bank design, implementation and Junit testing with Kevin. I created the interfaces and test package structure for testing such as mock  and test. I updated the design document for bank teller,bank customer, market customer and market truck and redesign the interaction diagram for bank normative and non normative scenario. I initiated the testing procedure and formatted the test files. I worked on creating the gui for bank. I worked with Jenny on how to write her restaurant test. 
   + used hack for the bankroles to function since we only have one bank. The pay rent function couldn’t be tested since we do not have landlord. 

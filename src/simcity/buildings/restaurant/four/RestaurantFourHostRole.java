@@ -9,6 +9,9 @@ import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
 import simcity.gui.restaurantfour.RestaurantFourHostGui;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
+import simcity.interfaces.restaurant.four.RestaurantFourCook;
 import simcity.interfaces.restaurant.four.RestaurantFourCustomer;
 import simcity.interfaces.restaurant.four.RestaurantFourHost;
 import simcity.interfaces.restaurant.four.RestaurantFourWaiter;
@@ -31,7 +34,8 @@ public class RestaurantFourHostRole extends Role implements RestaurantFourHost {
 	private RestaurantFourSystem restaurantFourSystem;
 	private List<RestaurantFourWaiter> waiters = Collections.synchronizedList(new ArrayList<RestaurantFourWaiter>());
 	private List<RestaurantFourCustomer> customers = Collections.synchronizedList(new ArrayList<RestaurantFourCustomer>());
-
+	private RestaurantFourCook cook = null;
+	
 	public enum Status {none, waitingAtRestaurant, working};
 	private Status status = Status.none;
 	
@@ -78,6 +82,14 @@ public class RestaurantFourHostRole extends Role implements RestaurantFourHost {
 		return customers;
 	}
 	
+	public RestaurantFourCook getCook() {
+		return cook;
+	}
+	
+	public void setCook(RestaurantFourCook cook) {
+		this.cook = cook;
+	}
+	
 	//////////////////////////////////////////////////////////////////////////
 	
 	/**
@@ -91,6 +103,11 @@ public class RestaurantFourHostRole extends Role implements RestaurantFourHost {
 
 	public void msgWaiterReadyForWork(RestaurantFourWaiter waiter) {
 		waiters.add(waiter);
+		stateChanged();
+	}
+	
+	public void msgCookReadyForWork(RestaurantFourCook cook) {
+		this.cook = cook;
 		stateChanged();
 	}
 	
@@ -114,6 +131,11 @@ public class RestaurantFourHostRole extends Role implements RestaurantFourHost {
 			return true;
 		}
 
+		if (cook != null) {
+			welcomeCook(cook);
+			return true;
+		}
+		
 		if (!waiters.isEmpty()) {
 			welcomeWaiter(waiters.get(0));
 			return true;
@@ -149,12 +171,22 @@ public class RestaurantFourHostRole extends Role implements RestaurantFourHost {
 		restaurantFourSystem.setHost(this);
 		DoGoToHostStation();
 		// Let directory know that the restaurant is open
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurantFourSystem.getName()), "Host: " + person.getName(), "I am ready to work!");
 	}
 
+	private void welcomeCook(RestaurantFourCook cook) {
+		restaurantFourSystem.setCook(cook);
+		cook.msgStartWorking();
+		this.cook = null;
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurantFourSystem.getName()), "Host: " + person.getName(), "Go to your cook station!");
+	}
+	
 	private void welcomeWaiter(RestaurantFourWaiter waiter) {
 		restaurantFourSystem.addWaiter(waiter);
 		waiter.msgStartWorking();
 		waiters.remove(waiter);
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurantFourSystem.getName()), "Host: " + person.getName(), "Go to your waiter station!");
+
 	}
 
 	private void askWaiterToSeatCustomer(RestaurantFourCustomer customer, RestaurantFourWaiter waiter, int tableNumber) {
@@ -162,6 +194,7 @@ public class RestaurantFourHostRole extends Role implements RestaurantFourHost {
 		restaurantFourSystem.updateCustomerLoadOfWaiter(waiter);
 		waiter.msgSeatCustomerAtTable(customer, tableNumber, restaurantFourSystem.getMenu());
 		customers.remove(customer);
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurantFourSystem.getName()), "Host: " + person.getName(), "Please seat " + customer.getPersonAgent().getName() + " at table " + tableNumber + ", " + waiter.getPerson().getName());
 	}
 	
 	// Animation DoXYZ()

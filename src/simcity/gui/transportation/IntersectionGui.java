@@ -8,8 +8,9 @@ import java.util.concurrent.Semaphore;
 
 import simcity.buildings.transportation.BusAgent;
 import simcity.buildings.transportation.CarAgent;
+import simcity.gui.Gui;
 
-public class IntersectionGui {
+public class IntersectionGui extends Gui {
 	
 	private int x;
 	private int y;

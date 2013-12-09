@@ -606,8 +606,17 @@ public class SystemManager {
 	public void addRestaurantFourWaiter(String name, String rest) {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());
-		Role host = new RestaurantFourWaiterRole(person);
-		person.addWork(host, rest);
+		Role waiter = new RestaurantFourWaiterRole(person);
+		person.addWork(waiter, rest);
+		people.add(person);
+		person.startThread();
+	}
+	
+	public void addRestaurantFourCook(String name, String rest) {
+		PersonAgent person = new PersonAgent(name);
+		world.getAnimationPanel().addGui(person.getIdleGui());
+		Role cook = new RestaurantFourCookRole(person);
+		person.addWork(cook, rest);
 		people.add(person);
 		person.startThread();
 	}

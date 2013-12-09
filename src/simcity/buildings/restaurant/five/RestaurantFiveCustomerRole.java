@@ -64,9 +64,9 @@ public class RestaurantFiveCustomerRole extends Role implements RestaurantFiveCu
 		stateChanged();
 	}
 	
-	public void msgFollowMeToTable(RestaurantFiveWaiterRole w, int tableNumber) {
+	public void msgFollowMeToTable(RestaurantFiveWaiter w, int tableNumber) {
 		tableNum = tableNumber;
-		event = AgentEvent.followWaiter;	
+		event = AgentEvent.followWaiter;
 		waiter = w;
 		stateChanged();
 	}
@@ -156,7 +156,7 @@ public class RestaurantFiveCustomerRole extends Role implements RestaurantFiveCu
 	 */
 	@Override
 	public boolean pickAndExecuteAnAction() {
-		//AlertLog.getInstance().logDebug(AlertTag.valueOf(restaurant.getName()), "RestaurantFiveHost: " + person.getName(), "state: " + state.toString() + ", event: " + event.toString());
+		AlertLog.getInstance().logDebug(AlertTag.valueOf(restaurant.getName()), "RestaurantFiveHost: " + person.getName(), "state: " + state.toString() + ", event: " + event.toString());
 		if (state == AgentState.WaitingInRestaurant && event == AgentEvent.willWaitforTable ){
 			event = AgentEvent.toldHostIWillWait;
 			waitForTable();

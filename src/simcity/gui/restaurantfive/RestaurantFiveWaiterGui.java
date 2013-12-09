@@ -15,7 +15,7 @@ public class RestaurantFiveWaiterGui extends Gui {
 	private final int HOME_Y = 100;
 	private final int HOST_X = 100;
 	private final int HOST_Y = 285;
-	private final int TABLE_0_X = 200;
+	private final int TABLE1_X = 200;
 	private final int TABLE_Y = 200;
 	
 	private ImageIcon ii = new ImageIcon("res/person/bluepersondownbig.png");
@@ -39,9 +39,10 @@ public class RestaurantFiveWaiterGui extends Gui {
 	}
 	
 	public void DoSeatCustomer(RestaurantFiveCustomer c, int table) {
-		if(table == 0) {
-			DoGoToLocation(TABLE_0_X, TABLE_Y);
+		System.out.println("TABLEEEE" + table);
+		if(table == 1) {
+			DoGoToLocation(TABLE1_X, TABLE_Y);
 		}
-		((RestaurantFiveCustomerGui) c.getGui()).DoGoToSeat(TABLE_0_X + size_x, TABLE_Y + size_y);
+		((RestaurantFiveCustomerGui) c.getGui()).DoGoToSeat(TABLE1_X + size_x, TABLE_Y + (size_y/4));
 	}
 }

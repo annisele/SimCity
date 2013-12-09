@@ -403,7 +403,7 @@ public class RestaurantFiveWaiterRole extends Role implements RestaurantFiveWait
 //			print("Unexpected exception caught in WaiterAgent thread:", e);
 //		}
 //		
-//		c.c.msgFollowMeToTable(this, c.table);
+		c.c.msgFollowMeToTable(this, c.table);
 //
 //		System.out.println("Seating " + c.c + " at table " + c.table + ".");
 		

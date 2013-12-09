@@ -24,6 +24,7 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
 	private double customerCash, customerCheck;
 	public  EventLog log = new EventLog();
 	private String name;
+	private int tableNumber;
 	//role correspondents
 	private RestaurantThreeHost bh;
 	private RestaurantThreeCashier ca;
@@ -42,8 +43,8 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
 	public void atDestination() {
 		atDest.release();
 	}
-	public RestaurantThreeCustomerRole(PersonAgent person) {
-		this.person = person;
+	public RestaurantThreeCustomerRole(PersonAgent p) {
+		person = p;
 		this.gui = new RestaurantThreeCustomerGui(this);
 	}
 	public String getCustomerName() {
@@ -55,9 +56,17 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
 		event = CustomerEvent.seated;
 		stateChanged();
 	}
+	public void msgAnimationFinishedGoToSeat() {
+		event = CustomerEvent.seated;
+		stateChanged();
+	}
+	public void msgGotHungry() {
+		event = CustomerEvent.gotHungry;
+		stateChanged();
+	}
 	@Override
 	public boolean pickAndExecuteAnAction() {
-		// TODO Auto-generated method stub
+		
 		return false;
 	}
 
@@ -113,5 +122,10 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
 		event = CustomerEvent.wait;
 		stateChanged();
 	}
-	
+	public int getTableNumber() {
+		return tableNumber;
+	}
+	public void setTableNumber(int tableNumber) {
+		this.tableNumber = tableNumber;
+	}
 }

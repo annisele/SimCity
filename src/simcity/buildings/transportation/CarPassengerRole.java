@@ -1,20 +1,27 @@
 package simcity.buildings.transportation;
+import java.util.concurrent.Semaphore;
+
+import simcity.Directory;
 import simcity.Location;
 import simcity.Role;
 import simcity.SimSystem;
 
 public class CarPassengerRole extends Role implements simcity.interfaces.transportation.CarPassenger {
-	Location destination;
+	int start;
+	int destination;
 	int xLoc;
 	int yLoc;
 	public enum PassengerState {stopped, driving};
 	public enum PassengerEvent {starting, stopping};
-	PassengerState state;
+	PassengerState state = PassengerState.stopped;
 	PassengerEvent event;
 	CarAgent car;
+	Directory dir;
+	public Semaphore atDest = new Semaphore(0, true);
 	
-	public void msgDriveTo(Location l) { //from PersonAgent
-		destination = l;
+	public void msgDriveTo(int s, int d) { //from PersonAgent
+		start = s;
+		destination = d;
 		event = PassengerEvent.starting;
 		stateChanged();
 	}
@@ -27,7 +34,8 @@ public class CarPassengerRole extends Role implements simcity.interfaces.transpo
 	public boolean pickAndExecuteAnAction() {
 		if ((state == PassengerState.stopped) && (event == PassengerEvent.starting)) {
 			state = PassengerState.driving;
-			GetIn();
+
+			Drive();			
 			return true;
 		}
 		if ((state == PassengerState.driving) && (event == PassengerEvent.stopping)) {
@@ -38,11 +46,27 @@ public class CarPassengerRole extends Role implements simcity.interfaces.transpo
 		return false;
 	}
 	
-	public void GetIn() {
+	/*public void GetIn() {
         car.msgGettingOn(this, destination);
 		// Animation
 		DoDisableGui();
-	}
+	} */
+	
+	private void Drive() {
+
+		// Animation - call to cargui
+		gui.DoGoToLocation(dir.getGarage(destination).getX(), dir.getGarage(destination).getY());
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			//e.printStackTrace();
+		} 
+		//UNCOMMENT LINE OF CODE BELOW ONCE MOST ERRORS BE FIXED. ARRR
+	//	passenger.msgWeHaveArrived(destination.xLoc, destination.yLoc);
+		destination = (Integer) null;
+
+	} 
+	
 
 	public void GetOut() {
 		car.msgGettingOff(this);
@@ -73,6 +97,9 @@ public class CarPassengerRole extends Role implements simcity.interfaces.transpo
 		
 	}
 	
+	public void setDirectory(Directory d) {
+		dir = d;
+	}
 	
 	
 	

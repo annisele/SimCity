@@ -11,10 +11,10 @@ import simcity.gui.transportation.CarGui;
 import agent.Agent;
 
 public class CarAgent extends Agent implements simcity.interfaces.transportation.Car {
-	CarPassengerRole passenger;
-	Location destination;
-	CarGui gui;
-	String name;
+	public CarPassengerRole passenger;
+	public Location destination;
+	public CarGui gui;
+	public String name;
 	Directory directory;
 	public Semaphore atDestination = new Semaphore(0, true);
 	//CarState state = enum{ waiting, driving }
@@ -27,7 +27,7 @@ public class CarAgent extends Agent implements simcity.interfaces.transportation
 	public void msgGettingOn(CarPassengerRole cp, Location l) {
 		passenger = cp;
 		destination = l;
-		state = Carstate.driving;
+		state = Carstate.waiting;
 	}
 	public void msgGettingOff(CarPassengerRole cp) {
 		passenger = null;

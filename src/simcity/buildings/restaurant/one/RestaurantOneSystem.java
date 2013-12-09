@@ -31,8 +31,8 @@ public class RestaurantOneSystem extends SimSystem {
 	private List<RestaurantOneCustomer> customers = new ArrayList<RestaurantOneCustomer>();
 	private List<RestaurantOneWaiter> waiters = new ArrayList<RestaurantOneWaiter>();
 	private RestaurantOneHost host;
-	//private RestaurantOneCook cook;
-	//private RestaurantOneCashier cashier;
+	private RestaurantOneCook cook;
+	private RestaurantOneCashier cashier;
 	private SimCityGui scgui;
 
 	public RestaurantOneSystem(SimCityGui scgui) {
@@ -60,6 +60,12 @@ public class RestaurantOneSystem extends SimSystem {
 			else if(role instanceof RestaurantOneWaiter) {
 				waiters.add((RestaurantOneWaiter) role);
 				//host.msgNewWaiter((RestaurantOneWaiter)role);
+			}
+			else if(role instanceof RestaurantOneCook) {
+				cook = ((RestaurantOneCook)role);
+			}
+			else if(role instanceof RestaurantOneCashier) {
+				cashier = ((RestaurantOneCashier)role);
 			}
 
 			animationPanel.addGui(role.getGui());

@@ -29,7 +29,6 @@ public class RestaurantOneCookRole extends Role implements RestaurantOneCook {
 private Semaphore atDest = new Semaphore(0, true);
 
 	RestaurantOneSystem restaurant;
-	PersonAgent person;
 
     enum State {pending, cooking, done, sent, nostock, waitingforstock};
     String name;
@@ -72,7 +71,7 @@ private Semaphore atDest = new Semaphore(0, true);
     
 
     public RestaurantOneCookRole(PersonAgent p) {
-            super();
+            
             person = p;
             this.name = p.getName();
             Food steak = new Food(0, 5);

@@ -26,6 +26,7 @@ import simcity.buildings.restaurant.two.RestaurantTwoCustomerRole;
 import simcity.buildings.restaurant.two.RestaurantTwoSystem;
 import simcity.buildings.transportation.BusAgent;
 import simcity.buildings.transportation.BusPassengerRole;
+import simcity.buildings.transportation.CarPassengerRole;
 import simcity.buildings.transportation.PedestrianRole;
 import simcity.gui.IdlePersonGui;
 import simcity.gui.trace.AlertLog;
@@ -62,7 +63,7 @@ public class PersonAgent extends Agent implements Person {
 	private Role currentRole = null;
 	private Event currentEvent = null;
 
-	public enum EventType { Eat, GoToMarket, BusToMarket, EatAtRestaurant, EatAtHome, DepositMoney, WithdrawMoney, GetALoan, PayRent, Sleep, Work, WorkNow };
+	public enum EventType { Eat, GoToMarket, BusToMarket, EatAtRestaurant, EatAtHome, DepositMoney, WithdrawMoney, GetALoan, PayRent, Sleep, Work, WorkNow, CarToMarket };
 
 	private String name;
 	private double money = 10;
@@ -270,6 +271,31 @@ public class PersonAgent extends Agent implements Person {
 			stateChanged();
 
 		}
+		
+		else if (t == EventType.CarToMarket) {
+			System.out.println("In car to market first line personagent");
+			List<String> markets = Directory.getMarkets();
+			int index = rand.nextInt(markets.size());
+			String buildingName = markets.get(index);
+			List<Step> steps = new ArrayList<Step>();
+			steps.add(new Step("exitBuilding", this));
+			steps.add(new Step("goToParkingGarage", this));
+			steps.add(new Step("driveTo", this));
+			steps.add(new Step("enterBuilding", this));
+			
+			Role eventR = null;
+			for(Role r : myRoles) {
+				if (r instanceof MarketCustomer) {
+					eventR = r;
+					
+				}
+			}
+			e = new Event(buildingName, eventR, TWOHOURS, -1, true, steps, t);
+			insertEvent(e);
+			stateChanged();
+
+		}
+		
 
 		else if (t == EventType.DepositMoney) {
 
@@ -502,6 +528,33 @@ public class PersonAgent extends Agent implements Person {
 
 	//this assumes after roles are done, they go stand outside the building
 	//so this only needs to prep the person to walk somewhere by changing it to pedestrian
+	
+	int findGarage(String dest) {
+		double minLocation = 10000;
+		int minGarage = 20;
+
+		Role eventR = null;
+		for (Role r : myRoles) {
+			if (r instanceof Pedestrian) {
+				eventR = r;
+			}
+		}
+		for (int i = 0; i<6; i++) {
+			System.out.println("IN PERSONAGENT " + Directory.getGarage(i));
+			int tempX = Directory.getGarage(i).getX()-eventR.getGui().getX();
+			double tempX2 = Math.pow(tempX, 2);
+			int tempY = Directory.getGarage(i).getY()-eventR.getGui().getY();
+			double tempY2 = Math.pow(tempY, 2);
+			double tempXY = tempX2 + tempY2;
+			double tempLocation = Math.sqrt(tempXY);
+			if (minLocation > tempLocation) {
+				minLocation = tempLocation;
+				minGarage = i;
+			}
+		}
+		return minGarage;
+		
+	}
 
 	int chooseTransportation(String dest) {
 		Role eventR = null;
@@ -563,6 +616,26 @@ public class PersonAgent extends Agent implements Person {
 		return minStop;
 
 	}
+	
+	int getClosestGarage(String dest) {
+		double minLocation = 1000;
+		int minGarage = 10;
+		
+		for (int i = 0; i<6; i++) {
+			int tempX = Directory.getGarage(i).getX()-Directory.getLocation(dest).getX();
+			double tempX2 = Math.pow(tempX, 2);
+			int tempY = Directory.getBusStop(i).getY()-Directory.getLocation(dest).getY();
+			double tempY2 = Math.pow(tempY,  2);
+			double tempXY = tempX2 + tempY2;
+			double tempLocation = Math.sqrt(tempXY);
+			if(minLocation > tempLocation) {
+				minLocation = tempLocation;
+				minGarage = i;
+				
+			}
+		}
+		return minGarage;
+	}
 
 
 
@@ -593,6 +666,21 @@ public class PersonAgent extends Agent implements Person {
 		//waitForTransport();
 		stateChanged();
 	}
+	
+	public void goToParkingGarage() {
+		System.out.println("HYAO");
+		for(Role r : myRoles) {
+			if(r instanceof Pedestrian) {
+				currentRole = r;
+				Directory.getWorld().getAnimationPanel().addGui(currentRole.getGui());
+			}
+		}
+		Location loc = Directory.getGarage(findGarage(currentEvent.buildingName));
+		((PedestrianRole)currentRole).addDestination(loc);
+		System.out.println("Destination has been added, going to garage");
+		stateChanged();
+
+	}
 
 	public void waitForBus() {
 		for (Role r : myRoles) {
@@ -604,6 +692,17 @@ public class PersonAgent extends Agent implements Person {
 				//idleGui.setLocation(r.getGui().getLocation());	
 			}
 		}
+	}
+	
+	public void driveTo() {
+		for (Role r : myRoles) {
+			if (r instanceof CarPassengerRole ) {
+				currentRole = r;
+				
+				((CarPassengerRole)r).msgDriveTo(findGarage(currentEvent.buildingName), getClosestGarage(currentEvent.buildingName) );
+			}
+		}
+		
 	}
 
 	//later, add bus and car options
@@ -788,6 +887,11 @@ public class PersonAgent extends Agent implements Person {
 
 	public void busToMarketNow() {
 		this.scheduleEvent(EventType.BusToMarket);
+	}
+	
+	public void carToMarketNow() {
+		this.scheduleEvent(EventType.CarToMarket);
+		System.out.println("Scheduling car to market now");
 	}
 
 	public void goToBankNow() {

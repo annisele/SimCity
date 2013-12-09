@@ -12,7 +12,6 @@ import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
 import simcity.gui.restaurantthree.RestaurantThreeCustomerGui;
-import simcity.gui.restauranttwo.RestaurantTwoCustomerGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
 import simcity.interfaces.restaurant.three.RestaurantThreeCashier;
@@ -156,5 +155,11 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
 	}
 	public void setTableNumber(int tableNumber) {
 		this.tableNumber = tableNumber;
+	}
+	@Override
+	public void msgFollowMeToTable(
+			RestaurantThreeWaiter restaurantThreeWaiterRole, int tableNumber) {
+		// TODO Auto-generated method stub
+		
 	}
 }

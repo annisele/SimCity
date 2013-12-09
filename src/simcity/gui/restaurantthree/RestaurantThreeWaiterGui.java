@@ -11,20 +11,15 @@ import simcity.interfaces.restaurant.three.RestaurantThreeWaiter;
 
 public class RestaurantThreeWaiterGui extends Gui {
 		
-	private final int CORRIDOR_X = 15;
-	private final int CORRIDOR_Y = 85;
-			;
-	private final int WINDOW1_X = 105;
-	private final int WINDOW1_Y = 103;
+	private final int HOST_X = 290;
+	private final int HOST_Y = 370;
 	
-	private final int WINDOW2_X = 200;
-	private final int WINDOW2_Y = 103;
-		
-	private final int WINDOW3_X = 280;
-	private final int WINDOW3_Y = 103;
-
-	private final int HOST_X = 250;
-	private final int HOST_Y = 400;
+	private final int WAITER_X = 195;
+	private final int WAITER_Y = 370;
+	
+	public static final int WAITING_X = 240;
+	public static final int WAITING_Y = 370;
+	
 	
 	ImageIcon ii = new ImageIcon("res/person/tanpersondownbig.png");
 	Image img = ii.getImage();
@@ -38,8 +33,14 @@ public class RestaurantThreeWaiterGui extends Gui {
 		g.drawImage(img,getX(), getY(), null);
 	}
 
-	public void DoGoToHome() {
-		DoGoToLocation(CORRIDOR_X, CORRIDOR_Y);
+	public void DoGoToHost() {
+		DoGoToLocation(HOST_X, HOST_Y);	
+	}
+	public void DoGoToStation() {
+		DoGoToLocation(WAITER_X, WAITER_Y);
 	}
 
+	public void DoGoToWaitingCustomer() {
+		DoGoToLocation(WAITING_X, WAITING_Y);
+	}
 }

@@ -5,6 +5,7 @@ import simcity.buildings.restaurant.three.RestaurantThreeCustomerRole;
 import simcity.interfaces.*;
 import simcity.interfaces.restaurant.three.RestaurantThreeCustomer;
 import simcity.interfaces.restaurant.three.RestaurantThreeHost;
+import simcity.interfaces.restaurant.three.RestaurantThreeWaiter;
 import simcity.test.mock.*;
 
 public class MockRestaurantThreeCustomer extends Mock implements RestaurantThreeCustomer {
@@ -55,5 +56,12 @@ public class MockRestaurantThreeCustomer extends Mock implements RestaurantThree
 	public String getName() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void msgFollowMeToTable(
+			RestaurantThreeWaiter restaurantThreeWaiterRole, int tableNumber) {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -11,4 +11,6 @@ public interface RestaurantThreeCustomer extends GuiPartner {
 	public abstract void setRestaurantThreeHost(RestaurantThreeHost bh);
 	public abstract void msgRestaurantFull();
 	public abstract String getName();
+	public abstract void msgFollowMeToTable(
+			RestaurantThreeWaiter restaurantThreeWaiterRole, int tableNumber);
 }

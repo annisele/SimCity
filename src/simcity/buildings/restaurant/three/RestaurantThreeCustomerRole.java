@@ -11,7 +11,7 @@ import java.util.concurrent.Semaphore;
 import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
-
+import simcity.buildings.restaurant.two.RestaurantTwoOrderWheel;
 import simcity.gui.restaurantthree.RestaurantThreeCustomerGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
@@ -32,13 +32,12 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
 	public enum CustomerState
 	{DoingNothing, WaitingInRestaurant, BeingSeated, WaiterCalled, WaitingForFood, Eating, DoneEating, Leaving, WaitingForCheck, NoMoney};
 	private CustomerState state = CustomerState.DoingNothing;//The start state
-
+    private RestaurantThreeOrderWheel OrderWheel= new RestaurantThreeOrderWheel();
 	public enum CustomerEvent 
 	{none, wait, gotHungry, seated, stayOrLeave, decidedChoice, waiterToTakeOrder, served, finishedEating,checkReceived, notWaiting, keepWaiting, doneLeaving, needReorder, leaveBecauseOfNoMoney, payNextTime, requestReorder};
 	CustomerEvent event = CustomerEvent.none;
 	
 	private Semaphore atDest = new Semaphore(0, true);
-	private RestaurantThreeSystem restaurantThreeSystem;
 	public void atDestination() {
 		atDest.release();
 	}
@@ -58,14 +57,14 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
 
 	@Override
 	public void exitBuilding() {
-		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurantThreeSystem.getName()), "Restaurant Three Waiter: " + person.getName(), "Leaving restaurant three");	
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(rest.getName()), "Restaurant Three Waiter: " + person.getName(), "Leaving restaurant three");	
 		gui.DoExitBuilding();
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
 			
 		}
-		restaurantThreeSystem.exitBuilding(this);
+		rest.exitBuilding(this);
 		person.roleFinished();	
 	}
 
@@ -85,8 +84,6 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
 		}
 		
 		event = CustomerEvent.gotHungry;
-		
-
 		stateChanged();
 	}
 	@Override

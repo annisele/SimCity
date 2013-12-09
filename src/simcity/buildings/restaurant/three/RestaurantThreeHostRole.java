@@ -137,7 +137,7 @@ public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost
 							w.msgPleaseSeatCustomer(waitingCustomers.get(0), table.tableNumber);
 							//index increments through waiters list, then wraps to front
 							getWaiterSeatCustomer(waiters.get(waiterIndex), waitingCustomers.get(0), table);
-							waitingCustomers.remove(waitingCustomers.get(0));
+							//waitingCustomers.remove(waitingCustomers.get(0));
 							return true;//return true to the abstract agent to reinvoke the scheduler.
 						}
 
@@ -155,7 +155,7 @@ public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost
 	private void getWaiterSeatCustomer(MyWaiter waiter, RestaurantThreeCustomer customer, Table table) {
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(system.getName()), "Restaurant 3 Host: " + person.getName(), "Assigning "+waiterIndex+".");
 		waiter.wtr.msgPleaseSeatCustomer(customer, table.tableNumber);
-		waitingCustomers.remove(customer);
+		waitingCustomers.remove(waitingCustomers.get(0));
 	}
 
 	

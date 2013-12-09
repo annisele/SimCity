@@ -19,7 +19,7 @@ import simcity.test.restaurantthree.mock.MockRestaurantThreeHost;
 
 public class RestaurantThreeSystem extends simcity.SimSystem {
 	private RestaurantThreeComputer computer = new RestaurantThreeComputer();
-	private RestaurantThreeHost resthost = null;
+	private RestaurantThreeHost resthost;
 	private RestaurantThreeCook cook;
 	private RestaurantThreeCashier cashier;
 	private List<RestaurantThreeCustomer> customers = Collections.synchronizedList(new ArrayList<RestaurantThreeCustomer>());

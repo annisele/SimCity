@@ -512,11 +512,7 @@ public class Config {
 								timer.schedule(new TimerTask() {
 									public void run() {
 										systems.addPerson("Hungry Harry");
-										timer.schedule(new TimerTask() {
-											public void run() {
-												systems.addPerson("Hungry Aaron");
-											}
-										}, 2000);
+										
 									}
 								}, 1000);
 							}

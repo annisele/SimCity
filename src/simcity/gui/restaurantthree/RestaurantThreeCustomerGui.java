@@ -16,8 +16,8 @@ public class RestaurantThreeCustomerGui extends Gui {
 	private final int WINDOW1_Y = 375;
 
 
-	public static final int TABLE1_X = 80;
-	public static final int TABLE1_Y = 300;
+	public static final int TABLE1_X = 65;
+	public static final int TABLE1_Y = 255;
 	public static final int TABLE2_X = 150;
 	public static final int TABLE2_Y = 300;
 	public static final int TABLE3_X = 220;

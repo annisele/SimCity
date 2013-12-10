@@ -172,8 +172,6 @@ public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost
 		waiter.wtr.msgPleaseSeatCustomer(customer, table.tableNumber);
 		table.setOccupant(customer);
 		tablesOccupiedCounter++;
-		System.out.println(tablesOccupiedCounter);
-		Do("HIIIII");
 		if(waiterIndex >= waiters.size()) {
 			waiterIndex = 0;
 		}
@@ -210,8 +208,10 @@ public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(system.getName()), "Restaurant 3 Host: " + person.getName(), "Ready to work at the restaurant!");
 		
 		((RestaurantThreeHostGui)gui).DoGoToStand();
-		
-
+	}
+	public void addWaiter(MyWaiter w) {
+		waiters.add(w);
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(system.getName()), "Restaurant 3 Host: " + person.getName(), "Added waiter ");
 	}
 	@Override
 	public int getWaitingCustomers() {

@@ -92,7 +92,6 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
 		} 
 		  if (state == CustomerState.WaitingInRestaurant && event == CustomerEvent.followWaiter ){
               state = CustomerState.BeingSeated;
-              Do("I get seated");
               getSeated();
               return true;
 		  }
@@ -142,11 +141,12 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
 	private void callWaiter() {
 		waiter.msgGetMyOrder(this);
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(rest.getName()), "Restaurant 3 Customer: " + person.getName(), "I'm ready to order.");
+		stateChanged();
 	}
 	private void orderFood() {
 		waiter.msgHereIsMyChoice(this, choice);
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(rest.getName()), "Restaurant 3 Customer: " + person.getName(), "I want " + choice);
-		
+		stateChanged();
 	}
 	@Override
 	public void exitBuilding() {

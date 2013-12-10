@@ -72,7 +72,8 @@ public class PersonAgent extends Agent implements Person {
 	private double money = 10;
 	private double withdrawThreshold = 10; // if money is less than this, we will try to withdraw
 	private double depositThreshold = 25; // if money is higher than this, we will try to deposit
-	final int TWOHOURS = 12;
+	final int TWO_HOURS = 12;
+	private final int SIX_HOURS = 36;
 	final int FIRSTSLEEPDURATION = 6;
 	final int SLEEPDURATION = 48;
 	final int AWAKEDURATION = 88;
@@ -238,7 +239,7 @@ public class PersonAgent extends Agent implements Person {
 				}
 			}
 
-			e = new Event(buildingName, eventR, 2, -1, true, steps, t);
+			e = new Event(buildingName, eventR, TWO_HOURS, -1, true, steps, t);
 			AlertLog.getInstance().logDebug(AlertTag.WORLD, "WORLD: " + getName(), "SCHEDULED GOTOMARKET" + e.startTime + ", " + eventList.size());										
 
 			//Do("GoToMarket is scheduled, which has "+steps.size()+" steps");
@@ -271,7 +272,7 @@ public class PersonAgent extends Agent implements Person {
 				}
 			} 
 
-			e = new Event(buildingName, eventR, TWOHOURS, -1, true, steps, t);
+			e = new Event(buildingName, eventR, TWO_HOURS, -1, true, steps, t);
 			//Do("GoToMarket is scheduled, which has "+steps.size()+" steps");
 			insertEvent(e);
 			stateChanged();
@@ -298,7 +299,7 @@ public class PersonAgent extends Agent implements Person {
 					
 				}
 			}
-			e = new Event(buildingName, eventR, TWOHOURS, -1, true, steps, t);
+			e = new Event(buildingName, eventR, TWO_HOURS, -1, true, steps, t);
 			insertEvent(e);
 			stateChanged();
 
@@ -324,7 +325,7 @@ public class PersonAgent extends Agent implements Person {
 
 			//hack
 			((BankCustomer)eventR).hackDepositMoney((BankSystem)(Directory.getSystem(buildingName)));
-			e = new Event(buildingName, eventR, TWOHOURS, -1, true, steps, t);
+			e = new Event(buildingName, eventR, TWO_HOURS, -1, true, steps, t);
 
 			insertEvent(e);
 			stateChanged();
@@ -349,7 +350,7 @@ public class PersonAgent extends Agent implements Person {
 				
 				//hack
 				((BankCustomer)eventR).hackWithdrawMoney((BankSystem)(Directory.getSystem(buildingName)));
-				e = new Event(buildingName, eventR, TWOHOURS, -1, true, steps, t);
+				e = new Event(buildingName, eventR, TWO_HOURS, -1, true, steps, t);
 
 				insertEvent(e);
 			}
@@ -371,7 +372,7 @@ public class PersonAgent extends Agent implements Person {
 			}
 			//hack
 			((BankCustomer)eventR).hackGetLoan((BankSystem)(Directory.getSystem(buildingName)));
-			e = new Event(buildingName, eventR, TWOHOURS, -1, true, steps, t);
+			e = new Event(buildingName, eventR, TWO_HOURS, -1, true, steps, t);
 
 			insertEvent(e);
 			stateChanged();
@@ -392,7 +393,7 @@ public class PersonAgent extends Agent implements Person {
 			}
 			//hack
 			((BankCustomer)eventR).hackPayRent((BankSystem)(Directory.getSystem(buildingName)));
-			e = new Event(buildingName, eventR, TWOHOURS, -1, true, steps, t);
+			e = new Event(buildingName, eventR, TWO_HOURS, -1, true, steps, t);
 
 			insertEvent(e);
 			stateChanged();
@@ -426,7 +427,7 @@ public class PersonAgent extends Agent implements Person {
 				}
 			}
 
-			e = new Event(workBuilding, workRole, Clock.getHour()*6, workTime, false, steps, t);
+			e = new Event(workBuilding, workRole, SIX_HOURS, workTime, false, steps, t);
 			//Do("GoToWork is scheduled, which has "+steps.size()+" steps");
 			insertEvent(e);
 			stateChanged();
@@ -471,7 +472,6 @@ public class PersonAgent extends Agent implements Person {
 			e = new Event(home, house, sleepDuration, sleepTime, false, steps, t);
 			AlertLog.getInstance().logDebug(AlertTag.WORLD, "Person: "+getName(), 
 					"I'm going to sleep at "+Clock.getDebugTime(sleepTime)+" and it's currently "+Clock.getTime());						
-			System.out.println("Sleep");
 
 			insertEvent(e);
 			stateChanged();
@@ -494,7 +494,7 @@ public class PersonAgent extends Agent implements Person {
 				}
 			}
 			house.msgNeedToEat();
-			e = new Event(home, house, TWOHOURS, -1, true, steps, t);
+			e = new Event(home, house, TWO_HOURS, -1, true, steps, t);
 			insertEvent(e);
 			stateChanged();
 		}
@@ -548,7 +548,7 @@ public class PersonAgent extends Agent implements Person {
 			
 
 			
-			e = new Event(buildingName, eventR, TWOHOURS, -1, true, steps, t);
+			e = new Event(buildingName, eventR, TWO_HOURS, -1, true, steps, t);
 			insertEvent(e);
 			stateChanged();
 		}

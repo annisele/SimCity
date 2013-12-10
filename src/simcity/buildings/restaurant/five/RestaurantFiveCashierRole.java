@@ -1,19 +1,27 @@
 package simcity.buildings.restaurant.five;
 
+import java.util.*;
+
 import simcity.Role;
 import simcity.SimSystem;
+import simcity.buildings.restaurant.one.RestaurantOneCheck.CheckState;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.restaurant.five.RestaurantFiveCashier;
+import simcity.interfaces.restaurant.five.RestaurantFiveCustomer;
+import simcity.interfaces.restaurant.five.RestaurantFiveWaiter;
 import simcity.test.mock.EventLog;
 
 
 public class RestaurantFiveCashierRole extends Role implements RestaurantFiveCashier {
 
 	public EventLog log = new EventLog();
-//	private RestaurantFiveMenu menu = new RestaurantFiveMenu();
-//	private double money;
-//	public List <Check> checks = Collections.synchronizedList(new ArrayList<Check>());
-//	public enum CheckState { requested, producing, sent, paying, stillPaying, done };
-//	public List <MarketBill> marketBills = Collections.synchronizedList(new ArrayList<MarketBill>());
+	private RestaurantFiveMenu menu = new RestaurantFiveMenu();
+	private double money;
+	public List <Check> checks = Collections.synchronizedList(new ArrayList<Check>());
+	public enum CheckState { requested, producing, sent, paying, stillPaying, done };
+	public RestaurantFiveSystem restaurant;
+	//	public List <MarketBill> marketBills = Collections.synchronizedList(new ArrayList<MarketBill>());
 //	public enum BillState { debt, notDebt };
 //	private Semaphore atDest = new Semaphore(0, true);
 //	public class MarketBill {
@@ -27,24 +35,24 @@ public class RestaurantFiveCashierRole extends Role implements RestaurantFiveCas
 //			s = billState;
 //		}
 //	}
-//	public class Check{
-//		RestaurantFiveWaiter w;
-//		public RestaurantFiveCustomer c;
-//		String choice;
-//		public CheckState s;
-//		public Double amount;
-//		public Double amountPaid;
-//
-//		Check(RestaurantFiveWaiter wIn, RestaurantFiveCustomer cIn, String choiceIn, CheckState sIn) {
-//			w = wIn;
-//			c = cIn;
-//			choice = choiceIn;
-//			amount = menu.getPrice(choice);
-//			s = sIn;
-//		}
-//	}
-//	
-//	
+	public class Check{
+		RestaurantFiveWaiter w;
+		public RestaurantFiveCustomer c;
+		String choice;
+		public CheckState s;
+		public Double amount;
+		public Double amountPaid;
+
+		Check(RestaurantFiveWaiter wIn, RestaurantFiveCustomer cIn, String choiceIn, CheckState sIn) {
+			w = wIn;
+			c = cIn;
+			choice = choiceIn;
+			amount = menu.getPrice(choice);
+			s = sIn;
+		}
+	}
+	
+	
 //	@Override
 //	public void atDestination() {
 //		atDest.release();
@@ -56,29 +64,29 @@ public class RestaurantFiveCashierRole extends Role implements RestaurantFiveCas
 //		// TODO Auto-generated method stub
 //		
 //	}
-//	
-//	public void msgProduceCheck(RestaurantFiveWaiter w, RestaurantFiveCustomer c, String choice) {
-//		//adding amount to existing check
-//		synchronized(checks) {
-//			for(Check ch : checks) {
-//				if(ch.c == c) {
-//					ch.amount = (double)Math.round(ch.amount * 100) / 100;
-//					Do(c.getName() + " had an existing debt of " + ch.amount + ".");
-//					ch.choice = choice;
-//					ch.amount += menu.getPrice(choice);
-//					ch.w = w;
-//					ch.amountPaid = 0.0;
-//					ch.s = CheckState.requested;
-//					stateChanged();
-//					return;
-//				}
-//			}
-//		}
-//		//creating new check
-//		checks.add(new Check(w, c, choice, CheckState.requested));
-//		stateChanged();
-//	}
-//
+	
+	public void msgProduceCheck(RestaurantFiveWaiter w, RestaurantFiveCustomer c, String choice) {
+		//adding amount to existing check
+		synchronized(checks) {
+			for(Check ch : checks) {
+				if(ch.c == c) {
+					ch.amount = (double)Math.round(ch.amount * 100) / 100;
+					Do(c.getName() + " had an existing debt of " + ch.amount + ".");
+					ch.choice = choice;
+					ch.amount += menu.getPrice(choice);
+					ch.w = w;
+					ch.amountPaid = 0.0;
+					ch.s = CheckState.requested;
+					stateChanged();
+					return;
+				}
+			}
+		}
+		//creating new check
+		checks.add(new Check(w, c, choice, CheckState.requested));
+		stateChanged();
+	}
+
 //	//sent when timer is done
 //	public void msgPayCheck(RestaurantFiveCustomer cust, double cash) {
 //		log.add(new LoggedEvent("Received msgPayCheck from customer."));
@@ -99,19 +107,19 @@ public class RestaurantFiveCashierRole extends Role implements RestaurantFiveCas
 //		marketBills.add(new MarketBill(market, billPrice, BillState.notDebt));
 //		stateChanged();
 //	}
-//
-//
-//	@Override
-//	public boolean pickAndExecuteAnAction() {
-//		synchronized(checks) {
-//			for(Check c : checks) {
-//				if(c.s == CheckState.paying) {
-//					c.s = CheckState.stillPaying;
-//					ReceivingCheck(c);
-//					return true;
-//				}
-//			}
-//		}
+
+
+	@Override
+	public boolean pickAndExecuteAnAction() {
+		synchronized(checks) {
+			for(Check c : checks) {
+				if(c.s == CheckState.paying) {
+					c.s = CheckState.stillPaying;
+					ReceivingCheck(c);
+					return true;
+				}
+			}
+		}
 //		synchronized(marketBills) {
 //			for(MarketBill m : marketBills) {
 //				if(m.s == BillState.debt) {
@@ -130,24 +138,24 @@ public class RestaurantFiveCashierRole extends Role implements RestaurantFiveCas
 //				}
 //			}
 //		}
-//		synchronized(checks) {
-//			for(Check c : checks) {
-//				if(c.s == CheckState.requested) {
-//					c.s = CheckState.producing;
-//					ProduceCheck(c);
-//					return true;
-//				}
-//			}
-//		}
-//		return false;
-//	}
-//
-//	private void ProduceCheck(Check c) {
-//		Do("Sending check for " + c.c.getName() + " to waiter.");
-//		c.w.msgHereIsCheck(c.c, c.amount);
-//		c.s = CheckState.sent;
-//	}
-//
+		synchronized(checks) {
+			for(Check c : checks) {
+				if(c.s == CheckState.requested) {
+					c.s = CheckState.producing;
+					ProduceCheck(c);
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	private void ProduceCheck(Check c) {
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantFiveCashier: " + person.getName(), "Sending check for " + c.c.getName() + " to waiter.");
+		c.w.msgHereIsCheck(c.c, c.amount);
+		c.s = CheckState.sent;
+	}
+
 //	private void PayMarketBill(MarketBill mb) {
 //		if(money >= mb.bill) {
 //			mb.m.msgHereIsPayment(mb.bill);
@@ -164,27 +172,27 @@ public class RestaurantFiveCashierRole extends Role implements RestaurantFiveCas
 //			money = 0;
 //		}
 //	}
-//
-//	private void ReceivingCheck(Check c) {
-//		c.s = CheckState.done;
-//		if(c.amountPaid < c.amount) {
-//			if(c.amountPaid > 0) {
-//				money += c.amountPaid;
-//			}
-//			c.amount -= c.amountPaid;
-//			money = (double)Math.round(money * 100) / 100;
-//			Do("Customer can't pay full check. Money = " + money);
-//			log.add(new LoggedEvent("Customer can't pay full check."));
-//			c.c.msgPayNextTime();
-//		}
-//		else {
-//			money += c.amount;
-//			money = (double)Math.round(money * 100) / 100;
-//			Do("Customer is paying full check. Money = " + money);
-//			c.c.msgHereIsChange(c.amountPaid - c.amount);
-//			checks.remove(c);
-//		}
-//	}
+
+	private void ReceivingCheck(Check c) {
+		c.s = CheckState.done;
+		if(c.amountPaid < c.amount) {
+			if(c.amountPaid > 0) {
+				money += c.amountPaid;
+			}
+			c.amount -= c.amountPaid;
+			money = (double)Math.round(money * 100) / 100;
+			Do("Customer can't pay full check. Money = " + money);
+			//log.add(new LoggedEvent("Customer can't pay full check."));
+			c.c.msgPayNextTime();
+		}
+		else {
+			money += c.amount;
+			money = (double)Math.round(money * 100) / 100;
+			Do("Customer is paying full check. Money = " + money);
+			c.c.msgHereIsChange(c.amountPaid - c.amount);
+			checks.remove(c);
+		}
+	}
 
 	@Override
 	public void atDestination() {
@@ -196,12 +204,6 @@ public class RestaurantFiveCashierRole extends Role implements RestaurantFiveCas
 	public void msgPleasePay(String marketName, double payment, int orderNum) {
 		// TODO Auto-generated method stub
 		
-	}
-
-	@Override
-	public boolean pickAndExecuteAnAction() {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 	@Override

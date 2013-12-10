@@ -261,7 +261,18 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
     	}
 		c.getCustomer().msgFollowMeToTable(this, c.getTableNumber());
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurantThreeSystem.getName()), "Restaurant 3 Waiter: " + person.getName(), "PLease follow me to table, " + c.customer.getName() + ".");
-	
+		((RestaurantThreeWaiterGui)gui).DoGoToTable(c.getTableNumber());
+		try {
+    		atDest.acquire();
+    	} catch (InterruptedException e) {
+    		//e.printStackTrace();
+    	}
+		((RestaurantThreeWaiterGui)gui).DoGoToStation();
+		try {
+    		atDest.acquire();
+    	} catch (InterruptedException e) {
+    		
+    	}
 	}
 	private void takeOrder(MyCustomer c) {
 		

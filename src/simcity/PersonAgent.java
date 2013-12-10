@@ -1197,4 +1197,20 @@ public class PersonAgent extends Agent implements Person {
 	public void setCurrentRole(Role r) {
 		this.currentRole = r;
 	}
+	
+	public String getBankPassword() {
+		return bankPassword;
+	}
+	
+	public void setBankPassword(String bankPassword) {
+		this.bankPassword = bankPassword;
+	}
+	
+	public int getAccountNumber() {
+		return accountNumber;
+	}
+	
+	public void setAccountNumber(int accountNumber) {
+		this.accountNumber = accountNumber;
+	}
 }

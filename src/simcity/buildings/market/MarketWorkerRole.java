@@ -20,6 +20,7 @@ public class MarketWorkerRole extends Role implements MarketWorker {
 	private List<WorkerOrder> orders = Collections.synchronizedList(new ArrayList<WorkerOrder>());
 	private Semaphore atDest = new Semaphore(0, true);
 	Timer timer = new Timer();
+	boolean stopWorking = false;
 	private class WorkerOrder {
 		int orderNumber;
 		Map<String, Integer> itemsToFind;
@@ -39,6 +40,11 @@ public class MarketWorkerRole extends Role implements MarketWorker {
 	public void atDestination() {
 		atDest.release();
 	}
+	
+	public void msgFinishWorking() {
+		stopWorking = true;
+		stateChanged();
+	}
 
 	@Override
 	public void msgFindOrder(int orderNum, Map<String, Integer> itemsList) {         
@@ -48,11 +54,16 @@ public class MarketWorkerRole extends Role implements MarketWorker {
 		stateChanged();
 	}
 
+	@Override
 	public boolean pickAndExecuteAnAction() {
 		synchronized (orders) {
 			if(!orders.isEmpty()) {
 				FindAndDeliverOrder(orders.get(0));
+				return true;
 			}
+		}
+		if(stopWorking) {
+			exitBuilding();
 		}
 		return false;
 	}

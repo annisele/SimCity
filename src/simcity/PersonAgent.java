@@ -611,7 +611,7 @@ public class PersonAgent extends Agent implements Person {
 				eventR = r;
 			}
 		}
-		for (int i = 0; i<6; i++) {
+		for (int i = 1; i<=6; i++) {
 			int tempX = Directory.getGarage(i).getX()-eventR.getGui().getX();
 			double tempX2 = Math.pow(tempX, 2);
 			int tempY = Directory.getGarage(i).getY()-eventR.getGui().getY();
@@ -623,6 +623,7 @@ public class PersonAgent extends Agent implements Person {
 				minGarage = i;
 			}
 		}
+		System.out.println("Garage: " + minGarage);
 		return minGarage;
 		
 	}
@@ -692,7 +693,7 @@ public class PersonAgent extends Agent implements Person {
 		double minLocation = 1000;
 		int minGarage = 10;
 		
-		for (int i = 0; i<6; i++) {
+		for (int i = 1; i<=6; i++) {
 			int tempX = Directory.getGarage(i).getX()-Directory.getLocation(dest).getX();
 			double tempX2 = Math.pow(tempX, 2);
 			int tempY = Directory.getGarage(i).getY()-Directory.getLocation(dest).getY();
@@ -776,7 +777,7 @@ public class PersonAgent extends Agent implements Person {
 				((CarGui) ((CarPassengerRole) r).getGui()).setLocation(xCar, yCar);
 				Directory.getWorld().getAnimationPanel().addGui(currentRole.getGui());
 				System.out.println("Driving to now...");
-				((CarPassengerRole)r).msgDriveTo(findGarage(currentEvent.buildingName), getClosestGarage(currentEvent.buildingName) );
+				((CarPassengerRole)r).msgDriveTo(startingGarage, endingGarage);
 			}
 		}
 		

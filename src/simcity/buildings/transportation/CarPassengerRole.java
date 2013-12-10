@@ -1,4 +1,5 @@
 package simcity.buildings.transportation;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
@@ -21,7 +22,7 @@ public class CarPassengerRole extends Role implements simcity.interfaces.transpo
 	CarAgent car;
 	Directory dir;
 	public Semaphore atDest = new Semaphore(0, true);
-	List<Location> route;
+	List<Location> route = new ArrayList<Location>();
 	
 	
 	public CarPassengerRole(PersonAgent p) {
@@ -69,6 +70,9 @@ public class CarPassengerRole extends Role implements simcity.interfaces.transpo
 
 		// Animation - call to cargui
 		//((CarGui) gui).DoGoTo(dir.getGarage(destination).getX(), dir.getGarage(destination).getY());
+		
+		
+		route.clear();
 		route = Directory.findRoute(start,destination);
 		while(!route.isEmpty()) {
 			Location routePath = route.get(0);
@@ -79,19 +83,20 @@ public class CarPassengerRole extends Role implements simcity.interfaces.transpo
 				//e.printStackTrace();
 			}
 			route.remove(routePath);
-			System.out.println("Yup");
 		}
-		//((CarGui) gui).DoGoTo(dir.getStreetStop(72).getX(), dir.getStreetStop(72).getY());
 		
-		/*
+		/* 
+		((CarGui) gui).DoGoTo(dir.getGarage(3).getX(), dir.getGarage(3).getY());
+		
+		
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
 			//e.printStackTrace();
-		} 
+		} */
 		
 		msgWeHaveArrived(dir.getGarage(destination).getX(), dir.getGarage(destination).getY());
-		dir.getWorld().getAnimationPanel().removeGui(this.getGui());*/
+		dir.getWorld().getAnimationPanel().removeGui(this.getGui());
 		//destination = (Integer) null;
 		//UNCOMMENT LINE OF CODE BELOW ONCE MOST ERRORS BE FIXED. ARRR
 	//	passenger.msgWeHaveArrived(destination.xLoc, destination.yLoc);

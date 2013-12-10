@@ -102,6 +102,9 @@ public class MarketSystem extends simcity.SimSystem {
 		if(role instanceof MarketCustomer) {
 			customers.remove((MarketCustomer) role);
 		}
+		else if(role instanceof MarketCashier) {
+			cashier = null;
+		}
 		else if(role instanceof MarketWorker) {
 			workers.remove((MarketWorker) role);
 			if(workers.size() == 0 && cashier.getMarketState() == MarketState.closed) {

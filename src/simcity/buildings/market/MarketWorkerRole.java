@@ -8,6 +8,7 @@ import java.util.Timer;
 import java.util.concurrent.Semaphore;
 
 import simcity.PersonAgent;
+import simcity.PersonAgent.EventType;
 import simcity.Role;
 import simcity.SimSystem;
 import simcity.gui.market.MarketWorkerGui;
@@ -43,6 +44,7 @@ public class MarketWorkerRole extends Role implements MarketWorker {
 	
 	public void msgFinishWorking() {
 		stopWorking = true;
+		person.scheduleEvent(EventType.Work);
 		stateChanged();
 	}
 

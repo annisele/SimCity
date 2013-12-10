@@ -8,5 +8,7 @@ public interface MarketWorker extends GuiPartner {
 
 	void msgFindOrder(int orderNum, Map<String, Integer> itemsList);
 
+	public abstract void msgFinishWorking();
+
 }
  

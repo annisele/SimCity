@@ -216,7 +216,8 @@ public class PersonAgent extends Agent implements Person {
 				house = (HouseInhabitantRole) r;
 			}
 		}  
-		AlertLog.getInstance().logDebug(AlertTag.WORLD, "WORLD: " + getName(), "getListToBuy has a size of " + house.getListToBuy().size());										
+		AlertLog.getInstance().logDebug(AlertTag.WORLD, "WORLD: " + getName(), 
+				"getListToBuy has a size of " + house.getListToBuy().size());										
 
 		return house.getListToBuy();
 	}
@@ -246,8 +247,9 @@ public class PersonAgent extends Agent implements Person {
 				}
 			}
 
-			e = new Event(buildingName, eventR, TWO_HOURS, -1, true, steps, t);
-			AlertLog.getInstance().logDebug(AlertTag.WORLD, "WORLD: " + getName(), "SCHEDULED GOTOMARKET" + e.startTime + ", " + eventList.size());										
+			e = new Event(buildingName, eventR, 2, -1, true, steps, t);
+			AlertLog.getInstance().logDebug(AlertTag.WORLD, "WORLD: " + getName(), 
+					"SCHEDULED GOTOMARKET" + e.startTime + ", " + eventList.size());										
 
 			//Do("GoToMarket is scheduled, which has "+steps.size()+" steps");
 			insertEvent(e);
@@ -444,11 +446,7 @@ public class PersonAgent extends Agent implements Person {
 				workClosed = false;
 			}
 			else {
-//				if (Clock.getTime() < 48) {
-//					workTime = Clock.getTime()+(Clock.getHour()*4);
-//				} else {
-//					workTime = Clock.getTime()+(Clock.getHour()*4);
-//				}
+
 				if(type == TimingType.Early) {
 					workTime = Clock.getScheduleTime(8, 0);
 					//workTime = 8am

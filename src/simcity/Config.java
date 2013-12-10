@@ -142,18 +142,18 @@ public class Config {
 		systems.addPerson("Mary");
 		systems.setHome("Mary", "HOUSE2");
 		systems.setWorkMarketCashier("Mary", "MARKET1");
+		systems.setSleep("Mary");
 		//systems.addMarketCashier("Mary", "MARKET1");
-		
 		
 		systems.addPerson("Joe");
 		systems.setHome("Joe", "HOUSE1");
 		systems.setWorkMarketWorker("Joe", "MARKET1");
+		systems.setSleep("Joe");
 		//systems.addMarketWorker("Joe", "MARKET1");
 		
-
 		systems.addPerson("Tommy");
 		systems.setHome("Tommy", "HOUSE3");
-
+		systems.setSleep("Tommy");
 
 		
 	}

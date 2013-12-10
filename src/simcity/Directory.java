@@ -126,4 +126,11 @@ public class Directory {
 	public void clear() {
 		directory.clear();
 	}
+	
+	public static boolean hasEarlySchedule(String building) {
+		if(building.equals("MARKET1") || building.equals("MARKET3")) {
+			return true;
+		}
+		return false;
+	}
 }

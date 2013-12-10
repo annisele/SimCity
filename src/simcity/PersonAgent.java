@@ -57,7 +57,8 @@ public class PersonAgent extends Agent implements Person {
 
 	private Random rand = new Random();
 	private Timer timer = new Timer();
-
+	private enum TimingType {Early, Late};
+	private TimingType type;
 	private List<Role> myRoles = new ArrayList<Role>();
 	private List<Event> eventList = Collections.synchronizedList(new ArrayList<Event>());
 	private IdlePersonGui idleGui;
@@ -111,11 +112,8 @@ public class PersonAgent extends Agent implements Person {
 		myRoles.add(r5);
 		myRoles.add(cpr);
 		
-		//random money generator between and 25
-
-		money = 5.0+15*rand.nextDouble();
+		money = 5.0 + 15*rand.nextDouble(); //$5-$20
 		  
-       
 	}
 
 	@Override
@@ -304,7 +302,6 @@ public class PersonAgent extends Agent implements Person {
 			stateChanged();
 
 		}
-		
 
 		else if (t == EventType.DepositMoney) {
 
@@ -410,10 +407,18 @@ public class PersonAgent extends Agent implements Person {
 				workClosed = false;
 			}
 			else {
-				if (Clock.getTime() < 48) {
-					workTime = Clock.getTime()+(Clock.getHour()*4);
-				} else {
-					workTime = Clock.getTime()+(Clock.getHour()*4);
+//				if (Clock.getTime() < 48) {
+//					workTime = Clock.getTime()+(Clock.getHour()*4);
+//				} else {
+//					workTime = Clock.getTime()+(Clock.getHour()*4);
+//				}
+				if(type == TimingType.Early) {
+					workTime = Clock.getScheduleTime(8, 0);
+					//workTime = 8am
+				}
+				else {
+					workTime = Clock.getScheduleTime(13, 0);
+					//workTime = 1pm
 				}
 				if (home == null || home.equals("")) {
 					workTime = Clock.getTime();
@@ -437,20 +442,34 @@ public class PersonAgent extends Agent implements Person {
 				}
 			}
 			house.msgGoToBed();
-			//CHANGE DURATION TO 40
 			int sleepTime;
 			int sleepDuration;
 			if (Clock.getTime() < 2) {
 				sleepTime = Clock.getTime();
-				sleepDuration = FIRSTSLEEPDURATION;//6;
+				//sleepDuration = FIRSTSLEEPDURATION;//6;
+				if(type == TimingType.Early) {
+					sleepDuration = 3;
+					//sleepDuration = 30 minutes
+				}
+				else {
+					sleepDuration = 3*6;
+					//sleepDuration = 3 hours
+				}
 			}
 			else {
-				sleepTime = Clock.getTime() + AWAKEDURATION;
+				//sleepTime = Clock.getTime() + AWAKEDURATION;
+				if(type == TimingType.Early) {
+					sleepTime = Clock.getScheduleTime(21, 30);
+				}
+				else {
+					sleepTime = Clock.getScheduleTime(23, 50);
+					//sleepTime = midnight
+				}
 				sleepDuration = SLEEPDURATION;//48; // 8 * 6 = 8 * (6 * 10 min) = 8 hours
 			}
-			//sleepTime = Clock.getTime() + 99999;
 			e = new Event(home, house, sleepDuration, sleepTime, false, steps, t);
-			AlertLog.getInstance().logDebug(AlertTag.WORLD, "Person: "+getName(), "I'm going to sleep at "+Clock.getDebugTime(sleepTime)+" and it's currently "+Clock.getTime());						
+			AlertLog.getInstance().logDebug(AlertTag.WORLD, "Person: "+getName(), 
+					"I'm going to sleep at "+Clock.getDebugTime(sleepTime)+" and it's currently "+Clock.getTime());						
 			System.out.println("Sleep");
 
 			insertEvent(e);
@@ -970,13 +989,24 @@ public class PersonAgent extends Agent implements Person {
 		myRoles.add(r);
 		workBuilding = building;
 		workRole = r;
+		if(Directory.hasEarlySchedule(building)) {
+			type = TimingType.Early;
+		}
+		else {
+			type = TimingType.Late;
+		}
 		scheduleEvent(EventType.Work);
+	}
+	
+	public void scheduleFirstSleep() {
+		if(home != null) {
+			scheduleEvent(EventType.Sleep);
+		}
 	}
 
 	public void addHome(String building) {
 		//myRoles.add(r);
 		home = building;
-		scheduleEvent(EventType.Sleep);
 		//scheduleEvent(EventType.Sleep);
 		idleGui.setLocation(Directory.getLocation(home));
 		PedestrianRole ped = null;

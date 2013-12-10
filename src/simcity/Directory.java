@@ -67,7 +67,8 @@ public class Directory {
 		return busStopDirectory.get(bsc);
 	}
 	
-	public static Location getGarage(int gc) {
+	public static  Location getGarage(int gc) {
+		
 		return parkingStructureDirectory.get(gc);
 	}
 	

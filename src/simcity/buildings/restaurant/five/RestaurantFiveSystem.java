@@ -10,6 +10,7 @@ import simcity.gui.restaurantfive.RestaurantFiveAnimationPanel;
 import simcity.gui.restaurantfive.RestaurantFiveControlPanel;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
+import simcity.interfaces.restaurant.five.RestaurantFiveCook;
 import simcity.interfaces.restaurant.five.RestaurantFiveCustomer;
 import simcity.interfaces.restaurant.five.RestaurantFiveHost;
 import simcity.interfaces.restaurant.five.RestaurantFiveWaiter;
@@ -17,6 +18,7 @@ import simcity.interfaces.restaurant.five.RestaurantFiveWaiter;
 public class RestaurantFiveSystem extends simcity.SimSystem {
 
 	private RestaurantFiveHost host = null;
+	private RestaurantFiveCook cook = null;
 	private List<RestaurantFiveCustomer> customers = Collections.synchronizedList(new ArrayList<RestaurantFiveCustomer>());
 	private List<RestaurantFiveWaiter> waiters = Collections.synchronizedList(new ArrayList<RestaurantFiveWaiter>());
 
@@ -29,6 +31,10 @@ public class RestaurantFiveSystem extends simcity.SimSystem {
 	
 	public RestaurantFiveHost getHost() {
 		return host;
+	}
+	
+	public RestaurantFiveCook getCook() {
+		return cook;
 	}
 	
 	/***
@@ -48,9 +54,9 @@ public class RestaurantFiveSystem extends simcity.SimSystem {
 			if(role instanceof RestaurantFiveCustomer) {
 				customers.add((RestaurantFiveCustomer) role);
 			}
-//			else if(role instanceof MarketWorker) {
-//				workers.add((MarketWorker) role);
-//			}
+			else if(role instanceof RestaurantFiveCook) {
+				cook = (RestaurantFiveCook) role;
+			}
 			else if(role instanceof RestaurantFiveWaiter) {
 				waiters.add((RestaurantFiveWaiter) role);
 				host.msgAddWaiter((RestaurantFiveWaiter)role);

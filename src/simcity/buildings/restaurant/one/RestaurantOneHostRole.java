@@ -29,30 +29,28 @@ public class RestaurantOneHostRole extends Role implements simcity.interfaces.re
 
     private String name;
     private boolean alreadySeated = false;
-    public RestaurantOneSystem system = null;
+    public RestaurantOneSystem system;;
 
     private Semaphore atDest = new Semaphore(0, true);
     
-    private PersonAgent person;
-
+    
     private class MyWaiter {
             public MyWaiter(RestaurantOneWaiter w, int nTables) {
                     waiter = (RestaurantOneWaiterRole) w;
                     numTables = nTables; 
                     onBreak = false;
             }
-            RestaurantOneWaiterRole waiter;
+            RestaurantOneWaiter waiter;
             int numTables;
             boolean onBreak;
-            public boolean breakApproved = false;
-            public boolean breakDenied = false;
-
+          
     }
 
     private List<MyWaiter> waiters = new ArrayList<MyWaiter>();
 
-    public RestaurantOneHostRole(PersonAgent p) {
+    public RestaurantOneHostRole(PersonAgent p, RestaurantOneSystem s) {
             this.person = p;
+            system = s;
             this.name = p.getName();
             tables = new ArrayList<Table>(NTABLES);
             for (int ix = 1; ix <= NTABLES; ix++) {
@@ -60,11 +58,6 @@ public class RestaurantOneHostRole extends Role implements simcity.interfaces.re
             }
             this.gui = new RestaurantOneHostGui(this);
     }
-
-    public RestaurantOneHostRole(PersonAgent person,
-			RestaurantOneSystem restaurantOneSystem) {
-		// TODO Auto-generated constructor stub
-	}
 
 	public String getName() {
             return name;
@@ -101,7 +94,7 @@ public class RestaurantOneHostRole extends Role implements simcity.interfaces.re
             }
     }
 
-    public void msgIWantABreak(RestaurantOneWaiterRole w)
+  /*  public void msgIWantABreak(RestaurantOneWaiterRole w)
     {
             if (waiters.size() > 1) {
                     synchronized(waiters) {
@@ -125,9 +118,9 @@ public class RestaurantOneHostRole extends Role implements simcity.interfaces.re
                     }
             }
             }
-    }
+    } */
     
-    public void msgImOffBreak(RestaurantOneWaiterRole w) {
+ /*   public void msgImOffBreak(RestaurantOneWaiterRole w) {
             synchronized(waiters) {
             for (MyWaiter mw : waiters) {
                     if (mw.waiter.equals(w)){
@@ -138,43 +131,31 @@ public class RestaurantOneHostRole extends Role implements simcity.interfaces.re
             }
             }
             
-    }
+    } */
 
     // removes customer when customer chooses to leave early
-    public void msgLeaving(RestaurantOneCustomerRole c) {
+   /* public void msgLeaving(RestaurantOneCustomerRole c) {
             if (!alreadySeated) {
                     waitingCustomers.remove(c);
                     stateChanged();
             }
-    }
+    } */
 
     //message from Gui once customer has been seated
-    public void msgCustomerSeated() {
+  /*  public void msgCustomerSeated() {
           //  seatCustomer.release();
-    }
+    } */
 
     /**
      * Scheduler.  Determine what action is called for, and do it.
      */
     public boolean pickAndExecuteAnAction() {
             alreadySeated = false;
+            System.out.println("In Pick and execute an action");
 
-            if (!waiters.isEmpty())
+            if (!system.getWaiters().isEmpty())
             {
-                    synchronized(waiters) {
-                    for (MyWaiter w : waiters) {
-                            if (!w.onBreak) {
-                                    if (w.breakApproved) {
-                                            w.waiter.msgBreakApproved();
-                                            w.onBreak = true;
-                                            System.out.println("ON BREAK ON BREAK");
-                                    }
-                                    else if (w.breakDenied) {
-                                            w.waiter.msgNoBreak();
-                                    }
-                            }
-                    }
-                    }
+            	System.out.println("Waiters is not empty");
                     synchronized(tables) {
                     for (Table table : tables) {
                             if (!table.isOccupied()) {
@@ -189,8 +170,8 @@ public class RestaurantOneHostRole extends Role implements simcity.interfaces.re
                                             int minTables = waiters.get(i).numTables;
                                             int WaiterWithMinTables = i;
                                             int j = 0;
-                                            synchronized(waiters){
-                                            for (MyWaiter mw : waiters) {
+                                            synchronized(system.getWaiters()){
+                                            for (MyWaiter mw : system.getWaiters()) {
                                                     if (!mw.onBreak)
                                                     {
                                                             if (mw.numTables < minTables) {

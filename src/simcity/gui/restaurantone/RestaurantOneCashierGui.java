@@ -15,7 +15,7 @@ import simcity.interfaces.restaurant.one.RestaurantOneHost;
 public class RestaurantOneCashierGui extends Gui {
 
     
-    private ImageIcon ii = new ImageIcon("res/person/bluepersondownbig.png");
+    private ImageIcon ii = new ImageIcon("res/person/tanpersondownbig.png");
     private Image hostimage = ii.getImage();
 
     

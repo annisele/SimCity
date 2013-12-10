@@ -53,6 +53,7 @@ public class RestaurantOneSystem extends SimSystem {
 		else if(host != null) {
 			if(role instanceof RestaurantOneCustomer) {
 				customers.add((RestaurantOneCustomer) role);
+				((RestaurantOneCustomer)role).setHost(host);
 			}
 //			else if(role instanceof MarketWorker) {
 //				workers.add((MarketWorker) role);
@@ -72,6 +73,10 @@ public class RestaurantOneSystem extends SimSystem {
 			return true;
 		}
 		return false;
+	}
+	
+	public List<RestaurantOneWaiter> getWaiters() {
+		return waiters;
 	}
 
 }

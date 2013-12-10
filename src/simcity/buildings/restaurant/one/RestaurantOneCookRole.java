@@ -28,7 +28,7 @@ public class RestaurantOneCookRole extends Role implements RestaurantOneCook {
     private Map<String, Food> ItemMap = Collections.synchronizedMap(new HashMap<String, Food>());
 private Semaphore atDest = new Semaphore(0, true);
 
-	RestaurantOneSystem restaurant;
+	RestaurantOneSystem system;
 
     enum State {pending, cooking, done, sent, nostock, waitingforstock};
     String name;
@@ -70,8 +70,8 @@ private Semaphore atDest = new Semaphore(0, true);
     
     
 
-    public RestaurantOneCookRole(PersonAgent p) {
-            
+    public RestaurantOneCookRole(PersonAgent p, RestaurantOneSystem s) {
+            system = s;
             person = p;
             this.name = p.getName();
             Food steak = new Food(0, 5);
@@ -225,8 +225,8 @@ private Semaphore atDest = new Semaphore(0, true);
 	@Override
 	public void enterBuilding(SimSystem s) {
 		// TODO Auto-generated method stub
-		restaurant = (RestaurantOneSystem)s;
-		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantOneCook: " + person.getName(), "Ready to work at the restaurant!");
+		system = (RestaurantOneSystem)s;
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(system.getName()), "RestaurantOneCook: " + person.getName(), "Ready to work at the restaurant!");
 
 
 		((RestaurantOneCookGui)gui).DoGoToKitchen();

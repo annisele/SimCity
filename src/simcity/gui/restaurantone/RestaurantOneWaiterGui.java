@@ -38,7 +38,7 @@ public class RestaurantOneWaiterGui extends Gui {
         }
         
         
-        private ImageIcon ii = new ImageIcon("res/person/bluepersondownbig.png");
+        private ImageIcon ii = new ImageIcon("res/person/tanpersondownbig.png");
         private Image hostimage = ii.getImage();
 
         public static List<Coordinates> TableSpots = new ArrayList<Coordinates>();

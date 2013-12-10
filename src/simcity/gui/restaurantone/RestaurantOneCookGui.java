@@ -21,7 +21,7 @@ public class RestaurantOneCookGui extends Gui {
     private int xGrill = 500, yGrill = 130;
     private int xPlate = 550, yPlate = 175;
             
-    private ImageIcon ii = new ImageIcon("res/person/bluepersondownbig.png");
+    private ImageIcon ii = new ImageIcon("res/person/tanpersondownbig.png");
     private Image hostimage = ii.getImage();
 
     public RestaurantOneCookGui(RestaurantOneCook cr) {

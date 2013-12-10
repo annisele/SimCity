@@ -92,6 +92,7 @@ public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost
 		atDest.release();
 	}
 	//messages
+	
 	public void msgAddWaiter(RestaurantThreeWaiter waiter) {
 		waiters.add(new MyWaiter(waiter));
 		stateChanged();

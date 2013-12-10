@@ -34,12 +34,12 @@ public class BusGui extends Gui {
 			x = 110;
 			y = 108;
 		}
-		if (busagent.getName().equals("Bismarck")) {
+		if (busagent.getName().equals("clockwise")) {
 			x = 110;
 			y = 150;
 					
 		}
-		if (busagent.getName().equals("Kipling")) {
+		if (busagent.getName().equals("counterclockwise")) {
 			x = 1370;
 			y = 800;
 				

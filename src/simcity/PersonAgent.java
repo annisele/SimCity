@@ -26,6 +26,7 @@ import simcity.buildings.restaurant.two.RestaurantTwoCustomerRole;
 import simcity.buildings.restaurant.two.RestaurantTwoSystem;
 import simcity.buildings.transportation.BusAgent;
 import simcity.buildings.transportation.BusPassengerRole;
+import simcity.buildings.transportation.CarAgent;
 import simcity.buildings.transportation.CarPassengerRole;
 import simcity.buildings.transportation.PedestrianRole;
 import simcity.gui.IdlePersonGui;
@@ -75,7 +76,9 @@ public class PersonAgent extends Agent implements Person {
 	final int SLEEPDURATION = 48;
 	final int AWAKEDURATION = 88;
 	private boolean workClosed = false;
-	
+	private String bankPassword;
+	private int accountNumber;
+	private CarAgent car;
 	private String home;
 	private String workBuilding;
 	private Role workRole;
@@ -87,6 +90,7 @@ public class PersonAgent extends Agent implements Person {
 		HouseInhabitantRole h = new HouseInhabitantRole(this);
 		MarketCustomerRole m = new MarketCustomerRole(this);
 		BankCustomerRole b = new BankCustomerRole(this);
+		CarPassengerRole cpr = new CarPassengerRole(this);
 
 		BusPassengerRole bp = new BusPassengerRole(this);
 		RestaurantOneCustomerRole r1 = new RestaurantOneCustomerRole(this);
@@ -100,11 +104,12 @@ public class PersonAgent extends Agent implements Person {
 		myRoles.add(m);
 		myRoles.add(b);
 		myRoles.add(bp);
+		myRoles.add(r1);
 		myRoles.add(r2);
 		myRoles.add(r3);
 		myRoles.add(r4);
 		myRoles.add(r5);
-		
+		myRoles.add(cpr);
 		
 		//random money generator between and 25
 
@@ -284,7 +289,8 @@ public class PersonAgent extends Agent implements Person {
 			steps.add(new Step("exitBuilding", this));
 			steps.add(new Step("goToParkingGarage", this));
 			steps.add(new Step("driveTo", this));
-			steps.add(new Step("enterBuilding", this));
+			//steps.add(new Step("goTo", this));
+			//steps.add(new Step("enterBuilding", this));
 			
 			Role eventR = null;
 			for(Role r : myRoles) {
@@ -477,6 +483,7 @@ public class PersonAgent extends Agent implements Person {
 			List<Step> steps = new ArrayList<Step>();
 			steps.add(new Step("exitBuilding", this));
 			steps.add(new Step("goTo", this));
+			// instead of this step ^ call transportationSteps(steps);
 			steps.add(new Step("enterBuilding", this));
 			int index = rand.nextInt(restaurants.size());
 			String buildingName = restaurants.get(index);
@@ -531,6 +538,20 @@ public class PersonAgent extends Agent implements Person {
 
 	//this assumes after roles are done, they go stand outside the building
 	//so this only needs to prep the person to walk somewhere by changing it to pedestrian
+	
+	private void transportationSteps(List<Step> steps) {
+	//	if (hasCar) {
+			// steps.add go to car
+			// drive to destination
+			// go to building
+			//steps.add(new Step("goTo", this));
+	//	} else if (busIsFaster) {
+			// go to bus stop
+			// bus to place
+			// go to building
+			
+		}  
+		
 	
 	int findGarage(String dest) {
 		double minLocation = 10000;
@@ -627,7 +648,7 @@ public class PersonAgent extends Agent implements Person {
 		for (int i = 0; i<6; i++) {
 			int tempX = Directory.getGarage(i).getX()-Directory.getLocation(dest).getX();
 			double tempX2 = Math.pow(tempX, 2);
-			int tempY = Directory.getBusStop(i).getY()-Directory.getLocation(dest).getY();
+			int tempY = Directory.getGarage(i).getY()-Directory.getLocation(dest).getY();
 			double tempY2 = Math.pow(tempY,  2);
 			double tempXY = tempX2 + tempY2;
 			double tempLocation = Math.sqrt(tempXY);
@@ -671,7 +692,6 @@ public class PersonAgent extends Agent implements Person {
 	}
 	
 	public void goToParkingGarage() {
-		System.out.println("HYAO");
 		for(Role r : myRoles) {
 			if(r instanceof Pedestrian) {
 				currentRole = r;
@@ -701,7 +721,7 @@ public class PersonAgent extends Agent implements Person {
 		for (Role r : myRoles) {
 			if (r instanceof CarPassengerRole ) {
 				currentRole = r;
-				
+				System.out.println("Driving to now...");
 				((CarPassengerRole)r).msgDriveTo(findGarage(currentEvent.buildingName), getClosestGarage(currentEvent.buildingName) );
 			}
 		}
@@ -738,7 +758,8 @@ public class PersonAgent extends Agent implements Person {
 
 		}
 		else {
-			AlertLog.getInstance().logMessage(AlertTag.WORLD, "Pedestrian: "+name, currentEvent.buildingName +" is closed.  I can't enter");						
+			AlertLog.getInstance().logMessage(AlertTag.WORLD, "Pedestrian: "+name, 
+					currentEvent.buildingName +" is closed.  I can't enter");						
 			currentRole = currentEvent.role;
 			roleFinished();
 			if(currentEvent.type == EventType.Work) {
@@ -749,7 +770,11 @@ public class PersonAgent extends Agent implements Person {
 				currentEvent = null;
 			}
 		}
-		if(currentEvent.type == EventType.GoToMarket) {
+		if (currentEvent == null) {
+			AlertLog.getInstance().logDebug(AlertTag.WORLD, "Pedestrian: "+name, 
+					"My currentEvent is null, so I cannot call marketDone for HouseInhab");						
+		}
+		else if(currentEvent.type == EventType.GoToMarket) {
 			for (Role r : myRoles) {
 				if (r instanceof HouseInhabitant) {
 					((HouseInhabitant)r).marketDone();

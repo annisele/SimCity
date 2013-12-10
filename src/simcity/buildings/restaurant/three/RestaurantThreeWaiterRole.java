@@ -8,9 +8,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.concurrent.Semaphore;
+
 import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
+import simcity.buildings.restaurant.four.RestaurantFourWaiterRole.MyCustomer;
+import simcity.buildings.restaurant.four.RestaurantFourWaiterRole.customerState;
 import simcity.gui.restaurantthree.RestaurantThreeWaiterGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
@@ -31,6 +34,7 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
 	public Map<String,Double> Menu= new HashMap<String, Double>();
 	private RestaurantThreeHost host;
 	private RestaurantThreeMenu menu;
+	private List<Order> finishedOrders = new ArrayList<Order>();
 	private RestaurantThreeCook cook;
 	private RestaurantThreeComputer computer;
 	private RestaurantThreeCashier cashier;
@@ -39,7 +43,15 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
 	private enum CustomerState {NONE, WAITING, READY_TO_ORDER,ORDERING,FOOD_SERVED,IS_DONE,NO_ACTION, READY_TO_PAY, EXPENSIVE_LEAVE, REORDER, CANNOT_AFFORD_TO_REORDER};
 	private CustomerState status = CustomerState.NONE;
 	private List<MyCustomer> customers = Collections.synchronizedList(new ArrayList<MyCustomer>());
-	
+	private class Order {
+		String choice;
+		int tableNum;
+		
+		Order (String choice,int table ) {
+			this.choice = choice;
+			this.tableNum = table;
+		}
+	}
 	public class MyCustomer {
 		private RestaurantThreeCustomer customer;
 		private CustomerState state;
@@ -171,7 +183,16 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
 		}
 		//from cook
 		public void msgOrderIsReady(int tableNum, String choice) {
-			
+			synchronized(customers) {
+			for(MyCustomer c:customers){
+			    if(c.tableNum == tableNum){
+				c.state = CustomerState.FOOD_SERVED;
+				stateChanged();
+				
+			    }
+			}
+			finishedOrders.add(new Order(choice, tableNum));
+			}
 		}
 		//scheduler
 		public boolean pickAndExecuteAnAction() {
@@ -183,6 +204,7 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
 		}
 
 		if (waiterState == WaiterState.WORKING) {
+			
 			synchronized(customers) {
 				for (MyCustomer customer : customers) {
 					if (customer.getState() == CustomerState.READY_TO_ORDER) {
@@ -282,6 +304,7 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
 	public String getName() {
 		return person.getName();
 	}
+	
 	
 }
 

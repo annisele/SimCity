@@ -10,6 +10,10 @@ public interface RestaurantThreeWaiter extends GuiPartner{
 	public abstract void atDestination();
 	public abstract void msgPleaseSeatCustomer(
 			RestaurantThreeCustomer restaurantThreeCustomer, int tableNumber);
+	
+	public abstract void msgGetMyOrder(
+			RestaurantThreeCustomer restaurantThreeCustomerRole);
+	public abstract void msgHereIsMyChoice(RestaurantThreeCustomer restaurantThreeCustomerRole,String choice);
 
 }
 

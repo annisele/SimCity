@@ -21,15 +21,15 @@ public class RestaurantOneCashierRole extends Role implements simcity.interfaces
 
 	
 
-			private RestaurantOneSystem restaurant;
+			private RestaurantOneSystem system;
 
 			private PersonAgent person;
 	        private String Name;
 	        public Double cash;
 	        public double owedmoney = 0.00;
 
-	        public RestaurantOneCashierRole(PersonAgent p) {
-	                super();
+	        public RestaurantOneCashierRole(PersonAgent p, RestaurantOneSystem s) {
+	                system = s;
 	                this.person = p;
 	                this.Name = p.getName();
 	                cash = 10.00; //cashier starts out with 100 dollars in the register
@@ -176,8 +176,8 @@ public class RestaurantOneCashierRole extends Role implements simcity.interfaces
 			@Override
 			public void enterBuilding(SimSystem s) {
 				// TODO Auto-generated method stub
-				restaurant = (RestaurantOneSystem)s;
-				AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantOneCashier: " + person.getName(), "Ready to work at the restaurant!");
+				system = (RestaurantOneSystem)s;
+				AlertLog.getInstance().logMessage(AlertTag.valueOf(system.getName()), "RestaurantOneCashier: " + person.getName(), "Ready to work at the restaurant!");
 
 
 				((RestaurantOneCashierGui) gui).DoGoToStand();

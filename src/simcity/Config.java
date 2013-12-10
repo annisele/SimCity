@@ -47,13 +47,13 @@ public class Config {
 		systems.clear();
 		systems.clearDetailPane();
 		systems.setBackgroundThree();
-		systems.addBus("Bismarck");
-		systems.addBus("Kipling");
-		systems.addCar("Prufrock");
+		systems.addBus("clockwise");
+		systems.addBus("counterclockwise");
+		//systems.addCar("car1");
 		systems.addMarket("MARKET2", 312, 27);
 		
 		systems.addPerson("Gosling");
-		systems.setWorkMarketWorker("Gosling", "MARKET2");
+		//systems.setWorkMarketWorker("Gosling", "MARKET2");
 	}
 
 	public void busToMarket() {
@@ -169,14 +169,69 @@ public class Config {
 	}
 
 	public void oneBank() {
+		///////
+		systems.clear();
+		systems.clearDetailPane();
+
+		systems.setBackgroundTwo();
+		systems.addBank("BANK1", 100, 300);
+		systems.addMarket("MARKET1", 186, 250);
+		systems.addHouse("HOUSE1", 60, 27);
+		systems.addHouse("HOUSE2", 123, 27);
+		systems.addHouse("HOUSE3", 186, 27);
+		systems.addHouse("HOUSE4", 249, 27);
+		systems.addHouse("HOUSE5", 312, 27); 
+		systems.addPerson("Mary");
+		systems.setHome("Mary", "HOUSE2");
+		systems.setWorkMarketCashier("Mary", "MARKET1");
+		
+		systems.addPerson("Joe");
+		systems.setHome("Joe", "HOUSE1");
+		systems.setWorkMarketWorker("Joe", "MARKET1");
+		
+		systems.addPerson("Tommy");
+		systems.setHome("Tommy", "HOUSE3");
+		
+		systems.addPerson("Kevin");
+		systems.setHome("Kevin", "HOUSE4");
+		systems.setWorkBankHost("Kevin", "BANK1");
+		
+		systems.addPerson("Ben");
+		systems.setHome("Ben", "HOUSE5");
+		systems.setWorkBankTeller("Ben", "BANK1");
+		
+		systems.addHackedBankAccount(0, 100, 0, "abcdef");
+		
+
+		///////////////////////////
+		/*
+		
+		
 		systems.clear();
 		systems.clearDetailPane();
 
 		systems.setBackgroundOne();
 		systems.addBank("BANK1", 100, 300);
-		systems.addBankHostHack("Kevin", "BANK1");
-		systems.addHackedBankAccount(0, 100, 0, "abcdef");
+		///////////////////////////////
+		systems.addHouse("HOUSE1", 60, 27);
+		systems.addHouse("HOUSE2", 123, 27);
+		systems.addHouse("HOUSE3", 186, 27);
 		
+		systems.addPerson("Kevin");
+		systems.setHome("Kevin", "HOUSE2");
+		systems.setWorkBankHost("Kevin", "BANK1");
+		
+		systems.addPerson("Ben");
+		systems.setHome("Ben", "HOUSE1");
+		systems.setWorkBankTeller("Ben", "BANK1");
+		
+
+		systems.addPerson("Tony");
+		systems.setHome("Tony", "HOUSE3");
+		
+		systems.addHackedBankAccount(0, 100, 0, "abcdef");
+		*/
+		/*
 		try {
 			timer1.cancel();
 			timer2.cancel();
@@ -189,7 +244,7 @@ public class Config {
 		}
 		timer1.schedule(new TimerTask() {
 			public void run() {
-				systems.addBankTellerHack("Bank Teller", "BANK1");
+				systems.setWorkBankTeller("Ben", "BANK1");
 			}
 		}, 500);
 		timer2.schedule(new TimerTask() {
@@ -202,6 +257,7 @@ public class Config {
 				systems.addPerson("Levanne");
 			}
 		}, 1500);
+		*/
 	}
 
 		
@@ -387,11 +443,11 @@ public class Config {
 		systems.setHome("Tony", "HOUSE1");
 
 		systems.addBank("BANK1", 402, 27);
-		systems.addBankHostHack("Kevin", "BANK1");
+		systems.setWorkBankHost("Kevin", "BANK1");
 		systems.addHackedBankAccount(0, 100, 0, "abcdef");
 		timer.schedule(new TimerTask(){
 			public void run() {
-				systems.addBankTellerHack("Bank Teller", "BANK1");
+				systems.setWorkBankTeller("Ben", "BANK1");
 			}
 		}, 4000);
 
@@ -448,11 +504,11 @@ public class Config {
 			}
 		}, 1000);
 		systems.addBank("BANK1", 402, 27);
-		systems.addBankHostHack("Kevin", "BANK1");
+		systems.setWorkBankHost("Kevin", "BANK1");
 		systems.addHackedBankAccount(0, 100, 0, "abcdef");
 		timer.schedule(new TimerTask(){
 			public void run() {
-				systems.addBankTellerHack("Bank Teller", "BANK1");
+				systems.setWorkBankTeller("Ben", "BANK1");
 			}
 		}, 1000);
 	}
@@ -473,6 +529,11 @@ public class Config {
 						timer.schedule(new TimerTask () {
 							public void run() {
 								systems.addRestaurantOneCook("Gayle", "RESTAURANT1");
+								timer.schedule(new TimerTask() { 
+									public void run() {
+									systems.addPerson("Huell");
+								}
+								}, 1000);
 							}
 						}, 1000);
 							}

@@ -77,8 +77,9 @@ public class PersonAgent extends Agent implements Person {
 	final int SLEEPDURATION = 48;
 	final int AWAKEDURATION = 88;
 	private boolean workClosed = false;
+	private String bankPassword;
+	private int accountNumber;
 	private CarAgent car;
-	
 	private String home;
 	private String workBuilding;
 	private Role workRole;

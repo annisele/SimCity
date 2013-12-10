@@ -141,6 +141,12 @@ public class MarketWorkerRole extends Role implements MarketWorker {
 	@Override
 	public void exitBuilding() {
 		stopWorking = false;
+		((MarketWorkerGui)gui).DoGoToCenter();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			//e.printStackTrace();
+		}
 		gui.DoExitBuilding();
 		try {
 			atDest.acquire();

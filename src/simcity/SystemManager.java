@@ -439,8 +439,7 @@ public class SystemManager {
 
 
 
-
-	public void addBankHostHack(String name, String bank) {
+	public void setWorkBankHost(String name, String bank) {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());
 		Role bankHost = new BankHostRole(person);;
@@ -448,7 +447,8 @@ public class SystemManager {
 		people.add(person);
 		person.startThread();
 	}
-	public void addBankTellerHack(String name, String bank) {
+	
+	public void setWorkBankTeller(String name, String bank) {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());
 		Role bankTeller = new BankTellerRole(person, banks.get(0));

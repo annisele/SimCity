@@ -8,9 +8,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.concurrent.Semaphore;
+
 import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
+import simcity.buildings.restaurant.four.RestaurantFourWaiterRole.MyCustomer;
+import simcity.buildings.restaurant.four.RestaurantFourWaiterRole.customerState;
 import simcity.gui.restaurantthree.RestaurantThreeWaiterGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
@@ -301,6 +304,7 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
 	public String getName() {
 		return person.getName();
 	}
+	
 	
 }
 

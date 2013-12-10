@@ -174,7 +174,27 @@ public class Config {
 
 		systems.setBackgroundOne();
 		systems.addBank("BANK1", 100, 300);
-		systems.addBankHostHack("Kevin", "BANK1");
+		///////////////////////////////
+		systems.addHouse("HOUSE1", 60, 27);
+		systems.addHouse("HOUSE2", 123, 27);
+		systems.addHouse("HOUSE3", 186, 27);
+		
+		systems.addPerson("Kevin");
+		systems.setHome("Kevin", "HOUSE2");
+		systems.setWorkBankHost("Kevin", "BANK1");
+		
+		
+		
+		systems.addPerson("Ben");
+		systems.setHome("Ben", "HOUSE1");
+		systems.setWorkBankTeller("Ben", "BANK1");
+		
+
+		systems.addPerson("Tony");
+		systems.setHome("Tony", "HOUSE3");
+
+
+	
 		systems.addHackedBankAccount(0, 100, 0, "abcdef");
 		
 		try {
@@ -189,7 +209,7 @@ public class Config {
 		}
 		timer1.schedule(new TimerTask() {
 			public void run() {
-				systems.addBankTellerHack("Bank Teller", "BANK1");
+				systems.setWorkBankTeller("Ben", "BANK1");
 			}
 		}, 500);
 		timer2.schedule(new TimerTask() {
@@ -387,11 +407,11 @@ public class Config {
 		systems.setHome("Tony", "HOUSE1");
 
 		systems.addBank("BANK1", 402, 27);
-		systems.addBankHostHack("Kevin", "BANK1");
+		systems.setWorkBankHost("Kevin", "BANK1");
 		systems.addHackedBankAccount(0, 100, 0, "abcdef");
 		timer.schedule(new TimerTask(){
 			public void run() {
-				systems.addBankTellerHack("Bank Teller", "BANK1");
+				systems.setWorkBankTeller("Ben", "BANK1");
 			}
 		}, 4000);
 
@@ -448,11 +468,11 @@ public class Config {
 			}
 		}, 1000);
 		systems.addBank("BANK1", 402, 27);
-		systems.addBankHostHack("Kevin", "BANK1");
+		systems.setWorkBankHost("Kevin", "BANK1");
 		systems.addHackedBankAccount(0, 100, 0, "abcdef");
 		timer.schedule(new TimerTask(){
 			public void run() {
-				systems.addBankTellerHack("Bank Teller", "BANK1");
+				systems.setWorkBankTeller("Ben", "BANK1");
 			}
 		}, 1000);
 	}

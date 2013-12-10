@@ -435,7 +435,8 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 			bh = bank.getBankHost();
 			msgArrivedAtBank();
 			AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankCustomer: " + person.getName(), "I've arrived");	
-
+			accountNumber = this.person.getAccountNumber();
+			accountPassword = this.person.getBankPassword();
 		}
 
 		// HACKS

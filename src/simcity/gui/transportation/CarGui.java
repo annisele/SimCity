@@ -10,25 +10,18 @@ import simcity.gui.Gui;
 import simcity.buildings.transportation.*;
 
 public class CarGui extends Gui {
-	private CarAgent caragent;
-	private int x;
-	private int y;
-	private int xDest;
-	private int yDest;
 	
-	private boolean atDestNow = false;
+	
+	private boolean atDest = false;
 	
 	ImageIcon ii = new ImageIcon("res/bank/bankgui.png");
 	Image img = ii.getImage();
 	Image busimage = img.getScaledInstance(25, 25,  java.awt.Image.SCALE_SMOOTH); 
 	
-	public CarGui(CarAgent cahh) {
-		this.caragent = cahh;
-		x= 20;
-		y= 108;
-		
-		
+	public CarGui(CarPassengerRole cpr) {
+		role = ((CarPassengerRole) cpr);	
 	}
+	
 	
 	public void updatePosition() {
 		if(xDest+1 > x) {
@@ -45,11 +38,11 @@ public class CarGui extends Gui {
 		}
 		if (((x == (xDest)) || (x == (xDest+1))) && ((y == (yDest)) || (y == (yDest+1)))) {
 			if (atDestNow == false) {
-				caragent.atDestination();
+				role.atDestination();
 				atDestNow = true;
 			}
 		} 
-	}
+	} 
     
 	@Override
 	public void draw(Graphics2D g) {
@@ -60,14 +53,12 @@ public class CarGui extends Gui {
 	
 	public void DoGoTo(int x, int y) {
 		//atDestNow = false;
-		xDest = x;
-		yDest = y;
-		atDestNow = false; 
+		System.out.println("In DoGoTo");
+		DoGoToLocation(x, y);
+		atDestNow = false;
 	}
 
-	public void setCarAgent(CarAgent car) {
-		this.caragent = car;
-	}
+
 	
 /*	public void clear() {
 		caragent.clear();

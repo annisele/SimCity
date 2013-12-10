@@ -8,9 +8,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.concurrent.Semaphore;
+
 import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
+import simcity.buildings.restaurant.four.RestaurantFourWaiterRole.MyCustomer;
+import simcity.buildings.restaurant.four.RestaurantFourWaiterRole.customerState;
 import simcity.gui.restaurantthree.RestaurantThreeWaiterGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
@@ -204,16 +207,14 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
 			
 			synchronized(customers) {
 				for (MyCustomer customer : customers) {
-					if (customer.getState() == CustomerState.READY_TO_ORDER) {
-					//	customer.setState(CustomerState.beingWalkedToForOrder);
-					//	walkToCustomerForOrder(customer);
+					if (customer.getState() == CustomerState.WAITING) {
+						seatCustomer(customer);
 						return true;
 					}
-					//if (customer.getState() == CustomerState.withHost) {
-					//	customer.setState(CustomerState.sitting);
-					//	seatCustomer(customer);
-					//	return true;
-					//}
+					if (customer.getState() == CustomerState.READY_TO_ORDER) {
+						takeOrder(customer);
+						return true;
+					}
 				}
 			}
 		}
@@ -241,7 +242,7 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
     	} catch (InterruptedException e) {
     		
     	}
-		restaurantThreeSystem.getRestaurantThreeHost().msgWaiterReadyForWork(this);
+		restaurantThreeSystem.getRestaurantThreeHost().msgAddWaiter(this);
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurantThreeSystem.getName()), "Restaurant 3 Waiter: " + person.getName(), "I am ready to work!");	
 		((RestaurantThreeWaiterGui)gui).DoGoToStation();
 		try {
@@ -260,9 +261,22 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
     	}
 		c.getCustomer().msgFollowMeToTable(this, c.getTableNumber());
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurantThreeSystem.getName()), "Restaurant 3 Waiter: " + person.getName(), "PLease follow me to table, " + c.customer.getName() + ".");
-	
+		((RestaurantThreeWaiterGui)gui).DoGoToTable(c.getTableNumber());
+		try {
+    		atDest.acquire();
+    	} catch (InterruptedException e) {
+    		//e.printStackTrace();
+    	}
+		((RestaurantThreeWaiterGui)gui).DoGoToStation();
+		try {
+    		atDest.acquire();
+    	} catch (InterruptedException e) {
+    		
+    	}
 	}
-
+	private void takeOrder(MyCustomer c) {
+		
+	}
 	@Override
 	public void exitBuilding() {
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurantThreeSystem.getName()), "Restaurant 3 Waiter: " + person.getName(), "Leaving restaurant three");	
@@ -301,6 +315,7 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
 	public String getName() {
 		return person.getName();
 	}
+	
 	
 }
 

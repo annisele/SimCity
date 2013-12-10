@@ -35,7 +35,7 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 
 	private final int COOKTIME = 6000;
 	private final int EATTIME = 4000;
-	private final int TIMEBWMEALS = Clock.hoursInMillis(8);
+	private final int TIMEBWMEALS = Clock.hoursInMillis(5);
 	//private final int FOODSTOCK = 3;
 	private final Integer FOODTHRESHOLD = 2;
 	private final Integer FOODRESTOCK = 4;
@@ -281,17 +281,20 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 						"foodToBuy has size:  "+foodToBuy.size());
 				for (String key : foodToBuy.keySet()) {
 					Integer value = foodToBuy.get(key);
-					AlertLog.getInstance().logDebug(AlertTag.valueOf(house.getName()), "HouseInhabitant: "+person.getName(), 
-							"For  "+key+" "+value);
+					
 					if (value > FOODTHRESHOLD) {
 						AlertLog.getInstance().logDebug(AlertTag.valueOf(house.getName()), "HouseInhabitant: "+person.getName(), 
 								"We have enough of "+key);
 						foodToBuy.put(key, 0);
 					} else {
 						foodToBuy.put(key, FOODRESTOCK - foodToBuy.get(key));
+						if (foodToBuy.get(key) < 0)
+							foodToBuy.put(key,  0);
 						AlertLog.getInstance().logDebug(AlertTag.valueOf(house.getName()), "HouseInhabitant: "+person.getName(), 
 								"foodToBuy we added: " + key + " " + foodToBuy.get(key));
 					}
+					AlertLog.getInstance().logDebug(AlertTag.valueOf(house.getName()), "HouseInhabitant: "+person.getName(), 
+							"For  "+key+" "+value);
 				}
 			}		
 			list.keySet().removeAll(foodToBuy.keySet());

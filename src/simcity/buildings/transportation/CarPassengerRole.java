@@ -2,13 +2,14 @@ package simcity.buildings.transportation;
 import java.util.concurrent.Semaphore;
 
 import simcity.Directory;
-import simcity.Location;
+import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
+import simcity.gui.transportation.CarGui;
 
 public class CarPassengerRole extends Role implements simcity.interfaces.transportation.CarPassenger {
-	int start;
-	int destination;
+	public int start;
+	public int destination;
 	int xLoc;
 	int yLoc;
 	public enum PassengerState {stopped, driving};
@@ -19,8 +20,16 @@ public class CarPassengerRole extends Role implements simcity.interfaces.transpo
 	Directory dir;
 	public Semaphore atDest = new Semaphore(0, true);
 	
+	
+	public CarPassengerRole(PersonAgent p) {
+		person = p;
+		this.gui = new CarGui(this);
+		
+	}
+		
 	public void msgDriveTo(int s, int d) { //from PersonAgent
 		start = s;
+		//System.out.println(s + " " + d );
 		destination = d;
 		event = PassengerEvent.starting;
 		stateChanged();
@@ -29,6 +38,7 @@ public class CarPassengerRole extends Role implements simcity.interfaces.transpo
 		event = PassengerEvent.stopping;
 		xLoc = x;
 		yLoc = y;
+		System.out.println("We Have Arrived");
 		stateChanged();
 	}
 	public boolean pickAndExecuteAnAction() {
@@ -55,23 +65,30 @@ public class CarPassengerRole extends Role implements simcity.interfaces.transpo
 	private void Drive() {
 
 		// Animation - call to cargui
-		gui.DoGoToLocation(dir.getGarage(destination).getX(), dir.getGarage(destination).getY());
+		((CarGui) gui).DoGoTo(dir.getGarage(destination).getX(), dir.getGarage(destination).getY());
+		//((CarGui) gui).DoGoTo(100,200);
+		System.out.println(gui.getX() + " " + gui.getY());
+
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
 			//e.printStackTrace();
 		} 
+		msgWeHaveArrived(dir.getGarage(destination).getX(), dir.getGarage(destination).getY());
+		dir.getWorld().getAnimationPanel().removeGui(this.getGui());
+		//destination = (Integer) null;
 		//UNCOMMENT LINE OF CODE BELOW ONCE MOST ERRORS BE FIXED. ARRR
 	//	passenger.msgWeHaveArrived(destination.xLoc, destination.yLoc);
-		destination = (Integer) null;
 
 	} 
 	
 
 	public void GetOut() {
-		car.msgGettingOff(this);
+		//car.msgGettingOff(this);
 		// Animation
-		DoRedrawAt(xLoc, yLoc); 
+		//DoRedrawAt(xLoc, yLoc); 
+		person.setPedestrianRoleLocation(xLoc, yLoc);
+		person.roleFinished();
 	}
 	
 	public void DoDisableGui() {
@@ -89,6 +106,7 @@ public class CarPassengerRole extends Role implements simcity.interfaces.transpo
 	@Override
 	public void atDestination() {
 		// TODO Auto-generated method stub
+		atDest.release();
 		
 	}
 	@Override

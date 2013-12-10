@@ -66,7 +66,7 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 			busStops.put(3, stop4);
 			busStopCounter = 3;
 		}
-		else if (name == "Bismarck") {
+		else if (name == "clockwise") {
 			Location stop1 = new Location(110, 150);
 			Location stop2 = new Location(470, 110);
 			Location stop3 = new Location(910, 110);
@@ -100,7 +100,7 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 			
 			busStopCounter = 9;
 		}
-		else if (name == "Kipling") {
+		else if (name == "counterclockwise") {
 			Location stop1 = new Location(1330, 830);
 			Location stop2 = new Location(1400, 510);
 			Location stop3 = new Location(1400, 150);

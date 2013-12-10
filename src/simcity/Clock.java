@@ -24,14 +24,33 @@ public class Clock {
 	}
 	
 	public static int getTime() {
-		currentTime = (int) ((System.currentTimeMillis() - startTime) / tenMinuteLength);
+		currentTime = (int) ((System.currentTimeMillis() - startTime) / tenMinuteLength) + 6*5;// + 6*5
 		return currentTime;
+	}
+	
+	public static int getScheduleTime(int time) {
+		// This function takes time units for a time, and returns it as that time (of the current day)
+		int scheduleTime = time;
+		//24*6 units is a day;
+		scheduleTime += ( getTime() - ( getTime() % (6*24) ) );
+		
+		return scheduleTime;
+	}
+	
+	public static int getScheduleTime(int clockHour, int clockMin) { // 8.00 => int 8*6
+		// 8.39  => clockMin -> 3
+		// This function takes an hour and a minute and returns it as that time (of the current day) in our time units
+		int scheduleTime = (clockHour * 6)+(clockMin / 10);
+		//24*6 units is a day;
+		scheduleTime += ( getTime() - ( getTime() % (6*24) ) );
+		
+		return scheduleTime;
 	}
 		
 	public static String getDayString() {
 		int d = 0;
 		String day = "";
-		currentTime = (int) ((System.currentTimeMillis() - startTime) / tenMinuteLength);
+		currentTime = (int) ((System.currentTimeMillis() - startTime) / tenMinuteLength) + 6*5;
 
 		d = (int)((currentTime / (6*24))%7);
 		
@@ -46,9 +65,10 @@ public class Clock {
 		return day;
 	}
 	
+	
 	public static int getHour() {
 		int h = 0;
-		currentTime = (int) ((System.currentTimeMillis() - startTime) / hourLength);
+		currentTime = (int) ((System.currentTimeMillis() - startTime) / hourLength) + 6*5;
 		
 		h = (int)(((currentTime / 6)+5)%24+1);
 
@@ -57,7 +77,7 @@ public class Clock {
 	
 	public static int getTenMinutes() {
 		int t = 0;
-		currentTime = (int) ((System.currentTimeMillis() - startTime) / tenMinuteLength);
+		currentTime = (int) ((System.currentTimeMillis() - startTime) / tenMinuteLength) + 6*5;
 		
 		t = (int)(((currentTime / 6)+5)%24+1);
 
@@ -76,10 +96,12 @@ public class Clock {
 	
 	public static String getDisplayTime(){
 		int h = 0, m = 0;
-		currentTime = (int) ((System.currentTimeMillis() - startTime) / tenMinuteLength);
+		currentTime = (int) ((System.currentTimeMillis() - startTime) / tenMinuteLength) + 6*5;
 		
 		m = (int)((currentTime % 6)*10);
-		h = (int)(((currentTime / 6)+5)%24+1);
+		//h = (int)(((currentTime / 6)+5)%24+1);
+		h = (int)(((currentTime / 6))%24);
+
 		
 		String min = ""+m;
 		String hr = ""+h;
@@ -104,7 +126,8 @@ public class Clock {
 		currentTime = t;
 		
 		m = (int)((currentTime % 6)*10);
-		h = (int)(((currentTime / 6)+5)%24+1);
+		//h = (int)(((currentTime / 6)+5)%24+1);
+		h = (int)(((currentTime / 6))%24);
 		
 		String min = ""+m;
 		String hr = ""+h;

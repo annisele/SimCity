@@ -459,16 +459,17 @@ public class PersonAgent extends Agent implements Person {
 			else {
 				//sleepTime = Clock.getTime() + AWAKEDURATION;
 				if(type == TimingType.Early) {
-					sleepTime = Clock.getScheduleTime(9, 30);
+					sleepTime = Clock.getScheduleTime(21, 30);
 				}
 				else {
-					sleepTime = Clock.getScheduleTime(0, 0);
+					sleepTime = Clock.getScheduleTime(23, 50);
 					//sleepTime = midnight
 				}
 				sleepDuration = SLEEPDURATION;//48; // 8 * 6 = 8 * (6 * 10 min) = 8 hours
 			}
 			e = new Event(home, house, sleepDuration, sleepTime, false, steps, t);
-			AlertLog.getInstance().logDebug(AlertTag.WORLD, "Person: "+getName(), "I'm going to sleep at "+Clock.getDebugTime(sleepTime)+" and it's currently "+Clock.getTime());						
+			AlertLog.getInstance().logDebug(AlertTag.WORLD, "Person: "+getName(), 
+					"I'm going to sleep at "+Clock.getDebugTime(sleepTime)+" and it's currently "+Clock.getTime());						
 			System.out.println("Sleep");
 
 			insertEvent(e);

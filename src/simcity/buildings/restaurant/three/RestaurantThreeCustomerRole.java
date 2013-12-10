@@ -53,13 +53,18 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
 	}
 
 	public void msgFollowMeToTable(RestaurantThreeWaiter w, int tableNum) {
+		Do("Follow waiter to table");
 		waiter = w;
-		event = CustomerEvent.seated;
+		event = CustomerEvent.followWaiter;
 		stateChanged();
 	}
 	
 	public void msgAnimationFinishedGoToSeat() {
 		event = CustomerEvent.seated;
+		stateChanged();
+	}
+	public void msgReadyToOrderFood() {
+		event = CustomerEvent.decidedChoice;
 		stateChanged();
 	}
 	public void msgGotHungry() {
@@ -87,6 +92,7 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
 		} 
 		  if (state == CustomerState.WaitingInRestaurant && event == CustomerEvent.followWaiter ){
               state = CustomerState.BeingSeated;
+              Do("I get seated");
               getSeated();
               return true;
 		  }
@@ -122,13 +128,16 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
 	private void getSeated() {
 		 AlertLog.getInstance().logMessage(AlertTag.valueOf(rest.getName()), "Restaurant 3 Customer: " + person.getName(),"Being seated. Going to table.");
          ((RestaurantThreeCustomerGui)gui).DoGoToSeat(tableNumber);
+         Do("My table number");
          try {
      		atDest.acquire();
      	} catch (InterruptedException e) {
      		
      	}
  		AlertLog.getInstance().logMessage(AlertTag.valueOf(rest.getName()), "Restaurant 3 Customer: " + person.getName(), "I am at table " + tableNumber);
+ 		msgReadyToOrderFood();
  		stateChanged();
+ 		
 	}
 	private void callWaiter() {
 		waiter.msgGetMyOrder(this);

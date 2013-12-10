@@ -16,16 +16,16 @@ public class RestaurantThreeWaiterGui extends Gui {
 	private final int WAITER_X = 195;
 	private final int WAITER_Y = 370;
 	
-	public static final int WAITING_X = 240;
-	public static final int WAITING_Y = 370;
+	public static final int WAITING_X = 85;
+	public static final int WAITING_Y = 410;
 	
 
 	public static final int TABLE1_X = 80;
-	public static final int TABLE1_Y = 300;
+	public static final int TABLE1_Y = 290;
 	public static final int TABLE2_X = 150;
-	public static final int TABLE2_Y = 300;
+	public static final int TABLE2_Y = 290;
 	public static final int TABLE3_X = 220;
-	public static final int TABLE3_Y = 300;
+	public static final int TABLE3_Y = 290;
 	ImageIcon ii = new ImageIcon("res/person/tanpersondownbig.png");
 	Image img = ii.getImage();
 
@@ -49,13 +49,13 @@ public class RestaurantThreeWaiterGui extends Gui {
 		DoGoToLocation(WAITING_X, WAITING_Y);
 	}
 	public void DoGoToTable(int tableNumber) {
-		if (tableNumber == 1) {
+		if (tableNumber == 0) {
 			DoGoToLocation(TABLE1_X, TABLE1_Y);
 		}
-		else if (tableNumber == 2) {
+		else if (tableNumber == 1) {
 			DoGoToLocation(TABLE2_X, TABLE2_Y);
 		}
-		else if (tableNumber == 3) {
+		else if (tableNumber == 2) {
 			DoGoToLocation(TABLE3_X, TABLE3_Y);
 		}
 	}

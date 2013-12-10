@@ -76,7 +76,7 @@ public class PersonAgent extends Agent implements Person {
 	private double withdrawThreshold = 10; // if money is less than this, we will try to withdraw
 	private double depositThreshold = 25; // if money is higher than this, we will try to deposit
 	final int TWO_HOURS = 12;
-	private final int SIX_HOURS = 36;
+	private final int EIGHT_HOURS = 48;
 	final int FIRSTSLEEPDURATION = 6;
 	final int SLEEPDURATION = 48;
 	final int AWAKEDURATION = 88;
@@ -446,13 +446,16 @@ public class PersonAgent extends Agent implements Person {
 				workClosed = false;
 			}
 			else {
-
+				int offSet = 0;
+				if(currentEvent != null && currentEvent.type == EventType.Work) {
+					offSet = 6 * 24; //24 hours
+				}
 				if(type == TimingType.Early) {
-					workTime = Clock.getScheduleTime(8, 0);
+					workTime = Clock.getScheduleTime(8, 0) + offSet;
 					//workTime = 8am
 				}
 				else {
-					workTime = Clock.getScheduleTime(13, 0);
+					workTime = Clock.getScheduleTime(13, 0) + offSet;
 					//workTime = 1pm
 				}
 				if (home == null || home.equals("")) {
@@ -460,7 +463,7 @@ public class PersonAgent extends Agent implements Person {
 				}
 			}
 
-			e = new Event(workBuilding, workRole, SIX_HOURS, workTime, false, steps, t);
+			e = new Event(workBuilding, workRole, EIGHT_HOURS, workTime, false, steps, t);
 			//Do("GoToWork is scheduled, which has "+steps.size()+" steps");
 			insertEvent(e);
 			stateChanged();

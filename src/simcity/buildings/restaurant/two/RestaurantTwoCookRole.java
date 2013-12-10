@@ -81,12 +81,12 @@ public class RestaurantTwoCookRole extends Role implements simcity.interfaces.re
 
 	// Messages
 	
-	public RestaurantTwoCookRole(PersonAgent p, RestaurantTwoSystem r, RestaurantTwoComputer c){
+	public RestaurantTwoCookRole(PersonAgent p,  RestaurantTwoComputer c){
 		super();
 		this.person=p;
 		this.computer = c;
 		this.gui = new RestaurantTwoCookGui(this);
-		this.R2=r;
+		
 		cooking=false;
 		//this.orderWheel= od;
 		

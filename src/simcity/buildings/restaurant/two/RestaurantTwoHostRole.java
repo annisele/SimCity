@@ -41,12 +41,12 @@ public class RestaurantTwoHostRole extends Role implements simcity.interfaces.re
 
 	//public RestaurantTwoHostGui hostGui = null;
 
-	public RestaurantTwoHostRole(PersonAgent person, RestaurantTwoSystem r) {
+	public RestaurantTwoHostRole(PersonAgent person) {
 		super();
 		
 		this.person = person;
 		this.gui = new RestaurantTwoHostGui(this);
-		this.R2=r;
+	
 		// make some tables
 		tables =  Collections.synchronizedList(new ArrayList<Table>(NTABLES));
 		for (int ix = 1; ix <= NTABLES; ix++) {

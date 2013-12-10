@@ -1,4 +1,4 @@
-﻿team14
+team14
 ======
 
 SimCity201 Project Repository for CS 201 students
@@ -117,6 +117,10 @@ Member Contributions
 
 ####Rebecca Hao:
 #####V2: 
+  + I debugged the Person Agent scheduler and House Inhabitant role so that people now schedule events continuously and autonomously. For example, they will eat and sleep as they should every day, and go to the bank and market as needed. This included major changes in Person Agent, House Inhabitant, and Clock, and minor changes in files such as Config and System Manager. Worked with Clayton on this.
+  + Redesigned how to schedule the non-flexible events of sleeping and going to work (which are supposed to be done around a certain time). This involved changes to Person Agent's scheduler and clock.
+  + Created a scenario for market where every person, including the cashier and market worker, have homes. In v1, they would just go straight to work and never eat or sleep, but now they function as normal people, as well as go to work when it's time. This structure of adding jobs to people, as opposed to using a hack to create a person who only works and doesn't act like a full person, paved the way for similar scenarios for bank and restaurant.
+  + I implemented my restaurant, Restaurant Five. This included integrating it into Sim City, getting messaging between agents to work in Sim City, redoing animation (all the GUI files) so that it looks good in Sim City, and adding code so it works with the trace panels and control panel.
 
 #####V1:
   + I created the original design documents and interaction diagrams for the market scenarios, and collaborated with Jenny to finalize them. The design doc for “Person Orders Items” was left unfinished becasue it became a non-norm. Kevin updated the interaction diagrams and design docs to match my code right before turning in V1.

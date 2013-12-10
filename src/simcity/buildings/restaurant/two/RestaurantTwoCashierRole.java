@@ -77,11 +77,11 @@ public class RestaurantTwoCashierRole extends Role implements simcity.interfaces
 	}
 	// Messages
 	
-	public RestaurantTwoCashierRole(PersonAgent p, RestaurantTwoSystem r, RestaurantTwoComputer r2comp){
+	public RestaurantTwoCashierRole(PersonAgent p, RestaurantTwoComputer r2comp){
 		super();
 		this.person=p;
 		this.gui=new RestaurantTwoCashierGui(this);
-		this.R2=r;
+
 		this.computer=r2comp;
 		
 		

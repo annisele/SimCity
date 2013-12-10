@@ -47,9 +47,9 @@ public class Config {
 		systems.clear();
 		systems.clearDetailPane();
 		systems.setBackgroundThree();
-		systems.addBus("Bismarck");
-		systems.addBus("Kipling");
-		systems.addCar("Prufrock");
+		systems.addBus("clockwise");
+		systems.addBus("counterclockwise");
+		systems.addCar("car1");
 		systems.addMarket("MARKET2", 312, 27);
 		
 		systems.addPerson("Gosling");

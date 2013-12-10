@@ -220,7 +220,6 @@ public class SystemManager {
 	}
 	
 	public void addCar(String name) {
-		//transportations.add(temp);
 		TransportationSystem temp = new TransportationSystem(simcity);
 		temp.setName(name);
 		transportations.add(temp);
@@ -466,7 +465,7 @@ public class SystemManager {
 	public void addRestaurantOneHost(String name, String rest) {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());
-		Role r1Host = new RestaurantOneHostRole(person);
+		Role r1Host = new RestaurantOneHostRole(person, restaurantOnes.get(0));
 		person.addWork(r1Host, rest);
 		people.add(person);
 		person.startThread();
@@ -476,7 +475,7 @@ public class SystemManager {
 	public void addRestaurantOneCook(String name, String rest) {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());
-		Role r1Cook = new RestaurantOneCookRole(person);
+		Role r1Cook = new RestaurantOneCookRole(person, restaurantOnes.get(0));
 		person.addWork(r1Cook, rest);
 		people.add(person);
 		person.startThread();
@@ -485,7 +484,7 @@ public class SystemManager {
 	public void addRestaurantOneCashier(String name, String rest) {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());
-		Role r1Cashier = new RestaurantOneCashierRole(person);
+		Role r1Cashier = new RestaurantOneCashierRole(person, restaurantOnes.get(0));
 		person.addWork(r1Cashier, rest);
 		people.add(person);
 		person.startThread();
@@ -495,7 +494,7 @@ public class SystemManager {
 	public void addRestaurantOneWaiter(String name, String rest) {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());
-		Role r1waiter = new RestaurantOneWaiterRole(person);
+		Role r1waiter = new RestaurantOneWaiterRole(person, restaurantOnes.get(0));
 		person.addWork(r1waiter, rest);
 		people.add(person);
 		person.startThread();

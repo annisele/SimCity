@@ -22,7 +22,7 @@ import simcity.gui.trace.TracePanel;
  * SimCityGui - The entire window which contains a world panel, detail panel
  *  to display what the user is zoomed in on, consoles for both, and a 
  *  control panel.
- * @author rebeccahao
+ * 
  *
  */
 public class SimCityGui extends JFrame implements ActionListener {

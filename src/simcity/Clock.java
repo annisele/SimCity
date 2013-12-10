@@ -27,6 +27,25 @@ public class Clock {
 		currentTime = (int) ((System.currentTimeMillis() - startTime) / tenMinuteLength);
 		return currentTime;
 	}
+	
+	public static int getScheduleTime(int time) {
+		// This function takes time units for a time, and returns it as that time (of the current day)
+		int scheduleTime = time;
+		//24*6 units is a day;
+		scheduleTime += ( getTime() - ( getTime() % (6*24) ) );
+		
+		return scheduleTime;
+	}
+	
+	public static int getScheduleTime(int clockHour, int clockMin) { // 8.00 => int 8*6
+		// 8.39  => clockMin -> 3
+		// This function takes an hour and a minute and returns it as that time (of the current day) in our time units
+		int scheduleTime = (clockHour * 6)+(clockMin / 10);
+		//24*6 units is a day;
+		scheduleTime += ( getTime() - ( getTime() % (6*24) ) );
+		
+		return scheduleTime;
+	}
 		
 	public static String getDayString() {
 		int d = 0;
@@ -45,6 +64,7 @@ public class Clock {
 		
 		return day;
 	}
+	
 	
 	public static int getHour() {
 		int h = 0;

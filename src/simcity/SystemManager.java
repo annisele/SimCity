@@ -153,7 +153,6 @@ public class SystemManager {
 			person.goToRestaurantTwoNow();
 		}
 
-
 		if (name.equalsIgnoreCase("Gus Fring") || name.equalsIgnoreCase("Ted Benacke") || name .equalsIgnoreCase("jack")) {
 			person.goToRestaurantOneNow();
 		}
@@ -166,8 +165,18 @@ public class SystemManager {
 			person.goToRestaurantFourNow();
 		}
 		
+		if (name == "Tommy") {
+			person.setBankPassword("abcdef");
+			person.setAccountNumber(0);
+		}
+		
 		people.add(person);
 		person.startThread();
+	}
+	
+	public void setSleep(String name) {
+		PersonAgent person = getPersonFromName(name);
+		person.scheduleFirstSleep();
 	}
 
 	public void addMarket(String name, int xLoc, int yLoc) {
@@ -438,28 +447,30 @@ public class SystemManager {
 	/****************** End of Market functions **********************/
 
 
-
 	public void setWorkBankHost(String name, String bank) {
-		PersonAgent person = new PersonAgent(name);
-		world.getAnimationPanel().addGui(person.getIdleGui());
+		PersonAgent person = getPersonFromName(name);
+		//world.getAnimationPanel().addGui(person.getIdleGui());
 		Role bankHost = new BankHostRole(person);;
 		person.addWork(bankHost, bank);
-		people.add(person);
-		person.startThread();
+		//people.add(person);
+		//person.startThread();
 	}
 	
 	public void setWorkBankTeller(String name, String bank) {
-		PersonAgent person = new PersonAgent(name);
-		world.getAnimationPanel().addGui(person.getIdleGui());
+		PersonAgent person = getPersonFromName(name);
+		//world.getAnimationPanel().addGui(person.getIdleGui());
 		Role bankTeller = new BankTellerRole(person, banks.get(0));
 		person.addWork(bankTeller, bank);
-		people.add(person);
-		person.startThread();
+		//people.add(person);
+		//person.startThread();
 	}
 
 	public void addHackedBankAccount(int accountNumber, double accountBalance, double amountOwed, String password) {
 		banks.get(0).getBankComputer().addHackedBankAccount(accountNumber, accountBalance, amountOwed, password);
 	}
+	
+
+
 
 	/*************** RESTAURANT ONE FUNTIONS ****************/
 	public void addRestaurantOneHost(String name, String rest) {
@@ -691,7 +702,5 @@ public class SystemManager {
 	public Directory getDirectory() {
 		return dir;
 	}
-
-
 
 }

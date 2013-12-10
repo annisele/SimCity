@@ -142,18 +142,18 @@ public class Config {
 		systems.addPerson("Mary");
 		systems.setHome("Mary", "HOUSE2");
 		systems.setWorkMarketCashier("Mary", "MARKET1");
+		systems.setSleep("Mary");
 		//systems.addMarketCashier("Mary", "MARKET1");
-		
 		
 		systems.addPerson("Joe");
 		systems.setHome("Joe", "HOUSE1");
 		systems.setWorkMarketWorker("Joe", "MARKET1");
+		systems.setSleep("Joe");
 		//systems.addMarketWorker("Joe", "MARKET1");
 		
-
 		systems.addPerson("Tommy");
 		systems.setHome("Tommy", "HOUSE3");
-
+		systems.setSleep("Tommy");
 
 		
 	}
@@ -169,6 +169,44 @@ public class Config {
 	}
 
 	public void oneBank() {
+		///////
+		systems.clear();
+		systems.clearDetailPane();
+
+		systems.setBackgroundTwo();
+		systems.addBank("BANK1", 100, 300);
+		systems.addMarket("MARKET1", 186, 250);
+		systems.addHouse("HOUSE1", 60, 27);
+		systems.addHouse("HOUSE2", 123, 27);
+		systems.addHouse("HOUSE3", 186, 27);
+		systems.addHouse("HOUSE4", 249, 27);
+		systems.addHouse("HOUSE5", 312, 27); 
+		systems.addPerson("Mary");
+		systems.setHome("Mary", "HOUSE2");
+		systems.setWorkMarketCashier("Mary", "MARKET1");
+		
+		systems.addPerson("Joe");
+		systems.setHome("Joe", "HOUSE1");
+		systems.setWorkMarketWorker("Joe", "MARKET1");
+		
+		systems.addPerson("Tommy");
+		systems.setHome("Tommy", "HOUSE3");
+		
+		systems.addPerson("Kevin");
+		systems.setHome("Kevin", "HOUSE4");
+		systems.setWorkBankHost("Kevin", "BANK1");
+		
+		systems.addPerson("Ben");
+		systems.setHome("Ben", "HOUSE5");
+		systems.setWorkBankTeller("Ben", "BANK1");
+		
+		systems.addHackedBankAccount(0, 100, 0, "abcdef");
+		
+
+		///////////////////////////
+		/*
+		
+		
 		systems.clear();
 		systems.clearDetailPane();
 
@@ -183,8 +221,6 @@ public class Config {
 		systems.setHome("Kevin", "HOUSE2");
 		systems.setWorkBankHost("Kevin", "BANK1");
 		
-		
-		
 		systems.addPerson("Ben");
 		systems.setHome("Ben", "HOUSE1");
 		systems.setWorkBankTeller("Ben", "BANK1");
@@ -192,11 +228,10 @@ public class Config {
 
 		systems.addPerson("Tony");
 		systems.setHome("Tony", "HOUSE3");
-
-
-	
-		systems.addHackedBankAccount(0, 100, 0, "abcdef");
 		
+		systems.addHackedBankAccount(0, 100, 0, "abcdef");
+		*/
+		/*
 		try {
 			timer1.cancel();
 			timer2.cancel();
@@ -222,6 +257,7 @@ public class Config {
 				systems.addPerson("Levanne");
 			}
 		}, 1500);
+		*/
 	}
 
 		

@@ -107,7 +107,7 @@ public class WorldAnimationPanel extends AnimationPanel implements ActionListene
 	    	g.setColor(Color.GRAY);
 			g.fillRect(720+posX, 143+posY, 50, 20);
 			g.fillRect(290+posX, 411+posY, 50, 20);
-			g.fillRect(720+posX, 411+posY, 50, 20);
+			g.fillRect(720+posX, 503+posY, 50, 20);
 			g.fillRect(1145+posX,411+posY, 50, 20);
 			g.fillRect(290+posX, 771+posY, 50, 20);
 			g.fillRect(1145+posX,771+posY, 50, 20);

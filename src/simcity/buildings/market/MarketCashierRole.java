@@ -144,8 +144,6 @@ public class MarketCashierRole extends Role implements MarketCashier {
 		log.add(new LoggedEvent("Sending bill to customer for order #" + o.orderNumber));
 
 		Set<String> keys = o.items.keySet();
-		//AlertLog.getInstance().logDebug(AlertTag.valueOf(market.getName()), "MarketCashier: " + person.getName(), "o: " + o.toString() + "o.itmes: " + o.items);
-		//AlertLog.getInstance().logDebug(AlertTag.valueOf(market.getName()), "MarketCashier: " + person.getName(), "keys: " + keys.toString());
 
 		for (String key : keys) {
 			o.payment += o.items.get(key) * market.getComputer().getPrices().get(key);

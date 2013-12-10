@@ -207,16 +207,14 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
 			
 			synchronized(customers) {
 				for (MyCustomer customer : customers) {
-					if (customer.getState() == CustomerState.READY_TO_ORDER) {
-					//	customer.setState(CustomerState.beingWalkedToForOrder);
-					//	walkToCustomerForOrder(customer);
+					if (customer.getState() == CustomerState.WAITING) {
+						seatCustomer(customer);
 						return true;
 					}
-					//if (customer.getState() == CustomerState.withHost) {
-					//	customer.setState(CustomerState.sitting);
-					//	seatCustomer(customer);
-					//	return true;
-					//}
+					if (customer.getState() == CustomerState.READY_TO_ORDER) {
+						takeOrder(customer);
+						return true;
+					}
 				}
 			}
 		}
@@ -244,7 +242,7 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
     	} catch (InterruptedException e) {
     		
     	}
-		restaurantThreeSystem.getRestaurantThreeHost().msgWaiterReadyForWork(this);
+		restaurantThreeSystem.getRestaurantThreeHost().msgAddWaiter(this);
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurantThreeSystem.getName()), "Restaurant 3 Waiter: " + person.getName(), "I am ready to work!");	
 		((RestaurantThreeWaiterGui)gui).DoGoToStation();
 		try {
@@ -265,7 +263,9 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurantThreeSystem.getName()), "Restaurant 3 Waiter: " + person.getName(), "PLease follow me to table, " + c.customer.getName() + ".");
 	
 	}
-
+	private void takeOrder(MyCustomer c) {
+		
+	}
 	@Override
 	public void exitBuilding() {
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurantThreeSystem.getName()), "Restaurant 3 Waiter: " + person.getName(), "Leaving restaurant three");	

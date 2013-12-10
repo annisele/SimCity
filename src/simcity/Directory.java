@@ -29,7 +29,7 @@ public class Directory {
 	public void makeParkingStructure1() {
 		Location parking1 = new Location(720,143);
 		Location parking2 = new Location(290,411);
-		Location parking3 = new Location(720,411);
+		Location parking3 = new Location(720,503);
 		Location parking4 = new Location(1145,411);
 		Location parking5 = new Location(290,771);
 		Location parking6 = new Location(1145,771);
@@ -125,5 +125,12 @@ public class Directory {
 	
 	public void clear() {
 		directory.clear();
+	}
+	
+	public static boolean hasEarlySchedule(String building) {
+		if(building.equals("MARKET1") || building.equals("MARKET3")) {
+			return true;
+		}
+		return false;
 	}
 }

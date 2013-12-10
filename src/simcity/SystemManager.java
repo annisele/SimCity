@@ -649,6 +649,15 @@ public class SystemManager {
 		people.add(person);
 		person.startThread();
 	}
+	
+	public void addRestaurantFiveCook(String name, String rest) {
+		PersonAgent person = new PersonAgent(name);
+		world.getAnimationPanel().addGui(person.getIdleGui());
+		Role cook = new RestaurantFiveCookRole(person);
+		person.addWork(cook, rest);
+		people.add(person);
+		person.startThread();
+	}
 
 	/**************** End of Restaurant Five functions ***************/
 

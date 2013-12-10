@@ -648,7 +648,7 @@ public class Config {
 		
 		timer.schedule(new TimerTask() {
 			public void run() {
-				systems.addPerson("Hungry Clayton");
+				systems.addRestaurantFiveCook("Manny", "RESTAURANT5");
 			}
 		}, 2000);
 

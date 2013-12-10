@@ -12,7 +12,6 @@ import simcity.SimSystem;
 import simcity.gui.restaurantthree.RestaurantThreeHostGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
-import simcity.interfaces.restaurant.three.RestaurantThreeCashier;
 import simcity.interfaces.restaurant.three.RestaurantThreeCustomer;
 import simcity.interfaces.restaurant.three.RestaurantThreeHost;
 import simcity.interfaces.restaurant.three.RestaurantThreeWaiter;
@@ -27,7 +26,7 @@ public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost
 	private Timer timer = new Timer();
 	private int numTable = 3;
 	private int waiterIndex = 0;
-	int tablesOccupiedCounter;
+	int tablesOccupiedCounter = 0;
 	int waiterAvailable = 0;
 	private Table tables[];
 	public enum HostState {informed, uninformed};
@@ -35,7 +34,6 @@ public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost
 	private enum WaiterState {onBreak, work, requestBreak};
 	private List<MyWaiter> waiters = Collections.synchronizedList(new ArrayList<MyWaiter>());
 	private Semaphore atDest = new Semaphore(0, true);
-	//private static Collection<Table> tables;
 	private List<RestaurantThreeCustomer> waitingCustomers = Collections.synchronizedList(new ArrayList<RestaurantThreeCustomer>());
 	private RestaurantThreeSystem system;
 
@@ -79,6 +77,7 @@ public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost
 	public RestaurantThreeHostRole(PersonAgent p) {
 		person = p;
 		this.gui = new RestaurantThreeHostGui(this);
+		//this.tablesOccupiedCounter = tablesOccupied;
 		/*
 		tables = Collections.synchronizedList(new ArrayList<Table>(numTable));
 		synchronized(tables) {
@@ -109,7 +108,7 @@ public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost
 		for (Table table : tables) {
 			if (!table.isOccupied()) {
 				waitingCustomers.add(cust);
-				AlertLog.getInstance().logMessage(AlertTag.valueOf(system.getName()), "Restaurant 3 Host: " + person.getName(), "Assigning customer to waiter.");
+				AlertLog.getInstance().logMessage(AlertTag.valueOf(system.getName()), "Restaurant 3 Host: " + person.getName(), "Assigning customer to waiter." + waiterIndex);
 				stateChanged();
 				return;
 			}
@@ -169,14 +168,19 @@ public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost
 
 	//actions
 	private void getWaiterSeatCustomer(MyWaiter waiter, RestaurantThreeCustomer customer, Table table) {
-		AlertLog.getInstance().logMessage(AlertTag.valueOf(system.getName()), "Restaurant 3 Host: " + person.getName(), "Assigning "+waiterIndex+".");
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(system.getName()), "Restaurant 3 Host: " + person.getName(), "Assigning waiter"+waiterIndex+".");
 		waiter.wtr.msgPleaseSeatCustomer(customer, table.tableNumber);
-		waiterIndex++;
+		table.setOccupant(customer);
+		tablesOccupiedCounter++;
+		System.out.println(tablesOccupiedCounter);
+		Do("HIIIII");
 		if(waiterIndex >= waiters.size()) {
 			waiterIndex = 0;
 		}
-		table.setOccupant(customer);
-		waitingCustomers.remove(waitingCustomers.get(0));
+		
+		waitingCustomers.remove(customer);
+		//waitingCustomers.remove(waitingCustomers.get(0));
+		
 	}
 
 	

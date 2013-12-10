@@ -12,9 +12,16 @@ public class RestaurantThreeCustomerGui extends Gui {
 		
 	
 	private final int HOST_OFFSET = 50;
-	private final int WINDOW1_X = 100;
-	private final int WINDOW1_Y = 325;
-	
+	private final int WINDOW1_X = 55;
+	private final int WINDOW1_Y = 375;
+
+
+	public static final int TABLE1_X = 80;
+	public static final int TABLE1_Y = 300;
+	public static final int TABLE2_X = 150;
+	public static final int TABLE2_Y = 300;
+	public static final int TABLE3_X = 220;
+	public static final int TABLE3_Y = 300;
 	
 	ImageIcon ii = new ImageIcon("res/person/persondownbig.png");
 	Image img = ii.getImage();
@@ -32,7 +39,14 @@ public class RestaurantThreeCustomerGui extends Gui {
 	}
 
 	public void DoGoToSeat(int tableNumber) {
-		// TODO Auto-generated method stub
-		
+		if (tableNumber == 0) {
+			DoGoToLocation(TABLE1_X, TABLE1_Y);
+		}
+		else if (tableNumber == 1) {
+			DoGoToLocation(TABLE2_X, TABLE2_Y);
+		}
+		else if (tableNumber == 2) {
+			DoGoToLocation(TABLE3_X, TABLE3_Y);
+		}
 	}
 }

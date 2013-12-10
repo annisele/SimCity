@@ -12,8 +12,6 @@ import java.util.concurrent.Semaphore;
 import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
-import simcity.buildings.restaurant.four.RestaurantFourWaiterRole.MyCustomer;
-import simcity.buildings.restaurant.four.RestaurantFourWaiterRole.customerState;
 import simcity.gui.restaurantthree.RestaurantThreeWaiterGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
@@ -135,19 +133,23 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
 	//messages
 		public void msgGotToWork() {
 			waiterState = WaiterState.ENTERING_RESTAURANT;
+			Do("Waiter got to work");
 			stateChanged();
 		}
 		public void msgBeginWork() {
 			waiterState = WaiterState.WORKING;
+			Do("Waiter begin work");
 			stateChanged();
 		}
 		@Override
 		public void msgPleaseSeatCustomer(RestaurantThreeCustomer c, int tableNumber) {
+			Do("Waiter seata custoer");
 			synchronized(customers) {
 			try {
 				for(MyCustomer mc : customers) {
 					if(mc.customer == c) {
 						mc.state = CustomerState.WAITING;
+						Do("customer state change to waiting");
 						stateChanged();
 						return;
 					}
@@ -161,6 +163,7 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
 			}
 		}
 		public void msgGetMyOrder(RestaurantThreeCustomer customer) {
+			Do("Get customer order");
 			synchronized(customers) {
 				for(MyCustomer c : customers) {
 					if (c.getCustomer() == customer) {
@@ -196,10 +199,11 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
 		}
 		//scheduler
 		public boolean pickAndExecuteAnAction() {
-
+			Do("Running scheduler");
 		if (waiterState == WaiterState.ENTERING_RESTAURANT) {
-			waiterState = WaiterState.INFORM_HOST;
+			waiterState = WaiterState.WORKING;
 			meetHost();
+			
 			return true;
 		}
 
@@ -208,7 +212,9 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
 			synchronized(customers) {
 				for (MyCustomer customer : customers) {
 					if (customer.getState() == CustomerState.WAITING) {
+					//	customerState = CustomerState.
 						seatCustomer(customer);
+						Do("i'm seating customer");
 						return true;
 					}
 					if (customer.getState() == CustomerState.READY_TO_ORDER) {
@@ -218,18 +224,7 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
 				}
 			}
 		}
-		/*
-		try {
-			for(MyCustomer c : customers) {
-				if(c.state == CustomerState.WAITING) {
-					GiveCustomerMenu(c);
-					return true;
-				}
-			}
-		}
-		catch(ConcurrentModificationException e) {
-			return false;
-		} */
+	
 		return false;
 	}
 	
@@ -237,6 +232,7 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
 
 	private void meetHost() {
 		((RestaurantThreeWaiterGui)gui).DoGoToHost();
+		Do("Hi host");
 		try {
     		atDest.acquire();
     	} catch (InterruptedException e) {
@@ -254,6 +250,8 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
 	
 	private void seatCustomer(MyCustomer c) {
 		((RestaurantThreeWaiterGui)gui).DoGoToWaitingCustomer();
+		c.state = CustomerState.NO_ACTION;
+		Do("seat customer");
 		try {
     		atDest.acquire();
     	} catch (InterruptedException e) {
@@ -261,12 +259,17 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
     	}
 		c.getCustomer().msgFollowMeToTable(this, c.getTableNumber());
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurantThreeSystem.getName()), "Restaurant 3 Waiter: " + person.getName(), "PLease follow me to table, " + c.customer.getName() + ".");
+		Do("Get customer follow to table");
+		System.out.println(c.getTableNumber());
 		((RestaurantThreeWaiterGui)gui).DoGoToTable(c.getTableNumber());
 		try {
     		atDest.acquire();
     	} catch (InterruptedException e) {
     		//e.printStackTrace();
     	}
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurantThreeSystem.getName()), "Restaurant 3 Waiter: " + person.getName(), "Get back to the station, " + c.customer.getName() + ".");
+		
+		Do("Get back to the station");
 		((RestaurantThreeWaiterGui)gui).DoGoToStation();
 		try {
     		atDest.acquire();

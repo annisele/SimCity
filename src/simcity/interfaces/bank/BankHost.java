@@ -23,4 +23,5 @@ public interface BankHost extends GuiPartner {
 	public abstract void msgExitBuilding();
 	public abstract void msgEnterBuilding(SimSystem s);
 	public abstract void msgRobBank(BankRobber bankRobber);
+	public abstract void msgLeaveWork();
 }

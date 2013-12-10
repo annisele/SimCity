@@ -4,13 +4,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
 import simcity.test.mock.EventLog;
+import simcity.Clock;
 import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
+import simcity.PersonAgent.EventType;
 import simcity.buildings.bank.BankHostRole.BankWindow;
+import simcity.buildings.market.MarketCashierRole.MarketState;
 import simcity.gui.bank.BankHostGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
@@ -18,6 +22,7 @@ import simcity.interfaces.bank.BankCustomer;
 import simcity.interfaces.bank.BankHost;
 import simcity.interfaces.bank.BankRobber;
 import simcity.interfaces.bank.BankTeller;
+import simcity.interfaces.market.MarketWorker;
 
 public class BankHostRole extends Role implements BankHost {
 
@@ -27,6 +32,8 @@ public class BankHostRole extends Role implements BankHost {
 	private BankComputer computer;
 	private BankRobber robber;
 	public boolean rob;
+	public enum BankState {running, closed, allWorkersGone};
+	public BankState bankState = BankState.running;
 	// set in Bank
 	//private List<BankWindow> windows = Collections.synchronizedList(new ArrayList<BankWindow>());
 	private BankWindow availableWindow;
@@ -110,6 +117,11 @@ public class BankHostRole extends Role implements BankHost {
 
 	
 	//messages
+	public void msgLeaveWork() {
+		bankState = BankState.allWorkersGone;
+		person.scheduleEvent(EventType.Work);
+		stateChanged();
+	}
 	public void msgRobBank(BankRobber br) {
 		//person.Do("Bank customer is entering the bank");
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankHost: " + person.getName(), "Bank robber is entering the bank");
@@ -228,11 +240,23 @@ public class BankHostRole extends Role implements BankHost {
 
 	@Override
 	public void enterBuilding(SimSystem s) {
-			
-
 		bank = (BankSystem)s;
-		System.out.println(AlertTag.valueOf(bank.getName()));
+		bankState = BankState.running;	
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankHost: " + person.getName(), "Entering the bank");	
+		
+		System.out.println(AlertTag.valueOf(bank.getName()));
+		timer.schedule(new TimerTask() {
+			public void run() {
+				List<BankTeller> workers = bank.getTellers();
+				bankState = BankState.closed;
+				AlertLog.getInstance().logDebug(AlertTag.valueOf(bank.getName()), "Bank Host: " + person.getName(), 
+						"setting to CLOSED. " + person.getCurrentEventDuration() +
+						", " + person.getCurrentEvent().toString());
+				for(BankTeller w : workers) {
+					w.msgFinishWorking();
+				}
+			}
+		}, Clock.tenMinutesInMillis(person.getCurrentEventDuration()));
 		((BankHostGui)gui).DoGoToHostPosition();
 		
 	}
@@ -248,12 +272,20 @@ public class BankHostRole extends Role implements BankHost {
 	}
 	@Override
 	public void msgExitBuilding() {
-		// TODO Auto-generated method stub
-		
+		gui.DoExitBuilding();
+		try {
+			atBank.acquire();
+		} catch (InterruptedException e) {
+			//e.printStackTrace();
+		}
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "Bank Host: " + person.getName(), "Leaving the bank.");
+		bank.exitBuilding(this);
+		person.roleFinished();
 	}
 	@Override
 	public void msgEnterBuilding(SimSystem s) {
 		// TODO Auto-generated method stub
 		
 	}
+	
 }

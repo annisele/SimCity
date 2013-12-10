@@ -199,4 +199,12 @@ public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost
 		return person.getName();
 	}
 
+
+	@Override
+	public void msgWaiterReadyForWork(
+			RestaurantThreeWaiter restaurantThreeWaiterRole) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

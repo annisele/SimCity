@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
+
 /************************
  * Market System - Holds the inventory and money of the market.
  * @author rebeccahao
@@ -59,6 +62,9 @@ public class MarketComputer {
 				}
 			}
 		}
+		AlertLog.getInstance().logMessage(AlertTag.MARKET1, "MarketComp:", "ORDER HAS SIZE "+toReturn.size());
+
+
 		return toReturn;
 		
 	}

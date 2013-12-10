@@ -20,8 +20,8 @@ public class HouseSystem extends simcity.SimSystem {
 		super.setAnimationPanel(new HouseAnimationPanel());
 	}
 	
-	public void updateFoodDisplay() {
-		((HouseControlPanel)controlPanel).updateFoodDisplay(residents.get(0).getFoodStock());
+	public void updateFoodDisplay(HouseInhabitant h) {
+		((HouseControlPanel)controlPanel).updateFoodDisplay(h.getFoodStock());
 	}
 	
 	@Override
@@ -29,7 +29,7 @@ public class HouseSystem extends simcity.SimSystem {
 		animationPanel.addGui(role.getGui());
 		if(role instanceof HouseInhabitant) {
 			residents.add((HouseInhabitant) role);
-			updateFoodDisplay();
+			updateFoodDisplay((HouseInhabitant) role);
 		}
 		return true;
 	}

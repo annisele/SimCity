@@ -60,6 +60,8 @@ public class MarketCashierRole extends Role implements MarketCashier {
 	public void msgHereIsAnOrder(MarketOrderer mc1, MarketPayer mc2, Map<String, Integer> items) {
 		synchronized(orders) {
 			orders.add(new MarketOrder(orders.size(), mc1, mc2, items, MarketOrderState.requested));
+			AlertLog.getInstance().logDebug(AlertTag.valueOf(market.getName()), "MarketCashier: " + person.getName(), 
+					"itemsDelivered has size: "+items.size());
 		}
 		stateChanged();
 	}
@@ -185,7 +187,11 @@ public class MarketCashierRole extends Role implements MarketCashier {
 		}
 
 		if(o.deliverRole instanceof MarketCustomer) {
-			AlertLog.getInstance().logMessage(AlertTag.valueOf(market.getName()), "MarketCashier: " + person.getName(), "Here are your items.");
+			AlertLog.getInstance().logMessage(AlertTag.valueOf(market.getName()), "MarketCashier: " + person.getName(), 
+					"Here are your items.");
+			AlertLog.getInstance().logMessage(AlertTag.valueOf(market.getName()), "MarketCashier: " + person.getName(), 
+					"Order has size: "+o.items.size());
+
 			o.deliverRole.msgHereAreItems(o.items, 0.0);
 		}
 		else {

@@ -227,7 +227,9 @@ public class BankComputer {
 	public void setCashInBank(double cashInBank) {
 		this.cashInBank = cashInBank;
 	}
-	
+	public void stealCashInBank(double amount) {
+		this.cashInBank = cashInBank-amount;
+	}
 	public Map<Integer,BankCustomer> getCustomerAccounts() {
 		return customerAccounts;
 	}

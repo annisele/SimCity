@@ -148,6 +148,9 @@ public class SystemManager {
 		if (name == "Levanne") {
 			person.goToBankNow();
 		}
+		if (name == "Bank Robber") {
+			person.goRobBankNow();
+		}
 		if (name == "jenny"||name == "jenny1"||name == "jenny2"||name == "jenny3") {
 
 			person.goToRestaurantTwoNow();
@@ -457,7 +460,6 @@ public class SystemManager {
 		people.add(person);
 		person.startThread();
 	}
-
 	public void addHackedBankAccount(int accountNumber, double accountBalance, double amountOwed, String password) {
 		banks.get(0).getBankComputer().addHackedBankAccount(accountNumber, accountBalance, amountOwed, password);
 	}

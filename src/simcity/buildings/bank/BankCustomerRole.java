@@ -33,6 +33,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	private BankHost bh;  
 	private BankTeller bt;
 	private int windowNumber; 
+	private boolean robbery;
 	
 	private BankSystem bank;
 
@@ -54,6 +55,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	public BankCustomerRole(PersonAgent person) {
 		this.person = person;
 		this.gui = new BankCustomerGui(this);
+		this.robbery=false;
 	}
 
     public void atDestination() {
@@ -155,6 +157,10 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	}
 	
 	//messages 
+	public void msgBankIsBeingRobbed(){
+		robbery=true;
+		stateChanged();
+	}
 	public void msgArrivedAtBank() { // from gui
 		//person.Do("I'm at bank");
 		event = Event.arrivedAtBank;
@@ -264,10 +270,11 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	 
 	//scheduler
 	public boolean pickAndExecuteAnAction() {
-
+		
 		//person.Do("In sched, state is: "+state);
 		//person.Do("event is: "+event);
 	 	// person isn't doing anything, then arrives at bank
+		if(robbery==false){
 		if (state == State.none && event == Event.arrivedAtBank){
 			state = State.waitingAtBank;
 			InformBankHostOfArrival();
@@ -311,6 +318,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 			state = State.none;
 			exitBuilding();
 			return true;
+		}
 		}
 		
 		return false;
@@ -466,5 +474,6 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 			AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankCustomer: " + person.getName(), "I need to get a loan");	
 
 		}
+		
 		
 }

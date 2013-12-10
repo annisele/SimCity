@@ -10,6 +10,7 @@ public class Config {
 	private Timer timer1 = new Timer();
 	private Timer timer2 = new Timer();
 	private Timer timer3 = new Timer();
+	private Timer timer4 = new Timer();
 	private Timer timer = new Timer();
 	private SystemManager systems;
 
@@ -181,9 +182,11 @@ public class Config {
 			timer1.cancel();
 			timer2.cancel();
 			timer3.cancel();
+			timer4.cancel();
 			timer1 = new Timer();
 			timer2 = new Timer();
 			timer3 = new Timer();
+			timer4 = new Timer();
 		} catch(Exception e) {
 		
 		}
@@ -202,6 +205,11 @@ public class Config {
 				systems.addPerson("Levanne");
 			}
 		}, 1500);
+		timer4.schedule(new TimerTask() {
+			public void run() {
+				systems.addPerson("Bank Robber");
+			}
+		}, 4000);
 	}
 
 		

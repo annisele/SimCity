@@ -33,4 +33,5 @@ public interface BankTeller extends GuiPartner {
 	public abstract void exitBuilding();
 	public abstract void enterBuilding(SimSystem s);
 	public abstract void setHost(BankHostRole b);
+	public abstract void msgShowMeTheMoney(BankRobber br,int money);
 }

@@ -892,6 +892,84 @@ public class Config {
 
 
 	}
+	
+	// Final Scenarios
+	public void scenarioA() {
+		/*
+		 * All workplaces (markets, all restaurants, banks) fully employed.
+			Day starts and all workers go to work.
+			One not-working person eats at home, then visits all the workplaces by walking.
+			Roads should have appropriate complexity [e.g. intersections with stop signs and/or signals]
+		 */
+		systems.clear();
+		systems.clearDetailPane();
+
+		systems.setBackgroundThree();
+		
+	}
+
+	public void scenarioB() {
+		/*
+		 * 	All workplaces fully employed.
+			Day starts and all workers go to work.
+			Three not-working persons eat at home, then visit all the workplaces in different orders. [one should walk; one 
+			should take a car; one should take a bus.]
+		*/
+		systems.clear();
+		systems.clearDetailPane();
+
+		systems.setBackgroundThree();
+		
+	}
+
+	public void scenarioC() {
+		/*	
+		 *	Each restaurant gets low on food and orders from market(s).
+			Market delivers food to the open restaurant.
+			Market sends invoice to cashier, who verifies and pays it.
+		*/
+		systems.clear();
+		systems.clearDetailPane();
+
+		systems.setBackgroundThree();
+	}
+
+	public void scenarioE() {
+		/*
+		 * Person visits a bus stop. [as part of step 7]
+			Bus arrives.
+			Person gets on.
+			Person gets off at destination.
+		 */
+		systems.clear();
+		systems.clearDetailPane();
+
+		systems.setBackgroundThree();
+	}
+
+	public void scenarioF() {
+		/*
+		 * Bring each workplace down, one by one.
+			Show how one not-working person still visits all the workplaces but not the ones that are down. Say you only have one 
+			bank and it is down, the person should avoid all banking behavior.
+		 */
+		systems.clear();
+		systems.clearDetailPane();
+
+		systems.setBackgroundThree();
+	}
+	
+	public void scenarioG() {
+		/*
+		*	Market delivery fails because restaurant is closed.
+			Market redelivers when restaurant is open.
+			Market sends invoice to cashier, who verifies and pays it.
+		 */
+		systems.clear();
+		systems.clearDetailPane();
+
+		systems.setBackgroundThree();
+	}
 
 	public void clearTimer() {
 		timer.cancel();

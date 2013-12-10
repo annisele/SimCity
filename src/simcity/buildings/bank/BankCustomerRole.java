@@ -55,7 +55,10 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	public BankCustomerRole(PersonAgent person) {
 		this.person = person;
 		this.gui = new BankCustomerGui(this);
-		this.robbery=false;
+		this.robbery = false;
+		this.accountNumber = person.getAccountNumber();
+		this.accountPassword = person.getBankPassword();
+		this.cashOnHand = person.getMoney();
 	}
 
     public void atDestination() {
@@ -337,6 +340,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 		}
 
 		private void OpenAccount() {
+			amountToProcess = 5.00;
 			((BankCustomerGui)gui).DoGoToBankTeller(windowNumber);
 			try {
 	    		atDest.acquire();
@@ -351,6 +355,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 		}
 
 		private void DepositMoney() {
+			amountToProcess = 20.00;
 			((BankCustomerGui)gui).DoGoToBankTeller(windowNumber);
 			try {
 	    		atDest.acquire();
@@ -364,6 +369,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 		}
 
 		private void WithdrawMoney() {
+			amountToProcess = 20.00;
 			((BankCustomerGui)gui).DoGoToBankTeller(windowNumber);
 			try {
 	    		atDest.acquire();
@@ -377,6 +383,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 		}
 		
 		private void LoanMoney() {
+			amountToProcess = 30.00;
 			((BankCustomerGui)gui).DoGoToBankTeller(windowNumber);
 			try {
 	    		atDest.acquire();
@@ -389,6 +396,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 		}
 
 		private void PayLoan() {
+			amountToProcess = 5.00;
 			((BankCustomerGui)gui).DoGoToBankTeller(windowNumber);
 			try {
 	    		atDest.acquire();
@@ -426,6 +434,8 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 		}
 
 		public void exitBuilding() {
+			person.setAccountNumber(accountNumber);
+			person.setMoney(cashOnHand);
 			event = Event.none;
 			bank.exitBuilding(this);
 			person.roleFinished();

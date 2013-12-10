@@ -513,6 +513,51 @@ public class Directory {
 		return stoplights;
 	}
 	
+	public static List<Location> defineClockwiseBusRoute() {
+		List<Location> busRoute = Collections.synchronizedList(new ArrayList<Location>());
+		busRoute.add(streetDirectory.get(22));
+		busRoute.add(streetDirectory.get(32));
+		busRoute.add(streetDirectory.get(42));
+		busRoute.add(streetDirectory.get(81));
+		busRoute.add(streetDirectory.get(121));
+		busRoute.add(streetDirectory.get(113));
+		busRoute.add(streetDirectory.get(103));
+		busRoute.add(streetDirectory.get(93));
+		busRoute.add(streetDirectory.get(54));
+		busRoute.add(streetDirectory.get(14));
+		return busRoute;
+	}
+	
+	public static List<Location> defineCounterClockwiseBusRoute() {
+		List<Location> busRoute = Collections.synchronizedList(new ArrayList<Location>());
+		busRoute.add(streetDirectory.get(122));
+		busRoute.add(streetDirectory.get(84));
+		busRoute.add(streetDirectory.get(44));
+		busRoute.add(streetDirectory.get(33));
+		busRoute.add(streetDirectory.get(23));
+		busRoute.add(streetDirectory.get(13));
+		busRoute.add(streetDirectory.get(51));
+		busRoute.add(streetDirectory.get(91));
+		busRoute.add(streetDirectory.get(102));
+		busRoute.add(streetDirectory.get(112));
+		return busRoute;
+	}
+	
+	public List<Intersection> defineBusStopIntersections() {
+		List<Intersection> busIntersections = Collections.synchronizedList(new ArrayList<Intersection>());
+		busIntersections.add(intersections.get(1));
+		busIntersections.add(intersections.get(2));
+		busIntersections.add(intersections.get(3));
+		busIntersections.add(intersections.get(4));
+		busIntersections.add(intersections.get(8));
+		busIntersections.add(intersections.get(12));
+		busIntersections.add(intersections.get(11));
+		busIntersections.add(intersections.get(10));
+		busIntersections.add(intersections.get(9));
+		busIntersections.add(intersections.get(5));
+		return busIntersections;
+	}
+	
 	public Intersection getIntersection(int i) {
 		return intersections.get(i);
 	}

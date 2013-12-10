@@ -1,7 +1,9 @@
 package simcity.buildings.transportation;
+import java.util.List;
 import java.util.concurrent.Semaphore;
 
 import simcity.Directory;
+import simcity.Location;
 import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
@@ -19,6 +21,7 @@ public class CarPassengerRole extends Role implements simcity.interfaces.transpo
 	CarAgent car;
 	Directory dir;
 	public Semaphore atDest = new Semaphore(0, true);
+	List<Location> route;
 	
 	
 	public CarPassengerRole(PersonAgent p) {
@@ -66,24 +69,20 @@ public class CarPassengerRole extends Role implements simcity.interfaces.transpo
 
 		// Animation - call to cargui
 		//((CarGui) gui).DoGoTo(dir.getGarage(destination).getX(), dir.getGarage(destination).getY());
-		((CarGui) gui).DoGoTo(dir.getStreetStop(72).getX(), dir.getStreetStop(72).getY());
-		try {
-			atDest.acquire();
-		} catch (InterruptedException e) {
-			//e.printStackTrace();
+		route = Directory.findRoute(start,destination);
+		while(!route.isEmpty()) {
+			Location routePath = route.get(0);
+			((CarGui) gui).DoGoTo(routePath.getX(), routePath.getY());
+			try {
+				atDest.acquire();
+			} catch (InterruptedException e) {
+				//e.printStackTrace();
+			}
+			route.remove(routePath);
+			System.out.println("Yup");
 		}
-		((CarGui) gui).DoGoTo(dir.getStreetStop(34).getX(), dir.getStreetStop(34).getY());
-		try {
-			atDest.acquire();
-		} catch (InterruptedException e) {
-			//e.printStackTrace();
-		} 
-		((CarGui) gui).DoGoTo(dir.getStreetStop(42).getX(), dir.getStreetStop(42).getY());
-		try {
-			atDest.acquire();
-		} catch (InterruptedException e) {
-			//e.printStackTrace();
-		} 
+		//((CarGui) gui).DoGoTo(dir.getStreetStop(72).getX(), dir.getStreetStop(72).getY());
+		
 		/*
 		try {
 			atDest.acquire();

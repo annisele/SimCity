@@ -170,6 +170,7 @@ public class Config {
 			systems.addHouse("HOUSE16", 326 + 2*xIslandOffset, 338 + yIslandOffset);
 			systems.addHouse("HOUSE17", 398 + 2*xIslandOffset, 338 + yIslandOffset);
 		
+			systems.addPerson("Gosling");
 		//systems.setWorkMarketWorker("Gosling", "MARKET2");
 	}
 

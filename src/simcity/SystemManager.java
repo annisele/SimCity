@@ -176,6 +176,7 @@ public class SystemManager {
 				}
 			}
 		}
+		
 		if (name == "Levonne") {
 			person.goToBankNow();
 		}

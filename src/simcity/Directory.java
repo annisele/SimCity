@@ -181,7 +181,46 @@ public class Directory {
 		streetDirectory.put(954, parking5South);
 		streetDirectory.put(961, parking6North);
 		streetDirectory.put(964, parking6South);
-		
+	}
+	
+	public static List<Location> findRoute(int start, int end) {
+		List<Location> route = Collections.synchronizedList(new ArrayList<Location>());
+		if (start == 1) {
+			if (end == 2) {
+				
+			} else if (end == 3) {
+				
+			} else if (end == 4) {
+				
+			} else if (end == 5) {
+				
+			} else if (end == 6) {
+				
+			}
+		}
+		else if (start == 3) {
+			if (end == 1) {
+				route.add(streetDirectory.get(63));
+				route.add(streetDirectory.get(24));
+				route.add(streetDirectory.get(914));
+			} else if (end == 2) {
+				route.add(streetDirectory.get(63));
+				route.add(streetDirectory.get(921));
+			} else if (end == 4) {
+				route.add(streetDirectory.get(72));
+				route.add(streetDirectory.get(944));
+			} else if (end == 5) {
+				route.add(streetDirectory.get(63));
+				route.add(streetDirectory.get(101));
+				route.add(streetDirectory.get(951));
+			} else if (end == 6) {
+				route.add(streetDirectory.get(72));
+				route.add(streetDirectory.get(82));
+				route.add(streetDirectory.get(121));
+				route.add(streetDirectory.get(961));
+			}
+		}
+		return route;
 	}
 	
 	public static Location getBusStop(int bsc) {

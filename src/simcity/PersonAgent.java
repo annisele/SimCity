@@ -287,6 +287,7 @@ public class PersonAgent extends Agent implements Person {
 			steps.add(new Step("exitBuilding", this));
 			steps.add(new Step("goToParkingGarage", this));
 			steps.add(new Step("driveTo", this));
+			steps.add(new Step("goTo", this));
 			//steps.add(new Step("goTo", this));
 			//steps.add(new Step("enterBuilding", this));
 			
@@ -583,7 +584,6 @@ public class PersonAgent extends Agent implements Person {
 			}
 		}
 		for (int i = 0; i<6; i++) {
-			System.out.println("IN PERSONAGENT " + Directory.getGarage(i));
 			int tempX = Directory.getGarage(i).getX()-eventR.getGui().getX();
 			double tempX2 = Math.pow(tempX, 2);
 			int tempY = Directory.getGarage(i).getY()-eventR.getGui().getY();

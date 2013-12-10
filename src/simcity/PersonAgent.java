@@ -691,7 +691,6 @@ public class PersonAgent extends Agent implements Person {
 	}
 	
 	public void goToParkingGarage() {
-		System.out.println("HYAO");
 		for(Role r : myRoles) {
 			if(r instanceof Pedestrian) {
 				currentRole = r;

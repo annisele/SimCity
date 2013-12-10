@@ -9,6 +9,7 @@ import simcity.gui.*;
 import simcity.gui.bank.*;
 import simcity.interfaces.bank.BankCustomer;
 import simcity.interfaces.bank.BankHost;
+import simcity.interfaces.bank.BankRobber;
 import simcity.interfaces.bank.BankTeller;
 import simcity.buildings.bank.BankHostRole;
 import simcity.buildings.bank.BankHostRole.BankWindow;
@@ -18,6 +19,7 @@ public class BankSystem extends simcity.SimSystem{
 
 	private BankComputer computer= new BankComputer();
 	private BankHost bh;
+	private BankRobber br;
 	private List<BankCustomer> customers = Collections.synchronizedList(new ArrayList<BankCustomer>());
 	private List<BankTeller> bankTellers = Collections.synchronizedList(new ArrayList<BankTeller>());
 	private List<BankWindow> windows = Collections.synchronizedList(new ArrayList<BankWindow>());
@@ -55,7 +57,7 @@ public class BankSystem extends simcity.SimSystem{
 		//BankHostGui hostGui = new BankHostGui(c);
 		//animationPanel.addGui(hostGui);
 	}
-
+	
 	public void findAvailableWindow() {
 		synchronized(windows) {
 			for (BankWindow window : windows) {
@@ -136,6 +138,11 @@ public class BankSystem extends simcity.SimSystem{
 			}
 			else if (role instanceof BankTeller) {
 				bankTellers.add((BankTeller) role);
+				animationPanel.addGui(role.getGui());
+				return true;
+			}
+			else if (role instanceof BankRobber) {
+				br=(BankRobber) role;
 				animationPanel.addGui(role.getGui());
 				return true;
 			}

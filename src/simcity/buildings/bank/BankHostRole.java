@@ -16,6 +16,7 @@ import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
 import simcity.interfaces.bank.BankCustomer;
 import simcity.interfaces.bank.BankHost;
+import simcity.interfaces.bank.BankRobber;
 import simcity.interfaces.bank.BankTeller;
 
 public class BankHostRole extends Role implements BankHost {
@@ -24,6 +25,8 @@ public class BankHostRole extends Role implements BankHost {
 	// from PersonAgent
 	private BankSystem bank;
 	private BankComputer computer;
+	private BankRobber robber;
+	public boolean rob;
 	// set in Bank
 	//private List<BankWindow> windows = Collections.synchronizedList(new ArrayList<BankWindow>());
 	private BankWindow availableWindow;
@@ -45,6 +48,7 @@ public class BankHostRole extends Role implements BankHost {
 	public BankHostRole (PersonAgent p) {
 		person = p;
 		this.gui = new BankHostGui(this);
+		this.rob=false;
 		//hack
 		computer = new BankComputer();
 	}
@@ -106,6 +110,14 @@ public class BankHostRole extends Role implements BankHost {
 
 	
 	//messages
+	public void msgRobBank(BankRobber br) {
+		//person.Do("Bank customer is entering the bank");
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankHost: " + person.getName(), "Bank robber is entering the bank");
+		this.robber=br;
+		rob=true;
+		stateChanged();
+	}
+	
 	public void msgEnteringBank(BankCustomer bc) {
 		//person.Do("Bank customer is entering the bank");
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankHost: " + person.getName(), "Bank customer is entering the bank");
@@ -140,6 +152,11 @@ public class BankHostRole extends Role implements BankHost {
 			}
 		}
 		*/
+		if(rob==true){
+			BankRobbery();
+			customers.clear();
+			return true;
+		}
 		synchronized(waitingBankTellers) {
 			if (!waitingBankTellers.isEmpty()) {
 				tellTellerToGoToAppropriateWindow(waitingBankTellers.get(0));
@@ -176,11 +193,22 @@ public class BankHostRole extends Role implements BankHost {
 	
 	private void tellCustomerToGoToWindow(BankCustomer bc, BankWindow window) {
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankHost: " + person.getName(), "Please head to window "+window.getWindowNumber());		
+		if(rob==false){
 		((BankCustomer) customers.get(0)).msgGoToWindow(window.getWindowNumber(), window.getBankTeller());
 		System.out.println("hi");
 		window.setOccupant(bc);
 		
 		customers.remove(bc);
+		}
+	}
+	private void BankRobbery(){
+		for(int i=0;i<customers.size(); i++){
+			((BankCustomer) customers.get(i)).msgBankIsBeingRobbed();
+		}
+		bank.findAvailableWindow();
+		availableWindow = bank.getAvailableWindow();
+		robber.msgDontRobBank(0,availableWindow.getBankTeller());
+		rob=false;
 	}
 	
 	// utility functions

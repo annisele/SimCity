@@ -12,19 +12,16 @@ import simcity.buildings.transportation.*;
 public class CarGui extends Gui {
 	
 	
-	private boolean atDestNow = false;
+	private boolean atDest = false;
 	
 	ImageIcon ii = new ImageIcon("res/bank/bankgui.png");
 	Image img = ii.getImage();
 	Image busimage = img.getScaledInstance(25, 25,  java.awt.Image.SCALE_SMOOTH); 
 	
 	public CarGui(CarPassengerRole cpr) {
-		role = ((CarPassengerRole) cpr);
-		
-		
-		
-		
+		role = ((CarPassengerRole) cpr);	
 	}
+	
 	
 	public void updatePosition() {
 		if(xDest+1 > x) {
@@ -58,8 +55,13 @@ public class CarGui extends Gui {
 		//atDestNow = false;
 		System.out.println("In DoGoTo");
 		DoGoToLocation(x, y);
+		atDestNow = false;
 	}
 
+	public void setLocation(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
 
 	
 /*	public void clear() {

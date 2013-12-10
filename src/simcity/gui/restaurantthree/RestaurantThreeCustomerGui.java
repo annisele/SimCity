@@ -27,8 +27,8 @@ public class RestaurantThreeCustomerGui extends Gui {
 	public void draw(Graphics2D g) {
 		g.drawImage(img,getX(), getY(), null);
 	}
-	public void DoGoToHost(int n) {
-		DoGoToLocation(WINDOW1_X + (HOST_OFFSET * n), WINDOW1_Y);
+	public void DoGoToHost() {
+		DoGoToLocation(WINDOW1_X, WINDOW1_Y);
 	}
 
 	public void DoGoToSeat(int tableNumber) {

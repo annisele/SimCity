@@ -302,8 +302,7 @@ public class RestaurantFiveWaiterRole extends Role implements RestaurantFiveWait
 		try {
 			for(MyCustomer c : customers) {
 				if(c.s == CustomerState.ordered) {
-					//SendOrderToCook(c);
-					AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantFiveWaiter: " + person.getName(), "About to send order to cook!!!");
+					SendOrderToCook(c);
 					return true;
 				}
 			}
@@ -463,12 +462,12 @@ public class RestaurantFiveWaiterRole extends Role implements RestaurantFiveWait
 		}
 	}
 
-//	private void SendOrderToCook(MyCustomer c) {
-//		cook.msgHereIsAnOrder(this, c.choice, c.table);
-//		Do("Sending order " + c.choice + " from table " + c.table + " to cook.");
-//		c.s = CustomerState.orderSent;
-//	}
-//
+	private void SendOrderToCook(MyCustomer c) {
+		restaurant.getCook().msgHereIsAnOrder(this, c.choice, c.table);
+		Do("Sending order " + c.choice + " from table " + c.table + " to cook.");
+		c.s = CustomerState.orderSent;
+	}
+
 //	private void ClearTable(MyCustomer c) {
 //		c.s = CustomerState.left;
 //

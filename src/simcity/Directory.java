@@ -128,7 +128,7 @@ public class Directory {
 	}
 	
 	public static boolean hasEarlySchedule(String building) {
-		if(building.equals("MARKET1") || building.equals("MARKET3")) {
+		if(building.equals("RESTAURANT2") ||building.equals("MARKET1") || building.equals("MARKET3")) {
 			return true;
 		}
 		return false;

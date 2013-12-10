@@ -217,39 +217,44 @@ public class Config {
 		systems.clear();
 		systems.clearDetailPane();
 
-		systems.setBackgroundOne();
+		systems.setBackgroundTwo();
 		systems.addRestaurantTwo("RESTAURANT2", 300, 100);
-		systems.addRestaurantTwoHostHack("Host Bloke", "RESTAURANT2");
-		timer.schedule(new TimerTask() {
-			public void run() {
-				systems.addRestaurantTwoCashierHack("Cashier Blob", "RESTAURANT2");
-				timer.schedule(new TimerTask() {
-					public void run() {
-						systems.addRestaurantTwoCookHack("Cook Brute", "RESTAURANT2");
-						timer.schedule(new TimerTask() {
-							public void run() {
-								systems.addRestaurantTwoWaiterHack("Waiter Bob dylan", "RESTAURANT2");
-								systems.addRestaurantTwoSharedDataWaiterHack("Waiter Bob dylan", "RESTAURANT2");
-								timer.schedule(new TimerTask() {
-									public void run() {
-										//systems.addRestaurantTwoWaiterHack("Waiter Bob dylan", "RESTAURANT2");
-										//systems.addRestaurantTwoSharedDataWaiterHack("Waiter Bob dylan", "RESTAURANT2");
-										systems.addPerson("jenny1");
-										systems.addPerson("jenny2");
-										timer.schedule(new TimerTask() {
-											public void run() {
-												systems.addPerson("jenny3");
-											}
-										}, 1000);
-									}
-								}, 1000);
-							}
-						},1000);
-					}
-				},1000);
-			}
-		},1000);
+		systems.addHouse("HOUSE1", 60, 27);
+		systems.addHouse("HOUSE2", 123, 27);
+		systems.addHouse("HOUSE3", 186, 27);
+		systems.addHouse("HOUSE4", 249, 27);
+		systems.addHouse("HOUSE5", 312, 27); 
+		
+		systems.addPerson("Conor oberst");
+		systems.setHome("Conor oberst", "HOUSE2");
+		systems.setWorkRestaurantTwoCashier("Conor oberst", "RESTAURANT2");
+		systems.setSleep("Conor oberst");
+		
+		systems.addPerson("Kanye");
+		systems.setHome("Kanye", "HOUSE1");
+		systems.setWorkRestaurantTwoHost("Kanye", "RESTAURANT2");
+		systems.setSleep("Kanye");
+		
+		systems.addPerson("Red");
+		systems.setHome("Red", "HOUSE3");
+		systems.setWorkRestaurantTwoCook("Red", "RESTAURANT2");
+		systems.setSleep("Red");
+		
+		systems.addPerson("Kitty");
+		systems.setHome("Kitty", "HOUSE4");
+		systems.setSleep("Kitty");
+		
+		systems.addPerson("Kong");
+		systems.setHome("Kong", "HOUSE5");
+		systems.setWorkRestaurantTwoWaiter("Kong", "RESTAURANT2");
+		systems.setSleep("Kong");
 	}
+		
+		
+		
+		
+		
+		
 	
 	public void fullCity() {
 		systems.clear();
@@ -414,8 +419,8 @@ public class Config {
 		systems.addMarketTruck("MARKET1");
 
 		systems.setBackgroundTwo();
-		systems.addRestaurantTwo("RESTAURANT2", 249, 140);
-		systems.addRestaurantTwoHostHack("Host Bloke", "RESTAURANT2");
+		systems.addRestaurantTwo("RESTAURANT2", 249, 140);/*
+		systems.RestaurantTwoHostHack("Host Bloke", "RESTAURANT2");
 
 
 		timer.schedule(new TimerTask() {
@@ -460,7 +465,7 @@ public class Config {
 			public void run() {
 				systems.setWorkBankTeller("Ben", "BANK1");
 			}
-		}, 1000);
+		}, 1000);*/
 	}
 	
 	public void restaurantOne(){

@@ -94,15 +94,16 @@ public class RestaurantTwoSystem extends SimSystem {
 		animationPanel.addGui(role.getGui());
 		//System.out.println("gui: "+role.getGui());
 		//System.out.println("the role "+role+" has a gui: "+role.getGui());
+		
 		if(role instanceof RestaurantTwoHost) {
-			//if (host == null) {
+			if (host == null) {
 				host = (RestaurantTwoHost) role;
 				return true;
-			//}
+			}
 		}
-		//	else if (host != null) {
+		else if (host != null) {
 				
-		else if(role instanceof RestaurantTwoCustomer) {
+		if(role instanceof RestaurantTwoCustomer) {
 					System.out.println(""+host+"  "+cashier+"   "+cook);
 					((RestaurantTwoCustomer) role).setCook(cook);
 					((RestaurantTwoCustomer) role).setHost(host);
@@ -147,6 +148,8 @@ public class RestaurantTwoSystem extends SimSystem {
 				}
 			
 			return true;
+		}
+		return false;
 		
 	}
 

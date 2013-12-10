@@ -68,7 +68,7 @@ class mycustomer {
 
 	
 
-	public RestaurantTwoWaiterRole(PersonAgent p,RestaurantTwoSystem r, RestaurantTwoComputer r2comp) {
+	public RestaurantTwoWaiterRole(PersonAgent p,RestaurantTwoComputer r2comp) {
 		
 		
 		Menu.put("chicken",10.99);	
@@ -76,7 +76,6 @@ class mycustomer {
 		Menu.put("salad",5.99);
 		Menu.put("pizza",8.99);
 		this.person = p;
-		this.R2=r;
 		this.gui = new RestaurantTwoWaiterGui(this);
 		this.computer=r2comp;
 		spot=0;

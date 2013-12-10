@@ -521,48 +521,36 @@ public class SystemManager {
 
 	/*************** RESTAURANT TWO FUNCTIONS *******************/
 
-	public void addRestaurantTwoHostHack(String name, String rest) {
-		PersonAgent person = new PersonAgent(name);
-		world.getAnimationPanel().addGui(person.getIdleGui());
-		Role r2Host = new RestaurantTwoHostRole(person,restaurantTwos.get(0));
-		person.addWork(r2Host, rest);
-		people.add(person);
-		person.startThread();
+	public void setWorkRestaurantTwoHost(String name, String rest) {
+		PersonAgent person = getPersonFromName(name);
+		Role worker = new RestaurantTwoHostRole(person);
+		person.addWork(worker, rest);
 
 	}
-	public void addRestaurantTwoCashierHack(String name, String rest) {
-		PersonAgent person = new PersonAgent(name);
-		world.getAnimationPanel().addGui(person.getIdleGui());
-		Role r2Cashier = new RestaurantTwoCashierRole(person,restaurantTwos.get(0),R2comp);
+	public void setWorkRestaurantTwoCashier(String name, String rest) {
+		PersonAgent person = getPersonFromName(name);
+		
+		Role r2Cashier = new RestaurantTwoCashierRole(person,R2comp);
 		person.addWork(r2Cashier, rest);
-		people.add(person);
-		person.startThread();
 
 	}
-	public void addRestaurantTwoCookHack(String name, String rest) {
-		PersonAgent person = new PersonAgent(name);
-		world.getAnimationPanel().addGui(person.getIdleGui());
-		Role r2Cook = new RestaurantTwoCookRole(person,restaurantTwos.get(0),R2comp);
+	public void setWorkRestaurantTwoCook(String name, String rest) {
+		PersonAgent person = getPersonFromName(name);
+		Role r2Cook = new RestaurantTwoCookRole(person,R2comp);
 		person.addWork(r2Cook, rest);
-		people.add(person);
-		person.startThread();
+	
 
 	}
-	public void addRestaurantTwoWaiterHack(String name, String rest) {
-		PersonAgent person = new PersonAgent(name);
-		world.getAnimationPanel().addGui(person.getIdleGui());
-		Role r2Waiter = new RestaurantTwoWaiterRole(person,restaurantTwos.get(0),R2comp);
+	
+	public void setWorkRestaurantTwoWaiter(String name, String rest) {
+		PersonAgent person = getPersonFromName(name);
+		Role r2Waiter = new RestaurantTwoWaiterRole(person,R2comp);
 		person.addWork(r2Waiter, rest);
-		people.add(person);
-		person.startThread();
 	}
-	public void addRestaurantTwoSharedDataWaiterHack(String name, String rest) {
-		PersonAgent person = new PersonAgent(name);
-		world.getAnimationPanel().addGui(person.getIdleGui());
-		Role r2Waiter = new RestaurantTwoSharedDataWaiterRole(person,restaurantTwos.get(0),R2comp);
+	public void setWorkRestaurantTwoSharedDataWaiter(String name, String rest) {
+		PersonAgent person = getPersonFromName(name);
+		Role r2Waiter = new RestaurantTwoSharedDataWaiterRole(person,R2comp);
 		person.addWork(r2Waiter, rest);
-		people.add(person);
-		person.startThread();
 	}
 	public void hacker(){
 		restaurantTwos.get(0).hackr2();

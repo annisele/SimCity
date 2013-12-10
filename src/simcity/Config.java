@@ -202,62 +202,6 @@ public class Config {
 		systems.setSleep("Ben");
 		systems.addHackedBankAccount(0, 100, 0, "abcdef");
 		
-
-		///////////////////////////
-		/*
-		
-		
-		systems.clear();
-		systems.clearDetailPane();
-
-		systems.setBackgroundOne();
-		systems.addBank("BANK1", 100, 300);
-		///////////////////////////////
-		systems.addHouse("HOUSE1", 60, 27);
-		systems.addHouse("HOUSE2", 123, 27);
-		systems.addHouse("HOUSE3", 186, 27);
-		
-		systems.addPerson("Kevin");
-		systems.setHome("Kevin", "HOUSE2");
-		systems.setWorkBankHost("Kevin", "BANK1");
-		
-		systems.addPerson("Ben");
-		systems.setHome("Ben", "HOUSE1");
-		systems.setWorkBankTeller("Ben", "BANK1");
-		
-
-		systems.addPerson("Tony");
-		systems.setHome("Tony", "HOUSE3");
-		
-		systems.addHackedBankAccount(0, 100, 0, "abcdef");
-		*/
-		/*
-		try {
-			timer1.cancel();
-			timer2.cancel();
-			timer3.cancel();
-			timer1 = new Timer();
-			timer2 = new Timer();
-			timer3 = new Timer();
-		} catch(Exception e) {
-		
-		}
-		timer1.schedule(new TimerTask() {
-			public void run() {
-				systems.setWorkBankTeller("Ben", "BANK1");
-			}
-		}, 500);
-		timer2.schedule(new TimerTask() {
-			public void run() {
-				systems.addPerson("Levonne");
-			}
-		}, 1000);
-		timer3.schedule(new TimerTask() {
-			public void run() {
-				systems.addPerson("Levanne");
-			}
-		}, 1500);
-		*/
 	}
 
 		

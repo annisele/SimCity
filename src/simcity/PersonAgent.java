@@ -444,9 +444,9 @@ public class PersonAgent extends Agent implements Person {
 			house.msgGoToBed();
 			int sleepTime;
 			int sleepDuration;
-			if (Clock.getTime() < 2) {
+			if (Clock.getTime() < 32) {
 				sleepTime = Clock.getTime();
-				//sleepDuration = FIRSTSLEEPDURATION;//6;
+				//sleepDuration = FIRSTSLEEPDURTION;//6;
 				if(type == TimingType.Early) {
 					sleepDuration = 3;
 					//sleepDuration = 30 minutes

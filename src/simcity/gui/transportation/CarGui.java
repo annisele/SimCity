@@ -22,10 +22,10 @@ public class CarGui extends Gui {
 	Image img = ii.getImage();
 	Image busimage = img.getScaledInstance(25, 25,  java.awt.Image.SCALE_SMOOTH); 
 	
-	public CarGui(CarAgent cahh) {
-		this.caragent = cahh;
-		x= 20;
-		y= 108;
+	public CarGui(CarPassengerRole cpr) {
+		//this.caragent = cahh;
+		
+		
 		
 		
 	}

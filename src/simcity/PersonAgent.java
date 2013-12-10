@@ -89,6 +89,7 @@ public class PersonAgent extends Agent implements Person {
 		HouseInhabitantRole h = new HouseInhabitantRole(this);
 		MarketCustomerRole m = new MarketCustomerRole(this);
 		BankCustomerRole b = new BankCustomerRole(this);
+		CarPassengerRole cpr = new CarPassengerRole(this);
 
 		BusPassengerRole bp = new BusPassengerRole(this);
 		RestaurantOneCustomerRole r1 = new RestaurantOneCustomerRole(this);
@@ -107,7 +108,7 @@ public class PersonAgent extends Agent implements Person {
 		myRoles.add(r3);
 		myRoles.add(r4);
 		myRoles.add(r5);
-		
+		myRoles.add(cpr);
 		
 		//random money generator between and 25
 
@@ -287,6 +288,7 @@ public class PersonAgent extends Agent implements Person {
 			steps.add(new Step("exitBuilding", this));
 			steps.add(new Step("goToParkingGarage", this));
 			steps.add(new Step("driveTo", this));
+			//steps.add(new Step("goTo", this));
 			//steps.add(new Step("enterBuilding", this));
 			
 			Role eventR = null;
@@ -645,7 +647,7 @@ public class PersonAgent extends Agent implements Person {
 		for (int i = 0; i<6; i++) {
 			int tempX = Directory.getGarage(i).getX()-Directory.getLocation(dest).getX();
 			double tempX2 = Math.pow(tempX, 2);
-			int tempY = Directory.getBusStop(i).getY()-Directory.getLocation(dest).getY();
+			int tempY = Directory.getGarage(i).getY()-Directory.getLocation(dest).getY();
 			double tempY2 = Math.pow(tempY,  2);
 			double tempXY = tempX2 + tempY2;
 			double tempLocation = Math.sqrt(tempXY);
@@ -719,7 +721,7 @@ public class PersonAgent extends Agent implements Person {
 		for (Role r : myRoles) {
 			if (r instanceof CarPassengerRole ) {
 				currentRole = r;
-				
+				System.out.println("Driving to now...");
 				((CarPassengerRole)r).msgDriveTo(findGarage(currentEvent.buildingName), getClosestGarage(currentEvent.buildingName) );
 			}
 		}

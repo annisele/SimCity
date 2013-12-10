@@ -47,7 +47,7 @@ public class ControlPanel extends JPanel implements ActionListener {
 	//config panel elements
 	private JPanel configPanel = new JPanel();
 	private JComboBox configDropdown;
-	private String[] configStrings = new String[15];
+	private String[] configStrings = new String[16];
 	private JButton load = new JButton("Load");
 
 	//tab elements
@@ -99,6 +99,7 @@ public class ControlPanel extends JPanel implements ActionListener {
 		configStrings[12] = "RestaurantSix";
 		configStrings[13] = "Full Market";
 		configStrings[14] = "Bus Intersection Test";
+		configStrings[15] = "Full Markets and Banks";
 
 
 		configDropdown = new JComboBox(configStrings);
@@ -252,6 +253,8 @@ public class ControlPanel extends JPanel implements ActionListener {
 				config.fullMarket();
 			}else if (selection.equals(configStrings[14])) {
 				config.busIntersection();
+			} else if(selection.equals(configStrings[15])) {
+				config.fullMarketAndBank();
 			}
 			
 		}

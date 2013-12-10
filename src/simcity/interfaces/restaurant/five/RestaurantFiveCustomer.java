@@ -10,7 +10,6 @@ public interface RestaurantFiveCustomer extends GuiPartner {
 
 	public abstract void msgHereIsMenu(RestaurantFiveWaiter waiter,
 			RestaurantFiveMenu restaurantFiveMenu);
-	
 
 	public abstract void msgFollowMeToTable(RestaurantFiveWaiter waiter, int table);
 
@@ -19,12 +18,15 @@ public interface RestaurantFiveCustomer extends GuiPartner {
 	public abstract void msgWhatWouldYouLike();
 
 //	public abstract void msgHereIsCheck(double double1);
-//
-//	public abstract void msgHereIsYourFood(String choice);
+
+	public abstract void msgHereIsYourFood(String choice);
 
 	public abstract String getName();
 
 	public abstract Gui getGui();
+
+	public abstract void msgPayNextTime();
+
 
 
 

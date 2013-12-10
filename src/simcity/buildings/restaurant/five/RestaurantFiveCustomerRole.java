@@ -109,18 +109,18 @@ public class RestaurantFiveCustomerRole extends Role implements RestaurantFiveCu
 	//		state = AgentState.Reordering;
 	//		stateChanged();
 	//	}
-	//	
-	//	public void msgHereIsYourFood(String f) {
-	//		state = AgentState.GettingFood;
-	//		food = f;
-	//		stateChanged();
-	//	}
-	//	
-	//	public void msgDoneEating() {
-	//		state = AgentState.DoneEating;
-	//		stateChanged();
-	//	}
-	//
+		
+		public void msgHereIsYourFood(String f) {
+			state = AgentState.GettingFood;
+			food = f;
+			stateChanged();
+		}
+		
+		public void msgDoneEating() {
+			state = AgentState.DoneEating;
+			stateChanged();
+		}
+	
 	//	@Override
 	//	public void msgHereIsCheck(double checkIn) {
 	//		state = AgentState.GoingToPay;
@@ -133,13 +133,13 @@ public class RestaurantFiveCustomerRole extends Role implements RestaurantFiveCu
 	//		change = changeIn;
 	//		stateChanged();
 	//	}
-	//	
-	//	public void msgPayNextTime() {
-	//		//do nothing for now
-	//		state = AgentState.DoneWithPaymentProcess;
-	//		stateChanged();
-	//	}
-	//	
+		
+		public void msgPayNextTime() {
+			//do nothing for now
+			state = AgentState.DoneWithPaymentProcess;
+			stateChanged();
+		}
+		
 	//	public void msgAnimationFinishedLeaveRestaurant() {
 	//		//from animation
 	//		event = AgentEvent.doneLeaving;
@@ -180,11 +180,11 @@ public class RestaurantFiveCustomerRole extends Role implements RestaurantFiveCu
 			OrderFood();
 			return true;
 		}
-		//		if(state == AgentState.GettingFood && event == AgentEvent.seated) {
-		//			ReceiveFood(food);
-		//			return true;
-		//		}
-		//
+				if(state == AgentState.GettingFood && event == AgentEvent.seated) {
+					ReceiveFood(food);
+					return true;
+				}
+		
 		//		if(state == AgentState.DoneEating && event == AgentEvent.doneEating) {
 		//			//LeaveRestaurant();
 		//			TellWaiterIAmDone();
@@ -296,23 +296,23 @@ public class RestaurantFiveCustomerRole extends Role implements RestaurantFiveCu
 		waiter.msgHereIsMyChoice(this, food);
 	}
 
-	//	private void ReceiveFood(String f) {
-	//		state = AgentState.Eating;
-	//		Do("Eating food.");
-	//		
-	//		timer.schedule(new TimerTask() {
-	//			//Object cookie = 1;
-	//			public void run() {
-	//				Do("Done eating.");
-	//				event = AgentEvent.doneEating;
-	//				msgDoneEating();
-	//				//isHungry = false;
-	//				stateChanged();
-	//			}
-	//		},
-	//		getHungerLevel() * 1000);//how long to wait before running task
-	//	}
-	//	
+		private void ReceiveFood(String f) {
+			state = AgentState.Eating;
+			AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantFiveCustomer: " + person.getName(), "Eating food.");
+			
+			timer.schedule(new TimerTask() {
+				//Object cookie = 1;
+				public void run() {
+					Do("Done eating.");
+					event = AgentEvent.doneEating;
+					msgDoneEating();
+					//isHungry = false;
+					stateChanged();
+				}
+			},
+			5000);//how long to wait before running task
+		}
+		
 	//	private void TellWaiterIAmDone() {
 	//		state = AgentState.WaitingForCheck;
 	//		Do("Asking waiter for check.");

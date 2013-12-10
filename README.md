@@ -1,4 +1,4 @@
-team14
+﻿team14
 ======
 
 SimCity201 Project Repository for CS 201 students
@@ -83,9 +83,10 @@ Member Contributions
 #####V2: 
   + Worked with Rebecca on the PersonAgent so that it now schedules events correctly and with repetition.  Worked on a lot of event planning in HouseInhabitant and person.  Events like eating, sleeping, and working will now be scheduled every day, ad infinitum.  Created flexible and inflexible events.  
   + Worked with Rebecca on creating a scenario in which people have houses and work at a market.  Finished completing the market - person - house inhabitant interaction so that the house's food stock is updated once people buy food from a market.
+  + Implemented a two market scenario to test and make sure that multiple markets can work in conjunction, and the workers behave normally and are able to shop at the other market.
   + Implemented draging of the WorldAnimationPanel so that we can fit more buildings into our SimCity.
   + Worked on the clock more to accommodate the planning of PersonAgent's schedule.
-  + Made a ControlPanel for the house which displays info.
+  + Made a ControlPanel for the house which displays info such as available food.
 
 #####V1:
   + Created initial design documents for PersonAgent and Transportation (along with Josh).

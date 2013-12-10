@@ -21,4 +21,6 @@ public interface RestaurantFiveWaiter extends GuiPartner {
 
 	public abstract void msgHereIsMyChoice(RestaurantFiveCustomer cust, String food);
 
+	public abstract void msgOrderIsReady(String choice, int table);
+
 }

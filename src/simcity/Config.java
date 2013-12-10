@@ -471,6 +471,11 @@ public class Config {
 						timer.schedule(new TimerTask () {
 							public void run() {
 								systems.addRestaurantOneCook("Gayle", "RESTAURANT1");
+								timer.schedule(new TimerTask() { 
+									public void run() {
+									systems.addRestaurantOneCustomer("Huell", "RESTAURANT1");
+								}
+								}, 1000);
 							}
 						}, 1000);
 							}

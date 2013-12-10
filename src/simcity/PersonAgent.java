@@ -282,7 +282,7 @@ public class PersonAgent extends Agent implements Person {
 			steps.add(new Step("exitBuilding", this));
 			steps.add(new Step("goToParkingGarage", this));
 			steps.add(new Step("driveTo", this));
-			steps.add(new Step("enterBuilding", this));
+			//steps.add(new Step("enterBuilding", this));
 			
 			Role eventR = null;
 			for(Role r : myRoles) {
@@ -475,6 +475,7 @@ public class PersonAgent extends Agent implements Person {
 			List<Step> steps = new ArrayList<Step>();
 			steps.add(new Step("exitBuilding", this));
 			steps.add(new Step("goTo", this));
+			// instead of this step ^ call transportationSteps(steps);
 			steps.add(new Step("enterBuilding", this));
 			int index = rand.nextInt(restaurants.size());
 			String buildingName = restaurants.get(index);
@@ -529,6 +530,20 @@ public class PersonAgent extends Agent implements Person {
 
 	//this assumes after roles are done, they go stand outside the building
 	//so this only needs to prep the person to walk somewhere by changing it to pedestrian
+	
+	private void transportationSteps(List<Step> steps) {
+	//	if (hasCar) {
+			// steps.add go to car
+			// drive to destination
+			// go to building
+			//steps.add(new Step("goTo", this));
+	//	} else if (busIsFaster) {
+			// go to bus stop
+			// bus to place
+			// go to building
+			
+		}  
+		
 	
 	int findGarage(String dest) {
 		double minLocation = 10000;
@@ -736,7 +751,8 @@ public class PersonAgent extends Agent implements Person {
 
 		}
 		else {
-			AlertLog.getInstance().logMessage(AlertTag.WORLD, "Pedestrian: "+name, currentEvent.buildingName +" is closed.  I can't enter");						
+			AlertLog.getInstance().logMessage(AlertTag.WORLD, "Pedestrian: "+name, 
+					currentEvent.buildingName +" is closed.  I can't enter");						
 			currentRole = currentEvent.role;
 			roleFinished();
 			if(currentEvent.type == EventType.Work) {
@@ -747,7 +763,11 @@ public class PersonAgent extends Agent implements Person {
 				currentEvent = null;
 			}
 		}
-		if(currentEvent.type == EventType.GoToMarket) {
+		if (currentEvent == null) {
+			AlertLog.getInstance().logDebug(AlertTag.WORLD, "Pedestrian: "+name, 
+					"My currentEvent is null, so I cannot call marketDone for HouseInhab");						
+		}
+		else if(currentEvent.type == EventType.GoToMarket) {
 			for (Role r : myRoles) {
 				if (r instanceof HouseInhabitant) {
 					((HouseInhabitant)r).marketDone();

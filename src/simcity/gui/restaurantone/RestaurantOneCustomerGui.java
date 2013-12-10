@@ -2,21 +2,26 @@ package simcity.gui.restaurantone;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Point;
+
+import javax.swing.ImageIcon;
 
 import simcity.buildings.restaurant.one.RestaurantOneCustomerRole;
 import simcity.gui.Gui;
+import simcity.interfaces.restaurant.one.RestaurantOneCustomer;
 
 public class RestaurantOneCustomerGui extends Gui{
 
-	private RestaurantOneCustomerRole role;
-	private int x = 0;
-	private int y = 0;
-	private int xDest = 0;
-	private int yDest = 0;
+
 	private final int SIZE = 20;
 	
-	public RestaurantOneCustomerGui() {
+	 private ImageIcon ii = new ImageIcon("res/person/bluepersondownbig.png");
+	    private Image hostimage = ii.getImage();
+	
+	public RestaurantOneCustomerGui(RestaurantOneCustomer cust) {
+		role = cust;
+		
 		
 	}
 	
@@ -42,8 +47,8 @@ public class RestaurantOneCustomerGui extends Gui{
 
 	@Override
 	public void draw(Graphics2D g) {
-		g.setColor(Color.MAGENTA);
-		g.fillRect(x, y, SIZE, SIZE);
+    	g.drawImage(hostimage,getX(), getY(), null);
+
 	}
 
 	@Override
@@ -61,9 +66,8 @@ public class RestaurantOneCustomerGui extends Gui{
 		return false;
 	}
 
-	public void DoGoToLocation(int x, int y) {
-		xDest = x;
-		yDest = y;
+	public void DoGoToFront() {
+		DoGoToLocation(200, 800);
 	}
 
 	public void DoGoToSeat() {

@@ -3,8 +3,9 @@ package simcity.interfaces.restaurant.one;
 import simcity.buildings.restaurant.one.RestaurantOneCheck;
 import simcity.buildings.restaurant.one.RestaurantOneMenu;
 import simcity.buildings.restaurant.one.RestaurantOneWaiterRole;
+import simcity.interfaces.GuiPartner;
 
-public interface RestaurantOneCustomer {
+public interface RestaurantOneCustomer extends GuiPartner{
 
 	void msgWhatWouldYouLike();
 

@@ -5,21 +5,26 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.Semaphore;
 
 import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
+import simcity.gui.restaurantone.RestaurantOneCookGui;
 import simcity.gui.restaurantone.RestaurantOneCustomerGui;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.restaurant.one.RestaurantOneHost;
 import simcity.buildings.restaurant.one.*;
 
 public class RestaurantOneCustomerRole extends Role implements simcity.interfaces.restaurant.one.RestaurantOneCustomer {
 
 	 Timer timer = new Timer();
+	 RestaurantOneSystem restaurant;
      RestaurantOneCheck check;
      private String name;
      private int hungerLevel = 8; // determines length of meal
-     private RestaurantOneCustomerGui cGui;
+     private RestaurantOneCustomerGui gui;
      private String choice;
      private boolean reorder = false;
      private double money;
@@ -27,6 +32,7 @@ public class RestaurantOneCustomerRole extends Role implements simcity.interface
      private RestaurantOneWaiterRole waiter;
      private RestaurantOneCashierRole cashier;
      private PersonAgent person;
+     private Semaphore atDest = new Semaphore(0, true);
 
      //public boolean oweMoney = false;
      private double StayProbability = .8;
@@ -53,7 +59,7 @@ public class RestaurantOneCustomerRole extends Role implements simcity.interface
       * @param gui  reference to the customergui so the customer can send it messages
       */
      public RestaurantOneCustomerRole(PersonAgent p){
-             super();
+    	 	gui = new RestaurantOneCustomerGui(this); 
              this.person = p;
              if (person.getName().equals("Broke")) {
                      money = 0;
@@ -64,6 +70,7 @@ public class RestaurantOneCustomerRole extends Role implements simcity.interface
              else
                      money = 100;
      }
+     
 
      /**
       * hack to establish connection to Host agent.
@@ -241,7 +248,7 @@ public class RestaurantOneCustomerRole extends Role implements simcity.interface
      }
 
      private void SitDown() {
-             cGui.DoGoToSeat();//hack; only one table
+             gui.DoGoToSeat();//hack; only one table
      }
 
      private void CallWaiter() {
@@ -347,12 +354,12 @@ public class RestaurantOneCustomerRole extends Role implements simcity.interface
      private void LeaveTable() {
              Do("Leaving.");
              waiter.msgLeftRestaurant(this);
-             cGui.DoExitRestaurant();
+             gui.DoExitRestaurant();
      }
 
      private void LeaveTableWithoutEating() {
              Do ("Leaving");
-             cGui.DoExitRestaurant();
+             gui.DoExitRestaurant();
              if (waiter != null)
                      waiter.msgLeftRestaurant(this);
              else
@@ -390,11 +397,11 @@ public class RestaurantOneCustomerRole extends Role implements simcity.interface
      }
 
      public void setGui(RestaurantOneCustomerGui g) {
-             cGui = g;
+             gui = g;
      }
 
      public RestaurantOneCustomerGui getGui() {
-             return cGui;
+             return gui;
      }
 
      // If customer doesn't have enough money, he/she steals it. 
@@ -410,11 +417,21 @@ public class RestaurantOneCustomerRole extends Role implements simcity.interface
 
 	@Override
 	public void enterBuilding(SimSystem s) {
-		// TODO Auto-generated method stub
-		
+		restaurant = (RestaurantOneSystem)s;
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantOneCustomer: " + person.getName(), "Ready to work at the restaurant!");
+
+
+		((RestaurantOneCustomerGui)gui).DoGoToFront();		
 	}
 	
 	public void msgArrivedAtRestaurant(double money) {
+		
+	}
+
+	@Override
+	public void atDestination() {
+		// TODO Auto-generated method stub
+		atDest.release();
 		
 	}
 

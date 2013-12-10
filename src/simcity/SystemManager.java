@@ -158,6 +158,10 @@ public class SystemManager {
 			person.goToRestaurantOneNow();
 		}
 		
+		if (name.equalsIgnoreCase("Huell")) {
+			person.goToRestaurantOneNow();
+		}
+		
 		if (name == "Hungry R4Customer1" || name == "Hungry R4Customer2" || name == "Hungry R4Customer3") {
 			person.goToRestaurantFourNow();
 		}

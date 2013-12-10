@@ -140,6 +140,7 @@ public class MarketWorkerRole extends Role implements MarketWorker {
 
 	@Override
 	public void exitBuilding() {
+		stopWorking = false;
 		gui.DoExitBuilding();
 		try {
 			atDest.acquire();

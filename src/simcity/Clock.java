@@ -74,7 +74,6 @@ public class Clock {
 
 		return h;
 	}
-	
 	public static int getTenMinutes() {
 		int t = 0;
 		currentTime = (int) ((System.currentTimeMillis() - startTime) / tenMinuteLength) + 6*5;

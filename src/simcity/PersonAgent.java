@@ -986,6 +986,7 @@ public class PersonAgent extends Agent implements Person {
 		this.scheduleEvent(EventType.BusToMarket);
 	}
 	
+	
 	public void carToMarketNow() {
 		this.scheduleEvent(EventType.CarToMarket);
 		System.out.println("Scheduling car to market now");
@@ -1049,6 +1050,7 @@ public class PersonAgent extends Agent implements Person {
 			scheduleEvent(EventType.Sleep);
 		}
 	}
+	
 
 	public void addHome(String building) {
 		//myRoles.add(r);

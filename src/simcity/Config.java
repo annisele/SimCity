@@ -49,11 +49,11 @@ public class Config {
 		systems.setBackgroundThree();
 		systems.addBus("clockwise");
 		systems.addBus("counterclockwise");
-		systems.addCar("car1");
+		//systems.addCar("car1");
 		systems.addMarket("MARKET2", 312, 27);
 		
 		systems.addPerson("Gosling");
-		systems.setWorkMarketWorker("Gosling", "MARKET2");
+		//systems.setWorkMarketWorker("Gosling", "MARKET2");
 	}
 
 	public void busToMarket() {

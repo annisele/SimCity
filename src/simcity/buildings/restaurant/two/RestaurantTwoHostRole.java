@@ -217,8 +217,9 @@ public class RestaurantTwoHostRole extends Role implements simcity.interfaces.re
 
 	@Override
 	public void enterBuilding(SimSystem s) {
-		AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantHost: " + person.getName(),"Entering building.");
 		R2 = (RestaurantTwoSystem)s;
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantHost: " + person.getName(),"Entering building.");
+	
 		((RestaurantTwoHostGui)gui).DoGoToHostPosition();
 		try {
 			atDest.acquire();

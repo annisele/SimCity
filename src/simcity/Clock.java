@@ -66,25 +66,6 @@ public class Clock {
 		return day;
 	}
 	
-	
-	public static int getHour() {
-		int h = 0;
-		currentTime = (int) ((System.currentTimeMillis() - startTime) / hourLength) + 6*5;
-		
-		h = (int)(((currentTime / 6)+5)%24+1);
-
-		return h;
-	}
-	
-	public static int getTenMinutes() {
-		int t = 0;
-		currentTime = (int) ((System.currentTimeMillis() - startTime) / tenMinuteLength) + 6*5;
-		
-		t = (int)(((currentTime / 6)+5)%24+1);
-
-		return t;
-	}
-	
 	public static DayOfWeek getDayOfTheWeek() {
 		int d = 0;
 		DayOfWeek day = DayOfWeek.SUN;
@@ -103,6 +84,25 @@ public class Clock {
 		return day;
 		
 	}
+	
+	
+	public static int getHour() {
+		int h = 0;
+		currentTime = (int) ((System.currentTimeMillis() - startTime) / hourLength) + 6*5;
+		
+		h = (int)(((currentTime / 6)+5)%24+1);
+
+		return h;
+	}
+	public static int getTenMinutes() {
+		int t = 0;
+		currentTime = (int) ((System.currentTimeMillis() - startTime) / tenMinuteLength) + 6*5;
+		
+		t = (int)(((currentTime / 6)+5)%24+1);
+
+		return t;
+	}
+	
 	
 	public static int hoursInMillis(int hours) {
 		// Our current standard is 1 hour = 2000 ms

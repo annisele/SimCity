@@ -157,7 +157,7 @@ public class SystemManager {
 		if(name.equalsIgnoreCase("Hungry Jenny") || name.equalsIgnoreCase("Hungry Clayton")) {
 			person.scheduleEvent(EventType.EatAtRestaurant);
 		}
-		if (name.equalsIgnoreCase("Hungry Harry")||name.equalsIgnoreCase("Hungry Aaron")) {
+		if (name.equalsIgnoreCase("Hungry Harry")) {
 
 			person.goToRestaurantThreeNow();
 		}

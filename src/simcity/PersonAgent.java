@@ -439,8 +439,16 @@ public class PersonAgent extends Agent implements Person {
 			}
 			else {
 				int offSet = 0;
+				
 				if(currentEvent != null && currentEvent.type == EventType.Work) {
-					offSet = 6 * 24; //24 hours
+					//if tomorrow is a weekend (today is Fri or Sat), schedule work for monday
+					if((Clock.getDayOfTheWeek() == Clock.DayOfWeek.FRI) || (Clock.getDayOfTheWeek() == Clock.DayOfWeek.SAT)) {
+						offSet = 6 * 24 * 3; //3 * 24 hours
+					}
+					//if you are working, schedule work for tomorrow
+					else {
+						offSet = 6 * 24; //24 hours
+					}
 				}
 				if(type == TimingType.Early) {
 					workTime = Clock.getScheduleTime(8, 0) + offSet;
@@ -979,6 +987,7 @@ public class PersonAgent extends Agent implements Person {
 		this.scheduleEvent(EventType.BusToMarket);
 	}
 	
+	
 	public void carToMarketNow() {
 		this.scheduleEvent(EventType.CarToMarket);
 		System.out.println("Scheduling car to market now");
@@ -1042,6 +1051,7 @@ public class PersonAgent extends Agent implements Person {
 			scheduleEvent(EventType.Sleep);
 		}
 	}
+	
 
 	public void addHome(String building) {
 		//myRoles.add(r);

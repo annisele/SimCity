@@ -212,13 +212,19 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
 			synchronized(customers) {
 				for (MyCustomer customer : customers) {
 					if (customer.getState() == CustomerState.WAITING) {
-					//	customerState = CustomerState.
-						seatCustomer(customer);
-						Do("i'm seating customer");
+						seatCustomer(customer);		
 						return true;
 					}
 					if (customer.getState() == CustomerState.READY_TO_ORDER) {
 						takeOrder(customer);
+						return true;
+					}
+					if (customer.getState() == CustomerState.ORDERING) {
+						giveOrderToCook(customer);
+						return true;
+					}
+					if (customer.getState() == CustomerState.FOOD_SERVED) {
+						giveFoodToCustomer(customer);
 						return true;
 					}
 				}
@@ -267,7 +273,7 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
     	} catch (InterruptedException e) {
     		//e.printStackTrace();
     	}
-		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurantThreeSystem.getName()), "Restaurant 3 Waiter: " + person.getName(), "Get back to the station, " + c.customer.getName() + ".");
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurantThreeSystem.getName()), "Restaurant 3 Waiter: " + person.getName(), "Get back to the station, "  + ".");
 		
 		Do("Get back to the station");
 		((RestaurantThreeWaiterGui)gui).DoGoToStation();
@@ -278,6 +284,35 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
     	}
 	}
 	private void takeOrder(MyCustomer c) {
+		((RestaurantThreeWaiterGui)gui).DoTakeOrder(c.getTableNumber());
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurantThreeSystem.getName()), "Restaurant 3 Waiter: " + person.getName(), "Take customer order");	
+		try {
+    		atDest.acquire();
+    	} catch (InterruptedException e) {
+    		//e.printStackTrace();
+    	}
+		c.state = CustomerState.NO_ACTION;
+		c.customer.msgWhatsYourOrder();
+		((RestaurantThreeWaiterGui)gui).DoGoToStation();
+		try {
+    		atDest.acquire();
+    	} catch (InterruptedException e) {
+    		
+    	}
+		stateChanged();
+	}
+	private void giveOrderToCook(MyCustomer c) {
+		((RestaurantThreeWaiterGui)gui).DoGoToCook();
+		try {
+    		atDest.acquire();
+    	} catch (InterruptedException e) {
+    		//e.printStackTrace();
+    	}
+		c.state = CustomerState.NO_ACTION;
+		cook.msgHereIsAnOrder(this, c.tableNum, c.choice);
+		stateChanged();
+	}
+	private void giveFoodToCustomer(MyCustomer customer) {
 		
 	}
 	@Override

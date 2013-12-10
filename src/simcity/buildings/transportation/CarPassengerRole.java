@@ -3,12 +3,14 @@ import java.util.concurrent.Semaphore;
 
 import simcity.Directory;
 import simcity.Location;
+import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
+import simcity.gui.transportation.CarGui;
 
 public class CarPassengerRole extends Role implements simcity.interfaces.transportation.CarPassenger {
-	int start;
-	int destination;
+	public int start;
+	public int destination;
 	int xLoc;
 	int yLoc;
 	public enum PassengerState {stopped, driving};
@@ -18,7 +20,15 @@ public class CarPassengerRole extends Role implements simcity.interfaces.transpo
 	CarAgent car;
 	Directory dir;
 	public Semaphore atDest = new Semaphore(0, true);
+	CarGui gui = new CarGui(this);
 	
+	
+	public CarPassengerRole(PersonAgent p) {
+		person = p;
+		
+		
+	}
+		
 	public void msgDriveTo(int s, int d) { //from PersonAgent
 		start = s;
 		destination = d;
@@ -29,6 +39,7 @@ public class CarPassengerRole extends Role implements simcity.interfaces.transpo
 		event = PassengerEvent.stopping;
 		xLoc = x;
 		yLoc = y;
+		System.out.println("We Have Arrived");
 		stateChanged();
 	}
 	public boolean pickAndExecuteAnAction() {
@@ -55,23 +66,27 @@ public class CarPassengerRole extends Role implements simcity.interfaces.transpo
 	private void Drive() {
 
 		// Animation - call to cargui
+		System.out.println(dir.getGarage(1).getX());
 		gui.DoGoToLocation(dir.getGarage(destination).getX(), dir.getGarage(destination).getY());
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
 			//e.printStackTrace();
 		} 
+		msgWeHaveArrived(dir.getGarage(destination).getX(), dir.getGarage(destination).getY());
+		//destination = (Integer) null;
 		//UNCOMMENT LINE OF CODE BELOW ONCE MOST ERRORS BE FIXED. ARRR
 	//	passenger.msgWeHaveArrived(destination.xLoc, destination.yLoc);
-		destination = (Integer) null;
 
 	} 
 	
 
 	public void GetOut() {
-		car.msgGettingOff(this);
+		//car.msgGettingOff(this);
 		// Animation
-		DoRedrawAt(xLoc, yLoc); 
+		//DoRedrawAt(xLoc, yLoc); 
+		person.setPedestrianRoleLocation(xLoc, yLoc);
+
 	}
 	
 	public void DoDisableGui() {

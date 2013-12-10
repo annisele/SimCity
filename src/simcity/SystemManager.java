@@ -114,13 +114,13 @@ public class SystemManager {
 	public void setBackgroundThree() {
 		WorldAnimationPanel w = (WorldAnimationPanel)world.getAnimationPanel();
 		w.setBackgroundThree();
-		dir.makeBusStops2();
+		dir.makeParkingStructure1();
 	}
 
 	public void addPerson(String name) {
 		PersonAgent person = new PersonAgent(name);
 		world.getAnimationPanel().addGui(person.getIdleGui());
-
+		
 		person.setBus(bus);
 
 		//hacks
@@ -218,7 +218,7 @@ public class SystemManager {
 		bus.makeBusMove();
 	}
 	
-	public void addCar(String name) {
+	/*public void addCar(String name) {
 		TransportationSystem temp = new TransportationSystem(simcity);
 		temp.setName(name);
 		transportations.add(temp);
@@ -231,7 +231,7 @@ public class SystemManager {
 		car.setGui(tcg);
 		world.getAnimationPanel().addCar(tcg);
 		car.startThread();
-	}
+	} */
 
 	public void addRestaurantOne(String name, int xLoc, int yLoc) {
 		RestaurantOneSystem temp = new RestaurantOneSystem(simcity);
@@ -691,6 +691,13 @@ public class SystemManager {
 
 	public Directory getDirectory() {
 		return dir;
+	}
+	
+	public boolean hasEarlySchedule(String building) {
+		if(building.equals("MARKET1") || building.equals("MARKET3")) {
+			return true;
+		}
+		return false;
 	}
 
 

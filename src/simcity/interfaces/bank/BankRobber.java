@@ -26,7 +26,6 @@ public abstract interface BankRobber extends GuiPartner {
 	public abstract void setBankTeller(BankTeller bt);
 	//messages 
 	public abstract void msgArrivedAtBank() ;
-	public abstract void msgGoToWindow(int windowNumber, BankTeller bt);
 	//scheduler;;
 	   // actions
 	
@@ -34,4 +33,8 @@ public abstract interface BankRobber extends GuiPartner {
 		public abstract void exitBuilding() ;
 
 		public abstract void enterBuilding(SimSystem s);
+		public abstract void hackRobBank(BankSystem bankSystem);
+		public abstract void msgDontRobBank(int windowNumber,
+				BankTeller bankTeller);
+		public abstract void msgHereIsYourMoney(double robbery_money);
 }

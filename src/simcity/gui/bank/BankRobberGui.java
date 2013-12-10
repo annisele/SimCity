@@ -27,8 +27,8 @@ public class BankRobberGui extends Gui{
 	private final int WINDOW3_Y = 200;
 	
 	
-	public BankRobberGui(BankRobberRole bankRobberRole) {
-		role = bankRobberRole;
+	public BankRobberGui(BankRobberRole bankRobber) {
+		role = bankRobber;
 	}
 	
 	public void draw(Graphics2D g) {
@@ -36,6 +36,7 @@ public class BankRobberGui extends Gui{
 	}
 	
 	public void DoGoToHost() {
+		
 		DoGoToLocation(HOST_X, HOST_Y);
 	}
 

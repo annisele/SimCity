@@ -5,6 +5,7 @@ import simcity.buildings.bank.BankCustomerRole;
 import simcity.buildings.bank.BankTellerRole;
 import simcity.interfaces.bank.BankCustomer;
 import simcity.interfaces.bank.BankHost;
+import simcity.interfaces.bank.BankRobber;
 import simcity.interfaces.bank.BankTeller;
 import simcity.test.mock.EventLog;
 import simcity.test.mock.LoggedEvent;
@@ -66,6 +67,12 @@ public class MockBankHost extends Mock implements BankHost {
 
 	@Override
 	public void msgEnterBuilding(SimSystem s) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgRobBank(BankRobber bankRobber) {
 		// TODO Auto-generated method stub
 		
 	}

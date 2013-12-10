@@ -11,6 +11,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import simcity.buildings.bank.BankCustomerRole;
+import simcity.buildings.bank.BankRobberRole;
 import simcity.buildings.bank.BankSystem;
 import simcity.buildings.house.HouseInhabitantRole;
 import simcity.buildings.market.MarketCustomerRole;
@@ -35,6 +36,7 @@ import simcity.gui.trace.AlertTag;
 import simcity.gui.transportation.CarGui;
 import simcity.interfaces.Person;
 import simcity.interfaces.bank.BankCustomer;
+import simcity.interfaces.bank.BankRobber;
 import simcity.interfaces.house.HouseInhabitant;
 import simcity.interfaces.market.MarketCustomer;
 import simcity.interfaces.restaurant.five.RestaurantFiveCustomer;
@@ -67,7 +69,7 @@ public class PersonAgent extends Agent implements Person {
 	private Role currentRole = null;
 	private Event currentEvent = null;
 
-	public enum EventType { Eat, GoToMarket, BusToMarket, EatAtRestaurant, EatAtHome, DepositMoney, WithdrawMoney, GetALoan, PayRent, Sleep, Work, WorkNow, CarToMarket };
+	public enum EventType { Eat, GoToMarket, BusToMarket, EatAtRestaurant, EatAtHome, DepositMoney, WithdrawMoney, GetALoan, PayRent, Sleep, Work, WorkNow, CarToMarket, RobBank };
 
 	private String name;
 	private double money = 10;
@@ -93,6 +95,9 @@ public class PersonAgent extends Agent implements Person {
 		HouseInhabitantRole h = new HouseInhabitantRole(this);
 		MarketCustomerRole m = new MarketCustomerRole(this);
 		BankCustomerRole b = new BankCustomerRole(this);
+
+		BankRobberRole br = new BankRobberRole(this);
+
 		CarPassengerRole cpr = new CarPassengerRole(this);
 
 		BusPassengerRole bp = new BusPassengerRole(this);
@@ -106,6 +111,7 @@ public class PersonAgent extends Agent implements Person {
 		myRoles.add(h);
 		myRoles.add(m);
 		myRoles.add(b);
+		myRoles.add(br);
 		myRoles.add(bp);
 		myRoles.add(r1);
 		myRoles.add(r2);
@@ -378,6 +384,33 @@ public class PersonAgent extends Agent implements Person {
 
 			insertEvent(e);
 			stateChanged();
+		}
+		else if (t == EventType.RobBank) {
+
+			List<String> banks = Directory.getBanks();
+
+			//Do("We're Depositing, and banks size is "+banks.size());
+			int index = rand.nextInt(banks.size());
+			String buildingName = banks.get(index);
+			List<Step> steps = new ArrayList<Step>();
+			steps.add(new Step("exitBuilding", this));
+			steps.add(new Step("goTo", this));
+			steps.add(new Step("enterBuilding", this));
+			Role eventR = null;
+			for(Role r : myRoles) {
+				if(r instanceof BankRobber) {
+					eventR = r;
+				}
+			}
+
+			//hack
+			((BankRobber)eventR).hackRobBank((BankSystem)(Directory.getSystem(buildingName)));
+			e = new Event(buildingName, eventR, TWO_HOURS, -1, true, steps, t);
+
+			insertEvent(e);
+			stateChanged();
+
+
 		}
 		else if (t == EventType.PayRent) {
 			List<String> banks = Directory.getBanks();
@@ -959,6 +992,9 @@ public class PersonAgent extends Agent implements Person {
 
 	public void goToBankNow() {
 		this.scheduleEvent(EventType.WithdrawMoney);
+	}
+	public void goRobBankNow() {
+		this.scheduleEvent(EventType.RobBank);
 	}
 	public void goToRestaurantThreeNow() {
 		this.scheduleEvent(EventType.EatAtRestaurant);

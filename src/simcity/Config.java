@@ -184,22 +184,22 @@ public class Config {
 		systems.addPerson("Mary");
 		systems.setHome("Mary", "HOUSE2");
 		systems.setWorkMarketCashier("Mary", "MARKET1");
-		
+		systems.setSleep("Mary");
 		systems.addPerson("Joe");
 		systems.setHome("Joe", "HOUSE1");
 		systems.setWorkMarketWorker("Joe", "MARKET1");
-		
+		systems.setSleep("Joe");
 		systems.addPerson("Tommy");
 		systems.setHome("Tommy", "HOUSE3");
-		
+		systems.setSleep("Tommy");
 		systems.addPerson("Kevin");
 		systems.setHome("Kevin", "HOUSE4");
 		systems.setWorkBankHost("Kevin", "BANK1");
-		
+		systems.setSleep("Kevin");
 		systems.addPerson("Ben");
 		systems.setHome("Ben", "HOUSE5");
 		systems.setWorkBankTeller("Ben", "BANK1");
-		
+		systems.setSleep("Ben");
 		systems.addHackedBankAccount(0, 100, 0, "abcdef");
 		
 

@@ -2,7 +2,6 @@ package simcity.buildings.transportation;
 import java.util.concurrent.Semaphore;
 
 import simcity.Directory;
-import simcity.Location;
 import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
@@ -20,17 +19,17 @@ public class CarPassengerRole extends Role implements simcity.interfaces.transpo
 	CarAgent car;
 	Directory dir;
 	public Semaphore atDest = new Semaphore(0, true);
-	CarGui gui = new CarGui(this);
 	
 	
 	public CarPassengerRole(PersonAgent p) {
 		person = p;
-		
+		this.gui = new CarGui(this);
 		
 	}
 		
 	public void msgDriveTo(int s, int d) { //from PersonAgent
 		start = s;
+		//System.out.println(s + " " + d );
 		destination = d;
 		event = PassengerEvent.starting;
 		stateChanged();
@@ -66,8 +65,10 @@ public class CarPassengerRole extends Role implements simcity.interfaces.transpo
 	private void Drive() {
 
 		// Animation - call to cargui
-		System.out.println(dir.getGarage(1).getX());
-		gui.DoGoToLocation(dir.getGarage(destination).getX(), dir.getGarage(destination).getY());
+		//(CarGui) gui).DoGoTo(dir.getGarage(destination).getX(), dir.getGarage(destination).getY());
+		((CarGui) gui).DoGoTo(1,2);
+		System.out.println(gui.getX() + " " + gui.getY());
+
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
@@ -104,6 +105,7 @@ public class CarPassengerRole extends Role implements simcity.interfaces.transpo
 	@Override
 	public void atDestination() {
 		// TODO Auto-generated method stub
+		atDest.release();
 		
 	}
 	@Override

@@ -14,7 +14,9 @@ import simcity.gui.restaurantone.RestaurantOneCookGui;
 import simcity.gui.restaurantone.RestaurantOneCustomerGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
+import simcity.interfaces.restaurant.one.RestaurantOneCashier;
 import simcity.interfaces.restaurant.one.RestaurantOneHost;
+import simcity.interfaces.restaurant.one.RestaurantOneWaiter;
 import simcity.buildings.restaurant.one.*;
 
 public class RestaurantOneCustomerRole extends Role implements simcity.interfaces.restaurant.one.RestaurantOneCustomer {
@@ -24,13 +26,12 @@ public class RestaurantOneCustomerRole extends Role implements simcity.interface
      RestaurantOneCheck check;
      private String name;
      private int hungerLevel = 8; // determines length of meal
-     private RestaurantOneCustomerGui gui;
      private String choice;
      private boolean reorder = false;
      private double money;
-     private RestaurantOneHostRole host;
-     private RestaurantOneWaiterRole waiter;
-     private RestaurantOneCashierRole cashier;
+     private RestaurantOneHost host;
+     private RestaurantOneWaiter waiter;
+     private RestaurantOneCashier cashier;
      private PersonAgent person;
      private Semaphore atDest = new Semaphore(0, true);
 
@@ -82,11 +83,6 @@ public class RestaurantOneCustomerRole extends Role implements simcity.interface
      }
      // Messages
 
-     public void msgGotHungry() {
-           //  print("I'm hungry");
-             event = AgentEvent.gotHungry;
-             stateChanged();
-     }
 
      public void msgFollowMe(RestaurantOneMenu menu) {
              custMenu = menu;
@@ -155,32 +151,6 @@ public class RestaurantOneCustomerRole extends Role implements simcity.interface
      public boolean pickAndExecuteAnAction() {
              //        CustomerAgent is a finite state machine
 
-             if (state == AgentState.DoingNothing && event == AgentEvent.gotHungry ){
-                     state = AgentState.WaitingInRestaurant;
-                     GoToRestaurant();
-                     return true;
-             }
-
-             if (state == AgentState.Gone && event == AgentEvent.gotHungry ){
-                     state = AgentState.WaitingInRestaurant;
-                     GoToRestaurant();
-                     return true;
-             }
-
-             if (state == AgentState.WaitingInRestaurant && event == AgentEvent.gotHungry) {
-                     if(Math.random() <= StayProbability)
-                     {
-                             event = AgentEvent.decidedToWait;
-                             return true;
-                     }
-                     else 
-                     {
-                             state = AgentState.DoingNothing;
-                             event = AgentEvent.leftEarly;
-                             LeaveTableWithoutEating();
-                             return true;
-                     }
-             }
 
              if (state == AgentState.WaitingInRestaurant && event == AgentEvent.followWaiter ){
                      state = AgentState.BeingSeated;
@@ -243,12 +213,12 @@ public class RestaurantOneCustomerRole extends Role implements simcity.interface
 
      // Actions
 
-     private void GoToRestaurant() {
-             host.msgIWantFood(this);//send our instance, so he can respond to us
-     }
+  //   private void GoToRestaurant() {
+  //           host.msgIWantFood(this);//send our instance, so he can respond to us
+  //   }
 
      private void SitDown() {
-             gui.DoGoToSeat();//hack; only one table
+             //gui.DoGoToSeat();//hack; only one table
      }
 
      private void CallWaiter() {
@@ -354,20 +324,20 @@ public class RestaurantOneCustomerRole extends Role implements simcity.interface
      private void LeaveTable() {
              Do("Leaving.");
              waiter.msgLeftRestaurant(this);
-             gui.DoExitRestaurant();
+           //  gui.DoExitRestaurant();
      }
 
      private void LeaveTableWithoutEating() {
              Do ("Leaving");
-             gui.DoExitRestaurant();
+           //  gui.DoExitRestaurant();
              if (waiter != null)
                      waiter.msgLeftRestaurant(this);
              else
                      host.msgLeaving(this);
      }
      
-     public void setHost(RestaurantOneHostRole host) {
-             this.host = host;
+     public void setHost(RestaurantOneHost h) {
+    	 host = h;
      }
 
      public void setWaiter(RestaurantOneWaiterRole waiter) {
@@ -401,7 +371,7 @@ public class RestaurantOneCustomerRole extends Role implements simcity.interface
      }
 
      public RestaurantOneCustomerGui getGui() {
-             return gui;
+             return ((RestaurantOneCustomerGui)gui);
      }
 
      // If customer doesn't have enough money, he/she steals it. 
@@ -422,6 +392,8 @@ public class RestaurantOneCustomerRole extends Role implements simcity.interface
 
 
 		((RestaurantOneCustomerGui)gui).DoGoToFront();		
+		host.msgIWantFood(this);
+		
 	}
 	
 	public void msgArrivedAtRestaurant(double money) {

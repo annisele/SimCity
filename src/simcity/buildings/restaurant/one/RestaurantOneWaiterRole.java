@@ -24,7 +24,7 @@ public class RestaurantOneWaiterRole extends Role implements simcity.interfaces.
       public Semaphore DeliverFood = new Semaphore(0, true);
       public Semaphore takeOrder = new Semaphore(0, true);
       public Semaphore atCook = new Semaphore(0, true);
-      private RestaurantOneSystem restaurant;
+      private RestaurantOneSystem system;
       
       boolean FreeCustomers = false;
       boolean Asked = false;
@@ -79,9 +79,9 @@ public class RestaurantOneWaiterRole extends Role implements simcity.interfaces.
 
 
 
-      public RestaurantOneWaiterRole(PersonAgent p) {
-              super();
+      public RestaurantOneWaiterRole(PersonAgent p, RestaurantOneSystem s) {
               this.person = p;
+              this.system = s;
               this.name = p.getName();
               this.gui = new RestaurantOneWaiterGui(this);
       }
@@ -585,8 +585,8 @@ public class RestaurantOneWaiterRole extends Role implements simcity.interfaces.
 
 	@Override
 	public void enterBuilding(SimSystem s) {
-		restaurant = (RestaurantOneSystem)s;
-		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantOneWaiter: " + person.getName(), "Ready to work at the restaurant!");
+		system = (RestaurantOneSystem)s;
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(system.getName()), "RestaurantOneWaiter: " + person.getName(), "Ready to work at the restaurant!");
 
 
 		((RestaurantOneWaiterGui) gui).DoGoToHome();

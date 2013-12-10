@@ -25,25 +25,7 @@ public class RestaurantOneCustomerGui extends Gui{
 		
 	}
 	
-	@Override
-	public void updatePosition() {
-		if(xDest > x) {
-			x++;
-		}
-		else {
-			x--;
-		}
-		if(yDest > y) {
-			y++;
-		}
-		else {
-			y--;
-		}
-		if(x == xDest && y == yDest) {
-			xDest = (int) (Math.random() * 200);
-			yDest = (int) (Math.random() * 200);
-		}
-	}
+
 
 	@Override
 	public void draw(Graphics2D g) {
@@ -51,23 +33,10 @@ public class RestaurantOneCustomerGui extends Gui{
 
 	}
 
-	@Override
-	public boolean isPresent() {
-		return true;
-	}
 
-	@Override
-	public boolean contains(Point point) {
-		if(point.getX() >= x && point.getX() <= x + SIZE) {
-			if(point.y >= y && point.y <= y + SIZE) {
-				return true;
-			}
-		}
-		return false;
-	}
 
 	public void DoGoToFront() {
-		DoGoToLocation(200, 800);
+		DoGoToLocation(200, 200);
 	}
 
 	public void DoGoToSeat() {

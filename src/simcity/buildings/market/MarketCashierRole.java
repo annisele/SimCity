@@ -13,6 +13,7 @@ import simcity.Clock;
 import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
+import simcity.PersonAgent.EventType;
 import simcity.gui.market.MarketCashierGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
@@ -69,6 +70,7 @@ public class MarketCashierRole extends Role implements MarketCashier {
 
 	public void msgLeaveWork() {
 		marketState = MarketState.allWorkersGone;
+		person.scheduleEvent(EventType.Work);
 		stateChanged();
 	}
 	

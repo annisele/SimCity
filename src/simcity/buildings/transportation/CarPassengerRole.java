@@ -65,17 +65,34 @@ public class CarPassengerRole extends Role implements simcity.interfaces.transpo
 	private void Drive() {
 
 		// Animation - call to cargui
-		((CarGui) gui).DoGoTo(dir.getGarage(destination).getX(), dir.getGarage(destination).getY());
-		//((CarGui) gui).DoGoTo(100,200);
-		System.out.println(gui.getX() + " " + gui.getY());
-
+		//((CarGui) gui).DoGoTo(dir.getGarage(destination).getX(), dir.getGarage(destination).getY());
+		((CarGui) gui).DoGoTo(dir.getStreetStop(72).getX(), dir.getStreetStop(72).getY());
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			//e.printStackTrace();
+		}
+		((CarGui) gui).DoGoTo(dir.getStreetStop(34).getX(), dir.getStreetStop(34).getY());
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
 			//e.printStackTrace();
 		} 
+		((CarGui) gui).DoGoTo(dir.getStreetStop(42).getX(), dir.getStreetStop(42).getY());
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			//e.printStackTrace();
+		} 
+		/*
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			//e.printStackTrace();
+		} 
+		
 		msgWeHaveArrived(dir.getGarage(destination).getX(), dir.getGarage(destination).getY());
-		dir.getWorld().getAnimationPanel().removeGui(this.getGui());
+		dir.getWorld().getAnimationPanel().removeGui(this.getGui());*/
 		//destination = (Integer) null;
 		//UNCOMMENT LINE OF CODE BELOW ONCE MOST ERRORS BE FIXED. ARRR
 	//	passenger.msgWeHaveArrived(destination.xLoc, destination.yLoc);

@@ -15,10 +15,10 @@ public class RestaurantTwoSharedDataWaiterRole extends RestaurantTwoWaiterRole  
 		private RestaurantTwoSystem R2;
 
 private Semaphore atDest = new Semaphore(0, true);
-	    public RestaurantTwoSharedDataWaiterRole(PersonAgent person, RestaurantTwoSystem r2, RestaurantTwoComputer c) 
+	    public RestaurantTwoSharedDataWaiterRole(PersonAgent person,  RestaurantTwoComputer c) 
 	    {
-	            super(person, r2, c);
-	            this.R2=r2;
+	            super(person,  c);
+	        
 	            //this.orderWheel = orderWheel;
 	    }
 	    

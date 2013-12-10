@@ -41,12 +41,12 @@ public class RestaurantTwoHostRole extends Role implements simcity.interfaces.re
 
 	//public RestaurantTwoHostGui hostGui = null;
 
-	public RestaurantTwoHostRole(PersonAgent person, RestaurantTwoSystem r) {
+	public RestaurantTwoHostRole(PersonAgent person) {
 		super();
 		
 		this.person = person;
 		this.gui = new RestaurantTwoHostGui(this);
-		this.R2=r;
+	
 		// make some tables
 		tables =  Collections.synchronizedList(new ArrayList<Table>(NTABLES));
 		for (int ix = 1; ix <= NTABLES; ix++) {
@@ -217,8 +217,9 @@ public class RestaurantTwoHostRole extends Role implements simcity.interfaces.re
 
 	@Override
 	public void enterBuilding(SimSystem s) {
-		AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantHost: " + person.getName(),"Entering building.");
 		R2 = (RestaurantTwoSystem)s;
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantHost: " + person.getName(),"Entering building.");
+	
 		((RestaurantTwoHostGui)gui).DoGoToHostPosition();
 		try {
 			atDest.acquire();

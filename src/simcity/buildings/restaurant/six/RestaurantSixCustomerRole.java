@@ -56,7 +56,16 @@ public class RestaurantSixCustomerRole extends Role implements RestaurantSixCust
 		person = p;
 		this.gui = new RestaurantSixCustomerGui(this);		
 	}
+
+	// Messages
+	@Override
+	public void msgNoTables(int x, int y) {
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantSixCustomer: " + person.getName(), 
+				"I was told there are no tables here!");
+		
+	}
 	
+	// Scheduler
 	@Override
 	public boolean pickAndExecuteAnAction() {
 		// TODO Auto-generated method stub
@@ -64,6 +73,11 @@ public class RestaurantSixCustomerRole extends Role implements RestaurantSixCust
 				"Clayton in da sched");
 		return false;
 	}
+	
+	// Actions
+	
+	
+	// Utilities
 	
 	@Override
 	public void atDestination() {
@@ -82,22 +96,30 @@ public class RestaurantSixCustomerRole extends Role implements RestaurantSixCust
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantSixCustomer: " + person.getName(), 
 				"Can't wait to eat at this restaurant!");
 
-		//restaurant.getHost().msgIWantFood(this);
-
 		//int n = restaurant.getHost().getNumWaitingCustomers();
 
-		((RestaurantSixCustomerGui) gui).DoGoToStand();
+		((RestaurantSixCustomerGui) gui).DoGoToHost();
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
 			//e.printStackTrace();
 		}
+		
+		restaurant.getHost().msgIWantFood(this);
 
 		state = AgentState.DoingNothing;
 		event = AgentEvent.gotHungry;
 
 		stateChanged();
 	}
+
+	@Override
+	public String getCustomerName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
 
 	
 }

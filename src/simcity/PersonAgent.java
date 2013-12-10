@@ -341,26 +341,24 @@ public class PersonAgent extends Agent implements Person {
 		}
 		else if (t == EventType.WithdrawMoney) {
 			List<String> banks = Directory.getBanks();
-			if(banks.size() > 0) {
-				int index = rand.nextInt(banks.size());
-				String buildingName = banks.get(index);
-				List<Step> steps = new ArrayList<Step>();
-				steps.add(new Step("exitBuilding", this));
-				steps.add(new Step("goTo", this));
-				steps.add(new Step("enterBuilding", this));
-				Role eventR = null;
-				for(Role r : myRoles) {
-					if(r instanceof BankCustomer) {
-						eventR = r;
-					}
+			int index = rand.nextInt(banks.size());
+			String buildingName = banks.get(index);
+			List<Step> steps = new ArrayList<Step>();
+			steps.add(new Step("exitBuilding", this));
+			steps.add(new Step("goTo", this));
+			steps.add(new Step("enterBuilding", this));
+			Role eventR = null;
+			for(Role r : myRoles) {
+				if(r instanceof BankCustomer) {
+					eventR = r;
 				}
-				
-				//hack
-				((BankCustomer)eventR).hackWithdrawMoney((BankSystem)(Directory.getSystem(buildingName)));
-				e = new Event(buildingName, eventR, TWO_HOURS, -1, true, steps, t);
-
-				insertEvent(e);
 			}
+			
+			//hack
+			((BankCustomer)eventR).hackWithdrawMoney((BankSystem)(Directory.getSystem(buildingName)));
+			e = new Event(buildingName, eventR, TWO_HOURS, -1, true, steps, t);
+
+			insertEvent(e);
 			stateChanged();
 		}
 		else if (t == EventType.GetALoan) {

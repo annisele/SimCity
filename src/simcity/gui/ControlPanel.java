@@ -47,7 +47,7 @@ public class ControlPanel extends JPanel implements ActionListener {
 	//config panel elements
 	private JPanel configPanel = new JPanel();
 	private JComboBox configDropdown;
-	private String[] configStrings = new String[16];
+	private String[] configStrings = new String[22];
 	private JButton load = new JButton("Load");
 
 	//tab elements
@@ -100,6 +100,12 @@ public class ControlPanel extends JPanel implements ActionListener {
 		configStrings[13] = "Full Market";
 		configStrings[14] = "Bus Intersection Test";
 		configStrings[15] = "Full Markets and Banks";
+		configStrings[16] = "Scenario A";
+		configStrings[17] = "Scenario B";
+		configStrings[18] = "Scenario C";
+		configStrings[19] = "Scenario E";
+		configStrings[20] = "Scenario F";
+		configStrings[21] = "Scenario G";
 
 
 		configDropdown = new JComboBox(configStrings);
@@ -255,7 +261,19 @@ public class ControlPanel extends JPanel implements ActionListener {
 				config.busIntersection();
 			} else if(selection.equals(configStrings[15])) {
 				config.fullMarketAndBank();
-			}
+			} else if(selection.equals(configStrings[16])) {
+				config.scenarioA();
+			} else if(selection.equals(configStrings[17])) {
+				config.scenarioB();
+			} else if(selection.equals(configStrings[18])) {
+				config.scenarioC();
+			} else if(selection.equals(configStrings[19])) {
+				config.scenarioE();
+			} else if(selection.equals(configStrings[20])) {
+				config.scenarioF();
+			} else if(selection.equals(configStrings[21])) {
+				config.scenarioG();
+			} 
 			
 		}
 

@@ -125,7 +125,8 @@ public class RestaurantSixHostRole extends Role implements RestaurantSixHost {
 			for (Table table : tables) {
 				if (table.tableNumber == tableNumber) {
 					table.setUnoccupied();
-					AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantSixHost: " + person.getName(), "Table "+tableNumber+" is now empty.");
+					AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), 
+							"RestaurantSixHost: " + person.getName(), "Table "+tableNumber+" is now empty.");
 					stateChanged();
 				}
 			}
@@ -141,7 +142,8 @@ public class RestaurantSixHostRole extends Role implements RestaurantSixHost {
         so that table is unoccupied and customer is waiting.
         If so seat him at the table.
 		 */
-		/*
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantSixHost: " + person.getName(), 
+				"Tables size: "+tables.size()+" Waiters size: "+waiters.size()+" waitingCust size: "+waitingCustomers.size());
 		if (waiters.size() != 0) {
 			if (!waitingCustomers.isEmpty() || !waitQueue.isEmpty()) {
 				synchronized(tables){
@@ -150,14 +152,12 @@ public class RestaurantSixHostRole extends Role implements RestaurantSixHost {
 							synchronized(waitQueue){
 								if (waitQueue.peek() != null) {
 									sitAtTable(waitQueue.remove().cust, table);
-									Do("Just sat someone.  There are currently "+(waitingCustomers.size()+waitQueue.size())+" waiting.");
 									return true;
 								}
 							}
 							synchronized(waitingCustomers){
-								for (CustomerAgent c : waitingCustomers) {
+								for (RestaurantSixCustomer c : waitingCustomers) {
 									sitAtTable(c, table);
-									Do("Just sat someone.  There are currently "+(waitingCustomers.size()+waitQueue.size())+" waiting.");
 									return true;
 								}
 							}
@@ -168,14 +168,13 @@ public class RestaurantSixHostRole extends Role implements RestaurantSixHost {
 					}
 				}
 				allTablesFull = true;
-				Do("There are "+(waitingCustomers.size()+waitQueue.size())+" waiting");
 				if (waitingCustomers.size() > 0) {
 					notifyNoTables(waitingCustomers.get(0));
 				}
 				//return true;
 			}
 		}
-		 */
+		 
 		return false;
 		//we have tried all our rules and found
 		//nothing to do. So return false to main loop of abstract agent
@@ -184,8 +183,8 @@ public class RestaurantSixHostRole extends Role implements RestaurantSixHost {
 	}
 
 	// Actions
-	/*
-	private void sitAtTable(CustomerAgent customer, Table table) {
+	
+	private void sitAtTable(RestaurantSixCustomer customer, Table table) {
 		currentWaiter++;
 		currentWaiter %= waiters.size();
 		
@@ -204,10 +203,14 @@ public class RestaurantSixHostRole extends Role implements RestaurantSixHost {
 		waiters.get(currentWaiter).msgSitAtTable(customer, table.tableNumber);
 		table.setOccupant(customer);
 		waitingCustomers.remove(customer);
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantSixHost: " + person.getName(), 
+				"Just sat someone.  There are currently"+(waitingCustomers.size()+waitQueue.size())+" waiting.");
+
 	}
 	
-	private void notifyNoTables(CustomerAgent customer) {
-		Do("Sorry, " + customer.getCustomerName() + ", there are no open tables currently");
+	private void notifyNoTables(RestaurantSixCustomer customer) {
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantSixHost: " + person.getName(), 
+				"Sorry, "+customer.getCustomerName()+", there are no open tables currently");
 		synchronized(waitingAreas){
 			for (WaitingArea w : waitingAreas) {
 				if (w.empty == true) {
@@ -227,7 +230,7 @@ public class RestaurantSixHostRole extends Role implements RestaurantSixHost {
 		//waitQueue.add(w);
 		//waitQueue.add(customer);
 		waitingCustomers.remove(customer);
-	}*/
+	}
 	
 	@Override
 	public void exitBuilding() {

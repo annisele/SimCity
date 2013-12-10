@@ -67,17 +67,17 @@ public class PersonAgent extends Agent implements Person {
 	public enum EventType { Eat, GoToMarket, BusToMarket, EatAtRestaurant, EatAtHome, DepositMoney, WithdrawMoney, GetALoan, PayRent, Sleep, Work, WorkNow, CarToMarket, RobBank };
 
 	private String name;
-	private double money = 10;
+	private double money = 30;
 	private double withdrawThreshold = 10; // if money is less than this, we will try to withdraw
-	private double depositThreshold = 25; // if money is higher than this, we will try to deposit
+	private double depositThreshold = 50; // if money is higher than this, we will try to deposit
 	final int TWO_HOURS = 12;
 	private final int EIGHT_HOURS = 48;
 	final int FIRSTSLEEPDURATION = 6;
 	final int SLEEPDURATION = 48;
 	final int AWAKEDURATION = 88;
 	private boolean workClosed = false;
-	private String bankPassword;
-	private int accountNumber;
+	private String bankPassword = "abcdef";
+	private int accountNumber = (Integer) null;
 	private CarAgent car;
 	private String home;
 	private String workBuilding;
@@ -185,7 +185,11 @@ public class PersonAgent extends Agent implements Person {
 	}
 	
 	
-
+	public void setMoney(double m) {
+		money = m;
+		checkMoneyThreshold();
+	}
+	
 	public void addMoney(double m) {
 		money += m;
 		checkMoneyThreshold();
@@ -330,6 +334,8 @@ public class PersonAgent extends Agent implements Person {
 				}
 			}
 
+			
+			
 			//hack
 			((BankCustomer)eventR).hackDepositMoney((BankSystem)(Directory.getSystem(buildingName)));
 			e = new Event(buildingName, eventR, TWO_HOURS, -1, true, steps, t);
@@ -1275,5 +1281,17 @@ public class PersonAgent extends Agent implements Person {
 	
 	public List<Role> getRolesList() {
 		return myRoles;
+	}
+	
+	public double getWithdrawThreshold() {
+		return withdrawThreshold;
+	}
+	
+	public double getDepositThreshold() {
+		return depositThreshold;
+	}
+	
+	public double getMoney() {
+		return money;
 	}
 }

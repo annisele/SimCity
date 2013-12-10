@@ -1,8 +1,5 @@
 package simcity.buildings.restaurant.five;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
@@ -10,11 +7,15 @@ import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
 import simcity.gui.restaurantfive.RestaurantFiveCookGui;
+import simcity.gui.restaurantfive.RestaurantFiveWaiterGui;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.restaurant.five.RestaurantFiveCook;
 import simcity.interfaces.restaurant.five.RestaurantFiveWaiter;
 
 public class RestaurantFiveCookRole extends Role implements RestaurantFiveCook {
 
+	private RestaurantFiveSystem restaurant;
 	private Semaphore atDest = new Semaphore(0, true);
 	private List <Order> orders = Collections.synchronizedList(new ArrayList<Order>());
 //	private List<MarketAgent> markets = Collections.synchronizedList(new ArrayList<MarketAgent>());
@@ -131,7 +132,9 @@ public class RestaurantFiveCookRole extends Role implements RestaurantFiveCook {
 		synchronized(orders) {
 			for(Order o : orders) {
 				if(o.s == OrderState.pending) {
-					CookIt(o);
+					//HACK for now
+					o.s = OrderState.cooking;
+					//CookIt(o);
 					return true;
 				}
 			}
@@ -314,6 +317,16 @@ public class RestaurantFiveCookRole extends Role implements RestaurantFiveCook {
 
 	@Override
 	public void enterBuilding(SimSystem s) {
+		restaurant = (RestaurantFiveSystem)s;
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantFiveCook: " + person.getName(), "Ready to work at the restaurant!");
+		
+		((RestaurantFiveCookGui) gui).DoGoToHome();
+		
+	}
+
+	@Override
+	public void msgHereAreItems(Map<String, Integer> itemsToDeliver,
+			double change) {
 		// TODO Auto-generated method stub
 		
 	}

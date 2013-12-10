@@ -184,80 +184,24 @@ public class Config {
 		systems.addPerson("Mary");
 		systems.setHome("Mary", "HOUSE2");
 		systems.setWorkMarketCashier("Mary", "MARKET1");
-		
+		systems.setSleep("Mary");
 		systems.addPerson("Joe");
 		systems.setHome("Joe", "HOUSE1");
 		systems.setWorkMarketWorker("Joe", "MARKET1");
-		
+		systems.setSleep("Joe");
 		systems.addPerson("Tommy");
 		systems.setHome("Tommy", "HOUSE3");
-		
+		systems.setSleep("Tommy");
 		systems.addPerson("Kevin");
 		systems.setHome("Kevin", "HOUSE4");
 		systems.setWorkBankHost("Kevin", "BANK1");
-		
+		systems.setSleep("Kevin");
 		systems.addPerson("Ben");
 		systems.setHome("Ben", "HOUSE5");
 		systems.setWorkBankTeller("Ben", "BANK1");
-		
+		systems.setSleep("Ben");
 		systems.addHackedBankAccount(0, 100, 0, "abcdef");
 		
-
-		///////////////////////////
-		/*
-		
-		
-		systems.clear();
-		systems.clearDetailPane();
-
-		systems.setBackgroundOne();
-		systems.addBank("BANK1", 100, 300);
-		///////////////////////////////
-		systems.addHouse("HOUSE1", 60, 27);
-		systems.addHouse("HOUSE2", 123, 27);
-		systems.addHouse("HOUSE3", 186, 27);
-		
-		systems.addPerson("Kevin");
-		systems.setHome("Kevin", "HOUSE2");
-		systems.setWorkBankHost("Kevin", "BANK1");
-		
-		systems.addPerson("Ben");
-		systems.setHome("Ben", "HOUSE1");
-		systems.setWorkBankTeller("Ben", "BANK1");
-		
-
-		systems.addPerson("Tony");
-		systems.setHome("Tony", "HOUSE3");
-		
-		systems.addHackedBankAccount(0, 100, 0, "abcdef");
-		*/
-		/*
-		try {
-			timer1.cancel();
-			timer2.cancel();
-			timer3.cancel();
-			timer1 = new Timer();
-			timer2 = new Timer();
-			timer3 = new Timer();
-		} catch(Exception e) {
-		
-		}
-		timer1.schedule(new TimerTask() {
-			public void run() {
-				systems.setWorkBankTeller("Ben", "BANK1");
-			}
-		}, 500);
-		timer2.schedule(new TimerTask() {
-			public void run() {
-				systems.addPerson("Levonne");
-			}
-		}, 1000);
-		timer3.schedule(new TimerTask() {
-			public void run() {
-				systems.addPerson("Levanne");
-			}
-		}, 1500);
-		*/
 	}
 
 		
@@ -630,7 +574,7 @@ public class Config {
 			public void run() {
 				systems.addPerson("Hungry Jenny");
 			}
-		}, 1000);
+		}, 1200);
 		
 		timer2.schedule(new TimerTask() {
 			public void run() {
@@ -638,7 +582,7 @@ public class Config {
 				systems.addRestaurantFiveHost("Sarah", "RESTAURANT5");
 
 			}
-		}, 1600);
+		}, 1000);
 		
 		timer3.schedule(new TimerTask() {
 			public void run() {
@@ -648,7 +592,7 @@ public class Config {
 		
 		timer.schedule(new TimerTask() {
 			public void run() {
-				systems.addPerson("Hungry Clayton");
+				systems.addRestaurantFiveCook("Manny", "RESTAURANT5");
 			}
 		}, 2000);
 

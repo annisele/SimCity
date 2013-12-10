@@ -169,6 +169,11 @@ public class SystemManager {
 		people.add(person);
 		person.startThread();
 	}
+	
+	public void setSleep(String name) {
+		PersonAgent person = getPersonFromName(name);
+		person.scheduleFirstSleep();
+	}
 
 	public void addMarket(String name, int xLoc, int yLoc) {
 		MarketSystem temp = new MarketSystem(simcity);
@@ -691,14 +696,5 @@ public class SystemManager {
 	public Directory getDirectory() {
 		return dir;
 	}
-	
-	public boolean hasEarlySchedule(String building) {
-		if(building.equals("MARKET1") || building.equals("MARKET3")) {
-			return true;
-		}
-		return false;
-	}
-
-
 
 }

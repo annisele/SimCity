@@ -107,7 +107,6 @@ public class AlertLog {
 		this.sendAlert(AlertLevel.DEBUG, tag, name, message);
 	}
 	
-	
 	/**
 	 * Send an alert to the log.
 	 * 

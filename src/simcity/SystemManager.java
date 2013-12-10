@@ -165,6 +165,11 @@ public class SystemManager {
 			person.goToRestaurantFourNow();
 		}
 		
+		if (name == "Tommy") {
+			person.setBankPassword("abcdef");
+			person.setAccountNumber(0);
+		}
+		
 		people.add(person);
 		person.startThread();
 	}

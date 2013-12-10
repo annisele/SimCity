@@ -413,11 +413,11 @@ public class PersonAgent extends Agent implements Person {
 //					workTime = Clock.getTime()+(Clock.getHour()*4);
 //				}
 				if(type == TimingType.Early) {
-					workTime = 0;
+					workTime = Clock.getScheduleTime(8, 0);
 					//workTime = 8am
 				}
 				else {
-					workTime = 0;
+					workTime = Clock.getScheduleTime(13, 0);
 					//workTime = 1pm
 				}
 				if (home == null || home.equals("")) {
@@ -448,22 +448,21 @@ public class PersonAgent extends Agent implements Person {
 				sleepTime = Clock.getTime();
 				//sleepDuration = FIRSTSLEEPDURATION;//6;
 				if(type == TimingType.Early) {
-					sleepDuration = 0;
+					sleepDuration = 3;
 					//sleepDuration = 30 minutes
 				}
 				else {
-					sleepDuration = 0;
+					sleepDuration = 3*6;
 					//sleepDuration = 3 hours
 				}
 			}
 			else {
 				//sleepTime = Clock.getTime() + AWAKEDURATION;
 				if(type == TimingType.Early) {
-					sleepTime = 0;
-					//sleepTime = 9:30
+					sleepTime = Clock.getScheduleTime(9, 30);
 				}
 				else {
-					sleepTime = 0;
+					sleepTime = Clock.getScheduleTime(0, 0);
 					//sleepTime = midnight
 				}
 				sleepDuration = SLEEPDURATION;//48; // 8 * 6 = 8 * (6 * 10 min) = 8 hours

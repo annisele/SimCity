@@ -4,8 +4,9 @@ public class Clock {
 	
 	static int currentTime;
 	static long startTime = System.currentTimeMillis();
-	
-	public class time{
+	public static enum DayOfWeek {MON, TUE, WED, THU, FRI, SAT, SUN};
+
+	public class time {
 		int day;
 		int hour;
 		int min;
@@ -65,6 +66,25 @@ public class Clock {
 		return day;
 	}
 	
+	public static DayOfWeek getDayOfTheWeek() {
+		int d = 0;
+		DayOfWeek day = DayOfWeek.SUN;
+		currentTime = (int) ((System.currentTimeMillis() - startTime) / tenMinuteLength) + 6*5;
+
+		d = (int)((currentTime / (6*24))%7);
+		
+		if (d == 0) day = DayOfWeek.MON;
+		else if (d == 1) day = DayOfWeek.TUE;
+		else if (d == 2) day = DayOfWeek.WED;
+		else if (d == 3) day = DayOfWeek.THU;
+		else if (d == 4) day = DayOfWeek.FRI;
+		else if (d == 5) day = DayOfWeek.SAT;
+		else if (d == 6) day = DayOfWeek.SUN;
+		
+		return day;
+		
+	}
+	
 	
 	public static int getHour() {
 		int h = 0;
@@ -82,6 +102,7 @@ public class Clock {
 
 		return t;
 	}
+	
 	
 	public static int hoursInMillis(int hours) {
 		// Our current standard is 1 hour = 2000 ms
@@ -114,6 +135,9 @@ public class Clock {
 		if (h >= 13) {
 			h = h-12;
 		}
+		if (h == 0) {
+			h = 12;
+		}
 		
 		String time = (getDayString() + "  "+ h + ":" + min + "  " + ampm);
 		
@@ -139,6 +163,9 @@ public class Clock {
 		}
 		if (h >= 13) {
 			h = h-12;
+		}
+		if (h == 0) {
+			h = 12;
 		}
 		
 		String time = (getDayString() + "  "+ h + ":" + min + "  " + ampm);

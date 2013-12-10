@@ -141,6 +141,7 @@ public class SystemManager {
 		WorldAnimationPanel w = (WorldAnimationPanel)world.getAnimationPanel();
 		w.setBackgroundThree();
 		dir.makeParkingStructure1();
+		dir.makeStreets();
 	}
 
 	public void addPerson(String name) {
@@ -175,6 +176,7 @@ public class SystemManager {
 				}
 			}
 		}
+		
 		if (name == "Levonne") {
 			person.goToBankNow();
 		}

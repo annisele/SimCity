@@ -48,14 +48,6 @@ import simcity.interfaces.transportation.Pedestrian;
 import agent.Agent;
 
 
-
-/**
- * ISSUES: It adds GoToMarket event, then does the first step (ExitBuilding),
- *  so person is now a pedestrian gui. However, it never goes on to the next step
- *  so it never sets the pedestrian's destination. It only calls event.nextStep once
- *  for some reason.
- */
-
 public class PersonAgent extends Agent implements Person {
 
 	private Random rand = new Random();
@@ -447,8 +439,16 @@ public class PersonAgent extends Agent implements Person {
 			}
 			else {
 				int offSet = 0;
+				
 				if(currentEvent != null && currentEvent.type == EventType.Work) {
-					offSet = 6 * 24; //24 hours
+					//if tomorrow is a weekend (today is Fri or Sat), schedule work for monday
+					if((Clock.getDayOfTheWeek() == Clock.DayOfWeek.FRI) || (Clock.getDayOfTheWeek() == Clock.DayOfWeek.SAT)) {
+						offSet = 6 * 24 * 3; //3 * 24 hours
+					}
+					//if you are working, schedule work for tomorrow
+					else {
+						offSet = 6 * 24; //24 hours
+					}
 				}
 				if(type == TimingType.Early) {
 					workTime = Clock.getScheduleTime(8, 0) + offSet;
@@ -619,7 +619,7 @@ public class PersonAgent extends Agent implements Person {
 				eventR = r;
 			}
 		}
-		for (int i = 0; i<6; i++) {
+		for (int i = 1; i<=6; i++) {
 			int tempX = Directory.getGarage(i).getX()-eventR.getGui().getX();
 			double tempX2 = Math.pow(tempX, 2);
 			int tempY = Directory.getGarage(i).getY()-eventR.getGui().getY();
@@ -631,6 +631,7 @@ public class PersonAgent extends Agent implements Person {
 				minGarage = i;
 			}
 		}
+		System.out.println("Garage: " + minGarage);
 		return minGarage;
 		
 	}
@@ -700,7 +701,7 @@ public class PersonAgent extends Agent implements Person {
 		double minLocation = 1000;
 		int minGarage = 10;
 		
-		for (int i = 0; i<6; i++) {
+		for (int i = 1; i<=6; i++) {
 			int tempX = Directory.getGarage(i).getX()-Directory.getLocation(dest).getX();
 			double tempX2 = Math.pow(tempX, 2);
 			int tempY = Directory.getGarage(i).getY()-Directory.getLocation(dest).getY();
@@ -784,7 +785,7 @@ public class PersonAgent extends Agent implements Person {
 				((CarGui) ((CarPassengerRole) r).getGui()).setLocation(xCar, yCar);
 				Directory.getWorld().getAnimationPanel().addGui(currentRole.getGui());
 				System.out.println("Driving to now...");
-				((CarPassengerRole)r).msgDriveTo(findGarage(currentEvent.buildingName), getClosestGarage(currentEvent.buildingName) );
+				((CarPassengerRole)r).msgDriveTo(startingGarage, endingGarage);
 			}
 		}
 		
@@ -816,7 +817,7 @@ public class PersonAgent extends Agent implements Person {
 			currentRole = currentEvent.role;
 			currentRole.enterBuilding(Directory.getSystem(currentEvent.buildingName));	
 			
-			AlertLog.getInstance().logMessage(AlertTag.WORLD, "Pedestrian: "+name, "Entering building" + currentEvent.buildingName );						
+			AlertLog.getInstance().logMessage(AlertTag.WORLD, "Pedestrian: "+name, "Entering building: " + currentEvent.buildingName );						
 
 		}
 		else {

@@ -81,8 +81,10 @@ Member Contributions
 
 ####Clayton Brand: 
 #####V2: 
-  + Worked on the PersonAgent so that it now schedules events correctly and with repetition.  Events like eating, sleeping, and working will now be scheduled every day, ad infinitum.
-  + Worked on the clock more to accomodate the planning of PersonAgent's schedule.
+  + Worked with Rebecca on the PersonAgent so that it now schedules events correctly and with repetition.  Worked on a lot of event planning in HouseInhabitant and person.  Events like eating, sleeping, and working will now be scheduled every day, ad infinitum.  Created flexible and inflexible events.  
+  + Worked with Rebecca on creating a scenario in which people have houses and work at a market.  Finished completing the market - person - house inhabitant interaction so that the house's food stock is updated once people buy food from a market.
+  + Implemented draging of the WorldAnimationPanel so that we can fit more buildings into our SimCity.
+  + Worked on the clock more to accommodate the planning of PersonAgent's schedule.
   + Made a ControlPanel for the house which displays info.
 
 #####V1:
@@ -119,7 +121,6 @@ Member Contributions
   + Redesigned how to schedule the non-flexible events of sleeping and going to work (which are supposed to be done around a certain time). This involved changes to Person Agent's scheduler and clock.
   + Created a scenario for market where every person, including the cashier and market worker, have homes. In v1, they would just go straight to work and never eat or sleep, but now they function as normal people, as well as go to work when it's time. This structure of adding jobs to people, as opposed to using a hack to create a person who only works and doesn't act like a full person, paved the way for similar scenarios for bank and restaurant.
   + I implemented my restaurant, Restaurant Five. This included integrating it into Sim City, getting messaging between agents to work in Sim City, redoing animation (all the GUI files) so that it looks good in Sim City, and adding code so it works with the trace panels and control panel.
-
 
 #####V1:
   + I created the original design documents and interaction diagrams for the market scenarios, and collaborated with Jenny to finalize them. The design doc for “Person Orders Items” was left unfinished becasue it became a non-norm. Kevin updated the interaction diagrams and design docs to match my code right before turning in V1.

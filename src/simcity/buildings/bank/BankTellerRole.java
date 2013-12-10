@@ -20,10 +20,11 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 	// data
 	// from PersonAgent
 	private String name;
-
+	private double robbery_money;
 	// set in Bank
 	//private BankComputer bank;	// bank system that contains account info for people
 	private BankHost bankHost;
+	private BankRobber robber;
 	private BankSystem bankSystem;
 	private List<MyCustomer> customers = Collections.synchronizedList(new ArrayList<MyCustomer>());		// list of customers
 	private List<MyCustomerInDebt> debtCustomers = Collections.synchronizedList(new ArrayList<MyCustomerInDebt>()); // list of bank customers in debt
@@ -42,6 +43,7 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 		this.person = person;
 		this.gui = new BankTellerGui(this);
 		this.bankSystem = bank;
+		this.robbery_money=0;
 	}
 	public List getCustomers() {
 		return customers;
@@ -103,6 +105,11 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 		customers.get(0).setTransactionState(transactionState.processed);
 		stateChanged();
 	}
+	public void msgShowMeTheMoney(BankRobber br,int money){
+		this.robber=br;
+		robbery_money=money;
+		stateChanged();
+	}
 	
 	// scheduler
 
@@ -113,7 +120,10 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 			GoToWindow();
 			return true;
 		}
-		
+		if(robbery_money>0){
+			ProcessBankRobbery();
+			return false;
+		}
 		synchronized(customers) {
 			if (!customers.isEmpty()) {
 
@@ -328,6 +338,10 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 				customer.getAmountToProcess());
 		bankSystem.getBankComputer().reinitializeTempAccount();
 		customers.remove(customer);
+	}
+	private void ProcessBankRobbery(){
+		bankSystem.getBankComputer().stealCashInBank(robbery_money);
+		robber.msgHereIsYourMoney(robbery_money);
 	}
 	
 	// animation DoXYZ

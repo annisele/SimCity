@@ -604,6 +604,7 @@ public class SystemManager {
 
 	public void addRestaurantThreeHost(String name, String rest) {
 		PersonAgent person = new PersonAgent(name);
+		
 		world.getAnimationPanel().addGui(person.getIdleGui());
 		Role r3Host = new RestaurantThreeHostRole(person);
 		person.addWork(r3Host, rest);

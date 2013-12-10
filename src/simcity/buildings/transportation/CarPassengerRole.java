@@ -65,8 +65,8 @@ public class CarPassengerRole extends Role implements simcity.interfaces.transpo
 	private void Drive() {
 
 		// Animation - call to cargui
-		//(CarGui) gui).DoGoTo(dir.getGarage(destination).getX(), dir.getGarage(destination).getY());
-		((CarGui) gui).DoGoTo(1,2);
+		((CarGui) gui).DoGoTo(dir.getGarage(destination).getX(), dir.getGarage(destination).getY());
+		//((CarGui) gui).DoGoTo(100,200);
 		System.out.println(gui.getX() + " " + gui.getY());
 
 		try {
@@ -75,6 +75,7 @@ public class CarPassengerRole extends Role implements simcity.interfaces.transpo
 			//e.printStackTrace();
 		} 
 		msgWeHaveArrived(dir.getGarage(destination).getX(), dir.getGarage(destination).getY());
+		dir.getWorld().getAnimationPanel().removeGui(this.getGui());
 		//destination = (Integer) null;
 		//UNCOMMENT LINE OF CODE BELOW ONCE MOST ERRORS BE FIXED. ARRR
 	//	passenger.msgWeHaveArrived(destination.xLoc, destination.yLoc);
@@ -87,7 +88,7 @@ public class CarPassengerRole extends Role implements simcity.interfaces.transpo
 		// Animation
 		//DoRedrawAt(xLoc, yLoc); 
 		person.setPedestrianRoleLocation(xLoc, yLoc);
-
+		person.roleFinished();
 	}
 	
 	public void DoDisableGui() {

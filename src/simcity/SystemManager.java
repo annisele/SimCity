@@ -52,6 +52,7 @@ public class SystemManager {
 	List<BuildingGui> buildings = new ArrayList<BuildingGui>();
 	List<BusGui> busGuis = Collections.synchronizedList(new ArrayList<BusGui>());
 	List<PersonAgent> people = new ArrayList<PersonAgent>();
+	List<CarGui> carGuis = Collections.synchronizedList(new ArrayList<CarGui>());
 
 	public SystemManager(SimCityGui g) {
 		simcity = g;
@@ -141,6 +142,7 @@ public class SystemManager {
 		
 		if(name == "Gosling") {
 			person.carToMarketNow();
+			
 		}
 		if (name == "Levonne") {
 			person.goToBankNow();

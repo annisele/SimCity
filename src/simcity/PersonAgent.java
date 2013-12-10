@@ -740,6 +740,7 @@ public class PersonAgent extends Agent implements Person {
 		for (Role r : myRoles) {
 			if (r instanceof CarPassengerRole ) {
 				currentRole = r;
+				Directory.getWorld().getAnimationPanel().addGui(currentRole.getGui());
 				System.out.println("Driving to now...");
 				((CarPassengerRole)r).msgDriveTo(findGarage(currentEvent.buildingName), getClosestGarage(currentEvent.buildingName) );
 			}

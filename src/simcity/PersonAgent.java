@@ -76,8 +76,9 @@ public class PersonAgent extends Agent implements Person {
 	final int SLEEPDURATION = 48;
 	final int AWAKEDURATION = 88;
 	private boolean workClosed = false;
+	private String registeredBank = null;
 	private String bankPassword = "abcdef";
-	private int accountNumber = (Integer) null;
+	private int accountNumber = -1;
 	private CarAgent car;
 	private String home;
 	private String workBuilding;
@@ -318,11 +319,18 @@ public class PersonAgent extends Agent implements Person {
 
 		else if (t == EventType.DepositMoney) {
 
-			List<String> banks = Directory.getBanks();
+			if (registeredBank == null) {
+				List<String> banks = Directory.getBanks();
 
-			//Do("We're Depositing, and banks size is "+banks.size());
-			int index = rand.nextInt(banks.size());
-			String buildingName = banks.get(index);
+				int index = rand.nextInt(banks.size());
+				String buildingName = banks.get(index);
+				registeredBank = buildingName;
+			}
+			else {
+				String buildingName = registeredBank;
+			}
+			
+			
 			List<Step> steps = new ArrayList<Step>();
 			steps.add(new Step("exitBuilding", this));
 			steps.add(new Step("goTo", this));
@@ -337,8 +345,8 @@ public class PersonAgent extends Agent implements Person {
 			
 			
 			//hack
-			((BankCustomer)eventR).hackDepositMoney((BankSystem)(Directory.getSystem(buildingName)));
-			e = new Event(buildingName, eventR, TWO_HOURS, -1, true, steps, t);
+			//((BankCustomer)eventR).hackDepositMoney((BankSystem)(Directory.getSystem(buildingName)));
+			e = new Event(registeredBank, eventR, TWO_HOURS, -1, true, steps, t);
 
 			insertEvent(e);
 			stateChanged();

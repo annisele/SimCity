@@ -48,14 +48,6 @@ import simcity.interfaces.transportation.Pedestrian;
 import agent.Agent;
 
 
-
-/**
- * ISSUES: It adds GoToMarket event, then does the first step (ExitBuilding),
- *  so person is now a pedestrian gui. However, it never goes on to the next step
- *  so it never sets the pedestrian's destination. It only calls event.nextStep once
- *  for some reason.
- */
-
 public class PersonAgent extends Agent implements Person {
 
 	private Random rand = new Random();

@@ -53,5 +53,6 @@ public abstract interface BankCustomer extends GuiPartner {
 	public abstract void hackWithdrawMoney(BankSystem b);
 	public abstract void hackPayRent(BankSystem b);
 	public abstract void hackGetLoan(BankSystem b);
+	public abstract void msgBankIsBeingRobbed();
 	
 }

@@ -10,6 +10,7 @@ public class Config {
 	private Timer timer1 = new Timer();
 	private Timer timer2 = new Timer();
 	private Timer timer3 = new Timer();
+	private Timer timer4 = new Timer();
 	private Timer timer = new Timer();
 	private SystemManager systems;
 
@@ -202,9 +203,14 @@ public class Config {
 		systems.setSleep("Ben");
 		systems.addHackedBankAccount(0, 100, 0, "abcdef");
 		
-	}
-
 		
+		timer4.schedule(new TimerTask() {
+			public void run() {
+				//systems.addPerson("Bank Robber");
+			}
+		}, 4000);
+
+	}
 	
 
 	public void oneRestaurant() {
@@ -574,7 +580,7 @@ public class Config {
 			public void run() {
 				systems.addPerson("Hungry Jenny");
 			}
-		}, 1000);
+		}, 1200);
 		
 		timer2.schedule(new TimerTask() {
 			public void run() {
@@ -582,7 +588,7 @@ public class Config {
 				systems.addRestaurantFiveHost("Sarah", "RESTAURANT5");
 
 			}
-		}, 1600);
+		}, 1000);
 		
 		timer3.schedule(new TimerTask() {
 			public void run() {

@@ -6,6 +6,7 @@ import simcity.SimSystem;
 import simcity.buildings.bank.BankHostRole;
 import simcity.interfaces.*;
 import simcity.interfaces.bank.BankCustomer;
+import simcity.interfaces.bank.BankRobber;
 import simcity.interfaces.bank.BankTeller;
 import simcity.test.mock.EventLog;
 import simcity.test.mock.LoggedEvent;
@@ -104,6 +105,12 @@ public class MockBankTeller extends Mock implements BankTeller {
 	public List getCustomerInDebt() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void msgShowMeTheMoney(BankRobber br, int money) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

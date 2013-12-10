@@ -11,6 +11,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import simcity.buildings.bank.BankCustomerRole;
+import simcity.buildings.bank.BankRobberRole;
 import simcity.buildings.bank.BankSystem;
 import simcity.buildings.house.HouseInhabitantRole;
 import simcity.buildings.market.MarketCustomerRole;
@@ -32,8 +33,10 @@ import simcity.buildings.transportation.PedestrianRole;
 import simcity.gui.IdlePersonGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
+import simcity.gui.transportation.CarGui;
 import simcity.interfaces.Person;
 import simcity.interfaces.bank.BankCustomer;
+import simcity.interfaces.bank.BankRobber;
 import simcity.interfaces.house.HouseInhabitant;
 import simcity.interfaces.market.MarketCustomer;
 import simcity.interfaces.restaurant.five.RestaurantFiveCustomer;
@@ -66,13 +69,14 @@ public class PersonAgent extends Agent implements Person {
 	private Role currentRole = null;
 	private Event currentEvent = null;
 
-	public enum EventType { Eat, GoToMarket, BusToMarket, EatAtRestaurant, EatAtHome, DepositMoney, WithdrawMoney, GetALoan, PayRent, Sleep, Work, WorkNow, CarToMarket };
+	public enum EventType { Eat, GoToMarket, BusToMarket, EatAtRestaurant, EatAtHome, DepositMoney, WithdrawMoney, GetALoan, PayRent, Sleep, Work, WorkNow, CarToMarket, RobBank };
 
 	private String name;
 	private double money = 10;
 	private double withdrawThreshold = 10; // if money is less than this, we will try to withdraw
 	private double depositThreshold = 25; // if money is higher than this, we will try to deposit
-	final int TWOHOURS = 12;
+	final int TWO_HOURS = 12;
+	private final int SIX_HOURS = 36;
 	final int FIRSTSLEEPDURATION = 6;
 	final int SLEEPDURATION = 48;
 	final int AWAKEDURATION = 88;
@@ -91,6 +95,9 @@ public class PersonAgent extends Agent implements Person {
 		HouseInhabitantRole h = new HouseInhabitantRole(this);
 		MarketCustomerRole m = new MarketCustomerRole(this);
 		BankCustomerRole b = new BankCustomerRole(this);
+
+		BankRobberRole br = new BankRobberRole(this);
+
 		CarPassengerRole cpr = new CarPassengerRole(this);
 
 		BusPassengerRole bp = new BusPassengerRole(this);
@@ -104,6 +111,7 @@ public class PersonAgent extends Agent implements Person {
 		myRoles.add(h);
 		myRoles.add(m);
 		myRoles.add(b);
+		myRoles.add(br);
 		myRoles.add(bp);
 		myRoles.add(r1);
 		myRoles.add(r2);
@@ -273,7 +281,7 @@ public class PersonAgent extends Agent implements Person {
 				}
 			} 
 
-			e = new Event(buildingName, eventR, TWOHOURS, -1, true, steps, t);
+			e = new Event(buildingName, eventR, TWO_HOURS, -1, true, steps, t);
 			//Do("GoToMarket is scheduled, which has "+steps.size()+" steps");
 			insertEvent(e);
 			stateChanged();
@@ -290,6 +298,7 @@ public class PersonAgent extends Agent implements Person {
 			steps.add(new Step("goToParkingGarage", this));
 			steps.add(new Step("driveTo", this));
 			steps.add(new Step("goTo", this));
+			steps.add(new Step("enterBuilding", this));
 			//steps.add(new Step("goTo", this));
 			//steps.add(new Step("enterBuilding", this));
 			
@@ -300,7 +309,7 @@ public class PersonAgent extends Agent implements Person {
 					
 				}
 			}
-			e = new Event(buildingName, eventR, TWOHOURS, -1, true, steps, t);
+			e = new Event(buildingName, eventR, TWO_HOURS, -1, true, steps, t);
 			insertEvent(e);
 			stateChanged();
 
@@ -326,7 +335,7 @@ public class PersonAgent extends Agent implements Person {
 
 			//hack
 			((BankCustomer)eventR).hackDepositMoney((BankSystem)(Directory.getSystem(buildingName)));
-			e = new Event(buildingName, eventR, TWOHOURS, -1, true, steps, t);
+			e = new Event(buildingName, eventR, TWO_HOURS, -1, true, steps, t);
 
 			insertEvent(e);
 			stateChanged();
@@ -351,7 +360,7 @@ public class PersonAgent extends Agent implements Person {
 				
 				//hack
 				((BankCustomer)eventR).hackWithdrawMoney((BankSystem)(Directory.getSystem(buildingName)));
-				e = new Event(buildingName, eventR, TWOHOURS, -1, true, steps, t);
+				e = new Event(buildingName, eventR, TWO_HOURS, -1, true, steps, t);
 
 				insertEvent(e);
 			}
@@ -373,10 +382,37 @@ public class PersonAgent extends Agent implements Person {
 			}
 			//hack
 			((BankCustomer)eventR).hackGetLoan((BankSystem)(Directory.getSystem(buildingName)));
-			e = new Event(buildingName, eventR, TWOHOURS, -1, true, steps, t);
+			e = new Event(buildingName, eventR, TWO_HOURS, -1, true, steps, t);
 
 			insertEvent(e);
 			stateChanged();
+		}
+		else if (t == EventType.RobBank) {
+
+			List<String> banks = Directory.getBanks();
+
+			//Do("We're Depositing, and banks size is "+banks.size());
+			int index = rand.nextInt(banks.size());
+			String buildingName = banks.get(index);
+			List<Step> steps = new ArrayList<Step>();
+			steps.add(new Step("exitBuilding", this));
+			steps.add(new Step("goTo", this));
+			steps.add(new Step("enterBuilding", this));
+			Role eventR = null;
+			for(Role r : myRoles) {
+				if(r instanceof BankRobber) {
+					eventR = r;
+				}
+			}
+
+			//hack
+			((BankRobber)eventR).hackRobBank((BankSystem)(Directory.getSystem(buildingName)));
+			e = new Event(buildingName, eventR, TWO_HOURS, -1, true, steps, t);
+
+			insertEvent(e);
+			stateChanged();
+
+
 		}
 		else if (t == EventType.PayRent) {
 			List<String> banks = Directory.getBanks();
@@ -394,7 +430,7 @@ public class PersonAgent extends Agent implements Person {
 			}
 			//hack
 			((BankCustomer)eventR).hackPayRent((BankSystem)(Directory.getSystem(buildingName)));
-			e = new Event(buildingName, eventR, TWOHOURS, -1, true, steps, t);
+			e = new Event(buildingName, eventR, TWO_HOURS, -1, true, steps, t);
 
 			insertEvent(e);
 			stateChanged();
@@ -424,7 +460,7 @@ public class PersonAgent extends Agent implements Person {
 				}
 			}
 
-			e = new Event(workBuilding, workRole, Clock.getHour()*6, workTime, false, steps, t);
+			e = new Event(workBuilding, workRole, SIX_HOURS, workTime, false, steps, t);
 			//Do("GoToWork is scheduled, which has "+steps.size()+" steps");
 			insertEvent(e);
 			stateChanged();
@@ -469,7 +505,6 @@ public class PersonAgent extends Agent implements Person {
 			e = new Event(home, house, sleepDuration, sleepTime, false, steps, t);
 			AlertLog.getInstance().logDebug(AlertTag.WORLD, "Person: "+getName(), 
 					"I'm going to sleep at "+Clock.getDebugTime(sleepTime)+" and it's currently "+Clock.getTime());						
-			System.out.println("Sleep");
 
 			insertEvent(e);
 			stateChanged();
@@ -492,7 +527,7 @@ public class PersonAgent extends Agent implements Person {
 				}
 			}
 			house.msgNeedToEat();
-			e = new Event(home, house, TWOHOURS, -1, true, steps, t);
+			e = new Event(home, house, TWO_HOURS, -1, true, steps, t);
 			insertEvent(e);
 			stateChanged();
 		}
@@ -546,7 +581,7 @@ public class PersonAgent extends Agent implements Person {
 			
 
 			
-			e = new Event(buildingName, eventR, TWOHOURS, -1, true, steps, t);
+			e = new Event(buildingName, eventR, TWO_HOURS, -1, true, steps, t);
 			insertEvent(e);
 			stateChanged();
 		}
@@ -716,6 +751,7 @@ public class PersonAgent extends Agent implements Person {
 			}
 		}
 		Location loc = Directory.getGarage(findGarage(currentEvent.buildingName));
+		//Location loc = Directory.getGarage(2);
 		((PedestrianRole)currentRole).addDestination(loc);
 		System.out.println("Destination has been added, going to garage");
 		stateChanged();
@@ -738,6 +774,12 @@ public class PersonAgent extends Agent implements Person {
 		for (Role r : myRoles) {
 			if (r instanceof CarPassengerRole ) {
 				currentRole = r;
+				int startingGarage = findGarage(currentEvent.buildingName);
+				int endingGarage = getClosestGarage(currentEvent.buildingName);
+				int xCar = Directory.getGarage(startingGarage).getX();
+				int yCar = Directory.getGarage(startingGarage).getY();
+				((CarGui) ((CarPassengerRole) r).getGui()).setLocation(xCar, yCar);
+				Directory.getWorld().getAnimationPanel().addGui(currentRole.getGui());
 				System.out.println("Driving to now...");
 				((CarPassengerRole)r).msgDriveTo(findGarage(currentEvent.buildingName), getClosestGarage(currentEvent.buildingName) );
 			}
@@ -948,6 +990,9 @@ public class PersonAgent extends Agent implements Person {
 
 	public void goToBankNow() {
 		this.scheduleEvent(EventType.WithdrawMoney);
+	}
+	public void goRobBankNow() {
+		this.scheduleEvent(EventType.RobBank);
 	}
 	public void goToRestaurantThreeNow() {
 		this.scheduleEvent(EventType.EatAtRestaurant);
@@ -1210,5 +1255,9 @@ public class PersonAgent extends Agent implements Person {
 	
 	public void setAccountNumber(int accountNumber) {
 		this.accountNumber = accountNumber;
+	}
+	
+	public List<Role> getRolesList() {
+		return myRoles;
 	}
 }

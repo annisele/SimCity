@@ -5,8 +5,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
+import simcity.Clock;
 import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
@@ -17,6 +20,7 @@ import simcity.interfaces.market.MarketCashier;
 import simcity.interfaces.market.MarketCustomer;
 import simcity.interfaces.market.MarketOrderer;
 import simcity.interfaces.market.MarketPayer;
+import simcity.interfaces.market.MarketWorker;
 import simcity.test.mock.EventLog;
 import simcity.test.mock.LoggedEvent;
 
@@ -29,6 +33,9 @@ public class MarketCashierRole extends Role implements MarketCashier {
 	public int workerIndex = 0;
 	public int truckIndex = 0;
 	public EventLog log = new EventLog();
+	public enum MarketState {running, closed, allWorkersGone};
+	public MarketState marketState = MarketState.running;
+	Timer timer = new Timer();
 	public class MarketOrder {
 		int orderNumber;
 		MarketOrderer deliverRole;
@@ -55,7 +62,16 @@ public class MarketCashierRole extends Role implements MarketCashier {
 	public void atDestination() {
 		atDest.release();
 	}
+	
+	public MarketState getMarketState() {
+		return marketState;
+	}
 
+	public void msgLeaveWork() {
+		marketState = MarketState.allWorkersGone;
+		stateChanged();
+	}
+	
 	@Override
 	public void msgHereIsAnOrder(MarketOrderer mc1, MarketPayer mc2, Map<String, Integer> items) {
 		synchronized(orders) {
@@ -135,6 +151,9 @@ public class MarketCashierRole extends Role implements MarketCashier {
 		if(order3 != null) {
 			DeliverOrder(order3);
 			return true;
+		}
+		if(marketState == MarketState.allWorkersGone) {
+			exitBuilding();
 		}
 		return false;
 	}
@@ -250,6 +269,20 @@ public class MarketCashierRole extends Role implements MarketCashier {
 	public void enterBuilding(SimSystem s) {
 		market = (MarketSystem)s;
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(market.getName()), "MarketCashier: " + person.getName(), "Entering the market.");
+		
+		timer.schedule(new TimerTask() {
+			public void run() {
+				List<MarketWorker> workers = market.getWorkers();
+				marketState = MarketState.closed;
+				AlertLog.getInstance().logDebug(AlertTag.valueOf(market.getName()), "MarketCashier: " + person.getName(), 
+						"setting to CLOSED. " + person.getCurrentEventDuration() +
+						", " + person.getCurrentEvent().toString());
+				for(MarketWorker w : workers) {
+					w.msgFinishWorking();
+				}
+			}
+		}, Clock.tenMinutesInMillis(person.getCurrentEventDuration()));
+		
 		((MarketCashierGui)gui).DoGoToCenter();
 		try {
 			atDest.acquire();

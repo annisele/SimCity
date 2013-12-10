@@ -6,9 +6,12 @@ import java.util.List;
 import java.util.Map;
 
 import simcity.Role;
+import simcity.buildings.market.MarketCashierRole.MarketState;
 import simcity.gui.SimCityGui;
 import simcity.gui.market.MarketAnimationPanel;
 import simcity.gui.market.MarketControlPanel;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.market.MarketCashier;
 import simcity.interfaces.market.MarketCustomer;
 import simcity.interfaces.market.MarketTruck;
@@ -67,6 +70,8 @@ public class MarketSystem extends simcity.SimSystem {
 	
 	@Override
 	public boolean msgEnterBuilding(Role role) {
+		AlertLog.getInstance().logMessage(AlertTag.valueOf("MARKET1"), "MarketSYSTEM: ", 
+				"Someone trying to enter: " + role.toString());
 		if(role instanceof MarketCashier) {
 			if (cashier == null) {
 				cashier = (MarketCashier) role;
@@ -74,7 +79,7 @@ public class MarketSystem extends simcity.SimSystem {
 				return true;
 			}
 		}
-		else if (cashier != null) {
+		else if (cashier != null && cashier.getMarketState() == MarketState.running) {
 			if(role instanceof MarketWorker) {
 				workers.add((MarketWorker) role);
 				animationPanel.addGui(role.getGui());
@@ -99,6 +104,9 @@ public class MarketSystem extends simcity.SimSystem {
 		}
 		else if(role instanceof MarketWorker) {
 			workers.remove((MarketWorker) role);
+			if(workers.size() == 0 && cashier.getMarketState() == MarketState.closed) {
+				cashier.msgLeaveWork();
+			}
 		}
 		else if(role instanceof MarketTruck) {
 			trucks.remove((MarketTruck) role);

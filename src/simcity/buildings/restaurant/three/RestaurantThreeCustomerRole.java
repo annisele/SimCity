@@ -6,6 +6,7 @@
 package simcity.buildings.restaurant.three;
 
 import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
 import simcity.PersonAgent;
@@ -51,7 +52,7 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
 		return person.getName();
 	}
 
-	public void msgSitAtTable(RestaurantThreeWaiter w, int tableNum) {
+	public void msgFollowMeToTable(RestaurantThreeWaiter w, int tableNum) {
 		waiter = w;
 		event = CustomerEvent.seated;
 		stateChanged();
@@ -94,17 +95,28 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
 			  callWaiter();
 			  return true;
 		  }
+		  if (state == CustomerState.WaiterCalled && event == CustomerEvent.waiterToTakeOrder) {
+			  state = CustomerState.WaitingForFood;
+			  orderFood();
+			  return true;
+		  }
 		return false;
 	}
 	//actions
 	private void meetHost() {
+		int n = rest.getRestaurantThreeHost().getWaitingCustomers();
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(rest.getName()), "Restaurant 3 Customer: " + person.getName(), "Num waiting customers: " + n);
+		
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(rest.getName()), "Restaurant 3 Customer: " + person.getName(),"Table please ?");
-		((RestaurantThreeCustomerGui) gui).DoGoToHost();
+		((RestaurantThreeCustomerGui) gui).DoGoToHost(n);
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
 			
 		}
+		
+		stateChanged();
+		//System.out.println("HI");
 		
 	}
 	private void getSeated() {
@@ -113,12 +125,18 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
          try {
      		atDest.acquire();
      	} catch (InterruptedException e) {
-     		//e.printStackTrace();
+     		
      	}
  		AlertLog.getInstance().logMessage(AlertTag.valueOf(rest.getName()), "Restaurant 3 Customer: " + person.getName(), "I am at table " + tableNumber);
- 	
+ 		stateChanged();
 	}
 	private void callWaiter() {
+		waiter.msgGetMyOrder(this);
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(rest.getName()), "Restaurant 3 Customer: " + person.getName(), "I'm ready to order.");
+	}
+	private void orderFood() {
+		waiter.msgHereIsMyChoice(this, choice);
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(rest.getName()), "Restaurant 3 Customer: " + person.getName(), "I want " + choice);
 		
 	}
 	@Override
@@ -155,7 +173,7 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
 		this.bh = bh;
 	}
 	public void setWaiter(RestaurantThreeWaiter w) {
-		this.waiter = waiter;
+		this.waiter = w;
 	}
 	public void setCashier(RestaurantThreeCashier ca) {
 		this.ca = ca;
@@ -172,10 +190,5 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
 	public void setTableNumber(int tableNumber) {
 		this.tableNumber = tableNumber;
 	}
-	@Override
-	public void msgFollowMeToTable(
-			RestaurantThreeWaiter restaurantThreeWaiterRole, int tableNumber) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 }

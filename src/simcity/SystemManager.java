@@ -15,14 +15,39 @@ import simcity.buildings.market.MarketCashierRole;
 import simcity.buildings.market.MarketSystem;
 import simcity.buildings.market.MarketTruckAgent;
 import simcity.buildings.market.MarketWorkerRole;
-import simcity.buildings.restaurant.one.*;
-import simcity.buildings.restaurant.six.*;
-import simcity.buildings.restaurant.two.*;
-import simcity.buildings.restaurant.three.*;
-import simcity.buildings.restaurant.four.*;
-import simcity.buildings.restaurant.five.*;
+import simcity.buildings.restaurant.five.RestaurantFiveCookRole;
+import simcity.buildings.restaurant.five.RestaurantFiveHostRole;
+import simcity.buildings.restaurant.five.RestaurantFiveSystem;
+import simcity.buildings.restaurant.five.RestaurantFiveWaiterRole;
+import simcity.buildings.restaurant.four.RestaurantFourCookRole;
+import simcity.buildings.restaurant.four.RestaurantFourHostRole;
+import simcity.buildings.restaurant.four.RestaurantFourSystem;
+import simcity.buildings.restaurant.four.RestaurantFourWaiterRole;
+import simcity.buildings.restaurant.one.RestaurantOneCashierRole;
+import simcity.buildings.restaurant.one.RestaurantOneCookRole;
+import simcity.buildings.restaurant.one.RestaurantOneHostRole;
+import simcity.buildings.restaurant.one.RestaurantOneSystem;
+import simcity.buildings.restaurant.one.RestaurantOneWaiterRole;
+import simcity.buildings.restaurant.six.RestaurantSixCashierRole;
+import simcity.buildings.restaurant.six.RestaurantSixCookRole;
+import simcity.buildings.restaurant.six.RestaurantSixHostRole;
+import simcity.buildings.restaurant.six.RestaurantSixSystem;
+import simcity.buildings.restaurant.six.RestaurantSixWaiterRole;
+import simcity.buildings.restaurant.three.RestaurantThreeCashierRole;
+import simcity.buildings.restaurant.three.RestaurantThreeCookRole;
+import simcity.buildings.restaurant.three.RestaurantThreeHostRole;
+import simcity.buildings.restaurant.three.RestaurantThreeSystem;
+import simcity.buildings.restaurant.three.RestaurantThreeWaiterRole;
+import simcity.buildings.restaurant.two.RestaurantTwoCashierRole;
+import simcity.buildings.restaurant.two.RestaurantTwoComputer;
+import simcity.buildings.restaurant.two.RestaurantTwoCookRole;
+import simcity.buildings.restaurant.two.RestaurantTwoHostRole;
+import simcity.buildings.restaurant.two.RestaurantTwoSharedDataWaiterRole;
+import simcity.buildings.restaurant.two.RestaurantTwoSystem;
+import simcity.buildings.restaurant.two.RestaurantTwoWaiterRole;
 import simcity.buildings.transportation.BusAgent;
 import simcity.buildings.transportation.CarAgent;
+import simcity.buildings.transportation.PedestrianRole;
 import simcity.buildings.transportation.TransportationSystem;
 import simcity.gui.BuildingGui;
 import simcity.gui.SimCityGui;
@@ -142,7 +167,13 @@ public class SystemManager {
 		
 		if(name == "Gosling") {
 			person.carToMarketNow();
-			
+			synchronized(person.getRolesList()) {
+				for(Role r : person.getRolesList()) {
+					if (r instanceof PedestrianRole) {
+						((PedestrianRole) r).getGui().setLocation(700, 700);
+					}
+				}
+			}
 		}
 		if (name == "Levonne") {
 			person.goToBankNow();

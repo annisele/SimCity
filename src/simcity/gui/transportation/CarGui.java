@@ -58,6 +58,10 @@ public class CarGui extends Gui {
 		atDestNow = false;
 	}
 
+	public void setLocation(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
 
 	
 /*	public void clear() {

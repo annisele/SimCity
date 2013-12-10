@@ -32,6 +32,7 @@ import simcity.buildings.transportation.PedestrianRole;
 import simcity.gui.IdlePersonGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
+import simcity.gui.transportation.CarGui;
 import simcity.interfaces.Person;
 import simcity.interfaces.bank.BankCustomer;
 import simcity.interfaces.house.HouseInhabitant;
@@ -289,6 +290,7 @@ public class PersonAgent extends Agent implements Person {
 			steps.add(new Step("goToParkingGarage", this));
 			steps.add(new Step("driveTo", this));
 			steps.add(new Step("goTo", this));
+			steps.add(new Step("enterBuilding", this));
 			//steps.add(new Step("goTo", this));
 			//steps.add(new Step("enterBuilding", this));
 			
@@ -718,6 +720,7 @@ public class PersonAgent extends Agent implements Person {
 			}
 		}
 		Location loc = Directory.getGarage(findGarage(currentEvent.buildingName));
+		//Location loc = Directory.getGarage(2);
 		((PedestrianRole)currentRole).addDestination(loc);
 		System.out.println("Destination has been added, going to garage");
 		stateChanged();
@@ -740,6 +743,11 @@ public class PersonAgent extends Agent implements Person {
 		for (Role r : myRoles) {
 			if (r instanceof CarPassengerRole ) {
 				currentRole = r;
+				int startingGarage = findGarage(currentEvent.buildingName);
+				int endingGarage = getClosestGarage(currentEvent.buildingName);
+				int xCar = Directory.getGarage(startingGarage).getX();
+				int yCar = Directory.getGarage(startingGarage).getY();
+				((CarGui) ((CarPassengerRole) r).getGui()).setLocation(xCar, yCar);
 				Directory.getWorld().getAnimationPanel().addGui(currentRole.getGui());
 				System.out.println("Driving to now...");
 				((CarPassengerRole)r).msgDriveTo(findGarage(currentEvent.buildingName), getClosestGarage(currentEvent.buildingName) );
@@ -1213,5 +1221,9 @@ public class PersonAgent extends Agent implements Person {
 	
 	public void setAccountNumber(int accountNumber) {
 		this.accountNumber = accountNumber;
+	}
+	
+	public List<Role> getRolesList() {
+		return myRoles;
 	}
 }

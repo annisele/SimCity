@@ -766,28 +766,48 @@ public class Config {
 
 		systems.setBackgroundTwo();
 		systems.addRestaurantSix("RESTAURANT6", 249, 140);
+		
+		
+		try {
+			timer1.cancel();
+			timer2.cancel();
+			timer3.cancel();
+			timer.cancel();
+			timer1 = new Timer();
+			timer2 = new Timer();
+			timer3 = new Timer();
+			timer = new Timer();
+		} catch(Exception e) {
+		
+		}
+		
 		systems.addRestaurantSixHost("Timothy", "RESTAURANT6");
+
+		timer2.schedule(new TimerTask() {
+			public void run() {
+				//systems.addRestaurantFiveWaiter("Bob", "RESTAURANT5");
+				systems.addRestaurantSixWaiter("Bob", "RESTAURANT6");
+			}
+		}, 1000);
+		
+		timer3.schedule(new TimerTask() {
+			public void run() {
+				systems.addRestaurantSixCashier("Charlie", "RESTAURANT6");
+			}
+		}, 1300);
 		
 		timer.schedule(new TimerTask() {
 			public void run() {
-				//systems.addPerson("Five");
-				timer.schedule(new TimerTask() {
-					public void run() {
-						systems.addRestaurantSixWaiter("Bob", "RESTAURANT6");
-						timer.schedule(new TimerTask() {
-							public void run() {
-								systems.addRestaurantSixCashier("Charlie", "RESTAURANT6");
-								timer.schedule(new TimerTask() {
-									public void run() {
-										systems.addRestaurantSixCook("Hernando", "RESTAURANT6");
-									}
-								}, 1000);
-							}
-						}, 1000);
-					}
-				}, 2000);
+				systems.addRestaurantSixCook("Hernando", "RESTAURANT6");
 			}
-		}, 4000);
+		}, 1400);
+		
+		timer1.schedule(new TimerTask() {
+			public void run() {
+				systems.addPerson("Hungry Clayton");
+			}
+		}, 2200);
+
 
 	}
 

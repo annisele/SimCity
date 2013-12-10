@@ -21,6 +21,8 @@ import simcity.buildings.restaurant.four.RestaurantFourCustomerRole;
 import simcity.buildings.restaurant.four.RestaurantFourSystem;
 import simcity.buildings.restaurant.one.RestaurantOneCustomerRole;
 import simcity.buildings.restaurant.one.RestaurantOneSystem;
+import simcity.buildings.restaurant.six.RestaurantSixCustomerRole;
+import simcity.buildings.restaurant.six.RestaurantSixSystem;
 import simcity.buildings.restaurant.three.RestaurantThreeCustomerRole;
 import simcity.buildings.restaurant.three.RestaurantThreeSystem;
 import simcity.buildings.restaurant.two.RestaurantTwoCustomerRole;
@@ -42,6 +44,7 @@ import simcity.interfaces.market.MarketCustomer;
 import simcity.interfaces.restaurant.five.RestaurantFiveCustomer;
 import simcity.interfaces.restaurant.four.RestaurantFourCustomer;
 import simcity.interfaces.restaurant.one.RestaurantOneCustomer;
+import simcity.interfaces.restaurant.six.RestaurantSixCustomer;
 import simcity.interfaces.restaurant.three.RestaurantThreeCustomer;
 import simcity.interfaces.restaurant.two.RestaurantTwoCustomer;
 import simcity.interfaces.transportation.Pedestrian;
@@ -98,7 +101,7 @@ public class PersonAgent extends Agent implements Person {
 		RestaurantThreeCustomerRole r3 = new RestaurantThreeCustomerRole(this);
 		RestaurantFourCustomerRole r4 = new RestaurantFourCustomerRole(this);
 		RestaurantFiveCustomerRole r5 = new RestaurantFiveCustomerRole(this);
-		//RestaurantSixCustomerRole r6 = new RestaurantSixCustomerRole(this);
+		RestaurantSixCustomerRole r6 = new RestaurantSixCustomerRole(this);
 		myRoles.add(p);
 		myRoles.add(h);
 		myRoles.add(m);
@@ -110,6 +113,7 @@ public class PersonAgent extends Agent implements Person {
 		myRoles.add(r3);
 		myRoles.add(r4);
 		myRoles.add(r5);
+		myRoles.add(r6);
 		myRoles.add(cpr);
 		
 		money = 5.0 + 15*rand.nextDouble(); //$5-$20
@@ -231,6 +235,7 @@ public class PersonAgent extends Agent implements Person {
 			List<Step> steps = new ArrayList<Step>();
 			steps.add(new Step("exitBuilding", this));
 			steps.add(new Step("goTo", this));
+			//chooseTransportation();
 			steps.add(new Step("enterBuilding", this));
 			Role eventR = null;
 			for(Role r : myRoles) {
@@ -569,6 +574,13 @@ public class PersonAgent extends Agent implements Person {
 			else if(Directory.getSystem(buildingName) instanceof RestaurantFourSystem) {
 				for(Role r : myRoles) {
 					if(r instanceof RestaurantFourCustomer) {
+						eventR = r;
+					}
+				}
+			}
+			else if(Directory.getSystem(buildingName) instanceof RestaurantSixSystem) {
+				for(Role r : myRoles) {
+					if(r instanceof RestaurantSixCustomer) {
 						eventR = r;
 					}
 				}

@@ -78,6 +78,8 @@ public class RestaurantSixHostRole extends Role implements RestaurantSixHost {
 	// Messages
 	@Override
 	public void msgIWantFood(RestaurantSixCustomer cust) {
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), 
+				"RestaurantSixHost: " + person.getName(), "A customer wants to be seated.");
 		waitingCustomers.add(cust);
 		stateChanged();
 	}
@@ -236,7 +238,8 @@ public class RestaurantSixHostRole extends Role implements RestaurantSixHost {
 	@Override
 	public void enterBuilding(SimSystem s) {
 		restaurant = (RestaurantSixSystem)s;
-		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantSixHost: " + person.getName(), "Ready to work at the restaurant!");
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), 
+				"RestaurantSixHost: " + person.getName(), "Ready to work at the restaurant!");
 		
 		((RestaurantSixHostGui) gui).DoGoToStand();
 		

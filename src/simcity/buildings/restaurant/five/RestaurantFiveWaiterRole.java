@@ -152,7 +152,6 @@ public class RestaurantFiveWaiterRole extends Role implements RestaurantFiveWait
 	public void msgReadyToOrder(RestaurantFiveCustomer c) {
 		try {
 			for(MyCustomer mc : customers) {
-
 				if(mc.c == c) {
 					mc.s = CustomerState.askedToOrder;
 					stateChanged();
@@ -449,7 +448,7 @@ public class RestaurantFiveWaiterRole extends Role implements RestaurantFiveWait
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
-		Do("Taking order.");
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantFiveWaiter: " + person.getName(), "Taking " + c.c.getName() + "'s order.");
 		((RestaurantFiveWaiterGui)gui).DoGoToTable(c.table);
 		try {
 			atDest.acquire();
@@ -464,7 +463,7 @@ public class RestaurantFiveWaiterRole extends Role implements RestaurantFiveWait
 
 	private void SendOrderToCook(MyCustomer c) {
 		restaurant.getCook().msgHereIsAnOrder(this, c.choice, c.table);
-		Do("Sending order " + c.choice + " from table " + c.table + " to cook.");
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantFiveWaiter: " + person.getName(), "Sending order " + c.choice + " from table " + c.table + " to cook for " + c.c.getName() + ".");
 		c.s = CustomerState.orderSent;
 	}
 

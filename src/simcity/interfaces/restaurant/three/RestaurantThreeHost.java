@@ -22,8 +22,7 @@ public interface RestaurantThreeHost extends GuiPartner {
 
 	public abstract int getWaitingCustomers();
 
-	public abstract void msgWaiterReadyForWork(
-			RestaurantThreeWaiter restaurantThreeWaiterRole);
+	
 
 
 

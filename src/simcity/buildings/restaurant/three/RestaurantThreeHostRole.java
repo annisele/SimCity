@@ -1,7 +1,6 @@
 package simcity.buildings.restaurant.three;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
@@ -30,23 +29,24 @@ public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost
 	private int waiterIndex = 0;
 	int tablesOccupiedCounter;
 	int waiterAvailable = 0;
+	private Table tables[];
 	public enum HostState {informed, uninformed};
 	public  EventLog log = new EventLog();
 	private enum WaiterState {onBreak, work, requestBreak};
 	private List<MyWaiter> waiters = Collections.synchronizedList(new ArrayList<MyWaiter>());
-	private String name;
-	private RestaurantThreeCashier ca;
 	private Semaphore atDest = new Semaphore(0, true);
-	private static Collection<Table> tables;
+	//private static Collection<Table> tables;
 	private List<RestaurantThreeCustomer> waitingCustomers = Collections.synchronizedList(new ArrayList<RestaurantThreeCustomer>());
 	private RestaurantThreeSystem system;
 
 	private class Table {
 		RestaurantThreeCustomer occupiedBy;
 		int tableNumber;
+		boolean occupied;
 		
-		Table(int tableNumber) {
-			this.tableNumber = tableNumber;		
+		Table(int tableNum) {
+			this.tableNumber = tableNum;
+			this.occupied = false;
 		}
 
 		void setOccupant(RestaurantThreeCustomer cust) {
@@ -79,11 +79,18 @@ public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost
 	public RestaurantThreeHostRole(PersonAgent p) {
 		person = p;
 		this.gui = new RestaurantThreeHostGui(this);
+		/*
 		tables = Collections.synchronizedList(new ArrayList<Table>(numTable));
 		synchronized(tables) {
 			for (int i = 1; i <= numTable; i++) {
 				tables.add(new Table(i));
 			}
+		}
+		*/
+		tables = new Table[numTable];
+
+		for(int i=0; i < numTable; i++){
+		    tables[i] = new Table(i);
 		}
 	}
 	
@@ -111,7 +118,17 @@ public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(system.getName()), "Restaurant 3 Host: " + person.getName(), "Alerting customer that restaurant is full.");
 		cust.msgRestaurantFull();
 	}
-
+	public void msgTableIsFree(int tableNum) {
+		tablesOccupiedCounter--;
+		
+		for (Table table : tables) {
+				table.setUnoccupied();
+				stateChanged();
+				
+		}
+		tables[tableNum].occupied = false;
+		stateChanged();
+	}
 
 	@Override
 	public boolean pickAndExecuteAnAction() {
@@ -201,11 +218,10 @@ public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost
 	}
 
 
-	@Override
-	public void msgWaiterReadyForWork(
-			RestaurantThreeWaiter restaurantThreeWaiterRole) {
-		// TODO Auto-generated method stub
-		
-	}
+
+
+
+
+
 
 }

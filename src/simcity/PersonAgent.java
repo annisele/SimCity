@@ -100,6 +100,7 @@ public class PersonAgent extends Agent implements Person {
 		myRoles.add(m);
 		myRoles.add(b);
 		myRoles.add(bp);
+		myRoles.add(r1);
 		myRoles.add(r2);
 		myRoles.add(r3);
 		myRoles.add(r4);

@@ -53,7 +53,6 @@ public class CarGui extends Gui {
 	
 	public void DoGoTo(int x, int y) {
 		//atDestNow = false;
-		System.out.println("In DoGoTo");
 		DoGoToLocation(x, y);
 		atDestNow = false;
 	}

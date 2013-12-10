@@ -165,7 +165,8 @@ public class Config {
 			systems.addHouse("HOUSE1", 398 + 2*xIslandOffset, 246 + yIslandOffset);
 	
 			// Third row
-			systems.addBank("BANK1", 181 + 2*xIslandOffset, 338 + yIslandOffset);
+			//systems.addBank("BANK1", 181 + 2*xIslandOffset, 338 + yIslandOffset);
+			systems.addMarket("MARKET1", 181 + 2*xIslandOffset, 338 + yIslandOffset);
 			systems.addHouse("HOUSE15", 253 + 2*xIslandOffset, 338 + yIslandOffset);
 			systems.addHouse("HOUSE16", 326 + 2*xIslandOffset, 338 + yIslandOffset);
 			systems.addHouse("HOUSE17", 398 + 2*xIslandOffset, 338 + yIslandOffset);

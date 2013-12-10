@@ -9,6 +9,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
+import simcity.Clock;
 import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
@@ -320,6 +321,10 @@ class mycustomer {
 					}
 				}, 8000);
 			}
+		}
+		if(Clock.getHour()>16){
+			Do("OOOOOOOOOOOOOOOOOOOOOO");
+		exitBuilding();
 		}
 		try{
 		for (mycustomer c : customers) {

@@ -13,12 +13,15 @@ public class RestaurantThreeWaiterGui extends Gui {
 	private final int HOST_X = 290;
 	private final int HOST_Y = 370;
 	
-	private final int WAITER_X = 195;
+	private final int WAITER_X = 185;
 	private final int WAITER_Y = 370;
 	
+	
+	private final int COOK_X = 320;
+	private final int COOK_Y = 140;
+
 	public static final int WAITING_X = 85;
 	public static final int WAITING_Y = 410;
-	
 
 	public static final int TABLE1_X = 80;
 	public static final int TABLE1_Y = 290;
@@ -58,6 +61,22 @@ public class RestaurantThreeWaiterGui extends Gui {
 		else if (tableNumber == 2) {
 			DoGoToLocation(TABLE3_X, TABLE3_Y);
 		}
+	}
+
+	public void DoTakeOrder(int tableNumber) {
+		if (tableNumber == 0) {
+			DoGoToLocation(TABLE1_X, TABLE1_Y);
+		}
+		else if (tableNumber == 1) {
+			DoGoToLocation(TABLE2_X, TABLE2_Y);
+		}
+		else if (tableNumber == 2) {
+			DoGoToLocation(TABLE3_X, TABLE3_Y);
+		}
+	}
+
+	public void DoGoToCook() {
+		DoGoToLocation(COOK_X, COOK_Y);
 	}
 	
 }

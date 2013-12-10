@@ -1,6 +1,7 @@
 package simcity.buildings.restaurant.three;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.List;
@@ -29,10 +30,40 @@ public class RestaurantThreeCookRole extends Role implements RestaurantThreeCook
 	private RestaurantThreeHost host;
 	private RestaurantThreeCashier cashier;
 	private Timer timer = new Timer();
-	//private List<Order> myOrders = new ArrayList<Order>();
+    private Map<String, FoodData> food = new HashMap<String, FoodData>();
+	public enum Status {haventcooked, cooking, done, notenough, waitingforsupply}; 
+	private List<Order> orders = Collections.synchronizedList(new ArrayList<Order>());
 	private List<RestaurantThreeWaiter> waiters = new ArrayList<RestaurantThreeWaiter>();
-	//private List<MyMarket> markets = new ArrayList<MyMarket>();
-	
+	//private List<MyMarket> markets = ollections.synchronizedList(new ArrayList<MyMarket>());
+	private class FoodData {
+		String type;
+		int cookTime;
+		int amount;
+		
+		public FoodData(String type, int cookTime, int amount) {
+			this.type = type;
+			this.cookTime = cookTime;
+		    this.amount = amount;
+		}
+	}
+	private class Order {
+		 RestaurantThreeWaiter waiter;
+		 int tableNum;
+		 String choice;
+		 Status status;
+		 RestaurantThreeFood food;
+		
+		 public Order(RestaurantThreeWaiter waiter, int tableNum, String choice) {
+			 this.waiter = waiter;
+			 this.choice = choice;
+			 this.tableNum = tableNum;
+			 this.status = Status.haventcooked;
+		 }
+		 public String toString() {
+			 return choice + " for " + waiter;
+		 }
+	}
+
 	private Semaphore atDest = new Semaphore(0, true);
 	public enum OrderState { pending, cooking, cooked, plated, taken }
 	private Map<String, Integer> cookingTimes = new HashMap<String, Integer>();
@@ -52,11 +83,15 @@ public class RestaurantThreeCookRole extends Role implements RestaurantThreeCook
 
 	@Override
 	public void atDestination() {
-		// TODO Auto-generated method stub
-		
+		atDest.release();
 	}
 
 
+	@Override
+	public void msgHereIsAnOrder(RestaurantThreeWaiter waiter, int tableNum,String choice) {
+		orders.add(new Order(waiter, tableNum, choice));
+		stateChanged();
+	}
 	@Override
 	public boolean pickAndExecuteAnAction() {
 		// TODO Auto-generated method stub
@@ -83,5 +118,7 @@ public class RestaurantThreeCookRole extends Role implements RestaurantThreeCook
 			
 		}
 	}
+
+
 
 }

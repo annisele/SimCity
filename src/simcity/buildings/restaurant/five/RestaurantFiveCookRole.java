@@ -23,7 +23,7 @@ public class RestaurantFiveCookRole extends Role implements RestaurantFiveCook {
 //	private List<FailedOrder> fOrders = Collections.synchronizedList(new ArrayList<FailedOrder>());
 //	private Map<String, List<MarketAgent>> outOfStock = new HashMap<String, List<MarketAgent>>();
 	private enum OrderState { pending, cooking, done, finished, terminated };
-//	private Timer timer = new Timer();
+	private Timer timer = new Timer();
 	private Map<String, Food> foods = Collections.synchronizedMap(new HashMap<String, Food>());
 //	private String name;
 //	private int marketIndex = 0;
@@ -85,6 +85,8 @@ public class RestaurantFiveCookRole extends Role implements RestaurantFiveCook {
 	
 	@Override
 	public void atDestination() {
+		//AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantFiveCook: " + person.getName(), "ATDESTFUNCTION: " + atDest.availablePermits());
+
 		atDest.release();
 	}
 	
@@ -99,12 +101,12 @@ public class RestaurantFiveCookRole extends Role implements RestaurantFiveCook {
 		stateChanged();
 	}
 
-//	//sent when timer is done
-//	public void msgFoodDone(Order o) {
-//		o.s = OrderState.done;
-//		stateChanged();
-//	}
-//	
+	//sent when timer is done
+	public void msgFoodDone(Order o) {
+		o.s = OrderState.done;
+		stateChanged();
+	}
+	
 //	public void msgPickedUpFood() {
 //		gui.removeFromCounter();
 //	}
@@ -121,20 +123,20 @@ public class RestaurantFiveCookRole extends Role implements RestaurantFiveCook {
 
 	@Override
 	public boolean pickAndExecuteAnAction() {
-//		synchronized(orders) {
-//			for(Order o : orders) {
-//				if(o.s == OrderState.done) {
-//					PlateIt(o);
-//					return true;
-//				}
-//			}
-//		}
+		synchronized(orders) {
+			for(Order o : orders) {
+				if(o.s == OrderState.done) {
+					PlateIt(o);
+					return true;
+				}
+			}
+		}
 		synchronized(orders) {
 			for(Order o : orders) {
 				if(o.s == OrderState.pending) {
 					//HACK for now
 					o.s = OrderState.cooking;
-					//CookIt(o);
+					CookIt(o);
 					return true;
 				}
 			}
@@ -161,85 +163,92 @@ public class RestaurantFiveCookRole extends Role implements RestaurantFiveCook {
 		
 		return false;
 	}
-//
-//	private void PlateIt(Order o) {
-//		//to pick up food
-//		gui.DoMoveToStove();
-//		try {
-//			atDest.acquire();
-//		} catch (InterruptedException e) {
-//			e.printStackTrace();
-//		}
-//		gui.carryPlate = true;
-//		//to drop off food
-//		Do("Plating " + o.choice + ".");
-//		gui.DoPlateIt();
-//		System.out.print("");
-//		try {
-//			atDest.acquire();
-//		} catch (InterruptedException e) {
-//			e.printStackTrace();
-//		}
+
+	private void PlateIt(Order o) {
+		//to pick up food
+		((RestaurantFiveCookGui) gui).DoMoveToStove();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			
+		}
+	//	gui.carryPlate = true;
+		//to drop off food
+		Do("Plating " + o.choice + ".");
+		((RestaurantFiveCookGui) gui).DoGoToCounter();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+		}
 //		while(!gui.atDestination()) {
 //			System.out.print("");
 //		}
 //		gui.carryPlate = false;
 //		gui.addToCounter();
-//		//gui.DoMoveToHome();
-//		o.w.msgOrderIsReady(o.choice, o.table);
-//		o.s = OrderState.finished;
-//	}
-//
-//	private void CookIt(final Order o) {
-//		//DoCooking(o);
-//		Food f = foods.get(o.choice);
-//		if(f.amount < f.lowThresh) {
-//			//do nothing for now
-//		}
-//		if(f.amount <= 0) {
+		//gui.DoMoveToHome();
+		o.w.msgOrderIsReady(o.choice, o.table);
+		o.s = OrderState.finished;
+	}
+
+	private void CookIt(final Order o) {
+		//DoCooking(o);
+		Food f = foods.get(o.choice);
+		if(f.amount < f.lowThresh) {
+			//do nothing for now
+		}
+		if(f.amount <= 0) {
+			AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantFiveCook: " + person.getName(), "Out of that food.");
 //			o.w.msgOutOfFood(o.choice, o.table);
 //			o.s = OrderState.terminated;
 //			Do("Out of " + o.choice);
-//		}
-//		else {
-//			Do("Cooking " + o.choice + ".");
-//			gui.DoGoToRefrigerator();
-//			System.out.print("");
-//			try {
-//				atDest.acquire();
-//			} catch (InterruptedException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//			while(!gui.atDestination()) {
-//				System.out.print("");
-//			}
-//			gui.carryFood = true;
-//			f.amount--;
-//			o.s = OrderState.cooking;
-//			gui.DoMoveToStove();
-//			try {
-//				atDest.acquire();
-//			} catch (InterruptedException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//			while(!gui.atDestination()) {
-//				System.out.print("");
-//			}
+		}
+		else {
+			DoCookFood();
+			f.amount--;
+			o.s = OrderState.cooking;
+			AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantFiveCook: " + person.getName(), "Cooking " + o.choice + ".");
+
 //			gui.carryFood = false;
 //			gui.addToStove();
-//			timer.schedule(new TimerTask() {
-//				public void run() {
-//					msgFoodDone(o);
-//					gui.removeFromStove();
-//				}
-//			},
-//			foods.get(o.choice).cookingTime); //how long to wait before running task
-//		}
-//		OrderFoodFromMarket();
+			timer.schedule(new TimerTask() {
+				public void run() {
+					msgFoodDone(o);
+					//gui.removeFromStove();
+				}
+			},
+			foods.get(o.choice).cookingTime); //how long to wait before running task
+		}
+		//OrderFoodFromMarket();
+	}
+	
+	private void DoCookFood() {
+	//	AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantFiveCook: " + person.getName(), "ATDEST: " + atDest.availablePermits());
+
+		((RestaurantFiveCookGui) gui).DoGoToRefrigerator();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+
+		}		
+		((RestaurantFiveCookGui) gui).DoGoToHome();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+
+		}
+		((RestaurantFiveCookGui) gui).DoMoveToStove();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+
+		}
+		
+//		while(!gui.atDestination()) {
+//		System.out.print("");
 //	}
-//
+//	gui.carryFood = true;
+	}
+	
 //	private void HandleFailedOrder(FailedOrder f) {
 //		fOrders.remove(f);
 //

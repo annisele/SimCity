@@ -172,6 +172,15 @@ public class Config {
 			systems.addHouse("HOUSE17", 398 + 2*xIslandOffset, 338 + yIslandOffset);
 		
 			systems.addPerson("Gosling");
+			systems.addPerson("Gosling");
+			systems.addPerson("Gosling");
+			systems.addPerson("Gosling");
+			systems.addPerson("Gosling");
+			systems.addPerson("RyanG");
+			systems.addPerson("RyanG");
+			systems.addPerson("RyanG");
+			systems.addPerson("RyanG");
+			systems.addPerson("RyanG");
 		//systems.setWorkMarketWorker("Gosling", "MARKET2");
 	}
 
@@ -374,17 +383,17 @@ public class Config {
 		systems.addHouse("HOUSE3", 186, 27);
 		systems.addHouse("HOUSE4", 249, 27);
 		systems.addHouse("HOUSE5", 312, 27); 
-		
+		/*
 		systems.addPerson("Conor oberst");
 		systems.setHome("Conor oberst", "HOUSE2");
 		systems.setWorkRestaurantTwoCashier("Conor oberst", "RESTAURANT2");
 		systems.setSleep("Conor oberst");
-		
+		*/
 		systems.addPerson("Kanye");
 		systems.setHome("Kanye", "HOUSE1");
 		systems.setWorkRestaurantTwoHost("Kanye", "RESTAURANT2");
 		systems.setSleep("Kanye");
-		
+		/*
 		systems.addPerson("Red");
 		systems.setHome("Red", "HOUSE3");
 		systems.setWorkRestaurantTwoCook("Red", "RESTAURANT2");
@@ -397,7 +406,8 @@ public class Config {
 		systems.addPerson("Kong");
 		systems.setHome("Kong", "HOUSE5");
 		systems.setWorkRestaurantTwoWaiter("Kong", "RESTAURANT2");
-		systems.setSleep("Kong");
+		systems.setSleep("Kong");*/
+	
 	}
 		
 		
@@ -669,11 +679,7 @@ public class Config {
 								timer.schedule(new TimerTask() {
 									public void run() {
 										systems.addPerson("Hungry Harry");
-										timer.schedule(new TimerTask() {
-											public void run() {
-												systems.addPerson("Hungry Aaron");
-											}
-										}, 2000);
+										
 									}
 								}, 1000);
 							}

@@ -1,66 +1,60 @@
 package simcity.buildings.transportation;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
-
-import simcity.gui.transportation.IntersectionGui;
 
 public class Intersection {
 
-	private IntersectionGui gui;
-	private int x;
-	private int y;
+	private int number;
 	private Semaphore stoplight = new Semaphore(1, true);
+	private Timer timer = new Timer();
+	private List<Object> vehicles = Collections.synchronizedList(new ArrayList<Object>());
 	
 	// Constructor
-	public Intersection(int x, int y) {
-		this.gui = new IntersectionGui(x, y);
-		this.x = x;
-		this.y = y;
+	public Intersection(int number) {
+		this.number = number;
 	}
 	
 	// Accessors
-	public IntersectionGui getGui() {
-		return gui;
+	public int getIntersectionNumber() {
+		return number;
 	}
 	
-	public void setGui(IntersectionGui gui) {
-		this.gui = gui;
-	}
-	
-	public int getX() {
-		return x;
-	}
-	
-	public void setX(int x) {
-		this.x = x;
-	}
-	
-	public int getY() {
-		return y;
-	}
-	
-	public void setY(int y) {
-		this.y = y;
+	public void setIntersectionNumber(int number) {
+		this.number = number;
 	}
 	
 	// Functions
 	public void vehicleWantsToCross(Object vehicle) {
+		vehicles.add(vehicle);
 		try {
     		stoplight.acquire();
     	} catch (InterruptedException e) {
     		
     	}
 		
-		if (vehicle instanceof CarAgent) {
-			
-		}
-		else if (vehicle instanceof BusAgent) {
-			((BusAgent) vehicle).atDestination();
-		}
+		timer.schedule(new TimerTask() {
+			public void run() {
+				vehicleHasCrossed();
+			}
+		}, 1500);
+	}
+	
+	public void vehicleCrossing() {
+		
 	}
 	
 	public void vehicleHasCrossed() {
 		stoplight.release();
+		Object tempVehicle = vehicles.get(0);
+		if (tempVehicle instanceof CarPassengerRole) {
+			((CarPassengerRole) tempVehicle).atDestination();
+		}
+		vehicles.remove(tempVehicle);
 	}
 	
 }

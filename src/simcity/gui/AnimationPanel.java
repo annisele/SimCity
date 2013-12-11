@@ -77,16 +77,16 @@ public class AnimationPanel extends JPanel implements ActionListener{
 						System.out.println("Clicked a "+g.getClass().getName());
 						
 						if(g instanceof MarketCashierGui) {
-						//	AlertLog.getInstance().logInfo(AlertTag.MARKET_CASHIER, "Mouse", "You clicked a " + g.getClass().getSimpleName() + "!");
+						AlertLog.getInstance().logInfo(AlertTag.WORLD, "Mouse", "You clicked a " + g.getClass().getSimpleName() + "!");
 						}
 						else if(g instanceof MarketCustomerGui) {
-							//AlertLog.getInstance().logInfo(AlertTag.MARKET_CUSTOMER, "Mouse", "You clicked a " + g.getClass().getSimpleName() + "!");
+							AlertLog.getInstance().logInfo(AlertTag.WORLD, "Mouse", "You clicked a " + g.getClass().getSimpleName() + "!");
 						}
 						else if(g instanceof MarketWorkerGui) {
-							//AlertLog.getInstance().logInfo(AlertTag.MARKET_WORKER, "Mouse", "You clicked a " + g.getClass().getSimpleName() + "!");
+							AlertLog.getInstance().logInfo(AlertTag.WORLD, "Mouse", "You clicked a " + g.getClass().getSimpleName() + "!");
 						}
 						else if(g instanceof IdlePersonGui) {
-							//AlertLog.getInstance().logInfo(AlertTag.IDLE_PERSON, "Mouse", "You clicked a " + g.getClass().getSimpleName() + "!");
+							AlertLog.getInstance().logInfo(AlertTag.WORLD, "Mouse", "You clicked a " + g.getClass().getSimpleName() + "!");
 						}
 
 						//controlPanel.updateSelected(g.getPerson());

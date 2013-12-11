@@ -14,6 +14,8 @@ public interface RestaurantThreeWaiter extends GuiPartner{
 	public abstract void msgGetMyOrder(
 			RestaurantThreeCustomer restaurantThreeCustomerRole);
 	public abstract void msgHereIsMyChoice(RestaurantThreeCustomer restaurantThreeCustomerRole,String choice);
+	public abstract void msgCheckPlease(
+			RestaurantThreeCustomer restaurantThreeCustomerRole);
 
 }
 

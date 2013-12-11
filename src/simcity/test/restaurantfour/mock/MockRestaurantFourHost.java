@@ -6,6 +6,7 @@ import simcity.PersonAgent;
 import simcity.SimSystem;
 import simcity.buildings.restaurant.four.RestaurantFourHostRole.Status;
 import simcity.buildings.restaurant.four.RestaurantFourSystem;
+import simcity.interfaces.restaurant.four.RestaurantFourCook;
 import simcity.interfaces.restaurant.four.RestaurantFourCustomer;
 import simcity.interfaces.restaurant.four.RestaurantFourHost;
 import simcity.interfaces.restaurant.four.RestaurantFourWaiter;
@@ -100,6 +101,24 @@ public class MockRestaurantFourHost extends Mock implements RestaurantFourHost {
 	@Override
 	public void msgImHungry(RestaurantFourCustomer customer) {
 		log.add(new LoggedEvent("Received msgImHungry from customer " + customer));
+	}
+
+	@Override
+	public RestaurantFourCook getCook() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setCook(RestaurantFourCook cook) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgCookReadyForWork(RestaurantFourCook cook) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

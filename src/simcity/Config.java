@@ -51,7 +51,9 @@ public class Config {
 		systems.clearDetailPane();
 		systems.setBackgroundThree();
 		systems.addBus("clockwise");
-		systems.addBus("counterclockwise");
+		systems.addBus("clockwise2");
+		systems.addBus("clockwise3");
+		//systems.addBus("counterclockwise");
 		//systems.addCar("car1");
 
 		// Top Left Island
@@ -169,15 +171,20 @@ public class Config {
 		systems.addHouse("HOUSE16", 326 + 2*xIslandOffset, 338 + yIslandOffset);
 		systems.addHouse("HOUSE17", 398 + 2*xIslandOffset, 338 + yIslandOffset);
 
-		/*
-		systems.addPerson("Becky");
-		systems.setWorkMarketCashier("Becky", "MARKET2");
+		systems.addPerson("Mary");
+		systems.setWorkMarketCashier("Mary", "MARKET1");
 		
-		timer1.schedule(new TimerTask() {
+		timer.schedule(new TimerTask() {
 			public void run() {
 				systems.addPerson("Gosling");
+				systems.addPerson("RyanG");
+				systems.addPerson("Gosling");
+				systems.addPerson("RyanG");
+				systems.addPerson("Gosling");
+				systems.addPerson("RyanG");
 			}
-		}, 2000);*/
+		}, 10000);
+		
 	}
 
 	public void busToMarket() {
@@ -760,7 +767,10 @@ public class Config {
 		systems.clear();
 		systems.clearDetailPane();
 
-		systems.setBackgroundTwo();
+		systems.setBackgroundThree();
+		
+		systems.addBus("clockwise");
+		
 		systems.addRestaurantFour("RESTAURANT4", 249, 140);
 		systems.addRestaurantFourHost("R4Host", "RESTAURANT4");
 
@@ -774,9 +784,9 @@ public class Config {
 							public void run() {
 								systems.addPerson("Hungry R4Customer1");
 							}
-						}, 1000);
+						}, 3000);
 					}
-				}, 1000);
+				}, 2000);
 			}
 		}, 1000);
 	}
@@ -1203,7 +1213,6 @@ public class Config {
 
 		systems.setBackgroundThree();
 		systems.addHouse("HOUSE1", 253, 152);
-
 		systems.addMarket("MARKET1", 280, 220);
 
 		systems.addPerson("Joe");
@@ -1550,15 +1559,15 @@ public class Config {
 
 		systems.addBank("BANK1", 249, 140);
 
-		systems.addPerson("Turd");
-		systems.setWorkBankHost("Turd", "BANK1");
+		systems.addPerson("Lebon");
+		systems.setWorkBankHost("Lebon", "BANK1");
 
-		systems.addPerson("Poo");
-		systems.setWorkBankTeller("Poo", "BANK1");
+		systems.addPerson("Leban");
+		systems.setWorkBankTeller("Leban", "BANK1");
 
 		timer.schedule(new TimerTask() {
 			public void run() {
-				systems.addPerson("Toilet");
+				systems.addPerson("Talya");
 			}
 		}, 4000);
 	}

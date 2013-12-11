@@ -237,7 +237,6 @@ private Semaphore atDest = new Semaphore(0, true);
 	public void atDestination() {
 		// TODO Auto-generated method stub
 		atDest.release();
-		System.out.println("At Destination");
 		
 	}
 

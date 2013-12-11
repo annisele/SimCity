@@ -335,9 +335,23 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
     	} catch (InterruptedException e) {
     		//e.printStackTrace();
     	}
+		((RestaurantThreeWaiterGui)gui).DoGoToTable(c.getTableNumber());
+		try {
+    		atDest.acquire();
+    	} catch (InterruptedException e) {
+    		//e.printStackTrace();
+    	}
+		((RestaurantThreeWaiterGui)gui).DoGoToStation();
+		try {
+    		atDest.acquire();
+    	} catch (InterruptedException e) {
+    		
+    	}
 		c.state = CustomerState.NO_ACTION;
 		cook.msgHereIsAnOrder(this, c.tableNum, c.choice);
+		
 		stateChanged();
+		
 	}
 	private void giveFoodToCustomer(MyCustomer customer) {
 		

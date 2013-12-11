@@ -82,7 +82,7 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 				busRoute.put(i, tempLoc);
 				tempList.remove(tempLoc);
 			}
-			busStopCounter = 0;
+			busStopCounter = 9;
 		}
 	}
 	
@@ -189,14 +189,16 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 		//busStopCounter = ((busStopCounter + 1) % 4);
 		msgArrived();
 		*/
-		busRouteCounter = ((busRouteCounter + 1) % 10);
+		busRouteCounter = ((busRouteCounter) % 10);
 		DoGoTo(busRoute.get(busRouteCounter + 1));
 		try {
 			atDestination.acquire();
 		} catch (InterruptedException e) {
 			//e.printStackTrace();
 		}
+		System.out.println("Whatever");
 		msgArrived();
+		busRouteCounter++;
 	}
 
 	public void Stop() {
@@ -233,7 +235,7 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 				atDestination.release();
 			}
 		}, 300);*/
-		//atDestination.release();
+		atDestination.release();
 	}
 	
 	//check to see if a point is within the rectangle

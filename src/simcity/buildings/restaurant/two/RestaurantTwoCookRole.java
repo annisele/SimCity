@@ -16,6 +16,7 @@ import java.util.TimerTask;
 import java.util.Map.Entry;
 import java.util.concurrent.Semaphore;
 
+import simcity.PersonAgent.EventType;
 import simcity.buildings.market.MarketSystem;
 //import restaurant.MarketAgent;
 import simcity.buildings.restaurant.two.*;
@@ -43,6 +44,8 @@ public class RestaurantTwoCookRole extends Role implements simcity.interfaces.re
 	private static int num_items =10;
 	public List<MarketSystem> markets
 	= Collections.synchronizedList(new ArrayList<MarketSystem>());
+	public Map<String,Integer> Inventory= new HashMap<String, Integer>();
+	
 	private RestaurantTwoOrderWheel orderWheel;
 	
 	public class order{
@@ -78,6 +81,12 @@ public class RestaurantTwoCookRole extends Role implements simcity.interfaces.re
 	public void setOrderWheel(RestaurantTwoOrderWheel wheel) {
 		this.orderWheel= wheel;
 	}
+	public Map<String, Integer> getFoodStock(){
+		Inventory=computer.getInventory();
+		return Inventory;
+		
+	}
+
 
 	// Messages
 	
@@ -106,6 +115,7 @@ public class RestaurantTwoCookRole extends Role implements simcity.interfaces.re
 		computer.inventory.steak=0;
 		//markets.get(0).hack_steak();
 	}
+	
 	public void msgCookOrder(RestaurantTwoWaiter w, int tnum, String choice) {
 		//Do("Recieve msg to cook order");
 		//waiter=w;
@@ -167,12 +177,17 @@ public class RestaurantTwoCookRole extends Role implements simcity.interfaces.re
 				computer.addToMenu("pizza");
 			}
 		}
+		R2.updateFoodDisplay(this);
 			
 	}
 	public void msgNoInventory(String item, int num){
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCook: " + person.getName(),"Recieved msg market out of item");
 		
 		callMarket(computer.getMarket(),item, num);
+	}
+	public void msgLeaveWork() {
+		person.scheduleEvent(EventType.Work);
+		exitBuilding();
 	}
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
@@ -213,7 +228,7 @@ public class RestaurantTwoCookRole extends Role implements simcity.interfaces.re
             checkOrderWheel();  
             }
         }, (int)(15000));
-
+		
 		return false;
 	}
 
@@ -228,6 +243,7 @@ public class RestaurantTwoCookRole extends Role implements simcity.interfaces.re
 					computer.inventory.chicken_low=true;
 					callMarket(computer.getMarket(),c,num_items);
 				}
+				R2.updateFoodDisplay(this);
 			return true;
 			}
 			else{
@@ -243,6 +259,7 @@ public class RestaurantTwoCookRole extends Role implements simcity.interfaces.re
 				computer.inventory.steak_low=true;
 				callMarket(computer.getMarket(),c,num_items);
 			}
+			R2.updateFoodDisplay(this);
 			return true;
 		}
 		else{
@@ -258,6 +275,7 @@ public class RestaurantTwoCookRole extends Role implements simcity.interfaces.re
 				computer.inventory.salad_low=true;
 				callMarket(computer.getMarket(),c,num_items);
 			}
+			R2.updateFoodDisplay(this);
 			return true;
 		}
 		else{
@@ -272,6 +290,7 @@ public class RestaurantTwoCookRole extends Role implements simcity.interfaces.re
 				computer.inventory.pizza_low=true;
 				callMarket(computer.getMarket(),c,num_items);
 			}
+			R2.updateFoodDisplay(this);
 			return true;
 		}
 		else
@@ -285,6 +304,7 @@ public class RestaurantTwoCookRole extends Role implements simcity.interfaces.re
 	private void notcool(order o,int t){
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantCook: " + person.getName(),"Not cool-"+o.choice+ " is out");
 		setWaiter(o.w);
+		R2.updateFoodDisplay(this);
 		computer.removeFromMenu(o.choice);
 		if(computer.Menu.containsKey("salad")){
 			R2.setLowestPrice(6);
@@ -405,6 +425,7 @@ public void addMarket(MarketSystem m){
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		R2.updateFoodDisplay(this);
 		
 	}
 	public Map<String, Double> getMenu() {

@@ -25,4 +25,10 @@ public interface RestaurantTwoCook extends GuiPartner, MarketOrderer{
 
 	abstract void setCashier(RestaurantTwoCashier cashier);
 
+
+	abstract void msgLeaveWork();
+
+	abstract Map<String, Integer> getFoodStock();
+
+
 }

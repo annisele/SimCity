@@ -65,7 +65,7 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
 	public void msgFollowMeToTable(RestaurantThreeWaiter w, int tableNum) {
 		Do("Follow waiter to table");
 		waiter = w;
-		event = CustomerEvent.followWaiter;
+		event = CustomerEvent.seated;
 		stateChanged();
 	}
 	
@@ -90,7 +90,7 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
 		stateChanged();
 	}
 	public void msgWhatsYourOrder() {
-		event = CustomerEvent.decidedChoice;
+		event = CustomerEvent.waiterToTakeOrder;
 		stateChanged();
 	}
 	@Override
@@ -100,7 +100,7 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
             meetHost();
             return true;
 		} 
-		  if (state == CustomerState.WaitingInRestaurant && event == CustomerEvent.followWaiter ){
+		  if (state == CustomerState.WaitingInRestaurant && event == CustomerEvent.seated ){
               state = CustomerState.BeingSeated;
               getSeated();
               return true;
@@ -112,8 +112,20 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
 		  }
 		  if (state == CustomerState.WaiterCalled && event == CustomerEvent.waiterToTakeOrder) {
 			  state = CustomerState.WaitingForFood;
+			  Do("waiting for food");
 			  orderFood();
 			  return true;
+		  }
+		  if (state == CustomerState.WaitingForFood && event == CustomerEvent.served) {
+			  state = CustomerState.Eating;
+			  eatFood();
+			  return true;
+		  }
+		  if (state == CustomerState.Eating && event == CustomerEvent.finishedEating) {
+			  state = CustomerState.WaitingForCheck;
+			  getCheck();
+			  return true;
+					  
 		  }
 		return false;
 	}
@@ -158,6 +170,18 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
 		waiter.msgHereIsMyChoice(this, choice);
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(rest.getName()), "Restaurant 3 Customer: " + person.getName(), "I want " + choice);
 		stateChanged();
+	}
+	private void eatFood() {
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(rest.getName()), "Restaurant 3 Customer: " + person.getName(), "I'm eating");
+		timer.schedule(new TimerTask() {
+			public void run() {
+				event = CustomerEvent.finishedEating;
+				stateChanged();
+			}
+		}, 2000);
+	}
+	private void getCheck() {
+		waiter.msgCheckPlease(this);
 	}
 	@Override
 	public void exitBuilding() {

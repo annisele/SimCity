@@ -11,9 +11,11 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.concurrent.Semaphore;
 
+import simcity.PersonAgent.EventType;
 import simcity.buildings.market.MarketSystem;
 import simcity.buildings.restaurant.two.RestaurantTwoCustomerRole;
 import simcity.buildings.restaurant.two.RestaurantTwoWaiterRole;
+import simcity.buildings.restaurant.two.RestaurantTwoHostRole.R2State;
 import simcity.gui.restauranttwo.RestaurantTwoCashierGui;
 import simcity.gui.restauranttwo.RestaurantTwoHostGui;
 import simcity.gui.trace.AlertLog;
@@ -37,6 +39,7 @@ public class RestaurantTwoCashierRole extends Role implements simcity.interfaces
 	private RestaurantTwoComputer computer;
 	private MarketCashier marketCashier;
 	private Semaphore atDest = new Semaphore(0, true);
+	private boolean stopWorking=false;
 
 	
 	private boolean in_debt=false;
@@ -93,7 +96,10 @@ public class RestaurantTwoCashierRole extends Role implements simcity.interfaces
 	//	Do("mod balence: "+computer.balance);
 	}
 	
-
+	public void msgLeaveWork() {
+		person.scheduleEvent(EventType.Work);
+		exitBuilding();
+	}
    public void msgCustomerOrder(RestaurantTwoWaiter w,RestaurantTwoCustomer c,int t, String ch) {
            //Do("Recieved "+c+"'s "+ch+" order");
            order o= new order(w, c,t,ch);

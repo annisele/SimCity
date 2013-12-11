@@ -76,7 +76,7 @@ public class Config {
 		systems.addHouse("HOUSE17", 398, 338);
 
 		// Top Center Island
-		// Second row
+		// First row
 		systems.addHouse("HOUSE9", 181 + xIslandOffset, 152);
 		systems.addHouse("HOUSE10", 253 + xIslandOffset, 152);
 		systems.addHouse("HOUSE11", 326 + xIslandOffset, 152);
@@ -95,7 +95,7 @@ public class Config {
 		systems.addHouse("HOUSE17", 398 + xIslandOffset, 338);
 
 		// Top Right Island
-		// Second row
+		// First row
 		systems.addHouse("HOUSE9", 181 + 2*xIslandOffset, 152);
 		systems.addHouse("HOUSE10", 253 + 2*xIslandOffset, 152);
 		systems.addHouse("HOUSE11", 326 + 2*xIslandOffset, 152);
@@ -133,7 +133,7 @@ public class Config {
 		systems.addHouse("HOUSE17", 398, 338 + yIslandOffset);
 
 		// Bottom Center Island
-		// Second row
+		// First row
 		systems.addHouse("HOUSE9", 181 + xIslandOffset, 152 + yIslandOffset);
 		systems.addHouse("HOUSE10", 253 + xIslandOffset, 152 + yIslandOffset);
 		systems.addHouse("HOUSE11", 326 + xIslandOffset, 152 + yIslandOffset);
@@ -152,7 +152,7 @@ public class Config {
 		systems.addHouse("HOUSE17", 398 + xIslandOffset, 338 + yIslandOffset);
 
 		// Bottom Right Island
-		// Second row
+		// First row
 		systems.addHouse("HOUSE9", 181 + 2*xIslandOffset, 152 + yIslandOffset);
 		systems.addHouse("HOUSE10", 253 + 2*xIslandOffset, 152 + yIslandOffset);
 		systems.addHouse("HOUSE11", 326 + 2*xIslandOffset, 152 + yIslandOffset);
@@ -903,8 +903,35 @@ public class Config {
 		 */
 		systems.clear();
 		systems.clearDetailPane();
-
 		systems.setBackgroundThree();
+		
+		int xIslandOffset = 430;
+		int yIslandOffset = 360;
+
+		// Top Left Island
+		// First row
+		systems.addHouse("HOUSE1", 181, 152);
+		//systems.addHouse("HOUSE2", 253, 152);
+		//systems.addHouse("HOUSE3", 326, 152);
+		//systems.addHouse("HOUSE4", 398, 152); 
+		
+		systems.addPerson("Kanye");
+		systems.setHome("Kanye", "HOUSE1");
+		systems.setSleep("Kanye");
+		
+		try {
+			//timer1.cancel();
+		} catch(Exception e) {
+
+		}
+
+		timer1.schedule(new TimerTask() {
+			public void run() {
+				//systems.addPerson("Hungry Jenny");
+			}
+		}, 1200);
+
+		
 		
 	}
 
@@ -943,8 +970,54 @@ public class Config {
 		 */
 		systems.clear();
 		systems.clearDetailPane();
-
 		systems.setBackgroundThree();
+		
+		systems.addBus("clockwise");
+		systems.addBus("counterclockwise");
+		
+		int xIslandOffset = 430;
+		int yIslandOffset = 360;
+
+		// Top Left Island
+		// First row
+		systems.addHouse("HOUSE1", 181, 152);
+		//systems.addHouse("HOUSE2", 253, 152);
+		//systems.addHouse("HOUSE3", 326, 152);
+		//systems.addHouse("HOUSE4", 398, 152); 
+		
+		// Top Center Island
+		// Second Row
+		systems.addMarket("MARKET1", 326 + xIslandOffset, 246);
+		systems.addHouse("HOUSE2", 253 + xIslandOffset, 246);
+		systems.addHouse("HOUSE3", 181 + xIslandOffset, 246);
+		
+		// This person will go to the market
+		systems.addPerson("Steve Buscemi");
+		systems.setHome("Steve Buscemi", "HOUSE1");
+		systems.setSleep("Steve Buscemi");
+		
+		// Workers for MARKET1
+		systems.addPerson("Mary");
+		systems.setHome("Mary", "HOUSE2");
+		systems.setWorkMarketCashier("Mary", "MARKET1");
+		systems.setSleep("Mary");
+
+		systems.addPerson("Joe");
+		systems.setHome("Joe", "HOUSE3");
+		systems.setWorkMarketWorker("Joe", "MARKET1");
+		systems.setSleep("Joe");
+		
+		try {
+			//timer1.cancel();
+		} catch(Exception e) {
+
+		}
+
+		timer1.schedule(new TimerTask() {
+			public void run() {
+				//systems.addPerson("Hungry Jenny");
+			}
+		}, 1200);
 	}
 
 	public void scenarioF() {
@@ -960,6 +1033,18 @@ public class Config {
 	}
 	
 	public void scenarioG() {
+		/*
+		*	Market delivery fails because restaurant is closed.
+			Market redelivers when restaurant is open.
+			Market sends invoice to cashier, who verifies and pays it.
+		 */
+		systems.clear();
+		systems.clearDetailPane();
+
+		systems.setBackgroundThree();
+	}
+	
+	public void scenarioJ() {
 		/*
 		*	Market delivery fails because restaurant is closed.
 			Market redelivers when restaurant is open.

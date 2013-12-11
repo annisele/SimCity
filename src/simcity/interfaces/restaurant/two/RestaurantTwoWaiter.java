@@ -36,5 +36,8 @@ public interface RestaurantTwoWaiter extends GuiPartner{
 	public abstract void setSpot(int key);
 	public abstract void setOrderWheel(RestaurantTwoOrderWheel owheel);
 
+	public abstract void msgLeaveWork();
+	public abstract void msgFinishWorking();
+
 
 }

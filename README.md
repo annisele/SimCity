@@ -140,9 +140,10 @@ Member Contributions
 ####Rebecca Hao:
 #####V2: 
   + I debugged the Person Agent scheduler and House Inhabitant role so that people now schedule events continuously and autonomously. For example, they will eat and sleep as they should every day, and go to the bank and market as needed. This included major changes in Person Agent, House Inhabitant, and Clock, and minor changes in files such as Config and System Manager. Worked with Clayton on this.
-  + Redesigned how to schedule the non-flexible events of sleeping and going to work (which are supposed to be done around a certain time). This involved changes to Person Agent's scheduler and clock.
+  + Redesigned how to schedule the non-flexible events of sleeping and going to work (which are supposed to be done around a certain time). This involved changes to Person Agent's scheduler and clock. We didn't have time to fully debug the scheduling, so sometimes the Person Agent runs into scheduling conflicts.
   + Created a scenario for market where every person, including the cashier and market worker, have homes. In v1, they would just go straight to work and never eat or sleep, but now they function as normal people, as well as go to work when it's time. This structure of adding jobs to people, as opposed to using a hack to create a person who only works and doesn't act like a full person, paved the way for similar scenarios for bank and restaurant.
-  + I implemented my restaurant, Restaurant Five. This included integrating it into Sim City, getting messaging between agents to work in Sim City, redoing animation (all the GUI files) so that it looks good in Sim City, and adding code so it works with the trace panels and control panel.
+  + Created scenarios which integrated multiple buildings into one scenario.
+  + I implemented my restaurant, Restaurant Five. This included integrating it into Sim City, getting messaging between agents to work in Sim City, redoing animation (all the GUI files) so that it looks good in Sim City, and adding code so it works with the trace panels and control panel. I was not able to add the Producer/Consumer parts of it because I spent all my time trying to get Person Agent to work and integrating multiple buildings into single scenarios.
   + Set up full city scenarios with multiple work places and houses for everyone in the scenario.
 
 #####V1:

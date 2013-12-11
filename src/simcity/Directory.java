@@ -543,7 +543,7 @@ public class Directory {
 		return busRoute;
 	}
 	
-	public List<Intersection> defineClockwiseBusStopIntersections() {
+	public static List<Intersection> defineClockwiseBusStopIntersections() {
 		List<Intersection> busIntersections = Collections.synchronizedList(new ArrayList<Intersection>());
 		busIntersections.add(intersections.get(1));
 		busIntersections.add(intersections.get(2));
@@ -558,7 +558,7 @@ public class Directory {
 		return busIntersections;
 	}
 	
-	public List<Intersection> defineCounterClockwiseBusStopIntersections() {
+	public static List<Intersection> defineCounterClockwiseBusStopIntersections() {
 		List<Intersection> busIntersections = Collections.synchronizedList(new ArrayList<Intersection>());
 		busIntersections.add(intersections.get(12));
 		busIntersections.add(intersections.get(8));

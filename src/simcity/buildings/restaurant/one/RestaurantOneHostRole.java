@@ -151,7 +151,6 @@ public class RestaurantOneHostRole extends Role implements simcity.interfaces.re
      */
     public boolean pickAndExecuteAnAction() {
             alreadySeated = false;
-            System.out.println("In Pick and execute an action");
 
             if (!system.getWaiters().isEmpty())
             {
@@ -171,23 +170,12 @@ public class RestaurantOneHostRole extends Role implements simcity.interfaces.re
                                             int WaiterWithMinTables = i;
                                             int j = 0;
                                             synchronized(system.getWaiters()){
-                                            for (MyWaiter mw : system.getWaiters()) {
-                                                    if (!mw.onBreak)
-                                                    {
-                                                            if (mw.numTables < minTables) {
-                                                                    minTables = mw.numTables;
-                                                                    WaiterWithMinTables = j;
-                                                            }
-                                                    }
-                                                    j++;
-                                            }
+                                          
                                             }
                                             waiters.get(WaiterWithMinTables).numTables++;
                                             if (waitingCustomers.size() > 0) {
                                                     alreadySeated = true;
-                                                    if (waitingCustomers.contains(waitingCustomers.get(0))) {
-                                                            tellWaiterToSeatCustomer(waitingCustomers.get(0), table, waiters.get(WaiterWithMinTables).waiter);
-                                                    }
+                                                    
                                                   /*  try {
                                                             atDest.acquire();
                                                     } catch (InterruptedException e) {
@@ -269,6 +257,30 @@ public class RestaurantOneHostRole extends Role implements simcity.interfaces.re
 	public void atDestination() {
 		// TODO Auto-generated method stub
 		atDest.release();
+		
+	}
+
+	@Override
+	public void msgIWantABreak(RestaurantOneWaiterRole w) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgImOffBreak(RestaurantOneWaiterRole w) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgLeaving(RestaurantOneCustomerRole c) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgCustomerSeated() {
+		// TODO Auto-generated method stub
 		
 	}
 	

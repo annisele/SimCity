@@ -383,9 +383,9 @@ public class PersonAgent extends Agent implements Person {
 				}
 			}
 			
-			((BankCustomer)eventR).hackWithdrawMoney((BankSystem)(Directory.getSystem(buildingName)));
-			e = new Event(buildingName, eventR, TWO_HOURS, -1, true, steps, t);
 
+			//((BankCustomer)eventR).hackWithdrawMoney((BankSystem)(Directory.getSystem(buildingName)));
+			e = new Event(registeredBank, eventR, TWO_HOURS, -1, true, steps, t);
 
 			insertEvent(e);
 			stateChanged();

@@ -438,7 +438,7 @@ public class Config {
 
 		timer4.schedule(new TimerTask() {
 			public void run() {
-				//systems.addPerson("Bank Robber");
+				systems.addPerson("Bank Robber");
 			}
 		}, 4000);
 
@@ -799,9 +799,9 @@ public class Config {
 		systems.setBackgroundTwo();
 		systems.addRestaurantFive("RESTAURANT5", 249, 140);
 		systems.addRestaurantFiveWaiter("Bob", "RESTAURANT5");
-		//	systems.addRestaurantFiveHost("Sarah", "RESTAURANT5");
 
-
+		systems.addRestaurantFiveCashier("Joe", "RESTAURANT5");
+		
 		try {
 			timer1.cancel();
 			timer2.cancel();
@@ -819,21 +819,20 @@ public class Config {
 			public void run() {
 				systems.addPerson("Hungry Jenny");
 			}
-		}, 1200);
+		}, 5000);
 
 		timer2.schedule(new TimerTask() {
 			public void run() {
-				//systems.addRestaurantFiveWaiter("Bob", "RESTAURANT5");
 				systems.addRestaurantFiveHost("Sarah", "RESTAURANT5");
 
 			}
-		}, 1000);
+		}, 500);
 
 		timer3.schedule(new TimerTask() {
 			public void run() {
 				systems.addPerson("Hungry Clayton");
 			}
-		}, 1500);
+		}, 5000);
 
 		timer.schedule(new TimerTask() {
 			public void run() {
@@ -1569,6 +1568,16 @@ public class Config {
 		timer.schedule(new TimerTask() {
 			public void run() {
 				systems.addPerson("Talya");
+			}
+		}, 2000);
+		timer2.schedule(new TimerTask() {
+			public void run() {
+				systems.addPerson("Talo");
+			}
+		}, 2000);
+		timer3.schedule(new TimerTask() {
+			public void run() {
+				systems.addPerson("Bank Robber");
 			}
 		}, 4000);
 	}

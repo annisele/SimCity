@@ -1,17 +1,19 @@
 package simcity.buildings.restaurant.five;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
+import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
-import simcity.buildings.restaurant.one.RestaurantOneCheck.CheckState;
+import simcity.gui.restaurantfive.RestaurantFiveCashierGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
 import simcity.interfaces.restaurant.five.RestaurantFiveCashier;
 import simcity.interfaces.restaurant.five.RestaurantFiveCustomer;
 import simcity.interfaces.restaurant.five.RestaurantFiveWaiter;
 import simcity.test.mock.EventLog;
-
 
 public class RestaurantFiveCashierRole extends Role implements RestaurantFiveCashier {
 
@@ -52,6 +54,11 @@ public class RestaurantFiveCashierRole extends Role implements RestaurantFiveCas
 		}
 	}
 	
+	public RestaurantFiveCashierRole(PersonAgent p) {
+		person = p;
+		this.gui = new RestaurantFiveCashierGui(this);
+	}
+	
 	
 //	@Override
 //	public void atDestination() {
@@ -87,22 +94,20 @@ public class RestaurantFiveCashierRole extends Role implements RestaurantFiveCas
 		stateChanged();
 	}
 
-//	//sent when timer is done
-//	public void msgPayCheck(RestaurantFiveCustomer cust, double cash) {
-//		log.add(new LoggedEvent("Received msgPayCheck from customer."));
-//		synchronized(checks) {
-//			for(Check c : checks) {
-//				if(c.c == cust) {
-//					c.s = CheckState.paying;
-//					c.amountPaid = cash;
-//					stateChanged();
-//					return;
-//				}
-//			}
-//		}
-//		stateChanged();
-//	}
-//
+	public void msgPayCheck(RestaurantFiveCustomer cust, double cash) {
+		synchronized(checks) {
+			for(Check c : checks) {
+				if(c.c == cust) {
+					c.s = CheckState.paying;
+					c.amountPaid = cash;
+					stateChanged();
+					return;
+				}
+			}
+		}
+		stateChanged();
+	}
+
 //	public void msgHereIsMarketBill(double billPrice, MarketSystem market) {
 //		marketBills.add(new MarketBill(market, billPrice, BillState.notDebt));
 //		stateChanged();
@@ -152,8 +157,7 @@ public class RestaurantFiveCashierRole extends Role implements RestaurantFiveCas
 
 	private void ProduceCheck(Check c) {
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantFiveCashier: " + person.getName(), "Sending check for " + c.c.getName() + " to waiter.");
-		//c.w.msgHereIsCheck(c.c, c.amount);
-		//TODO
+		c.w.msgHereIsCheck(c.c, c.amount);
 		c.s = CheckState.sent;
 	}
 
@@ -190,8 +194,7 @@ public class RestaurantFiveCashierRole extends Role implements RestaurantFiveCas
 			money += c.amount;
 			money = (double)Math.round(money * 100) / 100;
 			Do("Customer is paying full check. Money = " + money);
-			//c.c.msgHereIsChange(c.amountPaid - c.amount);
-			//TODO
+			c.c.msgHereIsChange(c.amountPaid - c.amount);
 			checks.remove(c);
 		}
 	}
@@ -216,7 +219,10 @@ public class RestaurantFiveCashierRole extends Role implements RestaurantFiveCas
 
 	@Override
 	public void enterBuilding(SimSystem s) {
-		// TODO Auto-generated method stub
+		restaurant = (RestaurantFiveSystem)s;
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantFiveCashier: " + person.getName(), "Ready to work at the restaurant!");
+		
+		((RestaurantFiveCashierGui) gui).DoGoToHome();
 		
 	}
 

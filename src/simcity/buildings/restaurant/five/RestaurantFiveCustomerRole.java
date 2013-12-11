@@ -16,13 +16,14 @@ import simcity.interfaces.restaurant.five.RestaurantFiveWaiter;
 public class RestaurantFiveCustomerRole extends Role implements RestaurantFiveCustomer {
 
 	Timer timer = new Timer();
+	Timer timer1 = new Timer();
 	int tableNum = -1;
 	private String food;
 	private double money = 30;
 	private RestaurantFiveWaiter waiter;
 	private RestaurantFiveMenu menu;
-	//	private double check;
-	//	private double change;
+	private double check;
+	private double change;
 	private Semaphore atDest = new Semaphore(0, true);
 	private RestaurantFiveSystem restaurant;
 	public enum AgentState {DoingNothing, LookingAtMenu, WaitingInRestaurant, BeingSeated, Seated, WantToOrder, AskedToOrder, Reordering, Reordered, Ordering, Ordered, Eating, GettingFood, DoneEating, WaitingForCheck, GoingToPay, Paying, ReceivingChange, DoneWithPaymentProcess, Leaving};
@@ -109,37 +110,36 @@ public class RestaurantFiveCustomerRole extends Role implements RestaurantFiveCu
 	//		state = AgentState.Reordering;
 	//		stateChanged();
 	//	}
-		
-		public void msgHereIsYourFood(String f) {
-			state = AgentState.GettingFood;
-			food = f;
-			stateChanged();
-		}
-		
-		public void msgDoneEating() {
-			state = AgentState.DoneEating;
-			stateChanged();
-		}
-	
-	//	@Override
-	//	public void msgHereIsCheck(double checkIn) {
-	//		state = AgentState.GoingToPay;
-	//		check = checkIn;
-	//		stateChanged();
-	//	}
-	//	
-	//	public void msgHereIsChange(double changeIn) {
-	//		state = AgentState.ReceivingChange;
-	//		change = changeIn;
-	//		stateChanged();
-	//	}
-		
-		public void msgPayNextTime() {
-			//do nothing for now
-			state = AgentState.DoneWithPaymentProcess;
-			stateChanged();
-		}
-		
+
+	public void msgHereIsYourFood(String f) {
+		state = AgentState.GettingFood;
+		food = f;
+		stateChanged();
+	}
+
+	public void msgDoneEating() {
+		state = AgentState.DoneEating;
+		stateChanged();
+	}
+
+	public void msgHereIsCheck(Double checkIn) {
+		state = AgentState.GoingToPay;
+		check = checkIn;
+		stateChanged();
+	}
+
+	public void msgHereIsChange(double changeIn) {
+		state = AgentState.ReceivingChange;
+		change = changeIn;
+		stateChanged();
+	}
+
+	public void msgPayNextTime() {
+		//do nothing for now
+		state = AgentState.DoneWithPaymentProcess;
+		stateChanged();
+	}
+
 	//	public void msgAnimationFinishedLeaveRestaurant() {
 	//		//from animation
 	//		event = AgentEvent.doneLeaving;
@@ -180,28 +180,28 @@ public class RestaurantFiveCustomerRole extends Role implements RestaurantFiveCu
 			OrderFood();
 			return true;
 		}
-				if(state == AgentState.GettingFood && event == AgentEvent.seated) {
-					ReceiveFood(food);
-					return true;
-				}
-		
-		//		if(state == AgentState.DoneEating && event == AgentEvent.doneEating) {
-		//			//LeaveRestaurant();
-		//			TellWaiterIAmDone();
-		//			return true;
-		//		}
-		//		
-		//		if(state == AgentState.GoingToPay && event == AgentEvent.doneEating) {
-		//			state = AgentState.Paying;
-		//			PayCheck();
-		//		}
-		//		if(state == AgentState.ReceivingChange && event == AgentEvent.doneEating) {
-		//			GetChange();
-		//		}
-		//		if(state == AgentState.DoneWithPaymentProcess && event == AgentEvent.doneEating) {
-		//			LeaveRestaurant();
-		//		}
-		//		
+		if(state == AgentState.GettingFood && event == AgentEvent.seated) {
+			ReceiveFood(food);
+			return true;
+		}
+
+		if(state == AgentState.DoneEating && event == AgentEvent.doneEating) {
+			//LeaveRestaurant();
+			TellWaiterIAmDone();
+			return true;
+		}
+
+		if(state == AgentState.GoingToPay && event == AgentEvent.doneEating) {
+			state = AgentState.Paying;
+			PayCheck();
+		}
+		if(state == AgentState.ReceivingChange && event == AgentEvent.doneEating) {
+			GetChange();
+		}
+		if(state == AgentState.DoneWithPaymentProcess && event == AgentEvent.doneEating) {
+			LeaveRestaurant();
+		}
+
 		//		if (state == AgentState.Leaving && event == AgentEvent.doneLeaving){
 		//			state = AgentState.DoingNothing;
 		//			return true;
@@ -296,70 +296,69 @@ public class RestaurantFiveCustomerRole extends Role implements RestaurantFiveCu
 		waiter.msgHereIsMyChoice(this, food);
 	}
 
-		private void ReceiveFood(String f) {
-			state = AgentState.Eating;
-			AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantFiveCustomer: " + person.getName(), "Eating food.");
-			
-			timer.schedule(new TimerTask() {
-				//Object cookie = 1;
-				public void run() {
-					Do("Done eating.");
-					event = AgentEvent.doneEating;
-					msgDoneEating();
-					//isHungry = false;
-					stateChanged();
-				}
-			},
-			5000);//how long to wait before running task
+	private void ReceiveFood(String f) {
+		state = AgentState.Eating;
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantFiveCustomer: " + person.getName(), "Eating food.");
+
+		timer1.schedule(new TimerTask() {
+			public void run() {
+				Do("Done eating.");
+				event = AgentEvent.doneEating;
+				msgDoneEating();
+				//isHungry = false;
+				stateChanged();
+			}
+		},
+		5000);//how long to wait before running task
+	}
+
+	private void TellWaiterIAmDone() {
+		state = AgentState.WaitingForCheck;
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantFiveCustomer: " + person.getName(), "Asking waiter for check.");
+		waiter.msgDoneEating(this);
+	}
+
+	private void PayCheck() {
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantFiveCustomer: " + person.getName(), "Walking to cashier.");
+		((RestaurantFiveCustomerGui)gui).DoGoToCashier();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			print("Unexpected exception caught in CustomerAgent thread:", e);
+		}
+		waiter.msgLeaving(this);
+		if(money >= check) {
+			double moneyToPay = (double)Math.round((check) * 100) / 100;
+			money -= moneyToPay;
+			money = (double)Math.round(money * 100) / 100;
+			Do("Paying full check. Paid $" + moneyToPay);
+			restaurant.getCashier().msgPayCheck(this, moneyToPay);
+		}
+		else {
+			restaurant.getCashier().msgPayCheck(this, money);
+			AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantFiveCustomer: " + person.getName(), "Walking to cashier.");
+
+			Do("Paying what I can of check. Paid $" + money);
+			money = 0;
+		}
+	}
+
+		private void GetChange() {
+			state = AgentState.DoneWithPaymentProcess;
+			money += change;
+			change = (double)Math.round(change * 100) / 100;
+			money = (double)Math.round(money * 100) / 100;
+			AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantFiveCustomer: " + person.getName(), "Receiving $" + change + " in change from cashier. Money left = " + money);
 		}
 		
-	//	private void TellWaiterIAmDone() {
-	//		state = AgentState.WaitingForCheck;
-	//		Do("Asking waiter for check.");
-	//		waiter.msgDoneEating(this);
-	//	}
-	//	
-	//	private void PayCheck() {
-	//		Do("Walking to cashier.");
-	//		((RestaurantFiveCustomerGui)gui).DoGoToCashier();
-	//		try {
-	//			atDest.acquire();
-	//		} catch (InterruptedException e) {
-	//			// TODO Auto-generated catch block
-	//			print("Unexpected exception caught in CustomerAgent thread:", e);
-	//		}
-	//		waiter.msgLeaving(this);
-	//		if(money >= check) {
-	//			double moneyToPay = (double)Math.round((check) * 100) / 100;
-	//			money -= moneyToPay;
-	//			money = (double)Math.round(money * 100) / 100;
-	//			Do("Paying full check. Paid $" + moneyToPay);
-	//			cashier.msgPayCheck(this, moneyToPay);
-	//		}
-	//		else {
-	//			cashier.msgPayCheck(this, money);
-	//			Do("Paying what I can of check. Paid $" + money);
-	//			money = 0;
-	//		}
-	//	}
-	//	
-	//	private void GetChange() {
-	//		state = AgentState.DoneWithPaymentProcess;
-	//		money += change;
-	//		change = (double)Math.round(change * 100) / 100;
-	//		money = (double)Math.round(money * 100) / 100;
-	//		Do("Receiving $" + change + " in change from cashier. Money left = " + money);
-	//	}
-	//	
-	//	private void LeaveRestaurant() {
-	//		state = AgentState.Leaving;
-	//		money += 20;
-	//		//Do("Leaving table " + tableNum + ".");
-	//		Do("Leaving restaurant.");
-	//		tableNum = -1;
-	//		//waiter.msgLeaving(this);
-	//		((RestaurantFiveCustomerGui)gui).DoExitRestaurant();
-	//	}
+		private void LeaveRestaurant() {
+			state = AgentState.Leaving;
+			money += 20;
+			tableNum = -1;
+			waiter.msgLeaving(this);
+			exitBuilding();
+		}
 
 
 	@Override
@@ -369,7 +368,16 @@ public class RestaurantFiveCustomerRole extends Role implements RestaurantFiveCu
 
 	@Override
 	public void exitBuilding() {
-		// TODO Auto-generated method stub
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantFiveCustomer: " + person.getName(), "Leaving the restaurant.");
+		gui.DoExitBuilding();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			//e.printStackTrace();
+		}
+		person.setMoney(money);
+		restaurant.exitBuilding(this);
+		person.roleFinished();		
 
 	}
 

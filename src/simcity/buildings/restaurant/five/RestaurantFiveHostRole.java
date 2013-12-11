@@ -127,16 +127,16 @@ public class RestaurantFiveHostRole extends Role implements RestaurantFiveHost {
 		stateChanged();
 	}
 
-//	public void msgTableIsFree(int t) {
-//		for (Table table : tables) {
-//			if (table.tableNumber == t) {
-//				System.out.println("Table " + table + " is free.");
-//				table.setUnoccupied();
-//				stateChanged();
-//			}
-//		}
-//	}
-//
+	public void msgTableIsFree(int t) {
+		for (Table table : tables) {
+			if (table.tableNumber == t) {
+				AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantFiveHost: " + person.getName(), "Table " + t + " is free.");
+				table.setUnoccupied();
+				stateChanged();
+			}
+		}
+	}
+
 //	public void msgAddTable() {
 //		nTables++;
 //		int index = tables.size();

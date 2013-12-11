@@ -91,7 +91,7 @@ public class MarketCashierTest extends TestCase {
 				+ customer.log.toString(), 0, worker.log.size());
 		
 		cashier.msgHereIsPayment(100, 1);
-		assertEquals("Cashier should have 1 orders in it. It does.", cashier.orders.size(), 1);		
+		assertEquals("Cashier should have 0 orders in it. It does.", cashier.orders.size(), 0);		
 		assertTrue("Market cashier's scheduler should have returned true because the market customer list is empty, but it didn't", 
 				cashier.pickAndExecuteAnAction());
 		System.out.println("");

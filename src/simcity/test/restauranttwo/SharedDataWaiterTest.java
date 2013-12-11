@@ -41,7 +41,7 @@ public class SharedDataWaiterTest extends TestCase {
 		super.setUp();
 		person = new PersonAgent("PersonAgent");
 		scg = new SimCityGui();
-		SDwaiter=new RestaurantTwoSharedDataWaiterRole(person, system, null);
+		SDwaiter=new RestaurantTwoSharedDataWaiterRole(person, null);
 		cashier = new MockRestaurantTwoCashier("mockcashier");		
 		customer = new MockRestaurantTwoCustomer("mockcust");	
 		system = new RestaurantTwoSystem(scg, null);

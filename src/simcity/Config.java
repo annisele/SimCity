@@ -971,14 +971,7 @@ public class Config {
 		systems.addPerson("Ben");
 		//	systems.setHome("Ben", "HOUSE8");
 		systems.setWorkBankTeller("Ben", "BANK1");
-<<<<<<< HEAD
-	//	systems.setSleep("Ben");
-	//	systems.addBankAccount(0, 100, 0, "abcdef");
-		
-=======
-		//	systems.setSleep("Ben");
 
->>>>>>> d41d52e2cfcd1a20615f1e98560781894f7422ed
 		// BANK2 workers
 		systems.addPerson("Bob");
 		//	systems.setHome("Kevin", "HOUSE7");
@@ -1228,7 +1221,7 @@ public class Config {
 
 		systems.setBackgroundThree();
 		systems.addHouse("HOUSE1", 253, 152);
-<<<<<<< HEAD
+
 		systems.addMarket("MARKET1", 280, 220);
 
 		systems.addPerson("Joe");
@@ -1236,7 +1229,7 @@ public class Config {
 		systems.setWorkMarketWorker("Joe", "MARKET1");
 		systems.setHome("Joe", "HOUSE1");
 		systems.setSleep("Joe");
-=======
+
 		systems.addHouse("HOUSE2", 326, 152);
 		systems.addHouse("HOUSE3", 398, 152); 
 		systems.addBank("BANK1", 326, 338);
@@ -1245,7 +1238,7 @@ public class Config {
 		systems.setWorkBankHost("Kevin", "BANK1");
 		systems.addPerson("Ben");
 		systems.setWorkBankTeller("Ben", "BANK1");
->>>>>>> d41d52e2cfcd1a20615f1e98560781894f7422ed
+
 
 	}
 

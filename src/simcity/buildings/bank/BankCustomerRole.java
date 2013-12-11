@@ -450,7 +450,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 		}
 
 		// HACKS
-		public void hackDepositMoney(BankSystem b) {
+		public void depositMoney(BankSystem b) {
 			//person.Do("I need to open an account and deposit money");
 			cashOnHand = 50;
 			accountPassword = "abcdef";
@@ -458,7 +458,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 			transactionType = TransactionType.openAccount;
 			bank = b;
 		}
-		public void hackWithdrawMoney(BankSystem b) {
+		public void withdrawMoney(BankSystem b) {
 			cashOnHand = 50;
 			accountPassword = "abcdef";
 			amountToProcess = 20;
@@ -467,7 +467,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 			AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankCustomer: " + person.getName(), "I need to withdraw money");	
 
 		}
-		public void hackPayRent(BankSystem b) {
+		public void payRent(BankSystem b) {
 			cashOnHand = 50;
 			accountPassword = "abcdef";
 			amountToProcess = 10;
@@ -476,7 +476,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 			AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankCustomer: " + person.getName(), "I need to pay rent");	
 
 		}
-		public void hackGetLoan(BankSystem b) {
+		public void getLoan(BankSystem b) {
 			cashOnHand = 50;
 			accountPassword = "abcdef";
 			amountToProcess = 100;

@@ -51,7 +51,7 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
 		}
 	}
 	private Semaphore atDest = new Semaphore(0, true);
-	private RestaurantThreeMenu menu;
+	private RestaurantThreeMenu menu  = new RestaurantThreeMenu();
 	public void atDestination() {
 		atDest.release();
 	}
@@ -127,6 +127,10 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
 			  return true;
 					  
 		  }
+		  if (state == CustomerState.Leaving && event == CustomerEvent.doneLeaving) {
+			  state = CustomerState.DoingNothing;
+			  return true;
+		  }
 		return false;
 	}
 	//actions
@@ -143,13 +147,11 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
 		}
 		
 		stateChanged();
-		//System.out.println("HI");
-		
+	
 	}
 	private void getSeated() {
 		 AlertLog.getInstance().logMessage(AlertTag.valueOf(rest.getName()), "Restaurant 3 Customer: " + person.getName(),"Being seated. Going to table.");
          ((RestaurantThreeCustomerGui)gui).DoGoToSeat(tableNumber);
-         Do("My table number");
          try {
      		atDest.acquire();
      	} catch (InterruptedException e) {
@@ -167,7 +169,9 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
 	}
 	private void orderFood() {
 		String choice = menu.choices[(int)(Math.random()*4)];
+		System.out.println("my choice is "+choice);
 		waiter.msgHereIsMyChoice(this, choice);
+		System.out.println(choice);
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(rest.getName()), "Restaurant 3 Customer: " + person.getName(), "I want " + choice);
 		stateChanged();
 	}

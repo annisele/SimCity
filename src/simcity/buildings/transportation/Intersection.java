@@ -54,6 +54,9 @@ public class Intersection {
 		if (tempVehicle instanceof CarPassengerRole) {
 			((CarPassengerRole) tempVehicle).atDestination();
 		}
+		else if (tempVehicle instanceof BusAgent) {
+			((BusAgent) tempVehicle).atDestination();
+		}
 		vehicles.remove(tempVehicle);
 	}
 	

@@ -132,7 +132,7 @@ public class BankCustomerTest extends TestCase {
 		bankSystem.setBankHost(bankHost);
 		bankSystem.setName("BANK1");
 		person.setCurrentRole(bankCustomer);
-		bankSystem.getBankComputer().addHackedBankAccount(1, 50.00, 0.00, "abcde");
+		bankSystem.getBankComputer().addBankAccount(1, 50.00, 0.00, "abcde");
 		
 		// check setup postconditions
 		assertEquals("BankCustomer account number should be 1", bankCustomer.getAccountNumber(), 1);
@@ -224,7 +224,7 @@ public class BankCustomerTest extends TestCase {
 		bankSystem.setBankHost(bankHost);
 		bankSystem.setName("BANK1");
 		person.setCurrentRole(bankCustomer);
-		bankSystem.getBankComputer().addHackedBankAccount(1, 150.00, 0.00, "abcde");
+		bankSystem.getBankComputer().addBankAccount(1, 150.00, 0.00, "abcde");
 		
 		// check setup postconditions
 		assertEquals("BankCustomer account number should be 1", bankCustomer.getAccountNumber(), 1);
@@ -317,7 +317,7 @@ public class BankCustomerTest extends TestCase {
 		bankSystem.setBankHost(bankHost);
 		bankSystem.setName("BANK1");
 		person.setCurrentRole(bankCustomer);
-		bankSystem.getBankComputer().addHackedBankAccount(1, 100.00, 0.00, "abcde");
+		bankSystem.getBankComputer().addBankAccount(1, 100.00, 0.00, "abcde");
 		
 		// check setup postconditions
 		assertEquals("BankCustomer account number should be 1", bankCustomer.getAccountNumber(), 1);
@@ -410,7 +410,7 @@ public class BankCustomerTest extends TestCase {
 		bankSystem.setBankHost(bankHost);
 		bankSystem.setName("BANK1");
 		person.setCurrentRole(bankCustomer);
-		bankSystem.getBankComputer().addHackedBankAccount(1, 100.00, 100.00, "abcde");
+		bankSystem.getBankComputer().addBankAccount(1, 100.00, 100.00, "abcde");
 		
 		// check setup postconditions
 		assertEquals("BankCustomer account number should be 1", bankCustomer.getAccountNumber(), 1);
@@ -503,7 +503,7 @@ public class BankCustomerTest extends TestCase {
 		bankSystem.setBankHost(bankHost);
 		bankSystem.setName("BANK1");
 		person.setCurrentRole(bankCustomer);
-		bankSystem.getBankComputer().addHackedBankAccount(1, 50.00, 0.00, "wrong");
+		bankSystem.getBankComputer().addBankAccount(1, 50.00, 0.00, "wrong");
 		
 		// check setup postconditions
 		assertEquals("BankCustomer account number should be 1", bankCustomer.getAccountNumber(), 1);

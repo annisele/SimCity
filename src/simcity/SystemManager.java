@@ -150,7 +150,6 @@ public class SystemManager {
 		
 		person.setBus(bus);
 
-		//hacks
 		if (name.equalsIgnoreCase("Rebecca")) {
 			person.goToMarketNow();
 		}
@@ -188,6 +187,10 @@ public class SystemManager {
 			}
 		}
 		
+		if (name == "Toilet") {
+			person.goToBankNow();
+		}
+		
 		if (name == "Levonne") {
 			person.goToBankNow();
 		}
@@ -212,11 +215,6 @@ public class SystemManager {
 		
 		if (name == "Hungry R4Customer1" || name == "Hungry R4Customer2" || name == "Hungry R4Customer3") {
 			person.goToRestaurantFourNow();
-		}
-		
-		if (name == "Tommy") {
-			person.setBankPassword("abcdef");
-			person.setAccountNumber(0);
 		}
 		
 		people.add(person);
@@ -513,8 +511,10 @@ public class SystemManager {
 		//people.add(person);
 		//person.startThread();
 	}
-	public void addHackedBankAccount(int accountNumber, double accountBalance, double amountOwed, String password) {
-		banks.get(0).getBankComputer().addHackedBankAccount(accountNumber, accountBalance, amountOwed, password);
+	public void addBankAccount(int accountNumber, double accountBalance, double amountOwed, String password) {
+		for(int i = 0; i < banks.size(); i++) {
+			banks.get(i).getBankComputer().addBankAccount(accountNumber, accountBalance, amountOwed, password);
+		}
 	}
 	
 
@@ -595,10 +595,6 @@ public class SystemManager {
 		PersonAgent person = getPersonFromName(name);
 		Role r2Waiter = new RestaurantTwoSharedDataWaiterRole(person,R2comp);
 		person.addWork(r2Waiter, rest);
-	}
-	public void hacker(){
-		restaurantTwos.get(0).hackr2();
-
 	}
 	
 	/*************** RESTAURANT THREE FUNCTIONS *******************/

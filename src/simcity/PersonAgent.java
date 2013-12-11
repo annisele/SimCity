@@ -11,6 +11,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import simcity.buildings.bank.BankCustomerRole;
+import simcity.buildings.bank.BankCustomerRole.TransactionType;
 import simcity.buildings.bank.BankRobberRole;
 import simcity.buildings.bank.BankSystem;
 import simcity.buildings.house.HouseInhabitantRole;
@@ -326,10 +327,6 @@ public class PersonAgent extends Agent implements Person {
 				String buildingName = banks.get(index);
 				registeredBank = buildingName;
 			}
-			else {
-				String buildingName = registeredBank;
-			}
-			
 			
 			List<Step> steps = new ArrayList<Step>();
 			steps.add(new Step("exitBuilding", this));
@@ -339,38 +336,48 @@ public class PersonAgent extends Agent implements Person {
 			for(Role r : myRoles) {
 				if(r instanceof BankCustomer) {
 					eventR = r;
+					if (accountNumber == -1) {
+						((BankCustomer) eventR).setTransactionType(TransactionType.openAccount);
+					}
+					else {
+						((BankCustomer) eventR).setTransactionType(TransactionType.depositMoney);
+					}
 				}
 			}
 
-			
-			
-			//hack
-			//((BankCustomer)eventR).hackDepositMoney((BankSystem)(Directory.getSystem(buildingName)));
 			e = new Event(registeredBank, eventR, TWO_HOURS, -1, true, steps, t);
 
 			insertEvent(e);
 			stateChanged();
-
-
 		}
 		else if (t == EventType.WithdrawMoney) {
-			List<String> banks = Directory.getBanks();
-			int index = rand.nextInt(banks.size());
-			String buildingName = banks.get(index);
+			if (registeredBank == null) {
+				List<String> banks = Directory.getBanks();
+
+				int index = rand.nextInt(banks.size());
+				String buildingName = banks.get(index);
+				registeredBank = buildingName;
+			}
+			
 			List<Step> steps = new ArrayList<Step>();
 			steps.add(new Step("exitBuilding", this));
 			steps.add(new Step("goTo", this));
 			steps.add(new Step("enterBuilding", this));
 			Role eventR = null;
+			
 			for(Role r : myRoles) {
 				if(r instanceof BankCustomer) {
 					eventR = r;
+					if (accountNumber == -1) {
+						((BankCustomer) eventR).setTransactionType(TransactionType.openAccount);
+					}
+					else {
+						((BankCustomer) eventR).setTransactionType(TransactionType.withdrawMoney);
+					}
 				}
 			}
 			
-			//hack
-			((BankCustomer)eventR).hackWithdrawMoney((BankSystem)(Directory.getSystem(buildingName)));
-			e = new Event(buildingName, eventR, TWO_HOURS, -1, true, steps, t);
+			e = new Event(registeredBank, eventR, TWO_HOURS, -1, true, steps, t);
 
 			insertEvent(e);
 			stateChanged();
@@ -389,8 +396,7 @@ public class PersonAgent extends Agent implements Person {
 					eventR = r;
 				}
 			}
-			//hack
-			((BankCustomer)eventR).hackGetLoan((BankSystem)(Directory.getSystem(buildingName)));
+			((BankCustomer)eventR).getLoan((BankSystem)(Directory.getSystem(buildingName)));
 			e = new Event(buildingName, eventR, TWO_HOURS, -1, true, steps, t);
 
 			insertEvent(e);
@@ -400,7 +406,6 @@ public class PersonAgent extends Agent implements Person {
 
 			List<String> banks = Directory.getBanks();
 
-			//Do("We're Depositing, and banks size is "+banks.size());
 			int index = rand.nextInt(banks.size());
 			String buildingName = banks.get(index);
 			List<Step> steps = new ArrayList<Step>();
@@ -414,14 +419,11 @@ public class PersonAgent extends Agent implements Person {
 				}
 			}
 
-			//hack
-			((BankRobber)eventR).hackRobBank((BankSystem)(Directory.getSystem(buildingName)));
+			((BankRobber)eventR).robBank((BankSystem)(Directory.getSystem(buildingName)));
 			e = new Event(buildingName, eventR, TWO_HOURS, -1, true, steps, t);
 
 			insertEvent(e);
 			stateChanged();
-
-
 		}
 		else if (t == EventType.PayRent) {
 			List<String> banks = Directory.getBanks();
@@ -437,8 +439,8 @@ public class PersonAgent extends Agent implements Person {
 					eventR = r;
 				}
 			}
-			//hack
-			((BankCustomer)eventR).hackPayRent((BankSystem)(Directory.getSystem(buildingName)));
+
+			((BankCustomer)eventR).payRent((BankSystem)(Directory.getSystem(buildingName)));
 			e = new Event(buildingName, eventR, TWO_HOURS, -1, true, steps, t);
 
 			insertEvent(e);
@@ -1046,7 +1048,6 @@ public class PersonAgent extends Agent implements Person {
 		return (currentRole == null);
 	}
 
-	//hack
 	public IdlePersonGui getIdleGui() {
 		return idleGui;
 	}

@@ -38,12 +38,11 @@ public class BankComputer {
 	}
 	
 	public boolean verifyAccount(int accountNumber, String password) {
-		boolean verified = false;
 		String passwordLookup = passwordAccounts.get(accountNumber);
 		if (password == passwordLookup) {
-			verified = true;
+			return true;
 		}
-		return verified;
+		return false;
 	}
 	
 	public BankAccount accountLookup(int accountNumber) {
@@ -53,6 +52,7 @@ public class BankComputer {
 		account.setBankCustomer(bc);
 		account.setAccountBalance(accountBalance);
 		account.setAmountOwed(amountOwed);
+		account.setAccountNumber(accountNumber);
 		return account;
 	}
 	
@@ -67,7 +67,7 @@ public class BankComputer {
 		account.reinitialize();
 	}
 	
-	public void addHackedBankAccount(int accountNumber, double accountBalance, double amountOwed, String password) {
+	public void addBankAccount(int accountNumber, double accountBalance, double amountOwed, String password) {
 		customerAccounts.put(accountNumber, null);
 		passwordAccounts.put(accountNumber, password);
 		balanceAccounts.put(accountNumber, accountBalance);

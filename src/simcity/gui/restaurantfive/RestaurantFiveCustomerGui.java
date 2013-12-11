@@ -13,6 +13,8 @@ public class RestaurantFiveCustomerGui extends Gui {
 	private final int HOST_OFFSET = 50;
 	private final int HOST_X = 100;
 	private final int HOST_Y = 325;
+	private final int CASHIER_X = 330;
+	private final int CASHIER_Y = 300;
 	private int tableX;
 	private int tableY;
 	private boolean sitGui = false;
@@ -52,5 +54,9 @@ public class RestaurantFiveCustomerGui extends Gui {
 			tableX = x;
 			tableY = y;
 		}	
+	}
+	
+	public void DoGoToCashier() {
+		DoGoToLocation(CASHIER_X, CASHIER_Y);
 	}
 }

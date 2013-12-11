@@ -81,17 +81,27 @@ public class MarketCashierTest extends TestCase {
 	
 	}//end one normal customer scenario
 	
-	public void testMarketCashierAndMarketWorker() {
+	public void testMarketCustomerPayMarketCashier() {
 		System.out.println("TEST ONE CASHIER ENTER MARKET");
 		assertEquals("Market cashier should have an empty log before the scheduler is called. Instead, the Market cashier's event log reads :"
 				+ cashier.log.toString(), 0, cashier.log.size());
 		assertEquals("Market worker should have an empty log before the scheduler is called. Instead, the market worker's event log reads :"
 				+ worker.log.toString(), 0, worker.log.size());
+		assertEquals("Market customer should have an empty log before the scheduler is called. Instead, the market customer's event log reads :"
+				+ customer.log.toString(), 0, worker.log.size());
+		
 		cashier.msgHereIsPayment(100, 1);
+		assertEquals("Cashier should have 0 orders in it. It does.", cashier.orders.size(), 0);		
 		assertTrue("Market cashier's scheduler should have returned true because the market customer list is empty, but it didn't", 
 				cashier.pickAndExecuteAnAction());
 		System.out.println("");
 	}
+	
+	public void testMarketWorkerLeaveWork() {
+		System.out.println("TEST MARKET WORKER LEAVES BANK");
+		
+	}
+	
 	
 	
 }

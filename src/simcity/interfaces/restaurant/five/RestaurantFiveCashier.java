@@ -14,4 +14,7 @@ public interface RestaurantFiveCashier extends GuiPartner, MarketPayer {
 			RestaurantFiveWaiter waiter,
 			RestaurantFiveCustomer c, String choice);
 
+	public abstract void msgPayCheck(
+			RestaurantFiveCustomer cust, double moneyToPay);
+
 }

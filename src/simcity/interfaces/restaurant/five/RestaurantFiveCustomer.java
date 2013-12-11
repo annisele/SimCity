@@ -17,8 +17,6 @@ public interface RestaurantFiveCustomer extends GuiPartner {
 
 	public abstract void msgWhatWouldYouLike();
 
-//	public abstract void msgHereIsCheck(double double1);
-
 	public abstract void msgHereIsYourFood(String choice);
 
 	public abstract String getName();
@@ -26,6 +24,10 @@ public interface RestaurantFiveCustomer extends GuiPartner {
 	public abstract Gui getGui();
 
 	public abstract void msgPayNextTime();
+
+	public abstract void msgHereIsCheck(Double double1);
+
+	public abstract void msgHereIsChange(double d);
 
 
 

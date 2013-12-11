@@ -19,7 +19,6 @@ public class CarPassengerRole extends Role implements simcity.interfaces.transpo
 	public enum PassengerEvent {starting, stopping};
 	PassengerState state = PassengerState.stopped;
 	PassengerEvent event;
-	CarAgent car;
 	Directory dir;
 	public Semaphore atDest = new Semaphore(0, true);
 	List<Location> route = new ArrayList<Location>();
@@ -151,7 +150,6 @@ public class CarPassengerRole extends Role implements simcity.interfaces.transpo
 	public void setDirectory(Directory d) {
 		dir = d;
 	}
-	
 	
 	
 	

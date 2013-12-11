@@ -78,5 +78,9 @@ public class RestaurantThreeWaiterGui extends Gui {
 	public void DoGoToCook() {
 		DoGoToLocation(COOK_X, COOK_Y);
 	}
+
+	public void DoGoToKitchen() {
+		DoGoToLocation(300,80);
+	}
 	
 }

@@ -51,7 +51,7 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
 		}
 	}
 	private Semaphore atDest = new Semaphore(0, true);
-	private RestaurantThreeMenu menu  = new RestaurantThreeMenu();
+	private RestaurantThreeMenu menu;
 	public void atDestination() {
 		atDest.release();
 	}
@@ -186,7 +186,9 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
 	}
 	private void getCheck() {
 		waiter.msgCheckPlease(this);
+		stateChanged();
 	}
+	
 	@Override
 	public void exitBuilding() {
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(rest.getName()), "Restaurant 3 Waiter: " + person.getName(), "Leaving restaurant three");	

@@ -47,7 +47,7 @@ public class ControlPanel extends JPanel implements ActionListener {
 	//config panel elements
 	private JPanel configPanel = new JPanel();
 	private JComboBox configDropdown;
-	private String[] configStrings = new String[22];
+	private String[] configStrings = new String[23];
 	private JButton load = new JButton("Load");
 
 	//tab elements
@@ -106,6 +106,7 @@ public class ControlPanel extends JPanel implements ActionListener {
 		configStrings[19] = "Scenario E";
 		configStrings[20] = "Scenario F";
 		configStrings[21] = "Scenario G";
+		configStrings[22] = "Scenario J";
 
 
 		configDropdown = new JComboBox(configStrings);
@@ -273,6 +274,8 @@ public class ControlPanel extends JPanel implements ActionListener {
 				config.scenarioF();
 			} else if(selection.equals(configStrings[21])) {
 				config.scenarioG();
+			} else if(selection.equals(configStrings[22])) {
+				config.scenarioJ();
 			} 
 			
 		}

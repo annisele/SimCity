@@ -152,7 +152,7 @@ public class AnimationPanel extends JPanel implements ActionListener{
 	}
 	
 	public void dragWorld(int x, int y) {
-		System.out.println(x+", "+y);
+		//System.out.println(x+", "+y);
 		return;
 	}
 

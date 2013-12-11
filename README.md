@@ -88,6 +88,12 @@ Member Contributions
   + 7.) Worked on trying to integrate RestaurantFour for into the city
   + 8.) Worked on the PersonAgent scheduler to correctly detect whether or not a Person has a bank account already, and whether the Person wants to deposit or withdraw from the bank
 
+#####Unfinished for V2:
+  + RestaurantFour could not be finished because of the time constraints and efforts put into implementing a working transportation system
+  + We were supposed to have two buses that go in clockwise and counter-clockwise directions, however, only the clockwise one is completely functional. The counter-clockwise bus has errors
+  + Collision detection is not implemented
+  + Transportation points are pretty much hard-coded
+
 #####V1:
   + 1.) Bank Design - worked with Levonne extensively on the design of each of the agents/roles in the bank design
   + 2.) BankComputer - implemented bank accounts using maps and allowed it to work with the bank computer
@@ -152,15 +158,14 @@ Member Contributions
   + Created a scenario for market where every person, including the cashier and market worker, have homes. In v1, they would just go straight to work and never eat or sleep, but now they function as normal people, as well as go to work when it's time. This structure of adding jobs to people, as opposed to using a hack to create a person who only works and doesn't act like a full person, paved the way for similar scenarios for bank and restaurant.
   + I implemented my restaurant, Restaurant Five. This included integrating it into Sim City, getting messaging between agents to work in Sim City, redoing animation (all the GUI files) so that it looks good in Sim City, and adding code so it works with the trace panels and control panel. I was not able to add the Producer/Consumer parts of it because I spent all my time trying to get Person Agent to work and integrating multiple buildings into single scenarios.
   + Set up full city scenarios with multiple work places and houses for everyone in the scenario.
-  + Fixed Market control panel (which Jenny wrote) so that when you set inventory, you have to enter numbers into all fields before pressing the "Set Inventory" button. Before, it would throw errors if you left a field blank, and now it disables the button until all fields are filled.
 
 #####V1:
-  + I created the original design documents and interaction diagrams for the market scenarios, and collaborated with Jenny to finalize them. The design doc for “Person Orders Items” was left unfinished because it became a non-norm. Kevin updated the interaction diagrams and design docs to match my code right before turning in V1.
+  + I created the original design documents and interaction diagrams for the market scenarios, and collaborated with Jenny to finalize them. The design doc for “Person Orders Items” was left unfinished becasue it became a non-norm. Kevin updated the interaction diagrams and design docs to match my code right before turning in V1.
   + I wrote the code for all the Market roles, systems, interfaces, and animation.
   + I contributed a lot to all of the base classes, including AnimationPanel, ControlPanel, Gui, SimCityGui, SimSystem, Config, Role, Directory, SystemManager, etc. Most of my time was spent designing the overall design of the project, so that it would be easier for others to integrate their individual parts (bank, restaurant, etc) into the program.
   + I finished the Market Scenario early on and figured out how to implement it in the panels and program, then wrote a wiki page to help team members integrate their parts into their project.
   + I collaborated with Clayton to completely design the person agent and write all the code.
-  + I wrote the original skeleton for the control panel, laying it out and linking it to the animation panels so that the buttons and checkboxes affect the program (for example, showing and hiding messages from the trace panels).
+  + I wrote the origninal skeleton for the control panel, laying it out and linking it to the animation panels so that the buttons and checkboxes affect the program (for example, showing and hiding messages from the trace panels).
   + I implemented the trace panels, and created a document to show teammates how to change their print statements so that they show up in the trace panels. I used Keith (the CP’s) trace panel code. I also made it so that when buildings are clicked on, the correct messages are hidden and shown in the detail trace panel, so you only see the messages of one building at a time.
   + I used a hack, since we only ever have one restaurant (RestaurantTwo) on screen at a time, to make the bus deliver to that restaurant’s location.
   + Person Agent’s scheduler still needs to be debugged and fixed. The design that Clayton and I created was extremely thought out, however we didn’t have much time to implement it and test it because Person Agent was initially assigned to someone else, so we didn’t start working on it until later in the project.

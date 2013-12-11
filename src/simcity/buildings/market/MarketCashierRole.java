@@ -68,6 +68,7 @@ public class MarketCashierRole extends Role implements MarketCashier {
 		return marketState;
 	}
 
+
 	public void msgLeaveWork() {
 		marketState = MarketState.allWorkersGone;
 		person.scheduleEvent(EventType.Work);
@@ -316,6 +317,9 @@ public class MarketCashierRole extends Role implements MarketCashier {
 			//e.printStackTrace();
 		}
 	}
+
+	
+	
 
 
 

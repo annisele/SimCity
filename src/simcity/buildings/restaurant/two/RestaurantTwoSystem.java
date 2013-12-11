@@ -60,6 +60,7 @@ public class RestaurantTwoSystem extends SimSystem {
 	public RestaurantTwoSystem(SimCityGui scgui,RestaurantTwoComputer c) {
 		super(scgui);
 		this.computer=c;
+		computer.setSystem(this);
 		super.setAnimationPanel(new RestaurantTwoAnimationPanel());
 		super.setControlPanel(new RestaurantTwoControlPanel(c));
 		this.owheel = new RestaurantTwoOrderWheel();

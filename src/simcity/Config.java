@@ -901,20 +901,13 @@ public class Config {
 		systems.addHouse("HOUSE1", 181, 152);
 		//systems.addHouse("HOUSE2", 253, 152);
 		//systems.addHouse("HOUSE3", 326, 152);
-		//systems.addHouse("HOUSE4", 398, 152); 
+	//	systems.addHouse("HOUSE4", 398, 152); 
 
-		// Top Left Island
-		// First row
-		systems.addHouse("HOUSE1", 181, 152);
-		//		systems.addHouse("HOUSE2", 253, 152);
-		//		systems.addHouse("HOUSE3", 326, 152);
-		//		systems.addHouse("HOUSE4", 398, 152); 
-		//
-		//		// Second row
-		//		systems.addHouse("HOUSE7", 181, 246);
-		//		systems.addHouse("HOUSE5", 253, 246);
-		//		systems.addHouse("HOUSE6", 326, 246);
-		//		systems.addHouse("HOUSE8", 398, 246);
+//		// Second row
+		systems.addRestaurantTwo("RESTAURANT2", 181, 246);
+		//systems.addHouse("HOUSE5", 253, 246);
+//		systems.addHouse("HOUSE6", 326, 246);
+//		systems.addHouse("HOUSE8", 398, 246);
 
 		// Third row
 		systems.addMarket("MARKET1", 253, 338);
@@ -922,7 +915,29 @@ public class Config {
 
 		systems.addBank("BANK1", 326, 338);
 		systems.addBank("BANK2", 253, 246);
+		//res 2 workers
+		systems.addPerson("Conor oberst");
+		//systems.setHome("Conor oberst", "HOUSE9");
+		systems.setWorkRestaurantTwoCashier("Conor oberst", "RESTAURANT2");
+		//systems.setSleep("Conor oberst");
+		
+		systems.addPerson("Kanye");
+		//systems.setHome("Kanye", "HOUSE10");
+		systems.setWorkRestaurantTwoHost("Kanye", "RESTAURANT2");
+		//systems.setSleep("Kanye");
+		
+		systems.addPerson("Red");
+	//	systems.setHome("Red", "HOUSE11");
+		systems.setWorkRestaurantTwoCook("Red", "RESTAURANT2");
+		//systems.setSleep("Red");
 
+
+		systems.addPerson("Kong");
+	//	systems.setHome("Kong", "HOUSE13");
+		systems.setWorkRestaurantTwoWaiter("Kong", "RESTAURANT2");
+		//systems.setSleep("Kong");
+		
+		
 		// Workers for MARKET1
 		systems.addPerson("Mary");
 		//systems.setHome("Mary", "HOUSE2");

@@ -142,6 +142,7 @@ public class SystemManager {
 		w.setBackgroundThree();
 		dir.makeParkingStructure1();
 		dir.makeStreetsAndIntersections();
+		dir.makeBusStopDirectory();
 	}
 
 	public void addPerson(String name) {

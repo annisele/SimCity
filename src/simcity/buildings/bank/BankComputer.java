@@ -67,7 +67,7 @@ public class BankComputer {
 		account.reinitialize();
 	}
 	
-	public void addHackedBankAccount(int accountNumber, double accountBalance, double amountOwed, String password) {
+	public void addBankAccount(int accountNumber, double accountBalance, double amountOwed, String password) {
 		customerAccounts.put(accountNumber, null);
 		passwordAccounts.put(accountNumber, password);
 		balanceAccounts.put(accountNumber, accountBalance);

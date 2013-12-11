@@ -345,16 +345,10 @@ public class PersonAgent extends Agent implements Person {
 				}
 			}
 
-			
-			
-			//hack
-			//((BankCustomer)eventR).hackDepositMoney((BankSystem)(Directory.getSystem(buildingName)));
 			e = new Event(registeredBank, eventR, TWO_HOURS, -1, true, steps, t);
 
 			insertEvent(e);
 			stateChanged();
-
-
 		}
 		else if (t == EventType.WithdrawMoney) {
 			if (registeredBank == null) {
@@ -383,8 +377,6 @@ public class PersonAgent extends Agent implements Person {
 				}
 			}
 			
-
-			//((BankCustomer)eventR).hackWithdrawMoney((BankSystem)(Directory.getSystem(buildingName)));
 			e = new Event(registeredBank, eventR, TWO_HOURS, -1, true, steps, t);
 
 			insertEvent(e);
@@ -404,8 +396,7 @@ public class PersonAgent extends Agent implements Person {
 					eventR = r;
 				}
 			}
-			//hack
-			((BankCustomer)eventR).hackGetLoan((BankSystem)(Directory.getSystem(buildingName)));
+			((BankCustomer)eventR).getLoan((BankSystem)(Directory.getSystem(buildingName)));
 			e = new Event(buildingName, eventR, TWO_HOURS, -1, true, steps, t);
 
 			insertEvent(e);
@@ -415,7 +406,6 @@ public class PersonAgent extends Agent implements Person {
 
 			List<String> banks = Directory.getBanks();
 
-			//Do("We're Depositing, and banks size is "+banks.size());
 			int index = rand.nextInt(banks.size());
 			String buildingName = banks.get(index);
 			List<Step> steps = new ArrayList<Step>();
@@ -429,14 +419,11 @@ public class PersonAgent extends Agent implements Person {
 				}
 			}
 
-			//hack
-			((BankRobber)eventR).hackRobBank((BankSystem)(Directory.getSystem(buildingName)));
+			((BankRobber)eventR).robBank((BankSystem)(Directory.getSystem(buildingName)));
 			e = new Event(buildingName, eventR, TWO_HOURS, -1, true, steps, t);
 
 			insertEvent(e);
 			stateChanged();
-
-
 		}
 		else if (t == EventType.PayRent) {
 			List<String> banks = Directory.getBanks();
@@ -452,8 +439,8 @@ public class PersonAgent extends Agent implements Person {
 					eventR = r;
 				}
 			}
-			//hack
-			((BankCustomer)eventR).hackPayRent((BankSystem)(Directory.getSystem(buildingName)));
+
+			((BankCustomer)eventR).payRent((BankSystem)(Directory.getSystem(buildingName)));
 			e = new Event(buildingName, eventR, TWO_HOURS, -1, true, steps, t);
 
 			insertEvent(e);
@@ -1060,7 +1047,6 @@ public class PersonAgent extends Agent implements Person {
 		return (currentRole == null);
 	}
 
-	//hack
 	public IdlePersonGui getIdleGui() {
 		return idleGui;
 	}

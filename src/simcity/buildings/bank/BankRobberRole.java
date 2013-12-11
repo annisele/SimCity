@@ -88,7 +88,7 @@ public class BankRobberRole extends Role implements simcity.interfaces.bank.Bank
 	public void setBankTeller(BankTeller bt) {
 		this.bt = bt;
 	}
-	public void hackRobBank(BankSystem b) {
+	public void robBank(BankSystem b) {
 		bank = b;
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankRobber: " + person.getName(), "Im here to rob dis bank!");	
 

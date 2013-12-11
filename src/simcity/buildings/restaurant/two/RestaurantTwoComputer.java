@@ -56,7 +56,7 @@ public class RestaurantTwoComputer {
 		
 		}
 	}
-	protected void setInventory(int st, int ch, int sa, int pi) {
+	public void setInventory(int st, int ch, int sa, int pi) {
 		inventory.steak=st;
 		inventory.chicken=ch;
 		inventory.salad=sa;

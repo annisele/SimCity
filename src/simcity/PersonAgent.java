@@ -118,7 +118,7 @@ public class PersonAgent extends Agent implements Person {
 		myRoles.add(r6);
 		myRoles.add(cpr);
 		
-		money = 5.0 + 15*rand.nextDouble(); //$5-$20
+		//money = 5.0 + 15*rand.nextDouble(); //$5-$20
 		  
 	}
 

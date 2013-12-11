@@ -1,4 +1,4 @@
-team14
+﻿team14
 ======
 
 SimCity201 Project Repository for CS 201 students
@@ -14,8 +14,12 @@ How to run team 14 simcity
 be sure that the build path is configured so that the src is the only source folder
 and there are no excluded package
 
+SimCity V2 scenarios
+==========================================
+Run the scenarios in the drop down on the left.
 
-SimCity scenarios
+
+SimCity V1 scenarios
 ==========================================
 We have implemented 8 scenarios in our SimCity.
 
@@ -117,8 +121,14 @@ Member Contributions
   + Worked with Rebecca on creating a scenario in which people have houses and work at a market.  Finished completing the market - person - house inhabitant interaction so that the house's food stock is updated once people buy food from a market.
   + Implemented a two market scenario to test and make sure that multiple markets can work in conjunction, and the workers behave normally and are able to shop at the other market.
   + Implemented draging of the WorldAnimationPanel so that we can fit more buildings into our SimCity.
+  + Created a final world image and made some edits to previous images I had made.
   + Worked on the clock more to accommodate the planning of PersonAgent's schedule.
-  + Made a ControlPanel for the house which displays info such as available food.
+  + Made a ControlPanel for the house which displays info such as available food, and laid the basis for the other control panels.
+  + Worked on trying to implement a choice between eating the restaurant or at home, but ultimately did not implement due to last-minute problems.
+  + Started implementing my restaurant (6), and got each role to "exist" in SimCity.  Did not finish copying my Restaurant V2.2 code as there were too many pressing issues involving the world, house, market, and general V2 requirements.
+  + Added the bones of most V2.2 scenarios including building placement and people.
+  + Spent time debugging issues in almost all aspects of the program.
+  + Spent the majority of my time working on PersonAgent, it's schedule, and problems integrating systems.
 
 #####V1:
   + Created initial design documents for PersonAgent and Transportation (along with Josh).
@@ -142,7 +152,7 @@ Member Contributions
 
 ####Levonne Key :
 #####V2: 
-  + I implemented my restaurant. the gui looks fine and all the messages are in there but i was working on transportation and other stuffs . the restaurant is partially runnning but not entirely due to a nullpointerexception. i've been spending too much time on designing the transportation and simcity map. according to the github, https://github.com/usc-csci201-fall2013/team14/pulse, I've 2 usernames : levonne key and levonne but in the graphs, I can only see levonne but not levonne key. I've been committing my code as levonne key on github. so the graph isn't as accurate as the pulse. select 1 month from the dropdown list to see the accurate number of commits that i made as levonne key. 
+  + I implemented my restaurant. the gui looks fine and all the messages are in there but i was working on transportation and other stuffs . the restaurant is partially runnning but not entirely due to a nullpointerexception. i've been spending too much time on designing the transportation and simcity map. according to the github, https://github.com/usc-csci201-fall2013/team14/pulse, I've 2 usernames : levonne key and levonne but in the graphs, I can only see levonne but not levonne key. I've been committing my code as levonne key on github. so the graph isn't as accurate as the pulse. select 1 month from the dropdown list to see the accurate number of commits that i made as levonne key. The bank may have occasional errors
   + I work on ensuring that the guis leave the bank after work, integrate house, market and bank in Config.java, integrate restaurant three in Config.java, create parking structure in Directory.java, include restaurant three in PersonAgent.java, setup restaurant three in SystemManager.java, RestaurantThreeCashierRole.java, RestaurantThreeComputer.java, RestaurantThreeCookRole.java, RestaurantThreeCustomerRole.java, RestaurantThreeFood.java, RestaurantThreeHostRole.java, RestaurantThreeMenu.java, RestaurantThreeOrder.java, RestaurantThreeOrderWheel.java, RestaurantThreeSharedDataWaiter.java, RestaurantThreeSystem.java, RestaurantThreeWaiterRole.java, WorldAnimationPanel.java (transportation and parking structure), RestaurantThreeAnimationPanel.java, RestaurantThreeCashierGui.java, RestaurantThreeControlPanel.java, RestaurantThreeCookGui.java, RestaurantThreeCustomerGui.java, RestaurantThreeHostGui.java, RestaurantThreeWaiterGui.java, RestaurantThreeCashier.java, RestaurantThreeCook.java, RestaurantThreeCustomer.java, RestaurantThreeHost.java, RestaurantThreeWaiter.java, did the initial design of transportation, parking structure and bus route with Joshua, Clayton and Kevin (decide on the postion of parking structures and the new layout of the simcity), work on the scenarios ensuring that the scenario B and F have the people start from ther house first, integrating bank, market and home in scenarios, work on junit testing for market : marketcashiertest.java and other junit testing, work on the design and code of the parking structure and route of the bus and car
 
 

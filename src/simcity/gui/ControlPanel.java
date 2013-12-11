@@ -107,7 +107,7 @@ public class ControlPanel extends JPanel implements ActionListener {
 		configStrings[20] = "Scenario F";
 		configStrings[21] = "Scenario G";
 		configStrings[22] = "Scenario J";
-		configStrings[23] = "OneBankShitty";
+		configStrings[23] = "OneBankFull";
 
 
 		configDropdown = new JComboBox(configStrings);

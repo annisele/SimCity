@@ -957,7 +957,6 @@ public class Config {
 	//	systems.setHome("Ben", "HOUSE8");
 		systems.setWorkBankTeller("Ben", "BANK1");
 	//	systems.setSleep("Ben");
-	//	systems.addBankAccount(0, 100, 0, "abcdef");
 		
 		// BANK2 workers
 		systems.addPerson("Bob");
@@ -1050,7 +1049,6 @@ public class Config {
 		systems.setWorkBankHost("Bob", "BANK2");
 		systems.addPerson("Ren");
 		systems.setWorkBankTeller("Ren", "BANK2");
-	
 	}
 
 	public void scenarioC() {
@@ -1201,6 +1199,16 @@ public class Config {
 		systems.clearDetailPane();
 
 		systems.setBackgroundThree();
+		systems.addHouse("HOUSE1", 253, 152);
+		systems.addHouse("HOUSE2", 326, 152);
+		systems.addHouse("HOUSE3", 398, 152); 
+		systems.addBank("BANK1", 326, 338);
+		// BANK1 workers
+		systems.addPerson("Kevin");
+		systems.setWorkBankHost("Kevin", "BANK1");
+		systems.addPerson("Ben");
+		systems.setWorkBankTeller("Ben", "BANK1");
+		
 	}
 
 	public void scenarioG() {
@@ -1213,6 +1221,8 @@ public class Config {
 		systems.clearDetailPane();
 
 		systems.setBackgroundThree();
+		
+		
 	}
 
 	public void scenarioJ() {
@@ -1227,7 +1237,7 @@ public class Config {
 		systems.setBackgroundThree();
 	}
 
-	public void OneBankShitty() {
+	public void OneBankFull() {
 		systems.clear();
 		systems.clearDetailPane();
 
@@ -1235,15 +1245,15 @@ public class Config {
 
 		systems.addBank("BANK1", 249, 140);
 
-		systems.addPerson("Turd");
-		systems.setWorkBankHost("Turd", "BANK1");
+		systems.addPerson("Dan");
+		systems.setWorkBankHost("Dan", "BANK1");
 
-		systems.addPerson("Poo");
-		systems.setWorkBankTeller("Poo", "BANK1");
+		systems.addPerson("Josh");
+		systems.setWorkBankTeller("Josh", "BANK1");
 
 		timer.schedule(new TimerTask() {
 			public void run() {
-				systems.addPerson("Toilet");
+				systems.addPerson("Kristi");
 			}
 		}, 4000);
 	}

@@ -118,7 +118,7 @@ public class PersonAgent extends Agent implements Person {
 		myRoles.add(r6);
 		myRoles.add(cpr);
 		
-		money = 5.0 + 15*rand.nextDouble(); //$5-$20
+		//money = 5.0 + 15*rand.nextDouble(); //$5-$20
 		  
 	}
 
@@ -239,7 +239,7 @@ public class PersonAgent extends Agent implements Person {
 	public boolean scheduleEvent(EventType t) {
 		Event e;
 		if (t == EventType.GoToMarket) {
-			List<String> markets = Directory.getMarkets();
+			List<String> markets = Directory.getOpenMarkets();
 			if (markets.size() == 0) {
 				return false;
 			}
@@ -266,7 +266,7 @@ public class PersonAgent extends Agent implements Person {
 			stateChanged();
 		}
 		else if (t == EventType.BusToMarket) {
-			List<String> markets = Directory.getMarkets();
+			List<String> markets = Directory.getOpenMarkets();
 			int index = rand.nextInt(markets.size());
 			String buildingName = markets.get(index);
 			List<Step> steps = new ArrayList<Step>();
@@ -300,7 +300,7 @@ public class PersonAgent extends Agent implements Person {
 		
 		else if (t == EventType.CarToMarket) {
 			System.out.println("In car to market first line personagent");
-			List<String> markets = Directory.getMarkets();
+			List<String> markets = Directory.getOpenMarkets();
 			int index = rand.nextInt(markets.size());
 			String buildingName = markets.get(index);
 			List<Step> steps = new ArrayList<Step>();
@@ -328,7 +328,7 @@ public class PersonAgent extends Agent implements Person {
 		else if (t == EventType.DepositMoney) {
 
 			if (registeredBank == null) {
-				List<String> banks = Directory.getBanks();
+				List<String> banks = Directory.getOpenBanks();
 
 				int index = rand.nextInt(banks.size());
 				String buildingName = banks.get(index);
@@ -359,7 +359,7 @@ public class PersonAgent extends Agent implements Person {
 		}
 		else if (t == EventType.WithdrawMoney) {
 			if (registeredBank == null) {
-				List<String> banks = Directory.getBanks();
+				List<String> banks = Directory.getOpenBanks();
 
 				int index = rand.nextInt(banks.size());
 				String buildingName = banks.get(index);
@@ -390,7 +390,7 @@ public class PersonAgent extends Agent implements Person {
 			stateChanged();
 		}
 		else if (t == EventType.GetALoan) {
-			List<String> banks = Directory.getBanks();
+			List<String> banks = Directory.getOpenBanks();
 			int index = rand.nextInt(banks.size());
 			String buildingName = banks.get(index);
 			List<Step> steps = new ArrayList<Step>();
@@ -411,7 +411,7 @@ public class PersonAgent extends Agent implements Person {
 		}
 		else if (t == EventType.RobBank) {
 
-			List<String> banks = Directory.getBanks();
+			List<String> banks = Directory.getOpenBanks();
 
 			int index = rand.nextInt(banks.size());
 			String buildingName = banks.get(index);
@@ -433,7 +433,7 @@ public class PersonAgent extends Agent implements Person {
 			stateChanged();
 		}
 		else if (t == EventType.PayRent) {
-			List<String> banks = Directory.getBanks();
+			List<String> banks = Directory.getOpenBanks();
 			int index = rand.nextInt(banks.size());
 			String buildingName = banks.get(index);
 			List<Step> steps = new ArrayList<Step>();
@@ -545,7 +545,7 @@ public class PersonAgent extends Agent implements Person {
 		
 		else if (t == EventType.Eat) {
 			t = EventType.EatAtHome;
-			if (rand.nextBoolean() && Directory.getRestaurants().size() > 0)
+			if (rand.nextBoolean() && Directory.getOpenRestaurants().size() > 0)
 				t = EventType.EatAtRestaurant;				
 		}
 		if (t == EventType.EatAtHome) {
@@ -565,7 +565,7 @@ public class PersonAgent extends Agent implements Person {
 			stateChanged();
 		}
 		else if (t == EventType.EatAtRestaurant) {
-			List<String> restaurants = Directory.getRestaurants();
+			List<String> restaurants = Directory.getOpenRestaurants();
 			List<Step> steps = new ArrayList<Step>();
 			steps.add(new Step("exitBuilding", this));
 			steps.add(new Step("goTo", this));

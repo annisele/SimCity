@@ -76,6 +76,12 @@ public class MockBankHost extends Mock implements BankHost {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void msgLeaveWork() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 }

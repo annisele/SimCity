@@ -763,7 +763,7 @@ public class Config {
 					}
 				}, 2000);
 			}
-		}, 4000);
+		}, 5000);
 	}
 
 	public void restaurantFour(){

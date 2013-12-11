@@ -18,7 +18,7 @@ public class RestaurantThreeWaiterGui extends Gui {
 	
 	
 	private final int COOK_X = 320;
-	private final int COOK_Y = 140;
+	private final int COOK_Y = 160;
 
 	public static final int WAITING_X = 85;
 	public static final int WAITING_Y = 410;

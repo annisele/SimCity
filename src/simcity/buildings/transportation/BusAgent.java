@@ -22,12 +22,13 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 	
 	Directory dir;
 	public String name;
-	public BusGui gui;
+	private BusGui gui;
 		
 	private List<MyPassenger> passengers = Collections.synchronizedList(new ArrayList<MyPassenger>());
 	
 	private Map<Integer, Location> busRoute = new HashMap<Integer, Location>();
-	private Map<Integer, Location> busStops = new HashMap<Integer,Location>(NUM_BUSSTOPS);
+	private Map<Integer, Location> busStops = new HashMap<Integer,Location>();
+	private Map<Integer, Intersection> stoplights = new HashMap<Integer, Intersection>();
 	
 	private int busRouteCounter;
 	private int busStopCounter;
@@ -73,7 +74,13 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 				busRoute.put(i, tempLoc);
 				tempList.remove(tempLoc);
 			}
-			busStopCounter = 9;
+			List<Intersection> tempInts = Directory.defineClockwiseBusStopIntersections();
+			for (int i=1; i<=10; i++) {
+				Intersection tempInt = tempInts.get(0);
+				stoplights.put(i, tempInt);
+				tempInts.remove(tempInt);
+			}
+			busRouteCounter = 0;
 		}
 		else if (name == "counterclockwise") {
 			List<Location> tempList = Directory.defineCounterClockwiseBusRoute();
@@ -82,7 +89,13 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 				busRoute.put(i, tempLoc);
 				tempList.remove(tempLoc);
 			}
-			busStopCounter = 9;
+			List<Intersection> tempInts = Directory.defineCounterClockwiseBusStopIntersections();
+			for (int i=1; i<=10; i++) {
+				Intersection tempInt = tempInts.get(0);
+				stoplights.put(i, tempInt);
+				tempInts.remove(tempInt);
+			}
+			busRouteCounter = 0;
 		}
 	}
 	
@@ -196,7 +209,12 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 		} catch (InterruptedException e) {
 			//e.printStackTrace();
 		}
-		System.out.println("Whatever");
+		stoplights.get(busRouteCounter + 1).vehicleWantsToCross(this);
+		try {
+			atDestination.acquire();
+		} catch (InterruptedException e) {
+			//e.printStackTrace();
+		}
 		msgArrived();
 		busRouteCounter++;
 	}
@@ -229,6 +247,7 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 
 	// Utility functions ////////////////////////////////////////////////////////////////////////////////////////////
 	public void atDestination() {
+		
 		/*
 		stopTimer.schedule(new TimerTask() {
 			public void run() {

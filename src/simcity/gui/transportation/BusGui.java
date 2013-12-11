@@ -31,12 +31,12 @@ public class BusGui extends Gui {
 		}
 		if (busagent.getName().equals("clockwise")) {
 			x = 110;
-			y = 150;
+			y = 200;
 					
 		}
 		if (busagent.getName().equals("counterclockwise")) {
-			x = 1370;
-			y = 800;
+			x = 1200;
+			y = 830;
 				
 		}
 		

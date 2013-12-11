@@ -17,33 +17,39 @@ public class RestaurantFiveWaiterGui extends Gui {
 	private final int HOST_Y = 285;
 	private final int TABLE1_X = 200;
 	private final int TABLE_Y = 200;
-	
+	private final int COOK_X = 160;
+	private final int COOK_Y = 350;
+
 	private ImageIcon ii = new ImageIcon("res/person/bluepersondownbig.png");
 	private Image hostimage = ii.getImage();
-	
+
 	public RestaurantFiveWaiterGui(RestaurantFiveWaiter w) {
 		role = w;
 	}
-	
+
 	@Override
 	public void draw(Graphics2D g) {
 		g.drawImage(hostimage, getX(), getY(), null);
 	}
-	
+
 	public void DoGoToHome() {
 		DoGoToLocation(HOME_X, HOME_Y);
 	}
-	
+
 	public void DoGoToHost() {
 		DoGoToLocation(HOST_X, HOST_Y);
 	}
-	
+
 	public void DoGoToTable(int table) {
 		if(table == 1) {
 			DoGoToLocation(TABLE1_X, TABLE_Y);
 		}
 	}
-	
+
+	public void DoGoToCook() {
+		DoGoToLocation(COOK_X, COOK_Y);
+	}
+
 	public void DoSeatCustomer(RestaurantFiveCustomer c, int table) {
 		if(table == 1) {
 			DoGoToLocation(TABLE1_X, TABLE_Y);

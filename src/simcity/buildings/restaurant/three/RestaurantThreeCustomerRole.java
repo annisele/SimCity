@@ -5,6 +5,8 @@
  */
 package simcity.buildings.restaurant.three;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
@@ -36,11 +38,20 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
 	private CustomerState state = CustomerState.DoingNothing;//The start state
     private RestaurantThreeOrderWheel OrderWheel= new RestaurantThreeOrderWheel();
 	private String choice;
+	private List<Order> finishedOrders = new ArrayList<Order>();
     public enum CustomerEvent 
 	{none, wait, gotHungry, followWaiter, seated, stayOrLeave, decidedChoice, waiterToTakeOrder, served, finishedEating,checkReceived, notWaiting, keepWaiting, doneLeaving, needReorder, leaveBecauseOfNoMoney, payNextTime, requestReorder};
 	CustomerEvent event = CustomerEvent.none;
-	
+	private class Order {
+		String choice;
+		int table;
+		Order(String ch, int t) {
+			this.choice = ch;
+			this.table = t;
+		}
+	}
 	private Semaphore atDest = new Semaphore(0, true);
+	private RestaurantThreeMenu menu;
 	public void atDestination() {
 		atDest.release();
 	}
@@ -51,7 +62,6 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
 	public String getCustomerName() {
 		return person.getName();
 	}
-
 	public void msgFollowMeToTable(RestaurantThreeWaiter w, int tableNum) {
 		Do("Follow waiter to table");
 		waiter = w;
@@ -92,7 +102,6 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
 		} 
 		  if (state == CustomerState.WaitingInRestaurant && event == CustomerEvent.followWaiter ){
               state = CustomerState.BeingSeated;
-              Do("I get seated");
               getSeated();
               return true;
 		  }
@@ -142,11 +151,13 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
 	private void callWaiter() {
 		waiter.msgGetMyOrder(this);
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(rest.getName()), "Restaurant 3 Customer: " + person.getName(), "I'm ready to order.");
+		stateChanged();
 	}
 	private void orderFood() {
+		String choice = menu.choices[(int)(Math.random()*4)];
 		waiter.msgHereIsMyChoice(this, choice);
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(rest.getName()), "Restaurant 3 Customer: " + person.getName(), "I want " + choice);
-		
+		stateChanged();
 	}
 	@Override
 	public void exitBuilding() {

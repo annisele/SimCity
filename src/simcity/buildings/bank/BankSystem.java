@@ -7,6 +7,8 @@ import javax.swing.JPanel;
 import simcity.Role;
 import simcity.gui.*;
 import simcity.gui.bank.*;
+import simcity.gui.trace.AlertLog;
+import simcity.gui.trace.AlertTag;
 import simcity.interfaces.bank.BankCustomer;
 import simcity.interfaces.bank.BankHost;
 import simcity.interfaces.bank.BankRobber;
@@ -39,6 +41,9 @@ public class BankSystem extends simcity.SimSystem{
 		}
 
 	}
+	public List<BankTeller> getTellers() {
+		return bankTellers;
+	}
 
 	public SimCityGui getSimCityGui() {
 		return simCityGui;
@@ -54,8 +59,6 @@ public class BankSystem extends simcity.SimSystem{
 	
 	public void setBankHost(BankHost c) {
 		this.bh = c;
-		//BankHostGui hostGui = new BankHostGui(c);
-		//animationPanel.addGui(hostGui);
 	}
 	
 	public void findAvailableWindow() {
@@ -123,6 +126,8 @@ public class BankSystem extends simcity.SimSystem{
 	
 	
 	public boolean msgEnterBuilding(Role role) {
+		AlertLog.getInstance().logMessage(AlertTag.valueOf("BANK1"), "Bank system: ", 
+				"Someone trying to enter: " + role.toString());
 		if (role instanceof BankHost) {
 			if (bh == null) {
 				bh = (BankHost) role;
@@ -150,11 +155,15 @@ public class BankSystem extends simcity.SimSystem{
 		return false;
 	}
 	public void exitBuilding(Role role) {
+		animationPanel.removeGui(role.getGui());
 		if(role instanceof BankCustomer) {
 			customers.remove((BankCustomer) role);
 		}
 		else if(role instanceof BankTeller) {
 			bankTellers.remove((BankTeller) role);
+			if(bankTellers.size()==0) {
+				bh.msgLeaveWork();
+			}
 		}
 		else if (role instanceof BankHost) {
 			bh = null;

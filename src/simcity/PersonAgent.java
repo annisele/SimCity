@@ -21,6 +21,8 @@ import simcity.buildings.restaurant.four.RestaurantFourCustomerRole;
 import simcity.buildings.restaurant.four.RestaurantFourSystem;
 import simcity.buildings.restaurant.one.RestaurantOneCustomerRole;
 import simcity.buildings.restaurant.one.RestaurantOneSystem;
+import simcity.buildings.restaurant.six.RestaurantSixCustomerRole;
+import simcity.buildings.restaurant.six.RestaurantSixSystem;
 import simcity.buildings.restaurant.three.RestaurantThreeCustomerRole;
 import simcity.buildings.restaurant.three.RestaurantThreeSystem;
 import simcity.buildings.restaurant.two.RestaurantTwoCustomerRole;
@@ -42,6 +44,7 @@ import simcity.interfaces.market.MarketCustomer;
 import simcity.interfaces.restaurant.five.RestaurantFiveCustomer;
 import simcity.interfaces.restaurant.four.RestaurantFourCustomer;
 import simcity.interfaces.restaurant.one.RestaurantOneCustomer;
+import simcity.interfaces.restaurant.six.RestaurantSixCustomer;
 import simcity.interfaces.restaurant.three.RestaurantThreeCustomer;
 import simcity.interfaces.restaurant.two.RestaurantTwoCustomer;
 import simcity.interfaces.transportation.Pedestrian;
@@ -64,17 +67,18 @@ public class PersonAgent extends Agent implements Person {
 	public enum EventType { Eat, GoToMarket, BusToMarket, EatAtRestaurant, EatAtHome, DepositMoney, WithdrawMoney, GetALoan, PayRent, Sleep, Work, WorkNow, CarToMarket, RobBank };
 
 	private String name;
-	private double money = 10;
+	private double money = 30;
 	private double withdrawThreshold = 10; // if money is less than this, we will try to withdraw
-	private double depositThreshold = 25; // if money is higher than this, we will try to deposit
+	private double depositThreshold = 50; // if money is higher than this, we will try to deposit
 	final int TWO_HOURS = 12;
 	private final int EIGHT_HOURS = 48;
 	final int FIRSTSLEEPDURATION = 6;
 	final int SLEEPDURATION = 48;
 	final int AWAKEDURATION = 88;
 	private boolean workClosed = false;
-	private String bankPassword;
-	private int accountNumber;
+	private String registeredBank = null;
+	private String bankPassword = "abcdef";
+	private int accountNumber = -1;
 	private CarAgent car;
 	private String home;
 	private String workBuilding;
@@ -98,7 +102,7 @@ public class PersonAgent extends Agent implements Person {
 		RestaurantThreeCustomerRole r3 = new RestaurantThreeCustomerRole(this);
 		RestaurantFourCustomerRole r4 = new RestaurantFourCustomerRole(this);
 		RestaurantFiveCustomerRole r5 = new RestaurantFiveCustomerRole(this);
-		//RestaurantSixCustomerRole r6 = new RestaurantSixCustomerRole(this);
+		RestaurantSixCustomerRole r6 = new RestaurantSixCustomerRole(this);
 		myRoles.add(p);
 		myRoles.add(h);
 		myRoles.add(m);
@@ -110,6 +114,7 @@ public class PersonAgent extends Agent implements Person {
 		myRoles.add(r3);
 		myRoles.add(r4);
 		myRoles.add(r5);
+		myRoles.add(r6);
 		myRoles.add(cpr);
 		
 		money = 5.0 + 15*rand.nextDouble(); //$5-$20
@@ -181,7 +186,11 @@ public class PersonAgent extends Agent implements Person {
 	}
 	
 	
-
+	public void setMoney(double m) {
+		money = m;
+		checkMoneyThreshold();
+	}
+	
 	public void addMoney(double m) {
 		money += m;
 		checkMoneyThreshold();
@@ -231,6 +240,7 @@ public class PersonAgent extends Agent implements Person {
 			List<Step> steps = new ArrayList<Step>();
 			steps.add(new Step("exitBuilding", this));
 			steps.add(new Step("goTo", this));
+			//chooseTransportation();
 			steps.add(new Step("enterBuilding", this));
 			Role eventR = null;
 			for(Role r : myRoles) {
@@ -309,9 +319,42 @@ public class PersonAgent extends Agent implements Person {
 
 		else if (t == EventType.DepositMoney) {
 
-			List<String> banks = Directory.getBanks();
+			if (registeredBank == null) {
+				List<String> banks = Directory.getBanks();
 
-			//Do("We're Depositing, and banks size is "+banks.size());
+				int index = rand.nextInt(banks.size());
+				String buildingName = banks.get(index);
+				registeredBank = buildingName;
+			}
+			else {
+				String buildingName = registeredBank;
+			}
+			
+			
+			List<Step> steps = new ArrayList<Step>();
+			steps.add(new Step("exitBuilding", this));
+			steps.add(new Step("goTo", this));
+			steps.add(new Step("enterBuilding", this));
+			Role eventR = null;
+			for(Role r : myRoles) {
+				if(r instanceof BankCustomer) {
+					eventR = r;
+				}
+			}
+
+			
+			
+			//hack
+			//((BankCustomer)eventR).hackDepositMoney((BankSystem)(Directory.getSystem(buildingName)));
+			e = new Event(registeredBank, eventR, TWO_HOURS, -1, true, steps, t);
+
+			insertEvent(e);
+			stateChanged();
+
+
+		}
+		else if (t == EventType.WithdrawMoney) {
+			List<String> banks = Directory.getBanks();
 			int index = rand.nextInt(banks.size());
 			String buildingName = banks.get(index);
 			List<Step> steps = new ArrayList<Step>();
@@ -324,38 +367,12 @@ public class PersonAgent extends Agent implements Person {
 					eventR = r;
 				}
 			}
-
+			
 			//hack
-			((BankCustomer)eventR).hackDepositMoney((BankSystem)(Directory.getSystem(buildingName)));
+			((BankCustomer)eventR).hackWithdrawMoney((BankSystem)(Directory.getSystem(buildingName)));
 			e = new Event(buildingName, eventR, TWO_HOURS, -1, true, steps, t);
 
 			insertEvent(e);
-			stateChanged();
-
-
-		}
-		else if (t == EventType.WithdrawMoney) {
-			List<String> banks = Directory.getBanks();
-			if(banks.size() > 0) {
-				int index = rand.nextInt(banks.size());
-				String buildingName = banks.get(index);
-				List<Step> steps = new ArrayList<Step>();
-				steps.add(new Step("exitBuilding", this));
-				steps.add(new Step("goTo", this));
-				steps.add(new Step("enterBuilding", this));
-				Role eventR = null;
-				for(Role r : myRoles) {
-					if(r instanceof BankCustomer) {
-						eventR = r;
-					}
-				}
-				
-				//hack
-				((BankCustomer)eventR).hackWithdrawMoney((BankSystem)(Directory.getSystem(buildingName)));
-				e = new Event(buildingName, eventR, TWO_HOURS, -1, true, steps, t);
-
-				insertEvent(e);
-			}
 			stateChanged();
 		}
 		else if (t == EventType.GetALoan) {
@@ -580,6 +597,13 @@ public class PersonAgent extends Agent implements Person {
 			else if(Directory.getSystem(buildingName) instanceof RestaurantFourSystem) {
 				for(Role r : myRoles) {
 					if(r instanceof RestaurantFourCustomer) {
+						eventR = r;
+					}
+				}
+			}
+			else if(Directory.getSystem(buildingName) instanceof RestaurantSixSystem) {
+				for(Role r : myRoles) {
+					if(r instanceof RestaurantSixCustomer) {
 						eventR = r;
 					}
 				}
@@ -1268,5 +1292,17 @@ public class PersonAgent extends Agent implements Person {
 	
 	public List<Role> getRolesList() {
 		return myRoles;
+	}
+	
+	public double getWithdrawThreshold() {
+		return withdrawThreshold;
+	}
+	
+	public double getDepositThreshold() {
+		return depositThreshold;
+	}
+	
+	public double getMoney() {
+		return money;
 	}
 }

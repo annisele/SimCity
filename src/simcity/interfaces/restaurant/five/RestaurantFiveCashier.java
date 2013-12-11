@@ -10,4 +10,8 @@ public interface RestaurantFiveCashier extends GuiPartner, MarketPayer {
 	
 	public abstract String getName();
 
+	public abstract void msgProduceCheck(
+			RestaurantFiveWaiter waiter,
+			RestaurantFiveCustomer c, String choice);
+
 }

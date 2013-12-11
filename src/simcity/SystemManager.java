@@ -141,7 +141,7 @@ public class SystemManager {
 		WorldAnimationPanel w = (WorldAnimationPanel)world.getAnimationPanel();
 		w.setBackgroundThree();
 		dir.makeParkingStructure1();
-		dir.makeStreets();
+		dir.makeStreetsAndIntersections();
 	}
 
 	public void addPerson(String name) {
@@ -157,7 +157,7 @@ public class SystemManager {
 		if(name.equalsIgnoreCase("Hungry Jenny") || name.equalsIgnoreCase("Hungry Clayton")) {
 			person.scheduleEvent(EventType.EatAtRestaurant);
 		}
-		if (name.equalsIgnoreCase("Hungry Harry")||name.equalsIgnoreCase("Hungry Aaron")) {
+		if (name.equalsIgnoreCase("Hungry Harry")) {
 
 			person.goToRestaurantThreeNow();
 		}
@@ -172,6 +172,17 @@ public class SystemManager {
 				for(Role r : person.getRolesList()) {
 					if (r instanceof PedestrianRole) {
 						((PedestrianRole) r).getGui().setLocation(700, 700);
+					}
+				}
+			}
+		}
+		
+		if(name == "RyanG") {
+			person.carToMarketNow();
+			synchronized(person.getRolesList()) {
+				for(Role r : person.getRolesList()) {
+					if (r instanceof PedestrianRole) {
+						((PedestrianRole) r).getGui().setLocation(700, 200);
 					}
 				}
 			}

@@ -23,6 +23,7 @@ public class CarPassengerRole extends Role implements simcity.interfaces.transpo
 	Directory dir;
 	public Semaphore atDest = new Semaphore(0, true);
 	List<Location> route = new ArrayList<Location>();
+	List<Intersection> stoplights = new ArrayList<Intersection>();
 	
 	
 	public CarPassengerRole(PersonAgent p) {
@@ -71,9 +72,10 @@ public class CarPassengerRole extends Role implements simcity.interfaces.transpo
 		// Animation - call to cargui
 		//((CarGui) gui).DoGoTo(dir.getGarage(destination).getX(), dir.getGarage(destination).getY());
 		
-		
 		route.clear();
+		stoplights.clear();
 		route = Directory.findRoute(start,destination);
+		stoplights = Directory.findStoplights(start,destination);
 		while(!route.isEmpty()) {
 			Location routePath = route.get(0);
 			((CarGui) gui).DoGoTo(routePath.getX(), routePath.getY());
@@ -83,6 +85,16 @@ public class CarPassengerRole extends Role implements simcity.interfaces.transpo
 				//e.printStackTrace();
 			}
 			route.remove(routePath);
+			if (!stoplights.isEmpty()) {
+				Intersection tempStop = stoplights.get(0);
+				tempStop.vehicleWantsToCross(this);
+				try {
+					atDest.acquire();
+				} catch (InterruptedException e) {
+					//e.printStackTrace();
+				}
+				stoplights.remove(tempStop);
+			}
 		}
 		
 		/* 

@@ -1,6 +1,12 @@
 package simcity;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import simcity.buildings.transportation.Intersection;
 
 public class Directory {
 	
@@ -10,7 +16,7 @@ public class Directory {
 	private static Map<Integer, Location>busStopDirectory = new HashMap<Integer, Location>();
 	private static Map<Integer, Location> parkingStructureDirectory = new HashMap<Integer, Location>();
 	private static Map<Integer, Location> streetDirectory = new HashMap<Integer, Location>();
-	
+	private static Map<Integer, Intersection> intersections = new HashMap<Integer, Intersection>();
 	
 	private class Entry {
 		String name;
@@ -64,7 +70,7 @@ public class Directory {
 		busStopDirectory.put(3, stop3);	
 	}
 	
-	public void makeStreets() {
+	public void makeStreetsAndIntersections() {
 		/*
 		 * Intersection naming convention
 		 * 	- From top to bottom, from left to right, are the intersection numbers
@@ -181,11 +187,26 @@ public class Directory {
 		streetDirectory.put(954, parking5South);
 		streetDirectory.put(961, parking6North);
 		streetDirectory.put(964, parking6South);
+		
+		intersections.put(1, new Intersection(1));
+		intersections.put(2, new Intersection(2));
+		intersections.put(3, new Intersection(3));
+		intersections.put(4, new Intersection(4));
+		intersections.put(5, new Intersection(5));
+		intersections.put(6, new Intersection(6));
+		intersections.put(7, new Intersection(7));
+		intersections.put(8, new Intersection(8));
+		intersections.put(9, new Intersection(9));
+		intersections.put(10, new Intersection(10));
+		intersections.put(11, new Intersection(11));
+		intersections.put(12, new Intersection(12));
 	}
 	
 	public static List<Location> findRoute(int start, int end) {
 		List<Location> route = Collections.synchronizedList(new ArrayList<Location>());
+		List<Intersection> stoplights = Collections.synchronizedList(new ArrayList<Intersection>());
 		route.clear();
+		stoplights.clear();
 		if (start == 1) {
 			if (end == 2) {
 				route.add(streetDirectory.get(23));
@@ -270,6 +291,9 @@ public class Directory {
 				route.add(streetDirectory.get(121));
 				route.add(streetDirectory.get(961));
 				route.add(parkingStructureDirectory.get(6));
+				stoplights.add(new Intersection(7));
+				stoplights.add(new Intersection(8));
+				stoplights.add(new Intersection(12));
 			}
 		}
 		else if (start == 4) {
@@ -363,6 +387,179 @@ public class Directory {
 			}
 		}
 		return route;
+	}
+	
+	public static List<Intersection> findStoplights(int start, int end) {
+		List<Intersection> stoplights = Collections.synchronizedList(new ArrayList<Intersection>());
+		stoplights.clear();
+		
+		if (start == 1) {
+			if (end == 2) {
+				stoplights.add(intersections.get(2));
+				stoplights.add(intersections.get(6));
+			} else if (end == 3) {
+				stoplights.add(intersections.get(2));
+				stoplights.add(intersections.get(6));
+			} else if (end == 4) {
+				stoplights.add(intersections.get(3));
+				stoplights.add(intersections.get(7));
+			} else if (end == 5) {
+				stoplights.add(intersections.get(2));
+				stoplights.add(intersections.get(6));
+				stoplights.add(intersections.get(10));
+			} else if (end == 6) {
+				stoplights.add(intersections.get(3));
+				stoplights.add(intersections.get(4));
+				stoplights.add(intersections.get(8));
+				stoplights.add(intersections.get(12));
+			}
+		}
+		else if (start == 2) {
+			if (end == 1) {
+				stoplights.add(intersections.get(6));
+				stoplights.add(intersections.get(2));
+			} else if (end == 3) {
+				stoplights.add(intersections.get(6));
+			} else if (end == 4) {
+				stoplights.add(intersections.get(6));
+				stoplights.add(intersections.get(7));
+			} else if (end == 5) {
+				stoplights.add(intersections.get(6));
+				stoplights.add(intersections.get(10));
+			} else if (end == 6) {
+				stoplights.add(intersections.get(6));
+				stoplights.add(intersections.get(10));
+				stoplights.add(intersections.get(11));
+			}
+		}
+		else if (start == 3) {
+			if (end == 1) {
+				stoplights.add(intersections.get(6));
+				stoplights.add(intersections.get(2));
+			} else if (end == 2) {
+				stoplights.add(intersections.get(6));
+			} else if (end == 4) {
+				stoplights.add(intersections.get(7));
+			} else if (end == 5) {
+				stoplights.add(intersections.get(6));
+				stoplights.add(intersections.get(10));
+			} else if (end == 6) {
+				stoplights.add(intersections.get(7));
+				stoplights.add(intersections.get(8));
+				stoplights.add(intersections.get(12));
+			}
+		}
+		
+		else if (start == 4) {
+			if (end == 1) {
+				stoplights.add(intersections.get(7));
+				stoplights.add(intersections.get(3));
+			} else if (end == 2) {
+				stoplights.add(intersections.get(7));
+				stoplights.add(intersections.get(6));
+			} else if (end == 3) {
+				stoplights.add(intersections.get(7));
+			} else if (end == 5) {
+				stoplights.add(intersections.get(7));
+				stoplights.add(intersections.get(6));
+				stoplights.add(intersections.get(10));
+			} else if (end == 6) {
+				stoplights.add(intersections.get(8));
+				stoplights.add(intersections.get(12));
+			}
+		}
+		else if (start == 5) {
+			if (end == 1) {
+				stoplights.add(intersections.get(10));
+				stoplights.add(intersections.get(6));
+				stoplights.add(intersections.get(2));
+			} else if (end == 2) {
+				stoplights.add(intersections.get(9));
+				stoplights.add(intersections.get(5));
+			} else if (end == 3) {
+				stoplights.add(intersections.get(10));
+				stoplights.add(intersections.get(6));
+			} else if (end == 4) {
+				stoplights.add(intersections.get(10));
+				stoplights.add(intersections.get(6));
+				stoplights.add(intersections.get(7));
+			} else if (end == 6) {
+				stoplights.add(intersections.get(10));
+				stoplights.add(intersections.get(11));
+			}
+		}
+		else if (start == 6) {
+			if (end == 1) {
+				stoplights.add(intersections.get(11));
+				stoplights.add(intersections.get(10));
+				stoplights.add(intersections.get(6));
+				stoplights.add(intersections.get(2));
+			} else if (end == 2) {
+				stoplights.add(intersections.get(11));
+				stoplights.add(intersections.get(10));
+				stoplights.add(intersections.get(6));
+			} else if (end == 3) {
+				stoplights.add(intersections.get(12));
+				stoplights.add(intersections.get(8));
+				stoplights.add(intersections.get(7));
+			} else if (end == 4) {
+				stoplights.add(intersections.get(12));
+				stoplights.add(intersections.get(8));
+			} else if (end == 5) {
+				stoplights.add(intersections.get(11));
+				stoplights.add(intersections.get(10));
+			}
+		}
+		return stoplights;
+	}
+	
+	public static List<Location> defineClockwiseBusRoute() {
+		List<Location> busRoute = Collections.synchronizedList(new ArrayList<Location>());
+		busRoute.add(streetDirectory.get(22));
+		busRoute.add(streetDirectory.get(32));
+		busRoute.add(streetDirectory.get(42));
+		busRoute.add(streetDirectory.get(81));
+		busRoute.add(streetDirectory.get(121));
+		busRoute.add(streetDirectory.get(113));
+		busRoute.add(streetDirectory.get(103));
+		busRoute.add(streetDirectory.get(93));
+		busRoute.add(streetDirectory.get(54));
+		busRoute.add(streetDirectory.get(14));
+		return busRoute;
+	}
+	
+	public static List<Location> defineCounterClockwiseBusRoute() {
+		List<Location> busRoute = Collections.synchronizedList(new ArrayList<Location>());
+		busRoute.add(streetDirectory.get(122));
+		busRoute.add(streetDirectory.get(84));
+		busRoute.add(streetDirectory.get(44));
+		busRoute.add(streetDirectory.get(33));
+		busRoute.add(streetDirectory.get(23));
+		busRoute.add(streetDirectory.get(13));
+		busRoute.add(streetDirectory.get(51));
+		busRoute.add(streetDirectory.get(91));
+		busRoute.add(streetDirectory.get(102));
+		busRoute.add(streetDirectory.get(112));
+		return busRoute;
+	}
+	
+	public List<Intersection> defineBusStopIntersections() {
+		List<Intersection> busIntersections = Collections.synchronizedList(new ArrayList<Intersection>());
+		busIntersections.add(intersections.get(1));
+		busIntersections.add(intersections.get(2));
+		busIntersections.add(intersections.get(3));
+		busIntersections.add(intersections.get(4));
+		busIntersections.add(intersections.get(8));
+		busIntersections.add(intersections.get(12));
+		busIntersections.add(intersections.get(11));
+		busIntersections.add(intersections.get(10));
+		busIntersections.add(intersections.get(9));
+		busIntersections.add(intersections.get(5));
+		return busIntersections;
+	}
+	
+	public Intersection getIntersection(int i) {
+		return intersections.get(i);
 	}
 	
 	public static Location getBusStop(int bsc) {

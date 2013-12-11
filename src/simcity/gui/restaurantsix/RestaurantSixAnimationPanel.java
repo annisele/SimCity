@@ -19,7 +19,7 @@ public class RestaurantSixAnimationPanel extends AnimationPanel implements Actio
 	ImageIcon cookicon = new ImageIcon("res/restaurant/one/cookcartoon.jpg");
 	Image cookimage = cookicon.getImage();
 	
-	ImageIcon iii = new ImageIcon("res/restaurant/two/restauranttwo.png");
+	ImageIcon iii = new ImageIcon("res/restaurant/six/restaurantsix.png");
     Image img = iii.getImage();
     Image r2image = img.getScaledInstance(470, 454,  java.awt.Image.SCALE_SMOOTH); 
     

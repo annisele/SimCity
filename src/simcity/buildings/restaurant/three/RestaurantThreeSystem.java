@@ -18,7 +18,7 @@ import simcity.interfaces.restaurant.three.RestaurantThreeCashier;
 import simcity.test.restaurantthree.mock.MockRestaurantThreeHost;
 
 public class RestaurantThreeSystem extends simcity.SimSystem {
-	private RestaurantThreeComputer computer = new RestaurantThreeComputer();
+	private RestaurantThreeComputer computer;
 	private RestaurantThreeHost resthost;
 	private RestaurantThreeCook cook;
 	private RestaurantThreeCashier cashier;
@@ -55,9 +55,9 @@ public class RestaurantThreeSystem extends simcity.SimSystem {
 			}
 		}
 		else if (resthost != null) {
-			System.out.println("Do a d dod dod do a lalalalalalla");
+			
 			if (role instanceof RestaurantThreeCustomer) {
-				System.out.println("Do a d dod dod do a lalalalalalla");
+				
 				customers.add((RestaurantThreeCustomer) role);
 				animationPanel.addGui(role.getGui());
 				return true;

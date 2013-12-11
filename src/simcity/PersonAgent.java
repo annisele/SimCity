@@ -68,7 +68,7 @@ public class PersonAgent extends Agent implements Person {
 	public enum EventType { Eat, GoToMarket, BusToMarket, EatAtRestaurant, EatAtHome, DepositMoney, WithdrawMoney, GetALoan, PayRent, Sleep, Work, WorkNow, CarToMarket, RobBank };
 
 	private String name;
-	private double money = 60;
+	private double money = 30;
 	private double withdrawThreshold = 10; // if money is less than this, we will try to withdraw
 	private double depositThreshold = 50; // if money is higher than this, we will try to deposit
 	final int TWO_HOURS = 12;

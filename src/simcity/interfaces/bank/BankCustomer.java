@@ -1,11 +1,10 @@
 package simcity.interfaces.bank;
 
 import simcity.SimSystem;
-import simcity.buildings.bank.BankSystem;
 import simcity.buildings.bank.BankCustomerRole.Event;
 import simcity.buildings.bank.BankCustomerRole.State;
 import simcity.buildings.bank.BankCustomerRole.TransactionType;
-import simcity.gui.bank.BankCustomerGui;
+import simcity.buildings.bank.BankSystem;
 import simcity.interfaces.GuiPartner;
 
 public abstract interface BankCustomer extends GuiPartner {
@@ -33,7 +32,7 @@ public abstract interface BankCustomer extends GuiPartner {
 	public abstract void setBankHost(BankHost bh);
 	public abstract BankTeller getBankTeller();
 	public abstract void setBankTeller(BankTeller bt);
-	public abstract void hackDepositMoney(BankSystem b);
+	public abstract void depositMoney(BankSystem b);
 	public abstract void msgArrivedAtBank();
 	public abstract void msgGoToWindow(int windowNumber, BankTeller bt);
 	public abstract void msgHereIsAccountInfo(BankCustomer bc, int accountNumber, double accountBalance);
@@ -50,9 +49,9 @@ public abstract interface BankCustomer extends GuiPartner {
 	public abstract void msgLeftTheBank();
 	public abstract void exitBuilding();
 	public abstract void enterBuilding(SimSystem s);
-	public abstract void hackWithdrawMoney(BankSystem b);
-	public abstract void hackPayRent(BankSystem b);
-	public abstract void hackGetLoan(BankSystem b);
+	public abstract void withdrawMoney(BankSystem b);
+	public abstract void payRent(BankSystem b);
+	public abstract void getLoan(BankSystem b);
 	public abstract void msgBankIsBeingRobbed();
 	
 }

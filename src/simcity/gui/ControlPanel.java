@@ -230,9 +230,7 @@ public class ControlPanel extends JPanel implements ActionListener {
 //			} else if(selection.equals(configStrings[2])) {
 //				config.busToMarket();
 //			}
-			
-			
-			if(selection.equals(configStrings[8])) {
+			if(selection.equals(configStrings[16])) {
 				config.restaurantOne();
 			}
 			else if(selection.equals(configStrings[16])) {

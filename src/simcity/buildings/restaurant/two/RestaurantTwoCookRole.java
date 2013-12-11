@@ -16,6 +16,7 @@ import java.util.TimerTask;
 import java.util.Map.Entry;
 import java.util.concurrent.Semaphore;
 
+import simcity.PersonAgent.EventType;
 import simcity.buildings.market.MarketSystem;
 //import restaurant.MarketAgent;
 import simcity.buildings.restaurant.two.*;
@@ -106,6 +107,7 @@ public class RestaurantTwoCookRole extends Role implements simcity.interfaces.re
 		computer.inventory.steak=0;
 		//markets.get(0).hack_steak();
 	}
+	
 	public void msgCookOrder(RestaurantTwoWaiter w, int tnum, String choice) {
 		//Do("Recieve msg to cook order");
 		//waiter=w;
@@ -174,6 +176,10 @@ public class RestaurantTwoCookRole extends Role implements simcity.interfaces.re
 		
 		callMarket(computer.getMarket(),item, num);
 	}
+	public void msgLeaveWork() {
+		person.scheduleEvent(EventType.Work);
+		exitBuilding();
+	}
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 * @return 
@@ -213,7 +219,7 @@ public class RestaurantTwoCookRole extends Role implements simcity.interfaces.re
             checkOrderWheel();  
             }
         }, (int)(15000));
-
+		
 		return false;
 	}
 

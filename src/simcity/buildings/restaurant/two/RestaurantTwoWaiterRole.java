@@ -14,6 +14,7 @@ import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
 import simcity.interfaces.restaurant.two.*;
+import simcity.PersonAgent.EventType;
 import simcity.gui.restauranttwo.*;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
@@ -110,6 +111,14 @@ class mycustomer {
 		this.spot = s;
 	}
 	// Messages
+
+	public void msgLeaveWork() {
+		person.scheduleEvent(EventType.Work);
+		exitBuilding();
+	}
+	public void msgFinishWorking(){
+		
+	}
 	public void wantsaBreak(){
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantWaiter: " + person.getName(),"Wants break");
 		WantToGoOnBreak=true;

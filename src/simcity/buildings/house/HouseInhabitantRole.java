@@ -29,6 +29,7 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 	HouseInhabitantEvent event = HouseInhabitantEvent.None;
 	private Map <String, Integer > foodStock = Collections.synchronizedMap(new HashMap<String,Integer>());
 	private Map <String, Integer > foodToBuy = Collections.synchronizedMap(new HashMap<String,Integer>());
+	private Map <String, Integer > foodCookTimes = Collections.synchronizedMap(new HashMap<String,Integer>());
 	private boolean marketScheduled = false;
 
 	private Semaphore atDest = new Semaphore(0, true);
@@ -57,6 +58,12 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 			foodToBuy.put("pizza", 0);
 			foodToBuy.put("salad", 0);
 			
+		}
+		synchronized (foodCookTimes) {
+			foodCookTimes.put("steak", 4000);
+			foodCookTimes.put("chicken", 2000);
+			foodCookTimes.put("pizza", 0);
+			foodCookTimes.put("salad", 500);
 		}
 	}
 
@@ -117,6 +124,7 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 			if (quantity > 0) {
 				// Pick your random food if you have any
 				foodStock.put(choice, (quantity-1));
+				
 				if (quantity <= FOODTHRESHOLD && !marketScheduled) {
 					needToBuy = true;
 				}
@@ -126,6 +134,9 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 					if (foodStock.get(k) > 0) {
 						// Pick this food
 						foodStock.put(choice, (quantity-1));
+						if (quantity == 0) {
+							foodStock.put(choice, 0);
+						}
 						choice = k;
 					}
 					if (foodStock.get(k) < FOODTHRESHOLD && !marketScheduled) {
@@ -156,14 +167,14 @@ public class HouseInhabitantRole extends Role implements simcity.interfaces.hous
 		((HouseInhabitantGui)gui).DoFoodOnStove();
 
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(house.getName()), "HouseInhabitant: "+person.getName(), 
-				"Wow cooking is so much fun");				
+				"Wow cooking is so much fun ");				
 
 		timer.schedule(new TimerTask(){            
 			public void run() {
 				Eat();
 				//stateChanged(); 
 			}
-		}, COOKTIME);
+		}, COOKTIME + foodCookTimes.get(choice));
 		
 		house.updateFoodDisplay(this);
 

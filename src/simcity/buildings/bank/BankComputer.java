@@ -38,12 +38,11 @@ public class BankComputer {
 	}
 	
 	public boolean verifyAccount(int accountNumber, String password) {
-		boolean verified = false;
 		String passwordLookup = passwordAccounts.get(accountNumber);
 		if (password == passwordLookup) {
-			verified = true;
+			return true;
 		}
-		return verified;
+		return false;
 	}
 	
 	public BankAccount accountLookup(int accountNumber) {
@@ -53,6 +52,7 @@ public class BankComputer {
 		account.setBankCustomer(bc);
 		account.setAccountBalance(accountBalance);
 		account.setAmountOwed(amountOwed);
+		account.setAccountNumber(accountNumber);
 		return account;
 	}
 	

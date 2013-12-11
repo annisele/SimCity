@@ -11,6 +11,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import simcity.buildings.bank.BankCustomerRole;
+import simcity.buildings.bank.BankCustomerRole.TransactionType;
 import simcity.buildings.bank.BankRobberRole;
 import simcity.buildings.bank.BankSystem;
 import simcity.buildings.house.HouseInhabitantRole;
@@ -67,7 +68,7 @@ public class PersonAgent extends Agent implements Person {
 	public enum EventType { Eat, GoToMarket, BusToMarket, EatAtRestaurant, EatAtHome, DepositMoney, WithdrawMoney, GetALoan, PayRent, Sleep, Work, WorkNow, CarToMarket, RobBank };
 
 	private String name;
-	private double money = 30;
+	private double money = 60;
 	private double withdrawThreshold = 10; // if money is less than this, we will try to withdraw
 	private double depositThreshold = 50; // if money is higher than this, we will try to deposit
 	final int TWO_HOURS = 12;
@@ -326,10 +327,6 @@ public class PersonAgent extends Agent implements Person {
 				String buildingName = banks.get(index);
 				registeredBank = buildingName;
 			}
-			else {
-				String buildingName = registeredBank;
-			}
-			
 			
 			List<Step> steps = new ArrayList<Step>();
 			steps.add(new Step("exitBuilding", this));
@@ -339,6 +336,12 @@ public class PersonAgent extends Agent implements Person {
 			for(Role r : myRoles) {
 				if(r instanceof BankCustomer) {
 					eventR = r;
+					if (accountNumber == -1) {
+						((BankCustomer) eventR).setTransactionType(TransactionType.openAccount);
+					}
+					else {
+						((BankCustomer) eventR).setTransactionType(TransactionType.depositMoney);
+					}
 				}
 			}
 
@@ -354,23 +357,33 @@ public class PersonAgent extends Agent implements Person {
 
 		}
 		else if (t == EventType.WithdrawMoney) {
-			List<String> banks = Directory.getBanks();
-			int index = rand.nextInt(banks.size());
-			String buildingName = banks.get(index);
+			if (registeredBank == null) {
+				List<String> banks = Directory.getBanks();
+
+				int index = rand.nextInt(banks.size());
+				String buildingName = banks.get(index);
+				registeredBank = buildingName;
+			}
+			
 			List<Step> steps = new ArrayList<Step>();
 			steps.add(new Step("exitBuilding", this));
 			steps.add(new Step("goTo", this));
 			steps.add(new Step("enterBuilding", this));
 			Role eventR = null;
+			
 			for(Role r : myRoles) {
 				if(r instanceof BankCustomer) {
 					eventR = r;
+					if (accountNumber == -1) {
+						((BankCustomer) eventR).setTransactionType(TransactionType.openAccount);
+					}
+					else {
+						((BankCustomer) eventR).setTransactionType(TransactionType.withdrawMoney);
+					}
 				}
 			}
-			
-			//hack
-			((BankCustomer)eventR).hackWithdrawMoney((BankSystem)(Directory.getSystem(buildingName)));
-			e = new Event(buildingName, eventR, TWO_HOURS, -1, true, steps, t);
+
+			e = new Event(registeredBank, eventR, TWO_HOURS, -1, true, steps, t);
 
 			insertEvent(e);
 			stateChanged();

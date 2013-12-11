@@ -188,6 +188,10 @@ public class SystemManager {
 			}
 		}
 		
+		if (name == "Toilet") {
+			person.goToBankNow();
+		}
+		
 		if (name == "Levonne") {
 			person.goToBankNow();
 		}

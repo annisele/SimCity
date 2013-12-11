@@ -53,6 +53,11 @@ public class MockRestaurantTwoCashier extends Mock implements RestaurantTwoCashi
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	@Override
+	public void msgLeaveWork() {
+		// TODO Auto-generated method stub
+		
+	}
 
 	
 	

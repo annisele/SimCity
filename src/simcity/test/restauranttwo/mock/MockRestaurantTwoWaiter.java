@@ -127,6 +127,16 @@ public class MockRestaurantTwoWaiter extends Mock implements RestaurantTwoWaiter
 		// TODO Auto-generated method stub
 		
 	}
+	@Override
+	public void msgLeaveWork() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void msgFinishWorking() {
+		// TODO Auto-generated method stub
+		
+	}
 
 
 

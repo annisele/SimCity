@@ -13,7 +13,7 @@ public interface Bus extends GuiPartner {
 	public abstract void msgFinishedLoading();
 	public abstract void msgArrived();
 	public abstract void Drive();
-	public abstract void Stop();
+	public abstract void Load();
 	public abstract void DoGoTo(Location l);
 	public abstract void atDestination();
 }

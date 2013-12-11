@@ -38,7 +38,7 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
 	private RestaurantThreeCashier cashier;
 	private enum WaiterState {NONE, ENTERING_RESTAURANT, INFORM_HOST, WORKING,  REQUESTED_BREAK, HAVING_BREAK, ON_BREAK, NEED_BREAK, GOINGOFFBREAK, DENIED_BREAK };  
 	private WaiterState waiterState = WaiterState.NONE;
-	private enum CustomerState {NONE, WAITING, READY_TO_ORDER,ORDERING,FOOD_SERVED,IS_DONE,NO_ACTION, READY_TO_PAY, EXPENSIVE_LEAVE, REORDER, CANNOT_AFFORD_TO_REORDER};
+	protected enum CustomerState {NONE, WAITING, READY_TO_ORDER,ORDERING,FOOD_SERVED,IS_DONE,NO_ACTION, READY_TO_PAY, EXPENSIVE_LEAVE, REORDER, CANNOT_AFFORD_TO_REORDER};
 	private CustomerState status = CustomerState.NONE;
 	private List<MyCustomer> customers = Collections.synchronizedList(new ArrayList<MyCustomer>());
 	private class Order {
@@ -52,7 +52,7 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
 	}
 	public class MyCustomer {
 		private RestaurantThreeCustomer customer;
-		private CustomerState state;
+		protected CustomerState state;
 		private int tableNum;
 		private String choice;
 		

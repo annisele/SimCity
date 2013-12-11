@@ -21,5 +21,10 @@ public class RestaurantThreeSharedDataWaiterRole extends RestaurantThreeWaiterRo
 	private Semaphore atDest = new Semaphore(0, true);
 	private RestaurantThreeOrderWheel orderWheel;
 	private RestaurantThreeSystem R3;
-	
+	public void setOrderWheel(RestaurantThreeOrderWheel wheel) {
+		this.orderWheel = wheel;
+	}
+	public void DeliverOrder(MyCustomer customer) {
+		((RestaurantThreeWaiterGui)gui).DoGoToKitchen();
+	}
 }

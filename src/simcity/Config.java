@@ -169,17 +169,15 @@ public class Config {
 		systems.addHouse("HOUSE16", 326 + 2*xIslandOffset, 338 + yIslandOffset);
 		systems.addHouse("HOUSE17", 398 + 2*xIslandOffset, 338 + yIslandOffset);
 
-		systems.addPerson("Gosling");
-		systems.addPerson("Gosling");
-		systems.addPerson("Gosling");
-		systems.addPerson("Gosling");
-		systems.addPerson("Gosling");
-		systems.addPerson("RyanG");
-		systems.addPerson("RyanG");
-		systems.addPerson("RyanG");
-		systems.addPerson("RyanG");
-		systems.addPerson("RyanG");
-		//systems.setWorkMarketWorker("Gosling", "MARKET2");
+		/*
+		systems.addPerson("Becky");
+		systems.setWorkMarketCashier("Becky", "MARKET2");
+		
+		timer1.schedule(new TimerTask() {
+			public void run() {
+				systems.addPerson("Gosling");
+			}
+		}, 2000);*/
 	}
 
 	public void busToMarket() {

@@ -968,7 +968,7 @@ public class Config {
 	//	systems.setHome("Ben", "HOUSE8");
 		systems.setWorkBankTeller("Ben", "BANK1");
 	//	systems.setSleep("Ben");
-		systems.addBankAccount(0, 100, 0, "abcdef");
+	//	systems.addBankAccount(0, 100, 0, "abcdef");
 		
 		// BANK2 workers
 		systems.addPerson("Bob");

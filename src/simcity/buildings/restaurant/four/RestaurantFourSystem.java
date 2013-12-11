@@ -192,4 +192,8 @@ public class RestaurantFourSystem extends SimSystem {
 		}
 		
 	}
+	
+	public boolean isOpen() {
+		return (host != null);
+	}
 }

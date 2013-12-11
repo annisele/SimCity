@@ -73,6 +73,10 @@ public class RestaurantFiveSystem extends simcity.SimSystem {
 		}
 		return false;
 	}
+	
+	public boolean isOpen() {
+		return (host != null);
+	}
 
 
 }

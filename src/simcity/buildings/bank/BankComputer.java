@@ -34,6 +34,7 @@ public class BankComputer {
 		passwordAccounts.put(numAccounts, password);
 		balanceAccounts.put(numAccounts, amountToProcess);
 		owedAccounts.put(numAccounts, 0.0);
+		System.out.println("numAccounts " + numAccounts);
 		return numAccounts;
 	}
 	

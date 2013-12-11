@@ -13,6 +13,8 @@ public class Config {
 	private Timer timer4 = new Timer();
 	private Timer timer = new Timer();
 	private SystemManager systems;
+	private int xIslandOffset = 430;
+	private int yIslandOffset = 360;
 
 	public Config(SystemManager s) {
 		systems = s;
@@ -51,10 +53,6 @@ public class Config {
 		systems.addBus("clockwise");
 		systems.addBus("counterclockwise");
 		//systems.addCar("car1");
-
-
-		int xIslandOffset = 430;
-		int yIslandOffset = 360;
 
 		// Top Left Island
 		// First row
@@ -264,9 +262,6 @@ public class Config {
 		systems.addBus("counterclockwise");
 		//systems.addCar("car1");
 
-		int xIslandOffset = 430;
-		int yIslandOffset = 360;
-
 		// Top Left Island
 		// First row
 		systems.addHouse("HOUSE1", 181, 152);
@@ -325,9 +320,6 @@ public class Config {
 		systems.addBus("clockwise");
 		systems.addBus("counterclockwise");
 		//systems.addCar("car1");
-
-		int xIslandOffset = 430;
-		int yIslandOffset = 360;
 
 		// Top Left Island
 		// First row
@@ -904,9 +896,6 @@ public class Config {
 		systems.clearDetailPane();
 		systems.setBackgroundThree();
 
-		int xIslandOffset = 430;
-		int yIslandOffset = 360;
-
 		// Top Left Island
 		// First row
 		systems.addHouse("HOUSE1", 181, 152);
@@ -1009,7 +998,59 @@ public class Config {
 		systems.clearDetailPane();
 
 		systems.setBackgroundThree();
+		
+		// Top Left Island
+		// First row
+		systems.addHouse("HOUSE1", 181, 152);
+		systems.addHouse("HOUSE2", 253, 152);
+		systems.addHouse("HOUSE3", 181 + xIslandOffset, 152);
 
+		// Third row
+		systems.addMarket("MARKET1", 253, 338);
+		systems.addMarket("MARKET2", 398, 338);
+
+		systems.addBank("BANK1", 326, 338);
+		systems.addBank("BANK2", 253, 246);
+
+		// Workers for MARKET1
+		systems.addPerson("Mary");
+		systems.setWorkMarketCashier("Mary", "MARKET1");
+		systems.addPerson("Joe");
+		systems.setWorkMarketWorker("Joe", "MARKET1");
+
+		//Buses
+		systems.addBus("clockwise");
+		systems.addBus("counterclockwise");
+		
+		// Non-working people
+		systems.addPerson("Tommy");
+		systems.setHome("Tommy", "HOUSE1");
+		systems.setSleep("Tommy");
+		systems.addPerson("Nick");
+		systems.setHome("Nick", "HOUSE2");
+		systems.setSleep("Nick");
+		systems.addPerson("Sally");
+		systems.setHome("Sally", "HOUSE3");
+		systems.setSleep("Sally");
+
+		// Workers for MARKET2
+		systems.addPerson("Barry");
+		systems.setWorkMarketCashier("Barry", "MARKET2");
+		systems.addPerson("Sue");
+		systems.setWorkMarketWorker("Sue", "MARKET2");
+
+		// BANK1 workers
+		systems.addPerson("Kevin");
+		systems.setWorkBankHost("Kevin", "BANK1");
+		systems.addPerson("Ben");
+		systems.setWorkBankTeller("Ben", "BANK1");
+		
+		// BANK2 workers
+		systems.addPerson("Bob");
+		systems.setWorkBankHost("Bob", "BANK2");
+		systems.addPerson("Ren");
+		systems.setWorkBankTeller("Ren", "BANK2");
+	
 	}
 
 	public void scenarioC() {
@@ -1022,8 +1063,6 @@ public class Config {
 		systems.clearDetailPane();
 
 		systems.setBackgroundThree();
-		int xIslandOffset = 430;
-		int yIslandOffset = 360;
 
 		// Top Left Island
 		// First row
@@ -1109,9 +1148,6 @@ public class Config {
 
 		systems.addBus("clockwise");
 		systems.addBus("counterclockwise");
-
-		int xIslandOffset = 430;
-		int yIslandOffset = 360;
 
 		// Top Left Island
 		// First row

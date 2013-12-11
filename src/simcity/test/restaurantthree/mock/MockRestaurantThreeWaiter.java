@@ -49,5 +49,26 @@ public class MockRestaurantThreeWaiter extends Mock implements RestaurantThreeWa
 		
 	}
 
+	@Override
+	public void msgGetMyOrder(
+			RestaurantThreeCustomer restaurantThreeCustomerRole) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgHereIsMyChoice(
+			RestaurantThreeCustomer restaurantThreeCustomerRole, String choice) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgCheckPlease(
+			RestaurantThreeCustomer restaurantThreeCustomerRole) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 }

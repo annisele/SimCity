@@ -1,4 +1,4 @@
-team14
+﻿team14
 ======
 
 SimCity201 Project Repository for CS 201 students
@@ -14,8 +14,12 @@ How to run team 14 simcity
 be sure that the build path is configured so that the src is the only source folder
 and there are no excluded package
 
+SimCity V2 scenarios
+==========================================
+Run the scenarios in the drop down on the left.
 
-SimCity scenarios
+
+SimCity V1 scenarios
 ==========================================
 We have implemented 8 scenarios in our SimCity.
 
@@ -103,8 +107,14 @@ Member Contributions
   + Worked with Rebecca on creating a scenario in which people have houses and work at a market.  Finished completing the market - person - house inhabitant interaction so that the house's food stock is updated once people buy food from a market.
   + Implemented a two market scenario to test and make sure that multiple markets can work in conjunction, and the workers behave normally and are able to shop at the other market.
   + Implemented draging of the WorldAnimationPanel so that we can fit more buildings into our SimCity.
+  + Created a final world image and made some edits to previous images I had made.
   + Worked on the clock more to accommodate the planning of PersonAgent's schedule.
-  + Made a ControlPanel for the house which displays info such as available food.
+  + Made a ControlPanel for the house which displays info such as available food, and laid the basis for the other control panels.
+  + Worked on trying to implement a choice between eating the restaurant or at home, but ultimately did not implement due to last-minute problems.
+  + Started implementing my restaurant (6), and got each role to "exist" in SimCity.  Did not finish copying my Restaurant V2.2 code as there were too many pressing issues involving the world, house, market, and general V2 requirements.
+  + Added the bones of most V2.2 scenarios including building placement and people.
+  + Spent time debugging issues in almost all aspects of the program.
+  + Spent the majority of my time working on PersonAgent, it's schedule, and problems integrating systems.
 
 #####V1:
   + Created initial design documents for PersonAgent and Transportation (along with Josh).

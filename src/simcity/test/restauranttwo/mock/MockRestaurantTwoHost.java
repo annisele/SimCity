@@ -3,6 +3,7 @@ package simcity.test.restauranttwo.mock;
 import simcity.SimSystem;
 import simcity.buildings.bank.BankCustomerRole;
 import simcity.buildings.bank.BankTellerRole;
+import simcity.buildings.restaurant.two.RestaurantTwoHostRole.R2State;
 import simcity.interfaces.bank.BankCustomer;
 import simcity.interfaces.bank.BankHost;
 import simcity.interfaces.bank.BankTeller;
@@ -47,6 +48,16 @@ public class MockRestaurantTwoHost extends Mock implements RestaurantTwoHost {
 	}
 	@Override
 	public void addWaiter(RestaurantTwoWaiter role) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public R2State getR2State() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public void msgLeaveWork() {
 		// TODO Auto-generated method stub
 		
 	}

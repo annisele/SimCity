@@ -85,6 +85,9 @@ public class Directory {
 		 *  On the other hand, parking structures have code 9+ParkingStructureNo.+NorthOrSouth
 		 *  
 		 *  So the upper lane of parking structure 6 is 961, lower lane is 964
+		 *  
+		 *  BusStops are 8+District+NSEW, so bus stop in district 1, east is 813
+		 *  The "mega district" has code 886
 		 */
 		
 		// Row 1 street stops
@@ -108,6 +111,19 @@ public class Directory {
 		streetDirectory.put(34, intersection3South);
 		streetDirectory.put(42, intersection4West);
 		streetDirectory.put(44, intersection4South);
+		
+		Location busStop1West = new Location(80,180);
+		Location busStop1East = new Location(110,180);
+		Location busStop2North = new Location(590,80);
+		Location busStop2South = new Location(590,110);
+		Location busStop3West = new Location(1370,180);
+		Location busStop3East = new Location(1400,180);
+		streetDirectory.put(812, busStop1West);
+		streetDirectory.put(813, busStop1East);
+		streetDirectory.put(821, busStop2North);
+		streetDirectory.put(824, busStop2South);
+		streetDirectory.put(832, busStop3West);
+		streetDirectory.put(833, busStop3East);
 		
 		// Row 2 street stops
 		Location intersection5North = new Location(80,400);
@@ -515,7 +531,7 @@ public class Directory {
 	
 	public static List<Location> defineClockwiseBusRoute() {
 		List<Location> busRoute = Collections.synchronizedList(new ArrayList<Location>());
-		busRoute.add(streetDirectory.get(14));
+		busRoute.add(streetDirectory.get(661));
 		busRoute.add(streetDirectory.get(22));
 		busRoute.add(streetDirectory.get(32));
 		busRoute.add(streetDirectory.get(42));

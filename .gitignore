@@ -9,3 +9,4 @@ build/
 .workspace
 .classpath
 .project
+/bin1

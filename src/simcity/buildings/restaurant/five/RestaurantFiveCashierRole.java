@@ -152,7 +152,8 @@ public class RestaurantFiveCashierRole extends Role implements RestaurantFiveCas
 
 	private void ProduceCheck(Check c) {
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantFiveCashier: " + person.getName(), "Sending check for " + c.c.getName() + " to waiter.");
-		c.w.msgHereIsCheck(c.c, c.amount);
+		//c.w.msgHereIsCheck(c.c, c.amount);
+		//TODO
 		c.s = CheckState.sent;
 	}
 
@@ -189,7 +190,8 @@ public class RestaurantFiveCashierRole extends Role implements RestaurantFiveCas
 			money += c.amount;
 			money = (double)Math.round(money * 100) / 100;
 			Do("Customer is paying full check. Money = " + money);
-			c.c.msgHereIsChange(c.amountPaid - c.amount);
+			//c.c.msgHereIsChange(c.amountPaid - c.amount);
+			//TODO
 			checks.remove(c);
 		}
 	}

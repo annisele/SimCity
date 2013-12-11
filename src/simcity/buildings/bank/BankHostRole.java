@@ -244,19 +244,21 @@ public class BankHostRole extends Role implements BankHost {
 		bankState = BankState.running;	
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankHost: " + person.getName(), "Entering the bank");	
 		
-		System.out.println(AlertTag.valueOf(bank.getName()));
-		timer.schedule(new TimerTask() {
-			public void run() {
-				List<BankTeller> workers = bank.getTellers();
-				bankState = BankState.closed;
-				AlertLog.getInstance().logDebug(AlertTag.valueOf(bank.getName()), "Bank Host: " + person.getName(), 
-						"setting to CLOSED. " + person.getCurrentEventDuration() +
-						", " + person.getCurrentEvent().toString());
-				for(BankTeller w : workers) {
-					w.msgFinishWorking();
+		if(person.hasHouse()) {
+			timer.schedule(new TimerTask() {
+				public void run() {
+					List<BankTeller> workers = bank.getTellers();
+					bankState = BankState.closed;
+					AlertLog.getInstance().logDebug(AlertTag.valueOf(bank.getName()), "Bank Host: " + person.getName(), 
+							"setting to CLOSED. " + person.getCurrentEventDuration() +
+							", " + person.getCurrentEvent().toString());
+					for(BankTeller w : workers) {
+						w.msgFinishWorking();
+					}
 				}
-			}
-		}, Clock.tenMinutesInMillis(person.getCurrentEventDuration()));
+			}, Clock.tenMinutesInMillis(person.getCurrentEventDuration()));
+		}
+		
 		((BankHostGui)gui).DoGoToHostPosition();
 		
 	}

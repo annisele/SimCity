@@ -81,7 +81,7 @@ public class PersonAgent extends Agent implements Person {
 	private String bankPassword = "abcdef";
 	private int accountNumber = -1;
 	private CarAgent car;
-	private String home;
+	private String home = null;
 	private String workBuilding;
 	private Role workRole;
 
@@ -184,6 +184,13 @@ public class PersonAgent extends Agent implements Person {
 				stateChanged();
 			}
 		}, waitTime);
+	}
+	
+	public boolean hasHouse() {
+		if(home == null) {
+			return false;
+		}
+		return true;
 	}
 	
 	

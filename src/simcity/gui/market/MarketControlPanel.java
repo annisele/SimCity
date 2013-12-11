@@ -23,7 +23,7 @@ public class MarketControlPanel extends JPanel implements ActionListener{
 	private MarketComputer comp;
 	public Map<String,Integer> in= new HashMap<String, Integer>();
 
-	private JLabel typeLabel = new JLabel("Type: Market");
+	//private JLabel typeLabel = new JLabel("Type: Market");
 	private JLabel foodLabel = new JLabel();
 	private JLabel setfoodLabel = new JLabel();
 	private JLabel setchickenLabel = new JLabel();
@@ -38,8 +38,8 @@ public class MarketControlPanel extends JPanel implements ActionListener{
 	JPanel opanel = new JPanel();
 	public MarketControlPanel(MarketComputer c) {
 		this.comp=c;
-		setLayout(new GridLayout(10, 1, 2, 0));
-		foodLabel.setText("<html>Food Quantities:\n<br/>"+"<br/>salad: "+0
+		setLayout(new GridLayout(0, 1, 2, 0));
+		foodLabel.setText("<html>Food Quantities:\n<br/>"+"<br/>Food Quantities:"+"<br/>salad: "+0
 				+"<br/>chicken: "+0+"<br/>steak: "+0+"<br/>pizza: "+0+"</html>");
 		//setfoodLabel.setText("<html><br/>Set Food Quantities:\n<br/></html>");
 		setsaladLabel.setText("<html>salad: </html>");
@@ -55,9 +55,8 @@ public class MarketControlPanel extends JPanel implements ActionListener{
 		pibox.setPreferredSize( new Dimension(100,24));
 		sabox = new JTextField("");
 		sabox.setPreferredSize( new Dimension(100,24));
-		add(typeLabel);
+		//add(typeLabel);
 		add(foodLabel);
-		add(setfoodLabel);
 		opanel.setLayout(new GridLayout(0, 2));
 
 
@@ -80,7 +79,7 @@ public class MarketControlPanel extends JPanel implements ActionListener{
 
 	}
 	public void updateFoodDisplay(Map<String, Integer> foodStock) {
-		String foodText = "<html>Food Quantities:\n<br/>";
+		String foodText = "<html>Type: Market\n<br/>"+"Food Quantities:\n<br/>";
 		for (String food : foodStock.keySet()) {
 			foodText += ("<br/>" + food + ": " + foodStock.get(food));
 		}

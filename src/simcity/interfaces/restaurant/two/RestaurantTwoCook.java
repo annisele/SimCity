@@ -28,5 +28,7 @@ public interface RestaurantTwoCook extends GuiPartner, MarketOrderer{
 
 	abstract void msgLeaveWork();
 
+	abstract Map<String, Integer> getFoodStock();
+
 
 }

@@ -61,7 +61,7 @@ public class MockBus extends Mock implements Bus {
 	}
 
 	@Override
-	public void Stop() {
+	public void Load() {
 		// TODO Auto-generated method stub
 
 	}

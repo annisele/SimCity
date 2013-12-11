@@ -143,6 +143,19 @@ public class Directory {
 		parkingStructureDirectory.put(6, parking6);
 	}
 	
+	public void makeBusStopDirectory() {
+		Location stop0 = new Location(150, 180);
+		Location stop1 = new Location(590, 150);
+		Location stop2 = new Location(1340, 180);
+		Location stop3 = new Location(1340, 530);
+		Location stop4 = new Location(150, 530);
+		busStopDirectory.put(0, stop0);
+		busStopDirectory.put(1, stop1);
+		busStopDirectory.put(2, stop2);
+		busStopDirectory.put(3, stop3);	
+		busStopDirectory.put(4, stop4);	
+	}
+	
 	public void makeBusStops1() {
 		Location stop0 = new Location(40, 67);
 		Location stop1 = new Location(380, 67);
@@ -206,19 +219,6 @@ public class Directory {
 		streetDirectory.put(34, intersection3South);
 		streetDirectory.put(42, intersection4West);
 		streetDirectory.put(44, intersection4South);
-		
-		Location busStop1West = new Location(80,180);
-		Location busStop1East = new Location(110,180);
-		Location busStop2North = new Location(590,80);
-		Location busStop2South = new Location(590,110);
-		Location busStop3West = new Location(1370,180);
-		Location busStop3East = new Location(1400,180);
-		streetDirectory.put(812, busStop1West);
-		streetDirectory.put(813, busStop1East);
-		streetDirectory.put(821, busStop2North);
-		streetDirectory.put(824, busStop2South);
-		streetDirectory.put(832, busStop3West);
-		streetDirectory.put(833, busStop3East);
 		
 		// Row 2 street stops
 		Location intersection5North = new Location(80,400);
@@ -285,7 +285,6 @@ public class Directory {
 		Location parking5South = new Location(280,830);
 		Location parking6North = new Location(1135,800);
 		Location parking6South = new Location(1135,830);
-
 		streetDirectory.put(911, parking1North);
 		streetDirectory.put(914, parking1South);
 		streetDirectory.put(921, parking2North);
@@ -299,6 +298,29 @@ public class Directory {
 		streetDirectory.put(961, parking6North);
 		streetDirectory.put(964, parking6South);
 		
+		// Bus stops
+		Location busStop1West = new Location(80,180);
+		Location busStop1East = new Location(110,180);
+		Location busStop2North = new Location(590,80);
+		Location busStop2South = new Location(590,110);
+		Location busStop3West = new Location(1370,180);
+		Location busStop3East = new Location(1400,180);
+		Location busStop4West = new Location(80,530);
+		Location busStop4East = new Location(110,530);
+		Location busStop6West = new Location(1370,530);
+		Location busStop6East = new Location(1400,530);
+		streetDirectory.put(812, busStop1West);
+		streetDirectory.put(813, busStop1East);
+		streetDirectory.put(821, busStop2North);
+		streetDirectory.put(824, busStop2South);
+		streetDirectory.put(832, busStop3West);
+		streetDirectory.put(833, busStop3East);
+		streetDirectory.put(842, busStop4West);
+		streetDirectory.put(843, busStop4East);
+		streetDirectory.put(862, busStop6West);
+		streetDirectory.put(863, busStop6East);
+		
+		// Intersections
 		intersections.put(1, new Intersection(1));
 		intersections.put(2, new Intersection(2));
 		intersections.put(3, new Intersection(3));
@@ -626,16 +648,30 @@ public class Directory {
 	
 	public static List<Location> defineClockwiseBusRoute() {
 		List<Location> busRoute = Collections.synchronizedList(new ArrayList<Location>());
-		busRoute.add(streetDirectory.get(661));
+		busRoute.add(streetDirectory.get(14));
 		busRoute.add(streetDirectory.get(22));
+		
+		busRoute.add(streetDirectory.get(824));	// 2
+		
 		busRoute.add(streetDirectory.get(32));
 		busRoute.add(streetDirectory.get(42));
+		
+		busRoute.add(streetDirectory.get(832));	// 5
+		
 		busRoute.add(streetDirectory.get(81));
+		
+		busRoute.add(streetDirectory.get(862));	// 7
+		
 		busRoute.add(streetDirectory.get(121));
 		busRoute.add(streetDirectory.get(113));
 		busRoute.add(streetDirectory.get(103));
 		busRoute.add(streetDirectory.get(93));
+		
+		busRoute.add(streetDirectory.get(843));	// 12
+		
 		busRoute.add(streetDirectory.get(54));
+		
+		busRoute.add(streetDirectory.get(813));	// 14
 		return busRoute;
 	}
 	

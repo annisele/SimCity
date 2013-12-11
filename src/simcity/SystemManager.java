@@ -188,7 +188,7 @@ public class SystemManager {
 			}
 		}
 		
-		if (name == "Toilet") {
+		if (name == "Talya") {
 			person.goToBankNow();
 		}
 		
@@ -215,6 +215,7 @@ public class SystemManager {
 		}
 		
 		if (name == "Hungry R4Customer1" || name == "Hungry R4Customer2" || name == "Hungry R4Customer3") {
+			person.setCar(true);
 			person.goToRestaurantFourNow();
 		}
 		

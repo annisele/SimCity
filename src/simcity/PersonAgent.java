@@ -80,7 +80,7 @@ public class PersonAgent extends Agent implements Person {
 	private String registeredBank = null;
 	private String bankPassword = "abcdef";
 	private int accountNumber = -1;
-	private CarAgent car;
+	private boolean carOwner = false;
 	private String home = null;
 	private String workBuilding;
 	private Role workRole;
@@ -247,8 +247,8 @@ public class PersonAgent extends Agent implements Person {
 			String buildingName = markets.get(index);
 			List<Step> steps = new ArrayList<Step>();
 			steps.add(new Step("exitBuilding", this));
+			transportationSteps(steps);
 			steps.add(new Step("goTo", this));
-			//chooseTransportation();
 			steps.add(new Step("enterBuilding", this));
 			Role eventR = null;
 			for(Role r : myRoles) {
@@ -337,6 +337,7 @@ public class PersonAgent extends Agent implements Person {
 			
 			List<Step> steps = new ArrayList<Step>();
 			steps.add(new Step("exitBuilding", this));
+			transportationSteps(steps);
 			steps.add(new Step("goTo", this));
 			steps.add(new Step("enterBuilding", this));
 			Role eventR = null;
@@ -368,6 +369,7 @@ public class PersonAgent extends Agent implements Person {
 			
 			List<Step> steps = new ArrayList<Step>();
 			steps.add(new Step("exitBuilding", this));
+			transportationSteps(steps);
 			steps.add(new Step("goTo", this));
 			steps.add(new Step("enterBuilding", this));
 			Role eventR = null;
@@ -395,6 +397,7 @@ public class PersonAgent extends Agent implements Person {
 			String buildingName = banks.get(index);
 			List<Step> steps = new ArrayList<Step>();
 			steps.add(new Step("exitBuilding", this));
+			transportationSteps(steps);
 			steps.add(new Step("goTo", this));
 			steps.add(new Step("enterBuilding", this));
 			Role eventR = null;
@@ -417,6 +420,7 @@ public class PersonAgent extends Agent implements Person {
 			String buildingName = banks.get(index);
 			List<Step> steps = new ArrayList<Step>();
 			steps.add(new Step("exitBuilding", this));
+			transportationSteps(steps);
 			steps.add(new Step("goTo", this));
 			steps.add(new Step("enterBuilding", this));
 			Role eventR = null;
@@ -438,6 +442,7 @@ public class PersonAgent extends Agent implements Person {
 			String buildingName = banks.get(index);
 			List<Step> steps = new ArrayList<Step>();
 			steps.add(new Step("exitBuilding", this));
+			transportationSteps(steps);
 			steps.add(new Step("goTo", this));
 			steps.add(new Step("enterBuilding", this));
 			Role eventR = null;
@@ -454,7 +459,6 @@ public class PersonAgent extends Agent implements Person {
 			stateChanged();
 		}
 		else if (t == EventType.Work) {
-			System.out.println("LOOKLOOKLOOKLOOK: "+ type);
 			List<Step> steps = new ArrayList<Step>();
 			steps.add(new Step("exitBuilding", this));
 			steps.add(new Step("goTo", this));
@@ -633,6 +637,14 @@ public class PersonAgent extends Agent implements Person {
 	//so this only needs to prep the person to walk somewhere by changing it to pedestrian
 	
 	private void transportationSteps(List<Step> steps) {
+		if (hasCar()) {
+			steps.add(new Step("goToParkingGarage", this));
+			steps.add(new Step("driveTo", this));
+		}
+		else if (bus != null) {
+			steps.add(new Step("goToBusStop", this));
+			steps.add(new Step("waitForBus", this));
+		}
 	//	if (hasCar) {
 			// steps.add go to car
 			// drive to destination
@@ -1313,5 +1325,13 @@ public class PersonAgent extends Agent implements Person {
 	
 	public double getMoney() {
 		return money;
+	}
+	
+	public boolean hasCar() {
+		return carOwner;
+	}
+	
+	public void setCar(boolean car) {
+		this.carOwner = car;
 	}
 }

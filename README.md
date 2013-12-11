@@ -141,7 +141,17 @@ Member Contributions
 
 ####Jenny: 
 #####V2: 
-
++tried to instantiate astar (incompete)
++bank robber senario, created bankrobber role and gui who communicates with with bankhost and bankteller and robs the bank
++finished the implementation of restaurant two so that workers are people with homes and restaurant as a job
++restaurant two host closes the restaurant at the end of a day and reschedules him/herself to come back to work the next day
++restaurant two is open 7 days a week
++consumer-producer example for other restaurants
++worked on control panel so that inventory for restaurant two and market shows up
++inventory can be altered in both cases
++control panel is updated when inventory changes
++tried to create a personpanel to show individual information
++updated configs to include restaurant working with other systems
 #####V1:
   + Did initial design doc and theorization of Market system with Rebecca, designed and co-wote data, scheduler, messages, actions. 
   + Initial design doc and file creation, convenient functions, scheduler  for house inhabitant role 

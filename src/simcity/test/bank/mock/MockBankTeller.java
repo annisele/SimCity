@@ -112,6 +112,12 @@ public class MockBankTeller extends Mock implements BankTeller {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void msgFinishWorking() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 }

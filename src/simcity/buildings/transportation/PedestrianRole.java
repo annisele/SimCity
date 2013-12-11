@@ -46,6 +46,7 @@ public class PedestrianRole extends Role implements simcity.interfaces.transport
 		if(!destinationList.isEmpty()) {
 			GoToDestination(destinationList.get(0));
 			destinationList.remove(0);
+			return true;
 		}
 		return false;
 	}

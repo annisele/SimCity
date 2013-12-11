@@ -126,7 +126,7 @@ public class MarketSystem extends simcity.SimSystem {
 	}
 
 	public boolean isOpen() {
-		return (cashier != null);
+		return (cashier != null && cashier.getMarketState() == MarketState.running);
 	}
 	
 }

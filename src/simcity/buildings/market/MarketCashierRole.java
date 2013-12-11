@@ -272,18 +272,21 @@ public class MarketCashierRole extends Role implements MarketCashier {
 		market = (MarketSystem)s;
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(market.getName()), "MarketCashier: " + person.getName(), "Entering the market.");
 		marketState = MarketState.running;
-		timer.schedule(new TimerTask() {
-			public void run() {
-				List<MarketWorker> workers = market.getWorkers();
-				marketState = MarketState.closed;
-				AlertLog.getInstance().logDebug(AlertTag.valueOf(market.getName()), "MarketCashier: " + person.getName(), 
-						"setting to CLOSED. " + person.getCurrentEventDuration() +
-						", " + person.getCurrentEvent().toString());
-				for(MarketWorker w : workers) {
-					w.msgFinishWorking();
+		if(person.hasHouse()) {
+			timer.schedule(new TimerTask() {
+				public void run() {
+					List<MarketWorker> workers = market.getWorkers();
+					marketState = MarketState.closed;
+					AlertLog.getInstance().logDebug(AlertTag.valueOf(market.getName()), "MarketCashier: " + person.getName(), 
+							"setting to CLOSED. " + person.getCurrentEventDuration() +
+							", " + person.getCurrentEvent().toString());
+					for(MarketWorker w : workers) {
+						w.msgFinishWorking();
+					}
 				}
-			}
-		}, Clock.tenMinutesInMillis(person.getCurrentEventDuration()));
+			}, Clock.tenMinutesInMillis(person.getCurrentEventDuration()));
+			
+		}
 		
 		((MarketCashierGui)gui).DoGoToCenter();
 		try {

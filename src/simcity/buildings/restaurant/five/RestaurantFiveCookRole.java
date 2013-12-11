@@ -1,13 +1,18 @@
 package simcity.buildings.restaurant.five;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
 import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
 import simcity.gui.restaurantfive.RestaurantFiveCookGui;
-import simcity.gui.restaurantfive.RestaurantFiveWaiterGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
 import simcity.interfaces.restaurant.five.RestaurantFiveCook;
@@ -321,7 +326,6 @@ public class RestaurantFiveCookRole extends Role implements RestaurantFiveCook {
 	@Override
 	public void exitBuilding() {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

@@ -15,6 +15,7 @@ import simcity.buildings.market.MarketCashierRole;
 import simcity.buildings.market.MarketSystem;
 import simcity.buildings.market.MarketTruckAgent;
 import simcity.buildings.market.MarketWorkerRole;
+import simcity.buildings.restaurant.five.RestaurantFiveCashierRole;
 import simcity.buildings.restaurant.five.RestaurantFiveCookRole;
 import simcity.buildings.restaurant.five.RestaurantFiveHostRole;
 import simcity.buildings.restaurant.five.RestaurantFiveSystem;
@@ -694,6 +695,15 @@ public class SystemManager {
 		world.getAnimationPanel().addGui(person.getIdleGui());
 		Role cook = new RestaurantFiveCookRole(person);
 		person.addWork(cook, rest);
+		people.add(person);
+		person.startThread();
+	}
+	
+	public void addRestaurantFiveCashier(String name, String rest) {
+		PersonAgent person = new PersonAgent(name);
+		world.getAnimationPanel().addGui(person.getIdleGui());
+		Role cashier = new RestaurantFiveCashierRole(person);
+		person.addWork(cashier, rest);
 		people.add(person);
 		person.startThread();
 	}

@@ -33,6 +33,101 @@ public class Directory {
 		}
 	}
 	
+	public Intersection getIntersection(int i) {
+		return intersections.get(i);
+	}
+	
+	public static Location getBusStop(int bsc) {
+		return busStopDirectory.get(bsc);
+	}
+	
+	public static Location getGarage(int gc) {
+		return parkingStructureDirectory.get(gc);
+	}
+	
+	public static Location getStreetStop(int ss) {
+		return streetDirectory.get(ss);
+	}
+	
+	public void setWorld(WorldSystem w) {
+		world = w;
+	}
+	
+	public static WorldSystem getWorld() {
+		return world;
+	}
+
+	public static Location getLocation(String name) {
+		return directory.get(name).location;
+	}
+
+	public static SimSystem getSystem(String name) {
+		return directory.get(name).system;
+	}
+
+	public static List<String> getOpenRestaurants() {
+		List<String> restaurants = new ArrayList<String>();
+		for (String key : directory.keySet()) {
+			if(directory.get(key).type == EntryType.Restaurant) {
+				if (directory.get(key).system.isOpen()) {
+					restaurants.add(key);
+				}
+			}
+		}
+		return restaurants;
+	}
+
+	public static List<String> getMarkets() {
+		List<String> markets = new ArrayList<String>();
+		for (String key : directory.keySet()) {
+			if(directory.get(key).type == EntryType.Market) {
+				markets.add(key);
+			}
+		}
+		return markets;
+	}
+	
+	public static List<String> getOpenMarkets() {
+		List<String> markets = new ArrayList<String>();
+		for (String key : directory.keySet()) {
+			if(directory.get(key).type == EntryType.Market) {
+				if (directory.get(key).system.isOpen()) {
+					markets.add(key);
+				}
+			}
+		}
+		return markets;
+	}
+
+	public static List<String> getOpenBanks() {
+		List<String> banks = new ArrayList<String>();
+		for (String key : directory.keySet()) {
+			if(directory.get(key).type == EntryType.Bank) {
+				if (directory.get(key).system.isOpen()) {
+					banks.add(key);
+				}
+			}
+		}
+		return banks;
+	}
+	
+
+	public void add(String n, EntryType t, Location l, SimSystem s){
+		Entry temp = new Entry(l, t, s);
+		directory.put(n, temp);
+	}
+	
+	public void clear() {
+		directory.clear();
+	}
+	
+	public static boolean hasEarlySchedule(String building) {
+		if(building.equals("RESTAURANT2") ||building.equals("MARKET1") || building.equals("MARKET3")) {
+			return true;
+		}
+		return false;
+	}
+	
 	public void makeParkingStructure1() {
 		Location parking1 = new Location(700,182);
 		Location parking2 = new Location(280,368);
@@ -589,81 +684,5 @@ public class Directory {
 		return busIntersections;
 	}
 	
-	public Intersection getIntersection(int i) {
-		return intersections.get(i);
-	}
 	
-	public static Location getBusStop(int bsc) {
-		return busStopDirectory.get(bsc);
-	}
-	
-	public static Location getGarage(int gc) {
-		return parkingStructureDirectory.get(gc);
-	}
-	
-	public static Location getStreetStop(int ss) {
-		return streetDirectory.get(ss);
-	}
-	
-	public void setWorld(WorldSystem w) {
-		world = w;
-	}
-	
-	public static WorldSystem getWorld() {
-		return world;
-	}
-
-	public static Location getLocation(String name) {
-		return directory.get(name).location;
-	}
-
-	public static SimSystem getSystem(String name) {
-		return directory.get(name).system;
-	}
-
-	public static List<String> getRestaurants() {
-		List<String> restaurants = new ArrayList<String>();
-		for (String key : directory.keySet()) {
-			if(directory.get(key).type == EntryType.Restaurant) {
-				restaurants.add(key);
-			}
-		}
-		return restaurants;
-	}
-
-	public static List<String> getMarkets() {
-		List<String> markets = new ArrayList<String>();
-		for (String key : directory.keySet()) {
-			if(directory.get(key).type == EntryType.Market) {
-				markets.add(key);
-			}
-		}
-		return markets;
-	}
-
-	public static List<String> getBanks() {
-		List<String> banks = new ArrayList<String>();
-		for (String key : directory.keySet()) {
-			if(directory.get(key).type == EntryType.Bank) {
-				banks.add(key);
-			}
-		}
-		return banks;
-	}
-
-	public void add(String n, EntryType t, Location l, SimSystem s){
-		Entry temp = new Entry(l, t, s);
-		directory.put(n, temp);
-	}
-	
-	public void clear() {
-		directory.clear();
-	}
-	
-	public static boolean hasEarlySchedule(String building) {
-		if(building.equals("RESTAURANT2") ||building.equals("MARKET1") || building.equals("MARKET3")) {
-			return true;
-		}
-		return false;
-	}
 }

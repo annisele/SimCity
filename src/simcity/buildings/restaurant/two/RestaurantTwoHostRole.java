@@ -238,6 +238,7 @@ public class RestaurantTwoHostRole extends Role implements simcity.interfaces.re
 	public void enterBuilding(SimSystem s) {
 		R2 = (RestaurantTwoSystem)s;
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantHost: " + person.getName(),"Entering building.");
+		state = R2State.running;
 		timer.schedule(new TimerTask() {
 			public void run() {
 				

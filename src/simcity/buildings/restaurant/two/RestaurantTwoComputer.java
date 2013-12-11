@@ -14,6 +14,7 @@ public class RestaurantTwoComputer {
 	protected Inventory inventory; 
 	private double money = 400;
 	public Map<String,Double> Menu= new HashMap<String, Double>();
+	public Map<String,Integer> Inventory= new HashMap<String, Integer>();
 	public double balance=0;
 	public List<mymarket> markets
 	= Collections.synchronizedList(new ArrayList<mymarket>());
@@ -73,6 +74,14 @@ public class RestaurantTwoComputer {
 			name= n;
 		}
 	}
+		protected Map<String, Integer> getInventory(){
+			Inventory.put("chicken", inventory.chicken);
+			Inventory.put("steak", inventory.steak);
+			Inventory.put("salad", inventory.salad);
+			Inventory.put("pizza", inventory.pizza);
+			return Inventory;
+			
+		}
 	protected String checkMarket(){
 		synchronized(markets){
 			for(mymarket m: markets){

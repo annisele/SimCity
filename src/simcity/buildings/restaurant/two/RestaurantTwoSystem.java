@@ -21,12 +21,14 @@ import java.awt.*;
 
 import simcity.gui.SimCityGui;
 import simcity.gui.bank.BankHostGui;
+import simcity.gui.house.HouseControlPanel;
 import simcity.gui.restaurantone.RestaurantOneAnimationPanel;
 import simcity.gui.restaurantone.RestaurantOneControlPanel;
 import simcity.gui.restauranttwo.RestaurantTwoAnimationPanel;
 import simcity.gui.restauranttwo.RestaurantTwoControlPanel;
 import simcity.gui.restauranttwo.RestaurantTwoHostGui;
 import simcity.interfaces.bank.BankHost;
+import simcity.interfaces.house.HouseInhabitant;
 import simcity.interfaces.market.MarketCashier;
 import simcity.interfaces.market.MarketCustomer;
 import simcity.interfaces.market.MarketTruck;
@@ -98,6 +100,9 @@ public class RestaurantTwoSystem extends SimSystem {
 		animationPanel.addGui(hostGui);
 	}
 	 */
+		public void updateFoodDisplay(RestaurantTwoCook c) {
+			((RestaurantTwoControlPanel)controlPanel).updateFoodDisplay(c.getFoodStock());
+		}
 	public boolean msgEnterBuilding(Role role) {
 		animationPanel.addGui(role.getGui());
 		//System.out.println("gui: "+role.getGui());

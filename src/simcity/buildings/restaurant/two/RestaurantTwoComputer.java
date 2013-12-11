@@ -12,6 +12,7 @@ import simcity.buildings.restaurant.two.RestaurantTwoCashierRole.order;
 
 public class RestaurantTwoComputer {
 	protected Inventory inventory; 
+	private RestaurantTwoSystem R2;
 	private double money = 400;
 	public Map<String,Double> Menu= new HashMap<String, Double>();
 	public Map<String,Integer> Inventory= new HashMap<String, Integer>();
@@ -61,6 +62,8 @@ public class RestaurantTwoComputer {
 		inventory.chicken=ch;
 		inventory.salad=sa;
 		inventory.pizza=pi;
+		R2.changeFoodDisplay();
+		
 	}
 		public class mymarket{
 		public double bill=0;
@@ -74,6 +77,10 @@ public class RestaurantTwoComputer {
 			name= n;
 		}
 	}
+		public void setSystem(RestaurantTwoSystem s) {
+			this.R2=s;
+			
+		}
 		protected Map<String, Integer> getInventory(){
 			Inventory.put("chicken", inventory.chicken);
 			Inventory.put("steak", inventory.steak);
@@ -153,4 +160,5 @@ public class RestaurantTwoComputer {
 		markets.add(temp);
 		}
 	}
+	
 }

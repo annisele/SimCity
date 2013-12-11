@@ -968,6 +968,7 @@ public class Config {
 	//	systems.setHome("Ben", "HOUSE8");
 		systems.setWorkBankTeller("Ben", "BANK1");
 	//	systems.setSleep("Ben");
+	//	systems.addBankAccount(0, 100, 0, "abcdef");
 		
 		// BANK2 workers
 		systems.addPerson("Bob");
@@ -1004,11 +1005,40 @@ public class Config {
 			Three not-working persons eat at home, then visit all the workplaces in different orders. [one should walk; one 
 			should take a car; one should take a bus.]
 		 */
+		/////hasn't added the scenario of getting on bus and getting on car
+		//have to change the role to pedestrian role to ride on car , get on bus
 		systems.clear();
 		systems.clearDetailPane();
 
-		systems.setBackgroundThree();
+		int xIslandOffset = 430;
+		int yIslandOffset = 360;
 
+		systems.setBackgroundThree();
+		systems.addBus("counterclockwise");
+		systems.addBank("BANK1", 160 + xIslandOffset, 200);
+		systems.addHouse("HOUSE1", 80 + xIslandOffset, 20);
+		systems.addHouse("HOUSE2", 160 + xIslandOffset, 20);
+		systems.addHouse("HOUSE3", 240 + xIslandOffset, 20);
+		systems.addPerson("Kevin");
+		systems.setHome("Kevin", "HOUSE1");
+		systems.setWorkBankHost("Kevin", "BANK1");
+		systems.setSleep("Kevin");
+		systems.addPerson("Ben");
+		systems.setHome("Ben", "HOUSE2");
+		systems.setWorkBankTeller("Ben", "BANK1");
+		systems.setSleep("Ben");
+		systems.addPerson("Devon");
+		systems.setHome("Devon", "HOUSE3");
+		systems.setWorkBankTeller("Devon", "BANK1");
+		systems.setSleep("Devon");
+
+
+		timer4.schedule(new TimerTask() {
+			public void run() {
+				//systems.addPerson("Bank Robber");
+			}
+		}, 4000);
+		
 		
 	}
 
@@ -1161,20 +1191,22 @@ public class Config {
 			Show how one not-working person still visits all the workplaces but not the ones that are down. Say you only have one 
 			bank and it is down, the person should avoid all banking behavior.
 		 */
+		///Joe is a market worker but the market is not open, he goes back home
+	
+		//////
 		systems.clear();
 		systems.clearDetailPane();
 
 		systems.setBackgroundThree();
 		systems.addHouse("HOUSE1", 253, 152);
-		systems.addHouse("HOUSE2", 326, 152);
-		systems.addHouse("HOUSE3", 398, 152); 
-		systems.addBank("BANK1", 326, 338);
-		// BANK1 workers
-		systems.addPerson("Kevin");
-		systems.setWorkBankHost("Kevin", "BANK1");
-		systems.addPerson("Ben");
-		systems.setWorkBankTeller("Ben", "BANK1");
-		
+		systems.addMarket("MARKET1", 280, 220);
+
+		systems.addPerson("Joe");
+		systems.setHome("Joe", "HOUSE1");
+		systems.setWorkMarketWorker("Joe", "MARKET1");
+		systems.setHome("Joe", "HOUSE1");
+		systems.setSleep("Joe");
+
 	}
 
 	public void scenarioG() {
@@ -1211,15 +1243,15 @@ public class Config {
 
 		systems.addBank("BANK1", 249, 140);
 
-		systems.addPerson("Dan");
-		systems.setWorkBankHost("Dan", "BANK1");
+		systems.addPerson("Turd");
+		systems.setWorkBankHost("Turd", "BANK1");
 
-		systems.addPerson("Josh");
-		systems.setWorkBankTeller("Josh", "BANK1");
+		systems.addPerson("Poo");
+		systems.setWorkBankTeller("Poo", "BANK1");
 
 		timer.schedule(new TimerTask() {
 			public void run() {
-				systems.addPerson("Kristi");
+				systems.addPerson("Toilet");
 			}
 		}, 4000);
 	}

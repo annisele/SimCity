@@ -79,6 +79,14 @@ Member Contributions
 
 ####Kevin Chan
 #####V2: 
+  + 1.) Transportation Design - worked with Levonne and Joshua in designing and implementing the transportation system in the city
+  + 2.) Directory - worked with Levonne and Joshua in inputting the stops for intersections, parking garages, and bus stops, ensuring that the vehicles stay on their lanes
+  + 3.) Intersection - designed and implemented the Intersection file to function in conjunction with cars and buses to detect whether a vehicle wants to pass
+  + 4.) CarPassengerRole and CarGui - worked with Joshua in implementing the functionality of cars (pedestrian-to-gui and gui-to-pedestrian) and correctly having people show up in correct parking structures
+  + 5.) BusAgent and BusGui - re-implemented BusAgent and BusGui to correspond to the newest version of the world animation panel
+  + 6.) Worked on integrating the PersonAgent to send information and update itself with regards to changes in the BankCustomer and MarketCustomer roles
+  + 7.) Worked on trying to integrate RestaurantFour for into the city
+  + 8.) Worked on the PersonAgent scheduler to correctly detect whether or not a Person has a bank account already, and whether the Person wants to deposit or withdraw from the bank
 
 #####V1:
   + 1.) Bank Design - worked with Levonne extensively on the design of each of the agents/roles in the bank design

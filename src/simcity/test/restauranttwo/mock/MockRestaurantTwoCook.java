@@ -70,6 +70,16 @@ public class MockRestaurantTwoCook extends Mock implements RestaurantTwoCook{
 		// TODO Auto-generated method stub
 		
 	}
+	@Override
+	public void msgLeaveWork() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public Map<String, Integer> getFoodStock() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	
 	

@@ -14,7 +14,7 @@ public class CarGui extends Gui {
 	
 	private boolean atDest = false;
 	
-	ImageIcon ii = new ImageIcon("res/bank/bankgui.png");
+	ImageIcon ii = new ImageIcon("res/transportation/car.png");
 	Image img = ii.getImage();
 	Image busimage = img.getScaledInstance(25, 25,  java.awt.Image.SCALE_SMOOTH); 
 	

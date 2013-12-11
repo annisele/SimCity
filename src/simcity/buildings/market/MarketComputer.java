@@ -18,7 +18,7 @@ public class MarketComputer {
 	private Map<String, Integer> inventory = Collections.synchronizedMap(new HashMap<String, Integer>());
 	private double money = 400;
 	private Map<String, Double> prices = Collections.synchronizedMap(new HashMap<String, Double>());
-	
+	private MarketSystem market;
 	public MarketComputer() {
 		
 		inventory.put("chicken", 60);
@@ -32,9 +32,16 @@ public class MarketComputer {
 		prices.put("pizza", 7.0);
 		
 	}
+	public void setSystem(MarketSystem s){
+		this.market=s;
+	}
 	
 	public void setInventory(Map<String, Integer> map) {
 		inventory = map;
+		market.updateFoodDisplay();
+	}
+	public Map<String, Integer> getInventory(){
+		return inventory;
 	}
 	
 	public Map<String, Double> getPrices() {

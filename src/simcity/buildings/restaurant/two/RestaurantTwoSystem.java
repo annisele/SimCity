@@ -59,10 +59,11 @@ public class RestaurantTwoSystem extends SimSystem {
 
 	public RestaurantTwoSystem(SimCityGui scgui,RestaurantTwoComputer c) {
 		super(scgui);
-		super.setAnimationPanel(new RestaurantTwoAnimationPanel());
-		super.setControlPanel(new RestaurantTwoControlPanel());
-		this.owheel = new RestaurantTwoOrderWheel();
 		this.computer=c;
+		computer.setSystem(this);
+		super.setAnimationPanel(new RestaurantTwoAnimationPanel());
+		super.setControlPanel(new RestaurantTwoControlPanel(c));
+		this.owheel = new RestaurantTwoOrderWheel();
 		this.lowestprice=6;
 		waitingSpots.put(0,false);
 		waitingSpots.put(1,false);
@@ -74,7 +75,8 @@ public class RestaurantTwoSystem extends SimSystem {
 		waiterSpots.put(3,false);
 		waiterSpots.put(4,false);
 		waiterSpots.put(5,false);
-
+		((RestaurantTwoControlPanel)controlPanel).updateFoodDisplay(computer.getInventory());
+		
 
 	}
 
@@ -102,6 +104,9 @@ public class RestaurantTwoSystem extends SimSystem {
 	 */
 		public void updateFoodDisplay(RestaurantTwoCook c) {
 			((RestaurantTwoControlPanel)controlPanel).updateFoodDisplay(c.getFoodStock());
+		}
+		public void changeFoodDisplay() {
+			((RestaurantTwoControlPanel)controlPanel).updateFoodDisplay(computer.getInventory());
 		}
 	public boolean msgEnterBuilding(Role role) {
 		animationPanel.addGui(role.getGui());

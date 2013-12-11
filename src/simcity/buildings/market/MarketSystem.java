@@ -10,12 +10,14 @@ import simcity.buildings.market.MarketCashierRole.MarketState;
 import simcity.gui.SimCityGui;
 import simcity.gui.market.MarketAnimationPanel;
 import simcity.gui.market.MarketControlPanel;
+import simcity.gui.restauranttwo.RestaurantTwoControlPanel;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
 import simcity.interfaces.market.MarketCashier;
 import simcity.interfaces.market.MarketCustomer;
 import simcity.interfaces.market.MarketTruck;
 import simcity.interfaces.market.MarketWorker;
+import simcity.interfaces.restaurant.two.RestaurantTwoCook;
 
 /****
  * ISSUES: sometimes there is a flickering gray square in upper left corner of world panel
@@ -38,12 +40,19 @@ public class MarketSystem extends simcity.SimSystem {
 	private List<MarketWorker> workers = Collections.synchronizedList(new ArrayList<MarketWorker>());
 
 	public MarketSystem(SimCityGui scg) {
+	
 		super(scg);
-		super.setControlPanel(new MarketControlPanel());
+		computer.setSystem(this);
+		super.setControlPanel(new MarketControlPanel(computer));
 		super.setAnimationPanel(new MarketAnimationPanel());
+		((MarketControlPanel)controlPanel).updateFoodDisplay(computer.getInventory());
+		
 	}
 	
 	//replaces existing inventory with passed in one
+	public void updateFoodDisplay() {
+		((MarketControlPanel)controlPanel).updateFoodDisplay(computer.getInventory());
+	}
 	public void setInventory(Map<String, Integer> inv) {
 		computer.setInventory(inv);
 	}
@@ -117,7 +126,7 @@ public class MarketSystem extends simcity.SimSystem {
 	}
 
 	public boolean isOpen() {
-		return (cashier != null);
+		return (cashier != null && cashier.getMarketState() == MarketState.running);
 	}
 	
 }

@@ -11,13 +11,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import simcity.buildings.restaurant.two.RestaurantTwoComputer;
+
 public class RestaurantTwoControlPanel extends JPanel implements ActionListener  {
         
 	private JLabel typeLabel = new JLabel("Type: American Haute Cuisine");
 //	private JButton drainstock = new JButton("Remove Food Stock");
 	//private JButton AlexSmith = new JButton("Alex Smith");
 
-	
+	private RestaurantTwoComputer comp;
 	private JLabel foodLabel = new JLabel();
 	private JLabel setfoodLabel = new JLabel();
 	private JLabel setchickenLabel = new JLabel();
@@ -31,7 +33,8 @@ public class RestaurantTwoControlPanel extends JPanel implements ActionListener 
 	 private JTextField sabox; 
 	 JPanel opanel = new JPanel();
 	 
-	public RestaurantTwoControlPanel() {
+	public RestaurantTwoControlPanel(RestaurantTwoComputer c) {
+		this.comp=c;
 		setLayout(new GridLayout(0, 1, 2, 0));
 		foodLabel.setText("<html>Food Quantities:\n<br/>"+"<br/>salad: "+0
 				+"<br/>chicken: "+0+"<br/>steak: "+0+"<br/>pizza: "+0+"</html>");
@@ -75,12 +78,15 @@ public class RestaurantTwoControlPanel extends JPanel implements ActionListener 
 		}
 		foodText += "</html>";
 		foodLabel.setText(foodText);
+		//this.invalidate();
+		//this.validate();
+		//this.updateUI();
 	}
 	
 	public void actionPerformed(ActionEvent e) {
 		 if (e.getSource() == setInventory) {
 	         	// Chapter 2.19 describes showInputDialog()
-	           //  addPerson( namebox.getText(), newCB.isSelected());
+	            setInventory( stbox.getText(), chbox.getText(),pibox.getText(),sabox.getText());
 	           
 	             stbox.setText("");
 	             pibox.setText("");
@@ -89,7 +95,14 @@ public class RestaurantTwoControlPanel extends JPanel implements ActionListener 
 	             
 	             		
 	         }
+	}
+	public void setInventory(String steak,String chicken,String pizza,String salad){
+		int st = Integer.parseInt(steak);
+		int ch = Integer.parseInt(chicken);
+		int pi = Integer.parseInt(pizza);
+		int sa = Integer.parseInt(salad);
+		comp.setInventory(st,ch,sa,pi);
+	}
 		// TODO Auto-generated method stub
 		
 	}
-}

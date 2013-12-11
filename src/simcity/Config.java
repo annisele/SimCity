@@ -13,6 +13,8 @@ public class Config {
 	private Timer timer4 = new Timer();
 	private Timer timer = new Timer();
 	private SystemManager systems;
+	private int xIslandOffset = 430;
+	private int yIslandOffset = 360;
 
 	public Config(SystemManager s) {
 		systems = s;
@@ -51,10 +53,6 @@ public class Config {
 		systems.addBus("clockwise");
 		systems.addBus("counterclockwise");
 		//systems.addCar("car1");
-
-
-		int xIslandOffset = 430;
-		int yIslandOffset = 360;
 
 		// Top Left Island
 		// First row
@@ -264,9 +262,6 @@ public class Config {
 		systems.addBus("counterclockwise");
 		//systems.addCar("car1");
 
-		int xIslandOffset = 430;
-		int yIslandOffset = 360;
-
 		// Top Left Island
 		// First row
 		systems.addHouse("HOUSE1", 181, 152);
@@ -325,9 +320,6 @@ public class Config {
 		systems.addBus("clockwise");
 		systems.addBus("counterclockwise");
 		//systems.addCar("car1");
-
-		int xIslandOffset = 430;
-		int yIslandOffset = 360;
 
 		// Top Left Island
 		// First row
@@ -459,17 +451,17 @@ public class Config {
 		systems.addHouse("HOUSE3", 186, 27);
 		systems.addHouse("HOUSE4", 249, 27);
 		systems.addHouse("HOUSE5", 312, 27); 
-		
+
 		systems.addPerson("Conor oberst");
 		systems.setHome("Conor oberst", "HOUSE2");
 		systems.setWorkRestaurantTwoCashier("Conor oberst", "RESTAURANT2");
 		systems.setSleep("Conor oberst");
-		
+
 		systems.addPerson("Kanye");
 		systems.setHome("Kanye", "HOUSE1");
 		systems.setWorkRestaurantTwoHost("Kanye", "RESTAURANT2");
 		systems.setSleep("Kanye");
-		
+
 		systems.addPerson("Red");
 		systems.setHome("Red", "HOUSE3");
 		systems.setWorkRestaurantTwoCook("Red", "RESTAURANT2");
@@ -904,26 +896,16 @@ public class Config {
 		systems.clearDetailPane();
 		systems.setBackgroundThree();
 
-		int xIslandOffset = 430;
-		int yIslandOffset = 360;
-
 		// Top Left Island
 		// First row
 		systems.addHouse("HOUSE1", 181, 152);
 		//systems.addHouse("HOUSE2", 253, 152);
 		//systems.addHouse("HOUSE3", 326, 152);
-		//systems.addHouse("HOUSE4", 398, 152); 
+	//	systems.addHouse("HOUSE4", 398, 152); 
 
-		// Top Left Island
-		// First row
-		systems.addHouse("HOUSE1", 181, 152);
-//		systems.addHouse("HOUSE2", 253, 152);
-//		systems.addHouse("HOUSE3", 326, 152);
-//		systems.addHouse("HOUSE4", 398, 152); 
-//
 //		// Second row
-//		systems.addHouse("HOUSE7", 181, 246);
-//		systems.addHouse("HOUSE5", 253, 246);
+		systems.addRestaurantTwo("RESTAURANT2", 181, 246);
+		//systems.addHouse("HOUSE5", 253, 246);
 //		systems.addHouse("HOUSE6", 326, 246);
 //		systems.addHouse("HOUSE8", 398, 246);
 
@@ -933,7 +915,29 @@ public class Config {
 
 		systems.addBank("BANK1", 326, 338);
 		systems.addBank("BANK2", 253, 246);
+		//res 2 workers
+		systems.addPerson("Conor oberst");
+		//systems.setHome("Conor oberst", "HOUSE9");
+		systems.setWorkRestaurantTwoCashier("Conor oberst", "RESTAURANT2");
+		//systems.setSleep("Conor oberst");
+		
+		systems.addPerson("Kanye");
+		//systems.setHome("Kanye", "HOUSE10");
+		systems.setWorkRestaurantTwoHost("Kanye", "RESTAURANT2");
+		//systems.setSleep("Kanye");
+		
+		systems.addPerson("Red");
+	//	systems.setHome("Red", "HOUSE11");
+		systems.setWorkRestaurantTwoCook("Red", "RESTAURANT2");
+		//systems.setSleep("Red");
 
+
+		systems.addPerson("Kong");
+	//	systems.setHome("Kong", "HOUSE13");
+		systems.setWorkRestaurantTwoWaiter("Kong", "RESTAURANT2");
+		//systems.setSleep("Kong");
+		
+		
 		// Workers for MARKET1
 		systems.addPerson("Mary");
 		//systems.setHome("Mary", "HOUSE2");
@@ -951,48 +955,53 @@ public class Config {
 
 		// Workers for MARKET2
 		systems.addPerson("Barry");
-	//	systems.setHome("Barry", "HOUSE4");
+		//	systems.setHome("Barry", "HOUSE4");
 		systems.setWorkMarketCashier("Barry", "MARKET2");
-	//	systems.setSleep("Barry");
+		//	systems.setSleep("Barry");
 		systems.addPerson("Sue");
-	//	systems.setHome("Sue", "HOUSE5");
+		//	systems.setHome("Sue", "HOUSE5");
 		systems.setWorkMarketWorker("Sue", "MARKET2");
-	//	systems.setSleep("Sue");
+		//	systems.setSleep("Sue");
 
 		// BANK1 workers
 		systems.addPerson("Kevin");
-	//	systems.setHome("Kevin", "HOUSE7");
+		//	systems.setHome("Kevin", "HOUSE7");
 		systems.setWorkBankHost("Kevin", "BANK1");
-	//	systems.setSleep("Kevin");
+		//	systems.setSleep("Kevin");
 		systems.addPerson("Ben");
-	//	systems.setHome("Ben", "HOUSE8");
+		//	systems.setHome("Ben", "HOUSE8");
 		systems.setWorkBankTeller("Ben", "BANK1");
+<<<<<<< HEAD
 	//	systems.setSleep("Ben");
 	//	systems.addBankAccount(0, 100, 0, "abcdef");
 		
+=======
+		//	systems.setSleep("Ben");
+
+>>>>>>> d41d52e2cfcd1a20615f1e98560781894f7422ed
 		// BANK2 workers
 		systems.addPerson("Bob");
-	//	systems.setHome("Kevin", "HOUSE7");
+		//	systems.setHome("Kevin", "HOUSE7");
 		systems.setWorkBankHost("Bob", "BANK2");
-	//	systems.setSleep("Kevin");
+		//	systems.setSleep("Kevin");
 		systems.addPerson("Ren");
-	//	systems.setHome("Ben", "HOUSE8");
+		//	systems.setHome("Ben", "HOUSE8");
 		systems.setWorkBankTeller("Ren", "BANK2");
-	//	systems.setSleep("Ben");
-	
-		
-		
-//		try {
-//			//timer1.cancel();
-//		} catch(Exception e) {
-//
-//		}
-//
-//		timer1.schedule(new TimerTask() {
-//			public void run() {
-//				//systems.addPerson("Hungry Jenny");
-//			}
-//		}, 1200);
+		//	systems.setSleep("Ben");
+
+
+
+		//		try {
+		//			//timer1.cancel();
+		//		} catch(Exception e) {
+		//
+		//		}
+		//
+		//		timer1.schedule(new TimerTask() {
+		//			public void run() {
+		//				//systems.addPerson("Hungry Jenny");
+		//			}
+		//		}, 1200);
 
 
 
@@ -1009,37 +1018,62 @@ public class Config {
 		//have to change the role to pedestrian role to ride on car , get on bus
 		systems.clear();
 		systems.clearDetailPane();
-
+		systems.setBackgroundThree();
 		int xIslandOffset = 430;
 		int yIslandOffset = 360;
 
-		systems.setBackgroundThree();
+		// Top Left Island
+		// First row
+		systems.addHouse("HOUSE1", 181, 152);
+		systems.addHouse("HOUSE2", 253, 152);
+		systems.addHouse("HOUSE3", 181 + xIslandOffset, 152);
+
+		// Third row
+		systems.addMarket("MARKET1", 253, 338);
+		systems.addMarket("MARKET2", 398, 338);
+
+		systems.addBank("BANK1", 326, 338);
+		systems.addBank("BANK2", 253, 246);
+
+		// Workers for MARKET1
+		systems.addPerson("Mary");
+		systems.setWorkMarketCashier("Mary", "MARKET1");
+		systems.addPerson("Joe");
+		systems.setWorkMarketWorker("Joe", "MARKET1");
+
+		//Buses
+		systems.addBus("clockwise");
 		systems.addBus("counterclockwise");
-		systems.addBank("BANK1", 160 + xIslandOffset, 200);
-		systems.addHouse("HOUSE1", 80 + xIslandOffset, 20);
-		systems.addHouse("HOUSE2", 160 + xIslandOffset, 20);
-		systems.addHouse("HOUSE3", 240 + xIslandOffset, 20);
+
+		// Non-working people
+		systems.addPerson("Tommy");
+		systems.setHome("Tommy", "HOUSE1");
+		systems.setSleep("Tommy");
+		systems.addPerson("Nick");
+		systems.setHome("Nick", "HOUSE2");
+		systems.setSleep("Nick");
+		systems.addPerson("Sally");
+		systems.setHome("Sally", "HOUSE3");
+		systems.setSleep("Sally");
+
+		// Workers for MARKET2
+		systems.addPerson("Barry");
+		systems.setWorkMarketCashier("Barry", "MARKET2");
+		systems.addPerson("Sue");
+		systems.setWorkMarketWorker("Sue", "MARKET2");
+
+		// BANK1 workers
 		systems.addPerson("Kevin");
-		systems.setHome("Kevin", "HOUSE1");
 		systems.setWorkBankHost("Kevin", "BANK1");
-		systems.setSleep("Kevin");
 		systems.addPerson("Ben");
-		systems.setHome("Ben", "HOUSE2");
 		systems.setWorkBankTeller("Ben", "BANK1");
-		systems.setSleep("Ben");
-		systems.addPerson("Devon");
-		systems.setHome("Devon", "HOUSE3");
-		systems.setWorkBankTeller("Devon", "BANK1");
-		systems.setSleep("Devon");
 
+		// BANK2 workers
+		systems.addPerson("Bob");
+		systems.setWorkBankHost("Bob", "BANK2");
+		systems.addPerson("Ren");
+		systems.setWorkBankTeller("Ren", "BANK2");
 
-		timer4.schedule(new TimerTask() {
-			public void run() {
-				//systems.addPerson("Bank Robber");
-			}
-		}, 4000);
-		
-		
 	}
 
 	public void scenarioC() {
@@ -1052,8 +1086,6 @@ public class Config {
 		systems.clearDetailPane();
 
 		systems.setBackgroundThree();
-		int xIslandOffset = 430;
-		int yIslandOffset = 360;
 
 		// Top Left Island
 		// First row
@@ -1073,18 +1105,18 @@ public class Config {
 		systems.addRestaurantTwo("RESTAURANT2", 253, 338);
 		systems.addHouse("HOUSE16", 326, 338);
 		systems.addHouse("HOUSE17", 398, 338);
-		
+
 
 		systems.addPerson("Conor oberst");
 		systems.setHome("Conor oberst", "HOUSE9");
 		systems.setWorkRestaurantTwoCashier("Conor oberst", "RESTAURANT2");
 		systems.setSleep("Conor oberst");
-		
+
 		systems.addPerson("Kanye");
 		systems.setHome("Kanye", "HOUSE10");
 		systems.setWorkRestaurantTwoHost("Kanye", "RESTAURANT2");
 		systems.setSleep("Kanye");
-		
+
 		systems.addPerson("Red");
 		systems.setHome("Red", "HOUSE11");
 		systems.setWorkRestaurantTwoCook("Red", "RESTAURANT2");
@@ -1098,7 +1130,7 @@ public class Config {
 		systems.setHome("Kong", "HOUSE13");
 		systems.setWorkRestaurantTwoWaiter("Kong", "RESTAURANT2");
 		systems.setSleep("Kong");
-		
+
 		systems.addPerson("Mary");
 		systems.setHome("Mary", "HOUSE2");
 		systems.setWorkMarketCashier("Mary", "MARKET1");
@@ -1139,9 +1171,6 @@ public class Config {
 
 		systems.addBus("clockwise");
 		systems.addBus("counterclockwise");
-
-		int xIslandOffset = 430;
-		int yIslandOffset = 360;
 
 		// Top Left Island
 		// First row
@@ -1199,6 +1228,7 @@ public class Config {
 
 		systems.setBackgroundThree();
 		systems.addHouse("HOUSE1", 253, 152);
+<<<<<<< HEAD
 		systems.addMarket("MARKET1", 280, 220);
 
 		systems.addPerson("Joe");
@@ -1206,6 +1236,16 @@ public class Config {
 		systems.setWorkMarketWorker("Joe", "MARKET1");
 		systems.setHome("Joe", "HOUSE1");
 		systems.setSleep("Joe");
+=======
+		systems.addHouse("HOUSE2", 326, 152);
+		systems.addHouse("HOUSE3", 398, 152); 
+		systems.addBank("BANK1", 326, 338);
+		// BANK1 workers
+		systems.addPerson("Kevin");
+		systems.setWorkBankHost("Kevin", "BANK1");
+		systems.addPerson("Ben");
+		systems.setWorkBankTeller("Ben", "BANK1");
+>>>>>>> d41d52e2cfcd1a20615f1e98560781894f7422ed
 
 	}
 
@@ -1219,8 +1259,8 @@ public class Config {
 		systems.clearDetailPane();
 
 		systems.setBackgroundThree();
-		
-		
+
+
 	}
 
 	public void scenarioJ() {
@@ -1231,8 +1271,302 @@ public class Config {
 		 */
 		systems.clear();
 		systems.clearDetailPane();
-
 		systems.setBackgroundThree();
+
+
+
+		// Top Left Island
+		// First row
+		systems.addHouse("HOUSE1", 181, 152);
+		systems.addHouse("HOUSE2", 253, 152);
+		systems.addHouse("HOUSE3", 326, 152);
+		systems.addHouse("HOUSE4", 398, 152); 
+
+		// Second row
+		systems.addHouse("HOUSE5", 181, 246);
+		systems.addHouse("HOUSE6", 253, 246);
+		systems.addHouse("HOUSE7", 326, 246);
+		systems.addHouse("HOUSE8", 398, 246);
+
+		// Third row
+		systems.addHouse("HOUSE9", 181, 338);
+		systems.addHouse("HOUSE10", 253, 338);
+		systems.addHouse("HOUSE11", 326, 338);
+		systems.addHouse("HOUSE12", 398, 338);
+
+		// Top Center Island
+		// First row
+		systems.addHouse("HOUSE13", 181 + xIslandOffset, 152);
+		systems.addHouse("HOUSE14", 253 + xIslandOffset, 152);
+		systems.addHouse("HOUSE15", 326 + xIslandOffset, 152);
+		systems.addHouse("HOUSE16", 398 + xIslandOffset, 152); 
+
+		// Second row
+		systems.addHouse("HOUSE17", 181 + xIslandOffset, 246);
+		systems.addHouse("HOUSE18", 253 + xIslandOffset, 246);
+		systems.addHouse("HOUSE19", 326 + xIslandOffset, 246);
+		systems.addHouse("HOUSE20", 398 + xIslandOffset, 246);
+
+		// Third row
+		systems.addHouse("HOUSE21", 181 + xIslandOffset, 338);
+		systems.addHouse("HOUSE22", 253 + xIslandOffset, 338);
+		systems.addHouse("HOUSE23", 326 + xIslandOffset, 338);
+		systems.addHouse("HOUSE24", 398 + xIslandOffset, 338);
+
+		// Top Right Island
+		// First row
+		systems.addHouse("HOUSE25", 181 + 2*xIslandOffset, 152);
+		systems.addHouse("HOUSE26", 253 + 2*xIslandOffset, 152);
+		systems.addHouse("HOUSE27", 326 + 2*xIslandOffset, 152);
+		systems.addHouse("HOUSE28", 398 + 2*xIslandOffset, 152); 
+
+		// Second row
+		systems.addHouse("HOUSE29", 181 + 2*xIslandOffset, 246);
+		systems.addHouse("HOUSE30", 253 + 2*xIslandOffset, 246);
+		systems.addHouse("HOUSE32", 326 + 2*xIslandOffset, 246);
+		systems.addHouse("HOUSE31", 398 + 2*xIslandOffset, 246);
+
+		// Third row
+		systems.addHouse("HOUSE33", 181 + 2*xIslandOffset, 338);
+		systems.addHouse("HOUSE34", 253 + 2*xIslandOffset, 338);
+		systems.addHouse("HOUSE35", 326 + 2*xIslandOffset, 338);
+		systems.addHouse("HOUSE36", 398 + 2*xIslandOffset, 338);
+
+		// Bottom Left Island
+		// First row
+		systems.addHouse("HOUSE37", 181, 152 + yIslandOffset);
+		systems.addHouse("HOUSE38", 253, 152 + yIslandOffset);
+		systems.addHouse("HOUSE39", 326, 152 + yIslandOffset);
+		systems.addHouse("HOUSE40", 398, 152 + yIslandOffset); 
+
+		// Second row
+		systems.addHouse("HOUSE41", 181, 246 + yIslandOffset);
+		systems.addHouse("HOUSE42", 253, 246 + yIslandOffset);
+		systems.addHouse("HOUSE43", 326, 246 + yIslandOffset);
+		systems.addHouse("HOUSE44", 398, 246 + yIslandOffset);
+
+		// Third row
+		systems.addBank("BANK1", 181, 338);
+		systems.addHouse("HOUSE45", 253, 338 + yIslandOffset);
+		systems.addHouse("HOUSE46", 326, 338 + yIslandOffset);
+		systems.addHouse("HOUSE47", 398, 338 + yIslandOffset);
+
+		// Bottom Center Island
+		// First row
+		systems.addHouse("HOUSE48", 181 + xIslandOffset, 152 + yIslandOffset);
+		systems.addHouse("HOUSE49", 253 + xIslandOffset, 152 + yIslandOffset);
+		systems.addHouse("HOUSE50", 326 + xIslandOffset, 152 + yIslandOffset);
+		//	systems.addHouse("HOUSE12", 398 + xIslandOffset, 152 + yIslandOffset); 
+
+		// Second row
+		//	systems.addHouse("HOUSE13", 181 + xIslandOffset, 246 + yIslandOffset);
+		//	systems.addHouse("HOUSE14", 253 + xIslandOffset, 246 + yIslandOffset);
+		//	systems.addHouse("HOUSE2", 326 + xIslandOffset, 246 + yIslandOffset);
+		//	systems.addHouse("HOUSE1", 398 + xIslandOffset, 246 + yIslandOffset);
+
+		// Third row
+		systems.addBank("BANK1", 181 + xIslandOffset, 338 + yIslandOffset);
+		//	systems.addHouse("HOUSE15", 253 + xIslandOffset, 338 + yIslandOffset);
+		//	systems.addHouse("HOUSE16", 326 + xIslandOffset, 338 + yIslandOffset);
+		//	systems.addHouse("HOUSE17", 398 + xIslandOffset, 338 + yIslandOffset);
+
+		// Bottom Right Island
+		// First row
+		//	systems.addHouse("HOUSE9", 181 + 2*xIslandOffset, 152 + yIslandOffset);
+		//	systems.addHouse("HOUSE10", 253 + 2*xIslandOffset, 152 + yIslandOffset);
+		systems.addMarket("MARKET1", 326 + 2*xIslandOffset, 152 + yIslandOffset);
+		//	systems.addHouse("HOUSE12", 398 + 2*xIslandOffset, 152 + yIslandOffset); 
+
+		// Second row
+		systems.addMarket("MARKET3", 181 + 2*xIslandOffset, 246 + yIslandOffset);
+		//	systems.addHouse("HOUSE14", 253 + 2*xIslandOffset, 246 + yIslandOffset);
+		//	systems.addHouse("HOUSE2", 326 + 2*xIslandOffset, 246 + yIslandOffset);
+		//	systems.addHouse("HOUSE1", 398 + 2*xIslandOffset, 246 + yIslandOffset);
+
+		// Third row
+		//	systems.addMarket("MARKET1", 181 + 2*xIslandOffset, 338 + yIslandOffset);
+		systems.addMarket("MARKET2", 253 + 2*xIslandOffset, 338 + yIslandOffset);
+		//	systems.addHouse("", 326 + 2*xIslandOffset, 338 + yIslandOffset);
+		//	systems.addHouse("HOUSE17", 398 + 2*xIslandOffset, 338 + yIslandOffset);
+
+		// Workers for MARKET1
+		systems.addPerson("Mary");
+		systems.setHome("Mary", "HOUSE1");
+		systems.setWorkMarketCashier("Mary", "MARKET1");
+		systems.setSleep("Mary");
+		systems.addPerson("Joe");
+		systems.setHome("Joe", "HOUSE2");
+		systems.setWorkMarketWorker("Joe", "MARKET1");
+		systems.setSleep("Joe");
+
+		//Buses
+		systems.addBus("clockwise");
+		systems.addBus("counterclockwise");
+
+		// Workers for MARKET2
+		systems.addPerson("Barry");
+		systems.setHome("Barry", "HOUSE3");
+		systems.setWorkMarketCashier("Barry", "MARKET2");
+		systems.setSleep("Barry");
+		systems.addPerson("Sue");
+		systems.setHome("Sue", "HOUSE4");
+		systems.setWorkMarketWorker("Sue", "MARKET2");
+		systems.setSleep("Sue");
+
+		// BANK1 workers
+		systems.addPerson("Kevin");
+		systems.setHome("Kevin", "HOUSE5");
+		systems.setWorkBankHost("Kevin", "BANK1");
+		systems.setSleep("Kevin");
+		systems.addPerson("Ben");
+		systems.setHome("Ben", "HOUSE6");
+		systems.setWorkBankTeller("Ben", "BANK1");
+		systems.setSleep("Ben");
+		systems.addPerson("Chris");
+		systems.setHome("Chris", "HOUSE7");
+		systems.setWorkBankTeller("Chris", "BANK1");
+		systems.setSleep("Chris");
+		systems.addPerson("Theresa");
+		systems.setHome("Theresa", "HOUSE8");
+		systems.setWorkBankTeller("Theresa", "BANK1");
+		systems.setSleep("Theresa");
+
+		// BANK2 workers
+		systems.addPerson("Bob");
+		systems.setHome("Bob", "HOUSE9");
+		systems.setWorkBankHost("Bob", "BANK2");
+		systems.setSleep("Bob");
+		systems.addPerson("Janelle");
+		systems.setHome("Janelle", "HOUSE10");
+		systems.setWorkBankTeller("Janelle", "BANK2");
+		systems.setSleep("Janelle");
+		systems.addPerson("Jose");
+		systems.setHome("Jose", "HOUSE11");
+		systems.setWorkBankTeller("Jose", "BANK2");
+		systems.setSleep("Jose");
+		systems.addPerson("Tina");
+		systems.setHome("Tina", "HOUSE12");
+		systems.setWorkBankTeller("Tina", "BANK2");
+		systems.setSleep("Tina");
+
+		// Non-working people
+		systems.addPerson("Hao");
+		systems.setHome("Hao", "HOUSE13");
+		systems.setSleep("Hao");
+		systems.addPerson("Andrew");
+		systems.setHome("Andrew", "HOUSE14");
+		systems.setSleep("Andrew");
+		systems.addPerson("Bea");
+		systems.setHome("Bea", "HOUSE15");
+		systems.setSleep("Bea");
+		systems.addPerson("Sun");
+		systems.setHome("Sun", "HOUSE16");
+		systems.setSleep("Sun");
+		systems.addPerson("Destiny");
+		systems.setHome("Destiny", "HOUSE17");
+		systems.setSleep("Destiny");
+		systems.addPerson("Vivien");
+		systems.setHome("Vivien", "HOUSE18");
+		systems.setSleep("Vivien");
+		systems.addPerson("Kim");
+		systems.setHome("Kim", "HOUSE19");
+		systems.setSleep("Kim");
+		systems.addPerson("Denise");
+		systems.setHome("Denise", "HOUSE20");
+		systems.setSleep("Denise");
+		systems.addPerson("Paul");
+		systems.setHome("Paul", "HOUSE21");
+		systems.setSleep("Paul");
+		systems.addPerson("Kami");
+		systems.setHome("Kami", "HOUSE22");
+		systems.setSleep("Kami");
+		systems.addPerson("Caitlin");
+		systems.setHome("Caitlin", "HOUSE23");
+		systems.setSleep("Caitlin");
+		systems.addPerson("Derrick");
+		systems.setHome("Derrick", "HOUSE24");
+		systems.setSleep("Derrick");
+		systems.addPerson("Megan");
+		systems.setHome("Megan", "HOUSE25");
+		systems.setSleep("Megan");
+		systems.addPerson("Manuel");
+		systems.setHome("Manuel", "HOUSE26");
+		systems.setSleep("Manuel");
+		systems.addPerson("Betty");
+		systems.setHome("Betty", "HOUSE27");
+		systems.setSleep("Betty");
+		systems.addPerson("Leilani");
+		systems.setHome("Leilani", "HOUSE28");
+		systems.setSleep("Leilani");
+		systems.addPerson("Shannon");
+		systems.setHome("Shannon", "HOUSE29");
+		systems.setSleep("Shannon");
+		systems.addPerson("Greg");
+		systems.setHome("Greg", "HOUSE30");
+		systems.setSleep("Greg");
+		systems.addPerson("Crystal");
+		systems.setHome("Crystal", "HOUSE31");
+		systems.setSleep("Crystal");
+		systems.addPerson("Dominique");
+		systems.setHome("Dominique", "HOUSE32");
+		systems.setSleep("Dominique");
+		systems.addPerson("Max");
+		systems.setHome("Max", "HOUSE33");
+		systems.setSleep("Max");
+		systems.addPerson("Alex");
+		systems.setHome("Alex", "HOUSE34");
+		systems.setSleep("Alex");
+		systems.addPerson("Rina");
+		systems.setHome("Rina", "HOUSE35");
+		systems.setSleep("Rina");
+		systems.addPerson("Ari");
+		systems.setHome("Ari", "HOUSE36");
+		systems.setSleep("Ari");
+		systems.addPerson("Jordan");
+		systems.setHome("Jordan", "HOUSE37");
+		systems.setSleep("Jordan");
+		systems.addPerson("Lyall");
+		systems.setHome("Lyall", "HOUSE38");
+		systems.setSleep("Lyall");
+		systems.addPerson("Elyse");
+		systems.setHome("Elyse", "HOUSE39");
+		systems.setSleep("Elyse");
+		systems.addPerson("John");
+		systems.setHome("John", "HOUSE40");
+		systems.setSleep("John");
+		systems.addPerson("Marcus");
+		systems.setHome("Marcus", "HOUSE41");
+		systems.setSleep("Marcus");
+		systems.addPerson("Tricia");
+		systems.setHome("Tricia", "HOUSE42");
+		systems.setSleep("Tricia");
+		systems.addPerson("Damon");
+		systems.setHome("Damon", "HOUSE43");
+		systems.setSleep("Damon");
+		systems.addPerson("Tara");
+		systems.setHome("Tara", "HOUSE44");
+		systems.setSleep("Tara");
+		systems.addPerson("Zoe");
+		systems.setHome("Zoe", "HOUSE45");
+		systems.setSleep("Zoe");
+		systems.addPerson("Adriana");
+		systems.setHome("Adriana", "HOUSE46");
+		systems.setSleep("Adriana");
+		systems.addPerson("Henry");
+		systems.setHome("Henry", "HOUSE47");
+		systems.setSleep("Henry");
+		systems.addPerson("Ines");
+		systems.setHome("Ines", "HOUSE48");
+		systems.setSleep("Ines");
+		systems.addPerson("Roshan");
+		systems.setHome("Roshan", "HOUSE49");
+		systems.setSleep("Roshan");
+		systems.addPerson("Annie");
+		systems.setHome("Annie", "HOUSE50");
+		systems.setSleep("Annie");
+
+
+
 	}
 
 	public void OneBankFull() {

@@ -26,7 +26,7 @@ public class AnimationPanel extends JPanel implements ActionListener{
 
 	SimCityGui simCityGui;
 	JPanel controlPanel;
-	PersonPanel pPanel= new PersonPanel();
+	//PersonPanel pPanel= new PersonPanel();
 
 	protected List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
 	protected List<BuildingGui> buildingGuis = Collections.synchronizedList(new ArrayList<BuildingGui>());
@@ -77,7 +77,7 @@ public class AnimationPanel extends JPanel implements ActionListener{
 
 						//we can either just print out the object class name
 						System.out.println("Clicked a "+g.getClass().getName());
-						pPanel.setInfo(g);
+					//	pPanel.setInfo(g);
 						//simCityGui.setControlPanel(pPanel);
 
 						if(g instanceof MarketCashierGui) {

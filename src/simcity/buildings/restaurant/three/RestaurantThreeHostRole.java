@@ -172,11 +172,14 @@ public class RestaurantThreeHostRole extends Role implements RestaurantThreeHost
 		waiter.wtr.msgPleaseSeatCustomer(customer, table.tableNumber);
 		table.setOccupant(customer);
 		tablesOccupiedCounter++;
+		
 		if(waiterIndex >= waiters.size()) {
 			waiterIndex = 0;
 		}
 		
 		waitingCustomers.remove(customer);
+		Do("seat customer, waiter" + customer + "waiting customer" );
+		
 		//waitingCustomers.remove(waitingCustomers.get(0));
 		
 	}

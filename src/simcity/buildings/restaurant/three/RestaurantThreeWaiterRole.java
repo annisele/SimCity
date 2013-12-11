@@ -310,13 +310,15 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
 	}
 	private void takeOrder(MyCustomer c) {
 		((RestaurantThreeWaiterGui)gui).DoTakeOrder(c.getTableNumber());
+		Do("HIIHIHIHIHIHIH");
+		
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurantThreeSystem.getName()), "Restaurant 3 Waiter: " + person.getName(), "Take customer order");	
 		try {
     		atDest.acquire();
     	} catch (InterruptedException e) {
     		//e.printStackTrace();
     	}
-		//c.state = CustomerState.NO_ACTION;
+		c.state = CustomerState.ORDERING;
 		c.customer.msgWhatsYourOrder();
 		((RestaurantThreeWaiterGui)gui).DoGoToStation();
 		try {

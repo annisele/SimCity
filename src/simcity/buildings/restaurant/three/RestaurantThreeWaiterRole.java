@@ -188,6 +188,7 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
 		}
 		//from cook
 		public void msgOrderIsReady(int tableNum, String choice) {
+			AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurantThreeSystem.getName()), "Restaurant 3 Waiter: " + person.getName(), "Get food from cook!");
 			synchronized(customers) {
 			for(MyCustomer c:customers){
 			    if(c.tableNum == tableNum){
@@ -197,6 +198,27 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
 			    }
 			}
 			finishedOrders.add(new Order(choice, tableNum));
+			}
+		}
+		public void msgCheckPlease(RestaurantThreeCustomer customer) {
+			AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurantThreeSystem.getName()), "Restaurant 3 Waiter: " + person.getName(), "Get check for customer!");
+			synchronized(customers) {
+				for(MyCustomer c:customers){
+					if (c.customer.equals(customer)) {
+						c.state = CustomerState.READY_TO_PAY;
+						stateChanged();
+					}
+				}
+			}
+		}
+		public void msgFinishedFoodAndLeaving(RestaurantThreeCustomer customer) {
+			synchronized(customers) {
+				for(MyCustomer c:customers){
+					if (c.customer.equals(customer)) {
+						c.state = CustomerState.READY_TO_PAY;
+						stateChanged();
+					}
+				}
 			}
 		}
 		//scheduler
@@ -284,6 +306,7 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
     	} catch (InterruptedException e) {
     		
     	}
+		stateChanged();
 	}
 	private void takeOrder(MyCustomer c) {
 		((RestaurantThreeWaiterGui)gui).DoTakeOrder(c.getTableNumber());
@@ -293,7 +316,7 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
     	} catch (InterruptedException e) {
     		//e.printStackTrace();
     	}
-		c.state = CustomerState.NO_ACTION;
+		//c.state = CustomerState.NO_ACTION;
 		c.customer.msgWhatsYourOrder();
 		((RestaurantThreeWaiterGui)gui).DoGoToStation();
 		try {

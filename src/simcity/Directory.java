@@ -65,7 +65,7 @@ public class Directory {
 		return directory.get(name).system;
 	}
 
-	public static List<String> getRestaurants() {
+	public static List<String> getOpenRestaurants() {
 		List<String> restaurants = new ArrayList<String>();
 		for (String key : directory.keySet()) {
 			if(directory.get(key).type == EntryType.Restaurant) {
@@ -84,8 +84,18 @@ public class Directory {
 		}
 		return markets;
 	}
+	
+	public static List<String> getOpenMarkets() {
+		List<String> markets = new ArrayList<String>();
+		for (String key : directory.keySet()) {
+			if(directory.get(key).type == EntryType.Market) {
+				markets.add(key);
+			}
+		}
+		return markets;
+	}
 
-	public static List<String> getBanks() {
+	public static List<String> getOpenBanks() {
 		List<String> banks = new ArrayList<String>();
 		for (String key : directory.keySet()) {
 			if(directory.get(key).type == EntryType.Bank) {
@@ -94,6 +104,7 @@ public class Directory {
 		}
 		return banks;
 	}
+	
 
 	public void add(String n, EntryType t, Location l, SimSystem s){
 		Entry temp = new Entry(l, t, s);

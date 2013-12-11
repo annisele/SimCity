@@ -54,5 +54,9 @@ public class SimSystem {
 	public boolean msgEnterBuilding(Role role) {
 		return false;
 	}
+	
+	public boolean isOpen() {
+		return false;
+	}
 
 }

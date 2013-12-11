@@ -32,6 +32,7 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 	
 	private int busRouteCounter;
 	private int busStopCounter;
+	private int intersectionCounter;
 	
 	public static final int NUM_BUSSTOPS = 10;
 	public enum BusState {none, stopped, driving};
@@ -82,10 +83,11 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 			}
 			busRouteCounter = 0;
 			busStopCounter = 0;
+			intersectionCounter = 0;
 		}
 		else if (name == "counterclockwise") {
 			List<Location> tempList = Directory.defineCounterClockwiseBusRoute();
-			for(int i=1; i<=10; i++) {
+			for(int i=1; i<=15; i++) {
 				Location tempLoc = tempList.get(0);
 				busRoute.put(i, tempLoc);
 				tempList.remove(tempLoc);
@@ -97,6 +99,8 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 				tempInts.remove(tempInt);
 			}
 			busRouteCounter = 0;
+			busStopCounter = 4;
+			intersectionCounter = 0;
 		}
 	}
 	
@@ -222,21 +226,77 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 		} catch (InterruptedException e) {
 			//e.printStackTrace();
 		}
-		if (busRouteCounter == 2 || busRouteCounter == 5 || busRouteCounter == 7 || busRouteCounter == 12 || busRouteCounter == 14 ) {
-			msgArrivedAtBusStop();
-			busRouteCounter++;
-			return;
-		}
-		else {
-			stoplights.get(busRouteCounter+1).vehicleWantsToCross(this);
-			try {
-				atDestination.acquire();
-			} catch (InterruptedException e) {
-				//e.printStackTrace();
+		if (name == "clockwise") {
+			if (busRouteCounter == 2 || busRouteCounter == 5 || busRouteCounter == 7 || busRouteCounter == 12 || busRouteCounter == 14 ) {
+				busRouteCounter++;
+				busStopCounter++;
+				if (busStopCounter == 5) {
+					busStopCounter = 0;
+				}
+				stopTimer.schedule(new TimerTask() {
+					public void run() {
+						atDestination.release();
+					}
+				}, 300);
+				try {
+					atDestination.acquire();
+				} catch (InterruptedException e) {
+					//e.printStackTrace();
+				}
+				msgArrivedAtBusStop();
 			}
-			msgArrived();
-			busRouteCounter++;
+			else {
+				busRouteCounter++;
+				intersectionCounter++;
+				if (intersectionCounter == 10) {
+					intersectionCounter = 0;
+				}
+				stoplights.get(intersectionCounter+1).vehicleWantsToCross(this);
+				try {
+					atDestination.acquire();
+				} catch (InterruptedException e) {
+					//e.printStackTrace();
+				}
+				msgArrived();
+				
+			}
 		}
+		else if (name == "counterclockwise") {
+			if (busRouteCounter == 1 || busRouteCounter == 3 || busRouteCounter == 6 || busRouteCounter == 9 || busRouteCounter == 11 ) {
+				busRouteCounter++;
+				busStopCounter--;
+				if (busStopCounter == -1) {
+					busStopCounter = 4;
+				}
+				stopTimer.schedule(new TimerTask() {
+					public void run() {
+						atDestination.release();
+					}
+				}, 300);
+				try {
+					atDestination.acquire();
+				} catch (InterruptedException e) {
+					//e.printStackTrace();
+				}
+				msgArrivedAtBusStop();
+			}
+			else {
+				busRouteCounter++;
+				intersectionCounter++;
+				if (intersectionCounter == 10) {
+					intersectionCounter = 0;
+				}
+				stoplights.get(intersectionCounter+1).vehicleWantsToCross(this);
+				try {
+					atDestination.acquire();
+				} catch (InterruptedException e) {
+					//e.printStackTrace();
+				}
+				msgArrived();
+			}
+		}
+		
+		
 	}
 
 	public void Load() {

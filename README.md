@@ -48,7 +48,24 @@ Member Contributions
 
 ####Joshua Michael
 #####V2: 
-
+1. Created a now-functioning design for Car and CarPassenger with Kevin (
+	-Decided to take out the agent functionality of the Car, and have the CarPassenger create his own Gui 	when he wanted to travel to any destination
+2. Implemented buses going around the larger world (for example, in bus intersection test), by
+   updating bus stops and making sure that buses would now stop before intersections
+3. Implemented the use of "Car Garages", so that people would walk to public car garages before
+   getting into their car. Levonne helped hardcode the locations of garages, and helped create basic Guis for
+   them on the map.
+4. (With Kevin) Designed a way for people to figure out where the nearest car parking structure was,
+   and to determine the nearest parking structure to their destination.
+5. Created "Lanes" by hardcoding stops to certain routes for buses. This way, they will never hit each other
+   on their routes on the outer section of the city
+	-Can be seen in scenario "Bus Intersection Test"
+6. Half implemented my restaurant. People change into the correct roles and walk to and enter the restaurant,
+   but no interactions were developed. Due to lack of time and because of the fact that I had two exams on 
+   Wednesday, I dedicated what time I had over the past week to transportation.
+7. Worked along with other team members to get refined, basic images for certain interior and exterior
+   elements. Clayton and Kevin would also contribute to the images I created or update them to fit in nicely     into the city (more of a V1 contribution, forgot to state)
+ 
 #####V1:
 1. Worked on the initial design documents for Bus, Car, BusPassenger, CarPassenger (with Clayton)
 2. Implemented the bus and BusPassenger in both of our worlds (with Kevin)

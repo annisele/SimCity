@@ -443,7 +443,10 @@ public class PersonAgent extends Agent implements Person {
 				if(currentEvent != null && currentEvent.type == EventType.Work) {
 					//if tomorrow is a weekend (today is Fri or Sat), schedule work for monday
 					if((Clock.getDayOfTheWeek() == Clock.DayOfWeek.FRI) || (Clock.getDayOfTheWeek() == Clock.DayOfWeek.SAT)) {
+						if(workBuilding.equals("MARKET1")||workBuilding.equals("MARKET2")||workBuilding.equals("MARKET3")||workBuilding.equals("BANK1")||workBuilding.equals("BANK2")){
+							
 						offSet = 6 * 24 * 3; //3 * 24 hours
+					}
 					}
 					//if you are working, schedule work for tomorrow
 					else {

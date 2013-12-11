@@ -1,14 +1,18 @@
 package simcity.buildings.restaurant.two;
 
 
+import simcity.Clock;
 import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
+import simcity.PersonAgent.EventType;
 import simcity.buildings.bank.BankSystem;
+import simcity.buildings.market.MarketCashierRole.MarketState;
 import simcity.gui.bank.BankHostGui;
 import simcity.gui.restauranttwo.RestaurantTwoHostGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
+import simcity.interfaces.market.MarketWorker;
 import simcity.interfaces.restaurant.two.RestaurantTwoCustomer;
 import simcity.interfaces.restaurant.two.RestaurantTwoHost;
 import simcity.interfaces.restaurant.two.RestaurantTwoWaiter;
@@ -19,6 +23,8 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
 public class RestaurantTwoHostRole extends Role implements simcity.interfaces.restaurant.two.RestaurantTwoHost{//implements simcity.interfaces.restaurant.one.RestaurantOneCustomer {
@@ -27,7 +33,7 @@ public class RestaurantTwoHostRole extends Role implements simcity.interfaces.re
 	//with List semantics.
 	public int waiternum;
 	private Semaphore atDest = new Semaphore(0, true);
-
+	Timer timer = new Timer();
 	public List<RestaurantTwoCustomer> waitingCustomers
 	= Collections.synchronizedList(new ArrayList<RestaurantTwoCustomer>());
 	public List<RestaurantTwoWaiter> waiters
@@ -38,6 +44,8 @@ public class RestaurantTwoHostRole extends Role implements simcity.interfaces.re
     public int currentwaiter=0;
 	private String name;
 	private RestaurantTwoSystem R2;
+	public enum R2State {running, closed, allWorkersGone};
+	public R2State state = R2State.running;
 
 	//public RestaurantTwoHostGui hostGui = null;
 
@@ -69,6 +77,9 @@ public class RestaurantTwoHostRole extends Role implements simcity.interfaces.re
 	public Collection getTables() {
 		return tables;
 		
+	}
+	public R2State getR2State(){
+		return state;
 	}
 	// Messages
 	public void msgAskToBreak(RestaurantTwoWaiter w){
@@ -102,6 +113,11 @@ public class RestaurantTwoHostRole extends Role implements simcity.interfaces.re
 		}
 	
 	}
+	public void msgLeaveWork(){
+		state = R2State.allWorkersGone;
+		person.scheduleEvent(EventType.Work);
+		stateChanged();
+	}
 //msg break
 	//if only waiter null
 	
@@ -130,6 +146,9 @@ public class RestaurantTwoHostRole extends Role implements simcity.interfaces.re
 			}
 		}
 		}
+		}
+		if(state == R2State.allWorkersGone) {
+			exitBuilding();
 		}
 		return false;
 		//we have tried all our rules and found
@@ -206,7 +225,7 @@ public class RestaurantTwoHostRole extends Role implements simcity.interfaces.re
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "MarketCashier: " + person.getName(), "Leaving the market.");
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantHost: " + person.getName(), "Leaving the market.");
 		
 		R2.exitBuilding(this);
 		person.roleFinished();	
@@ -219,6 +238,20 @@ public class RestaurantTwoHostRole extends Role implements simcity.interfaces.re
 	public void enterBuilding(SimSystem s) {
 		R2 = (RestaurantTwoSystem)s;
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(R2.getName()), "RestaurantHost: " + person.getName(),"Entering building.");
+		timer.schedule(new TimerTask() {
+			public void run() {
+				
+				state = R2State.closed;
+				AlertLog.getInstance().logDebug(AlertTag.valueOf(R2.getName()), "RestaurantHost: " + person.getName(), 
+						"setting to CLOSED. " + person.getCurrentEventDuration() +
+						", " + person.getCurrentEvent().toString());
+				R2.EveryoneLeave();
+				for(RestaurantTwoWaiter w : waiters) {
+					w.msgFinishWorking();
+				}
+			
+			}
+		}, Clock.tenMinutesInMillis(person.getCurrentEventDuration()));
 	
 		((RestaurantTwoHostGui)gui).DoGoToHostPosition();
 		try {

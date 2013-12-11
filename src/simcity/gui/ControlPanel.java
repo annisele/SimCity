@@ -278,7 +278,7 @@ public class ControlPanel extends JPanel implements ActionListener {
 			} else if(selection.equals(configStrings[22])) {
 				config.scenarioJ();
 			} else if(selection.equals(configStrings[23])) {
-				config.OneBankShitty();
+				config.OneBankFull();
 			}
 			
 		}

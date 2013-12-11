@@ -22,7 +22,7 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 	
 	Directory dir;
 	public String name;
-	public BusGui gui;
+	private BusGui gui;
 		
 	private List<MyPassenger> passengers = Collections.synchronizedList(new ArrayList<MyPassenger>());
 	
@@ -73,7 +73,7 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 				busRoute.put(i, tempLoc);
 				tempList.remove(tempLoc);
 			}
-			busStopCounter = 9;
+			busRouteCounter = 0;
 		}
 		else if (name == "counterclockwise") {
 			List<Location> tempList = Directory.defineCounterClockwiseBusRoute();
@@ -82,7 +82,7 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 				busRoute.put(i, tempLoc);
 				tempList.remove(tempLoc);
 			}
-			busStopCounter = 9;
+			busRouteCounter = 0;
 		}
 	}
 	
@@ -196,7 +196,6 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 		} catch (InterruptedException e) {
 			//e.printStackTrace();
 		}
-		System.out.println("Whatever");
 		msgArrived();
 		busRouteCounter++;
 	}
@@ -229,13 +228,13 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 
 	// Utility functions ////////////////////////////////////////////////////////////////////////////////////////////
 	public void atDestination() {
-		/*
+		
 		stopTimer.schedule(new TimerTask() {
 			public void run() {
 				atDestination.release();
 			}
-		}, 300);*/
-		atDestination.release();
+		}, 300);
+		//atDestination.release();
 	}
 	
 	//check to see if a point is within the rectangle

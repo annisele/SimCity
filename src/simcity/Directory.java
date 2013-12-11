@@ -69,7 +69,9 @@ public class Directory {
 		List<String> restaurants = new ArrayList<String>();
 		for (String key : directory.keySet()) {
 			if(directory.get(key).type == EntryType.Restaurant) {
-				restaurants.add(key);
+				if (directory.get(key).system.isOpen()) {
+					restaurants.add(key);
+				}
 			}
 		}
 		return restaurants;
@@ -89,7 +91,9 @@ public class Directory {
 		List<String> markets = new ArrayList<String>();
 		for (String key : directory.keySet()) {
 			if(directory.get(key).type == EntryType.Market) {
-				markets.add(key);
+				if (directory.get(key).system.isOpen()) {
+					markets.add(key);
+				}
 			}
 		}
 		return markets;
@@ -99,7 +103,9 @@ public class Directory {
 		List<String> banks = new ArrayList<String>();
 		for (String key : directory.keySet()) {
 			if(directory.get(key).type == EntryType.Bank) {
-				banks.add(key);
+				if (directory.get(key).system.isOpen()) {
+					banks.add(key);
+				}
 			}
 		}
 		return banks;

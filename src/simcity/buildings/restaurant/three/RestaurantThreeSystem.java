@@ -109,5 +109,9 @@ public class RestaurantThreeSystem extends simcity.SimSystem {
 		return resthost;
 	}
 	
+	public boolean isOpen() {
+		return (resthost != null);
+	}
+	
 	
 }

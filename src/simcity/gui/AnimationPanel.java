@@ -77,9 +77,10 @@ public class AnimationPanel extends JPanel implements ActionListener{
 
 						//we can either just print out the object class name
 						System.out.println("Clicked a "+g.getClass().getName());
-						pPanel.setInfo(g);
-						//simCityGui.setControlPanel(pPanel);
-
+					//	pPanel.setInfo(g);
+						if (simCityGui != null) {
+						simCityGui.setControlPanel(pPanel);
+						}
 						if(g instanceof MarketCashierGui) {
 						AlertLog.getInstance().logInfo(AlertTag.WORLD, "Mouse", "You clicked a " + g.getClass().getSimpleName() + "!");
 						}

@@ -438,7 +438,7 @@ public class Config {
 
 		timer4.schedule(new TimerTask() {
 			public void run() {
-				//systems.addPerson("Bank Robber");
+				systems.addPerson("Bank Robber");
 			}
 		}, 4000);
 

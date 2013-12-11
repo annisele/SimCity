@@ -163,6 +163,7 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
 			}
 		}
 		public void msgGetMyOrder(RestaurantThreeCustomer customer) {
+			AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurantThreeSystem.getName()), "Restaurant 3 Waiter: " + person.getName(), "Customer is ready to order!");
 			Do("Get customer order");
 			synchronized(customers) {
 				for(MyCustomer c : customers) {
@@ -174,6 +175,7 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
 			}
 		}
 		public void msgHereIsMyChoice(RestaurantThreeCustomer customer, String choice) {
+			AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurantThreeSystem.getName()), "Restaurant 3 Waiter: " + person.getName(), "Get customer order!");
 			synchronized(customers) {
 			for(MyCustomer c:customers){
 			    if(c.getCustomer() == customer){

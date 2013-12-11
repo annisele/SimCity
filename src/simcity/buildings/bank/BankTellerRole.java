@@ -6,6 +6,7 @@ import java.util.concurrent.Semaphore;
 import simcity.PersonAgent;
 import simcity.Role;
 import simcity.SimSystem;
+import simcity.PersonAgent.EventType;
 import simcity.buildings.bank.BankComputer.BankAccount;
 import simcity.gui.Gui;
 import simcity.gui.bank.BankCustomerGui;
@@ -20,6 +21,7 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 	// data
 	// from PersonAgent
 	private String name;
+	boolean stopWorking = false;
 	private double robbery_money;
 	// set in Bank
 	//private BankComputer bank;	// bank system that contains account info for people
@@ -491,12 +493,18 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			
 		}
 		bankSystem.getBankHost().msgImReadyToWork(this);
 	}
 	public void setHost(BankHostRole b) {
 		bankHost = b;
+	}
+	@Override
+	public void msgFinishWorking() {
+		stopWorking = true;
+		person.scheduleEvent(EventType.Work);
+		stateChanged();
 	}
 
 }

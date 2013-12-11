@@ -51,6 +51,7 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
 		}
 	}
 	private Semaphore atDest = new Semaphore(0, true);
+	private RestaurantThreeMenu menu;
 	public void atDestination() {
 		atDest.release();
 	}
@@ -153,6 +154,7 @@ public class RestaurantThreeCustomerRole extends Role implements RestaurantThree
 		stateChanged();
 	}
 	private void orderFood() {
+		String choice = menu.choices[(int)(Math.random()*4)];
 		waiter.msgHereIsMyChoice(this, choice);
 		AlertLog.getInstance().logMessage(AlertTag.valueOf(rest.getName()), "Restaurant 3 Customer: " + person.getName(), "I want " + choice);
 		stateChanged();

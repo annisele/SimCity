@@ -47,7 +47,7 @@ public class ControlPanel extends JPanel implements ActionListener {
 	//config panel elements
 	private JPanel configPanel = new JPanel();
 	private JComboBox configDropdown;
-	private String[] configStrings = new String[24];
+	private String[] configStrings = new String[17];
 	private JButton load = new JButton("Load");
 
 	//tab elements
@@ -84,32 +84,24 @@ public class ControlPanel extends JPanel implements ActionListener {
 		setLayout(new BoxLayout((Container) this, BoxLayout.Y_AXIS));
 
 		//config panel
-		configStrings[0] = "Full City";
-		configStrings[1] = "Market, House, Bank";
-		configStrings[2] = "Bus to Market";
-		configStrings[3] = "Restaurant, Market, Bank";
-		configStrings[4] = "One Market, One House";
-		configStrings[5] = "One Market";
-		configStrings[6] = "One Restaurant";
-		configStrings[7] = "One Bank";
-		configStrings[8] = "RestaurantOne";
-		configStrings[9] = "RestaurantThree";
-		configStrings[10] = "RestaurantFour";
-		configStrings[11] = "RestaurantFive";
-		configStrings[12] = "RestaurantSix";
-		configStrings[13] = "Full Market";
-		configStrings[14] = "Bus Intersection Test";
-		configStrings[15] = "Full Markets and Banks";
-		configStrings[16] = "Scenario A";
-		configStrings[17] = "Scenario B";
-		configStrings[18] = "Scenario C";
-		configStrings[19] = "Scenario E";
-		configStrings[20] = "Scenario F";
-		configStrings[21] = "Scenario G";
-		configStrings[22] = "Scenario J";
-		configStrings[23] = "OneBankFull";
-
-
+		configStrings[0] = "Scenario A";
+		configStrings[1] = "Scenario B";
+		configStrings[2] = "Scenario C";
+		configStrings[3] = "Scenario E";
+		configStrings[4] = "Scenario F";
+		configStrings[5] = "Scenario G";
+		configStrings[6] = "Scenario J";
+		configStrings[7] = "Full Market";
+		configStrings[8] = "Bus Intersection Test";
+		configStrings[9] = "Full Markets and Banks";
+		configStrings[10] = "Bank Robbery";
+		configStrings[11] = "RestaurantOne";
+		configStrings[12] = "RestaurantThree";
+		configStrings[13] = "RestaurantFour";
+		configStrings[14] = "RestaurantFive";
+		configStrings[15] = "RestaurantSix";
+		configStrings[16] = "RestaurantTwo";
+		
 		configDropdown = new JComboBox(configStrings);
 		configPanel.setLayout(new FlowLayout());
 		configPanel.add(configDropdown);
@@ -231,53 +223,50 @@ public class ControlPanel extends JPanel implements ActionListener {
 
 		if(e.getSource() == load) {
 			String selection = (String)configDropdown.getSelectedItem();
-			if(selection.equals(configStrings[0])) {
-				config.fullCity();
-			} else if(selection.equals(configStrings[1])) {
-				config.marketHouseBank();
-			} else if(selection.equals(configStrings[2])) {
-				config.busToMarket();
-			} else if(selection.equals(configStrings[3])) {
-				config.MarketBankRestaurant();
-			} else if(selection.equals(configStrings[4])) {
-				config.oneMarketOneHouse();
-			} else if(selection.equals(configStrings[5])) {
-				config.oneMarket();
-			} else if(selection.equals(configStrings[6])) {
-				config.oneRestaurant();
-			} else if(selection.equals(configStrings[7])) {
-				config.oneBank();
-			} else if(selection.equals(configStrings[8])) {
+//			if(selection.equals(configStrings[0])) {
+//				config.fullCity();
+//			} else if(selection.equals(configStrings[1])) {
+//				config.marketHouseBank();
+//			} else if(selection.equals(configStrings[2])) {
+//				config.busToMarket();
+//			}
+			
+			
+			if(selection.equals(configStrings[8])) {
 				config.restaurantOne();
-			} else if(selection.equals(configStrings[9])) {
+			}
+			else if(selection.equals(configStrings[16])) {
+				config.oneRestaurant();
+			}
+			else if(selection.equals(configStrings[12])) {
 				config.restaurantThree();
-			} else if(selection.equals(configStrings[10])) {
+			} else if(selection.equals(configStrings[13])) {
 				config.restaurantFour();
-			} else if(selection.equals(configStrings[11])) {
+			} else if(selection.equals(configStrings[14])) {
 				config.restaurantFive();
-			} else if(selection.equals(configStrings[12])) {
-				config.restaurantSix();
-			}else if(selection.equals(configStrings[13])) {
-				config.fullMarket();
-			}else if (selection.equals(configStrings[14])) {
-				config.busIntersection();
 			} else if(selection.equals(configStrings[15])) {
+				config.restaurantSix();
+			}else if(selection.equals(configStrings[7])) {
+				config.fullMarket();
+			}else if (selection.equals(configStrings[8])) {
+				config.busIntersection();
+			} else if(selection.equals(configStrings[9])) {
 				config.fullMarketAndBank();
-			} else if(selection.equals(configStrings[16])) {
+			} else if(selection.equals(configStrings[0])) {
 				config.scenarioA();
-			} else if(selection.equals(configStrings[17])) {
+			} else if(selection.equals(configStrings[1])) {
 				config.scenarioB();
-			} else if(selection.equals(configStrings[18])) {
+			} else if(selection.equals(configStrings[2])) {
 				config.scenarioC();
-			} else if(selection.equals(configStrings[19])) {
+			} else if(selection.equals(configStrings[3])) {
 				config.scenarioE();
-			} else if(selection.equals(configStrings[20])) {
+			} else if(selection.equals(configStrings[4])) {
 				config.scenarioF();
-			} else if(selection.equals(configStrings[21])) {
+			} else if(selection.equals(configStrings[5])) {
 				config.scenarioG();
-			} else if(selection.equals(configStrings[22])) {
+			} else if(selection.equals(configStrings[6])) {
 				config.scenarioJ();
-			} else if(selection.equals(configStrings[23])) {
+			} else if(selection.equals(configStrings[10])) {
 				config.OneBankFull();
 			}
 			

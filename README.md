@@ -88,6 +88,12 @@ Member Contributions
   + 7.) Worked on trying to integrate RestaurantFour for into the city
   + 8.) Worked on the PersonAgent scheduler to correctly detect whether or not a Person has a bank account already, and whether the Person wants to deposit or withdraw from the bank
 
+#####Unfinished for V2:
+  + RestaurantFour could not be finished because of the time constraints and efforts put into implementing a working transportation system
+  + We were supposed to have two buses that go in clockwise and counter-clockwise directions, however, only the clockwise one is completely functional. The counter-clockwise bus has errors
+  + Collision detection is not implemented
+  + Transportation points are pretty much hard-coded
+
 #####V1:
   + 1.) Bank Design - worked with Levonne extensively on the design of each of the agents/roles in the bank design
   + 2.) BankComputer - implemented bank accounts using maps and allowed it to work with the bank computer
@@ -136,7 +142,7 @@ Member Contributions
 
 ####Levonne Key :
 #####V2: 
-  + according to the github, https://github.com/usc-csci201-fall2013/team14/pulse, I've 2 usernames : levonne key and levonne but in the graphs, I can only see levonne but not levonne key. I've been committing my code as levonne key on github. so the graph isn't as accurate as the pulse. select 1 month from the dropdown list to see the accurate number of commits that i made as levonne key. 
+  + I implemented my restaurant. the gui looks fine and all the messages are in there but i was working on transportation and other stuffs . the restaurant is partially runnning but not entirely due to a nullpointerexception. i've been spending too much time on designing the transportation and simcity map. according to the github, https://github.com/usc-csci201-fall2013/team14/pulse, I've 2 usernames : levonne key and levonne but in the graphs, I can only see levonne but not levonne key. I've been committing my code as levonne key on github. so the graph isn't as accurate as the pulse. select 1 month from the dropdown list to see the accurate number of commits that i made as levonne key. 
   + I work on ensuring that the guis leave the bank after work, integrate house, market and bank in Config.java, integrate restaurant three in Config.java, create parking structure in Directory.java, include restaurant three in PersonAgent.java, setup restaurant three in SystemManager.java, RestaurantThreeCashierRole.java, RestaurantThreeComputer.java, RestaurantThreeCookRole.java, RestaurantThreeCustomerRole.java, RestaurantThreeFood.java, RestaurantThreeHostRole.java, RestaurantThreeMenu.java, RestaurantThreeOrder.java, RestaurantThreeOrderWheel.java, RestaurantThreeSharedDataWaiter.java, RestaurantThreeSystem.java, RestaurantThreeWaiterRole.java, WorldAnimationPanel.java (transportation and parking structure), RestaurantThreeAnimationPanel.java, RestaurantThreeCashierGui.java, RestaurantThreeControlPanel.java, RestaurantThreeCookGui.java, RestaurantThreeCustomerGui.java, RestaurantThreeHostGui.java, RestaurantThreeWaiterGui.java, RestaurantThreeCashier.java, RestaurantThreeCook.java, RestaurantThreeCustomer.java, RestaurantThreeHost.java, RestaurantThreeWaiter.java, did the initial design of transportation, parking structure and bus route with Joshua, Clayton and Kevin (decide on the postion of parking structures and the new layout of the simcity), work on the scenarios ensuring that the scenario B and F have the people start from ther house first, integrating bank, market and home in scenarios, work on junit testing for market : marketcashiertest.java and other junit testing, work on the design and code of the parking structure and route of the bus and car
 
 
@@ -148,9 +154,9 @@ Member Contributions
 ####Rebecca Hao:
 #####V2: 
   + I debugged the Person Agent scheduler and House Inhabitant role so that people now schedule events continuously and autonomously. For example, they will eat and sleep as they should every day, and go to the bank and market as needed. This included major changes in Person Agent, House Inhabitant, and Clock, and minor changes in files such as Config and System Manager. Worked with Clayton on this.
-  + Redesigned how to schedule the non-flexible events of sleeping and going to work (which are supposed to be done around a certain time). This involved changes to Person Agent's scheduler and clock.
+  + Redesigned how to schedule the non-flexible events of sleeping and going to work (which are supposed to be done around a certain time). This involved changes to Person Agent's scheduler and clock. We didn't have time to fully debug the scheduling, so sometimes the Person Agent runs into scheduling conflicts.
   + Created a scenario for market where every person, including the cashier and market worker, have homes. In v1, they would just go straight to work and never eat or sleep, but now they function as normal people, as well as go to work when it's time. This structure of adding jobs to people, as opposed to using a hack to create a person who only works and doesn't act like a full person, paved the way for similar scenarios for bank and restaurant.
-  + I implemented my restaurant, Restaurant Five. This included integrating it into Sim City, getting messaging between agents to work in Sim City, redoing animation (all the GUI files) so that it looks good in Sim City, and adding code so it works with the trace panels and control panel.
+  + I implemented my restaurant, Restaurant Five. This included integrating it into Sim City, getting messaging between agents to work in Sim City, redoing animation (all the GUI files) so that it looks good in Sim City, and adding code so it works with the trace panels and control panel. I was not able to add the Producer/Consumer parts of it because I spent all my time trying to get Person Agent to work and integrating multiple buildings into single scenarios.
   + Set up full city scenarios with multiple work places and houses for everyone in the scenario.
 
 #####V1:

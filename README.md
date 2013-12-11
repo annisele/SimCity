@@ -6,12 +6,13 @@ SimCity201 Project Repository for CS 201 students
 How to run team 14 simcity
 ===========================
 
-1) Download as ZIP from https://github.com/usc-csci201-fall2013/team14#team14
+1) clone from https://github.com/usc-csci201-fall2013/team14#team14 into your workspace
 
-2) Your zip folder should currently be in the download file
+2) Since we do not have build.xml, you will have to create a new java project. Name the java project as team14 then click finish
+4) https://github.com/usc-csci201-fall2013/team14.git
 
-3) Since we do not have build.xml, you will have to create a new java project. Drag and drop your files into the src 
-   package.
+be sure that the build path is configured so that the src is the only source folder
+and there are no excluded package
 
 
 SimCity scenarios
@@ -127,6 +128,8 @@ Member Contributions
 
 ####Levonne Key :
 #####V2: 
+  + according to the github, https://github.com/usc-csci201-fall2013/team14/pulse, I've 2 usernames : levonne key and levonne but in the graphs, I can only see levonne but not levonne key. I've been committing my code as levonne key on github. so the graph isn't as accurate as the pulse. select 1 month from the dropdown list to see the accurate number of commits that i made as levonne key. ensure that the guis leave the bank after work, integrate house, market and bank in Config.java, integrate restaurant three in Config.java, create parking structure in Directory.java, include restaurant three in PersonAgent.java, setup restaurant three in SystemManager.java, RestaurantThreeCashierRole.java, RestaurantThreeComputer.java, RestaurantThreeCookRole.java, RestaurantThreeCustomerRole.java, RestaurantThreeFood.java, RestaurantThreeHostRole.java, RestaurantThreeMenu.java, RestaurantThreeOrder.java, RestaurantThreeOrderWheel.java, RestaurantThreeSharedDataWaiter.java, RestaurantThreeSystem.java, RestaurantThreeWaiterRole.java, WorldAnimationPanel.java (transportation and parking structure), RestaurantThreeAnimationPanel.java, RestaurantThreeCashierGui.java, RestaurantThreeControlPanel.java, RestaurantThreeCookGui.java, RestaurantThreeCustomerGui.java, RestaurantThreeHostGui.java, RestaurantThreeWaiterGui.java, RestaurantThreeCashier.java, RestaurantThreeCook.java, RestaurantThreeCustomer.java, RestaurantThreeHost.java, RestaurantThreeWaiter.java, did the initial design of transportation, parking structure and bus route with Joshua, Clayton and Kevin (decide on the postion of parking structures and the new layout of the simcity), work on the scenarios ensuring that the scenario B and F have the people start from ther house first, integrating bank, market and home in scenarios, work on junit testing for market : marketcashiertest.java and other junit testing, work on the design and code of the parking structure and route of the bus and car
+
 
 #####V1: 
   + initial market interaction diagram with Jenny

@@ -333,7 +333,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	    	try {
 	    		atDest.acquire();
 	    	} catch (InterruptedException e) {
-	    		e.printStackTrace();
+	    		//e.printStackTrace();
 	    	}
 	    	AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankCustomer: " + person.getName(), "I'd like to make a transaction!");
 	    	bank.getBankHost().msgEnteringBank(this);
@@ -345,7 +345,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 			try {
 	    		atDest.acquire();
 	    	} catch (InterruptedException e) {
-	    		e.printStackTrace();
+	    		//e.printStackTrace();
 	    	}
 		    bt.msgWantToOpenAccount(this, amountToProcess);
 			AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankCustomer: " + person.getName(), "I wanna open an account!");	
@@ -360,7 +360,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 			try {
 	    		atDest.acquire();
 	    	} catch (InterruptedException e) {
-	    		e.printStackTrace();
+	    		//e.printStackTrace();
 	    	}
 		    bt.msgWantToDeposit(this, amountToProcess);
 			AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankCustomer: " + person.getName(), "I'd like to deposit money.");	
@@ -374,7 +374,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 			try {
 	    		atDest.acquire();
 	    	} catch (InterruptedException e) {
-	    		e.printStackTrace();
+	    		//e.printStackTrace();
 	    	}
 		    bt.msgWantToWithdraw(this, amountToProcess);
 			AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankCustomer: " + person.getName(), "I'd like to withdraw money");	
@@ -388,7 +388,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 			try {
 	    		atDest.acquire();
 	    	} catch (InterruptedException e) {
-	    		e.printStackTrace();
+	    		//e.printStackTrace();
 	    	}
 		    bt.msgWantALoan(this, amountToProcess);
 			AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankCustomer: " + person.getName(), "I need a loan");	
@@ -401,7 +401,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 			try {
 	    		atDest.acquire();
 	    	} catch (InterruptedException e) {
-	    		e.printStackTrace();
+	    		//e.printStackTrace();
 	    	}
 		    bt.msgWantToPayLoan(this, amountToProcess);
 			AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankCustomer: " + person.getName(), "I have a debt I'd like to pay off");	
@@ -413,7 +413,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 			try {
 	    		atDest.acquire();
 	    	} catch (InterruptedException e) {
-	    		e.printStackTrace();
+	    		//e.printStackTrace();
 	    	}
 		    bt.msgWantToPayRent(this, amountToProcess);
 		  //  System.out.println("I want to pay $10 rent");
@@ -426,7 +426,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 			try {
 	    		atDest.acquire();
 	    	} catch (InterruptedException e) {
-	    		e.printStackTrace();
+	    		//e.printStackTrace();
 	    	}
 		    bank.getBankHost().msgLeavingBank(windowNumber);
 			AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankCustomer: " + person.getName(), "I'm leaving the bank");	

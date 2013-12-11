@@ -51,7 +51,9 @@ public class Config {
 		systems.clearDetailPane();
 		systems.setBackgroundThree();
 		systems.addBus("clockwise");
-		systems.addBus("counterclockwise");
+		systems.addBus("clockwise2");
+		systems.addBus("clockwise3");
+		//systems.addBus("counterclockwise");
 		//systems.addCar("car1");
 
 		// Top Left Island
@@ -169,15 +171,20 @@ public class Config {
 		systems.addHouse("HOUSE16", 326 + 2*xIslandOffset, 338 + yIslandOffset);
 		systems.addHouse("HOUSE17", 398 + 2*xIslandOffset, 338 + yIslandOffset);
 
-		/*
-		systems.addPerson("Becky");
-		systems.setWorkMarketCashier("Becky", "MARKET2");
+		systems.addPerson("Mary");
+		systems.setWorkMarketCashier("Mary", "MARKET1");
 		
-		timer1.schedule(new TimerTask() {
+		timer.schedule(new TimerTask() {
 			public void run() {
 				systems.addPerson("Gosling");
+				systems.addPerson("RyanG");
+				systems.addPerson("Gosling");
+				systems.addPerson("RyanG");
+				systems.addPerson("Gosling");
+				systems.addPerson("RyanG");
 			}
-		}, 2000);*/
+		}, 10000);
+		
 	}
 
 	public void busToMarket() {

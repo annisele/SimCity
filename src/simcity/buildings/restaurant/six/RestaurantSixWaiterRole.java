@@ -48,7 +48,7 @@ public class RestaurantSixWaiterRole extends Role implements RestaurantSixWaiter
 	private boolean wantToBreak = false;
 	private boolean waitingToBreak = false;*/
 	private Timer timer = new Timer();
-	private Sempaphore atDest = new Semaphore(0, true);
+	private Semaphore atDest = new Semaphore(0, true);
 
 	public RestaurantSixWaiterRole(PersonAgent p) {
 		person = p;

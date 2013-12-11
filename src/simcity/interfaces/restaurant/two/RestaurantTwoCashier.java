@@ -18,4 +18,8 @@ public interface RestaurantTwoCashier extends GuiPartner,MarketPayer{
 			RestaurantTwoCustomer c, int table_num, String choice);
 
 	double msgGetCheck(RestaurantTwoCustomer c);
+
+
+	abstract void msgLeaveWork();
+
 }

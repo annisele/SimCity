@@ -23,4 +23,10 @@ public interface RestaurantFiveWaiter extends GuiPartner {
 
 	public abstract void msgOrderIsReady(String choice, int table);
 
+	void msgDoneEating(RestaurantFiveCustomer restaurantFiveCustomerRole);
+
+	void msgLeaving(RestaurantFiveCustomer cust);
+
+	void msgHereIsCheck(RestaurantFiveCustomer c, Double amount);
+
 }

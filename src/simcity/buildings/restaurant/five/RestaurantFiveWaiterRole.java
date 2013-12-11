@@ -31,8 +31,8 @@ public class RestaurantFiveWaiterRole extends Role implements RestaurantFiveWait
 	//	private RestaurantFiveHost host;
 	//	private RestaurantFiveCashier cashier;
 	//	private String name;
-		
-		private Map<MyCustomer, Double> checks = new HashMap<MyCustomer, Double>();
+
+	private Map<MyCustomer, Double> checks = new HashMap<MyCustomer, Double>();
 	//	Timer timer = new Timer();
 
 	private class MyCustomer{
@@ -193,53 +193,50 @@ public class RestaurantFiveWaiterRole extends Role implements RestaurantFiveWait
 		stateChanged();
 	}
 
-	//	public void msgDoneEating(RestaurantFiveCustomer c) {
-	//		try {
-	//			for(MyCustomer mc : customers) {
-	//				if(mc.c == c) {
-	//					mc.s = CustomerState.doneEating;
-	//					stateChanged();
-	//					return;
-	//				}
-	//			}
-	//		}
-	//		catch(ConcurrentModificationException e) {
-	//			System.out.println("Something went wrong.");
-	//		}
-	//	}
-	//
-	//	public void msgLeaving(RestaurantFiveCustomer c) {
-	//		try {
-	//			for(MyCustomer mc : customers) {
-	//				if(mc.c == c) {
-	//					if(mc.s != CustomerState.leftWithoutEating) {
-	//						mc.s = CustomerState.done;
-	//						stateChanged();
-	//
-	//					}	
-	//					return;
-	//				}
-	//			}
-	//		}
-	//		catch(ConcurrentModificationException e) {
-	//			System.out.println("Something went wrong.");
-	//		}
-	//	}
-	
-		public void msgHereIsCheck(RestaurantFiveCustomer cIn, double checkAmount) {
-			try {
-				for(MyCustomer mc : customers) {
-					if(mc.c == cIn) {
-						checks.put(mc, checkAmount);
-						stateChanged();
-						return;
-					}
+	public void msgDoneEating(RestaurantFiveCustomer c) {
+		try {
+			for(MyCustomer mc : customers) {
+				if(mc.c == c) {
+					mc.s = CustomerState.doneEating;
+					stateChanged();
+					return;
 				}
 			}
-			catch(ConcurrentModificationException e) {
-			}
-	
 		}
+		catch(ConcurrentModificationException e) {
+		}
+	}
+
+	public void msgLeaving(RestaurantFiveCustomer c) {
+		try {
+			for(MyCustomer mc : customers) {
+				if(mc.c == c) {
+					if(mc.s != CustomerState.leftWithoutEating) {
+						mc.s = CustomerState.done;
+						stateChanged();
+					}	
+					return;
+				}
+			}
+		}
+		catch(ConcurrentModificationException e) {
+		}
+	}
+
+	public void msgHereIsCheck(RestaurantFiveCustomer cIn, Double checkAmount) {
+		try {
+			for(MyCustomer mc : customers) {
+				if(mc.c == cIn) {
+					checks.put(mc, checkAmount);
+					stateChanged();
+					return;
+				}
+			}
+		}
+		catch(ConcurrentModificationException e) {
+		}
+
+	}
 
 	@Override
 	public boolean pickAndExecuteAnAction() {
@@ -310,28 +307,28 @@ public class RestaurantFiveWaiterRole extends Role implements RestaurantFiveWait
 		catch(ConcurrentModificationException e) {
 			return false;
 		}
-		//		try {
-		//			for(MyCustomer c : customers) {
-		//				if(c.s == CustomerState.doneEating) {
-		//					GiveCheck(c);
-		//					return true;
-		//				}
-		//			}
-		//		}
-		//		catch(ConcurrentModificationException e) {
-		//			return false;
-		//		}
-		//		try {
-		//			for(MyCustomer c : customers) {
-		//				if(c.s == CustomerState.done) {
-		//					ClearTable(c);
-		//					return true;
-		//				}
-		//			}
-		//		}
-		//		catch(ConcurrentModificationException e) {
-		//			return false;
-		//		}
+		try {
+			for(MyCustomer c : customers) {
+				if(c.s == CustomerState.doneEating) {
+					GiveCheck(c);
+					return true;
+				}
+			}
+		}
+		catch(ConcurrentModificationException e) {
+			return false;
+		}
+		try {
+			for(MyCustomer c : customers) {
+				if(c.s == CustomerState.done) {
+					ClearTable(c);
+					return true;
+				}
+			}
+		}
+		catch(ConcurrentModificationException e) {
+			return false;
+		}
 		//		try {
 		//			for(MyCustomer c : customers) {
 		//				if(c.s == CustomerState.leftWithoutEating) {
@@ -458,30 +455,31 @@ public class RestaurantFiveWaiterRole extends Role implements RestaurantFiveWait
 		c.s = CustomerState.orderSent;
 	}
 
-	//	private void ClearTable(MyCustomer c) {
-	//		c.s = CustomerState.left;
-	//
-	//		Do("Clearing table " + c.table + ".");		
-	////		gui.DoGoToTable(host.getGui().getTableX(c.table), host.getGui().getTableY(c.table));
-	////		try {
-	////			atDest.acquire();
-	////		} catch (InterruptedException e) {
-	////
-	////		}
-	////		gui.DoGoToKitchen();
-	////		try {
-	////			atDest.acquire();
-	////		} catch (InterruptedException e) {
-	////		}
-	//		host.msgTableIsFree(c.table);
-	//	}
-	//
-	//	private void GiveCheck(MyCustomer c) {
-	//		Do("Giving customer check of $" + checks.get(c));
-	//		c.c.msgHereIsCheck(checks.get(c)); //passes in amount to pay
-	//		c.s = CustomerState.paying;
-	//		checks.remove(c);
-	//	}
+	private void ClearTable(MyCustomer c) {
+		c.s = CustomerState.left;
+
+		Do("Clearing table " + c.table + ".");		
+		((RestaurantFiveWaiterGui)gui).DoGoToTable(c.table);
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+
+		}
+		((RestaurantFiveWaiterGui)gui).DoGoToCook();
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+		}
+		restaurant.getHost().msgTableIsFree(c.table);
+	}
+
+	private void GiveCheck(MyCustomer c) {
+		AlertLog.getInstance().logMessage(AlertTag.valueOf(restaurant.getName()), "RestaurantFiveWaiter: " + person.getName(), "Giving customer check of $" + checks.get(c));
+
+		c.c.msgHereIsCheck(checks.get(c)); //passes in amount to pay
+		c.s = CustomerState.paying;
+		checks.remove(c);
+	}
 
 	private void ServeFood(Order o) {
 		//		gui.DoGoToKitchen();

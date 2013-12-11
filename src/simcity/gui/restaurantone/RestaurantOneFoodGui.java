@@ -74,7 +74,7 @@ public class RestaurantOneFoodGui extends Gui {
                         yPos--;
 
                 if (xPos == waiter.TableSpots.get(tableNumber-1).getX()+20 && yPos == waiter.TableSpots.get(tableNumber-1).getY()+20) {
-                        waiter.wagent.msgFoodDelivered();
+                       // waiter.wagent.msgFoodDelivered();
                 }
         }
 

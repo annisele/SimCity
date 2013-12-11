@@ -5,9 +5,14 @@ import java.util.Collections;
 import java.util.List;
 
 import simcity.Role;
+import simcity.buildings.market.MarketCashierRole.MarketState;
 import simcity.gui.SimCityGui;
 import simcity.gui.restaurantfive.RestaurantFiveAnimationPanel;
 import simcity.gui.restaurantfive.RestaurantFiveControlPanel;
+import simcity.interfaces.market.MarketCashier;
+import simcity.interfaces.market.MarketCustomer;
+import simcity.interfaces.market.MarketTruck;
+import simcity.interfaces.market.MarketWorker;
 import simcity.interfaces.restaurant.five.RestaurantFiveCashier;
 import simcity.interfaces.restaurant.five.RestaurantFiveCook;
 import simcity.interfaces.restaurant.five.RestaurantFiveCustomer;
@@ -59,6 +64,7 @@ public class RestaurantFiveSystem extends simcity.SimSystem {
 			}
 			else if(role instanceof RestaurantFiveCook) {
 				cook = (RestaurantFiveCook) role;
+
 			}
 			else if(role instanceof RestaurantFiveWaiter) {
 				waiters.add((RestaurantFiveWaiter) role);
@@ -76,6 +82,28 @@ public class RestaurantFiveSystem extends simcity.SimSystem {
 	
 	public boolean isOpen() {
 		return (host != null);
+	}
+
+	public void exitBuilding(RestaurantFiveCustomer role) {
+		animationPanel.removeGui(role.getGui());
+		if(role instanceof RestaurantFiveCustomer) {
+			customers.remove((RestaurantFiveCustomer) role);
+		}
+		else if(role instanceof RestaurantFiveCashier) {
+			cashier = null;
+		}
+		else if(role instanceof RestaurantFiveWaiter) {
+			waiters.remove((MarketWorker) role);
+//			if(waiters.size() == 0 && cashier.getMarketState() == MarketState.closed) {
+//				cashier.msgLeaveWork();
+//			}
+		}
+		else if(role instanceof RestaurantFiveHost) {
+			host = null;
+		}	
+		else if(role instanceof RestaurantFiveCook) {
+			cook = null;
+		}
 	}
 
 

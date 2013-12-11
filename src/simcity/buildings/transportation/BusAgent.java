@@ -68,7 +68,7 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 			busStops.put(3, stop4);
 			busStopCounter = 3;
 		}
-		else if (name == "clockwise") {
+		else if (name == "clockwise" || name == "clockwise2" || name == "clockwise3") {
 			List<Location> tempList = Directory.defineClockwiseBusRoute();
 			for(int i=1; i<=15; i++) {
 				Location tempLoc = tempList.get(0);
@@ -123,7 +123,7 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 	}
 	
 	// Messages ///////////////////////////////////////////////////////////////////////////////////////////////////
-	public void makeBusMove() {		// HACKHACKHACK
+	public void makeBusMove() {
 		event = BusEvent.loaded;
 		stateChanged();
 	}
@@ -226,7 +226,7 @@ public class BusAgent extends Agent implements simcity.interfaces.transportation
 		} catch (InterruptedException e) {
 			//e.printStackTrace();
 		}
-		if (name == "clockwise") {
+		if (name == "clockwise" || name == "clockwise2" || name == "clockwise3") {
 			if (busRouteCounter == 2 || busRouteCounter == 5 || busRouteCounter == 7 || busRouteCounter == 12 || busRouteCounter == 14 ) {
 				busRouteCounter++;
 				busStopCounter++;

@@ -5,6 +5,7 @@ import java.util.concurrent.Semaphore;
 import simcity.PersonAgent;
 import simcity.buildings.restaurant.two.RestaurantTwoOrderWheel;
 import simcity.buildings.restaurant.two.RestaurantTwoSystem;
+import simcity.buildings.restaurant.two.RestaurantTwoWOrder;
 import simcity.buildings.restaurant.two.RestaurantTwoWaiterRole;
 import simcity.gui.restaurantthree.RestaurantThreeWaiterGui;
 import simcity.gui.trace.AlertLog;
@@ -26,5 +27,10 @@ public class RestaurantThreeSharedDataWaiterRole extends RestaurantThreeWaiterRo
 	}
 	public void DeliverOrder(MyCustomer customer) {
 		((RestaurantThreeWaiterGui)gui).DoGoToKitchen();
+		customer.state = CustomerState.NONE;
+		RestaurantThreeOrder order = new RestaurantThreeOrder(this, customer.tableNum, customer.choice);
+        AlertLog.getInstance().logMessage(AlertTag.valueOf(R3.getName()), "RestaurantSharedDataWaiter: " + person.getName(),"Placing " +  " choice of " + customer.choice + " onto OrderWheel.");
+        orderWheel.insert(order);
+        stateChanged();
 	}
 }

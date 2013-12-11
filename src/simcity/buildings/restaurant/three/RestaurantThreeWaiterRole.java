@@ -53,8 +53,8 @@ public class RestaurantThreeWaiterRole extends Role implements RestaurantThreeWa
 	public class MyCustomer {
 		private RestaurantThreeCustomer customer;
 		protected CustomerState state;
-		private int tableNum;
-		private String choice;
+		protected int tableNum;
+		protected String choice;
 		
 		MyCustomer(RestaurantThreeCustomer customer, int tableNum, CustomerState s) {
 			this.customer = customer;

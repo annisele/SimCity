@@ -51,7 +51,7 @@ import simcity.buildings.transportation.PedestrianRole;
 import simcity.buildings.transportation.TransportationSystem;
 import simcity.gui.BuildingGui;
 import simcity.gui.SimCityGui;
-import simcity.gui.PersonPanel;
+import simcity.gui.WorldAnimationPanel;
 import simcity.gui.transportation.BusGui;
 import simcity.gui.transportation.CarGui;
 
@@ -126,19 +126,19 @@ public class SystemManager {
 	}
 
 	public void setBackgroundOne() {
-		PersonPanel w = (PersonPanel)world.getAnimationPanel();
+		WorldAnimationPanel w = (WorldAnimationPanel)world.getAnimationPanel();
 		w.setBackgroundOne();
 		dir.makeBusStops1();
 	} 
 
 	public void setBackgroundTwo() {
-		PersonPanel w = (PersonPanel)world.getAnimationPanel();
+		WorldAnimationPanel w = (WorldAnimationPanel)world.getAnimationPanel();
 		w.setBackgroundTwo();
 		dir.makeBusStops2();
 	}
 
 	public void setBackgroundThree() {
-		PersonPanel w = (PersonPanel)world.getAnimationPanel();
+		WorldAnimationPanel w = (WorldAnimationPanel)world.getAnimationPanel();
 		w.setBackgroundThree();
 		dir.makeParkingStructure1();
 		dir.makeStreetsAndIntersections();

@@ -20,30 +20,37 @@ public class PersonPanel extends JPanel {
 	//private JButton AlexSmith = new JButton("Alex Smith");
 
 	
-	private JLabel foodLabel = new JLabel();
+	private JLabel nameLabel = new JLabel();
 	private JLabel setfoodLabel = new JLabel();
 	private JLabel setchickenLabel = new JLabel();
 	private JLabel setsteakLabel = new JLabel();
 	private JLabel setpizzaLabel = new JLabel();
 	private JLabel setsaladLabel = new JLabel();
+	String name,role;
 
 	 JPanel opanel = new JPanel();
 	 
-	public PersonPanel(RestaurantTwoComputer c) {
+	public PersonPanel() {
 		
 		setLayout(new GridLayout(0, 1, 2, 0));
-		foodLabel.setText("<html>Food Quantities:\n<br/>"+"<br/>salad: "+0
-				+"<br/>chicken: "+0+"<br/>steak: "+0+"<br/>pizza: "+0+"</html>");
 		//setfoodLabel.setText("<html><br/>Set Food Quantities:\n<br/></html>");
-		setsaladLabel.setText("<html>salad: </html>");
+		
 		setchickenLabel.setText("<html>chicken: </html>");
 		setsteakLabel.setText("<html>steak: </html>");
 		setpizzaLabel.setText("<html>pizza: </html>");
 		
 			add(typeLabel);
-		add(foodLabel);
+	
 		
 }
+	public void setInfo(Gui g){
+		
+		name=g.getClass().getName();
+		nameLabel.setText("<html>Name: </html>"+name);
+		add(nameLabel);
+	//	role=g.getClass().getCurrentRole();
+		
+	}
 
 	
 	

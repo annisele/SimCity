@@ -447,6 +447,7 @@ public class PersonAgent extends Agent implements Person {
 			stateChanged();
 		}
 		else if (t == EventType.Work) {
+			System.out.println("LOOKLOOKLOOKLOOK: "+ type);
 			List<Step> steps = new ArrayList<Step>();
 			steps.add(new Step("exitBuilding", this));
 			steps.add(new Step("goTo", this));

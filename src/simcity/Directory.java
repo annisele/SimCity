@@ -137,7 +137,7 @@ public class Directory {
 		streetDirectory.put(74, intersection7South);
 		streetDirectory.put(81, intersection8North);
 		streetDirectory.put(82, intersection8West);
-		streetDirectory.put(83, intersection8South);
+		streetDirectory.put(84, intersection8South);
 		
 		// Row 3 street stops
 		Location intersection9North = new Location(80,760);
@@ -515,6 +515,7 @@ public class Directory {
 	
 	public static List<Location> defineClockwiseBusRoute() {
 		List<Location> busRoute = Collections.synchronizedList(new ArrayList<Location>());
+		busRoute.add(streetDirectory.get(14));
 		busRoute.add(streetDirectory.get(22));
 		busRoute.add(streetDirectory.get(32));
 		busRoute.add(streetDirectory.get(42));
@@ -524,7 +525,6 @@ public class Directory {
 		busRoute.add(streetDirectory.get(103));
 		busRoute.add(streetDirectory.get(93));
 		busRoute.add(streetDirectory.get(54));
-		busRoute.add(streetDirectory.get(14));
 		return busRoute;
 	}
 	
@@ -543,7 +543,7 @@ public class Directory {
 		return busRoute;
 	}
 	
-	public List<Intersection> defineBusStopIntersections() {
+	public List<Intersection> defineClockwiseBusStopIntersections() {
 		List<Intersection> busIntersections = Collections.synchronizedList(new ArrayList<Intersection>());
 		busIntersections.add(intersections.get(1));
 		busIntersections.add(intersections.get(2));
@@ -555,6 +555,21 @@ public class Directory {
 		busIntersections.add(intersections.get(10));
 		busIntersections.add(intersections.get(9));
 		busIntersections.add(intersections.get(5));
+		return busIntersections;
+	}
+	
+	public List<Intersection> defineCounterClockwiseBusStopIntersections() {
+		List<Intersection> busIntersections = Collections.synchronizedList(new ArrayList<Intersection>());
+		busIntersections.add(intersections.get(12));
+		busIntersections.add(intersections.get(8));
+		busIntersections.add(intersections.get(4));
+		busIntersections.add(intersections.get(3));
+		busIntersections.add(intersections.get(2));
+		busIntersections.add(intersections.get(1));
+		busIntersections.add(intersections.get(5));
+		busIntersections.add(intersections.get(9));
+		busIntersections.add(intersections.get(10));
+		busIntersections.add(intersections.get(11));
 		return busIntersections;
 	}
 	

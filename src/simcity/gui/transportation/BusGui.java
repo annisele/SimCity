@@ -12,11 +12,6 @@ import simcity.buildings.transportation.*;
 public class BusGui extends Gui {
 
 	private BusAgent busagent;
-
-	private int x = 40;
-	private int y = 50;
-	private int xDest;
-	private int yDest;
 	
 	private boolean atDestNow = false;
 	

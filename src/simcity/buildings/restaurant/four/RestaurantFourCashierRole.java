@@ -1,4 +1,4 @@
-package simcity.buildings.restaurant.four;
+/*package simcity.buildings.restaurant.four;
 
 public class RestaurantFourCashierRole {
 
@@ -19,7 +19,7 @@ public class RestaurantFourCashierRole {
 	/**
 	 * Restaurant Cashier Agent
 	 */
-
+/*
 	public class CashierAgent extends Agent implements Cashier {
 
 		// variables
@@ -70,11 +70,11 @@ public class RestaurantFourCashierRole {
 			marketBills.add(new Bill(market, payment));
 			stateChanged();
 		}
-		
+		*/
 		/**
 		 * Scheduler.  Determine what action is called for, and do it.
 		 */
-		
+		/*
 		public boolean pickAndExecuteAnAction() {
 			
 			if (!marketBills.isEmpty()) {
@@ -169,4 +169,4 @@ public class RestaurantFourCashierRole {
 
 
 	
-}
+}*/

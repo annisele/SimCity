@@ -1055,6 +1055,27 @@ public class Config {
 		systems.setBackgroundThree();
 	}
 
+	public void OneBankShitty() {
+		systems.clear();
+		systems.clearDetailPane();
+		
+		systems.setBackgroundThree();
+		
+		systems.addBank("BANK1", 249, 140);
+		
+		systems.addPerson("Turd");
+		systems.setWorkBankHost("Turd", "BANK1");
+		
+		systems.addPerson("Poo");
+		systems.setWorkBankTeller("Poo", "BANK1");
+		
+		timer.schedule(new TimerTask() {
+			public void run() {
+				systems.addPerson("Toilet");
+			}
+		}, 4000);
+	}
+	
 	public void clearTimer() {
 		timer.cancel();
 		timer.purge();

@@ -1204,7 +1204,6 @@ public class Config {
 
 		systems.setBackgroundThree();
 		systems.addHouse("HOUSE1", 253, 152);
-
 		systems.addMarket("MARKET1", 280, 220);
 
 		systems.addPerson("Joe");

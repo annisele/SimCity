@@ -16,7 +16,7 @@ public class BankRobberGui extends Gui{
 	ImageIcon ii = new ImageIcon("res/Bank/robber.png");
 	Image img = ii.getImage();
 	
-		Image image = img.getScaledInstance(40, 40,  java.awt.Image.SCALE_SMOOTH); 
+		Image image = img.getScaledInstance(50, 70,  java.awt.Image.SCALE_SMOOTH); 
 	private final int WINDOW1_X = 105;
 	private final int WINDOW1_Y = 200;
 	
@@ -32,7 +32,7 @@ public class BankRobberGui extends Gui{
 	}
 	
 	public void draw(Graphics2D g) {
-		g.drawImage(img, getX(), getY(), null); 
+		g.drawImage(image, getX(), getY(), null); 
 	}
 	
 	public void DoGoToHost() {

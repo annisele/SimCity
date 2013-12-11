@@ -1569,6 +1569,16 @@ public class Config {
 			public void run() {
 				systems.addPerson("Talya");
 			}
+		}, 2000);
+		timer2.schedule(new TimerTask() {
+			public void run() {
+				systems.addPerson("Talo");
+			}
+		}, 2000);
+		timer3.schedule(new TimerTask() {
+			public void run() {
+				systems.addPerson("Bank Robber");
+			}
 		}, 4000);
 	}
 

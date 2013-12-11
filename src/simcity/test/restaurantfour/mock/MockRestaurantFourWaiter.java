@@ -5,7 +5,6 @@ import java.util.List;
 import simcity.PersonAgent;
 import simcity.SimSystem;
 import simcity.buildings.restaurant.four.RestaurantFourMenu;
-import simcity.buildings.restaurant.four.RestaurantFourMenu.foodType;
 import simcity.buildings.restaurant.four.RestaurantFourSystem;
 import simcity.buildings.restaurant.four.RestaurantFourWaiterRole.MyCustomer;
 import simcity.buildings.restaurant.four.RestaurantFourWaiterRole.Status;
@@ -115,13 +114,6 @@ public class MockRestaurantFourWaiter extends Mock implements RestaurantFourWait
 
 	@Override
 	public void msgImReadyToOrder(RestaurantFourCustomer customer) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void msgThisIsMyOrder(RestaurantFourCustomer customer,
-			foodType foodChoice) {
 		// TODO Auto-generated method stub
 		
 	}

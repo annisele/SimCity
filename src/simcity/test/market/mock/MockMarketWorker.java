@@ -23,10 +23,4 @@ public class MockMarketWorker implements MarketWorker {
 		cashier.msgOrderFound(orderNum);
 	}
 
-	@Override
-	public void msgFinishWorking() {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

@@ -13,8 +13,6 @@ How to run team 14 simcity
 3) Since we do not have build.xml, you will have to create a new java project. Drag and drop your files into the src 
    package.
 
-4) Add JUnit.
-
 
 SimCity scenarios
 ==========================================
@@ -83,7 +81,6 @@ Member Contributions
 
 ####Clayton Brand: 
 #####V2: 
-  + Set up the A-J required scenarios to be loaded for the final submission.
   + Worked with Rebecca on the PersonAgent so that it now schedules events correctly and with repetition.  Worked on a lot of event planning in HouseInhabitant and person.  Events like eating, sleeping, and working will now be scheduled every day, ad infinitum.  Created flexible and inflexible events.  
   + Worked with Rebecca on creating a scenario in which people have houses and work at a market.  Finished completing the market - person - house inhabitant interaction so that the house's food stock is updated once people buy food from a market.
   + Implemented a two market scenario to test and make sure that multiple markets can work in conjunction, and the workers behave normally and are able to shop at the other market.

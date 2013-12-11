@@ -19,43 +19,7 @@ public class MockRestaurantThreeHost extends Mock implements RestaurantThreeHost
 	}
 	public EventLog log = new EventLog();
 	
-	@Override
-	public PersonAgent getPerson() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setPerson(PersonAgent person) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public RestaurantThreeSystem getSystem() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setSystem(RestaurantThreeSystem restSystem) {
-		// TODO Auto-generated method stub
-		
-	}
-
 	
-
-	@Override
-	public List getWaitersList() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void msgGotToWork() {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void exitBuilding() {
@@ -76,15 +40,21 @@ public class MockRestaurantThreeHost extends Mock implements RestaurantThreeHost
 	}
 
 	@Override
-	public int numWaitingCustomers() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
 	public void msgIWantFood(RestaurantThreeCustomer restaurantThreeCustomerRole) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void msgAddWaiter(RestaurantThreeWaiter role) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getWaitingCustomers() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

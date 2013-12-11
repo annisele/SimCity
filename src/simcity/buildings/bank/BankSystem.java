@@ -169,5 +169,8 @@ public class BankSystem extends simcity.SimSystem{
 			bh = null;
 		}
 	}
+	public boolean isOpen() {
+		return (bh != null);
+	}
 	
 }

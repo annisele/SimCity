@@ -58,5 +58,9 @@ public class RestaurantSixSystem extends SimSystem {
 		}
 		return false;
 	}
+	
+	public boolean isOpen() {
+		return (host != null);
+	}
 
 }

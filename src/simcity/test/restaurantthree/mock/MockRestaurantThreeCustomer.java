@@ -64,4 +64,10 @@ public class MockRestaurantThreeCustomer extends Mock implements RestaurantThree
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void msgWhatsYourOrder() {
+		// TODO Auto-generated method stub
+		
+	}
 }

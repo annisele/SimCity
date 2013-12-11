@@ -115,6 +115,9 @@ public class MarketSystem extends simcity.SimSystem {
 			trucks.remove((MarketTruck) role);
 		}
 	}
-	
+
+	public boolean isOpen() {
+		return (cashier != null);
+	}
 	
 }

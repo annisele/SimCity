@@ -26,11 +26,13 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 	private Map<String, Integer> itemsDelivered = null;
 	private CustomerState state = CustomerState.doingNothing;
 	private double change = 0;
+	private double cashOnHand;
 	private int payment;
 	private int orderNumber;
 	public MarketCustomerRole(PersonAgent p) {
 		person = p;
 		this.gui = new MarketCustomerGui(this);
+		this.cashOnHand = p.getMoney();
 		List<String> markets = Directory.getMarkets();
 		for(String m : markets) {
 			Map<String, Boolean> stock = Collections.synchronizedMap(new HashMap<String, Boolean>());
@@ -117,7 +119,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		} catch (InterruptedException e) {
 			//e.printStackTrace();
 		}
-		person.subtractMoney(payment);
+		this.cashOnHand -= payment;
 		market.getCashier().msgHereIsPayment(payment, orderNumber);
 		state = CustomerState.paid;
 	}
@@ -135,7 +137,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		AlertLog.getInstance().logDebug(AlertTag.valueOf(market.getName()), "MarketCustomer: " + person.getName(), "ItemsDelivered has size: "+itemsDelivered.size());
 
 		person.receiveDelivery(itemsDelivered);
-		person.addMoney(change);
+		this.cashOnHand += change;
 		change = 0;
 		itemsToBuy = null;
 		itemsDelivered = null;
@@ -153,6 +155,7 @@ public class MarketCustomerRole extends Role implements MarketCustomer {
 		} catch (InterruptedException e) {
 			//e.printStackTrace();
 		}
+		person.setMoney(cashOnHand);
 		((MarketCustomerGui) gui).carryItem(false);
 		market.exitBuilding(this);
 		person.roleFinished();		

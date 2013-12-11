@@ -78,5 +78,9 @@ public class RestaurantOneSystem extends SimSystem {
 	public List<RestaurantOneWaiter> getWaiters() {
 		return waiters;
 	}
+	
+	public boolean isOpen() {
+		return (host != null);
+	}
 
 }

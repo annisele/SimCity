@@ -233,6 +233,10 @@ public class RestaurantTwoSystem extends SimSystem {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public boolean isOpen() {
+		return (host != null);
+	}
 
 
 }

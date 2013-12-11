@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,7 +25,7 @@ public class MarketControlPanel extends JPanel implements ActionListener{
 	private MarketComputer comp;
 	public Map<String,Integer> in= new HashMap<String, Integer>();
 
-	private JLabel typeLabel = new JLabel("Type: Market");
+	//private JLabel typeLabel = new JLabel("Type: Market");
 	private JLabel foodLabel = new JLabel();
 	private JLabel setfoodLabel = new JLabel();
 	private JLabel setchickenLabel = new JLabel();
@@ -38,8 +40,8 @@ public class MarketControlPanel extends JPanel implements ActionListener{
 	JPanel opanel = new JPanel();
 	public MarketControlPanel(MarketComputer c) {
 		this.comp=c;
-		setLayout(new GridLayout(10, 1, 2, 0));
-		foodLabel.setText("<html>Food Quantities:\n<br/>"+"<br/>salad: "+0
+		setLayout(new GridLayout(0, 1, 2, 0));
+		foodLabel.setText("<html>Food Quantities:\n<br/>"+"<br/>Food Quantities:"+"<br/>salad: "+0
 				+"<br/>chicken: "+0+"<br/>steak: "+0+"<br/>pizza: "+0+"</html>");
 		//setfoodLabel.setText("<html><br/>Set Food Quantities:\n<br/></html>");
 		setsaladLabel.setText("<html>salad: </html>");
@@ -55,9 +57,8 @@ public class MarketControlPanel extends JPanel implements ActionListener{
 		pibox.setPreferredSize( new Dimension(100,24));
 		sabox = new JTextField("");
 		sabox.setPreferredSize( new Dimension(100,24));
-		add(typeLabel);
+		//add(typeLabel);
 		add(foodLabel);
-		add(setfoodLabel);
 		opanel.setLayout(new GridLayout(0, 2));
 
 
@@ -71,16 +72,86 @@ public class MarketControlPanel extends JPanel implements ActionListener{
 		opanel.add(setpizzaLabel);
 		opanel.add(pibox);
 		setInventory.addActionListener(this);
-		chbox.addActionListener(this);
-		stbox.addActionListener(this);
-		pibox.addActionListener(this);
-		sabox.addActionListener(this);
+		
+		chbox.addKeyListener(new KeyListener() {
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+			}
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				if((chbox.getText().length() != 0) && (stbox.getText().length() != 0) && (sabox.getText().length() != 0) && (pibox.getText().length() != 0)) {
+					setInventory.setEnabled(true);
+				}
+				else {
+					setInventory.setEnabled(false);
+				}
+			}
+			@Override
+			public void keyTyped(KeyEvent arg0) {				
+			}
+		});
+		
+		stbox.addKeyListener(new KeyListener() {
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+			}
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				if((chbox.getText().length() != 0) && (stbox.getText().length() != 0) && (sabox.getText().length() != 0) && (pibox.getText().length() != 0)) {
+					setInventory.setEnabled(true);
+				}
+				else {
+					setInventory.setEnabled(false);
+				}
+			}
+			@Override
+			public void keyTyped(KeyEvent arg0) {				
+			}
+		});
+		
+		pibox.addKeyListener(new KeyListener() {
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+			}
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				if((chbox.getText().length() != 0) && (stbox.getText().length() != 0) && (sabox.getText().length() != 0) && (pibox.getText().length() != 0)) {
+					setInventory.setEnabled(true);
+				}
+				else {
+					setInventory.setEnabled(false);
+				}
+			}
+			@Override
+			public void keyTyped(KeyEvent arg0) {				
+			}
+		});
+		
+		sabox.addKeyListener(new KeyListener() {
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+			}
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				if((chbox.getText().length() != 0) && (stbox.getText().length() != 0) && (sabox.getText().length() != 0) && (pibox.getText().length() != 0)) {
+					setInventory.setEnabled(true);
+				}
+				else {
+					setInventory.setEnabled(false);
+				}
+			}
+			@Override
+			public void keyTyped(KeyEvent arg0) {				
+			}
+		});
+		
+		
 		opanel.add(setInventory);
 		add(opanel);
 
 	}
 	public void updateFoodDisplay(Map<String, Integer> foodStock) {
-		String foodText = "<html>Food Quantities:\n<br/>";
+		String foodText = "<html>Type: Market\n<br/>"+"Food Quantities:\n<br/>";
 		for (String food : foodStock.keySet()) {
 			foodText += ("<br/>" + food + ": " + foodStock.get(food));
 		}
@@ -101,38 +172,38 @@ public class MarketControlPanel extends JPanel implements ActionListener{
 			sabox.setText("");
 			chbox.setText("");
 		}
-		else if(e.getSource() == stbox) {
-			if(stbox.getText() != "" && chbox.getText() != "" && pibox.getText() != "" && sabox.getText() != "") {
-				setInventory.setEnabled(true);
-			}
-			else {
-				setInventory.setEnabled(false);
-			}
-		}
-		else if(e.getSource() == chbox) {
-			if(stbox.getText() != "" && chbox.getText() != "" && pibox.getText() != "" && sabox.getText() != "") {
-				setInventory.setEnabled(true);
-			}
-			else {
-				setInventory.setEnabled(false);
-			}
-		}
-		else if(e.getSource() == sabox) {
-			if(stbox.getText() != "" && chbox.getText() != "" && pibox.getText() != "" && sabox.getText() != "") {
-				setInventory.setEnabled(true);
-			}
-			else {
-				setInventory.setEnabled(false);
-			}
-		}
-		else if(e.getSource() == pibox) {
-			if(stbox.getText() != "" && chbox.getText() != "" && pibox.getText() != "" && sabox.getText() != "") {
-				setInventory.setEnabled(true);
-			}
-			else {
-				setInventory.setEnabled(false);
-			}
-		}
+//		else if(e.getSource() == stbox) {
+//			if(stbox.getText() != "" && chbox.getText() != "" && pibox.getText() != "" && sabox.getText() != "") {
+//				setInventory.setEnabled(true);
+//			}
+//			else {
+//				setInventory.setEnabled(false);
+//			}
+//		}
+//		else if(e.getSource() == chbox) {
+//			if(stbox.getText() != "" && chbox.getText() != "" && pibox.getText() != "" && sabox.getText() != "") {
+//				setInventory.setEnabled(true);
+//			}
+//			else {
+//				setInventory.setEnabled(false);
+//			}
+//		}
+//		else if(e.getSource() == sabox) {
+//			if(stbox.getText() != "" && chbox.getText() != "" && pibox.getText() != "" && sabox.getText() != "") {
+//				setInventory.setEnabled(true);
+//			}
+//			else {
+//				setInventory.setEnabled(false);
+//			}
+//		}
+//		else if(e.getSource() == pibox) {
+//			if(stbox.getText() != "" && chbox.getText() != "" && pibox.getText() != "" && sabox.getText() != "") {
+//				setInventory.setEnabled(true);
+//			}
+//			else {
+//				setInventory.setEnabled(false);
+//			}
+//		}
 	}
 	public void setInventory(String steak,String chicken,String pizza,String salad){
 		int st = Integer.parseInt(steak);

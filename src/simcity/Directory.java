@@ -678,12 +678,27 @@ public class Directory {
 	public static List<Location> defineCounterClockwiseBusRoute() {
 		List<Location> busRoute = Collections.synchronizedList(new ArrayList<Location>());
 		busRoute.add(streetDirectory.get(122));
+		
+		busRoute.add(streetDirectory.get(863));	// 1
+		
 		busRoute.add(streetDirectory.get(84));
+		
+		busRoute.add(streetDirectory.get(833));	// 3
+		
 		busRoute.add(streetDirectory.get(44));
 		busRoute.add(streetDirectory.get(33));
+		
+		busRoute.add(streetDirectory.get(821));	// 6
+		
 		busRoute.add(streetDirectory.get(23));
 		busRoute.add(streetDirectory.get(13));
+		
+		busRoute.add(streetDirectory.get(812));	// 9
+		
 		busRoute.add(streetDirectory.get(51));
+		
+		busRoute.add(streetDirectory.get(942));	// 11
+		
 		busRoute.add(streetDirectory.get(91));
 		busRoute.add(streetDirectory.get(102));
 		busRoute.add(streetDirectory.get(112));

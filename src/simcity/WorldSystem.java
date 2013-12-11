@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import simcity.gui.SimCityGui;
-import simcity.gui.WorldAnimationPanel;
+import simcity.gui.PersonPanel;
 
 public class WorldSystem extends SimSystem {
 	
@@ -12,7 +12,7 @@ public class WorldSystem extends SimSystem {
 	
 	public WorldSystem(SimCityGui sc) {
 		super(sc);
-		super.setAnimationPanel(new WorldAnimationPanel());
+		super.setAnimationPanel(new PersonPanel());
 		animationPanel.setSimCityGui(sc);
 	}
 	

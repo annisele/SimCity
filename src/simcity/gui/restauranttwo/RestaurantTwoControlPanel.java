@@ -54,7 +54,6 @@ public class RestaurantTwoControlPanel extends JPanel implements ActionListener 
 	        sabox.setPreferredSize( new Dimension(100,24));
 		add(typeLabel);
 		add(foodLabel);
-		add(setfoodLabel);
 		opanel.setLayout(new GridLayout(0, 2));
 		
 	      

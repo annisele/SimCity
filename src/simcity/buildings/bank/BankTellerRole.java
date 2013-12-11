@@ -1,23 +1,19 @@
 package simcity.buildings.bank;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 import java.util.concurrent.Semaphore;
 
 import simcity.PersonAgent;
-import simcity.PersonAgent.EventType;
 import simcity.Role;
 import simcity.SimSystem;
+import simcity.PersonAgent.EventType;
 import simcity.buildings.bank.BankComputer.BankAccount;
+import simcity.gui.Gui;
+import simcity.gui.bank.BankCustomerGui;
 import simcity.gui.bank.BankTellerGui;
 import simcity.gui.trace.AlertLog;
 import simcity.gui.trace.AlertTag;
-import simcity.interfaces.bank.BankCustomer;
-import simcity.interfaces.bank.BankHost;
-import simcity.interfaces.bank.BankRobber;
+import simcity.interfaces.bank.*;
 import simcity.test.mock.EventLog;
 
 public class BankTellerRole extends Role implements simcity.interfaces.bank.BankTeller {
@@ -368,9 +364,6 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 			this.amountToProcess = amountToProcess;
 			this.tt = tt;
 			this.ts = transactionState.none;
-			AlertLog.getInstance().logMessage(AlertTag.valueOf(bankSystem.getName()), "BankTeller: " + person.getName(), 
-					"Customer wants to process " + amountToProcess);	
-
 		}
 		
 		MyCustomer(BankCustomer bc, int accountNumber, String accountPassword, double amountToProcess, transactionType tt) {
@@ -380,8 +373,6 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 			this.amountToProcess = amountToProcess;
 			this.tt = tt;
 			this.ts = transactionState.none;
-			AlertLog.getInstance().logMessage(AlertTag.valueOf(bankSystem.getName()), "BankTeller: " + person.getName(), 
-					"Customer wants to process " + amountToProcess);
 		}
 	
 		MyCustomer(BankCustomer bc, double amountToProcess, int landlordAccountNumber, transactionType tt) {
@@ -389,8 +380,6 @@ public class BankTellerRole extends Role implements simcity.interfaces.bank.Bank
 			this.amountToProcess = amountToProcess;
 			this.landlordAccountNumber = landlordAccountNumber;
 			this.tt = tt;
-			AlertLog.getInstance().logMessage(AlertTag.valueOf(bankSystem.getName()), "BankTeller: " + person.getName(), 
-					"Customer wants to process " + amountToProcess);
 		}
 		
 		public BankCustomer getBankCustomer() {

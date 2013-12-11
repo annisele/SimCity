@@ -5,7 +5,6 @@ import simcity.SimSystem;
 import simcity.buildings.restaurant.four.RestaurantFourCustomerRole.Event;
 import simcity.buildings.restaurant.four.RestaurantFourCustomerRole.State;
 import simcity.buildings.restaurant.four.RestaurantFourMenu;
-import simcity.buildings.restaurant.four.RestaurantFourMenu.foodType;
 import simcity.buildings.restaurant.four.RestaurantFourSystem;
 import simcity.interfaces.restaurant.four.RestaurantFourCustomer;
 import simcity.interfaces.restaurant.four.RestaurantFourWaiter;
@@ -148,18 +147,6 @@ public class MockRestaurantFourCustomer extends Mock implements RestaurantFourCu
 
 	@Override
 	public void msgWhatDoYouWantToOrder() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public foodType getFoodChoice() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setFoodChoice(foodType foodChoice) {
 		// TODO Auto-generated method stub
 		
 	}

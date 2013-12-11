@@ -213,9 +213,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	//bank teller sends this message to customer after depositing money
 	public void msgMoneyIsDeposited(BankCustomer bc, int accountNumber, double accountBalance, double amountProcessed) {
 		//person.Do("Here is the money that you deposited");
-		AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankCustomer: " + person.getName(), "CashOnHand " + cashOnHand + " amountToProces " + amountProcessed);	
 		cashOnHand = cashOnHand - amountProcessed;
-		AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankCustomer: " + person.getName(), "CashOnHand " + cashOnHand + " amountToProces " + amountProcessed);	
 		event = Event.transactionProcessed;
 		stateChanged();
     }
@@ -357,7 +355,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 		}
 
 		private void DepositMoney() {
-			amountToProcess = (cashOnHand - person.getDepositThreshold()) +  1;
+			amountToProcess = 20.00;
 			((BankCustomerGui)gui).DoGoToBankTeller(windowNumber);
 			try {
 	    		atDest.acquire();
@@ -365,8 +363,7 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 	    		e.printStackTrace();
 	    	}
 		    bt.msgWantToDeposit(this, amountToProcess);
-			AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankCustomer: " + person.getName(), 
-					"I'd like to deposit this much money: " + amountToProcess + " and I currently have " + cashOnHand + " on hand.");	
+			AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankCustomer: " + person.getName(), "I'd like to deposit money.");	
 
 		    //person.Do("I want to deposit money");
 		}
@@ -377,10 +374,11 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 			try {
 	    		atDest.acquire();
 	    	} catch (InterruptedException e) {
-	    		e.printStackTrace(); 
-			
+	    		e.printStackTrace();
 	    	}
+		    bt.msgWantToWithdraw(this, amountToProcess);
 			AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankCustomer: " + person.getName(), "I'd like to withdraw money");	
+
 		   // person.Do("I want to withdraw money");
 		}
 		
@@ -436,13 +434,11 @@ public class BankCustomerRole extends Role implements simcity.interfaces.bank.Ba
 		}
 
 		public void exitBuilding() {
-			AlertLog.getInstance().logMessage(AlertTag.valueOf(bank.getName()), "BankCustomer: " + person.getName(), "Leaving bank");	
 			person.setAccountNumber(accountNumber);
 			person.setMoney(cashOnHand);
 			event = Event.none;
 			bank.exitBuilding(this);
 			person.roleFinished();
-			
 		}
 		public void enterBuilding(SimSystem s) {
 			bank = (BankSystem)s;

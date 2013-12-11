@@ -11,7 +11,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import simcity.buildings.bank.BankCustomerRole;
-import simcity.buildings.bank.BankCustomerRole.TransactionType;
 import simcity.buildings.bank.BankRobberRole;
 import simcity.buildings.bank.BankSystem;
 import simcity.buildings.house.HouseInhabitantRole;
@@ -327,6 +326,10 @@ public class PersonAgent extends Agent implements Person {
 				String buildingName = banks.get(index);
 				registeredBank = buildingName;
 			}
+			else {
+				String buildingName = registeredBank;
+			}
+			
 			
 			List<Step> steps = new ArrayList<Step>();
 			steps.add(new Step("exitBuilding", this));
@@ -336,12 +339,6 @@ public class PersonAgent extends Agent implements Person {
 			for(Role r : myRoles) {
 				if(r instanceof BankCustomer) {
 					eventR = r;
-					if (accountNumber == -1) {
-						((BankCustomer) eventR).setTransactionType(TransactionType.openAccount);
-					}
-					else {
-						((BankCustomer) eventR).setTransactionType(TransactionType.depositMoney);
-					}
 				}
 			}
 
@@ -357,33 +354,23 @@ public class PersonAgent extends Agent implements Person {
 
 		}
 		else if (t == EventType.WithdrawMoney) {
-			if (registeredBank == null) {
-				List<String> banks = Directory.getBanks();
-
-				int index = rand.nextInt(banks.size());
-				String buildingName = banks.get(index);
-				registeredBank = buildingName;
-			}
-			
+			List<String> banks = Directory.getBanks();
+			int index = rand.nextInt(banks.size());
+			String buildingName = banks.get(index);
 			List<Step> steps = new ArrayList<Step>();
 			steps.add(new Step("exitBuilding", this));
 			steps.add(new Step("goTo", this));
 			steps.add(new Step("enterBuilding", this));
 			Role eventR = null;
-			
 			for(Role r : myRoles) {
 				if(r instanceof BankCustomer) {
 					eventR = r;
-					if (accountNumber == -1) {
-						((BankCustomer) eventR).setTransactionType(TransactionType.openAccount);
-					}
-					else {
-						((BankCustomer) eventR).setTransactionType(TransactionType.withdrawMoney);
-					}
 				}
 			}
-
-			e = new Event(registeredBank, eventR, TWO_HOURS, -1, true, steps, t);
+			
+			//hack
+			((BankCustomer)eventR).hackWithdrawMoney((BankSystem)(Directory.getSystem(buildingName)));
+			e = new Event(buildingName, eventR, TWO_HOURS, -1, true, steps, t);
 
 			insertEvent(e);
 			stateChanged();
